@@ -1,0 +1,7 @@
+
+.vs
+.git
+tsconfig.json
+*.ts
+
+src/

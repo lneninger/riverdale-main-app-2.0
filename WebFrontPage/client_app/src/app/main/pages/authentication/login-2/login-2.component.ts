@@ -1,0 +1,89 @@
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { FuseConfigService } from '@fuse/services/config.service';
+import { fuseAnimations } from '@fuse/animations';
+/*************************Custom***********************************/
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
+
+@Component({
+    selector     : 'login-2',
+    templateUrl  : './login-2.component.html',
+    styleUrls    : ['./login-2.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    animations   : fuseAnimations
+})
+export class Login2Component implements OnInit
+{
+    loginForm: FormGroup;
+
+    /**
+     * Constructor
+     *
+     * @param {FuseConfigService} _fuseConfigService
+     * @param {FormBuilder} _formBuilder
+     */
+    constructor(
+        private _fuseConfigService: FuseConfigService
+        , private _formBuilder: FormBuilder
+        // Custom
+        , private auth: AngularFireAuth
+        , private database: AngularFireDatabase
+        , private router: Router
+    )
+    {
+        // Configure the layout
+        this._fuseConfigService.config = {
+            layout: {
+                navbar   : {
+                    hidden: true
+                },
+                toolbar  : {
+                    hidden: true
+                },
+                footer   : {
+                    hidden: true
+                },
+                sidepanel: {
+                    hidden: true
+                }
+            }
+        };
+    }
+
+    login() {
+        debugger;
+        let loginValue = this.loginForm.value;
+        this.auth.auth.setPersistence('session'/*(<any>this.auth.auth.app.auth().app).firebase_.auth.Auth.Persistence.SESSION*/)
+            .then(res => {
+                this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(loginValue.email, loginValue.password).then(
+                    res => {
+                        console.log('User authenticated', res);
+                        this.router.navigate(['apps/dashboards/analytics']);
+
+                    },
+                    error => {
+
+                    }
+                );
+            });
+
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        this.loginForm = this._formBuilder.group({
+            email   : ['', [Validators.required, Validators.email]],
+            password: ['', Validators.required]
+        });
+    }
+}

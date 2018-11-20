@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Framework.Autofac\Framework.Autofac.csproj" />
+    <ProjectReference Include="..\Framework\Framework.EF\Framework.EF.csproj" />
+    <ProjectReference Include="..\Framework\Framework.FileStorage.Standard\Framework.FileStorage.Standard.csproj" />
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+  </ItemGroup>
+
+</Project>

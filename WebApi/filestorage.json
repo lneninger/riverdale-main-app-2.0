@@ -1,0 +1,12 @@
+﻿{
+  "fileStorage": {
+    "temporaryFolderPath": "D:\\Temp\\FocusAIRemote\\TemporaryFolder",
+    "AWS": {
+      "AWSFileRepoAccessKey": "",
+      "AWSFileRepoSecretKey": "",
+      "AWSFileStoreRootURL": "",
+      "AWSFileRepoRegionEndPoint": "",
+      "AWSFileRepoBucketName": ""
+    }
+  }
+}

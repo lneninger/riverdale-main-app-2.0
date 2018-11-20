@@ -1,0 +1,186 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CommunicationModel;
+using FizzWare.NBuilder;
+using FocusServices.Business.Commands.Customer.GetAllCommand;
+using FocusServices.Business.Commands.Customer.GetByIdCommand;
+using FocusServices.Business.Commands.Customer.InsertCommand;
+using FocusServices.Business.Commands.Customer.InsertCommand.Models;
+using FocusServices.Business.Commands.Customer.UpdateCommand;
+using FocusServices.Business.Commands.Customer.UpdateCommand.Models;
+using FocusServices.Business.Commands.Customer.DeleteCommand;
+using FocusServices.Business.Commands.Customer.DeleteCommand.Models;
+using FocusServices.Business.Interfaces;
+//using FizzWare.NBuilder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FocusAIRemote.Controllers
+{
+    /// <summary>
+    /// Customer API interface
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [Produces("application/json")]
+    [Route("api/customer")]
+    public class CustomerController : Controller
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerController"/> class.
+        /// </summary>
+        /// <param name="getAllCommand">The get all command.</param>
+        /// <param name="getByIdCommand">The get by identifier command.</param>
+        /// <param name="insertCommand">The insert command.</param>
+        /// <param name="updateCommand">The update command.</param>
+        /// <param name="deleteCommand">The delete command.</param>
+        public CustomerController(ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        {
+            this.GetAllCommand = getAllCommand;
+            this.GetByIdCommand = getByIdCommand;
+            this.InsertCommand = insertCommand;
+            this.UpdateCommand = updateCommand;
+            this.DeleteCommand = deleteCommand;
+        }
+
+        /// <summary>
+        /// Gets the customer service.
+        /// </summary>
+        /// <value>
+        /// The customer service.
+        /// </value>
+        public ICustomnerService CustomerService { get; }
+
+        /// <summary>
+        /// Gets the get all command.
+        /// </summary>
+        /// <value>
+        /// The get all command.
+        /// </value>
+        public ICustomerGetAllCommand GetAllCommand { get; }
+
+        /// <summary>
+        /// Gets the get by identifier command.
+        /// </summary>
+        /// <value>
+        /// The get by identifier command.
+        /// </value>
+        public ICustomerGetByIdCommand GetByIdCommand { get; }
+
+        /// <summary>
+        /// Gets the insert command.
+        /// </summary>
+        /// <value>
+        /// The insert command.
+        /// </value>
+        public ICustomerInsertCommand InsertCommand { get; }
+
+        /// <summary>
+        /// Gets the update command.
+        /// </summary>
+        /// <value>
+        /// The update command.
+        /// </value>
+        public ICustomerUpdateCommand UpdateCommand { get; }
+
+        /// <summary>
+        /// Gets the delete command.
+        /// </summary>
+        /// <value>
+        /// The delete command.
+        /// </value>
+        public ICustomerDeleteCommand DeleteCommand { get; }
+
+        /// <summary>
+        /// Gets this instance.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        public IActionResult Get()
+        {
+            var applicationResponse = this.GetAllCommand.Execute();
+            var result = applicationResponse.Select(appItem => new CustomerDTO {
+                Name = appItem.Name,
+                ERPId = appItem.ERPId,
+            });
+
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet("{id}", Name = "Get"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
+        public IActionResult Get(int id)
+        {
+            var applicationResponse = this.GetByIdCommand.Execute(id);
+            var result = new CustomerDTO
+            {
+
+            };
+
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Posts the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [HttpPost, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        public IActionResult Post([FromBody]CustomerDTO model)
+        {
+            var input = new CustomerInsertCommandInputDTO
+            {
+                Name = model.Name,
+                ERPId = model.ERPId
+            };
+
+            var appResult = this.InsertCommand.Execute(input);
+            var result = new CustomerDTO
+            {
+                Id = appResult.Id,
+                Name = appResult.Name,
+                ERPId = appResult.ERPId
+            };
+
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Puts the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        [HttpPut(), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        public void Put([FromBody]CustomerDTO model)
+        {
+            var input = new CustomerUpdateCommandInputDTO
+            {
+
+            };
+
+            this.UpdateCommand.Execute(input);
+        }
+
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
+        public CustomerDTO Delete(int id)
+        {
+            var appResult = this.DeleteCommand.Execute(id);
+
+            var result = new CustomerDTO
+            {
+
+            };
+
+            return result;
+        }
+    }
+}
