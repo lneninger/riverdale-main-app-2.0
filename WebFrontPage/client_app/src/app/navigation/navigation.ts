@@ -38,6 +38,13 @@ export const navigation: FuseNavigation[] = [
                 url: '/apps/notification-groups'
             },
             {
+                id: 'masters',
+                title: 'Masters',
+                translate: 'NAV.MASTERS',
+                type: 'group',
+                icon: 'apps',
+            },
+            {
                 id: 'customers',
                 title: 'Customers',
                 translate: 'NAV.CALENDAR',
