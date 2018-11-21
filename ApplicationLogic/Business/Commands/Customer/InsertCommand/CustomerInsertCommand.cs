@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
 
-namespace FocusServices.Business.Commands.Customer.InsertCommand
+namespace ApplicationLogic.Business.Commands.Customer.InsertCommand
 {
     public class CustomerInsertCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerInsertCommand
     {

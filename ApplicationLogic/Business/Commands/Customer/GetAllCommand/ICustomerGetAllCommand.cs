@@ -1,9 +1,9 @@
-﻿using FocusServices.Business.Commands.Customer.GetAllCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
 using System.Collections.Generic;
 
-namespace FocusServices.Business.Commands.Customer.GetAllCommand
+namespace ApplicationLogic.Business.Commands.Customer.GetAllCommand
 {
-    public interface ICustomerGetAllCommand: ICommandAction<IEnumerable<CustomerGetAllCommandOutputDTO>>
+    public interface ICustomerGetAllCommand: ICommandAction<IEnumerable<CustomerPageQueryCommandOutputDTO>>
     {
     }
 }

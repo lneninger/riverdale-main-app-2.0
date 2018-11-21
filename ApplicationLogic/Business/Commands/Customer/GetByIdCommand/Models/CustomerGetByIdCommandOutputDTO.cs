@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FocusServices.Business.Commands.Customer.GetByIdCommand.Models
+namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models
 {
     public class CustomerGetByIdCommandOutputDTO
     {

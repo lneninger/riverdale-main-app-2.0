@@ -1,4 +1,4 @@
-﻿namespace FocusServices.Business.Commands
+﻿namespace ApplicationLogic.Business.Commands
 {
     public interface ICommandFunc<TInput, TOutput> where TInput: new() where TOutput: class, new()
     {

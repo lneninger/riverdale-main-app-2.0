@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FocusServices.Business.Interfaces
+namespace ApplicationLogic.Business.Interfaces
 {
     public interface IBusinessService
     {

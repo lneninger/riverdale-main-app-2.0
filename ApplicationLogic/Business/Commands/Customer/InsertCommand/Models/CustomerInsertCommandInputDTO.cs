@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FocusServices.Business.Commands.Customer.InsertCommand.Models
+namespace ApplicationLogic.Business.Commands.Customer.InsertCommand.Models
 {
     public class CustomerInsertCommandInputDTO
     {

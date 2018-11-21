@@ -35,7 +35,7 @@ namespace FocusAIRemote.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        public CustomerController(ICustomerPageQueryCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
         {
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -58,7 +58,7 @@ namespace FocusAIRemote.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerGetAllCommand GetAllCommand { get; }
+        public ICustomerPageQueryCommand GetAllCommand { get; }
 
         /// <summary>
         /// Gets the get by identifier command.

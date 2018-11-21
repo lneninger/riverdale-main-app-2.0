@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models
+namespace ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models
 {
-    public class CustomerGetAllCommandOutputDTO
+    public class CustomerPageQueryCommandOutputDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -4,15 +4,21 @@ using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
 using FocusApplication.Business.Commons.DTOs;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.DeleteCommand.Models;
-using FocusServices.Business.Commands.Customer.GetAllCommand.Models;
-using FocusServices.Business.Commands.Customer.GetByIdCommand.Models;
-using FocusServices.Business.Commands.Customer.InsertCommand.Models;
-using FocusServices.Business.Commands.Customer.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using LMB.PredicateBuilderExtension;
+using Framework.EF.DbContextImpl.Persistance;
+using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
+using System.Linq.Expressions;
 
 namespace FocusRepositories.DB
 {
@@ -119,5 +125,26 @@ namespace FocusRepositories.DB
             return null;
         }
 
+        public PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input)
+        {
+            var predicate = PredicateBuilderExtension.True<Customer>();
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                var query = dbLocator.Set<Customer>().AsQueryable();
+
+                var advancedSorting = new List<Expression<Func<Customer, object>>>();
+
+                var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
+
+                var result = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO {
+                    Id = o.Id,
+                    ERPId = o.ERPId,
+                    Name = o.Name
+                });
+
+                return result;
+            }
+
+        }
     }
 }

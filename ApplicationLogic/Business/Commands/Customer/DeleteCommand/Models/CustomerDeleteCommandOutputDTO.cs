@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FocusServices.Business.Commands.Customer.DeleteCommand.Models
+namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models
 {
     public class CustomerDeleteCommandOutputDTO
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 
-namespace FocusServices.Business.Commands.Customer.DeleteCommand
+namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand
 {
     public class CustomerDeleteCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerDeleteCommand
     {

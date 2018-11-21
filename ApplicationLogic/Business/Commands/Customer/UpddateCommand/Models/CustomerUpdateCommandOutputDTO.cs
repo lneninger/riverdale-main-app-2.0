@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FocusServices.Business.Commands.Customer.UpdateCommand.Models
+namespace ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models
 {
     public class CustomerUpdateCommandOutputDTO
     {

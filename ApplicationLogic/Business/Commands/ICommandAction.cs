@@ -1,6 +1,6 @@
 ﻿using FocusApplication.Business.Commands;
 
-namespace FocusServices.Business.Commands
+namespace ApplicationLogic.Business.Commands
 {
     public interface ICommandAction<TOutput>: ICommand
     {

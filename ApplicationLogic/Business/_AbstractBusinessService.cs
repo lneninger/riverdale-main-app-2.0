@@ -1,10 +1,10 @@
-﻿using FocusServices.Business.Interfaces;
+﻿using ApplicationLogic.Business.Interfaces;
 using Framework.Autofac;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FocusServices.Business
+namespace ApplicationLogic.Business
 {
     public abstract class AbstractBusinessService : BaseIoCDisposable, IBusinessService
     {

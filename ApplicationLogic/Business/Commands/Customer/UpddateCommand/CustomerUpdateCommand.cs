@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
 
-namespace FocusServices.Business.Commands.Customer.UpdateCommand
+namespace ApplicationLogic.Business.Commands.Customer.UpdateCommand
 {
     public class CustomerUpdateCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerUpdateCommand
     {

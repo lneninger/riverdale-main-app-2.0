@@ -9,12 +9,32 @@ namespace Framework.EF.DbContextImpl.Persistance.Models.Sorting
 {
     public static class Extensions
     {
-        public IQueryable<T> ProcessSorting<T>(this IQueryable<T> query, SortingDTO<T> sorting)
+        public static IQueryable<T> ProcessSorting<T>(this IQueryable<T> query, SortingDTO<T> sorting)
         {
+            var sortBys = GenerateSort<T>(sorting);
+            //var orders = string.IsNullOrWhiteSpace(filter.Sort) ? new string[] { "asc" } : filter.Sort.Split(new char[] { ',' });
 
+            foreach (var sortTuple in sortBys)
+            {
+                switch (sortTuple.SortOrder.ToUpper())
+                {
+                    case "DESC":
+                        query = !query.IsOrdered<T>() ? Queryable.OrderByDescending(query, sortTuple.SortExpression) : Queryable.ThenBy((query as IOrderedQueryable<T>), sortTuple.SortExpression);
+                        break;
+
+                    case "ASC":
+                    case "":
+                    default:
+                        query = !query.IsOrdered<T>() ? Queryable.OrderBy(query, sortTuple.SortExpression) : Queryable.ThenBy((query as IOrderedQueryable<T>), sortTuple.SortExpression);
+                        break;
+
+                }
+            }
+
+            return query;
         }
 
-        public static List<SortItem<T>> GenerateSort<T>(IQueryable<T> query, Dictionary<string, string> customFilterPropertyMapping, SortingDTO<T> sorting)
+        public static List<SortItem<T>> GenerateSort<T>(SortingDTO<T> sorting)
         {
             List<SortItem<T>> sortItems = GetSortElements<T>(sorting);
 
@@ -26,7 +46,7 @@ namespace Framework.EF.DbContextImpl.Persistance.Models.Sorting
                 if (result[i].SortExpression != null) continue;
                 try
                 {
-                    untyped = GeneratePropertyExpression<T>(sortItems[i].PropertyName, customFilterPropertyMapping);
+                    untyped = GeneratePropertyExpression<T>(sortItems[i].PropertyName, sorting.CustomFilterPropertyMapping);
                     if (untyped != null)
                     {
                         result[i].SortExpression = untyped;

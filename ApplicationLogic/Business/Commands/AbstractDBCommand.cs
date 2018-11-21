@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FocusServices.Business.Commands
+namespace ApplicationLogic.Business.Commands
 {
     public class AbstractDBCommand<TEntity, TRepository>: BaseIoCDisposable where TEntity: class, new() where TRepository : IDBRepository<TEntity>
     {

@@ -14,6 +14,7 @@
     <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
     <ProjectReference Include="..\DatabaseMapping\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />
     <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+    <ProjectReference Include="..\Framework\Framework.EF\Framework.EF.csproj" />
   </ItemGroup>
 
 </Project>

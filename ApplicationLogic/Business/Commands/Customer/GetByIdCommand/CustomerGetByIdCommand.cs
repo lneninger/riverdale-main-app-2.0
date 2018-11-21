@@ -1,9 +1,9 @@
 ﻿using System;
 using EntityFrameworkCore.DbContextScope;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;
 
-namespace FocusServices.Business.Commands.Customer.GetByIdCommand
+namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand
 {
     public class CustomerGetByIdCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerGetByIdCommand
     {

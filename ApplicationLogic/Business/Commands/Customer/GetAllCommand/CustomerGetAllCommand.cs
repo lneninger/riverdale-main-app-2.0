@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using FocusApplication.Repositories.DB;
-using FocusServices.Business.Commands.Customer.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
 
-namespace FocusServices.Business.Commands.Customer.GetAllCommand
+namespace ApplicationLogic.Business.Commands.Customer.GetAllCommand
 {
-    public class CustomerGetAllCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerGetAllCommand
+    public class CustomerGetAllCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerPageQueryCommand
     {
         public CustomerGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
         {
