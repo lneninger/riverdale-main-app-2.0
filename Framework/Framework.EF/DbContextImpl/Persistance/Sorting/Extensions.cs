@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using Framework.Core.ReflectionHelpers;
+
+namespace Framework.EF.DbContextImpl.Persistance.Models.Sorting
+{
+    public static class Extensions
+    {
+        public IQueryable<T> ProcessSorting<T>(this IQueryable<T> query, SortingDTO<T> sorting)
+        {
+
+        }
+
+        public static List<SortItem<T>> GenerateSort<T>(IQueryable<T> query, Dictionary<string, string> customFilterPropertyMapping, SortingDTO<T> sorting)
+        {
+            List<SortItem<T>> sortItems = GetSortElements<T>(sorting);
+
+            LambdaExpression untyped;
+            var result = sortItems;
+            bool outScopedOrderingPresent = sorting != null;
+            for (var i = 0; i < result.Count; i++)
+            {
+                if (result[i].SortExpression != null) continue;
+                try
+                {
+                    untyped = GeneratePropertyExpression<T>(sortItems[i].PropertyName, customFilterPropertyMapping);
+                    if (untyped != null)
+                    {
+                        result[i].SortExpression = untyped;
+                    }
+                }
+                catch (Exception)
+                {
+                    // mark to remove failed sortItem from list
+                    result[i].Delete = true;
+                }
+            }
+
+            result = result.Where(o => !o.Delete).ToList();
+
+            return result;
+        }
+
+        public static List<SortItem<T>> GetSortElements<T>(SortingDTO<T> sorting)
+        {
+            List<string> propertySorts = new List<string>();
+            if (sorting.RawSorting == null)
+            {
+                return sorting.DefaultSortItemsDelegate().ToList();
+            }
+
+
+            var result = new List<SortItem<T>>();
+            foreach(var rawItem in sorting.RawSorting)
+            {
+                result.Add(new SortItem<T>
+                {
+                    PropertyName = rawItem.Key,
+                    SortOrder = (rawItem.Value ?? string.Empty).Length > 1 ? rawItem.Value : "asc"
+                });
+            }
+            
+            
+            return result;
+        }
+
+        private static LambdaExpression GeneratePropertyExpression<T>(string columnName, Dictionary<string, string> customFilterPropertyMapping)
+        {
+            string propertyName = columnName.ToPascalCase();
+
+            if (customFilterPropertyMapping != null)
+            {
+                var matchMapping = customFilterPropertyMapping.ContainsKey(propertyName) ? customFilterPropertyMapping[propertyName] : null;
+                if (matchMapping != null)
+                {
+                    propertyName = matchMapping;
+                }
+            }
+
+            var parameter = Expression.Parameter(typeof(T));
+            Expression memberExpression = parameter;
+            foreach (var member in propertyName.Split('.'))
+            {
+                memberExpression = Expression.PropertyOrField(memberExpression, member);
+            }
+
+            var lambdaExpression = Expression.Lambda(memberExpression, parameter);
+            LambdaExpression untyped = lambdaExpression;
+            return untyped;
+        }
+    }
+}

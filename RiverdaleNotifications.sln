@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseRepositories", "Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDatabaseMapping", "DatabaseMapping\DomainDatabaseMapping\DomainDatabaseMapping.csproj", "{B12BE9F9-7B3C-41F2-A197-0E529DAD0A31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.FluentValidation", "Framework\Framework.FluentValidation\Framework.FluentValidation.csproj", "{10103982-F8B6-4E8E-A5A4-76B586466420}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{B12BE9F9-7B3C-41F2-A197-0E529DAD0A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12BE9F9-7B3C-41F2-A197-0E529DAD0A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B12BE9F9-7B3C-41F2-A197-0E529DAD0A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10103982-F8B6-4E8E-A5A4-76B586466420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10103982-F8B6-4E8E-A5A4-76B586466420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10103982-F8B6-4E8E-A5A4-76B586466420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10103982-F8B6-4E8E-A5A4-76B586466420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{6E799D11-3CB4-44D1-AF9B-8D72CA3D99BE} = {EDA86202-E80B-479B-8BF4-802D70465402}
 		{BA6CFDD5-2463-46DC-A4D1-5CAADF4473B5} = {7D9D0FDB-0466-4E42-8ADF-AB2CD1FE125F}
 		{B12BE9F9-7B3C-41F2-A197-0E529DAD0A31} = {7D9D0FDB-0466-4E42-8ADF-AB2CD1FE125F}
+		{10103982-F8B6-4E8E-A5A4-76B586466420} = {EDA86202-E80B-479B-8BF4-802D70465402}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9ABAE05F-1BFA-4416-9700-689ED630B228}

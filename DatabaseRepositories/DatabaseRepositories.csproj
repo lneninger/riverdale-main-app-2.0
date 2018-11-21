@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Faker" Version="1.2.0" />
+    <PackageReference Include="LMB.PredicateBuilderExtension" Version="1.0.0" />
     <PackageReference Include="NBuilder" Version="6.0.0" />
   </ItemGroup>
 

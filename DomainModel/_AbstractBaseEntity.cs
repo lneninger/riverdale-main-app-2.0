@@ -2,7 +2,7 @@
 
 namespace DomainModel
 {
-    public class AbstractBaseEntity
+    public class AbstractBaseEntity: ITrackChangesEntity
     {
         public DateTime CreatedAt { get; set; }
 

@@ -146,6 +146,7 @@ $typography: mat-typography-config(
     @include scrumboard-theme($theme);
     @include todo-theme($theme);
     @include notification-groups-theme($theme);
+    @include customers-theme($theme);
 
     // Pages
     @include login-theme($theme);

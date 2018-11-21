@@ -13,7 +13,10 @@ namespace FocusServices.Business.Commands.Customer.GetByIdCommand
 
         public CustomerGetByIdCommandOutputDTO Execute(int id)
         {
-            return this.Repository.GetById(id);
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetById(id);
+            }
         }
     }
 }

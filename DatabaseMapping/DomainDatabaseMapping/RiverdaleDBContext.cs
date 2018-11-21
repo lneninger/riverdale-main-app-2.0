@@ -51,21 +51,6 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new FileRepositoryMap());
         }
 
-        public override int SaveChanges()
-        {
-            var changed = this.ChangeTracker.Entries<AbstractBaseEntity>();
-
-            foreach (var changedEntity in changed.Where(o => o.State == EntityState.Added))
-            {
-                ((AbstractBaseEntity)changedEntity.Entity).CreatedAt = DateTime.UtcNow;
-            }
-
-            foreach (var changedEntity in changed.Where(o => o.State == EntityState.Modified))
-            {
-                ((AbstractBaseEntity)changedEntity.Entity).UpdatedAt = DateTime.UtcNow;
-            }
-
-            return base.SaveChanges();
-        }
+       
     }
 }
