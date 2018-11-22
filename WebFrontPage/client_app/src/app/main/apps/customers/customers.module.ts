@@ -6,6 +6,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 import { CustomersComponent } from './customers.component';
 import { CustomersService } from './customers.service';
+import { CustomersListService } from './customers.list.service';
 import { CustomerComponent } from './customer.component';
 import { CustomerService } from './customer.service';
 
@@ -61,8 +62,9 @@ const routes: Routes = [
         , FuseSharedModule
     ],
     providers: [
-        CustomersService,
-        CustomerService,
+        CustomersService
+        , customerService
+        , CustomersListService
     ]
 })
 export class CustomersModule {

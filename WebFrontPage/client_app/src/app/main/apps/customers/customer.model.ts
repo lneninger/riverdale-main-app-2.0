@@ -2,6 +2,13 @@ import { MatChipInputEvent } from '@angular/material';
 
 import { FuseUtils } from '@fuse/utils';
 
+export class CustomerGrid {
+    id: number;
+    erpId: string;
+    name: string;
+}
+
+
 export class Customer
 {
     id: string;
