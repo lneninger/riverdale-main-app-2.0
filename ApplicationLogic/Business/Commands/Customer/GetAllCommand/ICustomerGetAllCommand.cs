@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Customer.GetAllCommand
 {
-    public interface ICustomerGetAllCommand: ICommandAction<IEnumerable<CustomerPageQueryCommandOutputDTO>>
+    public interface ICustomerGetAllCommand: ICommandAction<IEnumerable<CustomerGetAllCommandOutputDTO>>
     {
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac.Extensions.DependencyInjection;
 using EntityFrameworkCore.DbContextScope;
-using FocusServices.Business.Commands.Customer.GetAllCommand;
+using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
 using FocusRepositories.DB;
 
 namespace FocusAIRemote.IoC

@@ -7,7 +7,7 @@ using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
 
 namespace ApplicationLogic.Business.Commands.Customer.GetAllCommand
 {
-    public class CustomerGetAllCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerPageQueryCommand
+    public class CustomerGetAllCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerGetAllCommand
     {
         public CustomerGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
         {

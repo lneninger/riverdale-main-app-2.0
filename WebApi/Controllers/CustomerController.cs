@@ -4,18 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunicationModel;
 using FizzWare.NBuilder;
-using FocusServices.Business.Commands.Customer.GetAllCommand;
-using FocusServices.Business.Commands.Customer.GetByIdCommand;
-using FocusServices.Business.Commands.Customer.InsertCommand;
-using FocusServices.Business.Commands.Customer.InsertCommand.Models;
-using FocusServices.Business.Commands.Customer.UpdateCommand;
-using FocusServices.Business.Commands.Customer.UpdateCommand.Models;
-using FocusServices.Business.Commands.Customer.DeleteCommand;
-using FocusServices.Business.Commands.Customer.DeleteCommand.Models;
-using FocusServices.Business.Interfaces;
+using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
+using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
+using ApplicationLogic.Business.Commands.Customer.InsertCommand;
+using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
+using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
+using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
+using ApplicationLogic.Business.Interfaces;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 
 namespace FocusAIRemote.Controllers
 {
@@ -30,13 +33,15 @@ namespace FocusAIRemote.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
         /// </summary>
+        /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(ICustomerPageQueryCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        public CustomerController(ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
         {
+            this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
             this.InsertCommand = insertCommand;
@@ -58,7 +63,13 @@ namespace FocusAIRemote.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerPageQueryCommand GetAllCommand { get; }
+        public ICustomerGetAllCommand GetAllCommand { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICustomerPageQueryCommand PageQueryCommand { get; }
+
 
         /// <summary>
         /// Gets the get by identifier command.
@@ -91,6 +102,25 @@ namespace FocusAIRemote.Controllers
         /// The delete command.
         /// </value>
         public ICustomerDeleteCommand DeleteCommand { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
+        [Route("api/customer/pagequery")]
+        public IActionResult PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> model)
+        {
+            var result = this.PageQueryCommand.Execute(model);
+            //var result = applicationResponse.Select(appItem => new CustomerDTO
+            //{
+            //    Name = appItem.Name,
+            //    ERPId = appItem.ERPId,
+            //});
+
+            return this.Ok(result);
+        }
 
         /// <summary>
         /// Gets this instance.
