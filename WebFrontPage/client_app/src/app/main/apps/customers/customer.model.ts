@@ -13,7 +13,7 @@ export class Customer
 {
     id: string;
     name: string;
-    erpId: string;
+    //erpId: string;
 
     /**
      * Constructor
@@ -25,6 +25,6 @@ export class Customer
         customer = customer || {};
         this.id = customer.id;
         this.name = customer.name;
-        this.erpId = customer.erpId;
+        //this.erpId = customer.erpId;
     }
 }

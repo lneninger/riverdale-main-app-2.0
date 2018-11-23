@@ -60,12 +60,13 @@ export class CustomerComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Subscribe to update product on changes
-        this._service.onProductChanged
+        this._service.onCurrentEntityChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(dataResponse => {
 
+                //debugger;
                 this.id = dataResponse.id;
-                let currentEntity = dataResponse.entity;
+                let currentEntity = dataResponse;
                 if ( currentEntity )
                 {
                     this.currentEntity = currentEntity; //new Product(product);
@@ -105,7 +106,6 @@ export class CustomerComponent implements OnInit, OnDestroy
         return this._formBuilder.group({
             id            : [this.currentEntity.id],
             name            : [this.currentEntity.name],
-            erpId          : [this.currentEntity.erpId],
         });
     }
 
@@ -121,10 +121,10 @@ export class CustomerComponent implements OnInit, OnDestroy
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._service.onProductChanged.next(data);
+                this._service.onCurrentEntityChanged.next(data);
 
                 // Show the success message
-                this._matSnackBar.open('Notification Group saved', 'OK', {
+                this._matSnackBar.open('Customer saved', 'OK', {
                     verticalPosition: 'top',
                     duration        : 2000
                 });
@@ -143,7 +143,7 @@ export class CustomerComponent implements OnInit, OnDestroy
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._service.onProductChanged.next(data);
+                this._service.onCurrentEntityChanged.next(data);
 
                 // Show the success message
                 this._matSnackBar.open('Notification Group added', 'OK', {

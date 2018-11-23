@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
+import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { CustomersService } from './customers.service';
+//import { CustomersService } from './customers.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
 
@@ -15,8 +15,12 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { CustomerGrid } from './customer.model';
-import { CustomersListService } from './customers.list.service';
+import { CustomerGrid, Customer } from './customer.model';
+//import { CustomersListService } from './customers.list.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { CustomerService } from './customer.service';
 
 @Component({
     selector: 'customers',
@@ -46,9 +50,12 @@ export class CustomersComponent implements OnInit {
     customers: any[];
 
     constructor(
-        private _service: CustomersListService
+        //private list: CustomersService
+         private service: CustomerService
+        //private http: HttpClient
         //private _service: CustomersService
         , private database: AngularFireDatabase
+        , public dialog: MatDialog
     ) {
 
         // Set the private defaults
@@ -66,7 +73,7 @@ export class CustomersComponent implements OnInit {
      */
     ngOnInit(): void {
         // debugger;
-        this.dataSource = new CustomersDataSource(this.filter, this._service, this.paginator, this.sort);
+        this.dataSource = new CustomersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
         //fromEvent(this.filter.nativeElement, 'keyup')
         //    .pipe(
@@ -82,6 +89,18 @@ export class CustomersComponent implements OnInit {
         //        //this.dataSource.filter = this.filter.nativeElement.value;
         //    });
     }
+
+    openDialog(): void {
+        const dialogRef = this.dialog.open(CustomerNewDialogComponent, {
+            width: '60%',
+            data: {/* name: this.name, animal: this.animal */}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed with', result);
+            //this.animal = result;
+        });
+    }
 }
 
 export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
@@ -94,13 +113,74 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
      * @param {MatSort} _matSort
      */
     constructor(
-        //private database: AngularFireDatabase
-        filterElement: ElementRef
-        , service:CustomersListService
+        service: CustomerService
+        , filterElement: ElementRef
+        //, service:CustomersListService
         , matPaginator: MatPaginator
         , matSort: MatSort
     ) {
-        super(filterElement, service, matPaginator, matSort);
+        super(service, filterElement/*, service*/, matPaginator, matSort);
     }
 
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}customer/pagequery`;
+
+    public getFilter(rawFilterObject: {}): {} {
+
+
+        let result = {};
+
+
+        return result;
+    }
+}
+
+
+
+
+@Component({
+    selector: 'customernew-dialog',
+    templateUrl: 'customernew.dialog.component.html',
+})
+export class CustomerNewDialogComponent {
+
+    frmMain: FormGroup;
+    constructor(
+        private service: CustomerService
+        , private frmBuilder: FormBuilder
+        ,public dialogRef: MatDialogRef<CustomerNewDialogComponent>
+        , @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+
+        this.frmMain = frmBuilder.group({
+            'name': ['', [Validators.required]]
+        });
+    }
+
+    save() {
+        return new Promise((resolve, reject) => {
+            this.service.add(this.frmMain.value)
+                .then(res => {
+                    this._matSnackBar.open('Customer created', 'OK', {
+                        verticalPosition: 'top',
+                        duration: 2000
+                    });
+
+                    resolve(res);
+                })
+                .catch(error => reject(error));
+        });
+    }
+
+    create(): void {
+        this.save().then(res => {
+            this.dialogRef.close();
+        });
+    }
+
+    createEdit(): void {
+        this.save().then((res: Customer) => {
+            this.service.router.navigate([`apps/customers/${res.id}`]);
+            this.dialogRef.close();
+        });
+    }
 }

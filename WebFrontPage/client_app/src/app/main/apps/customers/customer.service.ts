@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 
@@ -8,10 +8,10 @@ import { environment } from 'environments/environment';
 /*************************Custom***********************************/
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 
 @Injectable()
-export class CustomerService implements Resolve<any>
-{
+export class CustomerService implements Resolve<any>, IPageQueryService {
     routeParams: any;
     currentEntity: any;
     onCurrentEntityChanged: BehaviorSubject<any>;
@@ -22,7 +22,8 @@ export class CustomerService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        public http: HttpClient
+        , public router: Router
     ) {
         // Set the defaults
         this.onCurrentEntityChanged = new BehaviorSubject({});
@@ -58,25 +59,11 @@ export class CustomerService implements Resolve<any>
      */
     getProduct(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.routeParams.id === 'new') {
-                this.onProductChanged.next(false);
-                resolve(false);
-            }
-            else {
-                //debugger;
-                this._httpClient.get(`${environment.appApi.apiBaseUrl}customer/${this.routeParams.id}`).subscribe(response => {
-                    this.currentEntity = response;
-                    this.onCurrentEntityChanged.next(this.currentEntity);
-                    resolve(this.currentEntity);
-                });
-
-                //this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
-                //    .subscribe((response: any) => {
-                //        this.product = response;
-                //        this.onProductChanged.next(this.product);
-                //        resolve(response);
-                //    }, reject);
-            }
+            this.http.get(`${environment.appApi.apiBaseUrl}customer/${this.routeParams.id}`).subscribe(response => {
+                this.currentEntity = response;
+                this.onCurrentEntityChanged.next(this.currentEntity);
+                resolve(this.currentEntity);
+            });
         });
     }
 
@@ -88,8 +75,7 @@ export class CustomerService implements Resolve<any>
      */
     save(id, entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.put(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
-                debugger;
+            this.http.put(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
                 resolve(res);
             });
         });
@@ -103,8 +89,7 @@ export class CustomerService implements Resolve<any>
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.post(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
-                debugger;
+            this.http.post(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
                 resolve(res);
             });
 

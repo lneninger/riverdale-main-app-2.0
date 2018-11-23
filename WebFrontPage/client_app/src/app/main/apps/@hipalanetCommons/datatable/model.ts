@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 
 
 
@@ -13,6 +14,10 @@ export class SortCollection {
     }
 }
 
+
+export interface IPageQueryService {
+    http: HttpClient,
+}
 
 
 export class PageQueryData {

@@ -5,12 +5,13 @@ import { MatSort } from "@angular/material/sort";
 import { merge } from "rxjs";
 import { map, mergeMap, takeUntil, debounceTime, distinctUntilChanged, filter } from "rxjs/operators";
 import { DatatableAbstractService } from "./datatable.abstract.service";
-import { PageResult, SortCollection } from "./model";
+import { PageResult, SortCollection, IPageQueryService, PageQueryData } from "./model";
 import { ElementRef, NgZone } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 
 
-export class DataSourceAbstract<T> extends DataSource<T>
+export abstract class DataSourceAbstract<T> extends DataSource<T>
 {
     private _unsubscribeAll: Subject<any>;
     private _filterChange = new BehaviorSubject('');
@@ -24,8 +25,8 @@ export class DataSourceAbstract<T> extends DataSource<T>
     totalCount: number;
 
     constructor(
-        private filterElement: ElementRef<any>
-        , private _service: DatatableAbstractService
+        private service: IPageQueryService
+        , private filterElement: ElementRef<any>
         , private _matPaginator: MatPaginator
         , private _matSort: MatSort
     ) {
@@ -62,18 +63,8 @@ export class DataSourceAbstract<T> extends DataSource<T>
                     let pageSize = this._matPaginator.pageSize;
                     let sortObj = this.getSortSelection();
 
-                    return this._service.getData(pageIndex, pageSize, sortObj, this.filter);
+                    return this.getData(pageIndex, pageSize, sortObj, this.filter);
                 }))
-            .pipe(
-                mergeMap(result => {
-                    //let data = this.filteredData;
-                    let pageIndex = this._matPaginator.pageIndex;
-                    let pageSize = this._matPaginator.pageSize;
-                    let sortObj = this.getSortSelection();
-
-                    return this._service.getData(pageIndex, pageSize, sortObj, this.filter);
-                }))
-
             .pipe(
                 mergeMap((result: PageResult<T>) => {
                     this.totalCount = result.totalCount;
@@ -98,6 +89,15 @@ export class DataSourceAbstract<T> extends DataSource<T>
 
 
 
+    public abstract get remoteEnpoint(): string;
+
+    getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: {}) {
+        let postData = new PageQueryData(pageIndex, pageSize, sortObj, filter);
+
+        return this.service.http.post(this.remoteEnpoint, postData);
+    }
+
+    public abstract getFilter(rawFilterObject: {}): {};
 
 
 

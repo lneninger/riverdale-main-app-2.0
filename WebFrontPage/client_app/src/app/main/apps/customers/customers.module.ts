@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 //import { SettingsModule } from './settings/settings.module';
 
-import { CustomersComponent } from './customers.component';
-import { CustomersService } from './customers.service';
-import { CustomersListService } from './customers.list.service';
+import { CustomersComponent, CustomerNewDialogComponent } from './customers.component';
+//import { CustomersService } from './customers.service';
+//import { CustomersListService } from './customers.list.service';
 import { CustomerComponent } from './customer.component';
 import { CustomerService } from './customer.service';
 
@@ -14,7 +14,7 @@ import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
     MatButtonModule, MatChipsModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatSelectModule, MatSnackBarModule,
     MatSortModule,
-    MatTableModule, MatTabsModule
+    MatTableModule, MatTabsModule, MatDialog, MatDialogModule
 } from '@angular/material';
 
 const routes: Routes = [
@@ -37,8 +37,13 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        CustomersComponent,
-        CustomerComponent,
+        CustomersComponent
+        , CustomerComponent
+        , CustomerNewDialogComponent
+        
+    ],
+    entryComponents: [
+        CustomerNewDialogComponent
     ],
     imports: [
         RouterModule.forChild(routes)
@@ -57,14 +62,14 @@ const routes: Routes = [
         , MatSortModule
         , MatChipsModule
         , MatTabsModule
-
+        , MatDialogModule
         , MatSnackBarModule
         , FuseSharedModule
     ],
     providers: [
-        CustomersService
+        //CustomersService
         , CustomerService
-        , CustomersListService
+        //, CustomersListService
     ]
 })
 export class CustomersModule {
