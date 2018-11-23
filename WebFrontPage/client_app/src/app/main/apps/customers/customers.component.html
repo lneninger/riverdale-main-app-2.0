@@ -83,7 +83,13 @@
                         <p class="text-truncate">{{item.erpId}}</p>
                     </mat-cell>
                 </ng-container>
-                
+                <ng-container matColumnDef="salesforceId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Salesforce Code</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.salesforceId}}</p>
+                    </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="createdAt">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Created at</mat-header-cell>
                     <mat-cell *matCellDef="let item">
@@ -121,7 +127,7 @@
                     </mat-cell>
                 </ng-container>
                 <!-- Active Column -->
-                
+
                 <ng-container matColumnDef="options">
                     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
                     <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">

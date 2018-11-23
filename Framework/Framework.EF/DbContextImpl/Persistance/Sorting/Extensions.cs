@@ -12,7 +12,6 @@ namespace Framework.EF.DbContextImpl.Persistance.Models.Sorting
         public static IQueryable<T> ProcessSorting<T>(this IQueryable<T> query, SortingDTO<T> sorting)
         {
             var sortBys = GenerateSort<T>(sorting);
-            //var orders = string.IsNullOrWhiteSpace(filter.Sort) ? new string[] { "asc" } : filter.Sort.Split(new char[] { ',' });
 
             foreach (var sortTuple in sortBys)
             {
@@ -44,18 +43,28 @@ namespace Framework.EF.DbContextImpl.Persistance.Models.Sorting
             for (var i = 0; i < result.Count; i++)
             {
                 if (result[i].SortExpression != null) continue;
-                try
+
+                var externalSort = sorting.SortExpressions.FirstOrDefault(o => o.PropertyName.Equals(sortItems[i].PropertyName, StringComparison.InvariantCultureIgnoreCase));
+
+                if (externalSort != null)
                 {
-                    untyped = GeneratePropertyExpression<T>(sortItems[i].PropertyName, sorting.CustomFilterPropertyMapping);
-                    if (untyped != null)
-                    {
-                        result[i].SortExpression = untyped;
-                    }
+                    result[i].SortExpression = externalSort.SortExpression;
                 }
-                catch (Exception)
+                else
                 {
-                    // mark to remove failed sortItem from list
-                    result[i].Delete = true;
+                    try
+                    {
+                        untyped = GeneratePropertyExpression<T>(sortItems[i].PropertyName, sorting.CustomFilterPropertyMapping);
+                        if (untyped != null)
+                        {
+                            result[i].SortExpression = untyped;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // mark to remove failed sortItem from list
+                        result[i].Delete = true;
+                    }
                 }
             }
 

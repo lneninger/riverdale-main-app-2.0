@@ -141,11 +141,7 @@ namespace FocusAIRemote.Controllers
         [HttpGet("{id}", Name = "Get"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
         public IActionResult Get(int id)
         {
-            var applicationResponse = this.GetByIdCommand.Execute(id);
-            var result = new CustomerDTO
-            {
-
-            };
+            var result = this.GetByIdCommand.Execute(id);
 
             return this.Ok(result);
         }

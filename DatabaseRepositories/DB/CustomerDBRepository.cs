@@ -19,6 +19,7 @@ using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
+using DomainModel._Commons.Enums;
 
 namespace FocusRepositories.DB
 {
@@ -61,7 +62,14 @@ namespace FocusRepositories.DB
                 var query = dbLocator.Set<Customer>().AsQueryable();
 
 
-                var advancedSorting = new List<Expression<Func<Customer, object>>>();
+                var advancedSorting = new List<SortItem<Customer>>();
+                //var advancedSorting = new List<Expression<Func<Customer, object>>>();
+                Expression<Func<Customer, object>> expression;
+                if (input.Sort.ContainsKey("erpId"))
+                {
+                    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
+                    advancedSorting.Add(new SortItem<Customer> { PropertyName="erpId", SortExpression = expression, SortOrder = "desc"});
+                }
 
                 var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
 
@@ -70,6 +78,8 @@ namespace FocusRepositories.DB
                     Id = o.Id,
                     //ERPId = o.ERPId,
                     Name = o.Name,
+                    ERPId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.BusinessERP).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
+                    SalesforceId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.Salesforce).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
                     CreatedAt = o.CreatedAt
                 });
 
@@ -86,7 +96,11 @@ namespace FocusRepositories.DB
                 {
                     Id = entityItem.Id,
                     Name = entityItem.Name,
-                    //ERPId = entityItem.ERPId
+                    ThirdPartySettings = entityItem.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO {
+                        Id = third.Id,
+                        ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
+                        ThirdPartyAppCustomerId = third.ThirdPartyCustomerId
+                    })
                 }).FirstOrDefault();
             }
         }

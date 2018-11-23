@@ -21,6 +21,7 @@ namespace DomainDatabaseMapping.Mappings
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.Ignore(t => t.ThirdPartyAppTypeEnum);
 
             builder.Property(t => t.ThirdPartyCustomerId)
                .HasColumnType("nvarchar(100)")
@@ -33,7 +34,7 @@ namespace DomainDatabaseMapping.Mappings
 
             builder.HasOne(t => t.ThirdPartyAppType)
                .WithMany()
-               .HasForeignKey(t => t.ThridPartyAppTypeId)
+               .HasForeignKey(t => t.ThirdPartyAppTypeId)
                ;
         }
     }

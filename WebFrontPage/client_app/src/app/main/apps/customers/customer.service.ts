@@ -13,8 +13,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class CustomerService implements Resolve<any>
 {
     routeParams: any;
-    entity: any;
-    onProductChanged: BehaviorSubject<any>;
+    currentEntity: any;
+    onCurrentEntityChanged: BehaviorSubject<any>;
 
     /**
      * Constructor
@@ -25,7 +25,7 @@ export class CustomerService implements Resolve<any>
         private _httpClient: HttpClient
     ) {
         // Set the defaults
-        this.onProductChanged = new BehaviorSubject({});
+        this.onCurrentEntityChanged = new BehaviorSubject({});
     }
 
     /**
@@ -63,9 +63,11 @@ export class CustomerService implements Resolve<any>
                 resolve(false);
             }
             else {
-                debugger;
-                this._httpClient.get(`${environment.appApi.apiBaseUrl}customer/${this.routeParams.id}`).subscribe(res => {
-                    resolve(res);
+                //debugger;
+                this._httpClient.get(`${environment.appApi.apiBaseUrl}customer/${this.routeParams.id}`).subscribe(response => {
+                    this.currentEntity = response;
+                    this.onCurrentEntityChanged.next(this.currentEntity);
+                    resolve(this.currentEntity);
                 });
 
                 //this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
@@ -105,7 +107,7 @@ export class CustomerService implements Resolve<any>
                 debugger;
                 resolve(res);
             });
-            
+
         });
     }
 }
