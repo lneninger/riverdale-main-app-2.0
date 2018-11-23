@@ -106,18 +106,13 @@ namespace FocusAIRemote.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
-        [Route("api/customer/pagequery")]
-        public IActionResult PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> model)
+        [Route("pagequery")]
+        public IActionResult PageQuery([FromBody]PageQuery<CustomerPageQueryCommandInputDTO> input)
         {
-            var result = this.PageQueryCommand.Execute(model);
-            //var result = applicationResponse.Select(appItem => new CustomerDTO
-            //{
-            //    Name = appItem.Name,
-            //    ERPId = appItem.ERPId,
-            //});
+            var result = this.PageQueryCommand.Execute(input);
 
             return this.Ok(result);
         }
@@ -132,7 +127,7 @@ namespace FocusAIRemote.Controllers
             var applicationResponse = this.GetAllCommand.Execute();
             var result = applicationResponse.Select(appItem => new CustomerDTO {
                 Name = appItem.Name,
-                ERPId = appItem.ERPId,
+                //ERPId = appItem.ERPId,
             });
 
             return this.Ok(result);
@@ -166,7 +161,7 @@ namespace FocusAIRemote.Controllers
             var input = new CustomerInsertCommandInputDTO
             {
                 Name = model.Name,
-                ERPId = model.ERPId
+                //ERPId = model.ERPId
             };
 
             var appResult = this.InsertCommand.Execute(input);
@@ -174,7 +169,7 @@ namespace FocusAIRemote.Controllers
             {
                 Id = appResult.Id,
                 Name = appResult.Name,
-                ERPId = appResult.ERPId
+                //ERPId = appResult.ERPId
             };
 
             return this.Ok(result);

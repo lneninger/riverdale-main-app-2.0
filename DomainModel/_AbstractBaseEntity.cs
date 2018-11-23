@@ -3,9 +3,9 @@ using System;
 
 namespace DomainModel
 {
-    public class AbstractBaseEntity: ITrackChangesEntity
+    public abstract class AbstractBaseEntity: ITrackChangesEntity
     {
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public string CreatedBy { get; set; }
 

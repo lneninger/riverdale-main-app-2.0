@@ -12,7 +12,7 @@ using System.IO;
 
 namespace DomainDatabaseMapping
 {
-    public class RiverdaleDBContext: DbContext
+    public class RiverdaleDBContext : DbContext
     {
         public RiverdaleDBContext(DbContextOptions options) : base(options)
         {
@@ -38,19 +38,42 @@ namespace DomainDatabaseMapping
 
 
         /*********************************CRM  Master Tables**********************/
+        // Config
+        public DbSet<ThirdPartyAppType> ThirdPartyAppTypes { get; set; }
+
+        // CRM
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
+
+        // Business
         public DbSet<CustomerOpportunity> CustomerOpportunities { get; set; }
+
+        // Commons
         public DbSet<FileRepository> FileRepositories { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new AbstractBaseEntityMap());
-            modelBuilder.ApplyConfiguration(new CustomerMap());
-            modelBuilder.ApplyConfiguration(new CustomerOpportunityMap());
-            modelBuilder.ApplyConfiguration(new FileRepositoryMap());
+
+            // Base Entity Class
+            new AbstractBaseEntityMap(modelBuilder).Configure();
+
+            // Config
+            modelBuilder.ApplyConfiguration(new ThirdPartyAppTypeMap(modelBuilder));
+
+            // CRM
+            modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));
+
+            // Business
+            modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
+
+            // Commons
+            modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
+
         }
 
-       
+
     }
 }

@@ -1,31 +1,60 @@
 ﻿using DomainModel;
+using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Linq;
 
 namespace DomainDatabaseMapping.Mappings
 {
-    public class AbstractBaseEntityMap : IEntityTypeConfiguration<AbstractBaseEntity>
+    public class AbstractBaseEntityMap : BaseAbstractMap
     {
-        public void Configure(EntityTypeBuilder<AbstractBaseEntity> builder)
+
+        public AbstractBaseEntityMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
-            builder.Property(t => t.CreatedAt)
-                .IsRequired();
+        }
 
-            builder.Property(t => t.CreatedBy)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
-                .IsRequired();
+        public void Configure()
+        {
+           
+            foreach (var entityType in this.ModelBuilder.Model.GetEntityTypes()
+                        .Where(e => typeof(AbstractBaseEntity).IsAssignableFrom(e.ClrType)))
+            {
+                this.ModelBuilder
+                    .Entity(entityType.ClrType)
+                    .Property(nameof(AbstractBaseEntity.CreatedAt))
 
-            builder.Property(t => t.UpdatedAt)
-                .IsRequired();
+                    .HasAnnotation("ColumnOrder", 100)
+                    .ValueGeneratedOnAdd()
+                    .IsRequired(true)
+                    .HasDefaultValueSql("getutcdate()")
+                    ;
 
-            builder.Property(t => t.UpdatedBy)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
-                .IsRequired();
+                this.ModelBuilder
+                    .Entity(entityType.ClrType)
+                    .Property(nameof(AbstractBaseEntity.CreatedBy))
+                    .HasColumnType("nvarchar(100)")
+                    .HasAnnotation("ColumnOrder", 101)
+                    .ValueGeneratedOnAdd()
+                    .IsRequired(true)
+                    .HasDefaultValueSql("SYSTEM_USER")
+                    ;
 
+                this.ModelBuilder
+                    .Entity(entityType.ClrType)
+                    .Property(nameof(AbstractBaseEntity.UpdatedAt))
+                    .HasAnnotation("ColumnOrder", 102)
+                    .IsRequired(false)
+                    ;
 
+                this.ModelBuilder
+                    .Entity(entityType.ClrType)
+                    .Property(nameof(AbstractBaseEntity.UpdatedBy))
+                    .HasColumnType("nvarchar(100)")
+                    .HasAnnotation("ColumnOrder", 103)
+                    .IsRequired(false)
+                    ;
+            }
 
         }
     }

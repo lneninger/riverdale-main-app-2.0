@@ -16,14 +16,30 @@ namespace Framework.EF.DbContextImpl
             foreach (var changedEntity in changed.Where(o => o.State == EntityState.Added))
             {
                 ((ITrackChangesEntity)changedEntity.Entity).CreatedAt = DateTime.UtcNow;
+                ((ITrackChangesEntity)changedEntity.Entity).CreatedBy = suser_sname();
             }
 
             foreach (var changedEntity in changed.Where(o => o.State == EntityState.Modified))
             {
                 ((ITrackChangesEntity)changedEntity.Entity).UpdatedAt = DateTime.UtcNow;
+                ((ITrackChangesEntity)changedEntity.Entity).UpdatedBy = suser_sname();
             }
 
             return base.SaveChanges();
+        }
+
+
+
+        [DbFunction]
+        public static string suser_sname()
+        {
+            throw new Exception();
+        }
+
+        [DbFunction]
+        public static DateTime getutcdate()
+        {
+            throw new Exception();
         }
     }
 }

@@ -30,7 +30,7 @@ const routes: Routes = [
         path: '**',
         component: CustomersComponent,
         resolve: {
-            data: CustomersService
+           // data: CustomersService
         }
     }
 ];
@@ -63,7 +63,7 @@ const routes: Routes = [
     ],
     providers: [
         CustomersService
-        , customerService
+        , CustomerService
         , CustomersListService
     ]
 })

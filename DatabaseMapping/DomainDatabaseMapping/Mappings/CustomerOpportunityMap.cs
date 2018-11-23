@@ -1,12 +1,18 @@
 ﻿using DomainModel;
+using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
 namespace DomainDatabaseMapping.Mappings
 {
-    public class CustomerOpportunityMap : IEntityTypeConfiguration<CustomerOpportunity>
+    public class CustomerOpportunityMap : BaseAbstractMap, IEntityTypeConfiguration<CustomerOpportunity>
     {
+
+        public CustomerOpportunityMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        {
+        }
+
         public void Configure(EntityTypeBuilder<CustomerOpportunity> builder)
         {
             builder.ToTable("CustomerOpportunity", SCHEMAS.QUOTE);

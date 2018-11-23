@@ -18,10 +18,10 @@ export class SortCollection {
 export class PageQueryData {
 
     customFilter: {};
-    rawSort: SortCollection;
+    sort: SortObject;
 
-    constructor(public pageIndex: number, public pageSize: number, sort: SortCollection, filter: {}) {
-        this.rawSort = sort;
+    constructor(public pageIndex: number, public pageSize: number, sortCollection: SortCollection, filter: {}) {
+        this.sort = sortCollection.sortObject;
         this.customFilter = filter;
     }
 }

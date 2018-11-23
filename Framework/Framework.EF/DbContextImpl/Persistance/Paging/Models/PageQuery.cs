@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Framework.EF.DbContextImpl.Persistance.Paging.Models
 {
-    public class PageQuery<T>: BasePageQuery
+    public class PageQuery<T>: BasePageQuery where T: BaseFilter
     {
-        public T CustomerFilter { get; set; }
+        public T CustomFilter { get; set; }
     }
 }

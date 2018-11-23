@@ -13,7 +13,7 @@ export abstract class DatatableAbstractService {
         return this._http;
     }
 
-    abstract get remoteEnpoint(): string;
+    public abstract get remoteEnpoint(): string;
 
     getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: {}) {
         let postData = new PageQueryData(pageIndex, pageSize, sortObj, filter);

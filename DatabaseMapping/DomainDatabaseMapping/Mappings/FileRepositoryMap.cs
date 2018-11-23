@@ -1,12 +1,18 @@
 ﻿using DomainModel;
+using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
 namespace DomainDatabaseMapping.Mappings
 {
-    public class FileRepositoryMap : IEntityTypeConfiguration<FileRepository>
+    public class FileRepositoryMap : BaseAbstractMap, IEntityTypeConfiguration<FileRepository>
     {
+
+        public FileRepositoryMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        {
+        }
+
         public void Configure(EntityTypeBuilder<FileRepository> builder)
         {
             builder.ToTable("FileRepository", SCHEMAS.FILE);

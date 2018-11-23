@@ -6,7 +6,7 @@ namespace Framework.EF.DbContextImpl.Persistance
 {
     public interface ITrackChangesEntity
     {
-        DateTime CreatedAt { get; set; }
+        DateTime? CreatedAt { get; set; }
 
         string CreatedBy { get; set; }
 

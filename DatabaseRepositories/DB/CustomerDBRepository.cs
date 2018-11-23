@@ -36,9 +36,46 @@ namespace FocusRepositories.DB
                 {
                     Id = entityItem.Id,
                     Name = entityItem.Name,
-                    ERPId = entityItem.ERPId,
+                    //ERPId = entityItem.ERPId,
+                    CreatedAt = entityItem.CreatedAt
+
                 }).ToList();
             }
+        }
+
+        public PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input)
+        {
+            // predicate construction
+            var predicate = PredicateBuilderExtension.True<Customer>();
+            if (input.CustomFilter != null)
+            {
+                var filter = input.CustomFilter;
+                if (!string.IsNullOrWhiteSpace(filter.Term))
+                {
+                    predicate = predicate.And(o => o.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                }
+            }
+
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                var query = dbLocator.Set<Customer>().AsQueryable();
+
+
+                var advancedSorting = new List<Expression<Func<Customer, object>>>();
+
+                var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
+
+                var result = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO
+                {
+                    Id = o.Id,
+                    //ERPId = o.ERPId,
+                    Name = o.Name,
+                    CreatedAt = o.CreatedAt
+                });
+
+                return result;
+            }
+
         }
 
         public CustomerGetByIdCommandOutputDTO GetById(int id)
@@ -49,7 +86,7 @@ namespace FocusRepositories.DB
                 {
                     Id = entityItem.Id,
                     Name = entityItem.Name,
-                    ERPId = entityItem.ERPId
+                    //ERPId = entityItem.ERPId
                 }).FirstOrDefault();
             }
         }
@@ -59,7 +96,7 @@ namespace FocusRepositories.DB
             var entity = new Customer
             {
                 Name = input.Name,
-                ERPId = input.ERPId,
+                //ERPId = input.ERPId,
             };
 
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
@@ -70,7 +107,8 @@ namespace FocusRepositories.DB
                 var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
                 {
                     Id = o.Id,
-                    ERPId = o.ERPId
+                    Name = o.Name
+                    //ERPId = o.ERPId
                 }).FirstOrDefault();
 
                 return result;
@@ -86,7 +124,7 @@ namespace FocusRepositories.DB
                 if (entity != null)
                 {
                     entity.Name = input.Name;
-                    entity.ERPId = input.ERPId;
+                    //entity.ERPId = input.ERPId;
                 }
 
                 dbLocator.SaveChanges();
@@ -95,7 +133,8 @@ namespace FocusRepositories.DB
                 var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerUpdateCommandOutputDTO
                 {
                     Id = o.Id,
-                    ERPId = o.ERPId
+                    Name = o.Name
+                    //ERPId = o.ERPId
                 }).FirstOrDefault();
 
                 return result;
@@ -115,7 +154,8 @@ namespace FocusRepositories.DB
                     var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
                     {
                         Id = o.Id,
-                        ERPId = o.ERPId
+                        Name = o.Name
+                        //ERPId = o.ERPId
                     }).FirstOrDefault();
 
                     return result;
@@ -125,26 +165,6 @@ namespace FocusRepositories.DB
             return null;
         }
 
-        public PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input)
-        {
-            var predicate = PredicateBuilderExtension.True<Customer>();
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
-                var query = dbLocator.Set<Customer>().AsQueryable();
-
-                var advancedSorting = new List<Expression<Func<Customer, object>>>();
-
-                var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO {
-                    Id = o.Id,
-                    ERPId = o.ERPId,
-                    Name = o.Name
-                });
-
-                return result;
-            }
-
-        }
+       
     }
 }

@@ -31,7 +31,7 @@ namespace Framework.EF.DbContextImpl.Persistance
             query = query.ProcessSorting<T>(sorting);
 
             //Paging
-            query = (paging != null) ? query.Skip(paging.Size * paging.PageIndex).Take(paging.Size) : query;
+            query = (paging != null) ? query.Skip(paging.PageSize * paging.PageIndex).Take(paging.PageSize) : query;
 
             // Mapping
             var castedQuery = (mapping != null) ? query.Select(mapping) : query.Cast<R>();
@@ -41,9 +41,9 @@ namespace Framework.EF.DbContextImpl.Persistance
 
             var result = new PageResult<R>
             {
-                FilteredTotal = filteredCount,
-                Total = totalCount,
-                Size = paging == null ? 0 : paging.Size,
+                FilteredCount = filteredCount,
+                TotalCount = totalCount,
+                Size = paging == null ? 0 : paging.PageSize,
                 Items = queryResult
             };
 

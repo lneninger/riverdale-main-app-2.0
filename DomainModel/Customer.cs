@@ -15,12 +15,11 @@ namespace DomainModel
 
         public string Name { get; set; }
 
-        public string ERPId { get; set; }
-
         public IEnumerable<CustomerOpportunity> CustomerOpportunities { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
+        public IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
     }
 }

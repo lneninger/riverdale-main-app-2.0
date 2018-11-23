@@ -1,12 +1,18 @@
 ﻿using DomainModel;
+using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
 namespace DomainDatabaseMapping.Mappings
 {
-    public class CustomerMap : IEntityTypeConfiguration<Customer>
+    public class CustomerMap : BaseAbstractMap, IEntityTypeConfiguration<Customer>
     {
+
+        public CustomerMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        {
+        }
+
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.ToTable("Customer", SCHEMAS.CRM);
@@ -19,10 +25,7 @@ namespace DomainDatabaseMapping.Mappings
             builder.Property(t => t.Name)
                .HasColumnType("nvarchar(100)")
                .IsRequired(true);
-
-            builder.Property(t => t.ERPId)
-               .HasMaxLength(50)
-               .IsRequired(true);
+            
         }
     }
 }

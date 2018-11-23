@@ -13,9 +13,9 @@ namespace Framework.EF.DbContextImpl.Persistance.Paging.Models
 
         public int Size { get; set; }
 
-        public int Total { get; set; }
+        public int TotalCount { get; set; }
 
-        public int FilteredTotal { get; set; }
+        public int FilteredCount { get; set; }
 
         public List<T> Items { get; set; }
 

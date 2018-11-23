@@ -6,7 +6,7 @@ namespace Framework.EF.DbContextImpl.Persistance.Paging.Models
 {
     public interface IPaging
     {
-        int Size { get; set; }
+        int PageSize { get; set; }
 
         int PageIndex { get; set; }
     }

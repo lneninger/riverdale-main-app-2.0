@@ -106,7 +106,7 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
     ) {
         super(filterElement, service, matPaginator, matSort);
 
-
+        
         //this.filteredData = this._service.list;
 
         

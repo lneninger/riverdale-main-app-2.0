@@ -4,14 +4,16 @@ using DomainDatabaseMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainDatabaseMigrations.Migrations
 {
     [DbContext(typeof(MigrationDBContext))]
-    partial class MigrationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181123115218_TrackEntity CreatedAtNotNull")]
+    partial class TrackEntityCreatedAtNotNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,10 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasAnnotation("ColumnOrder", 101);
 
                     b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("ERPId")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<bool?>("IsDeleted");
 
@@ -91,48 +97,6 @@ namespace DomainDatabaseMigrations.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("CustomerOpportunity","QUOTE");
-                });
-
-            modelBuilder.Entity("DomainModel.CustomerThirdPartyAppSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getutcdate()")
-                        .HasAnnotation("ColumnOrder", 100);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("SYSTEM_USER")
-                        .HasAnnotation("ColumnOrder", 101);
-
-                    b.Property<int>("CustomerId");
-
-                    b.Property<string>("ThirdPartyCustomerId")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ThridPartyAppTypeId");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasAnnotation("ColumnOrder", 102);
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(100)")
-                        .HasAnnotation("ColumnOrder", 103);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ThridPartyAppTypeId");
-
-                    b.ToTable("CustomerThirdPartyAppSetting","CRM");
                 });
 
             modelBuilder.Entity("DomainModel.FileRepository", b =>
@@ -223,8 +187,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 11, 23, 12, 25, 0, 97, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 11, 23, 12, 25, 0, 99, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 11, 23, 11, 52, 18, 5, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 11, 23, 11, 52, 18, 7, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 
@@ -234,18 +198,6 @@ namespace DomainDatabaseMigrations.Migrations
                         .WithMany("CustomerOpportunities")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DomainModel.CustomerThirdPartyAppSetting", b =>
-                {
-                    b.HasOne("DomainModel.Customer", "Customer")
-                        .WithMany("CustomerThirdPartyAppSettings")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DomainModel.ThirdPartyAppType", "ThirdPartyAppType")
-                        .WithMany()
-                        .HasForeignKey("ThridPartyAppTypeId");
                 });
 #pragma warning restore 612, 618
         }
