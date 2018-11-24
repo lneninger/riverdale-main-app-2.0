@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-//import { SettingsModule } from './settings/settings.module';
 
 import { CustomersComponent, CustomerNewDialogComponent } from './customers.component';
-//import { CustomersService } from './customers.service';
-//import { CustomersListService } from './customers.list.service';
 import { CustomerComponent } from './customer.component';
-import { CustomerService } from './customer.service';
+import { CustomerCoreModule, CustomerService } from './customer.core.module';
 
 import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
@@ -30,7 +27,7 @@ const routes: Routes = [
         path: '**',
         component: CustomersComponent,
         resolve: {
-           // data: CustomersService
+            data: CustomersService
         }
     }
 ];
@@ -65,10 +62,12 @@ const routes: Routes = [
         , MatDialogModule
         , MatSnackBarModule
         , FuseSharedModule
+
+        , CustomerCoreModule
     ],
     providers: [
         //CustomersService
-        , CustomerService
+        //, CustomerService
         //, CustomersListService
     ]
 })

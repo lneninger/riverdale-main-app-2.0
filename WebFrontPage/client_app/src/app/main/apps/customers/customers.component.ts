@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -7,7 +7,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-//import { CustomersService } from './customers.service';
 import { takeUntil } from 'rxjs/internal/operators';
 
 
@@ -16,7 +15,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { CustomerGrid, Customer } from './customer.model';
-//import { CustomersListService } from './customers.list.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -31,7 +29,7 @@ import { CustomerService } from './customer.service';
 })
 export class CustomersComponent implements OnInit {
     dataSource: CustomersDataSource | null;
-    displayedColumns = [/*'id', 'image', */'name'/*, 'category', 'price', 'quantity', 'active'*/, 'erpId', 'salesforceId', 'createdAt', 'options'];
+    displayedColumns = ['name', 'erpId', 'salesforceId', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -50,10 +48,7 @@ export class CustomersComponent implements OnInit {
     customers: any[];
 
     constructor(
-        //private list: CustomersService
          private service: CustomerService
-        //private http: HttpClient
-        //private _service: CustomersService
         , private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
@@ -75,19 +70,6 @@ export class CustomersComponent implements OnInit {
         // debugger;
         this.dataSource = new CustomersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
-        //fromEvent(this.filter.nativeElement, 'keyup')
-        //    .pipe(
-        //        takeUntil(this._unsubscribeAll),
-        //        debounceTime(150),
-        //        distinctUntilChanged()
-        //    )
-        //    .subscribe(() => {
-        //        if (!this.dataSource) {
-        //            return;
-        //        }
-
-        //        //this.dataSource.filter = this.filter.nativeElement.value;
-        //    });
     }
 
     openDialog(): void {
@@ -98,7 +80,6 @@ export class CustomersComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed with', result);
-            //this.animal = result;
         });
     }
 }
@@ -115,11 +96,10 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
     constructor(
         service: CustomerService
         , filterElement: ElementRef
-        //, service:CustomersListService
         , matPaginator: MatPaginator
         , matSort: MatSort
     ) {
-        super(service, filterElement/*, service*/, matPaginator, matSort);
+        super(service, filterElement, matPaginator, matSort);
     }
 
     remoteEnpoint: string = `${environment.appApi.apiBaseUrl}customer/pagequery`;
@@ -136,7 +116,6 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
 
 
 
-
 @Component({
     selector: 'customernew-dialog',
     templateUrl: 'customernew.dialog.component.html',
@@ -146,6 +125,7 @@ export class CustomerNewDialogComponent {
     frmMain: FormGroup;
     constructor(
         private service: CustomerService
+        , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
         ,public dialogRef: MatDialogRef<CustomerNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
@@ -160,7 +140,7 @@ export class CustomerNewDialogComponent {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
-                    this._matSnackBar.open('Customer created', 'OK', {
+                    this.matSnackBar.open('Customer created', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });
