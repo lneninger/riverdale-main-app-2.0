@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commands
 {
-    public class AbstractDBCommand<TEntity, TRepository>: BaseIoCDisposable where TEntity: class, new() where TRepository : IDBRepository<TEntity>
+    public class AbstractDBCommand<TEntity, TRepository>: BaseIoCDisposable where TEntity: class, new() where TRepository : IDBRepository
     {
         public AbstractDBCommand(IDbContextScopeFactory dbContextScopeFactory, TRepository repository)
         {

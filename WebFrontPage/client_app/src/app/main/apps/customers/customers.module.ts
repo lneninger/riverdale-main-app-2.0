@@ -13,13 +13,15 @@ import {
     MatSortModule,
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule
 } from '@angular/material';
+import { ThirdPartyAppTypeResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
     {
         path: ':id',
         component: CustomerComponent,
         resolve: {
-            data: CustomerService
+            data: CustomerService,
+            listThirdParty: ThirdPartyAppTypeResolveService
         }
     },
 
@@ -27,7 +29,7 @@ const routes: Routes = [
         path: '**',
         component: CustomersComponent,
         resolve: {
-            data: CustomersService
+            //data: CustomersService
         }
     }
 ];

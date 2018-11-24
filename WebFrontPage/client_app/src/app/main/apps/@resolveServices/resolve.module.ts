@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CustomerCoreModule } from "../customers/customer.core.module";
+import { ThirdPartyAppTypeResolveService } from "./thirdpartyapptype.resolve.service";
 
+export { ThirdPartyAppTypeResolveService } from "./thirdpartyapptype.resolve.service";
 
 
 @NgModule({
@@ -9,8 +11,11 @@ import { CustomerCoreModule } from "../customers/customer.core.module";
     ],
     exports: [
         CustomerCoreModule
+    ],
+    providers: [
+        ThirdPartyAppTypeResolveService
     ]
 })
-export class ResolveModule {
+export class HiPalanetResolveModule {
 
 }

@@ -1,5 +1,4 @@
-﻿using FocusApplication.Business.Commons.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Customer.InsertCommand.Models

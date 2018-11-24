@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FocusRepositories
 {
-    public class AbstractDBRepository<T> : IDBRepository<T> where T : class, new()
+    public class AbstractDBRepository : IDBRepository
     {
         public AbstractDBRepository(IAmbientDbContextLocator ambientDbContextLocator)
         {

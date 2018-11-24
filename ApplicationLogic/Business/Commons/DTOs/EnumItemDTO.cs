@@ -4,7 +4,12 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commons.DTOs
 {
-    class EnumItemDTO
+    public class EnumItemDTO<TKey>
     {
+        public TKey Key { get; set; }
+
+        public string  Value { get; set; }
+
+        public Dictionary<string, string> Extras { get; set; }
     }
 }

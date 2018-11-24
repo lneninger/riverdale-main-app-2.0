@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DomainDatabaseMapping;
-using FocusAIRemote.IoC;
+using RiverdaleMainApp2_0.IoC;
 using Framework.Autofac;
 using Framework.Storage.FileStorage.TemporaryStorage;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 
-namespace FocusAIRemote
+namespace RiverdaleMainApp2_0
 {
     /// <summary>
     /// Application Setup class

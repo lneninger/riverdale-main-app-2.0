@@ -12,8 +12,9 @@ using Autofac.Extensions.DependencyInjection;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
 using FocusRepositories.DB;
+using ApplicationLogic.Business.Commons;
 
-namespace FocusAIRemote.IoC
+namespace RiverdaleMainApp2_0.IoC
 {
     /// <summary>
     /// IoC Containner configuration
@@ -54,6 +55,12 @@ namespace FocusAIRemote.IoC
                 var serviceAssembly = typeof(CustomerGetAllCommand).Assembly;
                 var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(serviceTypes.ToArray())
+                .AsImplementedInterfaces()
+                .TrackInstanceEvents();
+
+                var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
+                var dataProviderTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(dataProviderTypes.ToArray())
                 .AsImplementedInterfaces()
                 .TrackInstanceEvents();
 

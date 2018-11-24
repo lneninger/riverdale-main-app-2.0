@@ -2,7 +2,6 @@
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
-using FocusApplication.Business.Commons.DTOs;
 using FocusApplication.Repositories.DB;
 using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
@@ -23,7 +22,7 @@ using DomainModel._Commons.Enums;
 
 namespace FocusRepositories.DB
 {
-    public class CustomerDBRepository : AbstractDBRepository<Customer>, ICustomerDBRepository
+    public class CustomerDBRepository : AbstractDBRepository, ICustomerDBRepository
     {
         public CustomerDBRepository(IAmbientDbContextLocator ambientDbContextLocator) : base(ambientDbContextLocator)
         {

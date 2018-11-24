@@ -20,7 +20,7 @@ using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 
-namespace FocusAIRemote.Controllers
+namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
     /// Customer API interface
@@ -48,14 +48,6 @@ namespace FocusAIRemote.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
-
-        /// <summary>
-        /// Gets the customer service.
-        /// </summary>
-        /// <value>
-        /// The customer service.
-        /// </value>
-        public ICustomnerService CustomerService { get; }
 
         /// <summary>
         /// Gets the get all command.

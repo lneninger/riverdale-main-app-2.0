@@ -12,7 +12,7 @@ using System.Text;
 
 namespace FocusApplication.Repositories.DB
 {
-    public interface ICustomerDBRepository: IDBRepository<Customer>
+    public interface ICustomerDBRepository: IDBRepository
     {
         IEnumerable<CustomerGetAllCommandOutputDTO> GetAll();
         PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input);

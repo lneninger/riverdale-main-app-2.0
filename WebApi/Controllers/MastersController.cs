@@ -19,8 +19,10 @@ using Microsoft.AspNetCore.Mvc;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commons;
+using ApplicationLogic.Business.Commons.DTOs;
 
-namespace FocusAIRemote.Controllers
+namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
     /// Customer API interface
@@ -33,15 +35,10 @@ namespace FocusAIRemote.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="MastersController"/> class.
         /// </summary>
-        /// <param name="dataProvider"></param>
-        public MastersController(IDataProvider dataProvider)
+        /// <param name="masterDataProvider"></param>
+        public MastersController(IMasterDataProvider masterDataProvider)
         {
-            this.PageQueryCommand = pageQueryCommand;
-            this.GetAllCommand = getAllCommand;
-            this.GetByIdCommand = getByIdCommand;
-            this.InsertCommand = insertCommand;
-            this.UpdateCommand = updateCommand;
-            this.DeleteCommand = deleteCommand;
+            this.MasterDataProvider = masterDataProvider;
         }
 
         /// <summary>
@@ -50,153 +47,20 @@ namespace FocusAIRemote.Controllers
         /// <value>
         /// The customer service.
         /// </value>
-        public ICustomnerService CustomerService { get; }
-
-        /// <summary>
-        /// Gets the get all command.
-        /// </summary>
-        /// <value>
-        /// The get all command.
-        /// </value>
-        public ICustomerGetAllCommand GetAllCommand { get; }
+        public IMasterDataProvider MasterDataProvider { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ICustomerPageQueryCommand PageQueryCommand { get; }
-
-
-        /// <summary>
-        /// Gets the get by identifier command.
-        /// </summary>
-        /// <value>
-        /// The get by identifier command.
-        /// </value>
-        public ICustomerGetByIdCommand GetByIdCommand { get; }
-
-        /// <summary>
-        /// Gets the insert command.
-        /// </summary>
-        /// <value>
-        /// The insert command.
-        /// </value>
-        public ICustomerInsertCommand InsertCommand { get; }
-
-        /// <summary>
-        /// Gets the update command.
-        /// </summary>
-        /// <value>
-        /// The update command.
-        /// </value>
-        public ICustomerUpdateCommand UpdateCommand { get; }
-
-        /// <summary>
-        /// Gets the delete command.
-        /// </summary>
-        /// <value>
-        /// The delete command.
-        /// </value>
-        public ICustomerDeleteCommand DeleteCommand { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
-        [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<CustomerPageQueryCommandInputDTO> input)
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("thirdpartyapptype")]
+        public IActionResult ThirdPartyAppType()
         {
-            var result = this.PageQueryCommand.Execute(input);
+            var result = this.MasterDataProvider.GetToEnumThirdPartyAppType();
 
             return this.Ok(result);
         }
 
-        /// <summary>
-        /// Gets this instance.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
-        public IActionResult Get()
-        {
-            var applicationResponse = this.GetAllCommand.Execute();
-            var result = applicationResponse.Select(appItem => new CustomerDTO {
-                Name = appItem.Name,
-                //ERPId = appItem.ERPId,
-            });
-
-            return this.Ok(result);
-        }
-
-        /// <summary>
-        /// Gets the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("{id}", Name = "Get"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
-        public IActionResult Get(int id)
-        {
-            var result = this.GetByIdCommand.Execute(id);
-
-            return this.Ok(result);
-        }
-
-        /// <summary>
-        /// Posts the specified model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
-        public IActionResult Post([FromBody]CustomerDTO model)
-        {
-            var input = new CustomerInsertCommandInputDTO
-            {
-                Name = model.Name,
-                //ERPId = model.ERPId
-            };
-
-            var appResult = this.InsertCommand.Execute(input);
-            var result = new CustomerDTO
-            {
-                Id = appResult.Id,
-                Name = appResult.Name,
-                //ERPId = appResult.ERPId
-            };
-
-            return this.Ok(result);
-        }
-
-        /// <summary>
-        /// Puts the specified model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
-        public void Put([FromBody]CustomerDTO model)
-        {
-            var input = new CustomerUpdateCommandInputDTO
-            {
-
-            };
-
-            this.UpdateCommand.Execute(input);
-        }
-
-        /// <summary>
-        /// Deletes the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
-        public CustomerDTO Delete(int id)
-        {
-            var appResult = this.DeleteCommand.Execute(id);
-
-            var result = new CustomerDTO
-            {
-
-            };
-
-            return result;
-        }
     }
 }

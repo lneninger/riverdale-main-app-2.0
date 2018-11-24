@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace FocusAIRemote
+namespace RiverdaleMainApp2_0
 {
     public class Program
     {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
+import { HiPalanetResolveModule } from './@resolveServices/resolve.module';
 
 const routes = [
     {
@@ -65,8 +66,9 @@ const routes = [
 
 @NgModule({
     imports     : [
-        RouterModule.forChild(routes),
-        FuseSharedModule
+        RouterModule.forChild(routes)
+        , FuseSharedModule
+        , HiPalanetResolveModule
     ]
 })
 export class AppsModule

@@ -1,0 +1,12 @@
+﻿using ApplicationLogic.Business.Commons.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ApplicationLogic.Business.Commons
+{
+    public interface IMasterDataProvider
+    {
+        List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
+    }
+}
