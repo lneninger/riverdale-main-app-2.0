@@ -53,6 +53,14 @@ export const navigation: FuseNavigation[] = [
                 url: '/apps/customers'
             },
             {
+                id: 'product-colors',
+                title: 'Product Colors',
+                translate: 'NAV.CALENDAR',
+                type: 'item',
+                icon: 'color_lens',
+                url: '/apps/product-colors'
+            },
+            {
                 id       : 'calendar',
                 title    : 'Calendar',
                 translate: 'NAV.CALENDAR',

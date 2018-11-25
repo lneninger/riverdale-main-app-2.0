@@ -8,7 +8,7 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class ThirdPartyAppTypeResolveService implements Resolve<any> {
     list: any[];
-    endpoint = `${environment.appApi.apiBaseUrl}masters/thirdpartyapptype`;
+    endpoint = `${environment.appApi.apiBaseUrl}masters/productcolortype`;
 
     constructor(private http: HttpClient) { }
 

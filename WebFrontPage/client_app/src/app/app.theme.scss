@@ -96,6 +96,7 @@ $typography: mat-typography-config(
 
 @import "src/app/main/apps/notification-groups/notificationgroups.theme";
 @import "src/app/main/apps/customers/customers.theme";
+@import "src/app/main/apps/product-color/productcolors.theme";
 
 
 @import "src/app/main/pages/authentication/login/login.theme";
@@ -147,6 +148,7 @@ $typography: mat-typography-config(
     @include todo-theme($theme);
     @include notification-groups-theme($theme);
     @include customers-theme($theme);
+    @include product-colors-theme($theme);
 
     // Pages
     @include login-theme($theme);

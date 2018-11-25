@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models
 {
-    public class CustomerDeleteCommandOutputDTO
+    public class ProductColorDeleteCommandOutputDTO
     {
 
-        public CustomerDeleteCommandOutputDTO()
+        public ProductColorDeleteCommandOutputDTO()
         {
         }
 

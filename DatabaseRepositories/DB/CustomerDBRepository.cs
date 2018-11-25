@@ -154,7 +154,7 @@ namespace FocusRepositories.DB
             }
         }
 
-        public CustomerDeleteCommandOutputDTO Delete(int id)
+        public ProductColorDeleteCommandOutputDTO Delete(int id)
         {
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
@@ -164,7 +164,7 @@ namespace FocusRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
+                    var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new ProductColorDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         Name = o.Name

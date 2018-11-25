@@ -1,0 +1,147 @@
+<div id="productColors" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    color_lens
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Product Colors
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input #filter placeholder="Search for a product color">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+            <!-- ADD BUTTON -->
+            <button mat-raised-button
+                    (click)="openDialog()"
+                    class="add-product-color-button fuse-white mt-24 mt-md-0">
+                <span>ADD NEW Product Color</span>
+            </button>
+            <!-- / ADD BUTTON -->
+
+        </div>
+        <!-- / HEADER -->
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table class="product-colors-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar>
+
+                <ng-container matColumnDef="options">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
+                        <ng-container [ngSwitch]="selectedItem == item">
+                            <ng-container *ngSwitchCase="true">
+                                <button mat-icon-button color="primary" (click)="save()">
+                                    <mat-icon>save</mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <button mat-icon-button (click)="selectItem(item)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </ng-container>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+                    <mat-cell *matCellDef="let item" >
+                        <p class="text-truncate">{{item.id}}</p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <ng-container [ngSwitch]="selectedItem == item">
+
+                            <ng-container *ngSwitchCase="true">
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="Name" [value]="item.name" [(ngModel)]="item.name">
+                                </mat-form-field>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <p class="text-truncate">{{item.name}}</p>
+                            </ng-container>
+                        </ng-container>
+
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hex">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Hexagecimal Code</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <ng-container [ngSwitch]="selectedItem == item">
+                            <ng-container *ngSwitchCase="true">
+                                <mat-form-field floatLabel="never">
+                                    <input matInput placeholder="HexadecimalCode" [value]="item.hexCode" [(ngModel)]="item.hexCode">
+                                </mat-form-field>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <p class="text-truncate">{{item.hexCode}}</p>
+                            </ng-container>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="isBasicColor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Is Basic Color</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <ng-container [ngSwitch]="selectedItem == item">
+                            <ng-container *ngSwitchCase="true">
+                                <mat-checkbox [(ngModel)]="item.isBasicColor"></mat-checkbox>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <mat-checkbox [disabled]="true" [(ngModel)]="item.isBasicColor"></mat-checkbox>
+                            </ng-container>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                <mat-row *matRowDef="let item; columns: displayedColumns;"
+                         class="product-color"
+                         matRipple>
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator
+                           [length]="dataSource.filteredCount"
+                           [pageIndex]="0"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

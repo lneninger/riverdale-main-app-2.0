@@ -15,7 +15,10 @@ namespace ApplicationLogic.Business.Commands.Customer.UpdateCommand
 
         public CustomerUpdateCommandOutputDTO Execute(CustomerUpdateCommandInputDTO input)
         {
-            return this.Repository.Update(input);
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.Update(input);
+            }
         }
     }
 }

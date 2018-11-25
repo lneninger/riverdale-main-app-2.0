@@ -13,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand
         {
         }
 
-        public CustomerDeleteCommandOutputDTO Execute(int id)
+        public ProductColorDeleteCommandOutputDTO Execute(int id)
         {
             return this.Repository.Delete(id);
         }

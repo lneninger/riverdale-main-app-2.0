@@ -21,7 +21,15 @@ namespace DatabaseRepositories.DB
         {
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
-                return dbLocator.Set<ThirdPartyAppType>().Select(masterItem => new EnumItemDTO<string> {Key = masterItem.Id, Value = masterItem.Name }).ToList();
+                return dbLocator.Set<ThirdPartyAppType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name }).ToList();
+            }
+        }
+
+        public List<EnumItemDTO<string>> GetToEnumProductColorType()
+        {
+            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                return dbLocator.Set<ProductColorType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
             }
         }
     }

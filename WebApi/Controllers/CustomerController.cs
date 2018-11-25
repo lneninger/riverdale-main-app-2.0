@@ -113,7 +113,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        [HttpGet("", Name = "GetAllCustomer"), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
         public IActionResult Get()
         {
             var applicationResponse = this.GetAllCommand.Execute();
@@ -130,7 +130,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}", Name = "Get"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
+        [HttpGet("{id}", Name = "GetCustomerById"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -143,7 +143,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerDTO))]
         public IActionResult Post([FromBody]CustomerDTO model)
         {
             var input = new CustomerInsertCommandInputDTO
@@ -167,7 +167,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerDTO))]
         public void Put([FromBody]CustomerDTO model)
         {
             var input = new CustomerUpdateCommandInputDTO

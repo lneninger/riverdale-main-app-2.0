@@ -8,5 +8,7 @@ namespace ApplicationLogic.Business.Commons
     public interface IMasterDataProvider
     {
         List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
+
+        List<EnumItemDTO<string>> GetToEnumProductColorType();
     }
 }

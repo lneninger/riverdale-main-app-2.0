@@ -8,5 +8,6 @@ namespace ApplicationLogic.Repositories.DB
     public interface IMasterDBRepository
     {
         List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
+        List<EnumItemDTO<string>> GetToEnumProductColorType();
     }
 }

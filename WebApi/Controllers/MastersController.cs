@@ -62,5 +62,18 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("productcolortype")]
+        public IActionResult ProductColorType()
+        {
+            var result = this.MasterDataProvider.GetToEnumProductColorType();
+
+            return this.Ok(result);
+        }
+
     }
 }

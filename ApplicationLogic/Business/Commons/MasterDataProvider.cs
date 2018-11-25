@@ -27,5 +27,14 @@ namespace ApplicationLogic.Business.Commons
             }
 
         }
+
+        public List<EnumItemDTO<string>> GetToEnumProductColorType()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumProductColorType();
+            }
+
+        }
     }
 }

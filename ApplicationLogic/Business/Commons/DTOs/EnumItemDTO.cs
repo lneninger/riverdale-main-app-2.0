@@ -10,6 +10,6 @@ namespace ApplicationLogic.Business.Commons.DTOs
 
         public string  Value { get; set; }
 
-        public Dictionary<string, string> Extras { get; set; }
+        public Dictionary<string, object> Extras { get; set; }
     }
 }

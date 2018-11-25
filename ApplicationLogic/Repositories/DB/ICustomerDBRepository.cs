@@ -19,6 +19,6 @@ namespace FocusApplication.Repositories.DB
         CustomerGetByIdCommandOutputDTO GetById(int id);
         CustomerInsertCommandOutputDTO Insert(CustomerInsertCommandInputDTO input);
         CustomerUpdateCommandOutputDTO Update(CustomerUpdateCommandInputDTO input);
-        CustomerDeleteCommandOutputDTO Delete(int id);
+        ProductColorDeleteCommandOutputDTO Delete(int id);
     }
 }

@@ -188,6 +188,53 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileRepository","FILE");
                 });
 
+            modelBuilder.Entity("DomainModel.ProductColorType", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(3);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("HexCode")
+                        .IsRequired()
+                        .HasMaxLength(6);
+
+                    b.Property<bool>("IsBasicColor")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductColorType","CNF");
+                });
+
             modelBuilder.Entity("DomainModel.ThirdPartyAppType", b =>
                 {
                     b.Property<string>("Id")
@@ -223,8 +270,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 11, 23, 13, 56, 11, 224, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 11, 23, 13, 56, 11, 227, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 11, 25, 2, 30, 6, 430, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 11, 25, 2, 30, 6, 431, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 

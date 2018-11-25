@@ -40,6 +40,7 @@ namespace DomainDatabaseMapping
         /*********************************CRM  Master Tables**********************/
         // Config
         public DbSet<ThirdPartyAppType> ThirdPartyAppTypes { get; set; }
+        public DbSet<ProductColorType> ProductColorTypes { get; set; }
 
         // CRM
         public DbSet<Customer> Customers { get; set; }
@@ -61,6 +62,7 @@ namespace DomainDatabaseMapping
 
             // Config
             modelBuilder.ApplyConfiguration(new ThirdPartyAppTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ProductColorMap(modelBuilder));
 
             // CRM
             modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
