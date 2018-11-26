@@ -10,5 +10,9 @@ namespace ApplicationLogic.Business.Commons
         List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
 
         List<EnumItemDTO<string>> GetToEnumProductColorType();
+
+        List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType();
+
+        
     }
 }

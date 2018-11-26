@@ -75,5 +75,18 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("customerfreightoutratetype")]
+        public IActionResult CustomerFreightoutRateType()
+        {
+            var result = this.MasterDataProvider.GetToEnumCustomerFreightoutRateType();
+
+            return this.Ok(result);
+        }
+
     }
 }

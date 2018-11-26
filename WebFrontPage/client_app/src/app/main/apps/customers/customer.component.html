@@ -3,7 +3,6 @@
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
-
     <!-- CENTER -->
     <div class="center">
 
@@ -18,10 +17,13 @@
                 </button>
 
                 <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                    <img *ngIf="currentEntity.images && currentEntity.images[0]; else noImage " [src]="currentEntity.images[0].url">
-                    <ng-template #noImage>
-                        <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
-                    </ng-template>
+                    <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                        person
+                    </mat-icon>
+                    <!--<img *ngIf="currentEntity.images && currentEntity.images[0]; else noImage " [src]="currentEntity.images[0].url">
+    <ng-template #noImage>
+        <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+    </ng-template>-->
                 </div>
 
                 <div fxLayout="column" fxLayoutAlign="start start"
@@ -33,7 +35,7 @@
                         New Customer
                     </div>
                     <div class="subtitle secondary-text">
-                        <span>Notification Group Detail</span>
+                        <span>Customer Detail</span>
                     </div>
                 </div>
             </div>
@@ -54,7 +56,6 @@
             </button>
         </div>
         <!-- / HEADER -->
-
         <!-- CONTENT CARD -->
         <div class="content-card">
 
@@ -84,48 +85,140 @@
                                            formControlName="erpId"
                                            required>
                                 </mat-form-field>-->
-
-
                                 <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
 
-        <mat-label>Categories</mat-label>
+                                    <mat-label>Categories</mat-label>
 
-        <mat-chip-list #categoryList name="categories" formControlName="categories">
+                                    <mat-chip-list #categoryList name="categories" formControlName="categories">
 
-            <mat-chip *ngFor="let category of currentEntity.categories"
-                      [removable]="true" (removed)="currentEntity.removeCategory(category)">
-                {{category}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
+                                        <mat-chip *ngFor="let category of currentEntity.categories"
+                                                  [removable]="true" (removed)="currentEntity.removeCategory(category)">
+                                            {{category}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
 
-            <input [matChipInputFor]="categoryList"
-                   [matChipInputAddOnBlur]="true"
-                   (matChipInputTokenEnd)="currentEntity.addCategory($event)"/>
+                                        <input [matChipInputFor]="categoryList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="currentEntity.addCategory($event)"/>
 
-        </mat-chip-list>
+                                    </mat-chip-list>
 
-    </mat-form-field>
+                                </mat-form-field>
 
-    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
 
-        <mat-label>Tags</mat-label>
+                                    <mat-label>Tags</mat-label>
 
-        <mat-chip-list #tagList name="tags" formControlName="tags">
+                                    <mat-chip-list #tagList name="tags" formControlName="tags">
 
-            <mat-chip *ngFor="let tag of currentEntity.tags"
-                      [removable]="true" (removed)="currentEntity.removeTag(tag)">
-                {{tag}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
+                                        <mat-chip *ngFor="let tag of currentEntity.tags"
+                                                  [removable]="true" (removed)="currentEntity.removeTag(tag)">
+                                            {{tag}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
 
-            <input [matChipInputFor]="tagList"
-                   [matChipInputAddOnBlur]="true"
-                   (matChipInputTokenEnd)="currentEntity.addTag($event)"/>
+                                        <input [matChipInputFor]="tagList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="currentEntity.addTag($event)"/>
 
-        </mat-chip-list>
+                                    </mat-chip-list>
 
-    </mat-form-field>-->
+                                </mat-form-field>-->
 
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Delivery">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <div fxLayout="column" fxLayoutGap="20px">
+                                    <div class="fuse-card auto-width">
+                                        <div class="position-relative p-24"
+                                             fxLayout="column" fxLayoutAlign="start start">
+                                            <div class="p-16 pt-0">
+                                                <div class="h1">Delivery</div>
+                                                <div class="h4 secondary-text">Delivery settings</div>
+                                            </div>
+
+                                            <div fxLayout="row" fxLayoutGap="20px">
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"
+                                                           name="name"
+                                                           formControlName="name"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"
+                                                           name="name"
+                                                           formControlName="name"
+                                                           required>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="fuse-card auto-width" [formGroup]="frmFreightout">
+                                        <div class="position-relative p-24"
+                                             fxLayout="column" fxLayoutAlign="start start">
+                                            <div class="p-16 pt-0">
+                                                <div class="h1">Freightout</div>
+                                                <div class="h4 secondary-text">Freightout settings</div>
+                                            </div>
+
+                                            <div fxLayout="row" fxLayoutGap="20px">
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Cost</mat-label>
+                                                    <input matInput placeholder="Cost"
+                                                           name="cost"
+                                                           formControlName="cost"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>WProtect</mat-label>
+                                                    <input matInput placeholder="WProtect"
+                                                           name="wProtect"
+                                                           formControlName="wProtect"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Surcharge (Hourly)</mat-label>
+                                                    <input matInput placeholder="Surcharge"
+                                                           name="surchargeHourly"
+                                                           formControlName="surchargeHourly"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Surcharge (Yearly)</mat-label>
+                                                    <input matInput placeholder="Surcharge"
+                                                           name="surchargeYearly"
+                                                           formControlName="surchargeYearly"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Begin Date</mat-label>
+                                                    <input matInput placeholder="Begin Date" [matDatepicker]="dateBegin"
+                                                           name="dateBegin"
+                                                           formControlName="dateBegin"
+                                                           required>
+                                                    <mat-datepicker-toggle matSuffix [for]="dateBegin"></mat-datepicker-toggle>
+                                                    <mat-datepicker #dateBegin></mat-datepicker>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>End Date</mat-label>
+                                                    <input matInput placeholder="End Date" [matDatepicker]="dateEnd"
+                                                           name="dateEnd"
+                                                           formControlName="dateEnd"
+                                                           required>
+                                                    <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                                                    <mat-datepicker #dateEnd></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </mat-tab>

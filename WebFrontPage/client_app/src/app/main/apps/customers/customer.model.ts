@@ -9,22 +9,46 @@ export class CustomerGrid {
 }
 
 
-export class Customer
-{
+export class Customer {
     id: string;
     name: string;
-    //erpId: string;
+    freightout: Freightout
 
     /**
      * Constructor
      *
      * @param customer
      */
-    constructor(customer?)
-    {
+    constructor(customer?) {
         customer = customer || {};
         this.id = customer.id;
         this.name = customer.name;
-        //this.erpId = customer.erpId;
+    }
+}
+
+
+
+export class Freightout {
+   
+    id: number;
+    customerId: number;
+    rateType: string;
+    cost: number;
+    wProtect: number;
+    secondLeg: number;
+    surchargeHourly: number;
+    surchargeYearly: number;
+    dateBegin: Date;
+    dateEnd: Date;
+
+
+    constructor(freightout?) {
+        freightout = freightout || {};
+        this.id = freightout.id;
+        this.customerId = freightout.customerId;
+        this.cost = freightout.cost;
+        this.wProtect = freightout.wProtect;
+        this.dateBegin = freightout.dateBegin;
+        this.dateEnd = freightout.dateEnd;
     }
 }

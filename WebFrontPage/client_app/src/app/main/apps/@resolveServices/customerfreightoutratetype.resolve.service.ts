@@ -6,9 +6,9 @@ import { environment } from 'environments/environment';
 
 
 @Injectable()
-export class ThirdPartyAppTypeResolveService implements Resolve<any> {
+export class CustomerFreightoutRateTypeResolveService implements Resolve<any> {
     list: any[];
-    endpoint = `${environment.appApi.apiBaseUrl}masters/thirdpartyapptype`;
+    endpoint = `${environment.appApi.apiBaseUrl}masters/customerfreightoutratetype`;
 
     constructor(private http: HttpClient) { }
 

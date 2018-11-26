@@ -52,6 +52,8 @@ namespace DomainDatabaseMapping
         // Commons
         public DbSet<FileRepository> FileRepositories { get; set; }
 
+        // Quote
+        public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,6 +75,9 @@ namespace DomainDatabaseMapping
 
             // Commons
             modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
+
+            // Quote
+            modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
 
         }
 

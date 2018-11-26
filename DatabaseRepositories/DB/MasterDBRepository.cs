@@ -32,5 +32,13 @@ namespace DatabaseRepositories.DB
                 return dbLocator.Set<ProductColorType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
             }
         }
+
+        public List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType()
+        {
+            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                return dbLocator.Set<CustomerFreightoutRateType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
+            }
+        }
     }
 }

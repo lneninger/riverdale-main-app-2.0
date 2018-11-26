@@ -11,7 +11,7 @@ import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
     MatButtonModule, MatChipsModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatSelectModule, MatSnackBarModule,
     MatSortModule,
-    MatTableModule, MatTabsModule, MatDialog, MatDialogModule
+    MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
 import { ThirdPartyAppTypeResolveService } from '../@resolveServices/resolve.module';
 
@@ -63,6 +63,7 @@ const routes: Routes = [
         , MatTabsModule
         , MatDialogModule
         , MatSnackBarModule
+        , MatDatepickerModule
         , FuseSharedModule
 
         , CustomerCoreModule

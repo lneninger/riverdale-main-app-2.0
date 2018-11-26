@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Customer } from './customer.model';
+import { Customer, Freightout } from './customer.model';
 import { CustomerService } from './customer.service';
 
 @Component({
@@ -24,6 +24,7 @@ export class CustomerComponent implements OnInit, OnDestroy
     currentEntity: Customer;
     pageType: string;
     frmMain: FormGroup;
+    frmFreightout: FormGroup;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -78,7 +79,8 @@ export class CustomerComponent implements OnInit, OnDestroy
                     this.currentEntity = new Customer();
                 }
 
-                this.frmMain = this.createForm();
+                this.frmMain = this.createFormBasicInfo();
+                this.frmFreightout = this.createFormFreightout();
             });
     }
 
@@ -101,12 +103,26 @@ export class CustomerComponent implements OnInit, OnDestroy
      *
      * @returns {FormGroup}
      */
-    createForm(): FormGroup
+    createFormBasicInfo(): FormGroup
     {
         return this._formBuilder.group({
             id            : [this.currentEntity.id],
             name            : [this.currentEntity.name],
         });
+    }
+
+    createFormFreightout() {
+        let freightout = this.currentEntity.freightout || <Freightout>{};
+        return this._formBuilder.group({
+            id: [this.currentEntity.id],
+            cost: [freightout.cost],
+            wProtect: [freightout.wProtect],
+            surchargeYearly: [freightout.surchargeYearly],
+            surchargeHourly: [freightout.surchargeHourly],
+            dateBegin: [freightout.dateBegin],
+            dateEnd: [freightout.dateEnd],
+        });
+        
     }
 
     /**

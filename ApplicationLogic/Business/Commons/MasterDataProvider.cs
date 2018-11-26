@@ -36,5 +36,13 @@ namespace ApplicationLogic.Business.Commons
             }
 
         }
+
+        public List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumCustomerFreightoutRateType();
+            }
+        }
     }
 }
