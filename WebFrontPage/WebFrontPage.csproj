@@ -17,6 +17,7 @@
     <None Remove="client_app\src\app\main\apps\%40hipalanetCommons\datatable\datasource.abstract.class.ts" />
     <None Remove="client_app\src\app\main\apps\%40hipalanetCommons\datatable\datatable.abstract.service.ts" />
     <None Remove="client_app\src\app\main\apps\%40hipalanetCommons\datatable\model.ts" />
+    <None Remove="client_app\src\app\main\apps\%40resolveServices\resolve.model.ts" />
     <None Remove="client_app\src\app\main\apps\%40resolveServices\resolve.module.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\productcolortype.resolve.service.ts" />
@@ -37,6 +38,7 @@
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\thirdpartyapptype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\productcolortype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\customerfreightoutratetype.resolve.service.ts" />
+    <TypeScriptCompile Include="client_app\src\app\main\apps\@resolveServices\resolve.model.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customers\customer.core.module.ts" />
   </ItemGroup>

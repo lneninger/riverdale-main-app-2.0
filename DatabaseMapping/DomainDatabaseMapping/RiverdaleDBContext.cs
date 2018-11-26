@@ -54,6 +54,7 @@ namespace DomainDatabaseMapping
 
         // Quote
         public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
+        public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -78,9 +79,10 @@ namespace DomainDatabaseMapping
 
             // Quote
             modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
-
-        }
-
+            modelBuilder.ApplyConfiguration(new CustomerFreightoutMap(modelBuilder));
 
     }
+
+
+}
 }

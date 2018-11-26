@@ -21,5 +21,6 @@ namespace DomainModel
 
         public bool? IsDeleted { get; set; }
         public IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
+        public IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
     }
 }

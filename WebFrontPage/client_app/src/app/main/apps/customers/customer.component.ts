@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
@@ -10,6 +11,7 @@ import { FuseUtils } from '@fuse/utils';
 
 import { Customer, Freightout } from './customer.model';
 import { CustomerService } from './customer.service';
+import { EnumItem } from '../@resolveServices/resolve.model';
 
 @Component({
     selector: 'customer',
@@ -20,6 +22,10 @@ import { CustomerService } from './customer.service';
 })
 export class CustomerComponent implements OnInit, OnDestroy
 {
+    // Resolve
+    listCustomerFreightoutRateType: EnumItem<string>[];
+    listThirdParty: EnumItem<string>[];
+
     id: string;
     currentEntity: Customer;
     pageType: string;
@@ -38,10 +44,11 @@ export class CustomerComponent implements OnInit, OnDestroy
      * @param {MatSnackBar} _matSnackBar
      */
     constructor(
-        private _service: CustomerService ,
-        private _formBuilder: FormBuilder,
-        private _location: Location,
-        private _matSnackBar: MatSnackBar
+        private route: ActivatedRoute
+        , private _service: CustomerService
+        , private _formBuilder: FormBuilder
+        , private _location: Location
+        , private _matSnackBar: MatSnackBar
     )
     {
         // Set the default
@@ -60,6 +67,10 @@ export class CustomerComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        // Resolve
+        this.listCustomerFreightoutRateType = this.route.snapshot.data['listCustomerFreightoutRateType'];
+        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
+
         // Subscribe to update product on changes
         this._service.onCurrentEntityChanged
             .pipe(takeUntil(this._unsubscribeAll))

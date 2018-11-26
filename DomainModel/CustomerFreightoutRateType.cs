@@ -11,5 +11,6 @@ namespace DomainModel
         public string Name { get; set; }
 
         public string Description { get; set; }
+        public IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
     }
 }
