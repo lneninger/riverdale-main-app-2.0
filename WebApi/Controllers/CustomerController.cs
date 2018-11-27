@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CommunicationModel;
-using FizzWare.NBuilder;
+﻿using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
+using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
 using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
 using ApplicationLogic.Business.Commands.Customer.InsertCommand;
 using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
+using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Interfaces;
-//using FizzWare.NBuilder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
+using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
+//using FizzWare.NBuilder;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -143,39 +138,22 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerDTO))]
-        public IActionResult Post([FromBody]CustomerDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
+        public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
         {
-            var input = new CustomerInsertCommandInputDTO
-            {
-                Name = model.Name,
-                //ERPId = model.ERPId
-            };
-
-            var appResult = this.InsertCommand.Execute(input);
-            var result = new CustomerDTO
-            {
-                Id = appResult.Id,
-                Name = appResult.Name,
-                //ERPId = appResult.ERPId
-            };
-
-            return this.Ok(result);
+            var appResult = this.InsertCommand.Execute(model);
+            return this.Ok(appResult);
         }
 
         /// <summary>
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerDTO))]
-        public void Put([FromBody]CustomerDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
+        public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
         {
-            var input = new CustomerUpdateCommandInputDTO
-            {
-
-            };
-
-            this.UpdateCommand.Execute(input);
+            var appResult = this.UpdateCommand.Execute(model);
+            return this.Ok(appResult);
         }
 
         /// <summary>
@@ -183,17 +161,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDTO))]
-        public CustomerDTO Delete(int id)
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDeleteCommandOutputDTO))]
+        public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
-
-            var result = new CustomerDTO
-            {
-
-            };
-
-            return result;
+            return this.Ok(appResult);
         }
+        
     }
 }

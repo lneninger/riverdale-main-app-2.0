@@ -36,7 +36,6 @@ namespace FocusRepositories.DB
                 {
                     Id = entityItem.Id,
                     Name = entityItem.Name,
-                    //ERPId = entityItem.ERPId,
                     CreatedAt = entityItem.CreatedAt
 
                 }).ToList();
@@ -62,7 +61,6 @@ namespace FocusRepositories.DB
 
 
                 var advancedSorting = new List<SortItem<Customer>>();
-                //var advancedSorting = new List<Expression<Func<Customer, object>>>();
                 Expression<Func<Customer, object>> expression;
                 if (input.Sort.ContainsKey("erpId"))
                 {
@@ -75,7 +73,6 @@ namespace FocusRepositories.DB
                 var result = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO
                 {
                     Id = o.Id,
-                    //ERPId = o.ERPId,
                     Name = o.Name,
                     ERPId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.BusinessERP).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
                     SalesforceId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.Salesforce).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
@@ -109,7 +106,6 @@ namespace FocusRepositories.DB
             var entity = new Customer
             {
                 Name = input.Name,
-                //ERPId = input.ERPId,
             };
 
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
@@ -121,7 +117,6 @@ namespace FocusRepositories.DB
                 {
                     Id = o.Id,
                     Name = o.Name
-                    //ERPId = o.ERPId
                 }).FirstOrDefault();
 
                 return result;
@@ -137,7 +132,6 @@ namespace FocusRepositories.DB
                 if (entity != null)
                 {
                     entity.Name = input.Name;
-                    //entity.ERPId = input.ERPId;
                 }
 
                 dbLocator.SaveChanges();
@@ -147,14 +141,13 @@ namespace FocusRepositories.DB
                 {
                     Id = o.Id,
                     Name = o.Name
-                    //ERPId = o.ERPId
                 }).FirstOrDefault();
 
                 return result;
             }
         }
 
-        public ProductColorDeleteCommandOutputDTO Delete(int id)
+        public CustomerDeleteCommandOutputDTO Delete(int id)
         {
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
@@ -164,11 +157,10 @@ namespace FocusRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new ProductColorDeleteCommandOutputDTO
+                    var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         Name = o.Name
-                        //ERPId = o.ERPId
                     }).FirstOrDefault();
 
                     return result;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DomainModel
 {
-    public class CustomerThirdPartyAppSetting : AbstractBaseEntity
+    public class CustomerThirdPartyAppSetting : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
 
@@ -33,5 +33,9 @@ namespace DomainModel
         }
 
         public string ThirdPartyCustomerId { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
+
+        public bool? IsDeleted { get; set; }
     }
 }

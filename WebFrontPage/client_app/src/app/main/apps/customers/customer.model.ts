@@ -1,20 +1,10 @@
-import { MatChipInputEvent } from '@angular/material';
-
-import { FuseUtils } from '@fuse/utils';
+import { ThirdPartyGrid } from "../customerthirpartyappsetting/customerthirdpartyappsetting.model";
 
 export class CustomerGrid {
     id: number;
     erpId: string;
     name: string;
 }
-
-export class ThirdPartyGrid {
-    id: number;
-    customerId: number
-    thirdPartyAppTypeId: string;
-    customerThirdPartyId: string;
-}
-
 
 export class Customer {
     id: string;

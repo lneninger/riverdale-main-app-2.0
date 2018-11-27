@@ -40,5 +40,13 @@ namespace DatabaseRepositories.DB
                 return dbLocator.Set<CustomerFreightoutRateType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
             }
         }
+
+        public List<EnumItemDTO<int>> GetToEnumCustomer()
+        {
+            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                return dbLocator.Set<Customer>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
+            }
+        }
     }
 }

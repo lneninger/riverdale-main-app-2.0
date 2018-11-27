@@ -13,6 +13,6 @@ namespace ApplicationLogic.Business.Commons
 
         List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType();
 
-        
+        List<EnumItemDTO<int>> GetToEnumCustomer();
     }
 }

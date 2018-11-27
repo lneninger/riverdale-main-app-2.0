@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand
 {
-    public interface ICustomerDeleteCommand: ICommandFunc<int, ProductColorDeleteCommandOutputDTO>
+    public interface ICustomerDeleteCommand: ICommandFunc<int, CustomerDeleteCommandOutputDTO>
     {
     }
 }

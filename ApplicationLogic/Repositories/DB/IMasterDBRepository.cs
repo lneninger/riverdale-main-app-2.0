@@ -12,5 +12,7 @@ namespace ApplicationLogic.Repositories.DB
         List<EnumItemDTO<string>> GetToEnumProductColorType();
 
         List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType();
+
+        List<EnumItemDTO<int>> GetToEnumCustomer();
     }
 }

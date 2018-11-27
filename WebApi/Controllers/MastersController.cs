@@ -88,5 +88,14 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("customer")]
+        public IActionResult Customer()
+        {
+            var result = this.MasterDataProvider.GetToEnumCustomer();
+
+            return this.Ok(result);
+        }
+
     }
 }
