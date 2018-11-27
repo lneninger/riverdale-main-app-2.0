@@ -14,6 +14,7 @@ import {
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
 import { ThirdPartyAppTypeResolveService, CustomerFreightoutRateTypeResolveService } from '../@resolveServices/resolve.module';
+import { CustomerThirdPartyAppSettingCoreModule  } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module';
 
 const routes: Routes = [
     {
@@ -68,6 +69,7 @@ const routes: Routes = [
         , FuseSharedModule
 
         , CustomerCoreModule
+        , CustomerThirdPartyAppSettingCoreModule
     ],
     providers: [
         //CustomersService

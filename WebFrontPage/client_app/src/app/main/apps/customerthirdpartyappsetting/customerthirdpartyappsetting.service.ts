@@ -12,7 +12,7 @@ import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { ThirdPartyGrid } from './customerthirdpartyappsetting.model';
 
 @Injectable()
-export class CustomerService implements Resolve<any>, IPageQueryService {
+export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQueryService {
     routeParams: any;
     currentEntity: any;
     onCurrentEntityChanged: BehaviorSubject<any>;
@@ -91,15 +91,6 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${environment.appApi.apiBaseUrl}customerthirdpartyappsetting`, entity).subscribe((res: any) => {
-                resolve(res);
-            });
-
-        });
-    }
-
-    update(entity): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}customerthirdpartyappsetting`, entity).subscribe((res: any) => {
                 resolve(res);
             });
 
