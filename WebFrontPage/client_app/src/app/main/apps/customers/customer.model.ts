@@ -8,11 +8,19 @@ export class CustomerGrid {
     name: string;
 }
 
+export class ThirdPartyGrid {
+    id: number;
+    customerId: number
+    thirdPartyAppTypeId: string;
+    customerThirdPartyId: string;
+}
+
 
 export class Customer {
     id: string;
     name: string;
     freightout: Freightout
+    thirdPartySettings: ThirdPartyGrid[]
 
     /**
      * Constructor

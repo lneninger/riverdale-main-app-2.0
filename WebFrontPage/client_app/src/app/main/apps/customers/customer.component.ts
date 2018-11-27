@@ -1,17 +1,19 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatSort, MatTable } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Customer, Freightout } from './customer.model';
+import { Customer, Freightout, ThirdPartyGrid } from './customer.model';
 import { CustomerService } from './customer.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
+import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
+import { DataSource } from '@angular/cdk/table';
 
 @Component({
     selector: 'customer',
@@ -29,9 +31,14 @@ export class CustomerComponent implements OnInit, OnDestroy
     id: string;
     currentEntity: Customer;
     pageType: string;
+    displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyCustomerId'];
+
     frmMain: FormGroup;
     frmFreightout: FormGroup;
 
+
+    @ViewChild('tableThirdParty')
+    tableThirdParty: MatTable;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -45,7 +52,7 @@ export class CustomerComponent implements OnInit, OnDestroy
      */
     constructor(
         private route: ActivatedRoute
-        , private _service: CustomerService
+        , private service: CustomerService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -72,7 +79,7 @@ export class CustomerComponent implements OnInit, OnDestroy
         this.listThirdParty = this.route.snapshot.data['listThirdParty'];
 
         // Subscribe to update product on changes
-        this._service.onCurrentEntityChanged
+        this.service.onCurrentEntityChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(dataResponse => {
 
@@ -144,11 +151,11 @@ export class CustomerComponent implements OnInit, OnDestroy
         const data = this.frmMain.getRawValue();
         data.handle = FuseUtils.handleize(data.name);
 
-        this._service.save(this.id, data)
+        this.service.save(this.id, data)
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._service.onCurrentEntityChanged.next(data);
+                this.service.onCurrentEntityChanged.next(data);
 
                 // Show the success message
                 this._matSnackBar.open('Customer saved', 'OK', {
@@ -166,11 +173,11 @@ export class CustomerComponent implements OnInit, OnDestroy
         const data = this.frmMain.getRawValue();
         data.handle = FuseUtils.handleize(data.name);
 
-        this._service.add(data)
+        this.service.add(data)
             .then(() => {
 
                 // Trigger the subscription with new data
-                this._service.onCurrentEntityChanged.next(data);
+                this.service.onCurrentEntityChanged.next(data);
 
                 // Show the success message
                 this._matSnackBar.open('Notification Group added', 'OK', {
@@ -182,4 +189,30 @@ export class CustomerComponent implements OnInit, OnDestroy
                 this._location.go('apps/customers/' + this.currentEntity.id );
             });
     }
+
+    getThirdPartyAppType(id: string) {
+        return this.listThirdParty.find(o => o.key == id);
+
+    }
+
+    selectedItem: ThirdPartyGrid;
+    selectItem(item: ThirdPartyGrid) {
+        this.selectedItem = item;
+    }
+
+    addThirdPartyItem() {
+        let item = new ThirdPartyGrid();
+        this.currentEntity.thirdPartySettings.push(item);
+        this.selectItem(item);
+        this.tableThirdParty.renderRows();
+    }
+
+    saveThirdPartyItem(item) {
+        this.service.addThirdPartyCustomer(item);
+    }
+
+    cancelThirdPartyItemEdition() {
+        this.selectedItem = null;
+    }
 }
+
