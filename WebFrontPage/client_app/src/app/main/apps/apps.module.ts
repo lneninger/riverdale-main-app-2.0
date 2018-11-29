@@ -69,6 +69,7 @@ const routes = [
     }
 ];
 
+
 @NgModule({
     imports     : [
         RouterModule.forChild(routes)
