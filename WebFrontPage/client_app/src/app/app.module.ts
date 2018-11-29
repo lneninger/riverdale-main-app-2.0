@@ -30,7 +30,6 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 
 
-
 const appRoutes: Routes = [
     {
         path        : 'apps',

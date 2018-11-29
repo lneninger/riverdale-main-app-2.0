@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
+using ApplicationLogic.SignalR;
 
 namespace RiverdaleMainApp2_0
 {
@@ -65,10 +66,12 @@ namespace RiverdaleMainApp2_0
 
             services.AddCors(builder =>
             {
-               
+
                 //options.AddPolicy("AllowSpecificOrigin",
                 //    builder => builder.WithOrigins("http://example.com"));
             });
+
+            services.AddSignalR();
 
             return IoCConfig.Init(Configuration, services);
         }
@@ -94,8 +97,12 @@ namespace RiverdaleMainApp2_0
                 .AllowAnyMethod()
            );
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<GlobalHub>("/hub");
+            });
 
-             app.UseTempFileMiddleware();
+            app.UseTempFileMiddleware();
 
             app.UseStaticFiles();
             //app.UseCookiePolicy();

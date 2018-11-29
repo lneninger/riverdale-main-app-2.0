@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { HiPalanetResolveModule } from './@resolveServices/resolve.module';
+import { CustomSignalRModule } from './@hipalanetCommons/signalr/signalr.module'
 
 const routes = [
     {
@@ -73,6 +74,7 @@ const routes = [
         RouterModule.forChild(routes)
         , FuseSharedModule
         , HiPalanetResolveModule
+        , CustomSignalRModule
     ]
 })
 export class AppsModule
