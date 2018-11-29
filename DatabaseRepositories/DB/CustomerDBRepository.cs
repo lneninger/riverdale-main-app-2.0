@@ -95,8 +95,19 @@ namespace FocusRepositories.DB
                     ThirdPartySettings = entityItem.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO {
                         Id = third.Id,
                         ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
-                        ThirdPartyAppCustomerId = third.ThirdPartyCustomerId
-                    })
+                        ThirdPartyCustomerId = third.ThirdPartyCustomerId
+                    }),
+                    Freightout = entityItem.CustomerFreightouts.Select(freightoutItem => new CustomerGetByIdCommandOutputFreightoutDTO {
+                        Id = freightoutItem.Id,
+                        Cost = freightoutItem.Cost,
+                        SecondLeg = freightoutItem.SecondLeg,
+                        SurchargeHourly = freightoutItem.SurchargeHourly,
+                        SurchargeYearly = freightoutItem.SurchargeYearly,
+                        WProtect = freightoutItem.WProtect,
+                        DateFrom = freightoutItem.DateFrom,
+                        DateTo = freightoutItem.DateTo,
+
+                    }).FirstOrDefault()
                 }).FirstOrDefault();
             }
         }

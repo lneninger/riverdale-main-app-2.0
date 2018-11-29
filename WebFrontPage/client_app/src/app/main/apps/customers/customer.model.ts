@@ -1,4 +1,4 @@
-import { ThirdPartyGrid } from "../customerthirpartyappsetting/customerthirdpartyappsetting.model";
+import { ThirdPartyGrid } from "../customerthirdpartyappsetting/customerthirdpartyappsetting.model";
 
 export class CustomerGrid {
     id: number;
@@ -7,7 +7,7 @@ export class CustomerGrid {
 }
 
 export class Customer {
-    id: string;
+    id: number;
     name: string;
     freightout: Freightout
     thirdPartySettings: ThirdPartyGrid[]

@@ -68,22 +68,9 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
         });
     }
 
-    /**
-     * Save product
-     *
-     * @param product
-     * @returns {Promise<any>}
-     */
-    save(id, entity): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}customerthirdpartyappsetting`, entity).subscribe((res: any) => {
-                resolve(res);
-            });
-        });
-    }
 
     /**
-     * Add product
+     * Add Customer Third Party App Setting
      *
      * @param product
      * @returns {Promise<any>}
@@ -96,6 +83,21 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
 
         });
     }
+
+    /**
+     * Save Customer Third Party App Setting
+     *
+     * @param product
+     * @returns {Promise<any>}
+     */
+    update(entity): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${environment.appApi.apiBaseUrl}customerthirdpartyappsetting`, entity).subscribe((res: any) => {
+                resolve(res);
+            });
+        });
+    }
+
 
     delete(entity): Promise<any> {
         return new Promise((resolve, reject) => {

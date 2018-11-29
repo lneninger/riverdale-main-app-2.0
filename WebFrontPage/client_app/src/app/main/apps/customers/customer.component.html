@@ -62,7 +62,7 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <form name="frmMain" [formGroup]="frmMain" class="product w-100-p" fxLayout="column" fxFlex>
+                <form name="frmMain" class="product w-100-p" fxLayout="column" fxFlex>
 
                     <mat-tab-group>
 
@@ -70,15 +70,17 @@
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>Name</mat-label>
-                                    <input matInput placeholder="Name"
-                                           name="name"
-                                           formControlName="name"
-                                           required>
-                                </mat-form-field>
+                                <div [formGroup]="frmMain">
+                                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Name"
+                                               name="name"
+                                               formControlName="name"
+                                               required>
+                                    </mat-form-field>
+                                </div>
 
-                                <div class="fuse-card auto-width" [formGroup]="frmFreightout">
+                                <div class="fuse-card auto-width" >
                                     <div class="position-relative p-24"
                                          fxLayout="column" fxLayoutAlign="start stretch">
                                         <div class="p-16 pt-0">
@@ -87,21 +89,21 @@
                                         </div>
                                         <div fxLayout="row" fxLayoutAlign="start stretch">
                                             <mat-table class="customer-thirdparty-table"
-                                                       #tableThirdParty [dataSource]="currentEntity.thirdPartySettings"
+                                                       #tableThirdParty [dataSource]="thirdPartySettings"
                                                        matSort
                                                        [@animateStagger]="{value:'50'}"
                                                        fusePerfectScrollbar>
 
                                                 <ng-container matColumnDef="options">
                                                     <mat-header-cell *matHeaderCellDef>
-                                                        <button mat-icon-button (click)="addThirdPartyItem()" [style.visibility]="currentEntity.thirdPartySettings.length == 0 ? 'visible' : 'hidden'">
+                                                        <button mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="thirdPartySettings.length == 0 ? 'visible' : 'hidden'">
                                                             <mat-icon>add_circle_outline</mat-icon>
                                                         </button>
                                                     </mat-header-cell>
                                                     <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
                                                         <ng-container [ngSwitch]="selectedItem == item">
                                                             <ng-container *ngSwitchCase="true">
-                                                                <button type="button" mat-icon-button color="primary" (click)="save()">
+                                                                <button type="button" mat-icon-button color="primary" (click)="saveThirdPartyItem()">
                                                                     <mat-icon>save</mat-icon>
                                                                 </button>
                                                                 <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition()">
@@ -112,7 +114,7 @@
                                                                 <button type="button" mat-icon-button (click)="selectItem(item)">
                                                                     <mat-icon>edit</mat-icon>
                                                                 </button>
-                                                                <button type="button" mat-icon-button (click)="addThirdPartyItem()" [style.visibility]="i == currentEntity.thirdPartySettings.length-1 ? 'visible' : 'hidden'">
+                                                                <button type="button" mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="i == thirdPartySettings.length-1 ? 'visible' : 'hidden'">
                                                                     <mat-icon>add_circle_outline</mat-icon>
                                                                 </button>
                                                                 <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition(item)">
@@ -131,7 +133,7 @@
 
                                                             <ng-container *ngSwitchCase="true">
                                                                 <mat-form-field floatLabel="never">
-                                                                    <mat-select placeholder="Third Party" [value]="item.thirdPartyAppTypeId">
+                                                                    <mat-select placeholder="Third Party" name="thirdPartyAppTypeId" [(value)]="item.thirdPartyAppTypeId" [(ngModel)]="item.thirdPartyAppTypeId">
                                                                         <mat-option *ngFor="let item of listThirdParty" [value]="item.key">
                                                                             {{item.value}}
                                                                         </mat-option>
@@ -151,11 +153,11 @@
                                                         <ng-container [ngSwitch]="selectedItem == item">
                                                             <ng-container *ngSwitchCase="true">
                                                                 <mat-form-field floatLabel="never">
-                                                                    <input matInput placeholder="" [value]="item.thirdPartyAppCustomerId" [(ngModel)]="item.thirdPartyAppCustomerId">
+                                                                    <input matInput placeholder="" name="thirdPartyCustomerId" [(ngModel)]="item.thirdPartyCustomerId">
                                                                 </mat-form-field>
                                                             </ng-container>
                                                             <ng-container *ngSwitchDefault>
-                                                                <p class="text-truncate">{{item.thirdPartyAppCustomerId}}</p>
+                                                                <p class="text-truncate">{{item.thirdPartyCustomerId}}</p>
                                                             </ng-container>
                                                         </ng-container>
                                                     </mat-cell>
@@ -266,36 +268,36 @@
                                                 <div class="h4 secondary-text">Freightout settings</div>
                                             </div>
 
-                                            <div fxLayout="row" fxLayoutGap="20px">
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                            <div fxLayout="row wrap" fxLayoutGap="20px">
+                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Cost</mat-label>
                                                     <input matInput placeholder="Cost"
                                                            name="cost"
                                                            formControlName="cost"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>WProtect</mat-label>
                                                     <input matInput placeholder="WProtect"
                                                            name="wProtect"
                                                            formControlName="wProtect"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Surcharge (Hourly)</mat-label>
                                                     <input matInput placeholder="Surcharge"
                                                            name="surchargeHourly"
                                                            formControlName="surchargeHourly"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Surcharge (Yearly)</mat-label>
                                                     <input matInput placeholder="Surcharge"
                                                            name="surchargeYearly"
                                                            formControlName="surchargeYearly"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Begin Date</mat-label>
                                                     <input matInput placeholder="Begin Date" [matDatepicker]="dateBegin"
                                                            name="dateBegin"
@@ -304,7 +306,7 @@
                                                     <mat-datepicker-toggle matSuffix [for]="dateBegin"></mat-datepicker-toggle>
                                                     <mat-datepicker #dateBegin></mat-datepicker>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>End Date</mat-label>
                                                     <input matInput placeholder="End Date" [matDatepicker]="dateEnd"
                                                            name="dateEnd"

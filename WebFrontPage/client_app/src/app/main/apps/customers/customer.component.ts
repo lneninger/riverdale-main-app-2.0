@@ -1,3 +1,4 @@
+/// <reference path="../customerthirdpartyappsetting/customerthirdpartyappsetting.service.ts" />
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -9,11 +10,13 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Customer, Freightout, ThirdPartyGrid } from './customer.model';
+import { Customer, Freightout } from './customer.model';
+import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
 import { CustomerService } from './customer.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
+import { CustomerThirdPartyAppSettingService } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.service';
 
 @Component({
     selector: 'customer',
@@ -30,6 +33,8 @@ export class CustomerComponent implements OnInit, OnDestroy
 
     id: string;
     currentEntity: Customer;
+    thirdPartySettings: ThirdPartyGrid[];
+
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyCustomerId'];
 
@@ -38,7 +43,7 @@ export class CustomerComponent implements OnInit, OnDestroy
 
 
     @ViewChild('tableThirdParty')
-    tableThirdParty: MatTable;
+    tableThirdParty: MatTable<ThirdPartyGrid>;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -53,6 +58,7 @@ export class CustomerComponent implements OnInit, OnDestroy
     constructor(
         private route: ActivatedRoute
         , private service: CustomerService
+        , private serviceThirdParty: CustomerThirdPartyAppSettingService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -88,7 +94,8 @@ export class CustomerComponent implements OnInit, OnDestroy
                 let currentEntity = dataResponse;
                 if ( currentEntity )
                 {
-                    this.currentEntity = currentEntity; //new Product(product);
+                    this.currentEntity = new Customer(currentEntity);
+                    this.thirdPartySettings = (currentEntity.thirdPartySettings || []).map(item => new ThirdPartyGrid(item));
                     this.pageType = 'edit';
                 }
                 else
@@ -180,7 +187,7 @@ export class CustomerComponent implements OnInit, OnDestroy
                 this.service.onCurrentEntityChanged.next(data);
 
                 // Show the success message
-                this._matSnackBar.open('Notification Group added', 'OK', {
+                this._matSnackBar.open('Customer saved', 'OK', {
                     verticalPosition: 'top',
                     duration        : 2000
                 });
@@ -200,15 +207,50 @@ export class CustomerComponent implements OnInit, OnDestroy
         this.selectedItem = item;
     }
 
-    addThirdPartyItem() {
-        let item = new ThirdPartyGrid();
-        this.currentEntity.thirdPartySettings.push(item);
+    newThirdPartyItem() {
+        let item = new ThirdPartyGrid({ customerId: this.currentEntity.id });
+        this.thirdPartySettings.push(item);
         this.selectItem(item);
         this.tableThirdParty.renderRows();
     }
 
-    saveThirdPartyItem(item) {
-        this.service.addThirdPartyCustomer(item);
+    saveThirdPartyItem() {
+        debugger;
+        (this.selectedItem && this.selectedItem.id) ? this.updateThirdPartyItem(this.selectedItem) : this.addThirdPartyItem(this.selectedItem);
+    }
+
+    addThirdPartyItem(item) {
+        debugger;
+        this.serviceThirdParty.add(item).then(res => {
+            this.thirdPartySettings.push(<ThirdPartyGrid>res);
+
+            this._matSnackBar.open('New Customer Third Party Settings saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedItem = null;
+        });
+
+    }
+
+    updateThirdPartyItem(item: ThirdPartyGrid) {
+        this.serviceThirdParty.update(item).then(res => {
+
+            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
+            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.thirdPartySettings.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('Customer Third Party Settings saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedItem = null;
+
+        });
     }
 
     cancelThirdPartyItemEdition() {

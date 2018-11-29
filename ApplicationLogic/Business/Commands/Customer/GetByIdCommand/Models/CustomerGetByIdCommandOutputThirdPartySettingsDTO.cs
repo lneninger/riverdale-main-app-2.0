@@ -8,6 +8,6 @@ namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models
     {
         public int Id { get; set; }
         public string ThirdPartyAppTypeId { get; set; }
-        public string ThirdPartyAppCustomerId { get; set; }
+        public string ThirdPartyCustomerId { get; set; }
     }
 }

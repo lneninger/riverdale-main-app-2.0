@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { ThirdPartyGrid } from './customer.model';
+import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
 
 @Injectable()
 export class CustomerService implements Resolve<any>, IPageQueryService {
