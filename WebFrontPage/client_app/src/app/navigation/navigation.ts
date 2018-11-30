@@ -29,6 +29,7 @@ export const navigation: FuseNavigation[] = [
                     }
                 ]
             },
+            
             {
                 id: 'Recipes',
                 title: 'Recipes',
@@ -38,6 +39,14 @@ export const navigation: FuseNavigation[] = [
                 children: [
 
                 ]
+            },
+            {
+                id: '',
+                title: 'Opportunities',
+                translate: 'NAV.OPPORTUNITIES',
+                type: 'item',
+                icon: 'local_florist',
+                url: '/apps/opportunities'
             },
             {
                 id: '',

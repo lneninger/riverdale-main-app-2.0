@@ -136,7 +136,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
     createFormFreightout() {
-        debugger;
+        //debugger;
         let freightout = this.freightout || <CustomerFreightout>{};
         return this._formBuilder.group({
             id: [freightout.id],
@@ -185,7 +185,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         )
         .toPromise()
         .then(() => {
-            debugger;
+            //debugger;
             // Trigger the subscription with new data
             this.service.onCurrentEntityChanged.next(basicInfoData);
 
@@ -259,7 +259,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
     saveThirdPartyItem() {
-        debugger;
+        //debugger;
         (this.selectedItem && this.selectedItem.id) ? this.updateThirdPartyItem(this.selectedItem) : this.addThirdPartyItem(this.selectedItem);
     }
 
@@ -338,7 +338,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
 
     addCustomerFreightout(item: CustomerFreightout) {
-        debugger;
+        //debugger;
         return this.serviceFreightout.update(item);
 
     }

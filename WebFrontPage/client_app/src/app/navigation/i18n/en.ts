@@ -4,7 +4,8 @@ export const locale = {
         'NAV': {
             'APPLICATIONS': 'Applications',
             'MASTERS': 'Masters',
-            'RECIPIES'    : 'Recipies',
+            'RECIPIES': 'Recipies',
+            'NAV.OPPORTUNITIES': 'Opportunities',
             'DASHBOARDS': 'Dashboards',
             'QUOTES': 'Quotes', 
             'CALENDAR'    : 'Calendar',
