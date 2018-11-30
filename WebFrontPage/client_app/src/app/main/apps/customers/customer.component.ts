@@ -3,30 +3,31 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
-import { MatSnackBar, MatPaginator, MatSort, MatTable } from '@angular/material';
-import { Subject } from 'rxjs';
+import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
+import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Customer, Freightout } from './customer.model';
+import { Customer } from './customer.model';
 import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
 import { CustomerService } from './customer.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
 import { CustomerThirdPartyAppSettingService } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.service';
+import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
+import { CustomerFreightoutService, CustomerFreightout } from '../customerfreightout/customerfreightout.core.module';
 
 @Component({
     selector: 'customer',
     templateUrl: './customer.component.html',
     styleUrls: ['./customer.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class CustomerComponent implements OnInit, OnDestroy
-{
+export class CustomerComponent implements OnInit, OnDestroy {
     // Resolve
     listCustomerFreightoutRateType: EnumItem<string>[];
     listThirdParty: EnumItem<string>[];
@@ -34,6 +35,7 @@ export class CustomerComponent implements OnInit, OnDestroy
     id: string;
     currentEntity: Customer;
     thirdPartySettings: ThirdPartyGrid[];
+    freightout: CustomerFreightout;
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyCustomerId'];
@@ -58,12 +60,13 @@ export class CustomerComponent implements OnInit, OnDestroy
     constructor(
         private route: ActivatedRoute
         , private service: CustomerService
+        , private serviceFreightout: CustomerFreightoutService
         , private serviceThirdParty: CustomerThirdPartyAppSettingService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
-    )
-    {
+        , private matDialog: MatDialog
+    ) {
         // Set the default
         this.currentEntity = new Customer();
 
@@ -78,8 +81,7 @@ export class CustomerComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Resolve
         this.listCustomerFreightoutRateType = this.route.snapshot.data['listCustomerFreightoutRateType'];
         this.listThirdParty = this.route.snapshot.data['listThirdParty'];
@@ -92,14 +94,13 @@ export class CustomerComponent implements OnInit, OnDestroy
                 //debugger;
                 this.id = dataResponse.id;
                 let currentEntity = dataResponse;
-                if ( currentEntity )
-                {
+                if (currentEntity) {
                     this.currentEntity = new Customer(currentEntity);
                     this.thirdPartySettings = (currentEntity.thirdPartySettings || []).map(item => new ThirdPartyGrid(item));
+                    this.freightout = (currentEntity.freightout || <CustomerFreightout>{});
                     this.pageType = 'edit';
                 }
-                else
-                {
+                else {
                     this.pageType = 'new';
                     this.currentEntity = new Customer();
                 }
@@ -112,8 +113,7 @@ export class CustomerComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -128,74 +128,118 @@ export class CustomerComponent implements OnInit, OnDestroy
      *
      * @returns {FormGroup}
      */
-    createFormBasicInfo(): FormGroup
-    {
+    createFormBasicInfo(): FormGroup {
         return this._formBuilder.group({
-            id            : [this.currentEntity.id],
-            name            : [this.currentEntity.name],
+            id: [this.currentEntity.id],
+            name: [this.currentEntity.name],
         });
     }
 
     createFormFreightout() {
-        let freightout = this.currentEntity.freightout || <Freightout>{};
+        debugger;
+        let freightout = this.freightout || <CustomerFreightout>{};
         return this._formBuilder.group({
-            id: [this.currentEntity.id],
+            id: [freightout.id],
+            customerFreightoutRateTypeId: [freightout.customerFreightoutRateTypeId],
+            customerId: [this.currentEntity.id],
             cost: [freightout.cost],
             wProtect: [freightout.wProtect],
+            secondLeg: [freightout.secondLeg],
             surchargeYearly: [freightout.surchargeYearly],
             surchargeHourly: [freightout.surchargeHourly],
-            dateBegin: [freightout.dateBegin],
-            dateEnd: [freightout.dateEnd],
+            dateFrom: [freightout.dateFrom],
+            dateTo: [freightout.dateTo],
         });
-        
+
     }
 
     /**
      * Save product
      */
-    save(): void
-    {
-        const data = this.frmMain.getRawValue();
-        data.handle = FuseUtils.handleize(data.name);
+    save(): void {
+        const basicInfoData = this.frmMain.getRawValue();
+        const freightoutData = this.frmFreightout.getRawValue();
 
-        this.service.save(this.id, data)
-            .then(() => {
+        Observable.create(observer => {
+            if (!this.disableSaveFrmMain()) {
+                return of(false);
+            }
+            else {
+                return this.update(freightoutData);
+            }
+        })
+        .pipe(() =>
+            Observable.create(observer => {
+                if (!this.disableSaveFrmFreightout()) {
+                    if (freightoutData.id) {
+                        return this.serviceFreightout.update(freightoutData)
+                    }
+                    else {
+                        return this.serviceFreightout.add(freightoutData)
+                    }
+                }
+                else {
+                    return of(false);
+                }
+            })
+        )
+        .toPromise()
+        .then(() => {
+            debugger;
+            // Trigger the subscription with new data
+            this.service.onCurrentEntityChanged.next(basicInfoData);
 
-                // Trigger the subscription with new data
-                this.service.onCurrentEntityChanged.next(data);
-
-                // Show the success message
-                this._matSnackBar.open('Customer saved', 'OK', {
-                    verticalPosition: 'top',
-                    duration        : 2000
-                });
+            // Show the success message
+            this._matSnackBar.open('Customer saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
             });
+        });
     }
 
     /**
      * Add product
      */
-    add(): void
-    {
-        const data = this.frmMain.getRawValue();
-        data.handle = FuseUtils.handleize(data.name);
+    update(entity: Customer): Observable<Customer> {
+        return Observable.create(observer => {
+            this.service.save(entity)
+                .then((result: Customer) => {
+                    observer.next(result);
+                    observer.complete();
+                });
+        });
 
-        this.service.add(data)
+    }
+
+    delete() {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteExecution();
+            }
+        });
+    }
+
+    deleteExecution() {
+        this.service.delete(this.currentEntity.id)
             .then(() => {
 
-                // Trigger the subscription with new data
-                this.service.onCurrentEntityChanged.next(data);
-
                 // Show the success message
-                this._matSnackBar.open('Customer saved', 'OK', {
+                this._matSnackBar.open('Customer deleted', 'OK', {
                     verticalPosition: 'top',
-                    duration        : 2000
+                    duration: 2000
                 });
 
                 // Change the location with new one
-                this._location.go('apps/customers/' + this.currentEntity.id );
+                this._location.go('apps/customers');
             });
     }
+
+
 
     getThirdPartyAppType(id: string) {
         return this.listThirdParty.find(o => o.key == id);
@@ -253,8 +297,85 @@ export class CustomerComponent implements OnInit, OnDestroy
         });
     }
 
+    deleteThirdPartyItemEdition(item: ThirdPartyGrid) {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: `${this.getThirdPartyAppType(item.thirdPartyAppTypeId).value} ${item.thirdPartyCustomerId}` }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteThirdPartyItemEditionExecution(item);
+            }
+        });
+    }
+
+
+    deleteThirdPartyItemEditionExecution(item: ThirdPartyGrid) {
+        this.serviceThirdParty.update(item).then(res => {
+
+            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
+            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.thirdPartySettings.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('Customer Third Party Settings deleted', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedItem = null;
+
+        });
+    }
+
     cancelThirdPartyItemEdition() {
         this.selectedItem = null;
+    }
+
+
+
+
+    addCustomerFreightout(item: CustomerFreightout) {
+        debugger;
+        return this.serviceFreightout.update(item);
+
+    }
+
+    updateCustomerFreightout(item: CustomerFreightout) {
+        this.serviceThirdParty.update(item).then(res => {
+
+            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
+            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.thirdPartySettings.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('Customer Third Party Settings saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedItem = null;
+
+        });
+    }
+
+
+
+
+
+    disableSaveFrmMain() {
+        return (this.frmMain.invalid || this.frmMain.pristine);
+    }
+
+    disableSaveFrmFreightout() {
+        return (this.frmFreightout.invalid || this.frmFreightout.pristine);
+    }
+
+    disableSave() {
+        return this.disableSaveFrmMain() && this.disableSaveFrmFreightout();
     }
 }
 

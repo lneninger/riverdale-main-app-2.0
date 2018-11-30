@@ -39,21 +39,33 @@
                     </div>
                 </div>
             </div>
+
             <!-- / APP TITLE -->
+            <div class="save-product-button" fxLayoutGap="20px">
+                <button mat-mini-fab (click)="delete()" color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <!--<button mat-raised-button
+                        [disabled]="frmMain.invalid"
+                        *ngIf="pageType ==='new'" (click)="add()">
+                    <span>ADD</span>
+                </button>-->
+                <button mat-mini-fab
+                        class="save-product-button"
+                        [disabled]="disableSave()"
+                         (click)="save()">
+                    <mat-icon>save</mat-icon>
 
-            <button mat-raised-button
-                    class="save-product-button"
-                    [disabled]="frmMain.invalid"
-                    *ngIf="pageType ==='new'" (click)="add()">
-                <span>ADD</span>
-            </button>
+                    <!--<span>SAVE</span>-->
+                </button>
+            </div>
 
-            <button mat-raised-button
+            <!--<button mat-raised-button
                     class="save-product-button"
                     [disabled]="frmMain.invalid || frmMain.pristine"
                     *ngIf="pageType ==='edit'" (click)="save()">
                 <span>SAVE</span>
-            </button>
+            </button>-->
         </div>
         <!-- / HEADER -->
         <!-- CONTENT CARD -->
@@ -80,7 +92,7 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="fuse-card auto-width" >
+                                <div class="fuse-card auto-width">
                                     <div class="position-relative p-24"
                                          fxLayout="column" fxLayoutAlign="start stretch">
                                         <div class="p-16 pt-0">
@@ -107,7 +119,7 @@
                                                                     <mat-icon>save</mat-icon>
                                                                 </button>
                                                                 <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition()">
-                                                                    <mat-icon>cancel</mat-icon>
+                                                                    <mat-icon >delete</mat-icon>
                                                                 </button>
                                                             </ng-container>
                                                             <ng-container *ngSwitchDefault>
@@ -117,8 +129,8 @@
                                                                 <button type="button" mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="i == thirdPartySettings.length-1 ? 'visible' : 'hidden'">
                                                                     <mat-icon>add_circle_outline</mat-icon>
                                                                 </button>
-                                                                <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition(item)">
-                                                                    <mat-icon>remove_circle_outline</mat-icon>
+                                                                <button type="button" color="warn" mat-icon-button (click)="deleteThirdPartyItemEdition(item)">
+                                                                    <mat-icon>delete</mat-icon>
                                                                 </button>
                                                             </ng-container>
                                                         </ng-container>
@@ -269,39 +281,54 @@
                                             </div>
 
                                             <div fxLayout="row wrap" fxLayoutGap="20px">
-                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Rate Type</mat-label>
+                                                    <mat-select placeholder="Rate Type" formControlName="customerFreightoutRateTypeId">
+                                                        <mat-option *ngFor="let rateTypeItem of listCustomerFreightoutRateType" [value]="rateTypeItem.key">
+                                                            {{rateTypeItem.value}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Cost</mat-label>
                                                     <input matInput placeholder="Cost"
                                                            name="cost"
                                                            formControlName="cost"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>WProtect</mat-label>
                                                     <input matInput placeholder="WProtect"
                                                            name="wProtect"
                                                            formControlName="wProtect"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Second Leg</mat-label>
+                                                    <input matInput placeholder="secondLeg"
+                                                           name="secondLeg"
+                                                           formControlName="secondLeg"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Surcharge (Hourly)</mat-label>
                                                     <input matInput placeholder="Surcharge"
                                                            name="surchargeHourly"
                                                            formControlName="surchargeHourly"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Surcharge (Yearly)</mat-label>
                                                     <input matInput placeholder="Surcharge"
                                                            name="surchargeYearly"
                                                            formControlName="surchargeYearly"
                                                            required>
                                                 </mat-form-field>
-                                                <mat-form-field appearance="outline" fxFlex="calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Begin Date</mat-label>
                                                     <input matInput placeholder="Begin Date" [matDatepicker]="dateBegin"
-                                                           name="dateBegin"
-                                                           formControlName="dateBegin"
+                                                           name="dateFrom"
+                                                           formControlName="dateFrom"
                                                            required>
                                                     <mat-datepicker-toggle matSuffix [for]="dateBegin"></mat-datepicker-toggle>
                                                     <mat-datepicker #dateBegin></mat-datepicker>
@@ -309,8 +336,8 @@
                                                 <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>End Date</mat-label>
                                                     <input matInput placeholder="End Date" [matDatepicker]="dateEnd"
-                                                           name="dateEnd"
-                                                           formControlName="dateEnd"
+                                                           name="dateTo"
+                                                           formControlName="dateTo"
                                                            required>
                                                     <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
                                                     <mat-datepicker #dateEnd></mat-datepicker>
@@ -468,6 +495,14 @@
                         </mat-tab>-->
 
                     </mat-tab-group>
+                    <!--<div class="p-24">
+                        <div class="fuse-card auto-width position-relative p-24 red-100-bg" color="warn" fxLayout="row" fxLayoutAlign="center start">
+                            <button mat-button (click)="delete()" color="primary">
+                                <mat-icon color="danger">close</mat-icon>
+                                Delete
+                            </button>
+                        </div>
+                    </div>-->
 
                 </form>
 

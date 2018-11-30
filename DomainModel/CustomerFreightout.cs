@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainModel
 {
-    public class CustomerFreightout
+    public class CustomerFreightout : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
 
@@ -12,6 +12,7 @@ namespace DomainModel
         public int CustomerId { get; set; }
 
         public string CustomerFreightoutRateTypeId { get; set; }
+
         public CustomerFreightoutRateType CustomerFreightoutRateType { get; set; }
 
         public decimal Cost { get; set; }
@@ -27,5 +28,12 @@ namespace DomainModel
         public DateTime DateFrom { get; set; }
 
         public DateTime DateTo { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool? IsDeleted { get; set; }
+
+        //public static implicit operator CustomerFreightout(CustomerFreightout v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -15,6 +15,8 @@ import {
 } from '@angular/material';
 import { ThirdPartyAppTypeResolveService, CustomerFreightoutRateTypeResolveService } from '../@resolveServices/resolve.module';
 import { CustomerThirdPartyAppSettingCoreModule  } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module';
+import { CustomerFreightoutCoreModule } from '../customerfreightout/customerfreightout.core.module';
+import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 
 const routes: Routes = [
     {
@@ -68,8 +70,10 @@ const routes: Routes = [
         , MatDatepickerModule
         , FuseSharedModule
 
+        , PopupsModule
         , CustomerCoreModule
         , CustomerThirdPartyAppSettingCoreModule
+        , CustomerFreightoutCoreModule
     ],
     providers: [
         //CustomersService

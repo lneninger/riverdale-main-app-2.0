@@ -1,10 +1,12 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, ActivationEnd, ChildActivationEnd, NavigationEnd } from '@angular/router';
 //import { SecuredClientHttp } from '../authentication/securedclienthttp.service';
-import { SecuredClientHttp, AuthenticationTrackerService } from '../authentication/authentication.core.module';
-import { Constants } from '../../shared/smartadmin.config';
+//import { SecuredClientHttp, AuthenticationTrackerService } from '../authentication/authentication.core.module';
+//import { Constants } from '../../shared/smartadmin.config';
 import { SignalRService } from './signalr.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -17,10 +19,11 @@ export class UserActiveService {
     activeUsers: any[];
 
     constructor(
-        private http: SecuredClientHttp
-        , private router: Router
+        //private http: SecuredClientHttp
+        private router: Router
         , private signalRService: SignalRService
-        , private authenticationTrackerService: AuthenticationTrackerService
+        , private httpClient: HttpClient
+        //, private authenticationTrackerService: AuthenticationTrackerService
     ) {
         this.setInterval();
 
@@ -55,18 +58,18 @@ export class UserActiveService {
 
     setInterval() {
         this.interval = setInterval(() => {
-            if (this.authenticationTrackerService.isAuthenticated() && this._appActive > 0) {
+            //if (this.authenticationTrackerService.isAuthenticated() && this._appActive > 0) {
                 // debugger;
                 this._appActive = 0;
                 this.sendActiveApp();
                 this.routes = [];
-            }
+           // }
         }, 5000);
     }
 
     private sendActiveAppNavigatorCallBack(position?: any) {
-        let endpoint = `${Constants.baseApiUrl}security/activeUser`;
-        this.http.post(endpoint, { position: position, routes: this.routes }).subscribe();
+        let endpoint = `${environment.appApi.apiBaseUrl}security/activeUser`;
+        this.httpClient.post(endpoint, { position: position, routes: this.routes }).subscribe();
     }
 
     private sendActiveApp(): any {

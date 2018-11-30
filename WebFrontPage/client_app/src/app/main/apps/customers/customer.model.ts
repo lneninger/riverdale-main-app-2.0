@@ -1,4 +1,5 @@
 import { ThirdPartyGrid } from "../customerthirdpartyappsetting/customerthirdpartyappsetting.model";
+import { CustomerFreightout } from "../customerfreightout/customerfreightout.core.module";
 
 export class CustomerGrid {
     id: number;
@@ -9,7 +10,7 @@ export class CustomerGrid {
 export class Customer {
     id: number;
     name: string;
-    freightout: Freightout
+    freightout: CustomerFreightout
     thirdPartySettings: ThirdPartyGrid[]
 
     /**
@@ -25,28 +26,3 @@ export class Customer {
 }
 
 
-
-export class Freightout {
-   
-    id: number;
-    customerId: number;
-    rateType: string;
-    cost: number;
-    wProtect: number;
-    secondLeg: number;
-    surchargeHourly: number;
-    surchargeYearly: number;
-    dateBegin: Date;
-    dateEnd: Date;
-
-
-    constructor(freightout?) {
-        freightout = freightout || {};
-        this.id = freightout.id;
-        this.customerId = freightout.customerId;
-        this.cost = freightout.cost;
-        this.wProtect = freightout.wProtect;
-        this.dateBegin = freightout.dateBegin;
-        this.dateEnd = freightout.dateEnd;
-    }
-}

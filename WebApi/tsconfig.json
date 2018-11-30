@@ -11,7 +11,7 @@
     "outDir": "wwwroot"
   },
   "include": [
-    "widget/**/*"
+    "widget/**/*", "../DatabaseRepositories/DB/CustomerFreightoutDBRepository.cs"
   ],
   "exclude": [
     "node_modules",

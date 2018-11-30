@@ -69,7 +69,7 @@
         "@firebase/auth-types": "0.3.4",
         "@firebase/firestore": "0.8.5",
         "ng4-validators": "6.0.1",
-        "@aspnet/signalr-client": "1.0.0-alpha2-update1",
+        "@aspnet/signalr-client": "1.0.0-alpha2-final",
         "ng2-signalr": "6.1.0"
     },
     "devDependencies": {

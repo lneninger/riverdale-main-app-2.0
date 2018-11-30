@@ -1,13 +1,14 @@
-﻿using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.CustomerFreightout.DeleteCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerFreightout.GetByIdCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerFreightout.PageQueryCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand;
+using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand.Models;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 //using FizzWare.NBuilder;
@@ -22,8 +23,8 @@ namespace RiverdaleMainApp2_0.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/customer")]
-    public class CustomerController : Controller
+    [Route("api/customerfreightout")]
+    public class CustomerFreightoutController : Controller
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
@@ -34,7 +35,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        public CustomerFreightoutController(ICustomerFreightoutPageQueryCommand pageQueryCommand, ICustomerFreightoutGetAllCommand getAllCommand, ICustomerFreightoutGetByIdCommand getByIdCommand, ICustomerFreightoutInsertCommand insertCommand, ICustomerFreightoutUpdateCommand updateCommand, ICustomerFreightoutDeleteCommand deleteCommand)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -50,12 +51,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerGetAllCommand GetAllCommand { get; }
+        public ICustomerFreightoutGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ICustomerPageQueryCommand PageQueryCommand { get; }
+        public ICustomerFreightoutPageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ICustomerGetByIdCommand GetByIdCommand { get; }
+        public ICustomerFreightoutGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -72,7 +73,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ICustomerInsertCommand InsertCommand { get; }
+        public ICustomerFreightoutInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -80,7 +81,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ICustomerUpdateCommand UpdateCommand { get; }
+        public ICustomerFreightoutUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -88,16 +89,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ICustomerDeleteCommand DeleteCommand { get; }
+        public ICustomerFreightoutDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerFreightoutPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<CustomerPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -108,16 +109,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDTO>))]
+        [HttpGet(), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
-            var applicationResponse = this.GetAllCommand.Execute();
-            var result = applicationResponse.Select(appItem => new CustomerDTO {
-                Name = appItem.Name,
-                //ERPId = appItem.ERPId,
-            });
-
-            return this.Ok(result);
+            var appResult = this.GetAllCommand.Execute();
+            
+            return this.Ok(appResult);
         }
 
         /// <summary>
@@ -138,8 +135,8 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
-        public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerFreightoutInsertCommandOutputDTO))]
+        public IActionResult Post([FromBody]CustomerFreightoutInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             return this.Ok(appResult);
@@ -149,8 +146,8 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
-        public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerFreightoutUpdateCommandOutputDTO))]
+        public IActionResult Put([FromBody]CustomerFreightoutUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return this.Ok(appResult);
@@ -161,7 +158,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDeleteCommandOutputDTO))]
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerFreightoutDeleteCommandOutputDTO))]
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
