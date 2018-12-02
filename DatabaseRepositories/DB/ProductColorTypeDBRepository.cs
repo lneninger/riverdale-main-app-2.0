@@ -2,7 +2,7 @@
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
@@ -20,7 +20,7 @@ using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
 
-namespace FocusRepositories.DB
+namespace DatabaseRepositories.DB
 {
     public class ProductColorTypeDBRepository : AbstractDBRepository, IProductColorTypeDBRepository
     {

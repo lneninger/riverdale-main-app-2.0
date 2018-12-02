@@ -3,7 +3,7 @@ using ApplicationLogic.Repositories.DB;
 using DomainDatabaseMapping;
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
-using FocusRepositories;
+using ApplicationLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Autofac.Extensions.DependencyInjection;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using FocusRepositories.DB;
 using ApplicationLogic.Business.Commons;
+using RiverdaleMainApp2_0.Auth;
+using DomainDatabaseMapping;
+using DatabaseRepositories.DB;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -44,7 +46,17 @@ namespace RiverdaleMainApp2_0.IoC
                 builder.RegisterType<AmbientDbContextLocator>().As<IAmbientDbContextLocator>()
                 .AsImplementedInterfaces();
 
+
+                builder.RegisterType<IdentityDBContext>().AsSelf()
+                .TrackInstanceEvents();
+
+                builder.RegisterType<RiverdaleDBContext>().AsSelf()
+                .TrackInstanceEvents();
+
                 
+
+
+
 
                 var targetAssembly = Assembly.GetExecutingAssembly();
 
@@ -68,6 +80,12 @@ namespace RiverdaleMainApp2_0.IoC
                 var repositoryTypes = repositoryAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(repositoryTypes.ToArray())
                 .AsImplementedInterfaces()
+                .TrackInstanceEvents();
+
+                // Authentication
+                builder
+                .RegisterType<JwtFactory>()
+                .As<IJwtFactory>()
                 .TrackInstanceEvents();
 
                 //var firebaseAssembly = typeof(BaseRepository).Assembly;

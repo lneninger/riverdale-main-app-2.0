@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 

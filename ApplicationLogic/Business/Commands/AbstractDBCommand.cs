@@ -1,5 +1,5 @@
 ﻿using EntityFrameworkCore.DbContextScope;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using Framework.Autofac;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand.Models;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand

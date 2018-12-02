@@ -75,6 +75,11 @@ namespace Framework.Autofac
             }
         }
 
+        public static void DefaultTrackOnRelease<T>(T instance)
+        {
+            System.Diagnostics.Debug.WriteLine($"IOC RELEASE: {instance.GetType().FullName}");
+        }
+
         public static void DefaultTrackOnRelease(object instance)
         {
             System.Diagnostics.Debug.WriteLine($"IOC RELEASE: {instance.GetType().FullName}");
@@ -104,8 +109,14 @@ namespace Framework.Autofac
         {
             registrationBuilder.OnActivated(IoCGlobal.DefaultTrackOnActive);
 
+            registrationBuilder.OnRelease(IoCGlobal.DefaultTrackOnRelease);
 
+            return registrationBuilder;
+        }
 
+        public static IRegistrationBuilder<T, ConcreteReflectionActivatorData, SingleRegistrationStyle> TrackInstanceEvents<T>(this IRegistrationBuilder<T, ConcreteReflectionActivatorData, SingleRegistrationStyle> registrationBuilder)
+        {
+            registrationBuilder.OnActivated(IoCGlobal.DefaultTrackOnActive);
 
             registrationBuilder.OnRelease(IoCGlobal.DefaultTrackOnRelease);
 

@@ -10,7 +10,7 @@ using ApplicationLogic.Business.Commands.ProductColorType.InsertCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand.Models;
 
-namespace FocusApplication.Repositories.DB
+namespace ApplicationLogic.Repositories.DB
 {
     public interface IProductColorTypeDBRepository: IDBRepository
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FocusApplication.Repositories.DB
+namespace ApplicationLogic.Repositories.DB
 {
     public interface IDBRepository
     {

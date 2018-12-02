@@ -1,10 +1,10 @@
 ﻿using DomainDatabaseMapping;
 using EntityFrameworkCore.DbContextScope;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using System;
 using System.Collections.Generic;
 
-namespace FocusRepositories
+namespace DatabaseRepositories
 {
     public class AbstractDBRepository : IDBRepository
     {

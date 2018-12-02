@@ -45,7 +45,7 @@ export const navigation: FuseNavigation[] = [
                 title: 'Opportunities',
                 translate: 'NAV.OPPORTUNITIES',
                 type: 'item',
-                icon: 'local_florist',
+                icon: 'starts',
                 url: '/apps/opportunities'
             },
             {

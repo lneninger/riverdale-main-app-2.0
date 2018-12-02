@@ -1,6 +1,6 @@
 ﻿using System;
 using EntityFrameworkCore.DbContextScope;
-using FocusApplication.Repositories.DB;
+using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
 
 namespace ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand

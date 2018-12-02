@@ -9,10 +9,12 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using DomainModel.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DomainDatabaseMapping
 {
-    public class RiverdaleDBContext : DbContext
+    public class RiverdaleDBContext : IdentityDBContext
     {
         public RiverdaleDBContext(DbContextOptions options) : base(options)
         {
@@ -36,6 +38,9 @@ namespace DomainDatabaseMapping
             optionsBuilder.UseSqlServer(config.GetConnectionString("RiverdaleModel"));
         }
 
+        /********************************SECURITY*********************************/
+        // Security
+        
 
         /*********************************CRM  Master Tables**********************/
         // Config
@@ -59,6 +64,7 @@ namespace DomainDatabaseMapping
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
             // Base Entity Class
             new AbstractBaseEntityMap(modelBuilder).Configure();
