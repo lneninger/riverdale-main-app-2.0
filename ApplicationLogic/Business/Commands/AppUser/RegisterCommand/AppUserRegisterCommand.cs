@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using Framework.Core.Crypto;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
 {
@@ -14,7 +15,7 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
         {
         }
 
-        public AppUserRegisterCommandOutputDTO Execute(AppUserRegisterCommandInputDTO input)
+        public OperationResponse<AppUserRegisterCommandOutputDTO> Execute(AppUserRegisterCommandInputDTO input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

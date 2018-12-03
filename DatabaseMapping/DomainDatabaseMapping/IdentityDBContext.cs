@@ -27,6 +27,16 @@ namespace DomainDatabaseMapping
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+
+            string envVariable = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //IHostingEnvironment env = hostingContext.HostingEnvironment;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{envVariable}.json", optional: true);
+
+            IConfigurationRoot config = builder.Build();
+            optionsBuilder.UseSqlServer(config.GetConnectionString("RiverdaleModel"));
         }
 
 
@@ -37,6 +47,7 @@ namespace DomainDatabaseMapping
             // Base Entity Class
             new AbstractBaseEntityMap(modelBuilder).Configure();
 
+            modelBuilder.ApplyConfiguration(new AppUserMap(modelBuilder));
         }
 
 

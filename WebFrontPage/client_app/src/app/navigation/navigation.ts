@@ -95,6 +95,24 @@ export const navigation: FuseNavigation[] = [
                 icon: 'color_lens',
                 url: '/apps/product-colors'
             },
+            {
+                id: 'Settings',
+                title: 'Settings',
+                translate: 'NAV.SETTINGS',
+                type: 'group',
+                icon: 'gear',
+                children: [
+
+                ]
+            },
+            {
+                id: '',
+                title: 'Users',
+                translate: 'NAV.USERS',
+                type: 'item',
+                icon: 'person',
+                url: '/apps/users'
+            },
             //{
             //    id: 'calendar',
             //    title: 'Calendar',

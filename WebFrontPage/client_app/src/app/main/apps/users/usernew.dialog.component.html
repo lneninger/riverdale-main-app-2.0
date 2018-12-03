@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>New User {{data.name}}</h1>
+<div mat-dialog-content [formGroup]="frmMain" fxLayoutGap="20px" fxLayout="row wrap">
+    <!--<p>What's your favorite animal?</p>-->
+    <mat-form-field fxFlex="calc(50% - 20px)">
+        <input matInput cdkFocusInitial formControlName="firstName" placeholder="First Name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(50% - 20px)">
+        <input matInput cdkFocusInitial formControlName="lastName" placeholder="Last Name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(20% - 20px)">
+        <input matInput cdkFocusInitial formControlName="email" placeholder="Email">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(20% - 20px)">
+        <input matInput cdkFocusInitial formControlName="password" placeholder="Password">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(20% - 20px)">
+        <input matInput cdkFocusInitial formControlName="confirmPassword" placeholder="Confirm Password">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
+    <button mat-button (click)="create()" >Create</button>
+    <!--<button mat-button (click)="createEdit()">Create And Edit</button>-->
+</div>

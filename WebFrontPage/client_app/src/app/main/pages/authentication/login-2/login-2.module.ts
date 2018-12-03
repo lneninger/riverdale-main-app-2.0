@@ -18,15 +18,15 @@ const routes = [
         Login2Component
     ],
     imports     : [
-        RouterModule.forChild(routes),
+        RouterModule.forChild(routes)
 
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
+        , MatButtonModule
+        , MatCheckboxModule
+        , MatFormFieldModule
+        , MatIconModule
+        , MatInputModule
 
-        FuseSharedModule
+        , FuseSharedModule
     ]
 })
 export class Login2Module

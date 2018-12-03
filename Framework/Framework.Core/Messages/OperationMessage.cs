@@ -15,5 +15,6 @@ namespace Framework.Storage.DataHolders.Messages
         public string MessageCode { get; set; }
 
         public string Message { get; set; }
+        public Exception Exception { get; internal set; }
     }
 }

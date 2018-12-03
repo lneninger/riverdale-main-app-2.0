@@ -53,7 +53,7 @@ namespace RiverdaleMainApp2_0
         /// The configuration.
         /// </value>
         public IConfiguration Configuration { get; }
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
+        public const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         /// <summary>

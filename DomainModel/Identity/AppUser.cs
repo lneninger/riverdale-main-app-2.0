@@ -15,7 +15,9 @@ namespace DomainModel.Identity
 
         public string PictureUrl { get; set; }
 
-        public string PasswordSalt { get; set; }
+        public new byte[] PasswordHash { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 

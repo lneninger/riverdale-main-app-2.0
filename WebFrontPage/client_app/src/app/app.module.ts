@@ -29,6 +29,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 
+/******************************Authentication************************************/
+import { AuthenticationCoreModule } from 'app/main/apps/@hipalanetCommons/authentication/authentication.core.module';
+
 
 const appRoutes: Routes = [
     {
@@ -97,6 +100,10 @@ const appRoutes: Routes = [
         , AngularFireAuthModule // imports firebase/auth, only needed for auth features,
         , AngularFireStorageModule // imports firebase/storage only needed for storage features
         , AngularFireDatabaseModule // import firebase/database only needed for database features
+
+        // Authentication
+        , AuthenticationCoreModule
+
     ],
     bootstrap   : [
         AppComponent

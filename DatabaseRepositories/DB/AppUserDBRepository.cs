@@ -1,4 +1,5 @@
-﻿using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
+﻿using ApplicationLogic.Business.Commands.AppUser.AuthenticateCommand.Models;
+using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
@@ -8,9 +9,11 @@ using ApplicationLogic.Repositories.DB;
 using DomainDatabaseMapping;
 using DomainModel.Identity;
 using EntityFrameworkCore.DbContextScope;
+using Framework.Core.Crypto;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Storage.DataHolders.Messages;
 using LMB.PredicateBuilderExtension;
 using System;
 using System.Collections.Generic;
@@ -20,7 +23,7 @@ using System.Text;
 
 namespace DatabaseRepositories.DB
 {
-    public class AppUserDBRepository: AbstractDBRepository, IAppUserDBRepository
+    public class AppUserDBRepository : AbstractDBRepository, IAppUserDBRepository
     {
         public AppUserDBRepository(IAmbientDbContextLocator ambientDbContextLocator) : base(ambientDbContextLocator)
         {
@@ -73,11 +76,12 @@ namespace DatabaseRepositories.DB
                     Id = o.Id,
                     UserName = o.UserName,
                     Email = o.Email,
+                    FirstName = o.FirstName,
+                    LastName = o.LastName
                 });
 
                 return result;
             }
-
         }
 
         public AppUserGetByIdCommandOutputDTO GetById(string id)
@@ -87,43 +91,56 @@ namespace DatabaseRepositories.DB
                 return dbLocator.Set<AppUser>().Where(o => o.Id == id).Select(entityItem => new AppUserGetByIdCommandOutputDTO
                 {
                     Id = entityItem.Id,
-                    UserName = entityItem.UserName,
                     Email = entityItem.Email,
+                    FirstName = entityItem.FirstName,
+                    LastName = entityItem.LastName,
+                    PictureUrl = entityItem.PictureUrl,
+                    UserName = entityItem.UserName
                 }).FirstOrDefault()
                 ;
             }
         }
 
-        public AppUserRegisterCommandOutputDTO Insert(AppUserRegisterCommandInputDTO input)
+        public OperationResponse<AppUserRegisterCommandOutputDTO> Insert(AppUserRegisterCommandInputDTO input)
         {
-            var entity = new AppUser
+            var result = new OperationResponse<AppUserRegisterCommandOutputDTO>();
+            try
             {
-                Email = input.Email,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                PasswordHash = System.Text.Encoding.UTF8.GetString(input.PasswordHash),
-                PasswordSalt = System.Text.Encoding.UTF8.GetString(input.PasswordSalt),
-            };
-
-            using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
-            {
-                dbLocator.Add(entity);
-                dbLocator.SaveChanges();
-
-                var result = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserRegisterCommandOutputDTO
+                var entity = new AppUser
                 {
-                    Email = o.Email,
-                    FirstName = o.FirstName,
-                    LastName = o.LastName,
-                    PasswordHash = System.Text.Encoding.UTF8.GetBytes(o.PasswordHash),
-                    PasswordSalt = System.Text.Encoding.UTF8.GetBytes(o.PasswordSalt),
-                }).FirstOrDefault();
+                    Email = input.Email,
+                    UserName = input.UserName,
+                    FirstName = input.FirstName,
+                    LastName = input.LastName,
+                    PictureUrl = input.PictureUrl,
+                    PasswordHash = input.PasswordHash,
+                    PasswordSalt = input.PasswordSalt,
+                };
 
-                return result;
+                using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+                {
+                    dbLocator.Add(entity);
+                    dbLocator.SaveChanges();
+
+                    var dto = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserRegisterCommandOutputDTO
+                    {
+                        Email = o.Email,
+                        FirstName = o.FirstName,
+                        LastName = o.LastName,
+                        PasswordHash = o.PasswordHash,
+                        PasswordSalt = o.PasswordSalt,
+                    }).FirstOrDefault();
+
+                    result.Bag = dto;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException(null, ex);
             }
 
+            return result;
         }
-
 
         public AppUserUpdateCommandOutputDTO Update(AppUserUpdateCommandInputDTO input)
         {
@@ -173,6 +190,39 @@ namespace DatabaseRepositories.DB
             }
 
             return null;
+        }
+
+
+        public OperationResponse<AppUserAuthenticateCommandOutputDTO> Authenticate(AppUserAuthenticateCommandInputDTO input)
+        {
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                var result = new OperationResponse<AppUserAuthenticateCommandOutputDTO>();
+
+                if (string.IsNullOrEmpty(input.UserName) || string.IsNullOrEmpty(input.Password))
+                    return result;
+
+                var entity = dbLocator.Set<AppUser>().FirstOrDefault(x => x.UserName == input.UserName || x.Email == input.UserName);
+
+                // check if username exists
+                if (entity == null)
+                    return result;
+
+                // check if password is correct
+                if (!HashHelper.VerifyPasswordHash(input.Password, entity.PasswordHash, entity.PasswordSalt))
+                    return result;
+
+                result.Bag = new AppUserAuthenticateCommandOutputDTO
+                {
+                    Id = entity.Id,
+                    Email = entity.Email,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    PictureUrl = entity.PictureUrl,
+                    UserName = entity.UserName
+                };
+                return result;
+            }
         }
     }
 }

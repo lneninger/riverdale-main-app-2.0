@@ -7,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { AuthenticationService, Register, Authenticate } from '../../../apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
     selector     : 'login-2',
@@ -30,6 +31,7 @@ export class Login2Component implements OnInit
         , private _formBuilder: FormBuilder
         // Custom
         , private auth: AngularFireAuth
+        , private service: AuthenticationService
         , private database: AngularFireDatabase
         , private router: Router
     )
@@ -56,19 +58,31 @@ export class Login2Component implements OnInit
     login() {
         debugger;
         let loginValue = this.loginForm.value;
-        this.auth.auth.setPersistence('session'/*(<any>this.auth.auth.app.auth().app).firebase_.auth.Auth.Persistence.SESSION*/)
+        debugger;
+        let loginData = new Authenticate({ userName: loginValue.email, password: loginValue.password });
+
+        this.service.login(loginData)
             .then(res => {
-                this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(loginValue.email, loginValue.password).then(
-                    res => {
-                        console.log('User authenticated', res);
-                        this.router.navigate(['apps/dashboards/analytics']);
+                console.log('User authenticated', res);
+                this.router.navigate(['apps/dashboards/analytics']);
+            })
+            .catch(error => {
 
-                    },
-                    error => {
-
-                    }
-                );
             });
+
+        //this.auth.auth.setPersistence('session')
+        //    .then(res => {
+        //        this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(loginValue.email, loginValue.password).then(
+        //            res => {
+        //                console.log('User authenticated', res);
+        //                this.router.navigate(['apps/dashboards/analytics']);
+
+        //            },
+        //            error => {
+
+        //            }
+        //        );
+        //    });
 
     }
 

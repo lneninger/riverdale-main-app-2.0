@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\" />
     <Folder Include="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\" />
   </ItemGroup>
 

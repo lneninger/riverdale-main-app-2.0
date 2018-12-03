@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <Content Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="web.config" />
   </ItemGroup>
 
@@ -55,11 +62,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Services\" />
+    <TypeScriptCompile Include="Widget\Scripts\models.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="Widget\Scripts\models.ts" />
+    <Folder Include="Areas\" />
   </ItemGroup>
 
 </Project>

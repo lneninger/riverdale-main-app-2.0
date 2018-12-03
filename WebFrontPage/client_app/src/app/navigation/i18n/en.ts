@@ -6,6 +6,8 @@ export const locale = {
             'MASTERS': 'Masters',
             'RECIPIES': 'Recipies',
             'OPPORTUNITIES': 'Opportunities',
+            'SETTINGS': 'Settings',
+            'USERS': 'Users',
             'DASHBOARDS': 'Dashboards',
             'QUOTES': 'Quotes', 
             'CALENDAR'    : 'Calendar',

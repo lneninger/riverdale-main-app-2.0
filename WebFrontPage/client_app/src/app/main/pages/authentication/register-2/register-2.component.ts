@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 /*************************Custom***********************************/
+import { AuthenticationService, Register } from '../../../apps/@hipalanetCommons/authentication/authentication.core.module';
 import { CustomValidators } from 'ng4-validators';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -29,6 +30,7 @@ export class Register2Component implements OnInit, OnDestroy {
         , private _formBuilder: FormBuilder
         // Custom
         , private auth: AngularFireAuth
+        , private service: AuthenticationService
         , private database: AngularFireDatabase
         , private router: Router
     ) {
@@ -63,7 +65,9 @@ export class Register2Component implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.registerForm = this._formBuilder.group({
-            name: ['', Validators.required],
+            userName: ['', Validators.required],
+            firstName: ['', Validators.required],
+            lastName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
             passwordConfirm: ['', [Validators.required, confirmPasswordValidator]],
@@ -79,37 +83,58 @@ export class Register2Component implements OnInit, OnDestroy {
             });
     }
 
+    register() {
+        let registerValue = this.registerForm.value;
+        let registerData = new Register(<Register>{
+            userName: registerValue.userName,
+            firstName: registerValue.firstName,
+            lastName: registerValue.lastName,
+            email: registerValue.email,
+            password: registerValue.password,
+            confirmPassword: registerValue.passwordConfirm,
+            pictureUrl: registerValue.logoURL
+        });
+        this.service.register(registerData)
+            .then(res => {
+                console.log('User authenticated', res);
+                this.router.navigate(['pages/auth/login-2']);
+            })
+            .catch(error => {
+
+            });
+    }
+
     /* Custom
      *Register
      * */
-    register() {
-        debugger;
-        let registerValue = this.registerForm.value;
-        this.auth.auth.createUserAndRetrieveDataWithEmailAndPassword(registerValue.email, registerValue.password).then(
-            res => {
-                debugger;
-                console.log(res);
-                console.log('Account User Id: ', res.user.uid);
+    //register() {
+    //    debugger;
+    //    let registerValue = this.registerForm.value;
+    //    this.auth.auth.createUserAndRetrieveDataWithEmailAndPassword(registerValue.email, registerValue.password).then(
+    //        res => {
+    //            debugger;
+    //            console.log(res);
+    //            console.log('Account User Id: ', res.user.uid);
 
-                this.auth.auth.currentUser.updateProfile({
-                    displayName: registerValue.name,
-                    photoURL: registerValue.logoURL
-                });
+    //            this.auth.auth.currentUser.updateProfile({
+    //                displayName: registerValue.name,
+    //                photoURL: registerValue.logoURL
+    //            });
 
-                let userId = res.user.uid;
-                let newUserId = this.database.database.ref('accounts').push().key;
-                this.database.database.ref(`accounts/${newUserId}`).set({
-                    userId: res.user.uid,
-                    userName: registerValue.name,
-                });
+    //            let userId = res.user.uid;
+    //            let newUserId = this.database.database.ref('accounts').push().key;
+    //            this.database.database.ref(`accounts/${newUserId}`).set({
+    //                userId: res.user.uid,
+    //                userName: registerValue.name,
+    //            });
 
-                this.router.navigate(['pages/auth/login-2']);
-            },
-            error => {
+    //            this.router.navigate(['pages/auth/login-2']);
+    //        },
+    //        error => {
 
-            }
-        );
-    }
+    //        }
+    //    );
+    //}
 
     /**
      * On destroy

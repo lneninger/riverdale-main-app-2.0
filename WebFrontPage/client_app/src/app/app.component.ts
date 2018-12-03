@@ -19,6 +19,8 @@ import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 
+import { AuthenticationService } from './main/apps/@hipalanetCommons/authentication/authentication.core.module';
+
 @Component({
     selector   : 'app',
     templateUrl: './app.component.html',
@@ -57,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy
         // Custom
         , private auth: AngularFireAuth
         , private router: Router
+        , private authenticationService: AuthenticationService
     )
     {
         // Get default navigation
@@ -128,15 +131,23 @@ export class AppComponent implements OnInit, OnDestroy
         //    this.router.navigate(['pages/auth/login-2']);
         //}
 
-        this.auth.auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in.
-                console.log(user);
-            } else {
+        this.authenticationService.isAuthenticated().subscribe(isActive => {
+            //debugger;
+            if (!isActive) {
                 this.router.navigate(['pages/auth/login-2']);
-                // No user is signed in.
             }
-        });
+        })
+        
+
+        //this.auth.auth.onAuthStateChanged(user => {
+        //    if (user) {
+        //        // User is signed in.
+        //        console.log(user);
+        //    } else {
+        //        this.router.navigate(['pages/auth/login-2']);
+        //        // No user is signed in.
+        //    }
+        //});
       
     }
 

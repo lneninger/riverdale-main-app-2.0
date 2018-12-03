@@ -12,6 +12,7 @@ import { navigation } from 'app/navigation/navigation';
 /*************************Custom***********************************/
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService, AuthenticationInfo } from '../../../main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
     selector: 'toolbar',
@@ -21,10 +22,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 
 export class ToolbarComponent implements OnInit, OnDestroy {
-    user: firebase.User;
+    user: AuthenticationInfo;//firebase.User;
+
     get userPhoto() {
         if (this.user) {
-            return this.user.photoURL;
+            return this.user.pictureUrl;
+            //return this.user.photoURL;
         }
 
         return null;
@@ -54,6 +57,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         , private _translateService: TranslateService
         , private auth: AngularFireAuth
         , private router: Router
+        , private authenticationService: AuthenticationService
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -102,9 +106,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.auth.auth.onAuthStateChanged(user => {
+        this.user = this.authenticationService.userData;
+
+        this.authenticationService.onChangedUserInfo.subscribe(user => {
             this.user = user;
         });
+
+        //this.auth.auth.onAuthStateChanged(user => {
+        //    this.user = user;
+        //});
     }
 
     // -----------------------------------------------------------------------------------------------------

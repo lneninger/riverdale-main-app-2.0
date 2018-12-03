@@ -9,6 +9,7 @@ import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scr
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 /*************************Custom***********************************/
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService, AuthenticationInfo } from '../../../../../main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -18,10 +19,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
-    user: firebase.User;
+    user: AuthenticationInfo; //firebase.User;
+    //user: firebase.User;
     get userPhoto() {
         if (this.user) {
-            return this.user.photoURL;
+            //return this.user.photoURL;
+            return this.user.pictureUrl;
         }
 
         return null;
@@ -48,14 +51,21 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         , private _fuseSidebarService: FuseSidebarService
         , private _router: Router
         , private auth: AngularFireAuth
+        , private authenticationService: AuthenticationService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.auth.auth.onAuthStateChanged(user => {
+        //this.user = this.authenticationService.userData;
+
+        this.authenticationService.onChangedUserInfo.subscribe(user => {
             this.user = user;
         });
+
+        //this.auth.auth.onAuthStateChanged(user => {
+        //    this.user = user;
+        //});
     }
 
     // -----------------------------------------------------------------------------------------------------

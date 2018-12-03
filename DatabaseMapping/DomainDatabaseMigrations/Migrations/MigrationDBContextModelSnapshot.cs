@@ -155,8 +155,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2018, 12, 2, 4, 51, 16, 920, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2018, 12, 2, 4, 51, 16, 920, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2018, 12, 2, 21, 22, 59, 950, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2018, 12, 2, 21, 22, 59, 950, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -333,9 +333,11 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<string>("Password");
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(MAX)");
 
-                    b.Property<string>("PasswordSalt");
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(MAX)");
 
                     b.Property<string>("PhoneNumber");
 
@@ -449,8 +451,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 12, 2, 4, 51, 16, 875, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 12, 2, 4, 51, 16, 877, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 12, 2, 21, 22, 59, 911, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 12, 2, 21, 22, 59, 913, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 

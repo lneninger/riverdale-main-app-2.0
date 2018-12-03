@@ -16,9 +16,17 @@ namespace Framework.Storage.DataHolders.Messages
         /// <param name="message">The message.</param>
         /// <param name="messageParams">The message parameters.</param>
         /// <returns></returns>
-        public static OperationResponse AddError<T>(this T objRef, string message, params object[] messageParams) where T: OperationResponse
+        public static T AddError<T>(this T objRef, string message, params object[] messageParams) where T: OperationResponse
         {
             return objRef.AddMessage(MessageTypeEnum.Error, message, messageParams);
+        }
+
+        public static T AddException<T>(this T objRef, string message, Exception ex) where T : OperationResponse
+        {
+            var result = objRef.AddMessage(MessageTypeEnum.Error, message);
+            result.Messages.Last().Exception = ex;
+
+            return result;
         }
 
         /// <summary>
@@ -29,7 +37,7 @@ namespace Framework.Storage.DataHolders.Messages
         /// <param name="message">The message.</param>
         /// <param name="messageParams">The message parameters.</param>
         /// <returns></returns>
-        public static OperationResponse AddWarning<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
+        public static T AddWarning<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
         {
             return objRef.AddMessage(MessageTypeEnum.Warning, message, messageParams);
         }
@@ -42,7 +50,7 @@ namespace Framework.Storage.DataHolders.Messages
         /// <param name="message">The message.</param>
         /// <param name="messageParams">The message parameters.</param>
         /// <returns></returns>
-        public static OperationResponse AddSuccess<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
+        public static T AddSuccess<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
         {
             return objRef.AddMessage(MessageTypeEnum.Success, message, messageParams);
         }
@@ -55,7 +63,7 @@ namespace Framework.Storage.DataHolders.Messages
         /// <param name="message">The message.</param>
         /// <param name="messageParams">The message parameters.</param>
         /// <returns></returns>
-        public static OperationResponse AddInfo<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
+        public static T AddInfo<T>(this T objRef, string message, params object[] messageParams) where T : OperationResponse
         {
             return objRef.AddMessage(MessageTypeEnum.Info, message, messageParams);
         }
@@ -71,7 +79,8 @@ namespace Framework.Storage.DataHolders.Messages
         /// <returns></returns>
         public static T AddMessage<T>(this T objRef, MessageTypeEnum messageType, string messageTemplate, params object[] messageParams) where T : OperationResponse
         {
-            var message = string.Format(messageTemplate, messageParams);
+            var template = messageTemplate ?? string.Empty;
+            var message = string.Format(template, messageParams);
 
             objRef.Messages.Add(new OperationMessage { MessageType = messageType, Message = message });
 
