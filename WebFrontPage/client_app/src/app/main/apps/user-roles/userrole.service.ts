@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { ThirdPartyGrid } from '../userRolethirdpartyappsetting/userRolethirdpartyappsetting.model';
+import { RolePermissionGrid } from '../role-permissions/rolepermission.core.module';
 
 @Injectable()
 export class UserRoleService implements Resolve<any>, IPageQueryService {

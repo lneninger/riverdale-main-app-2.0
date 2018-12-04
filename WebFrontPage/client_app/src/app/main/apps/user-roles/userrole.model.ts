@@ -1,5 +1,5 @@
-import { ThirdPartyGrid } from "../userRolethirdpartyappsetting/userRolethirdpartyappsetting.model";
-import { UserRoleFreightout } from "../userRolefreightout/userRolefreightout.core.module";
+import { RolePermissionGrid } from "../role-permissions/rolepermission.core.module";
+import { User } from "../users/user.core.module";
 
 export class UserRoleGrid {
     id: number;
@@ -10,8 +10,7 @@ export class UserRoleGrid {
 export class UserRole {
     id: number;
     name: string;
-    freightout: UserRoleFreightout
-    thirdPartySettings: ThirdPartyGrid[]
+    rolePermissions: RolePermissionGrid[]
 
     /**
      * Constructor

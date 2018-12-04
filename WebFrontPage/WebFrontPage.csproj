@@ -25,6 +25,7 @@
     <None Remove="client_app\src\app\main\apps\%40resolveServices\resolve.module.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\productcolortype.resolve.service.ts" />
+    <None Remove="client_app\src\app\main\apps\@resolveServices\rolepermission.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\thirdpartyapptype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\customers\customer.core.module.ts" />
@@ -44,6 +45,7 @@
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\thirdpartyapptype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\productcolortype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\customerfreightoutratetype.resolve.service.ts" />
+    <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\rolepermission.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\@resolveServices\resolve.model.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />

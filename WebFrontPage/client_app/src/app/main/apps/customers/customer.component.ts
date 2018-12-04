@@ -165,7 +165,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 return of(false);
             }
             else {
-                return this.update(freightoutData);
+                return this.update(basicInfoData);
             }
         })
         .pipe(() =>

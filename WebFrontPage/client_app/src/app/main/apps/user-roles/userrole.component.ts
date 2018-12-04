@@ -1,4 +1,3 @@
-/// <reference path="../userRolethirdpartyappsetting/userRolethirdpartyappsetting.service.ts" />
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -11,14 +10,12 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
 import { UserRole } from './userRole.model';
-import { ThirdPartyGrid } from '../userRolethirdpartyappsetting/userRolethirdpartyappsetting.model';
 import { UserRoleService } from './userRole.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
-import { UserRoleThirdPartyAppSettingService } from '../userRolethirdpartyappsetting/userRolethirdpartyappsetting.service';
+import { RolePermissionService, RolePermissionGrid } from '../role-permissions/rolepermission.core.module';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
-import { UserRoleFreightoutService, UserRoleFreightout } from '../userRolefreightout/userRolefreightout.core.module';
 
 @Component({
     selector: 'userRole',
@@ -29,13 +26,12 @@ import { UserRoleFreightoutService, UserRoleFreightout } from '../userRolefreigh
 })
 export class UserRoleComponent implements OnInit, OnDestroy {
     // Resolve
-    listUserRoleFreightoutRateType: EnumItem<string>[];
-    listThirdParty: EnumItem<string>[];
+    listUser: EnumItem<string>[];
+    listPermission: EnumItem<string>[];
 
     id: string;
     currentEntity: UserRole;
-    thirdPartySettings: ThirdPartyGrid[];
-    freightout: UserRoleFreightout;
+    rolePermissions: RolePermissionGrid[];
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyUserRoleId'];
@@ -45,7 +41,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
 
     @ViewChild('tableThirdParty')
-    tableThirdParty: MatTable<ThirdPartyGrid>;
+    tableThirdParty: MatTable<RolePermissionGrid>;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -60,8 +56,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute
         , private service: UserRoleService
-        , private serviceFreightout: UserRoleFreightoutService
-        , private serviceThirdParty: UserRoleThirdPartyAppSettingService
+        , private serviceRolePermission: RolePermissionService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -83,8 +78,8 @@ export class UserRoleComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Resolve
-        this.listUserRoleFreightoutRateType = this.route.snapshot.data['listUserRoleFreightoutRateType'];
-        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
+        this.listUser = this.route.snapshot.data['listUser'];
+        this.listPermission = this.route.snapshot.data['listPermission'];
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged
@@ -96,8 +91,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
                 let currentEntity = dataResponse;
                 if (currentEntity) {
                     this.currentEntity = new UserRole(currentEntity);
-                    this.thirdPartySettings = (currentEntity.thirdPartySettings || []).map(item => new ThirdPartyGrid(item));
-                    this.freightout = (currentEntity.freightout || <UserRoleFreightout>{});
+                    this.rolePermissions = (currentEntity.rolePermissions || []).map(item => new RolePermissionGrid(item));
                     this.pageType = 'edit';
                 }
                 else {
@@ -106,7 +100,6 @@ export class UserRoleComponent implements OnInit, OnDestroy {
                 }
 
                 this.frmMain = this.createFormBasicInfo();
-                this.frmFreightout = this.createFormFreightout();
             });
     }
 
@@ -134,55 +127,21 @@ export class UserRoleComponent implements OnInit, OnDestroy {
             name: [this.currentEntity.name],
         });
     }
-
-    createFormFreightout() {
-        //debugger;
-        let freightout = this.freightout || <UserRoleFreightout>{};
-        return this._formBuilder.group({
-            id: [freightout.id],
-            userRoleFreightoutRateTypeId: [freightout.userRoleFreightoutRateTypeId],
-            userRoleId: [this.currentEntity.id],
-            cost: [freightout.cost],
-            wProtect: [freightout.wProtect],
-            secondLeg: [freightout.secondLeg],
-            surchargeYearly: [freightout.surchargeYearly],
-            surchargeHourly: [freightout.surchargeHourly],
-            dateFrom: [freightout.dateFrom],
-            dateTo: [freightout.dateTo],
-        });
-
-    }
-
+    
     /**
      * Save product
      */
     save(): void {
         const basicInfoData = this.frmMain.getRawValue();
-        const freightoutData = this.frmFreightout.getRawValue();
 
         Observable.create(observer => {
-            if (!this.disableSaveFrmMain()) {
-                return of(false);
+            if (this.disableSaveFrmMain()) {
+                return this.update(basicInfoData);
             }
             else {
-                return this.update(freightoutData);
+                return of(false);
             }
         })
-        .pipe(() =>
-            Observable.create(observer => {
-                if (!this.disableSaveFrmFreightout()) {
-                    if (freightoutData.id) {
-                        return this.serviceFreightout.update(freightoutData)
-                    }
-                    else {
-                        return this.serviceFreightout.add(freightoutData)
-                    }
-                }
-                else {
-                    return of(false);
-                }
-            })
-        )
         .toPromise()
         .then(() => {
             //debugger;
@@ -241,34 +200,34 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
 
 
-    getThirdPartyAppType(id: string) {
-        return this.listThirdParty.find(o => o.key == id);
+    getPermission(id: string) {
+        return this.listPermission.find(o => o.key == id);
 
     }
 
-    selectedItem: ThirdPartyGrid;
-    selectItem(item: ThirdPartyGrid) {
+    selectedItem: RolePermissionGrid;
+    selectItem(item: RolePermissionGrid) {
         this.selectedItem = item;
     }
 
-    newThirdPartyItem() {
-        let item = new ThirdPartyGrid({ userRoleId: this.currentEntity.id });
-        this.thirdPartySettings.push(item);
+    newRolePermissionItem() {
+        let item = new RolePermissionGrid({ roleId: this.currentEntity.id });
+        this.rolePermissions.push(item);
         this.selectItem(item);
         this.tableThirdParty.renderRows();
     }
 
-    saveThirdPartyItem() {
+    saveRolePermissionItem() {
         //debugger;
-        (this.selectedItem && this.selectedItem.id) ? this.updateThirdPartyItem(this.selectedItem) : this.addThirdPartyItem(this.selectedItem);
+        (this.selectedItem && this.selectedItem.id) ? this.updateRolePermissionItem(this.selectedItem) : this.addRolePermissionItem(this.selectedItem);
     }
 
-    addThirdPartyItem(item) {
+    addRolePermissionItem(item) {
         debugger;
-        this.serviceThirdParty.add(item).then(res => {
-            this.thirdPartySettings.push(<ThirdPartyGrid>res);
+        this.serviceRolePermission.add(item).then(res => {
+            this.rolePermissions.push(<RolePermissionGrid>res);
 
-            this._matSnackBar.open('New UserRole Third Party Settings saved', 'OK', {
+            this._matSnackBar.open('New UserRole Permission saved', 'OK', {
                 verticalPosition: 'top',
                 duration: 2000
             });
@@ -278,13 +237,13 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
     }
 
-    updateThirdPartyItem(item: ThirdPartyGrid) {
-        this.serviceThirdParty.update(item).then(res => {
+    updateRolePermissionItem(item: RolePermissionGrid) {
+        this.serviceRolePermission.update(item).then(res => {
 
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
+            let newItem = new RolePermissionGrid(<RolePermissionGrid>res);
+            let index = this.rolePermissions.findIndex(listItem => listItem.id == newItem.id);
             if (index != -1) {
-                this.thirdPartySettings.splice(index, 1, newItem);
+                this.rolePermissions.splice(index, 1, newItem);
             }
 
             this._matSnackBar.open('UserRole Third Party Settings saved', 'OK', {
@@ -297,10 +256,10 @@ export class UserRoleComponent implements OnInit, OnDestroy {
         });
     }
 
-    deleteThirdPartyItemEdition(item: ThirdPartyGrid) {
+    deleteThirdPartyItemEdition(item: RolePermissionGrid) {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
-            data: <DeletePopupData>{ elementDescription: `${this.getThirdPartyAppType(item.thirdPartyAppTypeId).value} ${item.thirdPartyUserRoleId}` }
+            data: <DeletePopupData>{ elementDescription: `${this.getPermission(item.permissionId).value} ${item.roleId}` }
         });
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
@@ -311,13 +270,13 @@ export class UserRoleComponent implements OnInit, OnDestroy {
     }
 
 
-    deleteThirdPartyItemEditionExecution(item: ThirdPartyGrid) {
-        this.serviceThirdParty.update(item).then(res => {
+    deleteThirdPartyItemEditionExecution(item: RolePermissionGrid) {
+        this.serviceRolePermission.update(item).then(res => {
 
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
+            let newItem = new RolePermissionGrid(<RolePermissionGrid>res);
+            let index = this.rolePermissions.findIndex(listItem => listItem.id == newItem.id);
             if (index != -1) {
-                this.thirdPartySettings.splice(index, 1, newItem);
+                this.rolePermissions.splice(index, 1, newItem);
             }
 
             this._matSnackBar.open('UserRole Third Party Settings deleted', 'OK', {
@@ -336,46 +295,12 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
 
 
-
-    addUserRoleFreightout(item: UserRoleFreightout) {
-        //debugger;
-        return this.serviceFreightout.update(item);
-
-    }
-
-    updateUserRoleFreightout(item: UserRoleFreightout) {
-        this.serviceThirdParty.update(item).then(res => {
-
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
-            if (index != -1) {
-                this.thirdPartySettings.splice(index, 1, newItem);
-            }
-
-            this._matSnackBar.open('UserRole Third Party Settings saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 2000
-            });
-
-            this.selectedItem = null;
-
-        });
-    }
-
-
-
-
-
     disableSaveFrmMain() {
         return (this.frmMain.invalid || this.frmMain.pristine);
     }
 
-    disableSaveFrmFreightout() {
-        return (this.frmFreightout.invalid || this.frmFreightout.pristine);
-    }
-
     disableSave() {
-        return this.disableSaveFrmMain() && this.disableSaveFrmFreightout();
+        return this.disableSaveFrmMain();
     }
 }
 

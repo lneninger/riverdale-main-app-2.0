@@ -13,9 +13,10 @@ import {
     MatSortModule,
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
-import { ThirdPartyAppTypeResolveService, UserRoleFreightoutRateTypeResolveService } from '../@resolveServices/resolve.module';
-import { RolePermissionCoreModule  } from '../userRolethirdpartyappsetting/userRolethirdpartyappsetting.core.module';
-import { UserRoleFreightoutCoreModule } from '../userRolefreightout/userRolefreightout.core.module';
+import { RolePermissionResolveService } from '../@resolveServices/resolve.module';
+import { UserResolveService } from '../@resolveServices/resolve.module';
+import { RolePermissionCoreModule  } from '../role-permissions/rolepermission.core.module';
+import { UserCoreModule } from '../users/user.core.module';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 
 const routes: Routes = [
@@ -24,8 +25,8 @@ const routes: Routes = [
         component: UserRoleComponent,
         resolve: {
             data: UserRoleService,
-            listThirdParty: ThirdPartyAppTypeResolveService,
-            listUserRoleFreightoutRateType: UserRoleFreightoutRateTypeResolveService
+            listThirdParty: RolePermissionResolveService,
+            listUserRoleFreightoutRateType: UserResolveService
         }
     },
 
@@ -72,8 +73,8 @@ const routes: Routes = [
 
         , PopupsModule
         , UserRoleCoreModule
-        , UserRoleThirdPartyAppSettingCoreModule
-        , UserRoleFreightoutCoreModule
+        , RolePermissionCoreModule
+        , UserCoreModule
     ],
     providers: [
         //UserRolesService
