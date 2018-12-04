@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="client_app\dist\**" />
+    <Compile Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <Content Remove="client_app\dist\**" />
+    <Content Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <EmbeddedResource Remove="client_app\dist\**" />
+    <EmbeddedResource Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <None Remove="client_app\dist\**" />
+    <None Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,8 +26,8 @@
     <None Remove="client_app\src\app\main\apps\@resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\productcolortype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\thirdpartyapptype.resolve.service.ts" />
+    <None Remove="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\customers\customer.core.module.ts" />
-    <None Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\customerthirdpartyappsetting.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
   </ItemGroup>
@@ -41,7 +45,7 @@
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\productcolortype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\@resolveServices\resolve.model.ts" />
-    <TypeScriptCompile Include="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\customerthirdpartyappsetting.core.module.ts" />
+    <TypeScriptCompile Include="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customers\customer.core.module.ts" />

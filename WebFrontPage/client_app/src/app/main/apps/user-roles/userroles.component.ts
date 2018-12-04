@@ -14,21 +14,21 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { CustomerGrid, Customer } from './customer.model';
+import { UserRoleGrid, UserRole } from './userRole.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { CustomerService } from './customer.service';
+import { UserRoleService } from './userRole.service';
 
 @Component({
-    selector: 'customers',
-    templateUrl: './customers.component.html',
-    styleUrls: ['./customers.component.scss'],
+    selector: 'userRoles',
+    templateUrl: './user-roles.component.html',
+    styleUrls: ['./user-roles.component.scss'],
     animations: fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })
-export class CustomersComponent implements OnInit {
-    dataSource: CustomersDataSource | null;
+export class UserRolesComponent implements OnInit {
+    dataSource: UserRolesDataSource | null;
     displayedColumns = ['name', 'erpId', 'salesforceId', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
@@ -45,10 +45,10 @@ export class CustomersComponent implements OnInit {
 
 
     /* ******************************Custom Notification***********************************************/
-    customers: any[];
+    userRoles: any[];
 
     constructor(
-         private service: CustomerService
+         private service: UserRoleService
         , private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
@@ -68,12 +68,12 @@ export class CustomersComponent implements OnInit {
      */
     ngOnInit(): void {
         // debugger;
-        this.dataSource = new CustomersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
+        this.dataSource = new UserRolesDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(CustomerNewDialogComponent, {
+        const dialogRef = this.dialog.open(UserRoleNewDialogComponent, {
             width: '60%',
             data: {/* name: this.name, animal: this.animal */}
         });
@@ -85,17 +85,17 @@ export class CustomersComponent implements OnInit {
     }
 }
 
-export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
+export class UserRolesDataSource extends DataSourceAbstract<UserRoleGrid>
 {
     /**
      * Constructor
      *
-     * @param {CustomersListService} _service
+     * @param {UserRolesListService} _service
      * @param {MatPaginator} _matPaginator
      * @param {MatSort} _matSort
      */
     constructor(
-        service: CustomerService
+        service: UserRoleService
         , filterElement: ElementRef
         , matPaginator: MatPaginator
         , matSort: MatSort
@@ -103,7 +103,7 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}customer/pagequery`;
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}userRole/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
 
@@ -118,17 +118,17 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
 
 
 @Component({
-    selector: 'customernew-dialog',
-    templateUrl: 'customernew.dialog.component.html',
+    selector: 'userRolenew-dialog',
+    templateUrl: 'userRolenew.dialog.component.html',
 })
-export class CustomerNewDialogComponent {
+export class UserRoleNewDialogComponent {
 
     frmMain: FormGroup;
     constructor(
-        private service: CustomerService
+        private service: UserRoleService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        ,public dialogRef: MatDialogRef<CustomerNewDialogComponent>
+        ,public dialogRef: MatDialogRef<UserRoleNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -141,7 +141,7 @@ export class CustomerNewDialogComponent {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
-                    this.matSnackBar.open('Customer created', 'OK', {
+                    this.matSnackBar.open('UserRole created', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });
@@ -159,8 +159,8 @@ export class CustomerNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: Customer) => {
-            this.service.router.navigate([`apps/customers/${res.id}`]);
+        this.save().then((res: UserRole) => {
+            this.service.router.navigate([`apps/userRoles/${res.id}`]);
             this.dialogRef.close();
         });
     }

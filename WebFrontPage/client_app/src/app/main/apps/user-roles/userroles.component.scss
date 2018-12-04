@@ -1,8 +1,8 @@
 @import "src/@fuse/scss/fuse";
 
-users {
+userRoles {
 
-    #users {
+    #userRoles {
 
         .top-bg {
 
@@ -54,7 +54,7 @@ users {
         }
     }
 
-    .users-table {
+    .userRoles-table {
         flex: 1 1 auto;
         border-bottom: 1px solid rgba(0, 0, 0, .12);
         overflow: auto;
@@ -64,7 +64,7 @@ users {
             min-height: 64px;
         }
 
-        .users {
+        .userRoles {
             position: relative;
             cursor: pointer;
             height: 84px;
@@ -90,8 +90,8 @@ users {
             }
         }
 
-        .mat-column-options {
-            flex: 0 1 80px;
+        .mat-column-category {
+            flex: 0 1 240px;
         }
 
         .mat-column-price {

@@ -10,15 +10,19 @@
     </mat-form-field>
 
     <mat-form-field fxFlex="calc(20% - 20px)">
+        <input matInput cdkFocusInitial formControlName="userName" placeholder="User Name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="calc(20% - 20px)">
         <input matInput cdkFocusInitial formControlName="email" placeholder="Email">
     </mat-form-field>
 
     <mat-form-field fxFlex="calc(20% - 20px)">
-        <input matInput cdkFocusInitial formControlName="password" placeholder="Password">
+        <input type="password" matInput cdkFocusInitial formControlName="password" placeholder="Password">
     </mat-form-field>
 
     <mat-form-field fxFlex="calc(20% - 20px)">
-        <input matInput cdkFocusInitial formControlName="confirmPassword" placeholder="Confirm Password">
+        <input type="password" matInput cdkFocusInitial formControlName="confirmPassword" placeholder="Confirm Password">
     </mat-form-field>
 </div>
 <div mat-dialog-actions>

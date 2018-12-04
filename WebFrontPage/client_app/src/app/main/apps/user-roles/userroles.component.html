@@ -1,4 +1,4 @@
-<div id="customers" class="page-layout carded fullwidth inner-scroll">
+<div id="userRoles" class="page-layout carded fullwidth inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -18,7 +18,7 @@
                     account_box
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Customers
+                    UserRoles
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -27,7 +27,7 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a customer">
+                    <input #filter placeholder="Search for a userRole">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -46,7 +46,7 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
-            <mat-table class="customers-table"
+            <mat-table class="userRoles-table"
                        #table [dataSource]="dataSource"
                        matSort
                        [@animateStagger]="{value:'50'}"
@@ -106,7 +106,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
                     <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
                         <mat-menu #cellMenu="matMenu">
-                            <a mat-menu-item [routerLink]="['/apps/customers/settings', {id: item.id}]">Settings</a>
+                            <a mat-menu-item [routerLink]="['/apps/userRoles/settings', {id: item.id}]">Settings</a>
                             <button mat-menu-item>Help</button>
                         </mat-menu>
 
@@ -118,9 +118,9 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
                 <mat-row *matRowDef="let item; columns: displayedColumns;"
-                         class="customer"
+                         class="userRole"
                          matRipple
-                         [routerLink]="'/apps/customers/'+item.id">
+                         [routerLink]="'/apps/userRoles/'+item.id">
                 </mat-row>
             </mat-table>
 

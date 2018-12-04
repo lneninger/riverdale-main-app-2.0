@@ -1,8 +1,10 @@
 
 export class UserGrid {
     id: number;
-    erpId: string;
-    name: string;
+    email: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
 }
 
 export class User {

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
+import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar, MatTable } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -20,6 +20,7 @@ import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from './user.service';
 import { AuthenticationService, Register } from '../@hipalanetCommons/authentication/authentication.core.module';
+import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
 
 @Component({
     selector: 'users',
@@ -29,8 +30,8 @@ import { AuthenticationService, Register } from '../@hipalanetCommons/authentica
     encapsulation: ViewEncapsulation.None
 })
 export class usersComponent implements OnInit {
-    dataSource: usersDataSource | null;
-    displayedColumns = ['userName', 'email', 'firstName', 'lastName', 'options'];
+    dataSource: UsersDataSource | null;
+    displayedColumns = ['options', 'userName', 'email', 'firstName', 'lastName'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -44,6 +45,8 @@ export class usersComponent implements OnInit {
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    @ViewChild('tableMain')
+    tableMain: MatTable<UserGrid>;
 
     /* ******************************Custom Notification***********************************************/
     users: any[];
@@ -51,13 +54,12 @@ export class usersComponent implements OnInit {
     constructor(
         private service: UserService
         , private database: AngularFireDatabase
-        , public dialog: MatDialog
+        , private _matSnackBar: MatSnackBar
+        , private matDialog: MatDialog
     ) {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,23 +71,55 @@ export class usersComponent implements OnInit {
      */
     ngOnInit(): void {
         // debugger;
-        this.dataSource = new usersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
+        this.dataSource = new UsersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(userNewDialogComponent, {
+        const dialogRef = this.matDialog.open(UserNewDialogComponent, {
             width: '60%',
             data: {/* name: this.name, animal: this.animal */ }
         });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed with', result);
+            debugger;
+            this.dataSource.dataChanged.next('');
         });
+    }
+
+    delete(item: UserGrid) {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: `${item.email}` }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteExecution(item);
+            }
+        });
+    }
+
+    deleteExecution(item: UserGrid) {
+        this.service.delete(item.id)
+            .then(() => {
+
+                // Show the success message
+                this._matSnackBar.open('User deleted', 'OK', {
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+
+                //this.dataSource.filter[];
+                // Change the location with new one
+                //this._location.go('apps/users');
+
+            });
     }
 }
 
-export class usersDataSource extends DataSourceAbstract<UserGrid>
+export class UsersDataSource extends DataSourceAbstract<UserGrid>
 {
     /**
      * Constructor
@@ -121,7 +155,7 @@ export class usersDataSource extends DataSourceAbstract<UserGrid>
     selector: 'usernew-dialog',
     templateUrl: 'usernew.dialog.component.html',
 })
-export class userNewDialogComponent {
+export class UserNewDialogComponent {
 
     frmMain: FormGroup;
     constructor(
@@ -129,7 +163,7 @@ export class userNewDialogComponent {
         , private authenticationService: AuthenticationService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        , public dialogRef: MatDialogRef<userNewDialogComponent>
+        , public dialogRef: MatDialogRef<UserNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -144,7 +178,7 @@ export class userNewDialogComponent {
     }
 
     save() {
-        debugger;
+        //debugger;
         let formData = this.frmMain.value;
         let registerData = new Register(formData);
 

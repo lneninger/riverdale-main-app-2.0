@@ -14,7 +14,14 @@ import { HttpClient } from "@angular/common/http";
 export abstract class DataSourceAbstract<T> extends DataSource<T>
 {
     private _unsubscribeAll: Subject<any>;
+
     private _filterChange = new BehaviorSubject('');
+
+    private _dataChanged = new BehaviorSubject('');
+    get dataChanged() {
+        return this._dataChanged;
+    }
+
     private _filteredDataChange = new BehaviorSubject('');
 
     private _filter: { [key: string]: any; } = {};
@@ -53,6 +60,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
         const displayDataChanges = [
             this._matPaginator.page,
             this._filterChange,
+            this._dataChanged,
             this._matSort.sortChange
         ];
 
