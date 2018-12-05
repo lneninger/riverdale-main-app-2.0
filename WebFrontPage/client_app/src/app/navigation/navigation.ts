@@ -106,12 +106,20 @@ export const navigation: FuseNavigation[] = [
                 ]
             },
             {
-                id: '',
+                id: 'users',
                 title: 'Users',
                 translate: 'NAV.USERS',
                 type: 'item',
                 icon: 'person',
                 url: '/apps/users'
+            },
+{
+                id: 'roles',
+                title: 'Roles',
+                translate: 'NAV.ROLES',
+                type: 'item',
+                icon: 'lock',
+                url: '/apps/roles'
             },
             //{
             //    id: 'calendar',

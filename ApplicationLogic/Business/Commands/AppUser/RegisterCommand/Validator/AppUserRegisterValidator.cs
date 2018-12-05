@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using EntityFrameworkCore.DbContextScope;
+using ApplicationLogic.Repositories.DB;
+using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
+using Framework.Core.Crypto;
+using Framework.Storage.DataHolders.Messages;
+using FluentValidation;
+
+namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
+{
+    public class AppUserRegisterValidator : FluentValidation.AbstractValidator<AppUserRegisterCommandInputDTO>, IAppUserRegisterValidator
+    {
+        public AppUserRegisterValidator(IAppUserDBRepository repository)
+        {
+            this.Repository = repository;
+
+            // Email Required
+            this.RuleFor(x => x.Email)
+                .NotEmpty();
+
+            // Email has email address
+            this.RuleFor(x => x.Email)
+                .EmailAddress();
+
+            // User Name Required
+            this.RuleFor(x => x.UserName)
+                .NotEmpty();
+
+            // User Name minimum length
+            this.RuleFor(x => x.UserName)
+                .MinimumLength(3);
+
+            //Email doesn't exists
+            this.When(x => !string.IsNullOrWhiteSpace(x.Email), () =>
+            {
+                this.RuleFor(x => x.Email)
+                .Must(email =>
+                {
+                    return !this.Repository.ExistsByEmail(email);
+                });
+            });
+
+            //UserName doesn't exists
+            this.When(x => !string.IsNullOrWhiteSpace(x.UserName), () =>
+            {
+                this.RuleFor(x => x.UserName)
+                .Must(userName =>
+                {
+                    return !this.Repository.ExistsByUserName(userName);
+                });
+            });
+
+            
+            
+        }
+
+        public IAppUserDBRepository Repository { get; }
+    }
+}

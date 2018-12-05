@@ -15,6 +15,7 @@ using ApplicationLogic.Business.Commons;
 using RiverdaleMainApp2_0.Auth;
 using DomainDatabaseMapping;
 using DatabaseRepositories.DB;
+using ApplicationLogic.Business.Commands.Customer.InsertCommand;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -73,6 +74,12 @@ namespace RiverdaleMainApp2_0.IoC
                 var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
                 var dataProviderTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(dataProviderTypes.ToArray())
+                .AsImplementedInterfaces()
+                .TrackInstanceEvents();
+
+                var validatorAssembly = typeof(CustomerInsertValidator).Assembly;
+                var validatorTypes = validatorAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Validator", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(validatorTypes.ToArray())
                 .AsImplementedInterfaces()
                 .TrackInstanceEvents();
 

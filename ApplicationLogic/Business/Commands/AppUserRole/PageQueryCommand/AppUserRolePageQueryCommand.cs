@@ -5,10 +5,11 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand
 {
-    public class AppUserRolePageQueryCommand : AbstractDBCommand<DomainModel.Identity.AppUserRole, IAppUserRoleDBRepository>, IAppUserRolePageQueryCommand
+    public class AppUserRolePageQueryCommand : AbstractDBCommand<IdentityRole, IAppUserRoleDBRepository>, IAppUserRolePageQueryCommand
     {
         public AppUserRolePageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, IAppUserRoleDBRepository repository) : base(dbContextScopeFactory, repository)
         {

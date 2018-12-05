@@ -4,10 +4,11 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand
 {
-    public class AppUserRoleDeleteCommand : AbstractDBCommand<DomainModel.Identity.AppUserRole, IAppUserRoleDBRepository>, IAppUserRoleDeleteCommand
+    public class AppUserRoleDeleteCommand : AbstractDBCommand<IdentityRole, IAppUserRoleDBRepository>, IAppUserRoleDeleteCommand
     {
         public AppUserRoleDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, IAppUserRoleDBRepository repository) : base(dbContextScopeFactory, repository)
         {

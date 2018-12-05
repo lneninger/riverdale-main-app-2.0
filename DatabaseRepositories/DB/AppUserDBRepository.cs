@@ -224,5 +224,29 @@ namespace DatabaseRepositories.DB
                 return result;
             }
         }
+
+
+        /***************************Validation************************************/
+
+        public bool ExistsByEmail(string email)
+        {
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+        public bool ExistsByUserName(string userName)
+        {
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedUserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+        public bool ExistsByEmailOrUserName(string email, string userName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

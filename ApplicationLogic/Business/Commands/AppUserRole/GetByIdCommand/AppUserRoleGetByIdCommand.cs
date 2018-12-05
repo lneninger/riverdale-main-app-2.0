@@ -2,10 +2,11 @@
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.GetByIdCommand.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.GetByIdCommand
 {
-    public class AppUserRoleGetByIdCommand : AbstractDBCommand<DomainModel.Identity.AppUserRole, IAppUserRoleDBRepository>, IAppUserRoleGetByIdCommand
+    public class AppUserRoleGetByIdCommand : AbstractDBCommand<IdentityRole, IAppUserRoleDBRepository>, IAppUserRoleGetByIdCommand
     {
 
         public AppUserRoleGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, IAppUserRoleDBRepository repository) : base(dbContextScopeFactory, repository)

@@ -38,6 +38,16 @@ namespace ApplicationLogic.Repositories.DB
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        bool ExistsByEmail(string email);
+
+        bool ExistsByUserName(string userName);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         OperationResponse<AppUserRegisterCommandOutputDTO> Insert(AppUserRegisterCommandInputDTO input);
@@ -63,5 +73,13 @@ namespace ApplicationLogic.Repositories.DB
         /// <param name="id"></param>
         /// <returns></returns>
         AppUserDeleteCommandOutputDTO Delete(string id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        bool ExistsByEmailOrUserName(string email, string userName);
     }
 }
