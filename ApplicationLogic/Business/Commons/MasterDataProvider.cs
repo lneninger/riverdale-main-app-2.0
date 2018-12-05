@@ -53,5 +53,13 @@ namespace ApplicationLogic.Business.Commons
                 return this.Repository.GetToEnumCustomer();
             }
         }
+
+        public List<EnumItemDTO<string>> GetToEnumAppUser()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumUser();
+            }
+        }
     }
 }

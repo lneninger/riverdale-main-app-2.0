@@ -4,6 +4,7 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand
 {
@@ -13,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand
         {
         }
 
-        public ProductColorTypeDeleteCommandOutputDTO Execute(string id)
+        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Execute(string id)
         {
             return this.Repository.Delete(id);
         }

@@ -19,6 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
+using Framework.Storage.DataHolders.Messages;
 
 namespace DatabaseRepositories.DB
 {
@@ -118,8 +119,9 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public CustomerFreightoutInsertCommandOutputDTO Insert(CustomerFreightoutInsertCommandInputDTO input)
+        public OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
             var entity = new CustomerFreightout
             {
                 Cost = input.Cost ?? 0,
@@ -138,7 +140,7 @@ namespace DatabaseRepositories.DB
                 dbLocator.Add(entity);
                 dbLocator.SaveChanges();
 
-                var result = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
+                var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
                 {
                     Id = o.Id,
                     CustomerId = o.CustomerId,
@@ -153,13 +155,16 @@ namespace DatabaseRepositories.DB
                     WProtect = o.WProtect,
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
+
                 return result;
             }
 
         }
 
-        public CustomerFreightoutUpdateCommandOutputDTO Update(CustomerFreightoutUpdateCommandInputDTO input)
+        public OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerFreightoutUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == input.Id);
@@ -179,7 +184,7 @@ namespace DatabaseRepositories.DB
                 dbLocator.SaveChanges();
 
 
-                var result = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     CustomerId = o.CustomerId,
@@ -193,13 +198,15 @@ namespace DatabaseRepositories.DB
                     SurchargeYearly = o.SurchargeYearly,
                     WProtect = o.WProtect,
                 }).FirstOrDefault();
+                result.Bag = dbResult;
 
                 return result;
             }
         }
 
-        public CustomerFreightoutDeleteCommandOutputDTO Delete(int id)
+        public OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id)
         {
+            var result = new OperationResponse<CustomerFreightoutDeleteCommandOutputDTO>();
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == id);
@@ -208,7 +215,7 @@ namespace DatabaseRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         CustomerId = o.CustomerId,
@@ -223,6 +230,7 @@ namespace DatabaseRepositories.DB
                         WProtect = o.WProtect,
                     }).FirstOrDefault();
 
+                    result.Bag = dbResult;
                     return result;
                 }
             }

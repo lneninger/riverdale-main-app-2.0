@@ -19,6 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
+using Framework.Storage.DataHolders.Messages;
 
 namespace DatabaseRepositories.DB
 {
@@ -112,8 +113,9 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public CustomerInsertCommandOutputDTO Insert(CustomerInsertCommandInputDTO input)
+        public OperationResponse<CustomerInsertCommandOutputDTO> Insert(CustomerInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerInsertCommandOutputDTO>();
             var entity = new Customer
             {
                 Name = input.Name,
@@ -124,19 +126,21 @@ namespace DatabaseRepositories.DB
                 dbLocator.Add(entity);
                 dbLocator.SaveChanges();
 
-                var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
+                var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
                 {
                     Id = o.Id,
                     Name = o.Name
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
 
         }
 
-        public CustomerUpdateCommandOutputDTO Update(CustomerUpdateCommandInputDTO input)
+        public OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == input.Id);
@@ -148,18 +152,21 @@ namespace DatabaseRepositories.DB
                 dbLocator.SaveChanges();
 
 
-                var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     Name = o.Name
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
         }
 
-        public CustomerDeleteCommandOutputDTO Delete(int id)
+        public OperationResponse<CustomerDeleteCommandOutputDTO> Delete(int id)
         {
+            var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
+
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == id);
@@ -168,12 +175,13 @@ namespace DatabaseRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         Name = o.Name
                     }).FirstOrDefault();
 
+                    result.Bag = dbResult;
                     return result;
                 }
             }

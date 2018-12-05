@@ -19,6 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
+using Framework.Storage.DataHolders.Messages;
 
 namespace DatabaseRepositories.DB
 {
@@ -94,8 +95,9 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public ProductColorTypeInsertCommandOutputDTO Insert(ProductColorTypeInsertCommandInputDTO input)
+        public OperationResponse<ProductColorTypeInsertCommandOutputDTO> Insert(ProductColorTypeInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<ProductColorTypeInsertCommandOutputDTO>();
             var entity = new ProductColorType
             {
                 Id = input.Id,
@@ -109,20 +111,23 @@ namespace DatabaseRepositories.DB
                 dbLocator.Add(entity);
                 dbLocator.SaveChanges();
 
-                var result = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeInsertCommandOutputDTO
+                var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeInsertCommandOutputDTO
                 {
                     Id = o.Id,
                     Name = o.Name
                     //ERPId = o.ERPId
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
+
                 return result;
             }
 
         }
 
-        public ProductColorTypeUpdateCommandOutputDTO Update(ProductColorTypeUpdateCommandInputDTO input)
+        public OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<ProductColorTypeUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<ProductColorType>().FirstOrDefault(o => o.Id == input.Id);
@@ -135,19 +140,21 @@ namespace DatabaseRepositories.DB
 
                 dbLocator.SaveChanges();
 
-                var result = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     Name = o.Name
                     //ERPId = o.ERPId
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
         }
 
-        public ProductColorTypeDeleteCommandOutputDTO Delete(string id)
+        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(string id)
         {
+            var result = new OperationResponse<ProductColorTypeDeleteCommandOutputDTO>();
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<ProductColorType>().FirstOrDefault(o => o.Id == id);
@@ -156,12 +163,14 @@ namespace DatabaseRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         Name = o.Name
                         //ERPId = o.ERPId
                     }).FirstOrDefault();
+
+                    result.Bag = dbResult;
 
                     return result;
                 }

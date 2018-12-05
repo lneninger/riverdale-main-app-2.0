@@ -9,6 +9,7 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -17,8 +18,8 @@ namespace ApplicationLogic.Repositories.DB
         IEnumerable<CustomerFreightoutGetAllCommandOutputDTO> GetAll();
         PageResult<CustomerFreightoutPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input);
         CustomerFreightoutGetByIdCommandOutputDTO GetById(int id);
-        CustomerFreightoutInsertCommandOutputDTO Insert(CustomerFreightoutInsertCommandInputDTO input);
-        CustomerFreightoutUpdateCommandOutputDTO Update(CustomerFreightoutUpdateCommandInputDTO input);
-        CustomerFreightoutDeleteCommandOutputDTO Delete(int id);
+        OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input);
+        OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input);
+        OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id);
     }
 }

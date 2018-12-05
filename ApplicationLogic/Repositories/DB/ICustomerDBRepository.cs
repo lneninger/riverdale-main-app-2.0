@@ -9,16 +9,22 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {
     public interface ICustomerDBRepository: IDBRepository
     {
         IEnumerable<CustomerGetAllCommandOutputDTO> GetAll();
+
         PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input);
+
         CustomerGetByIdCommandOutputDTO GetById(int id);
-        CustomerInsertCommandOutputDTO Insert(CustomerInsertCommandInputDTO input);
-        CustomerUpdateCommandOutputDTO Update(CustomerUpdateCommandInputDTO input);
-        CustomerDeleteCommandOutputDTO Delete(int id);
+
+        OperationResponse<CustomerInsertCommandOutputDTO> Insert(CustomerInsertCommandInputDTO input);
+
+        OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input);
+
+        OperationResponse<CustomerDeleteCommandOutputDTO> Delete(int id);
     }
 }

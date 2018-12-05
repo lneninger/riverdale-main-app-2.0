@@ -9,6 +9,8 @@ using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.InsertCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand.Models;
+using Framework.Storage.DataHolders.Messages;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -17,8 +19,8 @@ namespace ApplicationLogic.Repositories.DB
         IEnumerable<ProductColorTypeGetAllCommandOutputDTO> GetAll();
         PageResult<ProductColorTypePageQueryCommandOutputDTO> PageQuery(PageQuery<ProductColorTypePageQueryCommandInputDTO> input);
         ProductColorTypeGetByIdCommandOutputDTO GetById(string id);
-        ProductColorTypeInsertCommandOutputDTO Insert(ProductColorTypeInsertCommandInputDTO input);
-        ProductColorTypeUpdateCommandOutputDTO Update(ProductColorTypeUpdateCommandInputDTO input);
-        ProductColorTypeDeleteCommandOutputDTO Delete(string id);
+        OperationResponse<ProductColorTypeInsertCommandOutputDTO> Insert(ProductColorTypeInsertCommandInputDTO input);
+        OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input);
+        OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(string id);
     }
 }

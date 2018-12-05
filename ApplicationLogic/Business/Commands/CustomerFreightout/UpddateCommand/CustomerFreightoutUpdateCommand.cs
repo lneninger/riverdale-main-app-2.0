@@ -4,6 +4,7 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand
 {
@@ -13,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand
         {
         }
 
-        public CustomerFreightoutUpdateCommandOutputDTO Execute(CustomerFreightoutUpdateCommandInputDTO input)
+        public OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Execute(CustomerFreightoutUpdateCommandInputDTO input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

@@ -4,6 +4,7 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.Customer.InsertCommand
 {
@@ -13,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.Customer.InsertCommand
         {
         }
 
-        public CustomerInsertCommandOutputDTO Execute(CustomerInsertCommandInputDTO input)
+        public OperationResponse<CustomerInsertCommandOutputDTO> Execute(CustomerInsertCommandInputDTO input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

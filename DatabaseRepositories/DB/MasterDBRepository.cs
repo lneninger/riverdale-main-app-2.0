@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DomainModel.Identity;
 
 namespace DatabaseRepositories.DB
 {
@@ -46,6 +47,14 @@ namespace DatabaseRepositories.DB
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 return dbLocator.Set<Customer>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
+            }
+        }
+
+        public List<EnumItemDTO<string>> GetToEnumUser()
+        {
+            using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+            {
+                return dbLocator.Set<AppUser>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
             }
         }
     }

@@ -88,11 +88,28 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
+        /// <summary>
+        /// Customers this instance.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("customer")]
         public IActionResult Customer()
         {
             var result = this.MasterDataProvider.GetToEnumCustomer();
+
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Users this instance.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("user")]
+        public IActionResult GetToEnumAppUser()
+        {
+            var result = this.MasterDataProvider.GetToEnumAppUser();
 
             return this.Ok(result);
         }

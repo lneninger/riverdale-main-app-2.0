@@ -9,6 +9,7 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -17,8 +18,8 @@ namespace ApplicationLogic.Repositories.DB
         IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO> GetAll();
         PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input);
         CustomerThirdPartyAppSettingGetByIdCommandOutputDTO GetById(int id);
-        CustomerThirdPartyAppSettingInsertCommandOutputDTO Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input);
-        CustomerThirdPartyAppSettingUpdateCommandOutputDTO Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input);
-        CustomerThirdPartyAppSettingDeleteCommandOutputDTO Delete(int id);
+        OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO> Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input);
+        OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input);
+        OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Delete(int id);
     }
 }

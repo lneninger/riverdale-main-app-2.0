@@ -65,14 +65,14 @@ namespace ApplicationLogic.Repositories.DB
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        AppUserUpdateCommandOutputDTO Update(AppUserUpdateCommandInputDTO input);
+        OperationResponse<AppUserUpdateCommandOutputDTO> Update(AppUserUpdateCommandInputDTO input);
 
         /// <summary>
         /// MARK user as deleted
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        AppUserDeleteCommandOutputDTO Delete(string id);
+        OperationResponse<AppUserDeleteCommandOutputDTO> Delete(string id);
 
         /// <summary>
         /// 

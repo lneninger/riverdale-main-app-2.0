@@ -4,6 +4,7 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand
 {
@@ -13,9 +14,12 @@ namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.Delete
         {
         }
 
-        public CustomerThirdPartyAppSettingDeleteCommandOutputDTO Execute(int id)
+        public OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Execute(int id)
         {
-            return this.Repository.Delete(id);
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.Delete(id);
+            }
         }
     }
 }

@@ -143,8 +143,9 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public AppUserUpdateCommandOutputDTO Update(AppUserUpdateCommandInputDTO input)
+        public OperationResponse<AppUserUpdateCommandOutputDTO> Update(AppUserUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<AppUserUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<AppUser>().FirstOrDefault(o => o.Id == input.Id);
@@ -158,19 +159,21 @@ namespace DatabaseRepositories.DB
                 dbLocator.SaveChanges();
 
 
-                var result = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     UserName = o.UserName,
                     Email = o.Email
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
         }
 
-        public AppUserDeleteCommandOutputDTO Delete(string id)
+        public OperationResponse<AppUserDeleteCommandOutputDTO> Delete(string id)
         {
+            var result = new OperationResponse<AppUserDeleteCommandOutputDTO>();
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<AppUser>().FirstOrDefault(o => o.Id == id);
@@ -179,20 +182,20 @@ namespace DatabaseRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<AppUser>().Where(o => o.Id == entity.Id).Select(o => new AppUserDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         UserName = o.UserName,
                         CreatedAt = o.CreatedAt
                     }).FirstOrDefault();
 
+                    result.Bag = dbResult;
                     return result;
                 }
             }
 
             return null;
         }
-
 
         public OperationResponse<AppUserAuthenticateCommandOutputDTO> Authenticate(AppUserAuthenticateCommandInputDTO input)
         {

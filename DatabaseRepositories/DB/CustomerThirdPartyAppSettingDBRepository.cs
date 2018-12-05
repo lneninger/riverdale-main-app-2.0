@@ -19,6 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
+using Framework.Storage.DataHolders.Messages;
 
 namespace DatabaseRepositories.DB
 {
@@ -68,7 +69,7 @@ namespace DatabaseRepositories.DB
                 if (input.Sort.ContainsKey("customerName"))
                 {
                     expression = o => o.Customer.Name;
-                    advancedSorting.Add(new SortItem<CustomerThirdPartyAppSetting> { PropertyName= "customerName", SortExpression = expression, SortOrder = "desc"});
+                    advancedSorting.Add(new SortItem<CustomerThirdPartyAppSetting> { PropertyName = "customerName", SortExpression = expression, SortOrder = "desc" });
                 }
 
                 var sorting = new SortingDTO<CustomerThirdPartyAppSetting>(input.Sort, advancedSorting);
@@ -98,13 +99,14 @@ namespace DatabaseRepositories.DB
                     CustomerName = entityItem.Customer.Name,
                     ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
                     ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
-                    
+
                 }).FirstOrDefault();
             }
         }
 
-        public CustomerThirdPartyAppSettingInsertCommandOutputDTO Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input)
+        public OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO> Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO>();
             var entity = new CustomerThirdPartyAppSetting
             {
                 CustomerId = input.CustomerId,
@@ -117,7 +119,7 @@ namespace DatabaseRepositories.DB
                 dbLocator.Add(entity);
                 dbLocator.SaveChanges();
 
-                var result = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingInsertCommandOutputDTO
+                var dbResult = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingInsertCommandOutputDTO
                 {
                     Id = o.Id,
                     CustomerId = o.CustomerId,
@@ -126,13 +128,16 @@ namespace DatabaseRepositories.DB
                     ThirdPartyCustomerId = o.ThirdPartyCustomerId,
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
+
                 return result;
             }
 
         }
 
-        public CustomerThirdPartyAppSettingUpdateCommandOutputDTO Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
+        public OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<CustomerThirdPartyAppSetting>().FirstOrDefault(o => o.Id == input.Id);
@@ -146,7 +151,7 @@ namespace DatabaseRepositories.DB
                 dbLocator.SaveChanges();
 
 
-                var result = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     CustomerId = o.CustomerId,
@@ -155,12 +160,14 @@ namespace DatabaseRepositories.DB
                     ThirdPartyCustomerId = o.ThirdPartyCustomerId,
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
         }
 
-        public CustomerThirdPartyAppSettingDeleteCommandOutputDTO Delete(int id)
+        public OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Delete(int id)
         {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO>();
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
                 var entity = dbLocator.Set<CustomerThirdPartyAppSetting>().FirstOrDefault(o => o.Id == id);
@@ -169,7 +176,7 @@ namespace DatabaseRepositories.DB
                     entity.DeletedAt = DateTime.UtcNow;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                         CustomerId = o.CustomerId,
@@ -178,6 +185,7 @@ namespace DatabaseRepositories.DB
                         ThirdPartyCustomerId = o.ThirdPartyCustomerId,
                     }).FirstOrDefault();
 
+                    result.Bag = dbResult;
                     return result;
                 }
             }
@@ -185,6 +193,6 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
-       
+
     }
 }

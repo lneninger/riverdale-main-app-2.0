@@ -1,26 +1,19 @@
-﻿using ApplicationLogic.Business.Commands.AppUser.GetAllCommand;
-using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
-using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
-using ApplicationLogic.Business.Commands.AppUser.DeleteCommand;
+﻿using ApplicationLogic.Business.Commands.AppUser.DeleteCommand;
 using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand;
+using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
+using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
+using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
-using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -33,12 +26,12 @@ namespace RiverdaleMainApp2_0.Controllers
     public class UserController : Controller
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppUserController"/> class.
+        /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
-        /// <param name="insertCommand">The insert command.</param>
+        /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
         public UserController(IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
