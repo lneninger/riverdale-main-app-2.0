@@ -10,13 +10,27 @@ using Microsoft.Extensions.Logging;
 
 namespace RiverdaleMainApp2_0
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
+            ConfigureLog4Net();
+
             BuildWebHost(args).Build().Run();
         }
 
+        /// <summary>
+        /// Builds the web host.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        /// <returns></returns>
         public static IWebHostBuilder BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
@@ -29,5 +43,18 @@ namespace RiverdaleMainApp2_0
                 config.AddCommandLine(args);
             })
             .UseStartup<Startup>();
+
+        /// <summary>
+        /// Configures the log4 net.
+        /// </summary>
+        public static void ConfigureLog4Net()
+        {
+             var logRepository = log4net.LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
+            //Load configuration from log4net.config file
+            log4net.Config.XmlConfigurator.Configure(logRepository,
+                                                     new System.IO.FileInfo("log4net.config"));
+        }
     }
+
+
 }

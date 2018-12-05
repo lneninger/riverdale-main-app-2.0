@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RiverdaleMainApp2_0.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using ElmahCore.Mvc;
 
 namespace RiverdaleMainApp2_0
 {
@@ -76,6 +77,12 @@ namespace RiverdaleMainApp2_0
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
 
+            services.AddElmah(options =>
+            {
+                //services.AddElmah(options => option.Path = "you_path_here")
+                //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
+            });
+
             this.ConfigureAuthenticationServices(services);
 
             services.AddDbContext<RiverdaleDBContext>(options => options.UseSqlServer(this.ConnectionString));
@@ -108,11 +115,13 @@ namespace RiverdaleMainApp2_0
                 ValidateLifetime = false,
                 ClockSkew = TimeSpan.Zero
             };
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(options => {
+            .AddJwtBearer(options =>
+            {
                 //options.AutomaticAuthenticate = true;
                 //options.AutomaticChallenge = true;
                 options.TokenValidationParameters = tokenValidationParameters;
@@ -133,6 +142,8 @@ namespace RiverdaleMainApp2_0
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseElmah();
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>
@@ -167,7 +178,7 @@ namespace RiverdaleMainApp2_0
             //    ClockSkew = TimeSpan.Zero
             //};
 
-           
+
             //app.UseJwtBearerAuthentication(new JwtBearerOptions
             //{
             //    AutomaticAuthenticate = true,
@@ -183,7 +194,8 @@ namespace RiverdaleMainApp2_0
         }
 
 
-        private void ConfigureAuthenticationServices(IServiceCollection services) {
+        private void ConfigureAuthenticationServices(IServiceCollection services)
+        {
             //services.AddSingleton<IJwtFactory, JwtFactory>();
 
             // Register the ConfigurationBuilder instance of FacebookAuthSettings
