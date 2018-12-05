@@ -17,11 +17,11 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
             this.Repository = repository;
 
             // Email Required
-            this.RuleFor(x => x.Email)
+            this.RuleFor(x => x.NormalizedEmail)
                 .NotEmpty();
 
             // Email has email address
-            this.RuleFor(x => x.Email)
+            this.RuleFor(x => x.NormalizedEmail)
                 .EmailAddress();
 
             // User Name Required
@@ -33,9 +33,9 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
                 .MinimumLength(3);
 
             //Email doesn't exists
-            this.When(x => !string.IsNullOrWhiteSpace(x.Email), () =>
+            this.When(x => !string.IsNullOrWhiteSpace(x.NormalizedEmail), () =>
             {
-                this.RuleFor(x => x.Email)
+                this.RuleFor(x => x.NormalizedEmail)
                 .Must(email =>
                 {
                     return !this.Repository.ExistsByEmail(email);

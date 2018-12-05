@@ -12,9 +12,9 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PictureUrl { get; set; }
-        public byte[] PasswordHash { get; internal set; }
-        public byte[] PasswordSalt { get; internal set; }
-       
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public string NormalizedEmail { get; set; }
 
         public object Clone()
         {

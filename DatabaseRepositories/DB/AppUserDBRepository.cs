@@ -109,6 +109,7 @@ namespace DatabaseRepositories.DB
                 var entity = new AppUser
                 {
                     Email = input.Email,
+                    NormalizedEmail = input.NormalizedEmail,
                     UserName = input.UserName,
                     FirstName = input.FirstName,
                     LastName = input.LastName,
@@ -232,7 +233,7 @@ namespace DatabaseRepositories.DB
         {
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
-                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email));
             }
         }
 

@@ -7,6 +7,7 @@ using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using Framework.Core.Crypto;
 using Framework.Storage.DataHolders.Messages;
 using Framework.FluentValidation;
+using Framework.Core.GeneralValidations;
 
 namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
 {
@@ -20,6 +21,8 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
+                this.FormatData(input);
+
                 var result = new OperationResponse<AppUserRegisterCommandOutputDTO>().AddValidationResult(this.Validator.Validate(input));
                 if (!result.IsSucceed) return result;
 
@@ -32,6 +35,11 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
 
                 return this.Repository.Insert(internalInput);
             }
+        }
+
+        private void FormatData(AppUserRegisterCommandInputDTO input)
+        {
+            input.NormalizedEmail = InternetFieldNormalization.NormalizeEmail(input.Email);
         }
     }
 }
