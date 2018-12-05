@@ -32,6 +32,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="Faker" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.2" />
@@ -53,6 +54,7 @@
     <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
     <ProjectReference Include="..\CommunicationModel\CommunicationModel.csproj" />
     <ProjectReference Include="..\DatabaseRepositories\DatabaseRepositories.csproj" />
+    <ProjectReference Include="..\Framework\Framework.Logging\Framework.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppSettings\NewFolder\" />
     <Folder Include="Areas\" />
   </ItemGroup>
 

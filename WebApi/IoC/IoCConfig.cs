@@ -16,6 +16,8 @@ using RiverdaleMainApp2_0.Auth;
 using DomainDatabaseMapping;
 using DatabaseRepositories.DB;
 using ApplicationLogic.Business.Commands.Customer.InsertCommand;
+using Autofac.Extras.DynamicProxy;
+using RiverdaleMainApp2_0.AppSettings;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -36,10 +38,19 @@ namespace RiverdaleMainApp2_0.IoC
             {
                 builder.Populate(services);
 
+                builder
+                .RegisterInstance(configuration.GetSection("CustomSettings").Get<CustomSettings>())
+                .As<CustomSettings>();
+
+                //AOP Interceptors
+                // ExecutionTraceInterceptor. Trace all methods executions
+                builder.RegisterType<ExecutionTraceInterceptor>();
 
                 builder.RegisterType<AppConfig>().AsSelf().WithParameter(new TypedParameter(typeof(IConfiguration), configuration))
                 .SingleInstance();
-
+                
+                builder.RegisterType<string>().As<IDbContextScopeFactory>()
+                .AsImplementedInterfaces();
 
                 builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>()
                 .AsImplementedInterfaces();
@@ -54,7 +65,7 @@ namespace RiverdaleMainApp2_0.IoC
                 builder.RegisterType<RiverdaleDBContext>().AsSelf()
                 .TrackInstanceEvents();
 
-                
+
 
 
 
@@ -63,7 +74,9 @@ namespace RiverdaleMainApp2_0.IoC
 
                 var controllerTypes = targetAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(controllerTypes.ToArray())
-               .AsSelf();
+               .AsSelf()
+               .EnableInterfaceInterceptors()
+               .InterceptedBy(typeof(ExceptionInterceptor));
 
                 var serviceAssembly = typeof(CustomerGetAllCommand).Assembly;
                 var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
