@@ -167,7 +167,7 @@ namespace RiverdaleMainApp2_0.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
             */
-            var user = appResult;//.Bag;
+            var user = appResult.Bag;
             // return basic user info (without password) and token to store client side
 
             return Ok(new
@@ -250,8 +250,8 @@ namespace RiverdaleMainApp2_0.Controllers
             // get some claim by type
             var id = claimsIdentity.Name;//.FindFirst("some-claim");
             var appResult = this.AppUserGetByIdCommand.Execute(id);
-            var user = appResult;
-            var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(appResult.UserName, id));
+            var user = appResult.Bag;
+            var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(user.UserName, id));
 
             return Ok(new
             {
@@ -303,14 +303,14 @@ namespace RiverdaleMainApp2_0.Controllers
                 if (id != null)
                 {
                     var appResult = this.AppUserGetByIdCommand.Execute(id);
-
+                    var user = appResult.Bag;
                     return Ok(new
                     {
-                        UserName = appResult.UserName,
-                        FirstName = appResult.FirstName,
-                        LastName = appResult.LastName,
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
                         AccessToken = token,
-                        PictureUrl = appResult.PictureUrl,
+                        PictureUrl = user.PictureUrl,
                         ExpiresAt = tokenSecure.ValidTo,
                     });
                 }

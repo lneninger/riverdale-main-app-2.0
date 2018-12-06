@@ -15,9 +15,9 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface ICustomerFreightoutDBRepository: IDBRepository
     {
-        IEnumerable<CustomerFreightoutGetAllCommandOutputDTO> GetAll();
-        PageResult<CustomerFreightoutPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input);
-        CustomerFreightoutGetByIdCommandOutputDTO GetById(int id);
+        OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<PageResult<CustomerFreightoutPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input);
+        OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO> GetById(int id);
         OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input);
         OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input);
         OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id);

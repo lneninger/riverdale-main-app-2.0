@@ -4,6 +4,7 @@ using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUser.GetAllCommand
 {
@@ -13,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.AppUser.GetAllCommand
         {
         }
 
-        public IEnumerable<AppUserGetAllCommandOutputDTO> Execute()
+        public OperationResponse<IEnumerable<AppUserGetAllCommandOutputDTO>> Execute()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

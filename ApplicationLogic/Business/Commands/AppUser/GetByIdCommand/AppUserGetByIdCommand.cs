@@ -2,6 +2,7 @@
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUser.GetByIdCommand
 {
@@ -12,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.AppUser.GetByIdCommand
         {
         }
 
-        public AppUserGetByIdCommandOutputDTO Execute(string id)
+        public OperationResponse<AppUserGetByIdCommandOutputDTO> Execute(string id)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

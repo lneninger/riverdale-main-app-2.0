@@ -2,6 +2,7 @@
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerFreightout.GetByIdCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetByIdCommand
 {
@@ -12,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetByIdCommand
         {
         }
 
-        public CustomerFreightoutGetByIdCommandOutputDTO Execute(int id)
+        public OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO> Execute(int id)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

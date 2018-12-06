@@ -2,6 +2,7 @@
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand
 {
@@ -12,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand
         {
         }
 
-        public ProductColorTypeGetByIdCommandOutputDTO Execute(string id)
+        public OperationResponse<ProductColorTypeGetByIdCommandOutputDTO> Execute(string id)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.GetAllCommand.Models;
 using Microsoft.AspNetCore.Identity;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.GetAllCommand
 {
@@ -14,7 +15,7 @@ namespace ApplicationLogic.Business.Commands.AppUserRole.GetAllCommand
         {
         }
 
-        public IEnumerable<AppUserRoleGetAllCommandOutputDTO> Execute()
+        public OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>> Execute()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

@@ -29,79 +29,106 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO> GetAll()
+        public OperationResponse<IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO>> GetAll()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<CustomerThirdPartyAppSetting>().Select(entityItem => new CustomerThirdPartyAppSettingGetAllCommandOutputDTO
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    Id = entityItem.Id,
-                    CustomerId = entityItem.CustomerId,
-                    ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
-                    ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
-                    CreatedAt = entityItem.CreatedAt
+                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().Select(entityItem => new CustomerThirdPartyAppSettingGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        CustomerId = entityItem.CustomerId,
+                        ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
+                        ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
+                        CreatedAt = entityItem.CreatedAt
 
-                }).ToList();
-            }
-        }
-
-        public PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input)
-        {
-            // predicate construction
-            var predicate = PredicateBuilderExtension.True<CustomerThirdPartyAppSetting>();
-            if (input.CustomFilter != null)
-            {
-                var filter = input.CustomFilter;
-                if (!string.IsNullOrWhiteSpace(filter.Term))
-                {
-                    predicate = predicate.And(o => o.Customer.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }).ToList();
                 }
             }
-
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            catch (Exception ex)
             {
-                var query = dbLocator.Set<CustomerThirdPartyAppSetting>().AsQueryable();
-
-
-                var advancedSorting = new List<SortItem<CustomerThirdPartyAppSetting>>();
-                //var advancedSorting = new List<Expression<Func<CustomerThirdPartyAppSetting, object>>>();
-                Expression<Func<CustomerThirdPartyAppSetting, object>> expression;
-                if (input.Sort.ContainsKey("customerName"))
-                {
-                    expression = o => o.Customer.Name;
-                    advancedSorting.Add(new SortItem<CustomerThirdPartyAppSetting> { PropertyName = "customerName", SortExpression = expression, SortOrder = "desc" });
-                }
-
-                var sorting = new SortingDTO<CustomerThirdPartyAppSetting>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<CustomerThirdPartyAppSetting, CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerThirdPartyAppSettingPageQueryCommandOutputDTO
-                {
-                    Id = o.Id,
-                    CustomerName = o.Customer.Name,
-                    CustomerId = o.CustomerId,
-                    ThirdPartyAppTypeId = o.ThirdPartyAppTypeId,
-                    ThirdPartyCustomerId = o.ThirdPartyCustomerId,
-                    CreatedAt = o.CreatedAt
-                });
-
-                return result;
+                result.AddException($"Error getting all customer third party setting", ex);
             }
 
+            return result;
         }
 
-        public CustomerThirdPartyAppSettingGetByIdCommandOutputDTO GetById(int id)
+        public OperationResponse<PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input)
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == id).Select(entityItem => new CustomerThirdPartyAppSettingGetByIdCommandOutputDTO
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<CustomerThirdPartyAppSetting>();
+                if (input.CustomFilter != null)
                 {
-                    Id = entityItem.Id,
-                    CustomerName = entityItem.Customer.Name,
-                    ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
-                    ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.Customer.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
 
-                }).FirstOrDefault();
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    var query = dbLocator.Set<CustomerThirdPartyAppSetting>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<CustomerThirdPartyAppSetting>>();
+                    //var advancedSorting = new List<Expression<Func<CustomerThirdPartyAppSetting, object>>>();
+                    Expression<Func<CustomerThirdPartyAppSetting, object>> expression;
+                    if (input.Sort.ContainsKey("customerName"))
+                    {
+                        expression = o => o.Customer.Name;
+                        advancedSorting.Add(new SortItem<CustomerThirdPartyAppSetting> { PropertyName = "customerName", SortExpression = expression, SortOrder = "desc" });
+                    }
+
+                    var sorting = new SortingDTO<CustomerThirdPartyAppSetting>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<CustomerThirdPartyAppSetting, CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerThirdPartyAppSettingPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        CustomerName = o.Customer.Name,
+                        CustomerId = o.CustomerId,
+                        ThirdPartyAppTypeId = o.ThirdPartyAppTypeId,
+                        ThirdPartyCustomerId = o.ThirdPartyCustomerId,
+                        CreatedAt = o.CreatedAt
+                    });
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer third party setting page query", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO> GetById(int id)
+        {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == id).Select(entityItem => new CustomerThirdPartyAppSettingGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        CustomerName = entityItem.Customer.Name,
+                        ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
+                        ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
+
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting customer third party setting {id}", ex);
+            }
+
+            return result;
         }
 
         public OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO> Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input)

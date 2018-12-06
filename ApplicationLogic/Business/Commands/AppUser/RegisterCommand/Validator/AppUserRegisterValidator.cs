@@ -38,7 +38,8 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
                 this.RuleFor(x => x.NormalizedEmail)
                 .Must(email =>
                 {
-                    return !this.Repository.ExistsByEmail(email);
+                    var result = this.Repository.ExistsByEmail(email);
+                    return result.IsSucceed && result.Bag;
                 });
             });
 
@@ -48,12 +49,10 @@ namespace ApplicationLogic.Business.Commands.AppUser.RegisterCommand
                 this.RuleFor(x => x.UserName)
                 .Must(userName =>
                 {
-                    return !this.Repository.ExistsByUserName(userName);
+                    var result = this.Repository.ExistsByUserName(userName);
+                    return result.IsSucceed && result.Bag;
                 });
             });
-
-            
-            
         }
 
         public IAppUserDBRepository Repository { get; }

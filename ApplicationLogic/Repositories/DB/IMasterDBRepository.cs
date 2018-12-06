@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using ApplicationLogic.Business.Commons.DTOs;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {
     public interface IMasterDBRepository
     {
-        List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppType();
 
-        List<EnumItemDTO<string>> GetToEnumProductColorType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorType();
 
-        List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateType();
 
-        List<EnumItemDTO<int>> GetToEnumCustomer();
+        OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer();
 
-        List<EnumItemDTO<string>> GetToEnumUser();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumUser();
     }
 }

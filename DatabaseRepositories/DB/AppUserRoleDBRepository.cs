@@ -30,71 +30,100 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public IEnumerable<AppUserRoleGetAllCommandOutputDTO> GetAll()
+        public OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>> GetAll()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+            var result = new OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<IdentityRole>().Select(entityItem => new AppUserRoleGetAllCommandOutputDTO
+                using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
                 {
-                    Id = entityItem.Id,
-                    Name = entityItem.Name,
-                    NormalizedName = entityItem.NormalizedName,
+                    result.Bag = dbLocator.Set<IdentityRole>().Select(entityItem => new AppUserRoleGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        NormalizedName = entityItem.NormalizedName,
 
-                }).ToList();
-            }
-        }
-
-        public PageResult<AppUserRolePageQueryCommandOutputDTO> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input)
-        {
-            // predicate construction
-            var predicate = PredicateBuilderExtension.True<IdentityRole>();
-            if (input.CustomFilter != null)
-            {
-                var filter = input.CustomFilter;
-                if (!string.IsNullOrWhiteSpace(filter.Term))
-                {
-                    predicate = predicate.And(o => o.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase) || o.NormalizedName.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }).ToList();
                 }
             }
-
-            using (var dbLocator = this.AmbientDbContextLocator.Get<IdentityDBContext>())
+            catch (Exception ex)
             {
-                var query = dbLocator.Set<IdentityRole>().AsQueryable();
-
-
-                var advancedSorting = new List<SortItem<IdentityRole>>();
-                Expression<Func<IdentityRole, object>> expression;
-                //if (input.Sort.ContainsKey("email"))
-                //{
-                //    expression = o => o.AppUserRoleThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyAppUserRoleId;
-                //    advancedSorting.Add(new SortItem<AppUserRole> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
-                //}
-
-                var sorting = new SortingDTO<IdentityRole>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<IdentityRole, AppUserRolePageQueryCommandOutputDTO>(predicate, input, sorting, o => new AppUserRolePageQueryCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name,
-                    NormalizedName = o.NormalizedName,
-                });
-
-                return result;
+                result.AddException($"Error geting all", ex);
             }
+
+            return result;
         }
 
-        public AppUserRoleGetByIdCommandOutputDTO GetById(string id)
+        public OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input)
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+            var result = new OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<IdentityRole>().Where(o => o.Id == id).Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<IdentityRole>();
+                if (input.CustomFilter != null)
                 {
-                    Id = entityItem.Id,
-                    Name = entityItem.Name,
-                    NormalizedName = entityItem.NormalizedName,
-                }).FirstOrDefault()
-                ;
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase) || o.NormalizedName.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
+
+                using (var dbLocator = this.AmbientDbContextLocator.Get<IdentityDBContext>())
+                {
+                    var query = dbLocator.Set<IdentityRole>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<IdentityRole>>();
+                    Expression<Func<IdentityRole, object>> expression;
+                    //if (input.Sort.ContainsKey("email"))
+                    //{
+                    //    expression = o => o.AppUserRoleThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyAppUserRoleId;
+                    //    advancedSorting.Add(new SortItem<AppUserRole> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //}
+
+                    var sorting = new SortingDTO<IdentityRole>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<IdentityRole, AppUserRolePageQueryCommandOutputDTO>(predicate, input, sorting, o => new AppUserRolePageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        NormalizedName = o.NormalizedName,
+                    });
+
+                    return result;
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting page query", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<AppUserRoleGetByIdCommandOutputDTO> GetById(string id)
+        {
+            var result = new OperationResponse<AppUserRoleGetByIdCommandOutputDTO>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag =  dbLocator.Set<IdentityRole>().Where(o => o.Id == id).Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        NormalizedName = entityItem.NormalizedName,
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
         }
 
         public OperationResponse<AppUserRoleInsertCommandOutputDTO> Insert(AppUserRoleInsertCommandInputDTO input)
@@ -174,8 +203,8 @@ namespace DatabaseRepositories.DB
                     var dbResult = dbLocator.Set<IdentityRole>().Where(o => o.Id == entity.Id).Select(o => new AppUserRoleDeleteCommandOutputDTO
                     {
                         Id = o.Id,
-                    Name = o.Name,
-                    NormalizedName = o.NormalizedName,
+                        Name = o.Name,
+                        NormalizedName = o.NormalizedName,
                     }).FirstOrDefault();
 
                     result.Bag = dbResult;

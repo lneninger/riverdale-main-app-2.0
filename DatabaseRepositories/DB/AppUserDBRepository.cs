@@ -29,76 +29,106 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public IEnumerable<AppUserGetAllCommandOutputDTO> GetAll()
+        public OperationResponse<IEnumerable<AppUserGetAllCommandOutputDTO>> GetAll()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<IEnumerable<AppUserGetAllCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<AppUser>().Select(entityItem => new AppUserGetAllCommandOutputDTO
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    Id = entityItem.Id,
-                    UserName = entityItem.UserName,
-                    Email = entityItem.Email
+                    result.Bag = dbLocator.Set<AppUser>().Select(entityItem => new AppUserGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        UserName = entityItem.UserName,
+                        Email = entityItem.Email
 
-                }).ToList();
-            }
-        }
-
-        public PageResult<AppUserPageQueryCommandOutputDTO> PageQuery(PageQuery<AppUserPageQueryCommandInputDTO> input)
-        {
-            // predicate construction
-            var predicate = PredicateBuilderExtension.True<AppUser>();
-            if (input.CustomFilter != null)
-            {
-                var filter = input.CustomFilter;
-                if (!string.IsNullOrWhiteSpace(filter.Term))
-                {
-                    predicate = predicate.And(o => o.UserName.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase) || o.Email.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }).ToList();
                 }
             }
-
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            catch (Exception ex)
             {
-                var query = dbLocator.Set<AppUser>().AsQueryable();
-
-
-                var advancedSorting = new List<SortItem<AppUser>>();
-                Expression<Func<AppUser, object>> expression;
-                //if (input.Sort.ContainsKey("email"))
-                //{
-                //    expression = o => o.AppUserThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyAppUserId;
-                //    advancedSorting.Add(new SortItem<AppUser> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
-                //}
-
-                var sorting = new SortingDTO<AppUser>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<AppUser, AppUserPageQueryCommandOutputDTO>(predicate, input, sorting, o => new AppUserPageQueryCommandOutputDTO
-                {
-                    Id = o.Id,
-                    UserName = o.UserName,
-                    Email = o.Email,
-                    FirstName = o.FirstName,
-                    LastName = o.LastName
-                });
-
-                return result;
+                result.AddException($"Error Geting all user", ex);
             }
+
+            return result;
         }
 
-        public AppUserGetByIdCommandOutputDTO GetById(string id)
+        public OperationResponse<PageResult<AppUserPageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserPageQueryCommandInputDTO> input)
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<PageResult<AppUserPageQueryCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<AppUser>().Where(o => o.Id == id).Select(entityItem => new AppUserGetByIdCommandOutputDTO
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<AppUser>();
+                if (input.CustomFilter != null)
                 {
-                    Id = entityItem.Id,
-                    Email = entityItem.Email,
-                    FirstName = entityItem.FirstName,
-                    LastName = entityItem.LastName,
-                    PictureUrl = entityItem.PictureUrl,
-                    UserName = entityItem.UserName
-                }).FirstOrDefault()
-                ;
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.UserName.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase) || o.Email.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
+
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    var query = dbLocator.Set<AppUser>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<AppUser>>();
+                    Expression<Func<AppUser, object>> expression;
+                    //if (input.Sort.ContainsKey("email"))
+                    //{
+                    //    expression = o => o.AppUserThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyAppUserId;
+                    //    advancedSorting.Add(new SortItem<AppUser> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //}
+
+                    var sorting = new SortingDTO<AppUser>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<AppUser, AppUserPageQueryCommandOutputDTO>(predicate, input, sorting, o => new AppUserPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        UserName = o.UserName,
+                        Email = o.Email,
+                        FirstName = o.FirstName,
+                        LastName = o.LastName
+                    });
+
+                    return result;
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting users", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<AppUserGetByIdCommandOutputDTO> GetById(string id)
+        {
+            var result = new OperationResponse<AppUserGetByIdCommandOutputDTO>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<AppUser>().Where(o => o.Id == id).Select(entityItem => new AppUserGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Email = entityItem.Email,
+                        FirstName = entityItem.FirstName,
+                        LastName = entityItem.LastName,
+                        PictureUrl = entityItem.PictureUrl,
+                        UserName = entityItem.UserName
+                    }).FirstOrDefault()
+                    ;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
         }
 
         public OperationResponse<AppUserRegisterCommandOutputDTO> Insert(AppUserRegisterCommandInputDTO input)
@@ -232,25 +262,53 @@ namespace DatabaseRepositories.DB
 
         /***************************Validation************************************/
 
-        public bool ExistsByEmail(string email)
+        public OperationResponse<bool> ExistsByEmail(string email)
         {
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<bool>();
+            try
             {
-                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email));
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email));
+                }
             }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
         }
 
-        public bool ExistsByUserName(string userName)
+        public OperationResponse<bool> ExistsByUserName(string userName)
         {
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<bool>();
+            try
             {
-                return 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedUserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedUserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+                }
+
             }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
         }
 
-        public bool ExistsByEmailOrUserName(string email, string userName)
+        public OperationResponse<bool> ExistsByEmailOrUserName(string email, string userName)
         {
-            throw new NotImplementedException();
+            var result = new OperationResponse<bool>();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
         }
     }
 }

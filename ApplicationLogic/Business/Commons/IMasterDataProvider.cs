@@ -1,4 +1,5 @@
 ﻿using ApplicationLogic.Business.Commons.DTOs;
+using Framework.Storage.DataHolders.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +8,14 @@ namespace ApplicationLogic.Business.Commons
 {
     public interface IMasterDataProvider
     {
-        List<EnumItemDTO<string>> GetToEnumThirdPartyAppType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppType();
 
-        List<EnumItemDTO<string>> GetToEnumProductColorType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorType();
 
-        List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateType();
 
-        List<EnumItemDTO<int>> GetToEnumCustomer();
+        OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer();
 
-        List<EnumItemDTO<string>> GetToEnumAppUser();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumAppUser();
     }
 }

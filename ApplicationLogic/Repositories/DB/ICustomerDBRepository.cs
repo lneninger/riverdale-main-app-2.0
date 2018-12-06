@@ -15,11 +15,11 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface ICustomerDBRepository: IDBRepository
     {
-        IEnumerable<CustomerGetAllCommandOutputDTO> GetAll();
+        OperationResponse<IEnumerable<CustomerGetAllCommandOutputDTO>> GetAll();
 
-        PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<CustomerPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input);
 
-        CustomerGetByIdCommandOutputDTO GetById(int id);
+        OperationResponse<CustomerGetByIdCommandOutputDTO> GetById(int id);
 
         OperationResponse<CustomerInsertCommandOutputDTO> Insert(CustomerInsertCommandInputDTO input);
 

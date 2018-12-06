@@ -6,6 +6,7 @@ using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Microsoft.AspNetCore.Identity;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand
 {
@@ -15,7 +16,7 @@ namespace ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand
         {
         }
 
-        public PageResult<AppUserRolePageQueryCommandOutputDTO> Execute(PageQuery<AppUserRolePageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>> Execute(PageQuery<AppUserRolePageQueryCommandInputDTO> input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

@@ -29,88 +29,119 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public IEnumerable<CustomerGetAllCommandOutputDTO> GetAll()
+        public OperationResponse<IEnumerable<CustomerGetAllCommandOutputDTO>> GetAll()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<IEnumerable<CustomerGetAllCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<Customer>().Select(entityItem => new CustomerGetAllCommandOutputDTO
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    Id = entityItem.Id,
-                    Name = entityItem.Name,
-                    CreatedAt = entityItem.CreatedAt
+                    result.Bag = dbLocator.Set<Customer>().Select(entityItem => new CustomerGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        CreatedAt = entityItem.CreatedAt
 
-                }).ToList();
-            }
-        }
-
-        public PageResult<CustomerPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input)
-        {
-            // predicate construction
-            var predicate = PredicateBuilderExtension.True<Customer>();
-            if (input.CustomFilter != null)
-            {
-                var filter = input.CustomFilter;
-                if (!string.IsNullOrWhiteSpace(filter.Term))
-                {
-                    predicate = predicate.And(o => o.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }).ToList();
                 }
             }
-
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            catch (Exception ex)
             {
-                var query = dbLocator.Set<Customer>().AsQueryable();
-
-
-                var advancedSorting = new List<SortItem<Customer>>();
-                Expression<Func<Customer, object>> expression;
-                if (input.Sort.ContainsKey("erpId"))
-                {
-                    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
-                    advancedSorting.Add(new SortItem<Customer> { PropertyName="erpId", SortExpression = expression, SortOrder = "desc"});
-                }
-
-                var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name,
-                    ERPId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.BusinessERP).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
-                    SalesforceId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.Salesforce).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
-                    CreatedAt = o.CreatedAt
-                });
-
-                return result;
+                result.AddException($"Error getting all", ex);
             }
 
+            return result;
         }
 
-        public CustomerGetByIdCommandOutputDTO GetById(int id)
+        public OperationResponse<PageResult<CustomerPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerPageQueryCommandInputDTO> input)
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<PageResult<CustomerPageQueryCommandOutputDTO>>();
+            try
             {
-                return dbLocator.Set<Customer>().Where(o => o.Id == id).Select(entityItem => new CustomerGetByIdCommandOutputDTO
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<Customer>();
+                if (input.CustomFilter != null)
                 {
-                    Id = entityItem.Id,
-                    Name = entityItem.Name,
-                    ThirdPartySettings = entityItem.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO {
-                        Id = third.Id,
-                        ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
-                        ThirdPartyCustomerId = third.ThirdPartyCustomerId
-                    }),
-                    Freightout = entityItem.CustomerFreightouts.Select(freightoutItem => new CustomerGetByIdCommandOutputFreightoutDTO {
-                        Id = freightoutItem.Id,
-                        Cost = freightoutItem.Cost,
-                        SecondLeg = freightoutItem.SecondLeg,
-                        SurchargeHourly = freightoutItem.SurchargeHourly,
-                        SurchargeYearly = freightoutItem.SurchargeYearly,
-                        WProtect = freightoutItem.WProtect,
-                        DateFrom = freightoutItem.DateFrom,
-                        DateTo = freightoutItem.DateTo,
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
 
-                    }).FirstOrDefault()
-                }).FirstOrDefault();
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+
+
+                    var query = dbLocator.Set<Customer>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<Customer>>();
+                    Expression<Func<Customer, object>> expression;
+                    if (input.Sort.ContainsKey("erpId"))
+                    {
+                        expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
+                        advancedSorting.Add(new SortItem<Customer> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    }
+
+                    var sorting = new SortingDTO<Customer>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<Customer, CustomerPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        ERPId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.BusinessERP).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
+                        SalesforceId = o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == DomainModel._Commons.Enums.ThirdPartyAppTypeEnum.Salesforce).Select(thid => thid.ThirdPartyCustomerId).FirstOrDefault(),
+                        CreatedAt = o.CreatedAt
+                    });
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer page query", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<CustomerGetByIdCommandOutputDTO> GetById(int id)
+        {
+            var result = new OperationResponse<CustomerGetByIdCommandOutputDTO>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<Customer>().Where(o => o.Id == id).Select(entityItem => new CustomerGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        ThirdPartySettings = entityItem.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO
+                        {
+                            Id = third.Id,
+                            ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
+                            ThirdPartyCustomerId = third.ThirdPartyCustomerId
+                        }),
+                        Freightout = entityItem.CustomerFreightouts.Select(freightoutItem => new CustomerGetByIdCommandOutputFreightoutDTO
+                        {
+                            Id = freightoutItem.Id,
+                            Cost = freightoutItem.Cost,
+                            SecondLeg = freightoutItem.SecondLeg,
+                            SurchargeHourly = freightoutItem.SurchargeHourly,
+                            SurchargeYearly = freightoutItem.SurchargeYearly,
+                            WProtect = freightoutItem.WProtect,
+                            DateFrom = freightoutItem.DateFrom,
+                            DateTo = freightoutItem.DateTo,
+
+                        }).FirstOrDefault()
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
         }
 
         public OperationResponse<CustomerInsertCommandOutputDTO> Insert(CustomerInsertCommandInputDTO input)
@@ -189,6 +220,6 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
-       
+
     }
 }

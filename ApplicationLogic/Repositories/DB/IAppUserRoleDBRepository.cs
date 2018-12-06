@@ -13,11 +13,11 @@ using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {
-    public interface IAppUserRoleDBRepository: IDBRepository
+    public interface IAppUserRoleDBRepository : IDBRepository
     {
-        IEnumerable<AppUserRoleGetAllCommandOutputDTO> GetAll();
-        PageResult<AppUserRolePageQueryCommandOutputDTO> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input);
-        AppUserRoleGetByIdCommandOutputDTO GetById(string id);
+        OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input);
+        OperationResponse<AppUserRoleGetByIdCommandOutputDTO> GetById(string id);
         OperationResponse<AppUserRoleInsertCommandOutputDTO> Insert(AppUserRoleInsertCommandInputDTO input);
         OperationResponse<AppUserRoleUpdateCommandOutputDTO> Update(AppUserRoleUpdateCommandInputDTO input);
         OperationResponse<AppUserRoleDeleteCommandOutputDTO> Delete(string id);

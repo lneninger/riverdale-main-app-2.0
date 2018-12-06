@@ -1,6 +1,7 @@
 ﻿using ApplicationLogic.Business.Commons.DTOs;
 using ApplicationLogic.Repositories.DB;
 using EntityFrameworkCore.DbContextScope;
+using Framework.Storage.DataHolders.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +20,7 @@ namespace ApplicationLogic.Business.Commons
         }
 
 
-        public List<EnumItemDTO<string>> GetToEnumThirdPartyAppType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppType()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -28,7 +29,7 @@ namespace ApplicationLogic.Business.Commons
 
         }
 
-        public List<EnumItemDTO<string>> GetToEnumProductColorType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorType()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -37,7 +38,7 @@ namespace ApplicationLogic.Business.Commons
 
         }
 
-        public List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateType()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -46,7 +47,7 @@ namespace ApplicationLogic.Business.Commons
         }
 
 
-        public List<EnumItemDTO<int>> GetToEnumCustomer()
+        public OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -54,7 +55,7 @@ namespace ApplicationLogic.Business.Commons
             }
         }
 
-        public List<EnumItemDTO<string>> GetToEnumAppUser()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumAppUser()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

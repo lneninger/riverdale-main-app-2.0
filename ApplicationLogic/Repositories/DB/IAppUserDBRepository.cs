@@ -19,30 +19,30 @@ namespace ApplicationLogic.Repositories.DB
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerable<AppUserGetAllCommandOutputDTO> GetAll();
+        OperationResponse<IEnumerable<AppUserGetAllCommandOutputDTO>> GetAll();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        AppUserGetByIdCommandOutputDTO GetById(string id);
+        OperationResponse<AppUserGetByIdCommandOutputDTO> GetById(string id);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        PageResult<AppUserPageQueryCommandOutputDTO> PageQuery(PageQuery<AppUserPageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<AppUserPageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserPageQueryCommandInputDTO> input);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        bool ExistsByEmail(string email);
+        OperationResponse<bool> ExistsByEmail(string email);
 
-        bool ExistsByUserName(string userName);
+        OperationResponse<bool> ExistsByUserName(string userName);
 
 
         /// <summary>
@@ -80,6 +80,6 @@ namespace ApplicationLogic.Repositories.DB
         /// <param name="email"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        bool ExistsByEmailOrUserName(string email, string userName);
+        OperationResponse<bool> ExistsByEmailOrUserName(string email, string userName);
     }
 }

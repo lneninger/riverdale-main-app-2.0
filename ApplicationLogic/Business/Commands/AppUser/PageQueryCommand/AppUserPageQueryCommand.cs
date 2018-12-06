@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUser.PageQueryCommand
 {
@@ -14,7 +15,7 @@ namespace ApplicationLogic.Business.Commands.AppUser.PageQueryCommand
         {
         }
 
-        public PageResult<AppUserPageQueryCommandOutputDTO> Execute(PageQuery<AppUserPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<AppUserPageQueryCommandOutputDTO>> Execute(PageQuery<AppUserPageQueryCommandInputDTO> input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

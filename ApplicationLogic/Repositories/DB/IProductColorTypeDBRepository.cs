@@ -16,11 +16,16 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface IProductColorTypeDBRepository: IDBRepository
     {
-        IEnumerable<ProductColorTypeGetAllCommandOutputDTO> GetAll();
-        PageResult<ProductColorTypePageQueryCommandOutputDTO> PageQuery(PageQuery<ProductColorTypePageQueryCommandInputDTO> input);
-        ProductColorTypeGetByIdCommandOutputDTO GetById(string id);
+        OperationResponse<IEnumerable<ProductColorTypeGetAllCommandOutputDTO>> GetAll();
+
+        OperationResponse<PageResult<ProductColorTypePageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductColorTypePageQueryCommandInputDTO> input);
+
+        OperationResponse<ProductColorTypeGetByIdCommandOutputDTO> GetById(string id);
+
         OperationResponse<ProductColorTypeInsertCommandOutputDTO> Insert(ProductColorTypeInsertCommandInputDTO input);
+
         OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input);
+        
         OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(string id);
     }
 }

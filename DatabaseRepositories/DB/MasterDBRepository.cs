@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DomainModel.Identity;
+using Framework.Storage.DataHolders.Messages;
 
 namespace DatabaseRepositories.DB
 {
@@ -18,44 +19,94 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public List<EnumItemDTO<string>> GetToEnumThirdPartyAppType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppType()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
             {
-                return dbLocator.Set<ThirdPartyAppType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name }).ToList();
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<ThirdPartyAppType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name }).ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting third party", ex);
+            }
+
+            return result;
         }
 
-        public List<EnumItemDTO<string>> GetToEnumProductColorType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorType()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
             {
-                return dbLocator.Set<ProductColorType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<ProductColorType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting third party", ex);
+            }
+            
+            return result;
         }
 
-        public List<EnumItemDTO<string>> GetToEnumCustomerFreightoutRateType()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateType()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
             {
-                return dbLocator.Set<CustomerFreightoutRateType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<CustomerFreightoutRateType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting third party", ex);
+            }
+            
+            return result;
         }
 
-        public List<EnumItemDTO<int>> GetToEnumCustomer()
+        public OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var result = new OperationResponse<List<EnumItemDTO<int>>>();
+            try
             {
-                return dbLocator.Set<Customer>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<Customer>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting third party", ex);
+            }
+            
+            return result;
         }
 
-        public List<EnumItemDTO<string>> GetToEnumUser()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumUser()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
             {
-                return dbLocator.Set<AppUser>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
+                using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+                {
+                    result.Bag = dbLocator.Set<AppUser>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting users", ex);
+            }
+            
+            return result;
         }
     }
 }

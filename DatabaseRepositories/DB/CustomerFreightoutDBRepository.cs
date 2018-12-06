@@ -29,179 +29,227 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public IEnumerable<CustomerFreightoutGetAllCommandOutputDTO> GetAll()
+        public OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>> GetAll()
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
-                return dbLocator.Set<CustomerFreightout>().Select(entityItem => new CustomerFreightoutGetAllCommandOutputDTO
-                {
-                    Id = entityItem.Id,
-                    Cost = entityItem.Cost,
-                    CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
-                    CustomerId = entityItem.CustomerId,
-                    DateFrom = entityItem.DateFrom,
-                    DateTo = entityItem.DateTo,
-                    SecondLeg = entityItem.SecondLeg,
-                    SurchargeHourly = entityItem.SurchargeHourly,
-                    SurchargeYearly = entityItem.SurchargeYearly,
-                    WProtect = entityItem.WProtect,
+            var result = new OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>>();
 
-                }).ToList();
-            }
-        }
-
-        public PageResult<CustomerFreightoutPageQueryCommandOutputDTO> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input)
-        {
-            // predicate construction
-            var predicate = PredicateBuilderExtension.True<CustomerFreightout>();
-            if (input.CustomFilter != null)
+            try
             {
-                var filter = input.CustomFilter;
-                if (!string.IsNullOrWhiteSpace(filter.Term))
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    predicate = predicate.And(o => o.Customer.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    result.Bag = dbLocator.Set<CustomerFreightout>().Select(entityItem => new CustomerFreightoutGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Cost = entityItem.Cost,
+                        CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
+                        CustomerId = entityItem.CustomerId,
+                        DateFrom = entityItem.DateFrom,
+                        DateTo = entityItem.DateTo,
+                        SecondLeg = entityItem.SecondLeg,
+                        SurchargeHourly = entityItem.SurchargeHourly,
+                        SurchargeYearly = entityItem.SurchargeYearly,
+                        WProtect = entityItem.WProtect,
+
+                    }).ToList();
                 }
             }
-
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            catch (Exception ex)
             {
-                var query = dbLocator.Set<CustomerFreightout>().AsQueryable();
-
-
-                var advancedSorting = new List<SortItem<CustomerFreightout>>();
-                Expression<Func<CustomerFreightout, object>> expression;
-                if (input.Sort.ContainsKey("customerName"))
-                {
-                    expression = o => o.Customer.Name;
-                    advancedSorting.Add(new SortItem<CustomerFreightout> { PropertyName = "customerName", SortExpression = expression, SortOrder = "desc" });
-                }
-
-                var sorting = new SortingDTO<CustomerFreightout>(input.Sort, advancedSorting);
-
-                var result = query.ProcessPagingSort<CustomerFreightout, CustomerFreightoutPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerFreightoutPageQueryCommandOutputDTO
-                {
-                    Id = o.Id,
-                    CustomerName = o.Customer.Name,
-                    Cost = o.Cost,
-                    CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
-                    CustomerId = o.CustomerId,
-                    DateFrom = o.DateFrom,
-                    DateTo = o.DateTo,
-                    SecondLeg = o.SecondLeg,
-                    SurchargeHourly = o.SurchargeHourly,
-                    SurchargeYearly = o.SurchargeYearly,
-                    WProtect = o.WProtect,
-                });
-
-                return result;
+                result.AddException($"Error getting all customer freightout", ex);
             }
 
+            return result;
         }
 
-        public CustomerFreightoutGetByIdCommandOutputDTO GetById(int id)
+        public OperationResponse<PageResult<CustomerFreightoutPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input)
         {
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
-                return dbLocator.Set<CustomerFreightout>().Where(o => o.Id == id).Select(entityItem => new CustomerFreightoutGetByIdCommandOutputDTO
-                {
-                    Id = entityItem.Id,
-                    CustomerId = entityItem.CustomerId,
-                    Cost = entityItem.Cost,
-                    CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
-                    DateFrom = entityItem.DateFrom,
-                    DateTo = entityItem.DateTo,
-                    SecondLeg = entityItem.SecondLeg,
-                    SurchargeHourly = entityItem.SurchargeHourly,
-                    SurchargeYearly = entityItem.SurchargeYearly,
-                    WProtect = entityItem.WProtect,
+            var result = new OperationResponse<PageResult<CustomerFreightoutPageQueryCommandOutputDTO>>();
 
-                }).FirstOrDefault();
+            try
+            {
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<CustomerFreightout>();
+                if (input.CustomFilter != null)
+                {
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.Customer.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
+
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    var query = dbLocator.Set<CustomerFreightout>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<CustomerFreightout>>();
+                    Expression<Func<CustomerFreightout, object>> expression;
+                    if (input.Sort.ContainsKey("customerName"))
+                    {
+                        expression = o => o.Customer.Name;
+                        advancedSorting.Add(new SortItem<CustomerFreightout> { PropertyName = "customerName", SortExpression = expression, SortOrder = "desc" });
+                    }
+
+                    var sorting = new SortingDTO<CustomerFreightout>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<CustomerFreightout, CustomerFreightoutPageQueryCommandOutputDTO>(predicate, input, sorting, o => new CustomerFreightoutPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        CustomerName = o.Customer.Name,
+                        Cost = o.Cost,
+                        CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
+                        CustomerId = o.CustomerId,
+                        DateFrom = o.DateFrom,
+                        DateTo = o.DateTo,
+                        SecondLeg = o.SecondLeg,
+                        SurchargeHourly = o.SurchargeHourly,
+                        SurchargeYearly = o.SurchargeYearly,
+                        WProtect = o.WProtect,
+                    });
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer freightout page query", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO> GetById(int id)
+        {
+            var result = new OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == id).Select(entityItem => new CustomerFreightoutGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        CustomerId = entityItem.CustomerId,
+                        Cost = entityItem.Cost,
+                        CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
+                        DateFrom = entityItem.DateFrom,
+                        DateTo = entityItem.DateTo,
+                        SecondLeg = entityItem.SecondLeg,
+                        SurchargeHourly = entityItem.SurchargeHourly,
+                        SurchargeYearly = entityItem.SurchargeYearly,
+                        WProtect = entityItem.WProtect,
+
+                    }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer freightout {id}", ex);
+            }
+
+            return result;
         }
 
         public OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input)
         {
             var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
-            var entity = new CustomerFreightout
-            {
-                Cost = input.Cost ?? 0,
-                CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId,
-                CustomerId = input.CustomerId,
-                DateFrom = input.DateFrom ?? DateTime.UtcNow,
-                DateTo = input.DateTo ?? DateTime.UtcNow,
-                SecondLeg = input.SecondLeg ?? 0,
-                SurchargeHourly = input.SurchargeHourly,
-                SurchargeYearly = input.SurchargeYearly,
-                WProtect = input.WProtect ?? 0,
-            };
 
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            try
             {
-                dbLocator.Add(entity);
-                dbLocator.SaveChanges();
-
-                var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
+                var entity = new CustomerFreightout
                 {
-                    Id = o.Id,
-                    CustomerId = o.CustomerId,
-                    CustomerName = o.Customer.Name,
-                    Cost = o.Cost,
-                    CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
-                    DateFrom = o.DateFrom,
-                    DateTo = o.DateTo,
-                    SecondLeg = o.SecondLeg,
-                    SurchargeHourly = o.SurchargeHourly,
-                    SurchargeYearly = o.SurchargeYearly,
-                    WProtect = o.WProtect,
-                }).FirstOrDefault();
+                    Cost = input.Cost ?? 0,
+                    CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId,
+                    CustomerId = input.CustomerId,
+                    DateFrom = input.DateFrom ?? DateTime.UtcNow,
+                    DateTo = input.DateTo ?? DateTime.UtcNow,
+                    SecondLeg = input.SecondLeg ?? 0,
+                    SurchargeHourly = input.SurchargeHourly,
+                    SurchargeYearly = input.SurchargeYearly,
+                    WProtect = input.WProtect ?? 0,
+                };
 
-                result.Bag = dbResult;
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    dbLocator.Add(entity);
+                    dbLocator.SaveChanges();
 
-                return result;
+                    var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.Name,
+                        Cost = o.Cost,
+                        CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
+                        DateFrom = o.DateFrom,
+                        DateTo = o.DateTo,
+                        SecondLeg = o.SecondLeg,
+                        SurchargeHourly = o.SurchargeHourly,
+                        SurchargeYearly = o.SurchargeYearly,
+                        WProtect = o.WProtect,
+                    }).FirstOrDefault();
+
+                    result.Bag = dbResult;
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error adding customer freightout {input.ERPId}", ex);
             }
 
+            return result;
         }
 
         public OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<CustomerFreightoutUpdateCommandOutputDTO>();
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+
+            try
             {
-                var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == input.Id);
-                if (entity != null)
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    entity.Cost = input.Cost;
-                    entity.CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId;
-                    entity.CustomerId = input.CustomerId;
-                    entity.DateFrom = input.DateFrom;
-                    entity.DateTo = input.DateTo;
-                    entity.SecondLeg = input.SecondLeg;
-                    entity.SurchargeHourly = input.SurchargeHourly;
-                    entity.SurchargeYearly = input.SurchargeYearly;
-                    entity.WProtect = input.WProtect;
+                    var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == input.Id);
+                    if (entity != null)
+                    {
+                        entity.Cost = input.Cost;
+                        entity.CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId;
+                        entity.CustomerId = input.CustomerId;
+                        entity.DateFrom = input.DateFrom;
+                        entity.DateTo = input.DateTo;
+                        entity.SecondLeg = input.SecondLeg;
+                        entity.SurchargeHourly = input.SurchargeHourly;
+                        entity.SurchargeYearly = input.SurchargeYearly;
+                        entity.WProtect = input.WProtect;
+                    }
+
+                    dbLocator.SaveChanges();
+
+
+                    var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutUpdateCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.Name,
+                        Cost = o.Cost,
+                        CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
+                        DateFrom = o.DateFrom,
+                        DateTo = o.DateTo,
+                        SecondLeg = o.SecondLeg,
+                        SurchargeHourly = o.SurchargeHourly,
+                        SurchargeYearly = o.SurchargeYearly,
+                        WProtect = o.WProtect,
+                    }).FirstOrDefault();
+                    result.Bag = dbResult;
+
+                    return result;
                 }
-
-                dbLocator.SaveChanges();
-
-
-                var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutUpdateCommandOutputDTO
-                {
-                    Id = o.Id,
-                    CustomerId = o.CustomerId,
-                    CustomerName = o.Customer.Name,
-                    Cost = o.Cost,
-                    CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
-                    DateFrom = o.DateFrom,
-                    DateTo = o.DateTo,
-                    SecondLeg = o.SecondLeg,
-                    SurchargeHourly = o.SurchargeHourly,
-                    SurchargeYearly = o.SurchargeYearly,
-                    WProtect = o.WProtect,
-                }).FirstOrDefault();
-                result.Bag = dbResult;
-
-                return result;
             }
+            catch (Exception ex)
+            {
+
+            }
+
+            return result;
         }
 
         public OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id)

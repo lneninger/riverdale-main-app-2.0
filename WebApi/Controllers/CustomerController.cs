@@ -112,7 +112,8 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get()
         {
             var applicationResponse = this.GetAllCommand.Execute();
-            var result = applicationResponse.Select(appItem => new CustomerDTO {
+
+            var result = applicationResponse?.Bag.Select(appItem => new CustomerDTO {
                 Name = appItem.Name,
                 //ERPId = appItem.ERPId,
             });
