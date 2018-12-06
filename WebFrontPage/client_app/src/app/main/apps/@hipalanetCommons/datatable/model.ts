@@ -1,4 +1,5 @@
 import { HttpClient } from "@angular/common/http";
+import { SecureHttpClientService } from "../authentication/secureHttpClient.service";
 
 
 
@@ -16,7 +17,7 @@ export class SortCollection {
 
 
 export interface IPageQueryService {
-    http: HttpClient,
+    http: SecureHttpClientService,
 }
 
 

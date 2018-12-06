@@ -10,7 +10,7 @@ export class RolePermissionResolveService implements Resolve<any> {
     list: any[];
     endpoint = `${environment.appApi.apiBaseUrl}masters/rolepermission`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: SecureHttpClientService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this.list != null) {

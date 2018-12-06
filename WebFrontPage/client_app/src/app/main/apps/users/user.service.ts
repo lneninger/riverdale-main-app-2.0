@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
 
 @Injectable()
 export class UserService implements Resolve<any>, IPageQueryService {
@@ -23,7 +24,7 @@ export class UserService implements Resolve<any>, IPageQueryService {
      * @param {HttpClient} _httpClient
      */
     constructor(
-        public http: HttpClient
+        public http: SecureHttpClientService
         , public router: Router
     ) {
         // Set the defaults

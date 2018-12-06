@@ -8,6 +8,7 @@ import { environment } from 'environments/environment';
 /*************************Custom***********************************/
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { RolePermissionGrid } from './rolepermission.model';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
 
 @Injectable()
 export class RolePermissionService implements Resolve<any>, IPageQueryService {
@@ -21,7 +22,7 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
      * @param {HttpClient} _httpClient
      */
     constructor(
-        public http: HttpClient
+        public http: SecureHttpClientService
         , public router: Router
     ) {
         // Set the defaults

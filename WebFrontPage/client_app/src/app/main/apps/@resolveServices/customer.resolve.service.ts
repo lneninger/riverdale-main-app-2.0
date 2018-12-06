@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
+import { SecureHttpClientService } from "../@hipalanetCommons/authentication/secureHttpClient.service";
 
 
 
@@ -18,7 +19,7 @@ export class ThirdPartyAppTypeResolveService implements Resolve<any> {
 
     endpoint = `${environment.appApi.apiBaseUrl}masters/customer`;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: SecureHttpClientService) {
 
     }
 

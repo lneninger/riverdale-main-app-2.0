@@ -7,6 +7,7 @@ import { SignalRService } from './signalr.service';
 import { Subscription } from 'rxjs';
 import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { SecureHttpClientService } from '../authentication/secureHttpClient.service';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class UserActiveService {
         //private http: SecuredClientHttp
         private router: Router
         , private signalRService: SignalRService
-        , private httpClient: HttpClient
+        , private httpClient: SecureHttpClientService
         //, private authenticationTrackerService: AuthenticationTrackerService
     ) {
         this.setInterval();
