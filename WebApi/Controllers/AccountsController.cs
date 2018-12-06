@@ -21,7 +21,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RiverdaleMainApp2_0.Auth;
 using RiverdaleMainApp2_0.Auth.Helpers;
 using RiverdaleMainApp2_0.Models;
 using System;
@@ -45,43 +47,80 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="appUserRegisterCommand"></param>
-        public AccountsController(IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand)
+        /// <param name="userManager"></param>
+        /// <param name="jwtFactory"></param>
+        /// <param name="jwtOptions"></param>
+        /// <param name="appUserGetByIdCommand"></param>
+        ///// <param name="appUserRegisterCommand"></param>
+        ///// <param name="appUserAuthenticateCommand"></param>
+        ///// <param name="appUserGetByIdCommand"></param>
+        public AccountsController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand*/, IAppUserGetByIdCommand appUserGetByIdCommand)
         {
-            this.AppUserRegisterCommand = appUserRegisterCommand;
-            this.AppUserAuthenticateCommand = appUserAuthenticateCommand;
+            this.UserManager = userManager;
+            this.JwtFactory = jwtFactory;
+            this.JwtOptions = jwtOptions.Value;
+            //this.AppUserRegisterCommand = appUserRegisterCommand;
+            //this.AppUserAuthenticateCommand = appUserAuthenticateCommand;
             this.AppUserGetByIdCommand = appUserGetByIdCommand;
         }
 
         /// <summary>
-        /// 
+        /// Gets the user manager.
         /// </summary>
-        public IAppUserRegisterCommand AppUserRegisterCommand { get; }
+        /// <value>
+        /// The user manager.
+        /// </value>
+        public UserManager<AppUser> UserManager { get; }
 
         /// <summary>
-        /// 
+        /// The JWT factory
         /// </summary>
-        public IAppUserAuthenticateCommand AppUserAuthenticateCommand { get; }
+        public IJwtFactory JwtFactory;
+
+        /// <summary>
+        /// The JWT options
+        /// </summary>
+        public JwtIssuerOptions JwtOptions;
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public IAppUserRegisterCommand AppUserRegisterCommand { get; }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public IAppUserAuthenticateCommand AppUserAuthenticateCommand { get; }
+
+        /// <summary>
+        /// Gets the application user get by identifier command.
+        /// </summary>
+        /// <value>
+        /// The application user get by identifier command.
+        /// </value>
         public IAppUserGetByIdCommand AppUserGetByIdCommand { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [HttpPost("register")]
-        public IActionResult Post([FromBody]AppUserRegisterCommandInputDTO input)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[HttpPost("register")]
+        //public IActionResult Post([FromBody]AppUserRegisterCommandInputDTO input)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var result = this.AppUserRegisterCommand.Execute(input);
+        //    var result = this.AppUserRegisterCommand.Execute(input);
 
-            return new OkObjectResult("Account created");
-        }
+        //    return new OkObjectResult("Account created");
+        //}
+
+
 
         /// <summary>
         /// 
@@ -90,13 +129,23 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]AppUserAuthenticateCommandInputDTO input)
+        public async Task<IActionResult> AuthenticateAlt([FromBody]AppUserAuthenticateCommandInputDTO input)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var identity = await GetClaimsIdentity(input.UserName, input.Password);
+            if (identity == null)
+            {
+                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+            }
+
+            var id = identity.Claims.Single(c => c.Type == "id").Value;
+
+            var appResult = this.AppUserGetByIdCommand.Execute(id);
+            /*
             var appResult = this.AppUserAuthenticateCommand.Execute(input);
 
             if (appResult == null || appResult.Bag == null)
@@ -117,16 +166,102 @@ namespace RiverdaleMainApp2_0.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            var user = appResult.Bag;
+            */
+            var user = appResult;//.Bag;
             // return basic user info (without password) and token to store client side
+
             return Ok(new
             {
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                AccessToken = tokenString,
+                AccessToken = await this.JwtFactory.GenerateEncodedToken(input.UserName, identity),//identity.tokenString,
                 PictureUrl = user.PictureUrl,
-                ExpiresAt = expiresAt,
+                ExpiresAt = this.JwtOptions.Expiration,//expiresAt,
+                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds//expiresAt,
+            });
+        }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //[AllowAnonymous]
+        //[HttpPost("authenticate")]
+        //public IActionResult Authenticate([FromBody]AppUserAuthenticateCommandInputDTO input)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var appResult = this.AppUserAuthenticateCommand.Execute(input);
+
+        //    if (appResult == null || appResult.Bag == null)
+        //        return BadRequest(new { message = "Username or password is incorrect" });
+
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(Startup.SecretKey);
+        //    var expiresAt = DateTime.UtcNow.AddDays(7);
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(new Claim[]
+        //        {
+        //            new Claim(JwtRegisteredClaimNames.NameId, appResult.Bag.Id.ToString())
+        //        }),
+        //        Expires = DateTime.UtcNow.AddDays(7),
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //    };
+
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    var tokenString = tokenHandler.WriteToken(token);
+        //    var user = appResult.Bag;
+        //    // return basic user info (without password) and token to store client side
+        //    return Ok(new
+        //    {
+        //        UserName = user.UserName,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        AccessToken = tokenString,
+        //        PictureUrl = user.PictureUrl,
+        //        ExpiresAt = expiresAt,
+        //    });
+        //}
+
+        /// <summary>
+        /// Get Authentication info
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("authenticationInfo")]
+        public async Task<IActionResult> AuthenticationInfoAlt()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+
+            // alternatively
+            // claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
+
+            // get some claim by type
+            var id = claimsIdentity.Name;//.FindFirst("some-claim");
+            var appResult = this.AppUserGetByIdCommand.Execute(id);
+            var user = appResult;
+            var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(appResult.UserName, id));
+
+            return Ok(new
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                AccessToken = await this.JwtFactory.GenerateEncodedToken(user.UserName, newClaimsIdentity),//identity.tokenString,
+                PictureUrl = user.PictureUrl,
+                ExpiresAt = this.JwtOptions.Expiration,//expiresAt,
+                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds//expiresAt,
             });
         }
 
@@ -222,6 +357,26 @@ namespace RiverdaleMainApp2_0.Controllers
             //});
         }
 
+        [NonAction]
+        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
+        {
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
+            {
+                // get the user to verifty
+                var userToVerify = await this.UserManager.FindByNameAsync(userName);
 
+                if (userToVerify != null)
+                {
+                    // check the credentials  
+                    if (await this.UserManager.CheckPasswordAsync(userToVerify, password))
+                    {
+                        return await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                    }
+                }
+            }
+
+            // Credentials are invalid, or account doesn't exist
+            return await Task.FromResult<ClaimsIdentity>(null);
+        }
     }
 }

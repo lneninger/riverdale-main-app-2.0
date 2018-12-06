@@ -28,6 +28,7 @@ using RiverdaleMainApp2_0.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using ElmahCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace RiverdaleMainApp2_0
 {
@@ -83,12 +84,6 @@ namespace RiverdaleMainApp2_0
                 //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
             });
 
-            this.ConfigureAuthenticationServices(services);
-
-            services.AddDbContext<RiverdaleDBContext>(options => options.UseSqlServer(this.ConnectionString));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
-
             services.AddCors(builder =>
             {
 
@@ -96,36 +91,21 @@ namespace RiverdaleMainApp2_0
                 //    builder => builder.WithOrigins("http://example.com"));
             });
 
+            this.ConfigureAuthenticationServices(services);
+
+
+            services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+             // ===== Add Identity ========
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<RiverdaleDBContext>()
+                .AddDefaultTokenProviders();
+
+            
+
             services.AddSignalR();
-
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
-
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = false,
-                ValidateLifetime = false,
-                ClockSkew = TimeSpan.Zero
-            };
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                //options.AutomaticAuthenticate = true;
-                //options.AutomaticChallenge = true;
-                options.TokenValidationParameters = tokenValidationParameters;
-            });
 
             return IoCConfig.Init(Configuration, services);
         }
@@ -160,32 +140,6 @@ namespace RiverdaleMainApp2_0
 
             app.UseTempFileMiddleware();
 
-
-            //var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            //var tokenValidationParameters = new TokenValidationParameters
-            //{
-            //    ValidateIssuer = true,
-            //    ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
-
-            //    ValidateAudience = true,
-            //    ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
-
-            //    ValidateIssuerSigningKey = true,
-            //    IssuerSigningKey = _signingKey,
-
-            //    RequireExpirationTime = false,
-            //    ValidateLifetime = false,
-            //    ClockSkew = TimeSpan.Zero
-            //};
-
-
-            //app.UseJwtBearerAuthentication(new JwtBearerOptions
-            //{
-            //    AutomaticAuthenticate = true,
-            //    AutomaticChallenge = true,
-            //    TokenValidationParameters = tokenValidationParameters
-            //});
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -202,6 +156,7 @@ namespace RiverdaleMainApp2_0
             //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
             // jwt wire up
             // Get options from app settings
@@ -231,15 +186,18 @@ namespace RiverdaleMainApp2_0
                 ClockSkew = TimeSpan.Zero
             };
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(configureOptions =>
             {
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
+                configureOptions.RequireHttpsMetadata = false;
                 configureOptions.SaveToken = true;
             });
 
@@ -250,18 +208,18 @@ namespace RiverdaleMainApp2_0
             });
 
             // add identity
-            var builder = services.AddIdentityCore<AppUser>(o =>
-            {
-                // configure identity options
-                o.Password.RequireDigit = false;
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
-                o.Password.RequiredLength = 6;
-            });
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<IdentityDBContext>().AddDefaultTokenProviders();
-
+            services.AddIdentity<AppUser, IdentityRole>
+                (o =>
+                {
+                    // configure identity options
+                    o.Password.RequireDigit = false;
+                    o.Password.RequireLowercase = false;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequireNonAlphanumeric = false;
+                    o.Password.RequiredLength = 6;
+                })
+                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddDefaultTokenProviders();
         }
     }
 }

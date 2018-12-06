@@ -10,10 +10,14 @@ using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using RiverdaleMainApp2_0.Auth.Helpers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -34,8 +38,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
+        public UserController(UserManager<AppUser> userManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
         {
+            this.UserManager = userManager;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -43,6 +48,14 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        /// <summary>
+        /// Gets the user manager.
+        /// </summary>
+        /// <value>
+        /// The user manager.
+        /// </value>
+        public UserManager<AppUser> UserManager { get; }
 
         /// <summary>
         /// Gets the get all command.
@@ -129,17 +142,38 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
-        /// <summary>
-        /// Posts the specified model.
+          /// <summary>
+        /// Posts the user manager.
         /// </summary>
-        /// <param name="model">The model.</param>
+        /// <param name="input">The input.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(AppUserRegisterCommandOutputDTO))]
-        public IActionResult Post([FromBody]AppUserRegisterCommandInputDTO model)
+        [HttpPost]
+        [HttpPost("registerAlt")]
+        public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
         {
-            var appResult = this.RegisterCommand.Execute(model);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userIdentity = new AppUser
+            {
+                Email = input.Email,
+                UserName = input.UserName,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                PictureUrl = input.PictureUrl
+            };
+
+            var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
+
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+
+            return new OkObjectResult("Account created");
         }
+
 
         /// <summary>
         /// Puts the specified model.

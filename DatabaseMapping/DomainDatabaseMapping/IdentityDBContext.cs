@@ -43,8 +43,5 @@ namespace DomainDatabaseMapping
 
             modelBuilder.ApplyConfiguration(new AppUserMap(modelBuilder));
         }
-
-
-
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RiverdaleMainApp2_0.Models
+namespace RiverdaleMainApp2_0.Auth
 {
     /// <summary>
     /// 
@@ -46,7 +46,7 @@ namespace RiverdaleMainApp2_0.Models
         /// </summary>
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(120);
 
-
+    
 
         /// <summary>
         /// "jti" (JWT ID) Claim (default ID is a GUID)
