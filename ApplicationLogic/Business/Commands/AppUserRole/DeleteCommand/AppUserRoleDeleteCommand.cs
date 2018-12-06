@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand.Models;
 using Microsoft.AspNetCore.Identity;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand
 {
@@ -14,7 +15,7 @@ namespace ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand
         {
         }
 
-        public AppUserRoleDeleteCommandOutputDTO Execute(string id)
+        public OperationResponse<AppUserRoleDeleteCommandOutputDTO> Execute(string id)
         {
             return this.Repository.Delete(id);
         }

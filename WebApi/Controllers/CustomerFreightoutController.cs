@@ -139,7 +139,7 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Post([FromBody]CustomerFreightoutInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
-            return this.Ok(appResult);
+            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Put([FromBody]CustomerFreightoutUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
-            return this.Ok(appResult);
+            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
-            return this.Ok(appResult);
+            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
         
     }

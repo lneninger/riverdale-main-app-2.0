@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand.Models;
 using Microsoft.AspNetCore.Identity;
+using Framework.Storage.DataHolders.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand
 {
@@ -14,7 +15,7 @@ namespace ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand
         {
         }
 
-        public AppUserRoleUpdateCommandOutputDTO Execute(AppUserRoleUpdateCommandInputDTO input)
+        public OperationResponse<AppUserRoleUpdateCommandOutputDTO> Execute(AppUserRoleUpdateCommandInputDTO input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

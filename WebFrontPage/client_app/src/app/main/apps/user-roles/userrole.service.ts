@@ -79,6 +79,9 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.put(`${environment.appApi.apiBaseUrl}userRole`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
         });
     }
@@ -93,6 +96,9 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.post(`${environment.appApi.apiBaseUrl}userRole`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });
@@ -102,6 +108,9 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.delete(`${environment.appApi.apiBaseUrl}userRole/{id}`).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });

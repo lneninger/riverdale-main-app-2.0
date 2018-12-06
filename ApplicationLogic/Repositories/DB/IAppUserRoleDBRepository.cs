@@ -19,7 +19,7 @@ namespace ApplicationLogic.Repositories.DB
         PageResult<AppUserRolePageQueryCommandOutputDTO> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input);
         AppUserRoleGetByIdCommandOutputDTO GetById(string id);
         OperationResponse<AppUserRoleInsertCommandOutputDTO> Insert(AppUserRoleInsertCommandInputDTO input);
-        AppUserRoleUpdateCommandOutputDTO Update(AppUserRoleUpdateCommandInputDTO input);
-        AppUserRoleDeleteCommandOutputDTO Delete(string id);
+        OperationResponse<AppUserRoleUpdateCommandOutputDTO> Update(AppUserRoleUpdateCommandInputDTO input);
+        OperationResponse<AppUserRoleDeleteCommandOutputDTO> Delete(string id);
     }
 }

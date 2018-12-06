@@ -70,6 +70,10 @@ const routes = [
     {
         path: 'users',
         loadChildren: './users/users.module#UsersModule'
+    },
+    {
+        path: 'roles',
+        loadChildren: './user-roles/userroles.module#UserRolesModule'
     }
 ];
 

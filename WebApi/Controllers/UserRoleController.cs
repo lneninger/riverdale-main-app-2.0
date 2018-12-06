@@ -1,30 +1,34 @@
-﻿using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetAllCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetByIdCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.InsertCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.AppUserRole.GetAllCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.AppUserRole.GetByIdCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.AppUserRole.InsertCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand;
+using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand.Models;
+using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
-    /// CustomerThirdPartyAppSetting API interface
+    /// UserRole API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/CustomerThirdPartyAppSetting")]
-    public class CustomerThirdPartyAppSettingController : Controller
+    [Route("api/userrole")]
+    public class UserRoleController : Controller
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerThirdPartyAppSettingController"/> class.
+        /// Initializes a new instance of the <see cref="UserRoleController"/> class.
         /// </summary>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
@@ -32,7 +36,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerThirdPartyAppSettingController(ICustomerThirdPartyAppSettingPageQueryCommand pageQueryCommand, ICustomerThirdPartyAppSettingGetAllCommand getAllCommand, ICustomerThirdPartyAppSettingGetByIdCommand getByIdCommand, ICustomerThirdPartyAppSettingInsertCommand insertCommand, ICustomerThirdPartyAppSettingUpdateCommand updateCommand, ICustomerThirdPartyAppSettingDeleteCommand deleteCommand)
+        public UserRoleController(IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -48,12 +52,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerThirdPartyAppSettingGetAllCommand GetAllCommand { get; }
+        public IAppUserRoleGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ICustomerThirdPartyAppSettingPageQueryCommand PageQueryCommand { get; }
+        public IAppUserRolePageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -62,7 +66,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ICustomerThirdPartyAppSettingGetByIdCommand GetByIdCommand { get; }
+        public IAppUserRoleGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -70,7 +74,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ICustomerThirdPartyAppSettingInsertCommand InsertCommand { get; }
+        public IAppUserRoleInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -78,7 +82,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ICustomerThirdPartyAppSettingUpdateCommand UpdateCommand { get; }
+        public IAppUserRoleUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -86,16 +90,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ICustomerThirdPartyAppSettingDeleteCommand DeleteCommand { get; }
+        public IAppUserRoleDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<AppUserRolePageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<AppUserRolePageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -106,11 +110,10 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("", Name = "GetAllCustomerThirdPartyAppSetting"), ProducesResponseType(200, Type = typeof(CustomerThirdPartyAppSettingGetAllCommandOutputDTO))]
+        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<AppUserRoleGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
-           
             return this.Ok(appResult);
         }
 
@@ -119,12 +122,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}", Name = "GetCustomerThirdPartyAppSettingById"), ProducesResponseType(200, Type = typeof(CustomerThirdPartyAppSettingGetByIdCommandOutputDTO))]
-        public IActionResult Get(int id)
+        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(AppUserRoleGetByIdCommandOutputDTO))]
+        public IActionResult Get(string id)
         {
-            var appResult = this.GetByIdCommand.Execute(id);
+            var result = this.GetByIdCommand.Execute(id);
 
-            return this.Ok(appResult);
+            return this.Ok(result);
         }
 
         /// <summary>
@@ -132,8 +135,8 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerThirdPartyAppSettingInsertCommandOutputDTO))]
-        public IActionResult Post([FromBody]CustomerThirdPartyAppSettingInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(AppUserRoleInsertCommandOutputDTO))]
+        public IActionResult Post([FromBody]AppUserRoleInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -143,8 +146,8 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerThirdPartyAppSettingUpdateCommandOutputDTO))]
-        public IActionResult Put([FromBody]CustomerThirdPartyAppSettingUpdateCommandInputDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(AppUserRoleUpdateCommandOutputDTO))]
+        public IActionResult Put([FromBody]AppUserRoleUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -155,13 +158,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerThirdPartyAppSettingDeleteCommandOutputDTO))]
-        public IActionResult Delete(int id)
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(AppUserRoleDeleteCommandOutputDTO))]
+        public IActionResult Delete(string id)
         {
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
-
-       
+        
     }
 }

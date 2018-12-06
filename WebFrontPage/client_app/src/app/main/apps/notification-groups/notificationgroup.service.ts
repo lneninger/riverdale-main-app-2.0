@@ -44,7 +44,7 @@ export class NotificationGroupService implements Resolve<any>
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getEntity()
             ]).then(
                 () => {
                     resolve();
@@ -59,7 +59,7 @@ export class NotificationGroupService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.routeParams.id === 'new') {
                 this.onProductChanged.next(false);
@@ -72,13 +72,6 @@ export class NotificationGroupService implements Resolve<any>
                     this.onProductChanged.next({id: res.key, entity: this.entity });
                     resolve({ id: res.key, entity: this.entity });
                 }, reject);
-
-                //this._httpClient.get('api/e-commerce-products/' + this.routeParams.id)
-                //    .subscribe((response: any) => {
-                //        this.product = response;
-                //        this.onProductChanged.next(this.product);
-                //        resolve(response);
-                //    }, reject);
             }
         });
     }

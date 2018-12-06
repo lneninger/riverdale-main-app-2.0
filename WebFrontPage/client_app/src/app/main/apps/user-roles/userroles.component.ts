@@ -22,8 +22,8 @@ import { UserRoleService } from './userRole.service';
 
 @Component({
     selector: 'userRoles',
-    templateUrl: './user-roles.component.html',
-    styleUrls: ['./user-roles.component.scss'],
+    templateUrl: './userroles.component.html',
+    styleUrls: ['./userroles.component.scss'],
     animations: fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })

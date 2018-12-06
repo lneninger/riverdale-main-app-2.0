@@ -43,7 +43,7 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getEntity()
             ]).then(
                 () => {
                     resolve();
@@ -58,7 +58,7 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}customerthirdpartyappsetting/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;

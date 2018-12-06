@@ -13,7 +13,7 @@ import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpar
 
 @Injectable()
 export class CustomerService implements Resolve<any>, IPageQueryService {
-    
+
     routeParams: any;
     currentEntity: any;
     onCurrentEntityChanged: BehaviorSubject<any>;
@@ -77,9 +77,14 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
-                resolve(res);
-            });
+            this.http.put(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe(
+                (res: any) => {
+                    resolve(res);
+                },
+                error => {
+                    reject(error);
+                }
+            );
         });
     }
 
@@ -91,9 +96,14 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe((res: any) => {
-                resolve(res);
-            });
+            this.http.post(`${environment.appApi.apiBaseUrl}customer`, entity).subscribe(
+                (res: any) => {
+                    resolve(res);
+                },
+                error => {
+                    reject(error);
+                }
+            );
 
         });
     }
@@ -102,35 +112,11 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.delete(`${environment.appApi.apiBaseUrl}customer/{id}`).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });
     }
-
-    //addThirdPartyCustomer(model: ThirdPartyGrid) {
-    //    return new Promise((resolve, reject) => {
-    //        this.http.post(`${environment.appApi.apiBaseUrl}customer/addThirdParty`, model).subscribe((res: any) => {
-    //            resolve(res);
-    //        });
-
-    //    });
-    //}
-
-    //updateThirdPartyCustomer(model: ThirdPartyGrid) {
-    //    return new Promise((resolve, reject) => {
-    //        this.http.post(`${environment.appApi.apiBaseUrl}customer/updateThirdParty`, model).subscribe((res: any) => {
-    //            resolve(res);
-    //        });
-
-    //    });
-    //}
-
-    //removeThirdPartyCustomer(model: ThirdPartyGrid) {
-    //    return new Promise((resolve, reject) => {
-    //        this.http.post(`${environment.appApi.apiBaseUrl}customer/removeThirdParty`, model).subscribe((res: any) => {
-    //            resolve(res);
-    //        });
-
-    //    });
-    //}
 }

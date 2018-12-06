@@ -27,7 +27,7 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a userRole">
+                    <input #filter placeholder="Search for a user role">
                 </div>
             </div>
             <!-- / SEARCH -->
@@ -36,7 +36,7 @@
             <button mat-raised-button
                     (click)="openDialog()"
                     class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW CUSTOMER</span>
+                <span>ADD NEW USER ROLE</span>
             </button>
             <!-- / ADD BUTTON -->
 
@@ -120,7 +120,7 @@
                 <mat-row *matRowDef="let item; columns: displayedColumns;"
                          class="userRole"
                          matRipple
-                         [routerLink]="'/apps/userRoles/'+item.id">
+                         [routerLink]="'/apps/roles/'+item.id">
                 </mat-row>
             </mat-table>
 

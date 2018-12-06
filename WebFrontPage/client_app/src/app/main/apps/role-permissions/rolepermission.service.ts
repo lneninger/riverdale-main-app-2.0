@@ -77,6 +77,9 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.post(`${environment.appApi.apiBaseUrl}rolepermission`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });
@@ -92,6 +95,9 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.put(`${environment.appApi.apiBaseUrl}rolepermission`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
         });
     }
@@ -101,6 +107,9 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.delete(`${environment.appApi.apiBaseUrl}rolepermission`, entity.id).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });

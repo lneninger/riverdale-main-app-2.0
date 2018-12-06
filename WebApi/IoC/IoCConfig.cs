@@ -48,9 +48,6 @@ namespace RiverdaleMainApp2_0.IoC
 
                 builder.RegisterType<AppConfig>().AsSelf().WithParameter(new TypedParameter(typeof(IConfiguration), configuration))
                 .SingleInstance();
-                
-                builder.RegisterType<string>().As<IDbContextScopeFactory>()
-                .AsImplementedInterfaces();
 
                 builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>()
                 .AsImplementedInterfaces();

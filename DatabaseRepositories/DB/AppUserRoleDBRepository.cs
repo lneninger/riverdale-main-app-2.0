@@ -132,8 +132,9 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public AppUserRoleUpdateCommandOutputDTO Update(AppUserRoleUpdateCommandInputDTO input)
+        public OperationResponse<AppUserRoleUpdateCommandOutputDTO> Update(AppUserRoleUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<AppUserRoleUpdateCommandOutputDTO>();
             using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
             {
                 var entity = dbLocator.Set<IdentityRole>().FirstOrDefault(o => o.Id == input.Id);
@@ -147,19 +148,21 @@ namespace DatabaseRepositories.DB
                 dbLocator.SaveChanges();
 
 
-                var result = dbLocator.Set<IdentityRole>().Where(o => o.Id == entity.Id).Select(o => new AppUserRoleUpdateCommandOutputDTO
+                var dbResult = dbLocator.Set<IdentityRole>().Where(o => o.Id == entity.Id).Select(o => new AppUserRoleUpdateCommandOutputDTO
                 {
                     Id = o.Id,
                     Name = o.Name,
                     NormalizedName = o.NormalizedName,
                 }).FirstOrDefault();
 
+                result.Bag = dbResult;
                 return result;
             }
         }
 
-        public AppUserRoleDeleteCommandOutputDTO Delete(string id)
+        public OperationResponse<AppUserRoleDeleteCommandOutputDTO> Delete(string id)
         {
+            var result = new OperationResponse<AppUserRoleDeleteCommandOutputDTO>();
             using (var dbLocator = this.AmbientDbContextLocator.Get<IdentityDBContext>())
             {
                 var entity = dbLocator.Set<IdentityRole>().FirstOrDefault(o => o.Id == id);
@@ -168,13 +171,14 @@ namespace DatabaseRepositories.DB
                     dbLocator.Entry(entity).State = EntityState.Deleted;
                     dbLocator.SaveChanges();
 
-                    var result = dbLocator.Set<IdentityRole>().Where(o => o.Id == entity.Id).Select(o => new AppUserRoleDeleteCommandOutputDTO
+                    var dbResult = dbLocator.Set<IdentityRole>().Where(o => o.Id == entity.Id).Select(o => new AppUserRoleDeleteCommandOutputDTO
                     {
                         Id = o.Id,
                     Name = o.Name,
                     NormalizedName = o.NormalizedName,
                     }).FirstOrDefault();
 
+                    result.Bag = dbResult;
                     return result;
                 }
             }

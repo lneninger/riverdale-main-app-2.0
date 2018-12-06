@@ -43,7 +43,7 @@ export class UserService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getEntity()
             ]).then(
                 () => {
                     resolve();
@@ -58,7 +58,7 @@ export class UserService implements Resolve<any>, IPageQueryService {
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}user/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
@@ -76,23 +76,31 @@ export class UserService implements Resolve<any>, IPageQueryService {
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}user`, entity).subscribe((res: any) => {
+            this.http.put(`${environment.appApi.apiBaseUrl}user`, entity).subscribe(
+                (res: any) => {
                 resolve(res);
-            });
+                },
+                error => {
+                    reject(error);
+                });
         });
     }
 
     /**
      * Add product
      *
-     * @param product
+     * @param entity
      * @returns {Promise<any>}
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}user`, entity).subscribe((res: any) => {
-                resolve(res);
-            });
+            this.http.post(`${environment.appApi.apiBaseUrl}user`, entity).subscribe(
+                (res: any) => {
+                    resolve(res);
+                },
+                error => {
+                    reject(error);
+                });
 
         });
     }
@@ -101,6 +109,9 @@ export class UserService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.delete(`${environment.appApi.apiBaseUrl}user/{id}`).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });

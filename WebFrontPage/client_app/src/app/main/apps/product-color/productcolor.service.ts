@@ -75,6 +75,9 @@ export class ProductColorService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.put(`${environment.appApi.apiBaseUrl}productcolortype`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
         });
     }
@@ -89,6 +92,9 @@ export class ProductColorService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.post(`${environment.appApi.apiBaseUrl}productcolortype`, entity).subscribe((res: any) => {
                 resolve(res);
+            },
+            error => {
+                reject(error);
             });
 
         });
