@@ -16,6 +16,7 @@ import {
 import { PermissionResolveService } from '../@resolveServices/resolve.module';
 import { UserResolveService } from '../@resolveServices/resolve.module';
 import { RolePermissionCoreModule  } from '../role-permissions/rolepermission.core.module';
+import { RoleUserCoreModule  } from '../role-users/roleuser.core.module';
 import { UserCoreModule } from '../users/user.core.module';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 
@@ -26,7 +27,7 @@ const routes: Routes = [
         resolve: {
             data: UserRoleService,
             listPermission: PermissionResolveService,
-            listUserRoleFreightoutRateType: UserResolveService
+            listRoleUser: UserResolveService
         }
     },
 
@@ -74,6 +75,7 @@ const routes: Routes = [
         , PopupsModule
         , UserRoleCoreModule
         , RolePermissionCoreModule
+        , RoleUserCoreModule
         , UserCoreModule
     ],
     providers: [

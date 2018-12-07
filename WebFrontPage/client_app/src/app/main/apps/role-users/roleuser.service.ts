@@ -7,11 +7,11 @@ import { environment } from 'environments/environment';
 
 /*************************Custom***********************************/
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { RolePermissionGrid } from './rolepermission.model';
+import { RoleUserGrid } from './roleuser.model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
 
 @Injectable()
-export class RolePermissionService implements Resolve<any>, IPageQueryService {
+export class RoleUserService implements Resolve<any>, IPageQueryService {
     routeParams: any;
     currentEntity: any;
     onCurrentEntityChanged: BehaviorSubject<any>;
@@ -59,7 +59,7 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
      */
     getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${environment.appApi.apiBaseUrl}rolepermission/${this.routeParams.id}`).subscribe(response => {
+            this.http.get(`${environment.appApi.apiBaseUrl}roleuser/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
                 this.onCurrentEntityChanged.next(this.currentEntity);
                 resolve(this.currentEntity);
@@ -76,7 +76,7 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}permission`, entity).subscribe((res: any) => {
+            this.http.post(`${environment.appApi.apiBaseUrl}roleuser`, entity).subscribe((res: any) => {
                 resolve(res);
             },
             error => {
@@ -86,9 +86,27 @@ export class RolePermissionService implements Resolve<any>, IPageQueryService {
         });
     }
 
+    /**
+     * Save Customer Third Party App Setting
+     *
+     * @param product
+     * @returns {Promise<any>}
+     */
+    update(entity): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${environment.appApi.apiBaseUrl}roleuser`, entity).subscribe((res: any) => {
+                resolve(res);
+            },
+            error => {
+                reject(error);
+            });
+        });
+    }
+
+
     delete(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}permission`, entity.id).subscribe((res: any) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}roleuser`, entity.id).subscribe((res: any) => {
                 resolve(res);
             },
             error => {

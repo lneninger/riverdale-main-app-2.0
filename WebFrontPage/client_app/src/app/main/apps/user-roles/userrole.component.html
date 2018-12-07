@@ -115,7 +115,7 @@
                                                                 </button>
                                                             </mat-header-cell>
                                                             <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
-                                                                <ng-container [ngSwitch]="selectedItem == item">
+                                                                <ng-container [ngSwitch]="selectedRolePermissionItem == item">
                                                                     <ng-container *ngSwitchCase="true">
                                                                         <button type="button" mat-icon-button color="primary" (click)="saveRolePermissionItem()">
                                                                             <mat-icon>save</mat-icon>
@@ -197,7 +197,7 @@
                                                                 </button>
                                                             </mat-header-cell>
                                                             <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
-                                                                <ng-container [ngSwitch]="selectedItem == item">
+                                                                <ng-container [ngSwitch]="selectedRoleUserItem == item">
                                                                     <ng-container *ngSwitchCase="true">
                                                                         <button type="button" mat-icon-button color="primary" (click)="saveRoleUserItem()">
                                                                             <mat-icon>save</mat-icon>

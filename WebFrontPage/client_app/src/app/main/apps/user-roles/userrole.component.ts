@@ -16,6 +16,8 @@ import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.ab
 import { DataSource } from '@angular/cdk/table';
 import { RolePermissionService, RolePermissionGrid } from '../role-permissions/rolepermission.core.module';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
+import { RoleUserGrid } from '../role-users/roleuser.model';
+import { RoleUserService } from '../role-users/roleuser.service';
 
 @Component({
     selector: 'userRole',
@@ -43,6 +45,12 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
     @ViewChild('tableRolePermission')
     tableRolePermission: MatTable<RolePermissionGrid>;
+
+
+    @ViewChild('tableRoleUser')
+    tableRoleUser: MatTable<RoleUserGrid>;
+    
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -58,6 +66,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute
         , private service: UserRoleService
         , private serviceRolePermission: RolePermissionService
+        , private serviceRoleUser: RoleUserService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -201,9 +210,10 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
 
 
+   
+    /*******************Role Permission*************************************************************** */
     getPermission(id: string) {
         return this.listPermission.find(o => o.key == id);
-
     }
 
     selectedRolePermissionItem: RolePermissionGrid;
@@ -265,13 +275,12 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
             if (result == 'YES') {
-                this.deleteThirdPartyItemEditionExecution(item);
+                this.deleteRolePermissionItemEditionExecution(item);
             }
         });
     }
 
-
-    deleteThirdPartyItemEditionExecution(item: RolePermissionGrid) {
+    deleteRolePermissionItemEditionExecution(item: RolePermissionGrid) {
         this.serviceRolePermission.update(item).then(res => {
 
             let newItem = new RolePermissionGrid(<RolePermissionGrid>res);
@@ -290,10 +299,105 @@ export class UserRoleComponent implements OnInit, OnDestroy {
         });
     }
 
-    cancelThirdPartyItemEdition() {
+    cancelRolePermissionItemEdition() {
         this.selectedRolePermissionItem = null;
     }
+    /*******************Role Permission*************************************************************** */
 
+
+    /*******************Role User*************************************************************** */
+    getUser(id: string) {
+        return this.listUser.find(o => o.key == id);
+    }
+
+    selectedRoleUserItem: RoleUserGrid;
+    selectRoleUserItem(item: RoleUserGrid) {
+        this.selectedRoleUserItem = item;
+    }
+
+
+    newRoleUserItem() {
+        let item = new RoleUserGrid({ roleId: this.currentEntity.id });
+        this.roleUsers.push(item);
+        this.selectRoleUserItem(item);
+        this.tableRoleUser.renderRows();
+    }
+
+    saveRoleUserItem() {
+        //debugger;
+        (this.selectedRoleUserItem && this.selectedRoleUserItem.id) ? this.updateRoleUserItem(this.selectedRoleUserItem) : this.addRoleUserItem(this.selectedRoleUserItem);
+    }
+
+    addRoleUserItem(item) {
+        debugger;
+        this.serviceRoleUser.add(item).then(res => {
+            this.roleUsers.push(<RoleUserGrid>res);
+
+            this._matSnackBar.open('New UserRole User saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedRoleUserItem = null;
+        });
+
+    }
+
+    updateRoleUserItem(item: RoleUserGrid) {
+        this.serviceRoleUser.update(item).then(res => {
+
+            let newItem = new RoleUserGrid(<RoleUserGrid>res);
+            let index = this.roleUsers.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.roleUsers.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('UserRole Third Party Settings saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedRoleUserItem = null;
+
+        });
+    }
+
+    deleteRoleUserItemEdition(item: RoleUserGrid) {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: `${this.getUser(item.userId).value} ${item.roleId}` }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteRoleUserItemEditionExecution(item);
+            }
+        });
+    }
+
+    deleteRoleUserItemEditionExecution(item: RoleUserGrid) {
+        this.serviceRoleUser.update(item).then(res => {
+
+            let newItem = new RoleUserGrid(<RoleUserGrid>res);
+            let index = this.roleUsers.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.roleUsers.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('Role user deleted', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedRoleUserItem = null;
+
+        });
+    }
+
+    cancelRoleUserItemEdition() {
+        this.selectedRoleUserItem = null;
+    }
+    /*******************Role User*************************************************************** */
 
 
     disableSaveFrmMain() {

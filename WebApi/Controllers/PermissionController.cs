@@ -1,26 +1,17 @@
 ﻿using ApplicationLogic.Business.Commands.AppUser.DeleteCommand;
 using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand;
-using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
-using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
-using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Security;
 using DomainModel.Identity;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Storage.DataHolders.Messages;
 using Framework.Web.Helpers;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebSockets.Internal;
-using RiverdaleMainApp2_0.Auth.Helpers;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RiverdaleMainApp2_0.Controllers
@@ -30,21 +21,24 @@ namespace RiverdaleMainApp2_0.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/user")]
-    public class UserClaimController : Controller
+    [Route("api/permission")]
+    public class PermissionController : Controller
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserClaimController(UserManager<AppUser> userManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
+        public PermissionController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
         {
             this.UserManager = userManager;
+            this.RoleManager = roleManager;
         }
 
         /// <summary>
@@ -54,6 +48,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The user manager.
         /// </value>
         public UserManager<AppUser> UserManager { get; }
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>
         /// Gets the get all command.
@@ -107,7 +102,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="input">The input.</param>
         /// <returns></returns>
         [HttpPost]
-        [HttpPost("forUser")]
         public async Task<IActionResult> Post([FromBody]AppUserClaimInsertCommandInputDTO input)
         {
             var result = new OperationResponse<AppUserClaimInsertCommandInputDTO>();
@@ -118,42 +112,79 @@ namespace RiverdaleMainApp2_0.Controllers
             }
             else
             {
-                var user = this.UserManager.FindByIdAsync(input.UserId);
-                if (user != null)
+                if (!string.IsNullOrWhiteSpace(input.UserId))
                 {
-                    await this.UserManager.AddClaimAsync(new AppUser(), new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                    var user = await this.UserManager.FindByIdAsync(input.UserId);
+                    if (user != null)
+                    {
+                        await this.UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                    }
+                    else
+                    {
+                        return this.BadRequest(new OperationResponse().AddError("User not found"));
+                    }
                 }
-                else
-                {
 
+                else if (!string.IsNullOrWhiteSpace(input.RoleId))
+                {
+                    var role = await this.RoleManager.FindByIdAsync(input.RoleId);
+                    if (role != null)
+                    {
+                        await this.RoleManager.AddClaimAsync(role, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                    }
+                    else
+                    {
+                        return this.BadRequest(new OperationResponse().AddError("Role not found"));
+                    }
                 }
             }
 
             return new OkObjectResult("Account created");
         }
 
-
-        /// <summary>
-        /// Puts the specified model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
-        public IActionResult Put([FromBody]AppUserUpdateCommandInputDTO model)
-        {
-            var appResult = this.UpdateCommand.Execute(model);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
-        }
-
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(AppUserDeleteCommandOutputDTO))]
-        public IActionResult Delete(string id)
+        [HttpDelete, ProducesResponseType(200, Type = typeof(AppUserDeleteCommandOutputDTO))]
+        public async Task<IActionResult> Delete([FromBody]AppUserClaimDeleteCommandInputDTO input)
         {
-            var appResult = this.DeleteCommand.Execute(id);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+            var result = new OperationResponse<AppUserClaimDeleteCommandInputDTO>();
+            if (!ModelState.IsValid)
+            {
+                result.AddModelState(ModelState);
+                //return BadRequest(ModelState);
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(input.UserId))
+                {
+                    var user = await this.UserManager.FindByIdAsync(input.UserId);
+                    if (user != null)
+                    {
+                        await this.UserManager.RemoveClaimAsync(user, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                    }
+                    else
+                    {
+                        return this.BadRequest(new OperationResponse().AddError("User not found"));
+                    }
+                }
+
+                else if (!string.IsNullOrWhiteSpace(input.RoleId))
+                {
+                    var role = await this.RoleManager.FindByIdAsync(input.RoleId);
+                    if (role != null)
+                    {
+                        await this.RoleManager.RemoveClaimAsync(role, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                    }
+                    else
+                    {
+                        return this.BadRequest(new OperationResponse().AddError("Role not found"));
+                    }
+                }
+            }
+            return new OkObjectResult("Account created");
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commands.Security
 {
-    public class AppUserClaimInsertCommandInputDTO
+    public class AppUserClaimDeleteCommandInputDTO
     {
         public string UserId { get; set; }
 
