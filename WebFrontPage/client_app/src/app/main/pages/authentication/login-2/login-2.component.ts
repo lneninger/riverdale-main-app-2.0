@@ -56,10 +56,10 @@ export class Login2Component implements OnInit
     }
 
     login() {
-        debugger;
+        //debugger;
         let loginValue = this.loginForm.value;
-        debugger;
-        let loginData = new Authenticate({ userName: loginValue.email, password: loginValue.password });
+        //debugger;
+        let loginData = new Authenticate({ userName: loginValue.userName, password: loginValue.password });
 
         this.service.login(loginData)
             .then(res => {
@@ -96,7 +96,7 @@ export class Login2Component implements OnInit
     ngOnInit(): void
     {
         this.loginForm = this._formBuilder.group({
-            email   : ['', [Validators.required, Validators.email]],
+            userName: ['', [Validators.required, Validators.minLength(3)]],
             password: ['', Validators.required]
         });
     }

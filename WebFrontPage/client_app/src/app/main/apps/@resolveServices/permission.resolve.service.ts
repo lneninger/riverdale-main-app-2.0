@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
+import { SecureHttpClientService } from "../@hipalanetCommons/authentication/securehttpclient.service";
 
 
 
 @Injectable()
-export class RolePermissionResolveService implements Resolve<any> {
+export class PermissionResolveService implements Resolve<any> {
     list: any[];
-    endpoint = `${environment.appApi.apiBaseUrl}masters/rolepermission`;
+    endpoint = `${environment.appApi.apiBaseUrl}masters/permission`;
 
     constructor(private http: SecureHttpClientService) { }
 

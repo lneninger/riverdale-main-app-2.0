@@ -21,6 +21,7 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
+using RiverdaleMainApp2_0.Auth;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -107,6 +108,16 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult GetToEnumAppUser()
         {
             var result = this.MasterDataProvider.GetToEnumAppUser();
+            return this.Ok(result);
+        }
+
+
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("permission")]
+        public IActionResult GetToEnumPermissions()
+        {
+            var @enumNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
+            var result = @enumNames.Select(enumName => new EnumItemDTO<string> { Key = enumName, Value = enumName });
             return this.Ok(result);
         }
     }

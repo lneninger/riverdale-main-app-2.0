@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { HiPalanetResolveModule } from './@resolveServices/resolve.module';
 import { CustomSignalRModule } from './@hipalanetCommons/signalr/signalr.module'
+import { AuthenticationCoreModule } from './@hipalanetCommons/authentication/authentication.core.module';
 
 const routes = [
     {
@@ -81,8 +82,12 @@ const routes = [
     imports     : [
         RouterModule.forChild(routes)
         , FuseSharedModule
+        //, AuthenticationCoreModule
         , HiPalanetResolveModule
         , CustomSignalRModule
+    ],
+    exports: [
+        //AuthenticationCoreModule
     ]
 })
 export class AppsModule

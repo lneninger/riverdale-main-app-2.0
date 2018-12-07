@@ -31,7 +31,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
     id: string;
     currentEntity: UserRole;
-    rolePermissions: RolePermissionGrid[];
+    permissions: RolePermissionGrid[];
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyUserRoleId'];
@@ -91,7 +91,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
                 let currentEntity = dataResponse;
                 if (currentEntity) {
                     this.currentEntity = new UserRole(currentEntity);
-                    this.rolePermissions = (currentEntity.rolePermissions || []).map(item => new RolePermissionGrid(item));
+                    this.permissions = (currentEntity.rolePermissions || []).map(item => new RolePermissionGrid(item));
                     this.pageType = 'edit';
                 }
                 else {
@@ -212,7 +212,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
     newRolePermissionItem() {
         let item = new RolePermissionGrid({ roleId: this.currentEntity.id });
-        this.rolePermissions.push(item);
+        this.permissions.push(item);
         this.selectItem(item);
         this.tableThirdParty.renderRows();
     }
@@ -225,7 +225,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
     addRolePermissionItem(item) {
         debugger;
         this.serviceRolePermission.add(item).then(res => {
-            this.rolePermissions.push(<RolePermissionGrid>res);
+            this.permissions.push(<RolePermissionGrid>res);
 
             this._matSnackBar.open('New UserRole Permission saved', 'OK', {
                 verticalPosition: 'top',
@@ -241,9 +241,9 @@ export class UserRoleComponent implements OnInit, OnDestroy {
         this.serviceRolePermission.update(item).then(res => {
 
             let newItem = new RolePermissionGrid(<RolePermissionGrid>res);
-            let index = this.rolePermissions.findIndex(listItem => listItem.id == newItem.id);
+            let index = this.permissions.findIndex(listItem => listItem.id == newItem.id);
             if (index != -1) {
-                this.rolePermissions.splice(index, 1, newItem);
+                this.permissions.splice(index, 1, newItem);
             }
 
             this._matSnackBar.open('UserRole Third Party Settings saved', 'OK', {
@@ -274,9 +274,9 @@ export class UserRoleComponent implements OnInit, OnDestroy {
         this.serviceRolePermission.update(item).then(res => {
 
             let newItem = new RolePermissionGrid(<RolePermissionGrid>res);
-            let index = this.rolePermissions.findIndex(listItem => listItem.id == newItem.id);
+            let index = this.permissions.findIndex(listItem => listItem.id == newItem.id);
             if (index != -1) {
-                this.rolePermissions.splice(index, 1, newItem);
+                this.permissions.splice(index, 1, newItem);
             }
 
             this._matSnackBar.open('UserRole Third Party Settings deleted', 'OK', {

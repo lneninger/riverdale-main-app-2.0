@@ -11,7 +11,7 @@ namespace RiverdaleMainApp2_0.Auth
         public static Dictionary<string, Action<AuthorizationPolicyBuilder>> Policies { get; } = new Dictionary<string, Action<AuthorizationPolicyBuilder>>();
 
         static PermissionPolicies() {
-            var permissionNames = Enum.GetNames(typeof(PermissionsEnum));
+            var permissionNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
 
             foreach (var permissionName in permissionNames)
             {

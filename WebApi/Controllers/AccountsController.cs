@@ -143,6 +143,8 @@ namespace RiverdaleMainApp2_0.Controllers
             }
 
             var id = identity.Claims.Single(c => c.Type == "id").Value;
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, input.UserName));
 
             var appResult = this.AppUserGetByIdCommand.Execute(id);
             /*
@@ -245,24 +247,29 @@ namespace RiverdaleMainApp2_0.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // alternatively
-            // claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
-
-            // get some claim by type
-            var id = claimsIdentity.Name;//.FindFirst("some-claim");
-            var appResult = this.AppUserGetByIdCommand.Execute(id);
-            var user = appResult.Bag;
-            var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(user.UserName, id));
-
-            return Ok(new
+            var idClaim = claimsIdentity.FindFirst("id");
+            if (idClaim != null)
             {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                AccessToken = await this.JwtFactory.GenerateEncodedToken(user.UserName, newClaimsIdentity),//identity.tokenString,
-                PictureUrl = user.PictureUrl,
-                ExpiresAt = this.JwtOptions.Expiration,//expiresAt,
-                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds//expiresAt,
-            });
+                // get some claim by type
+                var id = idClaim.Value;
+                var appResult = this.AppUserGetByIdCommand.Execute(id);
+                var user = appResult.Bag;
+                var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(user.UserName, id));
+                newClaimsIdentity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
+
+                return Ok(new
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    AccessToken = await this.JwtFactory.GenerateEncodedToken(user.UserName, newClaimsIdentity),//identity.tokenString,
+                    PictureUrl = user.PictureUrl,
+                    ExpiresAt = this.JwtOptions.Expiration,//expiresAt,
+                    ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds//expiresAt,
+                });
+            }
+
+            return BadRequest("No authentication data");
         }
 
         /// <summary>
@@ -364,6 +371,9 @@ namespace RiverdaleMainApp2_0.Controllers
             {
                 // get the user to verifty
                 var userToVerify = await this.UserManager.FindByNameAsync(userName);
+                if (userToVerify == null) {
+                    userToVerify = await this.UserManager.FindByEmailAsync(userName);
+                }
 
                 if (userToVerify != null)
                 {

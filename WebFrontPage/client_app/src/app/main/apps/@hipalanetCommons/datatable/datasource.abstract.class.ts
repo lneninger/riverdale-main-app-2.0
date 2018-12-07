@@ -43,7 +43,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
 
         fromEvent(this.filterElement.nativeElement, 'keyup')
             .pipe(
-            filter(e => { /*console.log('first event: ', e); */return (<any>e).keyCode == 13 }),
+                filter(e => { /*console.log('first event: ', e); */return (<any>e).keyCode == 13 }),
                 takeUntil(this._unsubscribeAll),
                 debounceTime(150),
                 distinctUntilChanged()
@@ -74,10 +74,10 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
                     return this.getData(pageIndex, pageSize, sortObj, this.filter);
                 }))
             .pipe(
-                mergeMap((result: PageResult<T>) => {
-                    this.totalCount = result.totalCount;
-                    this._matPaginator.length = result.filteredCount;
-                    return of(result.items);
+                mergeMap((result: { bag: PageResult<T> }) => {
+                    this.totalCount = result.bag.totalCount;
+                    this._matPaginator.length = result.bag.filteredCount;
+                    return of(result.bag.items);
                 }))
             ;
     }

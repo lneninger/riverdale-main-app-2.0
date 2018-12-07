@@ -17,13 +17,13 @@ namespace DomainDatabaseMapping.Mappings
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
 
-            builder.Property(t => t.PasswordHash)
-              .HasColumnType("varbinary(MAX)")
-              .IsRequired(false);
+            //builder.Property(t => t.PasswordHash)
+            //  .HasColumnType("varbinary(MAX)")
+            //  .IsRequired(false);
 
-            builder.Property(t => t.PasswordSalt)
-              .HasColumnType("varbinary(MAX)")
-              .IsRequired(false);
+            //builder.Property(t => t.PasswordSalt)
+            //  .HasColumnType("varbinary(MAX)")
+            //  .IsRequired(false);
 
         }
     }

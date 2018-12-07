@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using ElmahCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace RiverdaleMainApp2_0
 {
@@ -86,7 +87,6 @@ namespace RiverdaleMainApp2_0
 
             services.AddCors(builder =>
             {
-
                 //options.AddPolicy("AllowSpecificOrigin",
                 //    builder => builder.WithOrigins("http://example.com"));
             });
@@ -97,13 +97,6 @@ namespace RiverdaleMainApp2_0
             services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
-
-            // // ===== Add Identity ========
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<RiverdaleDBContext>()
-            //    .AddDefaultTokenProviders();
-
-
 
             services.AddSignalR();
 
@@ -143,6 +136,7 @@ namespace RiverdaleMainApp2_0
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseMvc();
 
         }
@@ -150,11 +144,6 @@ namespace RiverdaleMainApp2_0
 
         private void ConfigureAuthenticationServices(IServiceCollection services)
         {
-            //services.AddSingleton<IJwtFactory, JwtFactory>();
-
-            // Register the ConfigurationBuilder instance of FacebookAuthSettings
-            //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
-
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
@@ -189,9 +178,7 @@ namespace RiverdaleMainApp2_0
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(configureOptions =>
             {
@@ -199,6 +186,24 @@ namespace RiverdaleMainApp2_0
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.RequireHttpsMetadata = false;
                 configureOptions.SaveToken = true;
+                configureOptions.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        // Add the access_token as a claim, as we may actually need it
+                        var accessToken = context.SecurityToken as JwtSecurityToken;
+                        if (accessToken != null)
+                        {
+                            ClaimsIdentity identity = context.Principal.Identity as ClaimsIdentity;
+                            if (identity != null)
+                            {
+                                identity.AddClaim(new Claim("access_token", accessToken.RawData));
+                            }
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             // api user claim policy
@@ -211,12 +216,10 @@ namespace RiverdaleMainApp2_0
                 {
                     options.AddPolicy(permissionPolicy.Key, permissionPolicy.Value);
                 }
-
-
             });
 
             // add identity
-            services.AddIdentity<AppUser, IdentityRole>
+            services.AddIdentityCore<AppUser>
                 (o =>
                 {
                     // configure identity options

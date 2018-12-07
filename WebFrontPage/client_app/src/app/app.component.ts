@@ -131,12 +131,16 @@ export class AppComponent implements OnInit, OnDestroy
         //    this.router.navigate(['pages/auth/login-2']);
         //}
 
-        this.authenticationService.isAuthenticated().subscribe(isActive => {
+        this.authenticationService.isAuthenticated().subscribe(
+            isActive => {
             //debugger;
             if (!isActive) {
                 this.router.navigate(['pages/auth/login-2']);
             }
-        })
+            },
+            error => {
+                this.router.navigate(['pages/auth/login-2']);
+            })
         
 
         //this.auth.auth.onAuthStateChanged(user => {

@@ -145,7 +145,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="input">The input.</param>
         /// <returns></returns>
         [HttpPost]
-        [HttpPost("registerAlt")]
+        [HttpPost("register")]
         public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
         {
             if (!ModelState.IsValid)

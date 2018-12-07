@@ -105,6 +105,9 @@ const appRoutes: Routes = [
         , AuthenticationCoreModule
 
     ],
+    exports: [
+        //AuthenticationCoreModule
+    ],
     bootstrap   : [
         AppComponent
     ]

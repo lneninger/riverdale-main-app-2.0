@@ -6,14 +6,13 @@ import { Register, Authenticate, AuthenticationInfo } from "./authentication.mod
 import { environment } from "environments/environment";
 import { of, Observable, Subject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
+import { SecureHttpClientService } from "./securehttpclient.service";
 
 
 @Injectable()
 export class AuthenticationService {
 
     static tokenKey = 'hipalanet|riverdale';
-
-
     onChangedUserInfo: Subject<AuthenticationInfo>;
 
     _userData: AuthenticationInfo;
@@ -37,7 +36,7 @@ export class AuthenticationService {
     }
 
     constructor(
-        private http: HttpClient
+        private http: SecureHttpClientService
         , private localStorageService: LocalStorageService
     ) {
         this.onChangedUserInfo = new Subject<AuthenticationInfo>();
@@ -45,7 +44,7 @@ export class AuthenticationService {
 
     register(model: Register): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}accounts/register`, model).subscribe((res: any) => {
+            this.http.post(`${environment.appApi.apiBaseUrl}user/register`, model).subscribe((res: any) => {
                 resolve(res);
             });
         });
@@ -73,12 +72,13 @@ export class AuthenticationService {
                     return this.retrieveAuthenticationInfo(this.accessToken);
                 }
                 else {
-                    throw Observable.throw(false);
+                    return of(null);
                 }
             }));
 
         let resultPromise = userDataObservable.pipe(mergeMap(userData => {
             // debugger;
+
             if (this.userData == null) {
                 return of(false);
             }
@@ -96,7 +96,7 @@ export class AuthenticationService {
 
     retrieveAuthenticationInfo(token): Observable<AuthenticationInfo> {
         return Observable.create(observer => {
-            this.http.get(`${environment.appApi.apiBaseUrl}accounts/authenticationInfo/${token}`).subscribe((res: any) => {
+            this.http.get(`${environment.appApi.apiBaseUrl}accounts/authenticationInfo`).subscribe((res: any) => {
                 this.userData = res;
 
                 observer.next(res);

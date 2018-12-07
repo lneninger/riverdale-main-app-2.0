@@ -144,8 +144,8 @@ namespace DatabaseRepositories.DB
                     FirstName = input.FirstName,
                     LastName = input.LastName,
                     PictureUrl = input.PictureUrl,
-                    PasswordHash = input.PasswordHash,
-                    PasswordSalt = input.PasswordSalt,
+                    //PasswordHash = input.PasswordHash,
+                    //PasswordSalt = input.PasswordSalt,
                 };
 
                 using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
@@ -158,8 +158,8 @@ namespace DatabaseRepositories.DB
                         Email = o.Email,
                         FirstName = o.FirstName,
                         LastName = o.LastName,
-                        PasswordHash = o.PasswordHash,
-                        PasswordSalt = o.PasswordSalt,
+                        //PasswordHash = o.PasswordHash,
+                        //PasswordSalt = o.PasswordSalt,
                     }).FirstOrDefault();
 
                     result.Bag = dto;
@@ -243,8 +243,8 @@ namespace DatabaseRepositories.DB
                     return result;
 
                 // check if password is correct
-                if (!HashHelper.VerifyPasswordHash(input.Password, entity.PasswordHash, entity.PasswordSalt))
-                    return result;
+                //if (!HashHelper.VerifyPasswordHash(input.Password, entity.PasswordHash/*, entity.PasswordSalt*/))
+                //    return result;
 
                 result.Bag = new AppUserAuthenticateCommandOutputDTO
                 {

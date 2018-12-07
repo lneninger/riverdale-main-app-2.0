@@ -63,6 +63,8 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
             this.user = user;
         });
 
+        this.user = this.authenticationService.userData;
+
         //this.auth.auth.onAuthStateChanged(user => {
         //    this.user = user;
         //});

@@ -13,7 +13,7 @@ import {
     MatSortModule,
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
-import { RolePermissionResolveService } from '../@resolveServices/resolve.module';
+import { ClaimResolveService } from '../@resolveServices/resolve.module';
 import { UserResolveService } from '../@resolveServices/resolve.module';
 import { RolePermissionCoreModule  } from '../role-permissions/rolepermission.core.module';
 import { UserCoreModule } from '../users/user.core.module';
@@ -25,7 +25,7 @@ const routes: Routes = [
         component: UserRoleComponent,
         resolve: {
             data: UserRoleService,
-            listThirdParty: RolePermissionResolveService,
+            listClaims: ClaimResolveService,
             listUserRoleFreightoutRateType: UserResolveService
         }
     },
