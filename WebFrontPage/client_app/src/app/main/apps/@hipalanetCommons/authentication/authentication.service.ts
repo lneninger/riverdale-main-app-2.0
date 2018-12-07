@@ -5,7 +5,7 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Register, Authenticate, AuthenticationInfo } from "./authentication.model";
 import { environment } from "environments/environment";
 import { of, Observable, Subject } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+import { mergeMap, catchError } from "rxjs/operators";
 import { SecureHttpClientService } from "./securehttpclient.service";
 
 
@@ -74,6 +74,11 @@ export class AuthenticationService {
                 else {
                     return of(null);
                 }
+            }))
+            .pipe(catchError(val => {
+                debugger;
+                console.log('Error try to verify authenticated token');
+                return of(null);
             }));
 
         let resultPromise = userDataObservable.pipe(mergeMap(userData => {

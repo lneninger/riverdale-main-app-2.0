@@ -53,7 +53,7 @@
                 <button mat-mini-fab
                         class="save-product-button"
                         [disabled]="disableSave()"
-                         (click)="save()">
+                        (click)="save()">
                     <mat-icon>save</mat-icon>
 
                     <!--<span>SAVE</span>-->
@@ -93,102 +93,172 @@
                                 </div>
 
                                 <div class="fuse-card auto-width">
-                                    <div class="position-relative p-24"
-                                         fxLayout="column" fxLayoutAlign="start stretch">
-                                        <div class="p-16 pt-0">
-                                            <div class="h1">Claims</div>
-                                            <div class="h4 secondary-text">Role Claims</div>
-                                        </div>
-                                        <div fxLayout="row" fxLayoutAlign="start stretch">
-                                            <mat-table class="userRole-thirdparty-table"
-                                                       #tableThirdParty [dataSource]="thirdPartySettings"
-                                                       matSort
-                                                       [@animateStagger]="{value:'50'}"
-                                                       fusePerfectScrollbar>
+                                    <div class="position-relative p-24">
+                                        <div fxLayoutAlign="space-between">
+                                            <div fxLayout="column" fxLayoutAlign="start stretch">
+                                                <div class="p-16 pt-0">
+                                                    <div class="h1">Permissions</div>
+                                                    <div class="h4 secondary-text">Role Permissions</div>
+                                                </div>
 
-                                                <ng-container matColumnDef="options">
-                                                    <mat-header-cell *matHeaderCellDef>
-                                                        <button mat-icon-button (click)="newClaimItem()" [style.visibility]="claims.length == 0 ? 'visible' : 'hidden'">
-                                                            <mat-icon>add_circle_outline</mat-icon>
-                                                        </button>
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <button type="button" mat-icon-button color="primary" (click)="saveThirdPartyItem()">
-                                                                    <mat-icon>save</mat-icon>
-                                                                </button>
-                                                                <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition()">
-                                                                    <mat-icon >delete</mat-icon>
-                                                                </button>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <button type="button" mat-icon-button (click)="selectItem(item)">
-                                                                    <mat-icon>edit</mat-icon>
-                                                                </button>
-                                                                <button type="button" mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="i == thirdPartySettings.length-1 ? 'visible' : 'hidden'">
+                                                <div fxLayout="row" fxLayoutAlign="start stretch">
+                                                    <mat-table class="rolepermission-table"
+                                                               #tableRolePermission [dataSource]="rolePermissions"
+                                                               matSort
+                                                               [@animateStagger]="{value:'50'}"
+                                                               fusePerfectScrollbar>
+
+                                                        <ng-container matColumnDef="options">
+                                                            <mat-header-cell *matHeaderCellDef>
+                                                                <button mat-icon-button (click)="newRolePermissionItem()" [style.visibility]="rolePermissions.length == 0 ? 'visible' : 'hidden'">
                                                                     <mat-icon>add_circle_outline</mat-icon>
                                                                 </button>
-                                                                <button type="button" color="warn" mat-icon-button (click)="deleteThirdPartyItemEdition(item)">
-                                                                    <mat-icon>delete</mat-icon>
+                                                            </mat-header-cell>
+                                                            <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
+                                                                <ng-container [ngSwitch]="selectedItem == item">
+                                                                    <ng-container *ngSwitchCase="true">
+                                                                        <button type="button" mat-icon-button color="primary" (click)="saveRolePermissionItem()">
+                                                                            <mat-icon>save</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" mat-icon-button (click)="cancelRolePermissionItemEdition()">
+                                                                            <mat-icon>delete</mat-icon>
+                                                                        </button>
+                                                                    </ng-container>
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <button type="button" mat-icon-button (click)="selectRolePermissionItem(item)">
+                                                                            <mat-icon>edit</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" mat-icon-button (click)="newRolePermissionItem()" [style.visibility]="i == rolePermissions.length-1 ? 'visible' : 'hidden'">
+                                                                            <mat-icon>add_circle_outline</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" color="warn" mat-icon-button (click)="deleteRolePermissionItemEdition(item)">
+                                                                            <mat-icon>delete</mat-icon>
+                                                                        </button>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </mat-cell>
+                                                        </ng-container>
+
+                                                        <!-- Name Column -->
+                                                        <ng-container matColumnDef="permissionId">
+                                                            <mat-header-cell *matHeaderCellDef mat-sort-header>Permission</mat-header-cell>
+                                                            <mat-cell *matCellDef="let item">
+                                                                <ng-container [ngSwitch]="selectedRolePermissionItem == item">
+
+                                                                    <ng-container *ngSwitchCase="true">
+                                                                        <mat-form-field floatLabel="never">
+                                                                            <mat-select placeholder="Permission" name="permissionId" [(value)]="item.permissionId" [(ngModel)]="item.permissionId">
+                                                                                <mat-option *ngFor="let item of listPermission" [value]="item.key">
+                                                                                    {{item.value}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </ng-container>
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <p class="text-truncate">{{getPermission(item.permissionId).value}}</p>
+                                                                    </ng-container>
+                                                                </ng-container>
+
+                                                            </mat-cell>
+                                                        </ng-container>
+
+                                                        <mat-header-row *matHeaderRowDef="displayedColumnsRolePermissions; sticky:true"></mat-header-row>
+                                                        <mat-row *matRowDef="let item; columns: displayedColumnsRolePermissions;"
+                                                                 class="product-color"
+                                                                 matRipple>
+                                                        </mat-row>
+                                                    </mat-table>
+                                                </div>
+                                                <!--<mat-paginator #paginator
+                                                               [length]="dataSource.filteredCount"
+                                                               [pageIndex]="0"
+                                                               [pageSize]="10"
+                                                               [pageSizeOptions]="[5, 10, 25, 100]">
+                                                </mat-paginator>-->
+                                            </div>
+
+                                            <div fxLayout="column" fxLayoutAlign="start stretch">
+                                                <div class="p-16 pt-0">
+                                                    <div class="h1">Users</div>
+                                                    <div class="h4 secondary-text">Role Users</div>
+                                                </div>
+
+                                                <div fxLayout="row" fxLayoutAlign="start stretch">
+                                                    <mat-table class="roleuser-table"
+                                                               #tableRoleUser [dataSource]="roleUsers"
+                                                               matSort
+                                                               [@animateStagger]="{value:'50'}"
+                                                               fusePerfectScrollbar>
+
+                                                        <ng-container matColumnDef="options">
+                                                            <mat-header-cell *matHeaderCellDef>
+                                                                <button mat-icon-button (click)="newRoleUserItem()" [style.visibility]="roleUsers.length == 0 ? 'visible' : 'hidden'">
+                                                                    <mat-icon>add_circle_outline</mat-icon>
                                                                 </button>
-                                                            </ng-container>
+                                                            </mat-header-cell>
+                                                            <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
+                                                                <ng-container [ngSwitch]="selectedItem == item">
+                                                                    <ng-container *ngSwitchCase="true">
+                                                                        <button type="button" mat-icon-button color="primary" (click)="saveRoleUserItem()">
+                                                                            <mat-icon>save</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" mat-icon-button (click)="cancelRoleUserItemEdition()">
+                                                                            <mat-icon>delete</mat-icon>
+                                                                        </button>
+                                                                    </ng-container>
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <button type="button" mat-icon-button (click)="selectRoleUserItem(item)">
+                                                                            <mat-icon>edit</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" mat-icon-button (click)="newRoleUserItem()" [style.visibility]="i == roleUsers.length-1 ? 'visible' : 'hidden'">
+                                                                            <mat-icon>add_circle_outline</mat-icon>
+                                                                        </button>
+                                                                        <button type="button" color="warn" mat-icon-button (click)="deleteRoleUserItemEdition(item)">
+                                                                            <mat-icon>delete</mat-icon>
+                                                                        </button>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </mat-cell>
                                                         </ng-container>
-                                                    </mat-cell>
-                                                </ng-container>
 
-                                                <!-- Name Column -->
-                                                <ng-container matColumnDef="thirdPartyAppTypeId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
-                                                    <mat-cell *matCellDef="let item">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
+                                                        <!-- Name Column -->
+                                                        <ng-container matColumnDef="permissionId">
+                                                            <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
+                                                            <mat-cell *matCellDef="let item">
+                                                                <ng-container [ngSwitch]="selectedRoleUserItem == item">
 
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <mat-form-field floatLabel="never">
-                                                                    <mat-select placeholder="Third Party" name="claimId" [(value)]="item.claimId" [(ngModel)]="item.claimId">
-                                                                        <mat-option *ngFor="let item of listClaim" [value]="item.key">
-                                                                            {{item.value}}
-                                                                        </mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <p class="text-truncate">{{getThirdPartyAppType(item.thirdPartyAppTypeId).value}}</p>
-                                                            </ng-container>
+                                                                    <ng-container *ngSwitchCase="true">
+                                                                        <mat-form-field floatLabel="never">
+                                                                            <mat-select placeholder="User" name="permissionId" [(value)]="item.permissionId" [(ngModel)]="item.permissionId">
+                                                                                <mat-option *ngFor="let item of listUser" [value]="item.key">
+                                                                                    {{item.value}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </ng-container>
+                                                                    <ng-container *ngSwitchDefault>
+                                                                        <p class="text-truncate">{{getUser(item.permissionId).value}}</p>
+                                                                    </ng-container>
+                                                                </ng-container>
+
+                                                            </mat-cell>
                                                         </ng-container>
 
-                                                    </mat-cell>
-                                                </ng-container>
-                                                <ng-container matColumnDef="thirdPartyUserRoleId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Third Party UserRole Id</mat-header-cell>
-                                                    <mat-cell *matCellDef="let item">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <mat-form-field floatLabel="never">
-                                                                    <input matInput placeholder="" name="thirdPartyUserRoleId" [(ngModel)]="item.thirdPartyUserRoleId">
-                                                                </mat-form-field>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <p class="text-truncate">{{item.thirdPartyUserRoleId}}</p>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </mat-cell>
-                                                </ng-container>
-
-
-                                                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
-                                                <mat-row *matRowDef="let item; columns: displayedColumns;"
-                                                         class="product-color"
-                                                         matRipple>
-                                                </mat-row>
-                                            </mat-table>
+                                                        <mat-header-row *matHeaderRowDef="displayedColumnsRoleUsers; sticky:true"></mat-header-row>
+                                                        <mat-row *matRowDef="let item; columns: displayedColumnsRoleUsers;"
+                                                                 class="product-color"
+                                                                 matRipple>
+                                                        </mat-row>
+                                                    </mat-table>
+                                                </div>
+                                                <!--<mat-paginator #paginator
+                                                               [length]="dataSource.filteredCount"
+                                                               [pageIndex]="0"
+                                                               [pageSize]="10"
+                                                               [pageSizeOptions]="[5, 10, 25, 100]">
+                                                </mat-paginator>-->
+                                            </div>
                                         </div>
-                                        <!--<mat-paginator #paginator
-                                                       [length]="dataSource.filteredCount"
-                                                       [pageIndex]="0"
-                                                       [pageSize]="10"
-                                                       [pageSizeOptions]="[5, 10, 25, 100]">
-                                        </mat-paginator>-->
                                     </div>
                                 </div>
 
