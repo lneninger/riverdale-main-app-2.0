@@ -126,7 +126,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get(string id)
         {
             var result = this.GetByIdCommand.Execute(id);
-
             return this.Ok(result);
         }
 
@@ -164,6 +163,5 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
-        
     }
 }

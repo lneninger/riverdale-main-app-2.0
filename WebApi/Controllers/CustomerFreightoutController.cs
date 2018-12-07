@@ -101,7 +101,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult PageQuery([FromBody]PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
-
             return this.Ok(result);
         }
 
@@ -113,7 +112,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
-            
             return this.Ok(appResult);
         }
 
@@ -126,7 +124,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
-
             return this.Ok(result);
         }
 
@@ -164,6 +161,5 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
-        
     }
 }

@@ -119,7 +119,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
-
             return this.Ok(appResult);
         }
 
@@ -132,7 +131,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get(string id)
         {
             var result = this.GetByIdCommand.Execute(id);
-
             return this.Ok(result);
         }
 

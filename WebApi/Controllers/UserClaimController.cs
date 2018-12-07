@@ -10,11 +10,15 @@ using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Security;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Storage.DataHolders.Messages;
+using Framework.Web.Helpers;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebSockets.Internal;
 using RiverdaleMainApp2_0.Auth.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,7 +31,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/user")]
-    public class UserController : Controller
+    public class UserClaimController : Controller
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -38,15 +42,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(UserManager<AppUser> userManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
+        public UserClaimController(UserManager<AppUser> userManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
         {
             this.UserManager = userManager;
-            this.PageQueryCommand = pageQueryCommand;
-            this.GetAllCommand = getAllCommand;
-            this.GetByIdCommand = getByIdCommand;
-            this.RegisterCommand = registerCommand;
-            this.UpdateCommand = updateCommand;
-            this.DeleteCommand = deleteCommand;
         }
 
         /// <summary>
@@ -104,69 +102,32 @@ namespace RiverdaleMainApp2_0.Controllers
         public IAppUserDeleteCommand DeleteCommand { get; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<AppUserPageQueryCommandOutputDTO>))]
-        [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<AppUserPageQueryCommandInputDTO> input)
-        {
-            var result = this.PageQueryCommand.Execute(input);
-            return this.Ok(result);
-        }
-
-        /// <summary>
-        /// Gets this instance.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<AppUserGetAllCommandOutputDTO>))]
-        public IActionResult Get()
-        {
-            var appResult = this.GetAllCommand.Execute();
-            return this.Ok(appResult);
-        }
-
-        /// <summary>
-        /// Gets the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(AppUserGetByIdCommandOutputDTO))]
-        public IActionResult Get(string id)
-        {
-            var result = this.GetByIdCommand.Execute(id);
-            return this.Ok(result);
-        }
-
-          /// <summary>
         /// Posts the user manager.
         /// </summary>
         /// <param name="input">The input.</param>
         /// <returns></returns>
         [HttpPost]
-        [HttpPost("registerAlt")]
-        public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
+        [HttpPost("forUser")]
+        public async Task<IActionResult> Post([FromBody]AppUserClaimInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<AppUserClaimInsertCommandInputDTO>();
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                result.AddModelState(ModelState);
+                //return BadRequest(ModelState);
             }
-
-            var userIdentity = new AppUser
+            else
             {
-                Email = input.Email,
-                UserName = input.UserName,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                PictureUrl = input.PictureUrl
-            };
+                var user = this.UserManager.FindByIdAsync(input.UserId);
+                if (user != null)
+                {
+                    await this.UserManager.AddClaimAsync(new AppUser(), new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                }
+                else
+                {
 
-            var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
-
-            if (!result.Succeeded)
-                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
+                }
+            }
 
             return new OkObjectResult("Account created");
         }

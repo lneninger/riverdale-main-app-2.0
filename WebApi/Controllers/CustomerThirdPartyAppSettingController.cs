@@ -98,7 +98,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult PageQuery([FromBody]PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
-
             return this.Ok(result);
         }
 
@@ -110,7 +109,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
-           
             return this.Ok(appResult);
         }
 
@@ -162,6 +160,5 @@ namespace RiverdaleMainApp2_0.Controllers
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
-       
     }
 }

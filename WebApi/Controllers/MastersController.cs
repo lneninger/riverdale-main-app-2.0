@@ -71,7 +71,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult ProductColorType()
         {
             var result = this.MasterDataProvider.GetToEnumProductColorType();
-
             return this.Ok(result);
         }
 
@@ -84,7 +83,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult CustomerFreightoutRateType()
         {
             var result = this.MasterDataProvider.GetToEnumCustomerFreightoutRateType();
-
             return this.Ok(result);
         }
 
@@ -97,7 +95,6 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Customer()
         {
             var result = this.MasterDataProvider.GetToEnumCustomer();
-
             return this.Ok(result);
         }
 
@@ -110,9 +107,7 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult GetToEnumAppUser()
         {
             var result = this.MasterDataProvider.GetToEnumAppUser();
-
             return this.Ok(result);
         }
-
     }
 }

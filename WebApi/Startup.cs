@@ -98,12 +98,12 @@ namespace RiverdaleMainApp2_0
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-             // ===== Add Identity ========
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<RiverdaleDBContext>()
-                .AddDefaultTokenProviders();
+            // // ===== Add Identity ========
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<RiverdaleDBContext>()
+            //    .AddDefaultTokenProviders();
 
-            
+
 
             services.AddSignalR();
 
@@ -205,6 +205,14 @@ namespace RiverdaleMainApp2_0
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy(nameof(Constants.Strings.JwtClaims.Administrator), policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.Administrator));
+
+                foreach (var permissionPolicy in PermissionPolicies.Policies)
+                {
+                    options.AddPolicy(permissionPolicy.Key, permissionPolicy.Value);
+                }
+
+
             });
 
             // add identity

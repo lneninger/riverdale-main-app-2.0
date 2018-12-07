@@ -10,8 +10,10 @@ using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -115,7 +117,6 @@ namespace RiverdaleMainApp2_0.Controllers
 
             var result = applicationResponse?.Bag.Select(appItem => new CustomerDTO {
                 Name = appItem.Name,
-                //ERPId = appItem.ERPId,
             });
 
             return this.Ok(result);
@@ -140,6 +141,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.Customer_Manage)]
         public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
@@ -151,6 +153,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.Customer_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
         public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
@@ -168,6 +171,5 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
-        
     }
 }

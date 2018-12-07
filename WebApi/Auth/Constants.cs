@@ -11,12 +11,13 @@ namespace RiverdaleMainApp2_0.Auth
         {
             public static class JwtClaimIdentifiers
             {
-                public const string Rol = "rol", Id = "id";
+                public const string Rol = "rol", Id = "id", Permissions = "per";
             }
 
             public static class JwtClaims
             {
                 public const string ApiAccess = "api_access";
+                public const string Administrator = "administrator";
             }
         }
     }
