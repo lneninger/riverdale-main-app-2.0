@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { SecureHttpClientService } from "../authentication/secureHttpClient.service";
+import { SecureHttpClientService } from "../authentication/securehttpclient.service";
 
 
 

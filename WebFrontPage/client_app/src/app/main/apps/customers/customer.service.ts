@@ -10,7 +10,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
 export class CustomerService implements Resolve<any>, IPageQueryService {

@@ -21,6 +21,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand.Models;
 
 namespace DatabaseRepositories.DB
 {
@@ -215,6 +216,27 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
+        public OperationResponse<AppUserRoleGetByNameCommandOutputDTO> GetByName(string name)
+        {
+                var result = new OperationResponse<AppUserRoleGetByNameCommandOutputDTO>();
+                try
+                {
+                    using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                    {
+                        result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).Select(entityItem => new AppUserRoleGetByNameCommandOutputDTO
+                        {
+                            Id = entityItem.Id,
+                            Name = entityItem.Name,
+                            NormalizedName = entityItem.NormalizedName,
+                        }).FirstOrDefault();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddException($"Error Geting User {name}", ex);
+                }
 
+                return result;
+        }
     }
 }

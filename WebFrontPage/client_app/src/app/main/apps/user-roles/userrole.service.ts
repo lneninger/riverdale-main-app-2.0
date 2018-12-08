@@ -10,7 +10,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { RolePermissionGrid } from '../role-permissions/rolepermission.core.module';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
 export class UserRoleService implements Resolve<any>, IPageQueryService {
@@ -22,7 +22,7 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
     /**
      * Constructor
      *
-     * @param {HttpClient} _httpClient
+     * @param {SecureHttpClientService} http
      */
     constructor(
         public http: SecureHttpClientService
@@ -45,7 +45,7 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getEntity()
             ]).then(
                 () => {
                     resolve();
@@ -56,11 +56,11 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Get product
+     * Get entity
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}userRole/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
@@ -71,12 +71,12 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Save product
+     * Save entity
      *
-     * @param product
+     * @param entity
      * @returns {Promise<any>}
      */
-    save(entity): Promise<any> {
+    update(entity): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.put(`${environment.appApi.apiBaseUrl}userRole`, entity).subscribe((res: any) => {
                 resolve(res);
@@ -88,9 +88,9 @@ export class UserRoleService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Add product
+     * Add entity
      *
-     * @param product
+     * @param entity
      * @returns {Promise<any>}
      */
     add(entity): Promise<any> {

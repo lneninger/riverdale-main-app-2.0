@@ -8,7 +8,7 @@ import { environment } from 'environments/environment';
 /*************************Custom***********************************/
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { RoleUserGrid } from './roleuser.model';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
 export class RoleUserService implements Resolve<any>, IPageQueryService {
@@ -76,7 +76,7 @@ export class RoleUserService implements Resolve<any>, IPageQueryService {
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}roleuser`, entity).subscribe((res: any) => {
+            this.http.post(`${environment.appApi.apiBaseUrl}user/addrole`, entity).subscribe((res: any) => {
                 resolve(res);
             },
             error => {

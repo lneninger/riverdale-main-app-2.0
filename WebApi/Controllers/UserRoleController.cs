@@ -10,12 +10,16 @@ using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand;
 using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Security;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Storage.DataHolders.Messages;
+using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -36,8 +40,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserRoleController(IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
+        public UserRoleController(RoleManager<IdentityRole> roleManager, IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
         {
+            this.RoleManager = roleManager;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -45,6 +50,11 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>
         /// Gets the get all command.
@@ -101,6 +111,7 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("pagequery")]
         public IActionResult PageQuery([FromBody]PageQuery<AppUserRolePageQueryCommandInputDTO> input)
         {
+
             var result = this.PageQueryCommand.Execute(input);
 
             return this.Ok(result);
@@ -134,11 +145,36 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(AppUserRoleInsertCommandOutputDTO))]
-        public IActionResult Post([FromBody]AppUserRoleInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(AppUserRoleGetByIdCommandOutputDTO))]
+        public async Task<IActionResult> Post([FromBody]AppUserRoleInsertCommandInputDTO model)
         {
-            var appResult = this.InsertCommand.Execute(model);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+            var result = new OperationResponse<AppUserRoleGetByIdCommandOutputDTO>();
+            var entity = new IdentityRole
+            {
+                Name = model.Name
+            };
+
+            var createResult = await this.RoleManager.CreateAsync(entity);
+
+            if (createResult.Succeeded)
+            {
+                var entityRole = await this.RoleManager.FindByNameAsync(model.Name);
+                result.Bag = new AppUserRoleGetByIdCommandOutputDTO
+                {
+                    Id = entityRole.Id,
+                    Name = entityRole.Name,
+                    NormalizedName = entityRole.NormalizedName
+                };
+                //result.Bag = this.GetByIdCommand.Execute(createResult.Name);
+            }
+            else
+            {
+                createResult.Errors.ToList().ForEach(error => {
+                    result.AddError($"{error.Code} {error.Description}");
+                });
+            }
+            //var appResult = this.InsertCommand.Execute(model);
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
         }
 
         /// <summary>
@@ -163,5 +199,6 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
+
     }
 }

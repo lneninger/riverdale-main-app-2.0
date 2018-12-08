@@ -20,6 +20,7 @@ export class UserResolveService implements Resolve<any> {
             return new Promise((resolve, reject) => {
                 this.http.get(this.endpoint).toPromise()
                     .then(res => {
+                        //debugger;
                         this.list = (<OperationResponse<any[]>>res).bag;
                         resolve(this.list);
                     })

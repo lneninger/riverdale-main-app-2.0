@@ -7,7 +7,7 @@ import { environment } from 'environments/environment';
 
 /*************************Custom***********************************/
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
 export class ProductColorService implements Resolve<any>, IPageQueryService {

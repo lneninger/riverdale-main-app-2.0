@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.Storage.DataHolders.Messages;
+using ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand.Models;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -17,6 +18,7 @@ namespace ApplicationLogic.Repositories.DB
     {
         OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>> GetAll();
         OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input);
+        OperationResponse<AppUserRoleGetByNameCommandOutputDTO> GetByName(string name);
         OperationResponse<AppUserRoleGetByIdCommandOutputDTO> GetById(string id);
         OperationResponse<AppUserRoleInsertCommandOutputDTO> Insert(AppUserRoleInsertCommandInputDTO input);
         OperationResponse<AppUserRoleUpdateCommandOutputDTO> Update(AppUserRoleUpdateCommandInputDTO input);

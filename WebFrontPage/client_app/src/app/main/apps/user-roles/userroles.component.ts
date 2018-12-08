@@ -17,7 +17,7 @@ import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.ab
 import { UserRoleGrid, UserRole } from './userRole.model';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { UserRoleService } from './userRole.service';
+import { UserRoleService } from './userrole.service';
 
 @Component({
     selector: 'userRoles',

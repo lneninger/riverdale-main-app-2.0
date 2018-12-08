@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
-import { UserRoleService } from "./userRole.service";
+import { UserRoleService } from "./userrole.service";
 
-export { UserRoleService } from "./userRole.service";
+export { UserRoleService } from "./userrole.service";
 
 @NgModule({
     providers: [

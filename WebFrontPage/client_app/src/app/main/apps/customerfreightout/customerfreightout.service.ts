@@ -9,7 +9,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { CustomerFreightout } from './customerfreightout.model';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
 export class CustomerFreightoutService implements Resolve<any>, IPageQueryService {

@@ -95,7 +95,7 @@
                                 <div class="fuse-card auto-width">
                                     <div class="position-relative p-24">
                                         <div fxLayoutAlign="space-between">
-                                            <div fxLayout="column" fxLayoutAlign="start stretch">
+                                            <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
                                                 <div class="p-16 pt-0">
                                                     <div class="h1">Permissions</div>
                                                     <div class="h4 secondary-text">Role Permissions</div>
@@ -106,7 +106,8 @@
                                                                #tableRolePermission [dataSource]="rolePermissions"
                                                                matSort
                                                                [@animateStagger]="{value:'50'}"
-                                                               fusePerfectScrollbar>
+                                                               fusePerfectScrollbar
+                                                               fxFlex>
 
                                                         <ng-container matColumnDef="options">
                                                             <mat-header-cell *matHeaderCellDef>
@@ -120,14 +121,14 @@
                                                                         <button type="button" mat-icon-button color="primary" (click)="saveRolePermissionItem()">
                                                                             <mat-icon>save</mat-icon>
                                                                         </button>
-                                                                        <button type="button" mat-icon-button (click)="cancelRolePermissionItemEdition()">
+                                                                        <!--<button type="button" mat-icon-button (click)="cancelRolePermissionItemEdition()">
                                                                             <mat-icon>delete</mat-icon>
-                                                                        </button>
+                                                                        </button>-->
                                                                     </ng-container>
                                                                     <ng-container *ngSwitchDefault>
-                                                                        <button type="button" mat-icon-button (click)="selectRolePermissionItem(item)">
+                                                                        <!--<button type="button" mat-icon-button (click)="selectRolePermissionItem(item)">
                                                                             <mat-icon>edit</mat-icon>
-                                                                        </button>
+                                                                        </button>-->
                                                                         <button type="button" mat-icon-button (click)="newRolePermissionItem()" [style.visibility]="i == rolePermissions.length-1 ? 'visible' : 'hidden'">
                                                                             <mat-icon>add_circle_outline</mat-icon>
                                                                         </button>
@@ -177,7 +178,7 @@
                                                 </mat-paginator>-->
                                             </div>
 
-                                            <div fxLayout="column" fxLayoutAlign="start stretch">
+                                            <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
                                                 <div class="p-16 pt-0">
                                                     <div class="h1">Users</div>
                                                     <div class="h4 secondary-text">Role Users</div>
@@ -188,7 +189,8 @@
                                                                #tableRoleUser [dataSource]="roleUsers"
                                                                matSort
                                                                [@animateStagger]="{value:'50'}"
-                                                               fusePerfectScrollbar>
+                                                               fusePerfectScrollbar
+                                                               fxFlex>
 
                                                         <ng-container matColumnDef="options">
                                                             <mat-header-cell *matHeaderCellDef>
@@ -202,14 +204,14 @@
                                                                         <button type="button" mat-icon-button color="primary" (click)="saveRoleUserItem()">
                                                                             <mat-icon>save</mat-icon>
                                                                         </button>
-                                                                        <button type="button" mat-icon-button (click)="cancelRoleUserItemEdition()">
+                                                                        <!--<button type="button" mat-icon-button (click)="cancelRoleUserItemEdition()">
                                                                             <mat-icon>delete</mat-icon>
-                                                                        </button>
+                                                                        </button>-->
                                                                     </ng-container>
                                                                     <ng-container *ngSwitchDefault>
-                                                                        <button type="button" mat-icon-button (click)="selectRoleUserItem(item)">
+                                                                        <!--<button type="button" mat-icon-button (click)="selectRoleUserItem(item)">
                                                                             <mat-icon>edit</mat-icon>
-                                                                        </button>
+                                                                        </button>-->
                                                                         <button type="button" mat-icon-button (click)="newRoleUserItem()" [style.visibility]="i == roleUsers.length-1 ? 'visible' : 'hidden'">
                                                                             <mat-icon>add_circle_outline</mat-icon>
                                                                         </button>
@@ -222,14 +224,14 @@
                                                         </ng-container>
 
                                                         <!-- Name Column -->
-                                                        <ng-container matColumnDef="permissionId">
+                                                        <ng-container matColumnDef="userId">
                                                             <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
                                                             <mat-cell *matCellDef="let item">
                                                                 <ng-container [ngSwitch]="selectedRoleUserItem == item">
 
                                                                     <ng-container *ngSwitchCase="true">
                                                                         <mat-form-field floatLabel="never">
-                                                                            <mat-select placeholder="User" name="permissionId" [(value)]="item.permissionId" [(ngModel)]="item.permissionId">
+                                                                            <mat-select placeholder="User" name="userId" [(value)]="item.userId" [(ngModel)]="item.userId">
                                                                                 <mat-option *ngFor="let item of listUser" [value]="item.key">
                                                                                     {{item.value}}
                                                                                 </mat-option>
@@ -237,7 +239,7 @@
                                                                         </mat-form-field>
                                                                     </ng-container>
                                                                     <ng-container *ngSwitchDefault>
-                                                                        <p class="text-truncate">{{getUser(item.permissionId).value}}</p>
+                                                                        <p class="text-truncate">{{getUser(item.userId).value}}</p>
                                                                     </ng-container>
                                                                 </ng-container>
 

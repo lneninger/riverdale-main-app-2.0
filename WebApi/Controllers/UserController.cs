@@ -10,8 +10,10 @@ using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Security;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Storage.DataHolders.Messages;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
@@ -32,14 +34,17 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(UserManager<AppUser> userManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
+        public UserController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
         {
+            this.RoleManager = roleManager;
             this.UserManager = userManager;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -48,6 +53,11 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>
         /// Gets the user manager.
@@ -193,6 +203,37 @@ namespace RiverdaleMainApp2_0.Controllers
         {
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("addrole"), ProducesResponseType(200, Type = typeof(OperationResponse<List<string>>))]
+        public async Task<IActionResult> AddRole([FromBody]AppUserRoleRelationInsertCommandInputDTO model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = new OperationResponse<IList<string>>();
+            var user = await this.UserManager.FindByIdAsync(model.UserId);
+            var role = await this.RoleManager.FindByIdAsync(model.RoleId);
+            if (user != null)
+            {
+                await this.UserManager.AddToRoleAsync(user, role.Name);
+
+                result.Bag = await this.UserManager.GetRolesAsync(user);
+
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result.AddError("User not found"));
+            }
         }
     }
 }

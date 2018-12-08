@@ -27,7 +27,7 @@ const routes: Routes = [
         resolve: {
             data: UserRoleService,
             listPermission: PermissionResolveService,
-            listRoleUser: UserResolveService
+            listUser: UserResolveService
         }
     },
 

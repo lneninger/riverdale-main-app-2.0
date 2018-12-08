@@ -7,7 +7,7 @@ import { SignalRService } from './signalr.service';
 import { Subscription } from 'rxjs';
 import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { SecureHttpClientService } from '../authentication/secureHttpClient.service';
+import { SecureHttpClientService } from '../authentication/securehttpclient.service';
 
 
 @Injectable()

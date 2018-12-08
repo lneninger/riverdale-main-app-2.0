@@ -1,7 +1,7 @@
 import {  } from "./datasource.abstract.class";
 import { HttpClient } from "@angular/common/http";
 import { SortCollection, PageQueryData } from "./model";
-import { SecureHttpClientService } from "../authentication/secureHttpClient.service";
+import { SecureHttpClientService } from "../authentication/securehttpclient.service";
 
 export abstract class DatatableAbstractService {
 

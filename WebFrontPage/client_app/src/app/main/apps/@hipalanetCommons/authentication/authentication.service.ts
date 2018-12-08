@@ -76,7 +76,7 @@ export class AuthenticationService {
                 }
             }))
             .pipe(catchError(val => {
-                debugger;
+                //debugger;
                 console.log('Error try to verify authenticated token');
                 return of(null);
             }));
@@ -100,13 +100,13 @@ export class AuthenticationService {
     }
 
     retrieveAuthenticationInfo(token): Observable<AuthenticationInfo> {
-        return Observable.create(observer => {
-            this.http.get(`${environment.appApi.apiBaseUrl}accounts/authenticationInfo`).subscribe((res: any) => {
+        return this.http.get(`${environment.appApi.apiBaseUrl}accounts/authenticationInfo`)
+            .pipe(catchError(error => {
+                return of(null);
+            }))
+            .pipe(mergeMap(res => {
                 this.userData = res;
-
-                observer.next(res);
-                observer.complete();
-            });
-        });
+                return of(res);
+            }));
     }
 }

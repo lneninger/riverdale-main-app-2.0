@@ -179,6 +179,7 @@ namespace RiverdaleMainApp2_0
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(configureOptions =>
             {
@@ -219,7 +220,7 @@ namespace RiverdaleMainApp2_0
             });
 
             // add identity
-            services.AddIdentityCore<AppUser>
+            var builder = services.AddIdentityCore<AppUser>
                 (o =>
                 {
                     // configure identity options
@@ -228,9 +229,16 @@ namespace RiverdaleMainApp2_0
                     o.Password.RequireUppercase = false;
                     o.Password.RequireNonAlphanumeric = false;
                     o.Password.RequiredLength = 6;
-                })
-                .AddEntityFrameworkStores<IdentityDBContext>()
-                .AddDefaultTokenProviders();
+                });
+
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+
+            builder.AddRoleValidator<RoleValidator<IdentityRole>>();
+            builder.AddRoleManager<RoleManager<IdentityRole>>();
+            builder.AddSignInManager<SignInManager<AppUser>>();
+
+            builder.AddEntityFrameworkStores<IdentityDBContext>()
+            .AddDefaultTokenProviders();
         }
     }
 }

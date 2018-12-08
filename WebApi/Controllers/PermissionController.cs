@@ -117,7 +117,7 @@ namespace RiverdaleMainApp2_0.Controllers
                     var user = await this.UserManager.FindByIdAsync(input.UserId);
                     if (user != null)
                     {
-                        await this.UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                        await this.UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.permissionId));
                     }
                     else
                     {
@@ -130,7 +130,7 @@ namespace RiverdaleMainApp2_0.Controllers
                     var role = await this.RoleManager.FindByIdAsync(input.RoleId);
                     if (role != null)
                     {
-                        await this.RoleManager.AddClaimAsync(role, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.Claim));
+                        await this.RoleManager.AddClaimAsync(role, new System.Security.Claims.Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, input.permissionId));
                     }
                     else
                     {

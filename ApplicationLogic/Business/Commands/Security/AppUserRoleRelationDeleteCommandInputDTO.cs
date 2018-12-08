@@ -4,12 +4,11 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commands.Security
 {
-    public class AppUserClaimInsertCommandInputDTO
+    public class AppUserRoleRelationDeleteCommandInputDTO
     {
         public string UserId { get; set; }
 
         public string RoleId { get; set; }
 
-        public string permissionId { get; set; }
     }
 }
