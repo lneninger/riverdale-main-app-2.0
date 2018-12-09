@@ -12,6 +12,7 @@ using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Security;
 using CommunicationModel;
+using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Storage.DataHolders.Messages;
 using Microsoft.AspNetCore.Identity;
@@ -40,8 +41,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserRoleController(RoleManager<IdentityRole> roleManager, IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
+        public UserRoleController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
         {
+            this.UserManager = userManager;
             this.RoleManager = roleManager;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -50,6 +52,8 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        public UserManager<AppUser> UserManager { get; }
 
         /// <summary>
         /// 
@@ -134,9 +138,26 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(AppUserRoleGetByIdCommandOutputDTO))]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
             var result = this.GetByIdCommand.Execute(id);
+            if (result.IsSucceed)
+            {
+                var role = await this.RoleManager.FindByIdAsync(id);
+
+                result.Bag.RolePermissions = (await this.RoleManager.GetClaimsAsync(role)).Where(claim => claim.Type == "per").Select(claim => new AppUserRoleGetByIdCommandOutputPermissionDTO
+                {
+                    RoleId = role.Id,
+                    PermissionId = claim.Value
+                }).ToList();
+
+                //result.Bag.Users = (await this.RoleManager.(role)).Where(claim => claim.Type == "per").Select(claim => new AppUserRoleGetByIdCommandOutputPermissionDTO
+                //{
+                //    RoleId = role.Id,
+                //    PermissionId = claim.Value
+                //}).ToList();
+            }
+
             return this.Ok(result);
         }
 

@@ -117,6 +117,20 @@ namespace DatabaseRepositories.DB
                         Name = entityItem.Name,
                         NormalizedName = entityItem.NormalizedName,
                     }).FirstOrDefault();
+
+                    result.Bag.RoleUsers = dbLocator.Set<IdentityUserRole<string>>().Where(userRole => userRole.RoleId == result.Bag.Id).Join(dbLocator.Set<AppUser>(), userRole => userRole.UserId, user => user.Id, (userRole, user) => new AppUserRoleGetByIdCommandOutputUserDTO
+                    {
+                        Id = user.Id,
+                        RoleId = userRole.RoleId,
+                        UserId = user.Id
+                    }).ToList();
+
+
+                    result.Bag.RolePermissions = dbLocator.Set<IdentityRoleClaim<string>>().Where(roleClaim => roleClaim.RoleId == result.Bag.Id && roleClaim.ClaimType == "per").Select(roleClaim => new AppUserRoleGetByIdCommandOutputPermissionDTO
+                    {
+                        RoleId = roleClaim.RoleId,
+                        PermissionId = roleClaim.ClaimValue,
+                    }).ToList();
                 }
             }
             catch (Exception ex)
