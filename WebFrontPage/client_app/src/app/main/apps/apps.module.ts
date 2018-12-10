@@ -75,6 +75,10 @@ const routes = [
     {
         path: 'roles',
         loadChildren: './user-roles/userroles.module#UserRolesModule'
+    },
+    {
+        path: 'products',
+        loadChildren: './products/products.module#ProductsModule'
     }
 ];
 

@@ -1,0 +1,518 @@
+<div id="product" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/products'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                        person
+                    </mat-icon>
+                    <!--<img *ngIf="currentEntity.images && currentEntity.images[0]; else noImage " [src]="currentEntity.images[0].url">
+                    <ng-template #noImage>
+                        <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                    </ng-template>-->
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{currentEntity.name}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        New Product
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Product Detail</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- / APP TITLE -->
+            <div class="save-product-button" fxLayoutGap="20px">
+                <button mat-mini-fab (click)="delete()" color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <!--<button mat-raised-button
+                        [disabled]="frmMain.invalid"
+                        *ngIf="pageType ==='new'" (click)="add()">
+                    <span>ADD</span>
+                </button>-->
+                <button mat-mini-fab
+                        class="save-product-button"
+                        [disabled]="disableSave()"
+                         (click)="save()">
+                    <mat-icon>save</mat-icon>
+
+                    <!--<span>SAVE</span>-->
+                </button>
+            </div>
+
+            <!--<button mat-raised-button
+                    class="save-product-button"
+                    [disabled]="frmMain.invalid || frmMain.pristine"
+                    *ngIf="pageType ==='edit'" (click)="save()">
+                <span>SAVE</span>
+            </button>-->
+        </div>
+        <!-- / HEADER -->
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="frmMain" class="product w-100-p" fxLayout="column" fxFlex>
+
+                    <mat-tab-group>
+
+                        <mat-tab label="Basic Info">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <div [formGroup]="frmMain">
+                                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Name"
+                                               name="name"
+                                               formControlName="name"
+                                               required>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="fuse-card auto-width">
+                                    <div class="position-relative p-24"
+                                         fxLayout="column" fxLayoutAlign="start stretch">
+                                        <div class="p-16 pt-0">
+                                            <div class="h1">Third Party</div>
+                                            <div class="h4 secondary-text">Third Party Settings</div>
+                                        </div>
+                                        <div fxLayout="row" fxLayoutAlign="start stretch">
+                                            <mat-table class="product-thirdparty-table"
+                                                       #tableThirdParty [dataSource]="thirdPartySettings"
+                                                       matSort
+                                                       [@animateStagger]="{value:'50'}"
+                                                       fusePerfectScrollbar>
+
+                                                <ng-container matColumnDef="options">
+                                                    <mat-header-cell *matHeaderCellDef>
+                                                        <button mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="thirdPartySettings.length == 0 ? 'visible' : 'hidden'">
+                                                            <mat-icon>add_circle_outline</mat-icon>
+                                                        </button>
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
+                                                        <ng-container [ngSwitch]="selectedItem == item">
+                                                            <ng-container *ngSwitchCase="true">
+                                                                <button type="button" mat-icon-button color="primary" (click)="saveThirdPartyItem()">
+                                                                    <mat-icon>save</mat-icon>
+                                                                </button>
+                                                                <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition()">
+                                                                    <mat-icon >delete</mat-icon>
+                                                                </button>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                <button type="button" mat-icon-button (click)="selectItem(item)">
+                                                                    <mat-icon>edit</mat-icon>
+                                                                </button>
+                                                                <button type="button" mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="i == thirdPartySettings.length-1 ? 'visible' : 'hidden'">
+                                                                    <mat-icon>add_circle_outline</mat-icon>
+                                                                </button>
+                                                                <button type="button" color="warn" mat-icon-button (click)="deleteThirdPartyItemEdition(item)">
+                                                                    <mat-icon>delete</mat-icon>
+                                                                </button>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </mat-cell>
+                                                </ng-container>
+
+                                                <!-- Name Column -->
+                                                <ng-container matColumnDef="thirdPartyAppTypeId">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                                                    <mat-cell *matCellDef="let item">
+                                                        <ng-container [ngSwitch]="selectedItem == item">
+
+                                                            <ng-container *ngSwitchCase="true">
+                                                                <mat-form-field floatLabel="never">
+                                                                    <mat-select placeholder="Third Party" name="thirdPartyAppTypeId" [(value)]="item.thirdPartyAppTypeId" [(ngModel)]="item.thirdPartyAppTypeId">
+                                                                        <mat-option *ngFor="let item of listThirdParty" [value]="item.key">
+                                                                            {{item.value}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                <p class="text-truncate">{{getThirdPartyAppType(item.thirdPartyAppTypeId).value}}</p>
+                                                            </ng-container>
+                                                        </ng-container>
+
+                                                    </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="thirdPartyProductId">
+                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Third Party Product Id</mat-header-cell>
+                                                    <mat-cell *matCellDef="let item">
+                                                        <ng-container [ngSwitch]="selectedItem == item">
+                                                            <ng-container *ngSwitchCase="true">
+                                                                <mat-form-field floatLabel="never">
+                                                                    <input matInput placeholder="" name="thirdPartyProductId" [(ngModel)]="item.thirdPartyProductId">
+                                                                </mat-form-field>
+                                                            </ng-container>
+                                                            <ng-container *ngSwitchDefault>
+                                                                <p class="text-truncate">{{item.thirdPartyProductId}}</p>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </mat-cell>
+                                                </ng-container>
+
+
+                                                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                                                <mat-row *matRowDef="let item; columns: displayedColumns;"
+                                                         class="product-color"
+                                                         matRipple>
+                                                </mat-row>
+                                            </mat-table>
+                                        </div>
+                                        <!--<mat-paginator #paginator
+                                                       [length]="dataSource.filteredCount"
+                                                       [pageIndex]="0"
+                                                       [pageSize]="10"
+                                                       [pageSizeOptions]="[5, 10, 25, 100]">
+                                        </mat-paginator>-->
+                                    </div>
+                                </div>
+                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>ERP Code</mat-label>
+                                    <input matInput placeholder="External ERP Code"
+                                           name="erpId"
+                                           formControlName="erpId"
+                                           required>
+                                </mat-form-field>-->
+                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+
+                                    <mat-label>Categories</mat-label>
+
+                                    <mat-chip-list #categoryList name="categories" formControlName="categories">
+
+                                        <mat-chip *ngFor="let category of currentEntity.categories"
+                                                  [removable]="true" (removed)="currentEntity.removeCategory(category)">
+                                            {{category}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input [matChipInputFor]="categoryList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="currentEntity.addCategory($event)"/>
+
+                                    </mat-chip-list>
+
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+
+                                    <mat-label>Tags</mat-label>
+
+                                    <mat-chip-list #tagList name="tags" formControlName="tags">
+
+                                        <mat-chip *ngFor="let tag of currentEntity.tags"
+                                                  [removable]="true" (removed)="currentEntity.removeTag(tag)">
+                                            {{tag}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </mat-chip>
+
+                                        <input [matChipInputFor]="tagList"
+                                               [matChipInputAddOnBlur]="true"
+                                               (matChipInputTokenEnd)="currentEntity.addTag($event)"/>
+
+                                    </mat-chip-list>
+
+                                </mat-form-field>-->
+
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Delivery">
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <div fxLayout="column" fxLayoutGap="20px">
+                                    <!--<div class="fuse-card auto-width">
+                                        <div class="position-relative p-24"
+                                             fxLayout="column" fxLayoutAlign="start start">
+                                            <div class="p-16 pt-0">
+                                                <div class="h1">Delivery</div>
+                                                <div class="h4 secondary-text">Delivery settings</div>
+                                            </div>
+
+                                            <div fxLayout="row" fxLayoutGap="20px">
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"
+                                                           name="name"
+                                                           formControlName="name"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"
+                                                           name="name"
+                                                           formControlName="name"
+                                                           required>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>-->
+                                    <div class="fuse-card auto-width" [formGroup]="frmFreightout">
+                                        <div class="position-relative p-24"
+                                             fxLayout="column" fxLayoutAlign="start strench">
+                                            <div class="p-16 pt-0">
+                                                <div class="h1">Freightout</div>
+                                                <div class="h4 secondary-text">Freightout settings</div>
+                                            </div>
+
+                                            <div fxLayout="row wrap" fxLayoutGap="20px">
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Rate Type</mat-label>
+                                                    <mat-select placeholder="Rate Type" formControlName="productFreightoutRateTypeId">
+                                                        <mat-option *ngFor="let rateTypeItem of listProductFreightoutRateType" [value]="rateTypeItem.key">
+                                                            {{rateTypeItem.value}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Cost</mat-label>
+                                                    <input matInput placeholder="Cost"
+                                                           name="cost"
+                                                           formControlName="cost"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>WProtect</mat-label>
+                                                    <input matInput placeholder="WProtect"
+                                                           name="wProtect"
+                                                           formControlName="wProtect"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Second Leg</mat-label>
+                                                    <input matInput placeholder="secondLeg"
+                                                           name="secondLeg"
+                                                           formControlName="secondLeg"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Surcharge (Hourly)</mat-label>
+                                                    <input matInput placeholder="Surcharge"
+                                                           name="surchargeHourly"
+                                                           formControlName="surchargeHourly"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Surcharge (Yearly)</mat-label>
+                                                    <input matInput placeholder="Surcharge"
+                                                           name="surchargeYearly"
+                                                           formControlName="surchargeYearly"
+                                                           required>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>Begin Date</mat-label>
+                                                    <input matInput placeholder="Begin Date" [matDatepicker]="dateBegin"
+                                                           name="dateFrom"
+                                                           formControlName="dateFrom"
+                                                           required>
+                                                    <mat-datepicker-toggle matSuffix [for]="dateBegin"></mat-datepicker-toggle>
+                                                    <mat-datepicker #dateBegin></mat-datepicker>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
+                                                    <mat-label>End Date</mat-label>
+                                                    <input matInput placeholder="End Date" [matDatepicker]="dateEnd"
+                                                           name="dateTo"
+                                                           formControlName="dateTo"
+                                                           required>
+                                                    <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                                                    <mat-datepicker #dateEnd></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <!--<mat-tab label="Product Images">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+                                    <div *ngIf="currentEntity.images.length === 0"
+                                         class="product-image" fxlayout="row" fxLayoutAlign="center center">
+                                        <img class="media"
+                                             [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                                    </div>
+
+                                    <div *ngFor="let image of currentEntity.images">
+                                        <div *ngIf="currentEntity.images.length > 0"
+                                             class="product-image" fxlayout="row" fxLayoutAlign="center center">
+                                            <img class="media" [src]="image.url">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Pricing">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Tax Excluded Price</mat-label>
+                                    <input matInput placeholder="Tax Excluded Price"
+                                           name="priceTaxExcl"
+                                           formControlName="priceTaxExcl"
+                                           type="number">
+                                    <span matPrefix>$&nbsp;</span>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Tax Included Price</mat-label>
+                                    <input matInput placeholder="Tax Included Price"
+                                           name="priceTaxIncl"
+                                           formControlName="priceTaxIncl"
+                                           type="number">
+                                    <span matPrefix>$&nbsp;</span>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Tax Rate</mat-label>
+                                    <input matInput placeholder="Tax Rate"
+                                           name="taxRate"
+                                           formControlName="taxRate"
+                                           type="number">
+                                    <span matPrefix>&#37;&nbsp;</span>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Compared Price</mat-label>
+                                    <input matInput placeholder="Compared Price"
+                                           name="comparedPrice"
+                                           formControlName="comparedPrice"
+                                           type="number">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <mat-hint align="start">Add a compare price to show next to the real price
+                                    </mat-hint>
+                                </mat-form-field>
+
+                            </div>
+                        </mat-tab>
+
+                        <mat-tab label="Inventory">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>SKU</mat-label>
+                                    <input matInput placeholder="SKU"
+                                           name="sku"
+                                           formControlName="sku">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Quantity</mat-label>
+                                    <input matInput placeholder="Quantity"
+                                           name="quantity"
+                                           formControlName="quantity"
+                                           type="number">
+                                </mat-form-field>
+
+                            </div>
+
+                        </mat-tab>
+
+                        <mat-tab label="Shipping">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+
+                                <div fxLayout="row" fxLayoutAlign="space-between">
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Width</mat-label>
+                                        <input matInput placeholder="Width"
+                                               name="Width"
+                                               formControlName="width">
+                                        <span matSuffix>cm</span>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Height</mat-label>
+                                        <input matInput placeholder="Height"
+                                               name="Height"
+                                               formControlName="height">
+                                        <span matSuffix>cm</span>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="30">
+                                        <mat-label>Depth</mat-label>
+                                        <input matInput placeholder="Depth"
+                                               name="Depth"
+                                               formControlName="depth">
+                                        <span matSuffix>cm</span>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Weight</mat-label>
+                                    <input matInput placeholder="Weight"
+                                           name="Weight"
+                                           formControlName="weight">
+                                    <span matSuffix>kg</span>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                    <mat-label>Extra Shipping Fee</mat-label>
+                                    <input matInput placeholder="Extra Shipping Fee"
+                                           name="extraShippingFee"
+                                           formControlName="extraShippingFee"
+                                           type="number">
+                                    <span matPrefix>$&nbsp;</span>
+                                </mat-form-field>
+
+                            </div>
+
+                        </mat-tab>-->
+
+                    </mat-tab-group>
+                    <!--<div class="p-24">
+                        <div class="fuse-card auto-width position-relative p-24 red-100-bg" color="warn" fxLayout="row" fxLayoutAlign="center start">
+                            <button mat-button (click)="delete()" color="primary">
+                                <mat-icon color="danger">close</mat-icon>
+                                Delete
+                            </button>
+                        </div>
+                    </div>-->
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

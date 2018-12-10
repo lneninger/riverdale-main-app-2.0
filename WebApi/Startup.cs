@@ -139,6 +139,9 @@ namespace RiverdaleMainApp2_0
             app.UseAuthentication();
             app.UseMvc();
 
+
+            var securitySeedAsync = this.SecuritySeed().ConfigureAwait(false);
+            securitySeedAsync.GetAwaiter().GetResult();
         }
 
 
@@ -239,6 +242,62 @@ namespace RiverdaleMainApp2_0
 
             builder.AddEntityFrameworkStores<IdentityDBContext>()
             .AddDefaultTokenProviders();
+        }
+
+
+
+        private async Task SecuritySeed()
+        {
+            var adminUserName = "admin";
+            var adminFirstName = "Administrator";
+            var adminLastName = "Administrator";
+            var adminUserEmail = "admin@riverdale.com";
+            var adminUserPassword = "r1v3rdal3";
+
+            var adminRoleName = "Administrator";
+
+
+
+            using (var userManager = IoCGlobal.Resolve<UserManager<AppUser>>())
+            {
+                using (var roleManager = IoCGlobal.Resolve<RoleManager<IdentityRole>>())
+                {
+
+                    var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                    if (adminUser == null)
+                    {
+                        var newAdminUser = new AppUser
+                        {
+                            UserName = adminUserName,
+                            FirstName = adminFirstName,
+                            LastName = adminLastName,
+                            Email = adminUserEmail,
+                        };
+                        await userManager.CreateAsync(newAdminUser, adminUserPassword);
+                        adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                    }
+
+                    var adminRole = await roleManager.FindByNameAsync(adminRoleName);
+                    if (adminRole == null)
+                    {
+                        var newAdminRole = new IdentityRole
+                        {
+                            Name = adminRoleName,
+                        };
+
+                        await roleManager.CreateAsync(newAdminRole);
+                        adminRole = await roleManager.FindByNameAsync(adminRoleName);
+                    }
+
+                    userManager.AddToRoleAsync(adminUser, adminRoleName);
+
+                    foreach (var permission in Enum.GetNames(typeof(PermissionsEnum.Enum)))
+                    {
+                        await roleManager.AddClaimAsync(adminRole, new Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, permission));
+                    }
+                }
+
+            }
         }
     }
 }
