@@ -1,10 +1,10 @@
-﻿using DomainModel;
+﻿using DomainModel.File;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace DomainDatabaseMapping.Mappings
+namespace DomainDatabaseMapping.Mappings.File
 {
     public class FileRepositoryMap : BaseAbstractMap, IEntityTypeConfiguration<FileRepository>
     {

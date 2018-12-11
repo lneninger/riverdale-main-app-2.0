@@ -11,6 +11,10 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using DomainModel.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using DomainModel.File;
+using DomainDatabaseMapping.Mappings.File;
+using DomainDatabaseMapping.Mappings.Type;
+using DomainDatabaseMapping.Mappings.Product;
 
 namespace DomainDatabaseMapping
 {
@@ -48,6 +52,7 @@ namespace DomainDatabaseMapping
 
         // Commons
         public DbSet<FileRepository> FileRepositories { get; set; }
+        public DbSet<FileSystemType> FileSystemTypes { get; set; }
 
         // Quote
         public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
@@ -74,12 +79,20 @@ namespace DomainDatabaseMapping
 
             // Commons
             modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new FileSystemTypeMap(modelBuilder));
 
             // Quote
             modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerFreightoutMap(modelBuilder));
 
-    }
+            // Product
+            modelBuilder.ApplyConfiguration(new AbstractProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ProductMediaMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ProductTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new HardgoodProductMap(modelBuilder));
+        }
 
 
 }
