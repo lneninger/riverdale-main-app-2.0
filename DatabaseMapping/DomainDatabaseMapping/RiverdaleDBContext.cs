@@ -90,6 +90,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new ProductMediaMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CompositionProductBridgeProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new HardgoodProductMap(modelBuilder));
         }

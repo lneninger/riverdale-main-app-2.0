@@ -6,16 +6,16 @@ using System;
 
 namespace DomainDatabaseMapping.Mappings.File
 {
-    public class CompositionProductBridgeMap : BaseAbstractMap, IEntityTypeConfiguration<CompositionProductBridge>
+    public class CompositionProductBridgeProductMap : BaseAbstractMap, IEntityTypeConfiguration<CompositionProductBridge>
     {
 
-        public CompositionProductBridgeMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        public CompositionProductBridgeProductMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
         public void Configure(EntityTypeBuilder<CompositionProductBridge> builder)
         {
-            builder.ToTable("CompositionProductBridge", SCHEMAS.PRODUCT);
+            builder.ToTable("CompositionProductBridgeProduct", SCHEMAS.PRODUCT);
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)
@@ -25,12 +25,14 @@ namespace DomainDatabaseMapping.Mappings.File
             builder.HasOne(t => t.CompositionProduct)
                 .WithMany(t => t.Items)
                 .HasForeignKey(t => t.CompositionProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                ;
 
             builder.HasOne(t => t.CompositionItem)
                 .WithMany()
                 .HasForeignKey(t => t.CompositionItemId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                ;
         }
     }
 }
