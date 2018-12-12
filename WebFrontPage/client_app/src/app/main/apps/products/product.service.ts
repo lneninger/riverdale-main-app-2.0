@@ -9,7 +9,6 @@ import { environment } from 'environments/environment';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { ThirdPartyGrid } from '../productthirdpartyappsetting/productthirdpartyappsetting.model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Injectable()
@@ -45,7 +44,7 @@ export class ProductService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getEntity()
             ]).then(
                 () => {
                     resolve();
@@ -56,11 +55,11 @@ export class ProductService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Get product
+     * Get entity
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}product/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
@@ -71,9 +70,9 @@ export class ProductService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Save product
+     * Save entity
      *
-     * @param product
+     * @param entity
      * @returns {Promise<any>}
      */
     save(entity): Promise<any> {

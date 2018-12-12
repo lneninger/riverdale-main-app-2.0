@@ -96,6 +96,14 @@ export const navigation: FuseNavigation[] = [
                 url: '/apps/product-colors'
             },
             {
+                id: 'products',
+                title: 'Products',
+                translate: 'NAV.PRODUCTS',
+                type: 'item',
+                icon: 'filter_vintage',
+                url: '/apps/products'
+            },
+            {
                 id: 'Settings',
                 title: 'Settings',
                 translate: 'NAV.SETTINGS',

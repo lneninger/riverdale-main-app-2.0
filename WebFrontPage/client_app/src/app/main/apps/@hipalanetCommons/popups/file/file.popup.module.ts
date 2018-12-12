@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
-import { PicturePopupComponent } from "./picture.popup.component";
+import { FilePopupComponent } from "./file.popup.component";
 import { MatDialogModule, MatButtonModule } from "@angular/material";
 
 
-export { PicturePopupComponent } from "./picture.popup.component";
-export * from "./picture.popup.model";
+export { FilePopupComponent } from "./file.popup.component";
+export * from "./file.popup.model";
 
 @NgModule({
     imports: [
@@ -12,15 +12,15 @@ export * from "./picture.popup.model";
         ,MatDialogModule
     ]
     , declarations: [
-        PicturePopupComponent
+        FilePopupComponent
     ]
     , providers: []
 
     , exports: [
-        PicturePopupComponent
+        FilePopupComponent
     ]
     , entryComponents: [
-        PicturePopupComponent
+        FilePopupComponent
     ]
 })
-export class PicturePopupModule { }
+export class FilePopupModule { }

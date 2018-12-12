@@ -289,9 +289,10 @@ namespace RiverdaleMainApp2_0
                         adminRole = await roleManager.FindByNameAsync(adminRoleName);
                     }
 
-                    userManager.AddToRoleAsync(adminUser, adminRoleName);
-
-                    foreach (var permission in Enum.GetNames(typeof(PermissionsEnum.Enum)))
+                    await userManager.AddToRoleAsync(adminUser, adminRoleName);
+                    var roleClaims = (await roleManager.GetClaimsAsync(adminRole)).Select(o => o.Value);
+                    var claimNames = Enum.GetNames(typeof(PermissionsEnum.Enum)).Except(roleClaims);
+                    foreach (var permission in claimNames)
                     {
                         await roleManager.AddClaimAsync(adminRole, new Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, permission));
                     }

@@ -15,6 +15,7 @@ import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
+import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups/file/file.popup.module';
 
 @Component({
     selector: 'product',
@@ -195,13 +196,13 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
 
-    openPictureDialog() {
-        const dialogRef = this.matDialog.open(PicturePopupComponent, {
+    openFileDialog() {
+        const dialogRef = this.matDialog.open(FilePopupComponent, {
             width: '250px',
             data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
         });
 
-        dialogRef.afterClosed().subscribe((result: PicturePopupComponent) => {
+        dialogRef.afterClosed().subscribe((result: FilePopupResult) => {
             if (result == 'YES') {
                 this.deleteExecution();
             }

@@ -54,8 +54,9 @@ namespace RiverdaleMainApp2_0.Controllers
         ///// <param name="appUserRegisterCommand"></param>
         ///// <param name="appUserAuthenticateCommand"></param>
         ///// <param name="appUserGetByIdCommand"></param>
-        public AccountsController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand*/, IAppUserGetByIdCommand appUserGetByIdCommand)
+        public AccountsController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand*/, IAppUserGetByIdCommand appUserGetByIdCommand)
         {
+            this.RoleManager = roleManager;
             this.UserManager = userManager;
             this.JwtFactory = jwtFactory;
             this.JwtOptions = jwtOptions.Value;
@@ -63,6 +64,8 @@ namespace RiverdaleMainApp2_0.Controllers
             //this.AppUserAuthenticateCommand = appUserAuthenticateCommand;
             this.AppUserGetByIdCommand = appUserGetByIdCommand;
         }
+
+        public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>
         /// Gets the user manager.
@@ -145,6 +148,21 @@ namespace RiverdaleMainApp2_0.Controllers
             var id = identity.Claims.Single(c => c.Type == "id").Value;
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, input.UserName));
+
+            var dbUser = await this.UserManager.FindByIdAsync(id);
+            var claims = (await this.UserManager.GetClaimsAsync(dbUser)).AsEnumerable();
+            var roleNames = await this.UserManager.GetRolesAsync(dbUser);
+            foreach (var roleName in roleNames)
+            {
+                claims = claims.Concat((await this.RoleManager.GetClaimsAsync(await this.RoleManager.FindByNameAsync(roleName))).ToList());
+            }
+            var permissions = claims.Where(claim => claim.ValueType == RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions);
+            permissions.ToList().ForEach(permission =>
+            {
+                identity.AddClaim(permission);
+            });
+
+
 
             var appResult = this.AppUserGetByIdCommand.Execute(id);
             /*
@@ -256,6 +274,23 @@ namespace RiverdaleMainApp2_0.Controllers
                 var user = appResult.Bag;
                 var newClaimsIdentity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(user.UserName, id));
                 newClaimsIdentity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
+
+                var dbUser = await this.UserManager.FindByIdAsync(id);
+                var claims = (await this.UserManager.GetClaimsAsync(dbUser)).AsEnumerable();
+                var roleNames = await this.UserManager.GetRolesAsync(dbUser);
+                foreach (var roleName in roleNames)
+                {
+                    claims = claims.Concat( (await this.RoleManager.GetClaimsAsync(await this.RoleManager.FindByNameAsync(roleName))).ToList());
+                }
+                
+                
+                var permissions = claims.Where(claim => claim.Type == RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions);
+                permissions.ToList().ForEach(permission =>
+                {
+                    newClaimsIdentity.AddClaim(permission);
+                });
+
+
 
                 return Ok(new
                 {
@@ -371,7 +406,8 @@ namespace RiverdaleMainApp2_0.Controllers
             {
                 // get the user to verifty
                 var userToVerify = await this.UserManager.FindByNameAsync(userName);
-                if (userToVerify == null) {
+                if (userToVerify == null)
+                {
                     userToVerify = await this.UserManager.FindByEmailAsync(userName);
                 }
 

@@ -80,6 +80,7 @@ const routes = [
         path: 'products',
         loadChildren: './products/products.module#ProductsModule'
     }
+
 ];
 
 @NgModule({

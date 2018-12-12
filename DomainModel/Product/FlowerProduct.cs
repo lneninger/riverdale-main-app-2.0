@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainModel.Product
 {
-    public class FlowerProduct: AbstractProduct
+    public class FlowerProduct : AbstractProduct
     {
     }
 }

@@ -1,15 +1,15 @@
-﻿using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Product.DeleteCommand;
+using ApplicationLogic.Business.Commands.Product.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.Product.GetAllCommand;
+using ApplicationLogic.Business.Commands.Product.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.Product.GetByIdCommand;
+using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.Product.InsertCommand;
+using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Product.PageQueryCommand;
+using ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.Product.UpdateCommand;
+using ApplicationLogic.Business.Commands.Product.UpdateCommand.Models;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -22,15 +22,15 @@ using System.Linq;
 namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
-    /// Customer API interface
+    /// Product API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/customer")]
-    public class CustomerController : Controller
+    [Route("api/product")]
+    public class ProductController : Controller
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerController"/> class.
+        /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
@@ -38,7 +38,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        public ProductController(IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -54,12 +54,12 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerGetAllCommand GetAllCommand { get; }
+        public IProductGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ICustomerPageQueryCommand PageQueryCommand { get; }
+        public IProductPageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ICustomerGetByIdCommand GetByIdCommand { get; }
+        public IProductGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -76,7 +76,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ICustomerInsertCommand InsertCommand { get; }
+        public IProductInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -84,7 +84,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ICustomerUpdateCommand UpdateCommand { get; }
+        public IProductUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -92,16 +92,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ICustomerDeleteCommand DeleteCommand { get; }
+        public IProductDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<ProductPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<CustomerPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<ProductPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -112,7 +112,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerGetAllCommandOutputDTO>))]
+        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<ProductGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
@@ -125,7 +125,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(CustomerGetByIdCommandOutputDTO))]
+        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(ProductGetByIdCommandOutputDTO))]
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -138,9 +138,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
-        [Authorize(Policy = PermissionsEnum.Customer_Manage)]
-        public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(ProductInsertCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.Product_Manage)]
+        public IActionResult Post([FromBody]ProductInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -150,9 +150,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
-        [Authorize(Policy = PermissionsEnum.Customer_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
-        public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(ProductUpdateCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.Product_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
+        public IActionResult Put([FromBody]ProductUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -163,7 +163,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDeleteCommandOutputDTO))]
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(ProductDeleteCommandOutputDTO))]
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);

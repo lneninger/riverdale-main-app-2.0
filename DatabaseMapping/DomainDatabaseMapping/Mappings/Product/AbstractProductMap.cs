@@ -28,6 +28,10 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .ValueGeneratedOnAdd()
                 ;
 
+            builder.HasOne(t => t.ProductType)
+                .WithMany(t => t.Products)
+                .HasForeignKey(t => t.ProductTypeId)
+                ;
         }
     }
 }
