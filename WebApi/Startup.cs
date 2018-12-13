@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using ElmahCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Framework.Web.Security;
 
 namespace RiverdaleMainApp2_0
 {
@@ -99,6 +101,8 @@ namespace RiverdaleMainApp2_0
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             services.AddSignalR();
+
+            services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
 
             return IoCConfig.Init(Configuration, services);
         }
@@ -216,10 +220,9 @@ namespace RiverdaleMainApp2_0
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
                 options.AddPolicy(nameof(Constants.Strings.JwtClaims.Administrator), policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.Administrator));
 
-                foreach (var permissionPolicy in PermissionPolicies.Policies)
-                {
-                    options.AddPolicy(permissionPolicy.Key, permissionPolicy.Value);
-                }
+                var permissionNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
+                PolicyPermissionRequired.BuildPolicies(options, permissionNames);
+                
             });
 
             // add identity

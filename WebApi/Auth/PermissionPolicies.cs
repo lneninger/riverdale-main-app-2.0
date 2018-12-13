@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Framework.Web.Security;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace RiverdaleMainApp2_0.Auth
 
             foreach (var permissionName in permissionNames)
             {
-                Policies.Add(permissionName, policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Permissions, PermissionsEnum.Customer_Read));
+                Policies.Add(permissionName, policy => policy.Requirements.Add(new PolicyPermissionRequired(PermissionsEnum.Customer_Read)));
             }
         }
     }
