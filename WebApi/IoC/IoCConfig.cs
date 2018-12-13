@@ -18,6 +18,7 @@ using DatabaseRepositories.DB;
 using ApplicationLogic.Business.Commands.Customer.InsertCommand;
 using Autofac.Extras.DynamicProxy;
 using RiverdaleMainApp2_0.AppSettings;
+using Framework.EF.DbContextImpl;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -62,9 +63,12 @@ namespace RiverdaleMainApp2_0.IoC
                 builder.RegisterType<RiverdaleDBContext>().AsSelf()
                 .TrackInstanceEvents();
 
+                builder.RegisterType<CurrentUserService>().As<ICurrentUserService>()
+                .InstancePerLifetimeScope()
+                //.InstancePerMatchingLifetimeScope("CurrentUserService")
+                .TrackInstanceEvents();
 
-
-
+                
 
 
                 var targetAssembly = Assembly.GetExecutingAssembly();

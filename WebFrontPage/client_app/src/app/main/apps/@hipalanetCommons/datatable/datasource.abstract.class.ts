@@ -66,7 +66,8 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
 
         return merge(...displayDataChanges)
             .pipe(
-                mergeMap(() => {
+            mergeMap(() => {
+                debugger;
                     let pageIndex = this._matPaginator.pageIndex;
                     let pageSize = this._matPaginator.pageSize;
                     let sortObj = this.getSortSelection();

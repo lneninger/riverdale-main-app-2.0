@@ -1,5 +1,6 @@
 ﻿using DomainDatabaseMapping.Mappings;
 using DomainModel.Identity;
+using Framework.EF.DbContextImpl;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ using System.IO;
 
 namespace DomainDatabaseMapping
 {
-    public class IdentityDBContext : IdentityDbContext<AppUser>
+    public class IdentityDBContext : BaseIdentityDbContext<AppUser>
     {
         public IdentityDBContext(DbContextOptions options) : base(options)
         {

@@ -31,7 +31,6 @@ namespace DomainDatabaseMapping
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            
         }
 
         /********************************SECURITY*********************************/

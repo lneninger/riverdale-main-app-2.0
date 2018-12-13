@@ -29,7 +29,7 @@ import { ProductService } from './product.service';
 })
 export class ProductsComponent implements OnInit {
     dataSource: ProductsDataSource | null;
-    displayedColumns = ['name', 'erpId', 'salesforceId', 'createdAt', 'options'];
+    displayedColumns = ['name', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

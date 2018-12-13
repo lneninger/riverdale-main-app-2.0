@@ -88,6 +88,12 @@ namespace DatabaseRepositories.DB
 
                     var sorting = new SortingDTO<AbstractProduct>(input.Sort, advancedSorting);
 
+                    result.Bag = query.ProcessPagingSort<AbstractProduct, ProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new ProductPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        CreatedAt = o.CreatedAt
+                    });
                 }
             }
             catch (Exception ex)

@@ -14,9 +14,11 @@ using ApplicationLogic.Business.Commands.Security;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Storage.DataHolders.Messages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using RiverdaleMainApp2_0.Auth;
 using RiverdaleMainApp2_0.Auth.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -120,6 +122,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<AppUserPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
+        [Authorize(Policy = PermissionsEnum.UserRole_Read)]
         public IActionResult PageQuery([FromBody]PageQuery<AppUserPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
@@ -131,6 +134,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<AppUserGetAllCommandOutputDTO>))]
+        [Authorize(Policy = PermissionsEnum.UserRole_Read)]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
@@ -143,6 +147,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(AppUserGetByIdCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.UserRole_Read)]
         public IActionResult Get(string id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -156,6 +161,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost]
         [HttpPost("register")]
+        [Authorize(Policy = PermissionsEnum.UserRole_Manage)]
         public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
         {
             if (!ModelState.IsValid)
@@ -187,6 +193,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         [HttpPut(), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.UserRole_Manage), Authorize(Policy = PermissionsEnum.UserRole_Modify)]
         public IActionResult Put([FromBody]AppUserUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
@@ -199,6 +206,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(AppUserDeleteCommandOutputDTO))]
+        [Authorize(Policy = PermissionsEnum.UserRole_Manage)]
         public IActionResult Delete(string id)
         {
             var appResult = this.DeleteCommand.Execute(id);
@@ -211,6 +219,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("addrole"), ProducesResponseType(200, Type = typeof(OperationResponse<List<string>>))]
+        [Authorize(Policy = PermissionsEnum.UserRole_Manage)]
         public async Task<IActionResult> AddRole([FromBody]AppUserRoleRelationInsertCommandInputDTO model)
         {
 

@@ -21,16 +21,34 @@ namespace Framework.Autofac
             return _container;
         }
 
-        public static ILifetimeScope NewScope(string name)
+        public static ILifetimeScope NewScope(string name = null)
         {
-            return _container.BeginLifetimeScope();
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                return _container.BeginLifetimeScope(name);
+            }
+            else
+            {
+                return _container.BeginLifetimeScope();
+            }
         }
 
-        public static object Resolve(Type type, string name = null, ILifetimeScope scope = null)
+        public static object Resolve(Type type, string name = null, ILifetimeScope scope = null, string tagName = null)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(name))
+                {
+                    if (scope == null)
+                    {
+                        return _container.Resolve(type);
+                    }
+                    else
+                    {
+                        return scope.Resolve(type);
+                    }
+                }
+                else if (string.IsNullOrWhiteSpace(tagName))
                 {
                     if (scope == null)
                     {
@@ -59,8 +77,6 @@ namespace Framework.Autofac
                 throw;
             }
         }
-
-
 
         public static void DefaultTrackOnActive<TLimit>(IActivatedEventArgs<TLimit> eventArgs)
         {

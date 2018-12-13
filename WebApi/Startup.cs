@@ -32,6 +32,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Framework.Web.Security;
+using Framework.EF.DbContextImpl;
 
 namespace RiverdaleMainApp2_0
 {
@@ -207,6 +208,18 @@ namespace RiverdaleMainApp2_0
                             {
                                 identity.AddClaim(new Claim("access_token", accessToken.RawData));
                             }
+
+                            // Set Current User
+                            var idClaim = identity.FindFirst("id");
+                            if (idClaim != null)
+                            {
+                                // get claim containing user id
+                                var id = idClaim.Value;
+                                using (var currentUserService = IoCGlobal.Resolve<ICurrentUserService>())
+                                {
+                                    currentUserService.CurrentUserId = id;
+                                }
+                            }
                         }
 
                         return Task.CompletedTask;
@@ -222,7 +235,7 @@ namespace RiverdaleMainApp2_0
 
                 var permissionNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
                 PolicyPermissionRequired.BuildPolicies(options, permissionNames);
-                
+
             });
 
             // add identity
