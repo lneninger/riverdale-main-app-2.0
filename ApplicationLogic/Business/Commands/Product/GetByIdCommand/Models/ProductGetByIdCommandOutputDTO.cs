@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ApplicationLogic.Business.Commands.Product.Commons;
+using ApplicationLogic.Business.Commons.DTOs;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
 {
@@ -8,8 +9,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<ProductGetByIdCommandOutputThirdPartySettingsDTO> ThirdPartySettings { get; set; }
-        public ProductGetByIdCommandOutputFreightoutDTO Freightout { get; set; }
+        public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
         public string ProductTypeId { get; set; }
         public ProductTypeEnum? ProductTypeEnum
         {

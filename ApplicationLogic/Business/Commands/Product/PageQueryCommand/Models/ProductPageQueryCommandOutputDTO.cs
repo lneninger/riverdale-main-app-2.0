@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationLogic.Business.Commons.DTOs;
+using System;
 
 namespace ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models
 {
@@ -10,5 +11,7 @@ namespace ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models
         public string SalesforceId { get; set; }
         public DateTime? CreatedAt { get; set; }
        
+        public FileItemRefOutputDTO MainPicture { get; set; }
+
     }
 }

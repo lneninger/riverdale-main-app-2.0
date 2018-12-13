@@ -22,6 +22,7 @@ using DomainModel._Commons.Enums;
 using Framework.Storage.DataHolders.Messages;
 using DomainModel.Product;
 using ApplicationLogic.Business.Commands.Product.Commons;
+using ApplicationLogic.Business.Commons.DTOs;
 
 namespace DatabaseRepositories.DB
 {
@@ -73,10 +74,7 @@ namespace DatabaseRepositories.DB
 
                 using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-
-
                     var query = dbLocator.Set<AbstractProduct>().AsQueryable();
-
 
                     var advancedSorting = new List<SortItem<AbstractProduct>>();
                     Expression<Func<AbstractProduct, object>> expression;
@@ -92,7 +90,11 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         Name = o.Name,
-                        CreatedAt = o.CreatedAt
+                        CreatedAt = o.CreatedAt,
+                        MainPicture = o.ProductMedia.Select(m => new FileItemRefOutputDTO {
+                            Id = m.Id,
+                            FullUrl = m.FileRepository.FullFilePath
+                        }).FirstOrDefault()
                     });
                 }
             }
@@ -115,7 +117,11 @@ namespace DatabaseRepositories.DB
                     {
                         Id = entityItem.Id,
                         Name = entityItem.Name,
-                        ProductTypeId = entityItem.ProductTypeId
+                        ProductTypeId = entityItem.ProductTypeId,
+                        Medias = entityItem.ProductMedia.Select(m => new FileItemRefOutputDTO {
+                            Id = m.Id,
+                            FullUrl = m.FileRepository.FullFilePath
+                        })
                     }).FirstOrDefault();
 
                     if (result.Bag == null)
