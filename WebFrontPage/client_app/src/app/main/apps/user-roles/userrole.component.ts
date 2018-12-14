@@ -239,7 +239,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
     addRolePermissionItem(item) {
         //debugger;
         this.serviceRolePermission.add(item).then(res => {
-            this.rolePermissions.push(<RolePermissionGrid>res);
+            //this.rolePermissions.push(<RolePermissionGrid>res);
 
             this._matSnackBar.open('New UserRole Permission saved', 'OK', {
                 verticalPosition: 'top',
@@ -334,7 +334,7 @@ export class UserRoleComponent implements OnInit, OnDestroy {
     addRoleUserItem(item) {
         debugger;
         this.serviceRoleUser.add(item).then(res => {
-            this.roleUsers.push(<RoleUserGrid>res);
+            //this.roleUsers.push(<RoleUserGrid>res);
 
             this._matSnackBar.open('New UserRole User saved', 'OK', {
                 verticalPosition: 'top',
