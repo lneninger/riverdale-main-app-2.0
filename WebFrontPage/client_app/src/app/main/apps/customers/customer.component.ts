@@ -92,8 +92,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
             .subscribe(dataResponse => {
 
                 //debugger;
-                this.id = dataResponse.id;
-                let currentEntity = dataResponse;
+                let currentEntity = dataResponse.bag;
+                this.id = currentEntity.id;
                 if (currentEntity) {
                     this.currentEntity = new Customer(currentEntity);
                     this.thirdPartySettings = (currentEntity.thirdPartySettings || []).map(item => new ThirdPartyGrid(item));

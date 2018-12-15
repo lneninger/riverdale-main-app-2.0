@@ -67,7 +67,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
         return merge(...displayDataChanges)
             .pipe(
             mergeMap(() => {
-                debugger;
+                //debugger;
                     let pageIndex = this._matPaginator.pageIndex;
                     let pageSize = this._matPaginator.pageSize;
                     let sortObj = this.getSortSelection();
@@ -83,7 +83,6 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
             ;
     }
 
-
     getSortSelection(): any {
         let result = new SortCollection();
 
@@ -96,8 +95,6 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
         return result;
     }
 
-
-
     public abstract get remoteEnpoint(): string;
 
     getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: {}) {
@@ -107,8 +104,6 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
     }
 
     public abstract getFilter(rawFilterObject: {}): {};
-
-
 
     /**
     * Disconnect

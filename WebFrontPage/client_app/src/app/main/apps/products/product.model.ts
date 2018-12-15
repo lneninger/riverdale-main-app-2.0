@@ -8,7 +8,7 @@ export class ProductGrid {
 export class Product {
     id: number;
     name: string;
-    pictures: ProductPictureGrid[]
+    medias: ProductMediaGrid[]
 
     /**
      * Constructor
@@ -22,10 +22,10 @@ export class Product {
     }
 }
 
-export class ProductPictureGrid {
+export class ProductMediaGrid {
 
     constructor(item?) {
-        let internal = item || <ProductPictureGrid>{};
+        let internal = item || <ProductMediaGrid>{};
 
     }
 }

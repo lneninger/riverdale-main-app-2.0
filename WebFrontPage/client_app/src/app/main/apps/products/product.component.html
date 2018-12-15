@@ -53,7 +53,7 @@
                 <button mat-mini-fab
                         class="save-product-button"
                         [disabled]="disableSave()"
-                         (click)="save()">
+                        (click)="save()">
                     <mat-icon>save</mat-icon>
 
                     <!--<span>SAVE</span>-->
@@ -92,171 +92,38 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="fuse-card auto-width">
-                                    <div class="position-relative p-24"
-                                         fxLayout="column" fxLayoutAlign="start stretch">
-                                        <div class="p-16 pt-0">
-                                            <div class="h1">Third Party</div>
-                                            <div class="h4 secondary-text">Third Party Settings</div>
-                                        </div>
-                                        <div fxLayout="row" fxLayoutAlign="start stretch">
-                                            <mat-table class="product-thirdparty-table"
-                                                       #tableThirdParty [dataSource]="thirdPartySettings"
-                                                       matSort
-                                                       [@animateStagger]="{value:'50'}"
-                                                       fusePerfectScrollbar>
-
-                                                <ng-container matColumnDef="options">
-                                                    <mat-header-cell *matHeaderCellDef>
-                                                        <button mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="thirdPartySettings.length == 0 ? 'visible' : 'hidden'">
-                                                            <mat-icon>add_circle_outline</mat-icon>
-                                                        </button>
-                                                    </mat-header-cell>
-                                                    <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <button type="button" mat-icon-button color="primary" (click)="saveThirdPartyItem()">
-                                                                    <mat-icon>save</mat-icon>
-                                                                </button>
-                                                                <button type="button" mat-icon-button (click)="cancelThirdPartyItemEdition()">
-                                                                    <mat-icon >delete</mat-icon>
-                                                                </button>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <button type="button" mat-icon-button (click)="selectItem(item)">
-                                                                    <mat-icon>edit</mat-icon>
-                                                                </button>
-                                                                <button type="button" mat-icon-button (click)="newThirdPartyItem()" [style.visibility]="i == thirdPartySettings.length-1 ? 'visible' : 'hidden'">
-                                                                    <mat-icon>add_circle_outline</mat-icon>
-                                                                </button>
-                                                                <button type="button" color="warn" mat-icon-button (click)="deleteThirdPartyItemEdition(item)">
-                                                                    <mat-icon>delete</mat-icon>
-                                                                </button>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </mat-cell>
-                                                </ng-container>
-
-                                                <!-- Name Column -->
-                                                <ng-container matColumnDef="thirdPartyAppTypeId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
-                                                    <mat-cell *matCellDef="let item">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
-
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <mat-form-field floatLabel="never">
-                                                                    <mat-select placeholder="Third Party" name="thirdPartyAppTypeId" [(value)]="item.thirdPartyAppTypeId" [(ngModel)]="item.thirdPartyAppTypeId">
-                                                                        <mat-option *ngFor="let item of listThirdParty" [value]="item.key">
-                                                                            {{item.value}}
-                                                                        </mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <p class="text-truncate">{{getThirdPartyAppType(item.thirdPartyAppTypeId).value}}</p>
-                                                            </ng-container>
-                                                        </ng-container>
-
-                                                    </mat-cell>
-                                                </ng-container>
-                                                <ng-container matColumnDef="thirdPartyProductId">
-                                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Third Party Product Id</mat-header-cell>
-                                                    <mat-cell *matCellDef="let item">
-                                                        <ng-container [ngSwitch]="selectedItem == item">
-                                                            <ng-container *ngSwitchCase="true">
-                                                                <mat-form-field floatLabel="never">
-                                                                    <input matInput placeholder="" name="thirdPartyProductId" [(ngModel)]="item.thirdPartyProductId">
-                                                                </mat-form-field>
-                                                            </ng-container>
-                                                            <ng-container *ngSwitchDefault>
-                                                                <p class="text-truncate">{{item.thirdPartyProductId}}</p>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </mat-cell>
-                                                </ng-container>
-
-
-                                                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
-                                                <mat-row *matRowDef="let item; columns: displayedColumns;"
-                                                         class="product-color"
-                                                         matRipple>
-                                                </mat-row>
-                                            </mat-table>
-                                        </div>
-                                        <!--<mat-paginator #paginator
-                                                       [length]="dataSource.filteredCount"
-                                                       [pageIndex]="0"
-                                                       [pageSize]="10"
-                                                       [pageSizeOptions]="[5, 10, 25, 100]">
-                                        </mat-paginator>-->
-                                    </div>
-                                </div>
-                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>ERP Code</mat-label>
-                                    <input matInput placeholder="External ERP Code"
-                                           name="erpId"
-                                           formControlName="erpId"
-                                           required>
-                                </mat-form-field>-->
-                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-
-                                    <mat-label>Categories</mat-label>
-
-                                    <mat-chip-list #categoryList name="categories" formControlName="categories">
-
-                                        <mat-chip *ngFor="let category of currentEntity.categories"
-                                                  [removable]="true" (removed)="currentEntity.removeCategory(category)">
-                                            {{category}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input [matChipInputFor]="categoryList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="currentEntity.addCategory($event)"/>
-
-                                    </mat-chip-list>
-
-                                </mat-form-field>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-
-                                    <mat-label>Tags</mat-label>
-
-                                    <mat-chip-list #tagList name="tags" formControlName="tags">
-
-                                        <mat-chip *ngFor="let tag of currentEntity.tags"
-                                                  [removable]="true" (removed)="currentEntity.removeTag(tag)">
-                                            {{tag}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input [matChipInputFor]="tagList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="currentEntity.addTag($event)"/>
-
-                                    </mat-chip-list>
-
-                                </mat-form-field>-->
-
                             </div>
 
                         </mat-tab>
 
                         <mat-tab label="Product Images">
 
-                            <div class="tab-content p-24" fusePerfectScrollbar>
-                                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                            <!--<button mat-fab class="add-media-button mat-accent" (click)="openFileDialog()" aria-label="Add event"
+                                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+                                <mat-icon>add</mat-icon>
+                            </button>-->
 
-                                    <div *ngIf="product.images.length === 0"
+                            <button mat-fab class="add-media-button mat-accent" (click)="fileUpload.click()" aria-label="Add event"
+                                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            <span style="visibility:hidden;width:0;height:0;">
+                                <input type="file" #fileUpload ng2FileSelect [uploader]="customUploader.uploader" multiple />
+                            </span>
+
+                            <div class="tab-content p-24" fusePerfectScrollbar fxLayoutAlign="end start">
+                                <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="90%">
+
+                                    <div *ngIf="medias.length === 0"
                                          class="product-image" fxlayout="row" fxLayoutAlign="center center">
                                         <img class="media"
                                              [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                                     </div>
 
-                                    <div *ngFor="let image of product.images">
-                                        <div *ngIf="product.images.length > 0"
+                                    <div *ngFor="let media of medias">
+                                        <div *ngIf="medias.length > 0"
                                              class="product-image" fxlayout="row" fxLayoutAlign="center center">
-                                            <img class="media" [src]="image.url">
+                                            <img class="media" [src]="media.url || media.base64">
                                         </div>
                                     </div>
                                 </div>

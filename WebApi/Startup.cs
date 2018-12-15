@@ -124,11 +124,11 @@ namespace RiverdaleMainApp2_0
             app.UseElmah();
 
             // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder =>
-               builder
-               .WithOrigins("*")
-                .AllowAnyHeader()
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
            );
 
             app.UseSignalR(routes =>
@@ -189,7 +189,7 @@ namespace RiverdaleMainApp2_0
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(configureOptions =>
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
             {
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;

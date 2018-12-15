@@ -9,13 +9,14 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductPictureGrid } from './product.model';
+import { Product, ProductMediaGrid } from './product.model';
 import { ProductService } from './product.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
 import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups/file/file.popup.module';
+import { FileUploadService, CustomFileUploader } from '../@hipalanetCommons/fileupload/fileupload.module';
 
 @Component({
     selector: 'product',
@@ -31,13 +32,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     id: string;
     currentEntity: Product;
-    pictures: ProductPictureGrid[];
+    medias: ProductMediaGrid[];
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyProductId'];
 
     frmMain: FormGroup;
-    frmFreightout: FormGroup;
+
+
+    public customUploader: CustomFileUploader;
 
 
     // Private
@@ -58,9 +61,18 @@ export class ProductComponent implements OnInit, OnDestroy {
         , private _location: Location
         , private _matSnackBar: MatSnackBar
         , private matDialog: MatDialog
+        , private fileUploadService: FileUploadService
     ) {
+        //debugger;
+        this.customUploader = this.fileUploadService.create();
+
         // Set the default
         this.currentEntity = new Product();
+
+        this.customUploader.onCompleteItem.subscribe(fileUploaded => {
+            fileUploaded.status = 'added';
+            this.medias.push(fileUploaded);
+        });
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -84,11 +96,11 @@ export class ProductComponent implements OnInit, OnDestroy {
             .subscribe(dataResponse => {
 
                 //debugger;
-                this.id = dataResponse.id;
-                let currentEntity = dataResponse;
+                let currentEntity = dataResponse.bag;
+                this.id = currentEntity.id;
                 if (currentEntity) {
                     this.currentEntity = new Product(currentEntity);
-                    this.pictures = (currentEntity.pictures || []).map(item => new ProductPictureGrid(item));
+                    this.medias = (currentEntity.medias || []).map(item => new ProductMediaGrid(item));
                     this.pageType = 'edit';
                 }
                 else {
@@ -119,6 +131,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * @returns {FormGroup}
      */
     createFormBasicInfo(): FormGroup {
+        //debugger;
         return this._formBuilder.group({
             id: [this.currentEntity.id],
             name: [this.currentEntity.name],
@@ -130,7 +143,6 @@ export class ProductComponent implements OnInit, OnDestroy {
      */
     save(): void {
         const basicInfoData = this.frmMain.getRawValue();
-        const freightoutData = this.frmFreightout.getRawValue();
 
         Observable.create(observer => {
             if (!this.disableSaveFrmMain()) {
@@ -213,12 +225,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         return (this.frmMain.invalid || this.frmMain.pristine);
     }
 
-    disableSaveFrmFreightout() {
-        return (this.frmFreightout.invalid || this.frmFreightout.pristine);
-    }
-
     disableSave() {
-        return this.disableSaveFrmMain() && this.disableSaveFrmFreightout();
+        return this.disableSaveFrmMain();
     }
 }
 

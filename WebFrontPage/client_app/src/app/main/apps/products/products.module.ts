@@ -14,6 +14,7 @@ import {
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
+import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 
 const routes: Routes = [
     {
@@ -67,6 +68,7 @@ const routes: Routes = [
 
         , PopupsModule
         , ProductCoreModule
+        , CustomFileUploadModule
     ],
     providers: [
         //ProductsService
