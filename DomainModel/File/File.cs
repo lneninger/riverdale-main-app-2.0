@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainModel.File
 {
-    public class FileRepository: AbstractBaseEntity
+    public class File: AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
 
@@ -31,5 +31,8 @@ namespace DomainModel.File
 
         public int ThumbnailFileSize { get; set; }
 
+        public DateTime? DeletedAt { get; set; }
+
+        public bool? IsDeleted { get; set; }
     }
 }

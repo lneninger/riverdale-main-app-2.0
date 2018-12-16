@@ -50,7 +50,7 @@ namespace DomainDatabaseMapping
         public DbSet<CustomerOpportunity> CustomerOpportunities { get; set; }
 
         // Commons
-        public DbSet<FileRepository> FileRepositories { get; set; }
+        public DbSet<DomainModel.File.File> FileRepositories { get; set; }
         public DbSet<FileSystemType> FileSystemTypes { get; set; }
 
         // Quote

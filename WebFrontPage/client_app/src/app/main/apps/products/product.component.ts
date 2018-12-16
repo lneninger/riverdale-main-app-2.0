@@ -70,7 +70,6 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentEntity = new Product();
 
         this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-            fileUploaded.status = 'added';
             this.medias.push(fileUploaded);
         });
 

@@ -13,7 +13,7 @@ namespace DomainModel.Product
 
         public int FileRepositoryId { get; set; }
 
-        public FileRepository FileRepository { get; set; }
+        public File.File FileRepository { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 

@@ -6,14 +6,14 @@ using System;
 
 namespace DomainDatabaseMapping.Mappings.File
 {
-    public class FileRepositoryMap : BaseAbstractMap, IEntityTypeConfiguration<FileRepository>
+    public class FileRepositoryMap : BaseAbstractMap, IEntityTypeConfiguration<DomainModel.File.File>
     {
 
         public FileRepositoryMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
-        public void Configure(EntityTypeBuilder<FileRepository> builder)
+        public void Configure(EntityTypeBuilder<DomainModel.File.File> builder)
         {
             builder.ToTable("FileRepository", SCHEMAS.FILE);
             builder.HasKey(t => t.Id);
