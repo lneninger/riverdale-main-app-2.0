@@ -37,9 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDatabaseMapping", "Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.FluentValidation", "Framework\Framework.FluentValidation\Framework.FluentValidation.csproj", "{10103982-F8B6-4E8E-A5A4-76B586466420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.SignalR", "Framework\Framework.SignalR\Framework.SignalR.csproj", "{D74ED1BA-8489-4BFC-8D88-E88D35FD21DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.SignalR", "Framework\Framework.SignalR\Framework.SignalR.csproj", "{D74ED1BA-8489-4BFC-8D88-E88D35FD21DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Logging", "Framework\Framework.Logging\Framework.Logging.csproj", "{FD910B4C-6AD9-4A96-988D-719DFFC35519}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Logging", "Framework\Framework.Logging\Framework.Logging.csproj", "{FD910B4C-6AD9-4A96-988D-719DFFC35519}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Quartz", "Framework\Framework.Quartz\Framework.Quartz.csproj", "{5B8BA5F8-612E-47A7-9526-80F5A6204FC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,10 @@ Global
 		{FD910B4C-6AD9-4A96-988D-719DFFC35519}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD910B4C-6AD9-4A96-988D-719DFFC35519}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD910B4C-6AD9-4A96-988D-719DFFC35519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{10103982-F8B6-4E8E-A5A4-76B586466420} = {EDA86202-E80B-479B-8BF4-802D70465402}
 		{D74ED1BA-8489-4BFC-8D88-E88D35FD21DB} = {EDA86202-E80B-479B-8BF4-802D70465402}
 		{FD910B4C-6AD9-4A96-988D-719DFFC35519} = {EDA86202-E80B-479B-8BF4-802D70465402}
+		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0} = {EDA86202-E80B-479B-8BF4-802D70465402}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9ABAE05F-1BFA-4416-9700-689ED630B228}

@@ -117,7 +117,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Get Authentication info
         /// </summary>
-        /// <param name="token"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("authenticationInfo")]
@@ -140,53 +139,6 @@ namespace RiverdaleMainApp2_0.Controllers
 
             return BadRequest("No authentication data");
         }
-
-
-        /// <summary>
-        /// Get Authentication info
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        //[AllowAnonymous]
-        //[HttpGet("authenticationInfo/{token}")]
-        //public async Task<IActionResult> AuthenticationInfo(string token)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(Startup.SecretKey);
-        //    var expiresAt = DateTime.UtcNow.AddDays(7);
-
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-        //    if (tokenHandler.CanReadToken(token))
-        //    {
-        //        var tokenSecure = tokenHandler.ReadToken(token);
-        //        var validations = new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey = new SymmetricSecurityKey(key),
-        //            ValidateIssuer = false,
-        //            ValidateAudience = false
-        //        };
-        //        var validatedToken = tokenHandler.ValidateToken(token, validations, out tokenSecure);
-        //        var id = validatedToken.Identity.Name;
-
-        //        if (id != null)
-        //        {
-        //            return await this.GenerateAuthenticationInfo(id);
-        //        }
-
-        //        return null;
-        //    }
-
-        //    return null;
-        //}
 
         private async Task<IActionResult> GenerateAuthenticationInfo(string id)
         {
@@ -215,8 +167,9 @@ namespace RiverdaleMainApp2_0.Controllers
                 LastName = dbUser.LastName,
                 AccessToken = await this.JwtFactory.GenerateEncodedToken(dbUser.UserName, identity),//identity.tokenString,
                 PictureUrl = dbUser.PictureUrl,
-                ExpiresAt = this.JwtOptions.Expiration,//expiresAt,
-                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds//expiresAt,
+                permissions = permissions.Select(o => o.Value),
+                ExpiresAt = this.JwtOptions.Expiration,
+                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds
             });
         }
 
