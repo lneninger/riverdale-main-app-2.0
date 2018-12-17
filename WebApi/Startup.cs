@@ -125,10 +125,9 @@ namespace RiverdaleMainApp2_0
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
+                .WithOrigins("*")
                 .AllowAnyHeader()
-                .AllowCredentials()
+                .AllowAnyMethod()
            );
 
             app.UseSignalR(routes =>

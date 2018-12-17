@@ -59,7 +59,17 @@ namespace Framework.Storage.FileStorage.Models
             }
         }
 
-        public string FileSourceEnum { get; set; }
+        public FileSourceEnum.Enum? FileSourceEnum { get; set; }
+
+        public string FileSource { get {
+                if (this.FileSourceEnum.HasValue)
+                {
+                    return this.FileSourceEnum.ToString();
+                }
+
+                return null;
+            }
+        }
 
         public string FilePrefix { get; set; }
 
@@ -86,11 +96,6 @@ namespace Framework.Storage.FileStorage.Models
         /// </value>
         public string TargetRootPath { get; set; }
 
-        //public string[] TargetRelativePathElements { get; set; }
-
-        //public string[] TargetFileNameElements { get; set; }
-
-        //public byte[] UploadedFileBuffer { get; private set; }
         public bool HasFile
         {
             get

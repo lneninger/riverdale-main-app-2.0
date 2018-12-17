@@ -5,6 +5,7 @@ import { CustomFileUploader, FileUploadService } from './fileupload.service';
 
 
 export { FileUploadService, CustomFileUploader, UploaderDefaultSettings } from './fileupload.service';
+export * from './fileupload.model';
 
 
 

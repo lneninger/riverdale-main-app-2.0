@@ -11,7 +11,7 @@
     "outDir": "wwwroot"
   },
   "include": [
-    "widget/**/*", "../DatabaseRepositories/DB/CustomerFreightoutDBRepository.cs", "Controllers/UserRoleController.cs", "Controllers/ProductController.cs", "Controllers/ProductMediaController.cs"
+    "widget/**/*", "../DatabaseRepositories/DB/CustomerFreightoutDBRepository.cs", "Controllers/UserRoleController.cs", "Controllers/ProductController.cs", "Controllers/ProductMediaController.cs", "../Framework/Framework.FileStorage.Standard/FileStorage/Models/FileStorageSettings.cs"
   ],
   "exclude": [
     "node_modules",

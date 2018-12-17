@@ -15,8 +15,8 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
         public ProductMediaInsertValidator()
         {
             // Email Required
-            this.RuleFor(x => x.Name)
-                .NotEmpty();
+            //this.RuleFor(x => x.Name)
+            //    .NotEmpty();
         }
     }
 }

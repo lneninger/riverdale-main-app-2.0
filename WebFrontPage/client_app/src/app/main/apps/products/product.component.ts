@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductMediaGrid } from './product.model';
+import { Product, ProductMediaGrid, IProductMedia } from './product.model';
 import { ProductService } from './product.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
@@ -17,6 +17,7 @@ import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
 import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups/file/file.popup.module';
 import { FileUploadService, CustomFileUploader } from '../@hipalanetCommons/fileupload/fileupload.module';
+import { ProductMediaService } from './product.core.module';
 
 @Component({
     selector: 'product',
@@ -56,6 +57,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      */
     constructor(
         private route: ActivatedRoute
+        , private serviceProductMedia: ProductMediaService
         , private service: ProductService
         , private _formBuilder: FormBuilder
         , private _location: Location
@@ -69,8 +71,22 @@ export class ProductComponent implements OnInit, OnDestroy {
         // Set the default
         this.currentEntity = new Product();
 
+
+        this.customUploader.onSelectedNew.subscribe(selectedFile => {
+            this.medias.push(selectedFile);
+        });
+
         this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-            this.medias.push(fileUploaded);
+            let productMedia = {
+                ...<IProductMedia>{
+                    productId: this.currentEntity.id,
+                }
+                , ...fileUploaded
+            };
+
+            this.serviceProductMedia.add(productMedia).then(result => {
+                this.medias.push(fileUploaded);
+            });
         });
 
         // Set the private defaults
@@ -151,18 +167,18 @@ export class ProductComponent implements OnInit, OnDestroy {
                 return this.update(basicInfoData);
             }
         })
-        .toPromise()
-        .then(() => {
-            //debugger;
-            // Trigger the subscription with new data
-            this.service.onCurrentEntityChanged.next(basicInfoData);
+            .toPromise()
+            .then(() => {
+                //debugger;
+                // Trigger the subscription with new data
+                this.service.onCurrentEntityChanged.next(basicInfoData);
 
-            // Show the success message
-            this._matSnackBar.open('Product saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 2000
+                // Show the success message
+                this._matSnackBar.open('Product saved', 'OK', {
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
             });
-        });
     }
 
     /**

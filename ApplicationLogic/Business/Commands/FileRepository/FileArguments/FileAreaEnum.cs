@@ -17,6 +17,17 @@ namespace FocusApplication.Business.Commands.FileRepository.FileArguments
             }
         }
 
+        public class ProductArea
+        {
+            public static string AreaName = nameof(FileAreaEnum.Enum.PRODUCT);
+            public static string Media = nameof(Enum.Media);
+
+            public enum Enum
+            {
+                Media
+            }
+        }
+
         public class CompanyArea
         {
             public static string AreaName = nameof(FileAreaEnum.Enum.COMPANY);
@@ -32,7 +43,9 @@ namespace FocusApplication.Business.Commands.FileRepository.FileArguments
         {
             PERSON,
 
-            COMPANY
+            COMPANY,
+
+            PRODUCT
         }
     }
 }

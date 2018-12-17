@@ -15,8 +15,8 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
         public FileInsertValidator()
         {
             // Email Required
-            this.RuleFor(x => x.Name)
-                .NotEmpty();
+            //this.RuleFor(x => x.Name)
+            //    .NotEmpty();
         }
     }
 }

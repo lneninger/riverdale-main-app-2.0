@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { environment } from "environments/environment";
 import { Subject } from "rxjs";
+import { IUploadedFile, ISelectedFile } from "./fileupload.model";
 
 
 
@@ -12,11 +13,9 @@ export class FileUploadService {
     }
 
     create(options?: UploaderDefaultSettings) {
-
         return new CustomFileUploader(options);
     }
 }
-
 
 export class CustomFileUploader {
     private uploaderDefaultSettings: UploaderDefaultSettings = {
@@ -26,15 +25,15 @@ export class CustomFileUploader {
 
     options: UploaderDefaultSettings;
     uploader: FileUploader;
+    onSelectedNew: Subject<ISelectedFile> = new Subject<ISelectedFile>();
     onCompleteAll: Subject<any> = new Subject<any>();
-    onCompleteItem: Subject<UploadedFile> = new Subject<UploadedFile>();
+    onCompleteItem: Subject<IUploadedFile> = new Subject<IUploadedFile>();
 
     constructor(options?: UploaderDefaultSettings) {
         this.options = options || <UploaderDefaultSettings>{};
         this.options = {
             ...this.uploaderDefaultSettings, ...this.options
         };
-
 
         this.uploader = new FileUploader(this.options);
 
@@ -47,7 +46,14 @@ export class CustomFileUploader {
 
                 reader.onload = (event) => { // called once readAsDataURL is completed
                     // debugger;
-                    (<any>fileItem).base64 = (<FileReader>event.target).result;
+                    let selectedFile = <ISelectedFile>{
+                        base64: (<FileReader>event.target).result,
+                        fileItem: fileItem
+                    };
+
+                    this.onSelectedNew.next(selectedFile);
+
+                    (<any>fileItem).selectedFile = selectedFile;
                 }
             }
         };
@@ -59,7 +65,6 @@ export class CustomFileUploader {
         this.uploader.onCompleteAll = () => {
             //debugger;
             this.onCompleteAll.next();
-            //this.onCompleteAll.complete();
         };
 
         this.uploader.onCompleteItem = (item, response, status, header) => {
@@ -68,11 +73,10 @@ export class CustomFileUploader {
 
             //debugger;
             let uploadResponse = responseJson[0];
-            let uploadedFile = <UploadedFile>uploadResponse;
-            uploadedFile.base64 = (<any>item).base64;
+            let uploadedFile = <IUploadedFile>uploadResponse;
+            uploadedFile.base64 = (<ISelectedFile>(<any>item).selectedFile).base64;
 
             this.onCompleteItem.next(uploadedFile);
-            //this.onCompleteItem.complete();
 
             console.log(item);
         };
@@ -82,8 +86,3 @@ export class CustomFileUploader {
 export interface UploaderDefaultSettings extends FileUploaderOptions {
 }
 
-export interface UploadedFile {
-    uniqueIdentifier: string;
-    url: string;
-    base64: string;
-}

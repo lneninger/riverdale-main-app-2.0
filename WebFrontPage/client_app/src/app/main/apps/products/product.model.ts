@@ -1,3 +1,4 @@
+import { IUploadedFile } from "../@hipalanetCommons/fileupload/fileupload.model";
 
 export class ProductGrid {
     id: number;
@@ -28,5 +29,10 @@ export class ProductMediaGrid {
         let internal = item || <ProductMediaGrid>{};
 
     }
+}
+
+export interface IProductMedia extends IUploadedFile {
+    productId: number;
+   
 }
 

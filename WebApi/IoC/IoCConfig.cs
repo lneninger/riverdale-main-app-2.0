@@ -43,6 +43,12 @@ namespace RiverdaleMainApp2_0.IoC
                 .RegisterInstance(configuration.GetSection("CustomSettings").Get<CustomSettings>())
                 .As<CustomSettings>();
 
+                builder
+                .RegisterInstance(configuration.GetSection("fileStorage").Get<FileStorageSettings>())
+                .As<FileStorageSettings>();
+
+                
+
                 //AOP Interceptors
                 // ExecutionTraceInterceptor. Trace all methods executions
                 builder.RegisterType<ExecutionTraceInterceptor>();

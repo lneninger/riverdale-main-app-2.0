@@ -1,7 +1,7 @@
 ﻿{
-  "DefaultFileStorageDestination": "WIN",
-  "FileStorage": {
-    "temporaryFolderPath": "D:\\Temp\\RiverdaleMainApp2_0\\TemporaryFolder",
+  "fileStorage": {
+    "DefaultFileStorageDestination": "FileSystem",
+    "TemporaryFolderPath": "D:\\Temp\\RiverdaleMainApp2_0\\TemporaryFolder",
     "AWS": {
       "AWSFileRepoAccessKey": "",
       "AWSFileRepoSecretKey": "",

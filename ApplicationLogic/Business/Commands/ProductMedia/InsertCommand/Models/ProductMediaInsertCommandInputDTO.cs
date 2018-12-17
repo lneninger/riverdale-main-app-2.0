@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Framework.Storage.FileStorage.TemporaryStorage;
+using System;
 using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand.Models
 {
-    public class ProductMediaInsertCommandInputDTO
+    public class ProductMediaInsertCommandInputDTO: UploadedFile
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ERPId { get; set; }
+        public int ProductId { get; set; }
     }
 }

@@ -38,7 +38,11 @@ namespace RiverdaleMainApp2_0
                 IHostingEnvironment env = hostingContext.HostingEnvironment;
 
                 config.SetBasePath(Directory.GetCurrentDirectory());
-                config.AddJsonFile("filestorage.json", optional: false, reloadOnChange: false)
+                config
+                .AddJsonFile("filestorage.json", optional: false, reloadOnChange: false)
+                .AddJsonFile($"filestorage.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+
+                .AddJsonFile($"appsettings.json", optional: false, reloadOnChange: false)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
                 config.AddCommandLine(args);
             })

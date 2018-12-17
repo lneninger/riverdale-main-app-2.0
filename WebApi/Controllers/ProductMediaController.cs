@@ -26,7 +26,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/product")]
+    [Route("api/productmedia")]
     public class ProductMediaController : Controller
     {
         /// <summary>
