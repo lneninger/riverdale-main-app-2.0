@@ -6,13 +6,16 @@ using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.Security;
+using ApplicationLogic.SignalR;
 using DomainModel.Identity;
 using Framework.Storage.DataHolders.Messages;
 using Framework.Web.Helpers;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -22,7 +25,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/permission")]
-    public class PermissionController : Controller
+    public class PermissionController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -35,7 +38,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public PermissionController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand)
+        public PermissionController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(hubContext)
         {
             this.UserManager = userManager;
             this.RoleManager = roleManager;

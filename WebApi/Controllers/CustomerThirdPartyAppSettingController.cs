@@ -10,8 +10,11 @@ using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryC
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand;
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand.Models;
+using ApplicationLogic.SignalR;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Mvc;
+using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -21,7 +24,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/CustomerThirdPartyAppSetting")]
-    public class CustomerThirdPartyAppSettingController : Controller
+    public class CustomerThirdPartyAppSettingController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerThirdPartyAppSettingController"/> class.
@@ -32,7 +35,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerThirdPartyAppSettingController(ICustomerThirdPartyAppSettingPageQueryCommand pageQueryCommand, ICustomerThirdPartyAppSettingGetAllCommand getAllCommand, ICustomerThirdPartyAppSettingGetByIdCommand getByIdCommand, ICustomerThirdPartyAppSettingInsertCommand insertCommand, ICustomerThirdPartyAppSettingUpdateCommand updateCommand, ICustomerThirdPartyAppSettingDeleteCommand deleteCommand)
+        public CustomerThirdPartyAppSettingController(IHubContext<GlobalHub> hubContext, ICustomerThirdPartyAppSettingPageQueryCommand pageQueryCommand, ICustomerThirdPartyAppSettingGetAllCommand getAllCommand, ICustomerThirdPartyAppSettingGetByIdCommand getByIdCommand, ICustomerThirdPartyAppSettingInsertCommand insertCommand, ICustomerThirdPartyAppSettingUpdateCommand updateCommand, ICustomerThirdPartyAppSettingDeleteCommand deleteCommand):base(hubContext)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;

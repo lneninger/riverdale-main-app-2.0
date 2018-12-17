@@ -22,6 +22,9 @@ using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
 using RiverdaleMainApp2_0.Auth;
+using Authorization = Microsoft.AspNetCore.Authorization;
+using ApplicationLogic.SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -31,13 +34,13 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/masters")]
-    public class MastersController : Controller
+    public class MastersController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MastersController"/> class.
         /// </summary>
         /// <param name="masterDataProvider"></param>
-        public MastersController(IMasterDataProvider masterDataProvider)
+        public MastersController(IHubContext<GlobalHub> hubContext, IMasterDataProvider masterDataProvider):base(hubContext)
         {
             this.MasterDataProvider = masterDataProvider;
         }

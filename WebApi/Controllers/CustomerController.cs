@@ -10,9 +10,11 @@ using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNet.SignalR;
+using Authorization = Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using RiverdaleMainApp2_0.Auth;
@@ -27,18 +29,19 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/customer")]
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerController"/> class.
         /// </summary>
+        /// <param name="hubContext"></param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand)
+        public CustomerController(IHubContext<GlobalHub> hubContext, ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand): base(hubContext)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -139,7 +142,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
-        [Authorize(Policy = PermissionsEnum.Customer_Manage)]
+        [Authorization.Authorize(Policy = PermissionsEnum.Customer_Manage)]
         public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
@@ -151,7 +154,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
-        [Authorize(Policy = PermissionsEnum.Customer_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
+        [Authorization.Authorize(Policy = PermissionsEnum.Customer_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
         public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);

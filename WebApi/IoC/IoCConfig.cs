@@ -19,6 +19,7 @@ using ApplicationLogic.Business.Commands.Customer.InsertCommand;
 using Autofac.Extras.DynamicProxy;
 using RiverdaleMainApp2_0.AppSettings;
 using Framework.EF.DbContextImpl;
+using ApplicationLogic.SignalR;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -74,7 +75,8 @@ namespace RiverdaleMainApp2_0.IoC
                 //.InstancePerMatchingLifetimeScope("CurrentUserService")
                 .TrackInstanceEvents();
 
-                
+                // SignalR Context
+                //builder.Register(ctx => ctx.GetHubContext<GlobalHub>());
 
 
                 var targetAssembly = Assembly.GetExecutingAssembly();

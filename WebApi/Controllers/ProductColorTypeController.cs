@@ -21,6 +21,9 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand.Models;
+using Authorization = Microsoft.AspNetCore.Authorization;
+using ApplicationLogic.SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -30,7 +33,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/productcolortype")]
-    public class ProductColorTypeController : Controller
+    public class ProductColorTypeController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductColorTypeController"/> class.
@@ -41,7 +44,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductColorTypeController(IProductColorTypePageQueryCommand pageQueryCommand, IProductColorTypeGetAllCommand getAllCommand, IProductColorTypeGetByIdCommand getByIdCommand, IProductColorTypeInsertCommand insertCommand, IProductColorTypeUpdateCommand updateCommand, IProductColorTypeDeleteCommand deleteCommand)
+        public ProductColorTypeController(IHubContext<GlobalHub> hubContext, IProductColorTypePageQueryCommand pageQueryCommand, IProductColorTypeGetAllCommand getAllCommand, IProductColorTypeGetByIdCommand getByIdCommand, IProductColorTypeInsertCommand insertCommand, IProductColorTypeUpdateCommand updateCommand, IProductColorTypeDeleteCommand deleteCommand):base(hubContext)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;

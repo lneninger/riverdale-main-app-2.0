@@ -13,10 +13,12 @@ using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
 using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+using ApplicationLogic.SignalR;
 using CommunicationModel;
 using DomainDatabaseMapping;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
@@ -42,29 +44,31 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/accounts")]
-    public class AccountsController : Controller
+    public class AccountsController : BaseController
     {
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="hubContext"></param>
         /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         /// <param name="jwtFactory"></param>
         /// <param name="jwtOptions"></param>
-        ///// <param name="appUserGetByIdCommand"></param>
-        ///// <param name="appUserRegisterCommand"></param>
-        ///// <param name="appUserAuthenticateCommand"></param>
-        ///// <param name="appUserGetByIdCommand"></param>
-        public AccountsController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/)
+        public AccountsController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/):base(hubContext)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;
             this.JwtFactory = jwtFactory;
             this.JwtOptions = jwtOptions.Value;
-            //this.AppUserRegisterCommand = appUserRegisterCommand;
-            //this.AppUserAuthenticateCommand = appUserAuthenticateCommand;
-            //this.AppUserGetByIdCommand = appUserGetByIdCommand;
         }
 
+
+        /// <summary>
+        /// Gets the role manager.
+        /// </summary>
+        /// <value>
+        /// The role manager.
+        /// </value>
         public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>
@@ -84,25 +88,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The JWT options
         /// </summary>
         public JwtIssuerOptions JwtOptions;
-
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public IAppUserRegisterCommand AppUserRegisterCommand { get; }
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public IAppUserAuthenticateCommand AppUserAuthenticateCommand { get; }
-
-        /// <summary>
-        /// Gets the application user get by identifier command.
-        /// </summary>
-        /// <value>
-        /// The application user get by identifier command.
-        /// </value>
-        //public IAppUserGetByIdCommand AppUserGetByIdCommand { get; }
 
         /// <summary>
         /// 

@@ -11,16 +11,19 @@ using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUserRole.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Security;
+using ApplicationLogic.SignalR;
 using CommunicationModel;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Storage.DataHolders.Messages;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -30,7 +33,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
     [Route("api/userrole")]
-    public class UserRoleController : Controller
+    public class UserRoleController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRoleController"/> class.
@@ -41,7 +44,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserRoleController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand)
+        public UserRoleController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserRolePageQueryCommand pageQueryCommand, IAppUserRoleGetAllCommand getAllCommand, IAppUserRoleGetByIdCommand getByIdCommand, IAppUserRoleInsertCommand insertCommand, IAppUserRoleUpdateCommand updateCommand, IAppUserRoleDeleteCommand deleteCommand):base(hubContext)
         {
             this.UserManager = userManager;
             this.RoleManager = roleManager;
