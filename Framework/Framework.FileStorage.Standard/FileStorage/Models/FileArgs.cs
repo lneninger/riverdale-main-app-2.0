@@ -53,7 +53,7 @@ namespace Framework.Storage.FileStorage.Models
 
             using (var memoryStream = new MemoryStream())
             {
-                this.UploadedFile.FileStream.CopyTo(memoryStream);
+                this.UploadedFile.FileContent.CopyTo(memoryStream);
                 memoryStream.Position = 0;
                 this.FileContent = memoryStream.GetBuffer();
             }

@@ -23,7 +23,7 @@ namespace Framework.Core.Helpers
 
         public static string[] ImageExtensions { get; } = new string[] { ".PNG", ".GIF", ".JPG", ".BMP" };
 
-        public static Image<Rgba32> GetImage(byte[] imageContent)
+        public Image<Rgba32> GetImage(byte[] imageContent)
         {
             using (var memoryStream = new MemoryStream(imageContent))
             {
@@ -31,14 +31,14 @@ namespace Framework.Core.Helpers
             }
         }
 
-        public static Image<Rgba32> GetThumbnail(Image<Rgba32> image, int width, int height)
+        public Image<Rgba32> GetThumbnail(Image<Rgba32> image, int width, int height)
         {
 
             image.Mutate(x => x.Resize(width, height));
             return image;
         }
 
-        public static Image<Rgba32> GetThumbnail(Stream imageStream, int width, int height)
+        public Image<Rgba32> GetThumbnail(Stream imageStream, int width, int height)
         {
             using (var memStream = new MemoryStream())
             {
@@ -49,7 +49,7 @@ namespace Framework.Core.Helpers
             }
         }
 
-        public static Image<Rgba32> GetThumbnail(byte[] imageContent, int width, int height)
+        public Image<Rgba32> GetThumbnail(byte[] imageContent, int width, int height)
         {
             var image = GetImage(imageContent);
             return GetThumbnail(image, width, height);
@@ -116,7 +116,7 @@ namespace Framework.Core.Helpers
 
         public static Image<Rgba32> GrayScale(byte[] imageContent)
         {
-            var image = ImageHelper.GetImage(imageContent);
+            var image = Image.Load(imageContent);
             return image.GrayScale();
         }
 

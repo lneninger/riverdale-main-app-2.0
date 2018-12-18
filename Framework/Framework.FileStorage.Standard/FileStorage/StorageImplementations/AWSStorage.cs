@@ -119,7 +119,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
             {
                 using (var client = this.CreateClient(AWSStorage.AWSFileStoreRootURL))
                 {
-                    AWSUploadPublicFileAsync(client, args.UploadedFile.FileStream, AWSStorage.AWSFileRepoBucketName/* ConfigurationManager.AppSettings["AWSFileRepoBucketName"]*/, FullFileKey).Wait();
+                    AWSUploadPublicFileAsync(client, args.UploadedFile.FileContent, AWSStorage.AWSFileRepoBucketName/* ConfigurationManager.AppSettings["AWSFileRepoBucketName"]*/, FullFileKey).Wait();
                 } 
 
                 var result = new FileStorageResultDTO

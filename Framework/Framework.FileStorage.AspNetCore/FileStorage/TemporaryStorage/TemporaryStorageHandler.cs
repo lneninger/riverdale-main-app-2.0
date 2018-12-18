@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 using System.Web;
 using Framework.Web.Helpers;
-using Framework.Commons;
-using CommunicationModel.Commons;
 
 namespace Framework.Storage.FileStorage.TemporaryStorage
 {
@@ -19,6 +17,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
     {
         private readonly RequestDelegate _next;
 
+        public static string BaseTemporaryStorage => ConfigurationManager.AppSettings["FileStorageTemporaryFolder"];
         public TemporaryStorageMiddleware(RequestDelegate next)
         {
             _next = next;
@@ -55,6 +54,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
     public class TemporaryStorage
     {
+        public static string BaseTemporaryStorage => ConfigurationManager.AppSettings["FileStorageTemporaryFolder"];
         public TemporaryStorage()
         {
 
@@ -67,6 +67,9 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
         public List<TemporaryFileUpdatedResult> ProcessRequest(HttpContext context)
         {
+
+
+
             if (context.Request.Method == "PUT")
             {
                 return null;
@@ -81,8 +84,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 for (var i = 0; i < files.Count; i++)
                 {
                     file = files[i];
-                    var fileEntry = new TemporaryFileUploadDTO(file.FileName, file.ContentType, file.OpenReadStream());
-                    var resultItem = fileEntry.SaveFile(AppConfig.Instance.FileStorageSettings.TemporaryFolderPath);
+                    var fileEntry = new TemporaryFileUploadDTO(file);
+                    var resultItem = fileEntry.SaveFile(BaseTemporaryStorage);
 
                     result.Add(resultItem);
                 }

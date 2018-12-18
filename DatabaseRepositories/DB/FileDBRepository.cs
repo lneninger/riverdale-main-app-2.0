@@ -132,7 +132,8 @@ namespace DatabaseRepositories.DB
                 FullFilePath = input.AccessPath,
                 RelativePath = input.RelativePath,
                 FileName = input.FileName,
-                ThumbnailFileName = input.Th
+                FileSize = input.FileSize,
+                ThumbnailFileName = input.ThumbnailFileName
             };
 
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
@@ -159,6 +160,13 @@ namespace DatabaseRepositories.DB
                 var entity = dbLocator.Set<File>().FirstOrDefault(o => o.Id == input.Id);
                 if (entity != null)
                 {
+                    entity.RootPath = input.RootPath ?? entity.RootPath;
+                    entity.AccessPath = input.RootPath ?? entity.AccessPath;
+                    entity.RelativePath = input.RootPath ?? entity.RelativePath;
+                    entity.FileName = input.FileName ?? entity.FileName;
+                    entity.FileSize = input.FileSize ?? entity.FileSize;
+                    entity.ThumbnailFileName = input.ThumbnailFileName ?? entity.ThumbnailFileName;
+                    entity.FileSystemTypeId = input.StorageTypeID ?? entity.FileSystemTypeId;
                 }
 
                 dbLocator.SaveChanges();

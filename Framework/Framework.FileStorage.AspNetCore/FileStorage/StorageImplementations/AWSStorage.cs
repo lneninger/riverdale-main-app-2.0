@@ -12,7 +12,9 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using Framework.Core.Models.FileStorage.Models;
+using CommunicationModel.Commons;
+using Framework.Commons;
+using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
 
 namespace Framework.Storage.FileStorage.StorageImplementations
@@ -24,11 +26,11 @@ namespace Framework.Storage.FileStorage.StorageImplementations
     public class AWSStorage : BaseFileStorageService
     {
         public static string Identifier { get; } = FileSourceEnum.AWS;
-        public static string AWSCredentialKey { get; } = ConfigurationManager.AppSettings["AWSFileRepoAccessKey"];
-        public static string AWSFileRepoSecretKey { get; } = ConfigurationManager.AppSettings["AWSFileRepoSecretKey"];
-        public static string AWSFileStoreRootURL { get; } = ConfigurationManager.AppSettings["AWSFileStoreRootURL"];
-        public static string AWSFileRepoRegionEndPoint { get; } = ConfigurationManager.AppSettings["AWSFileRepoRegionEndPoint"];
-        public static string AWSFileRepoBucketName { get; } = ConfigurationManager.AppSettings["AWSFileRepoBucketName"];
+        public static string AWSCredentialKey { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoAccessKey;
+        public static string AWSFileRepoSecretKey { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoSecretKey;
+        public static string AWSFileStoreRootURL { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileStoreRootURL;
+        public static string AWSFileRepoRegionEndPoint { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoRegionEndPoint;
+        public static string AWSFileRepoBucketName { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoBucketName;
 
         /// <summary>
         /// Retrieves the file from AWS.
@@ -101,7 +103,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        protected override FileResult InternalSave(FileArgs args)
+        protected override FileStorageResultDTO InternalSave(FileArgs args)
         {
             string[] targetRelativePathElements = args.GetRelativePathElements();
             string[] targetFileNameElements = args.GetFileNameElements();
@@ -117,10 +119,10 @@ namespace Framework.Storage.FileStorage.StorageImplementations
             {
                 using (var client = this.CreateClient(AWSStorage.AWSFileStoreRootURL))
                 {
-                    AWSUploadPublicFileAsync(client, args.UploadedFile.FileStream, AWSStorage.AWSFileRepoBucketName/* ConfigurationManager.AppSettings["AWSFileRepoBucketName"]*/, FullFileKey).Wait();
+                    AWSUploadPublicFileAsync(client, args.UploadedFile.FileContent, AWSStorage.AWSFileRepoBucketName/* ConfigurationManager.AppSettings["AWSFileRepoBucketName"]*/, FullFileKey).Wait();
                 } 
 
-                FileResult result = new FileResult
+                var result = new FileStorageResultDTO
                 {
                     RootPath = AWSStorage.AWSFileStoreRootURL,
                     AccessPath = AWSStorage.AWSFileRepoBucketName,

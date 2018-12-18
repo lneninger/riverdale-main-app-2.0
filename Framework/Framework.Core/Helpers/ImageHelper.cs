@@ -1,7 +1,16 @@
-﻿using System;
+﻿using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
+using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+//using System.Drawing;
+//using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace Framework.Core.Helpers
@@ -14,49 +23,52 @@ namespace Framework.Core.Helpers
 
         public static string[] ImageExtensions { get; } = new string[] { ".PNG", ".GIF", ".JPG", ".BMP" };
 
-        public Image GetImage(byte[] imageContent)
+        public Image<Rgba32> GetImage(byte[] imageContent)
         {
             using (var memoryStream = new MemoryStream(imageContent))
             {
-                return Image.FromStream(memoryStream);
+                return Image.Load(memoryStream);
             }
         }
 
-        public Image GetThumbnail(Image image, int width, int height)
+        public Image<Rgba32> GetThumbnail(Image<Rgba32> image, int width, int height)
         {
-            Image.GetThumbnailImageAbort callback =
-                    new Image.GetThumbnailImageAbort(ThumbnailCallback);
-            var pThumbnail = image.GetThumbnailImage(width, height, callback, new IntPtr());
-            return pThumbnail;
+
+            image.Mutate(x => x.Resize(width, height));
+            return image;
         }
 
-        public Image GetThumbnail(Stream imageStream, int with, int height)
+        public Image<Rgba32> GetThumbnail(Stream imageStream, int width, int height)
         {
-            var image = Bitmap.FromStream(imageStream);
-            return this.GetThumbnail(image, with, height);
+            using (var memStream = new MemoryStream())
+            {
+                imageStream.CopyTo(memStream);
+                imageStream.Flush();
+                var image = GetImage(memStream.GetBuffer());
+                return GetThumbnail(image, width, height);
+            }
         }
 
-        public Image GetThumbnail(byte[] imageContent, int width, int height)
+        public Image<Rgba32> GetThumbnail(byte[] imageContent, int width, int height)
         {
-            var imageStream = new MemoryStream(imageContent);
-            return GetThumbnail(imageStream, width, height);
+            var image = GetImage(imageContent);
+            return GetThumbnail(image, width, height);
         }
 
-        public Stream ToStream(Image image/*, int with, int height*/)
+        public Stream ToStream(Image<Rgba32> image/*, int with, int height*/)
         {
             var result = new MemoryStream();
-            image.Save(result, ImageFormat.Png);
+            image.SaveAsPng(result);
             result.Flush();
             return result;
         }
 
-        public Image CreateBlankImage(int width, int height)
+        public Image<Rgba32> CreateBlankImage(int width, int height)
         {
-            Bitmap flag = new Bitmap(width, height);
-            Graphics flagGraphics = Graphics.FromImage(flag);
-            flagGraphics.FillRectangle(Brushes.White, 0, 0, width, height);
+            var configuration = new Configuration();
+            var image = new Image<Rgba32>(configuration, width, height, Rgba32.White);
 
-            return flag;
+            return image;
         }
 
         private bool ThumbnailCallback()
@@ -64,36 +76,17 @@ namespace Framework.Core.Helpers
             return true;
         }
 
-        public Image DrawText(String text, Font font, Color textColor, Color backColor)
+        public Image<Rgba32> DrawText(String text, Font font, Rgba32 textColor, Rgba32 backColor)
         {
-            //first, create a dummy bitmap just to get a graphics object
-            Image img = new Bitmap(1, 1);
-            Graphics drawing = Graphics.FromImage(img);
+            Image<Rgba32> img = new Image<Rgba32>(1, 1);
+            img.Mutate(ctx => {
+                Vector2 center = new Vector2(img.Width / 2, 10); //center horizontally, 10px down 
 
-            //measure the string to see how big the image needs to be
-            SizeF textSize = drawing.MeasureString(text, font);
+            ctx.DrawText(text, font, textColor, PointF.Empty);
+               
+            });
+           
 
-            //free up the dummy image and old graphics object
-            img.Dispose();
-            drawing.Dispose();
-
-            //create a new image of the right size
-            img = new Bitmap((int)textSize.Width, (int)textSize.Height);
-
-            drawing = Graphics.FromImage(img);
-
-            //paint the background
-            drawing.Clear(backColor);
-
-            //create a brush for the text
-            Brush textBrush = new SolidBrush(textColor);
-
-            drawing.DrawString(text, font, textBrush, 0, 0);
-
-            drawing.Save();
-
-            textBrush.Dispose();
-            drawing.Dispose();
 
             return img;
 
@@ -114,53 +107,33 @@ namespace Framework.Core.Helpers
             return codecs.First(codec => codec.FormatID == imageFormat.Guid).MimeType;
         }
 
-        public static Image GrayScale(this Image image)
+        public static Image<Rgba32> GrayScale(this Image<Rgba32> image, float amount = 0.5F)
         {
-            var result = new Bitmap(image);
+            image.Mutate(ctx => ctx.Grayscale(amount));
 
-            // Loop through the images pixels to reset color.
-            for (var x = 0; x < result.Width; x++)
-            {
-                for (var y = 0; y < result.Height; y++)
-                {
-                    Color pixelColor = result.GetPixel(x, y);
-                    int grayScale = (int)((pixelColor.R * 0.3) + (pixelColor.G * 0.59) + (pixelColor.B * 0.11));
-                    Color newColor = Color.FromArgb(pixelColor.A, grayScale, grayScale, grayScale);
-                    result.SetPixel(x, y, newColor); // Now greyscale
-                }
-            }
-
-            return result;
+            return image;
         }
 
-        public static Image GrayScale(byte[] imageContent)
+        public static Image<Rgba32> GrayScale(byte[] imageContent)
         {
-            Bitmap result = null;
-            using (var fileStream = new MemoryStream(imageContent))
-            {
-                result = new Bitmap(fileStream);
-                fileStream.Flush();
-            }
-            return result.GrayScale();
+            var image = Image.Load(imageContent);
+            return image.GrayScale();
         }
 
 
-        public static MemoryStream ToMemoryStream(this Image image, ImageFormat format = null)
+        public static MemoryStream ToMemoryStream(this Image<Rgba32> image, ImageFormat format = null)
         {
             MemoryStream result = new MemoryStream();
-            image.Save(result, format ?? ImageFormat.Png);
+            image.SaveAsPng(result);
             result.Flush();
             return result;
         }
 
-        public static byte[] ToArray(this System.Drawing.Image image, ImageFormat format = null)
+        public static byte[] ToArray(this Image<Rgba32> image, ImageFormat format = null)
         {
             using (var result = image.ToMemoryStream())
             {
-                image.Save(result, format ?? ImageFormat.Png);
-                result.Flush();
-
-                return result.ToArray();
+                return result.GetBuffer();
             }
         }
 

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
-using Framework.Core.Models.FileStorage.Models;
+using CommunicationModel.Commons;
+using Framework.Commons;
+using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
 
 namespace Framework.Storage.FileStorage.StorageImplementations
@@ -18,7 +20,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
     public class FileSystemStorage : BaseFileStorageService
     {
         public static string Identifier { get; } = FileSourceEnum.FileSystem;
-        public static string FileSystemBaseStoragePath { get; } = ConfigurationManager.AppSettings["FileSystemBaseStoragePath"];
+        public static string FileSystemBaseStoragePath { get; } = AppConfig.Instance.FileStorageSettings.FileSystem.FileSystemBaseStoragePath;
 
         /// <summary>
         /// Retrieves the file from Windows FileSystem.
@@ -40,7 +42,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        protected override FileResult InternalSave(FileArgs args)
+        protected override FileStorageResultDTO InternalSave(FileArgs args)
         {
             var targetRelativePathElements = args.GetRelativePathElements();
             var targetFileNameElements = args.GetFileNameElements();
@@ -69,7 +71,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
                     }
                 }
 
-                var result = new FileResult
+                var result = new FileStorageResultDTO
                 {
                     RootPath = rootPath,
                     AccessPath = null,

@@ -16,6 +16,8 @@ namespace Framework.Storage.FileStorage
         public Func<string[], string> BuildRelativePath;
         public Func<string[], string> BuildFileName;
 
+        //public abstract string Identifier { get; }
+
         public BaseFileStorageService()
         {
             this.BuildRelativePath = this.BuildDefaultRelativePath;
@@ -34,6 +36,7 @@ namespace Framework.Storage.FileStorage
             return result;
         }
 
+       
         protected abstract FileStorageResultDTO InternalSave(FileArgs args);
 
         public virtual FileStorageResultDTO Save(FileArgs args)

@@ -10,10 +10,15 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand.Models
         public string RelativePath { get; set; }
         public string FileName { get; set; }
         public int FileSize { get; set; }
+
+        public string ThumbnailFileName { get; set; }
+        public int ThumbnaiFileSize { get; set; }
         public string FileType { get; set; }
         public string MimeContentType { get; set; }
         public string BelzonaDocumentTypeID { get; set; }
         public string ISOLanguageTypeID { get; set; }
         public string StorageTypeID { get; set; }
+        public byte[] FileContent { get;  set; }
+        public byte[] FileThumbnailContent { get; internal set; }
     }
 }

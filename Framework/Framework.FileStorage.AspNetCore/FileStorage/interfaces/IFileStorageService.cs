@@ -1,4 +1,5 @@
-﻿using Framework.Core.Models.FileStorage.Models;
+﻿using CommunicationModel.Commons;
+using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Framework.Storage.FileStorage.interfaces
         string BuildDefaultFileName(params string[] pathComponents);
 
         //string Identifier { get; }
-        FileResult Save(FileArgs args);
+        FileStorageResultDTO Save(FileArgs args);
 
         Task<byte[]> RetrieveFile(string rootFolder, string accessPath, string folderPath, string fileName);
     }

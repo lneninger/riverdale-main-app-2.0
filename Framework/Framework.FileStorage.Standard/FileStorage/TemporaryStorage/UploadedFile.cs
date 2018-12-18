@@ -1,5 +1,6 @@
 ﻿using CommunicationModel.Commons;
 using Framework.Commons;
+using Framework.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,8 +35,9 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
             }
         }
 
-        public Stream FileStream { get; protected set; }
-        public SplittedUploadedFileName NameElements { get; protected set; }
+        public byte[] FileContent { get; protected set; }
+        public byte[] ThumbnailContent { get; protected set; }
+        //public SplittedUploadedFileName NameElements { get; protected set; }
 
         protected void Inflate() {
             if (string.IsNullOrWhiteSpace(fileName))
@@ -44,8 +46,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 throw exception;
             }
 
-            this.NameElements = new SplittedUploadedFileName(fileName);
-            if (this.NameElements.NoMatch) return;
+            //this.NameElements = new SplittedUploadedFileName(fileName);
+            //if (this.NameElements.NoMatch) return;
 
 
 
@@ -60,7 +62,26 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
             }
 
             var bytes = File.ReadAllBytes(filePath);
-            this.FileStream = new MemoryStream(bytes);
+            this.FileContent = bytes;
+            //this.FileContent = new MemoryStream(bytes);
+
+            if (ImageHelper.IsImageByExtension(filePath))
+            {
+                var imageHelper = ImageHelper.CreateInstance();
+                var thumbnailImage = imageHelper.GetThumbnail(this.FileContent, 50, 50);
+                this.ThumbnailContent = thumbnailImage.ToArray();
+            }
+            else
+            {
+                var extension = Path.GetExtension(filePath).ToUpper();
+                if (extension.Equals(".PDF", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var image = PdfHelper.ToThumbnail(this.FileContent, 72, 1);
+                    this.ThumbnailContent = image.ToArray();
+                }
+
+            }
+
         }
 
         public class SplittedUploadedFileName

@@ -6,7 +6,8 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
-using Framework.Core.Models.FileStorage.Models;
+using CommunicationModel.Commons;
+using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
 
 namespace Framework.Storage.FileStorage.StorageImplementations
@@ -24,7 +25,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
             throw new NotImplementedException();
         }
 
-        protected override FileResult InternalSave(FileArgs args)
+        protected override FileStorageResultDTO InternalSave(FileArgs args)
         {
             throw new NotImplementedException();
         }

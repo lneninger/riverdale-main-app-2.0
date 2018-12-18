@@ -17,9 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="FileStorage\TemporaryStorage\TemporaryFileUpdatedResult.cs" />
-    <Compile Remove="FileStorage\TemporaryStorage\TemporaryFileUploadDTO.cs" />
-    <Compile Remove="FileStorage\TemporaryStorage\UploadedFile.cs" />
+    <Compile Include="FileStorage\interfaces\IAWSSettings.cs" />
+    <Compile Include="FileStorage\interfaces\IFileStorageService.cs" />
+    <Compile Include="FileStorage\interfaces\IFileSystemSettings.cs" />
+    <Compile Include="FileStorage\Models\FileArgs.cs" />
+    <Compile Include="FileStorage\Models\FileSourceEnum.cs" />
+    <Compile Include="FileStorage\Models\FileStorageResultDTO.cs" />
+    <Compile Include="FileStorage\Models\FileStorageSettings.cs" />
+    <Compile Include="FileStorage\Models\FileTypeEnum.cs" />
+    <Compile Include="FileStorage\StorageImplementations\AWSStorage.cs" />
+    <Compile Include="FileStorage\StorageImplementations\AZUREStorage.cs" />
+    <Compile Include="FileStorage\StorageImplementations\FileSystemStorage.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Framework.Commons.Standard\Framework.Commons.Standard.csproj" />
-    <ProjectReference Include="..\Framework.FileStorage.Standard\Framework.FileStorage.Standard.csproj" />
+    <ProjectReference Include="..\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\Framework.Web\Framework.Web.csproj" />
   </ItemGroup>
 

@@ -65,7 +65,9 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                 AccessPath = FileInsertCommand.FirstStepDefaultAccessPath,
                 RelativePath = FileInsertCommand.FirstStepDefaultFolderPath,
                 FileName = FileInsertCommand.FirstStepDefaultFileName,
-                FileSize = args.FileContent.Length,
+                FileContent = args.FileContent,
+                FileThumbnailContent = args.FileThumbnailContent,
+                //FileSize = args.FileContent.Length,
                 FileType = Path.GetExtension(args.UploadedFile.OriginalFileName),
                 MimeContentType = args.ContentType,
                 BelzonaDocumentTypeID = args.FileTypeId,
@@ -101,7 +103,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                     AccessPath = fileStorageResult.AccessPath,
                     RelativePath = fileStorageResult.FolderPath,
                     FileName = fileStorageResult.FileName,
-                    ThumbnailFile = fileStorageResult.ThumbnailFileName,
+                    ThumbnailFileName = fileStorageResult.ThumbnailFileName,
                     StorageTypeID = fileStorageResult.FileSourceId,
                 };
                 

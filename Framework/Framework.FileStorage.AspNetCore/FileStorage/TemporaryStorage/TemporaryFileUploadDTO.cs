@@ -1,5 +1,5 @@
-﻿using Framework.Commons;
-using Microsoft.AspNetCore.Http;
+﻿using CommunicationModel.Commons;
+using Framework.Commons;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +12,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 {
     public class TemporaryFileUploadDTO
     {
-        public IFormFile File { get; set; }
-        public string Name { get; }
+        //public IFormFile File { get; set; }
+        public string FileName { get; }
         public long Size { get; }
         public string ContentType { get; }
         public byte[] Content { get; }
@@ -22,22 +22,22 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
         {
             get
             {
-                var result = $"{this.UniqueIdentifier}_{Path.GetFileName(this.Name)}";
+                var result = $"{this.UniqueIdentifier}_{Path.GetFileName(this.FileName)}";
                 return result;
             }
         }
 
         public bool Saved { get; private set; }
 
-        public TemporaryFileUploadDTO(IFormFile file)
+        public TemporaryFileUploadDTO(string fileName, string contentType, Stream stream)
         {
             this.UniqueIdentifier = Guid.NewGuid();
-            this.File = file;
-            this.Name = file.FileName;
-            this.Size = file.Length;
-            this.ContentType = file.ContentType;
+            //this.File = file;
+            this.FileName = fileName;
+            this.Size = stream.Length;
+            this.ContentType = contentType;
             var memStream = new MemoryStream();
-            file.OpenReadStream().CopyTo(memStream);
+            stream.CopyTo(memStream);
             this.Content = memStream.GetBuffer();
         }
 
@@ -47,7 +47,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
             if (string.IsNullOrWhiteSpace(folderPath))
             {
-                folderPath = AppConfig.Instance.TemporaryFileFolder; 
+                folderPath = AppConfig.Instance.FileStorageSettings.TemporaryFolderPath; 
             }
 
             if (!Directory.Exists(folderPath))
@@ -72,8 +72,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
         {
             var result = new TemporaryFileUpdatedResult();
             result.UniqueIdentifier = this.UniqueIdentifier;
-            result.OriginalFileName = this.File.FileName;
-            result.ContentLength = this.File.Length;
+            result.OriginalFileName = this.FileName;
+            result.ContentLength = this.Content.Length;
             result.TemporaryFileName = this.TemporaryFileName;
             result.ContentType = this.ContentType;
 
