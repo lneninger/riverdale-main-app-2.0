@@ -49,7 +49,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
 
 
-            string baseTemporaryPath = AppConfig.Instance.FileStorageSettings.FileSystem.FileSystemBaseStoragePath;
+            string baseTemporaryPath = AppConfig.Instance.FileStorageSettings.TemporaryFolderPath;
             string filePath = Path.Combine(baseTemporaryPath, fileName);
 
             if (!File.Exists(filePath))

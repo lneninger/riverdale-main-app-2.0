@@ -14,6 +14,7 @@ using ApplicationLogic.Business.Commands.File.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.File.GetByIdCommand.Models;
 using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Core.ReflectionHelpers;
+using Framework.Commons;
 
 namespace ApplicationLogic.Business.Commands.File.InsertCommand
 {
@@ -23,11 +24,11 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
         public static string FirstStepDefaultAccessPath { get; } = null;
         public static string FirstStepDefaultFileName { get; } = "XX.XX";
         public static string FirstStepDefaultFolderPath { get; } = "XX.XX";
-        public FileStorageSettings FileStorageSettings { get; }
+        //public FileStorageSettings FileStorageSettings { get; }
 
-        public FileInsertCommand(FileStorageSettings fileStorageSettings, IDbContextScopeFactory dbContextScopeFactory, IFileDBRepository repository) : base(dbContextScopeFactory, repository)
+        public FileInsertCommand(/*FileStorageSettings fileStorageSettings, */IDbContextScopeFactory dbContextScopeFactory, IFileDBRepository repository) : base(dbContextScopeFactory, repository)
         {
-            this.FileStorageSettings = fileStorageSettings;
+            //this.FileStorageSettings = null;// fileStorageSettings;
         }
 
         public OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T: FileArgs
@@ -55,7 +56,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
             var result = new OperationResponse<FileInsertCommandOutputDTO>();
             //var language = this.DbModel.ISOLanguageTypes.FirstOrDefault(o => o.ISOLanguageTypeID == args.LanguageTypeId);
 
-            var defaultFileStorageId = (string)typeof(FileSourceEnum).GetStaticPropertyValue(this.FileStorageSettings.DefaultFileStorageDestination);
+            var defaultFileStorageId = (string)typeof(FileSourceEnum).GetStaticPropertyValue(AppConfig.Instance.FileStorageSettings.DefaultFileStorageDestination);
             var fileStorageTypeId = args.FileSource ?? defaultFileStorageId;
             var fileDto = new FileInsertCommandInputDTO
             {

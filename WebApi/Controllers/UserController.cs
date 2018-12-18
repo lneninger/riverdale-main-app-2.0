@@ -39,6 +39,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
+        /// <param name="hubContext"></param>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
         /// <param name="pageQueryCommand">The page query command</param>
@@ -47,7 +48,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(hubContext)
+        public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;

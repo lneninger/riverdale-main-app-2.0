@@ -20,6 +20,7 @@ using Autofac.Extras.DynamicProxy;
 using RiverdaleMainApp2_0.AppSettings;
 using Framework.EF.DbContextImpl;
 using ApplicationLogic.SignalR;
+using Framework.FileStorage.Standard.FileStorage.Models;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -45,10 +46,9 @@ namespace RiverdaleMainApp2_0.IoC
                 .As<CustomSettings>();
 
                 builder
-                .RegisterInstance(configuration.GetSection("fileStorage").Get<FileStorageSettings>())
-                .As<FileStorageSettings>();
+                .RegisterInstance<FileStorageSettings>(configuration.GetSection("fileStorage").Get<FileStorageSettings>());
 
-                
+                builder.RegisterSignalRHubs(typeof(Startup).GetTypeInfo().Assembly, typeof(GlobalHub).GetTypeInfo().Assembly);
 
                 //AOP Interceptors
                 // ExecutionTraceInterceptor. Trace all methods executions

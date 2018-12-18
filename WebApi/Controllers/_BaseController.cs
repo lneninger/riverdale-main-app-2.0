@@ -30,11 +30,11 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>
-        public BaseController(IHubContext<GlobalHub> hubContext): base()
+        public BaseController(/*IHubContext<GlobalHub> hubContext*/): base()
         {
-            this.HubContext = hubContext;
+            //this.HubContext = hubContext;
         }
 
-        public IHubContext<GlobalHub> HubContext { get; }
+        //public IHubContext<GlobalHub> HubContext { get; }
     }
 }

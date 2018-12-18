@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Framework.Autofac\Framework.Autofac.csproj" />
-    <ProjectReference Include="..\Framework.Core\Framework.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

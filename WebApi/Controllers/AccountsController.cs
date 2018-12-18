@@ -54,7 +54,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="roleManager"></param>
         /// <param name="jwtFactory"></param>
         /// <param name="jwtOptions"></param>
-        public AccountsController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/):base(hubContext)
+        public AccountsController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/):base(/*hubContext*/)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;

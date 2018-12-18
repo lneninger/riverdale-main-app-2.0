@@ -40,7 +40,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Initializes a new instance of the <see cref="MastersController"/> class.
         /// </summary>
         /// <param name="masterDataProvider"></param>
-        public MastersController(IHubContext<GlobalHub> hubContext, IMasterDataProvider masterDataProvider):base(hubContext)
+        public MastersController(/*IHubContext<GlobalHub> hubContext, */IMasterDataProvider masterDataProvider):base(/*hubContext*/)
         {
             this.MasterDataProvider = masterDataProvider;
         }
@@ -115,6 +115,10 @@ namespace RiverdaleMainApp2_0.Controllers
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("permission")]
         public IActionResult GetToEnumPermissions()

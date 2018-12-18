@@ -4,6 +4,8 @@
     {
         public string TemporaryFolderPath { get; set; }
 
+        public string DefaultFileStorageDestination { get; set; }
+
         public AWSSettings AWS { get; set; }
 
         public FileSystemSettings FileSystem { get; set; }

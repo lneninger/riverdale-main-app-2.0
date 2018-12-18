@@ -127,6 +127,12 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<FileInsertCommandOutputDTO>();
             var entity = new File
             {
+                RootPath = input.AccessPath,
+                AccessPath = input.AccessPath,
+                FullFilePath = input.AccessPath,
+                RelativePath = input.RelativePath,
+                FileName = input.FileName,
+                ThumbnailFileName = input.Th
             };
 
             using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())

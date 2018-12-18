@@ -39,6 +39,10 @@ namespace RiverdaleMainApp2_0.Models
         /// 
         /// </summary>
         public string Location { get; set; }
-        public string PictureUrl { get; internal set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PictureUrl { get; set; }
     }
 }

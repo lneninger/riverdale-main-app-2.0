@@ -124,6 +124,7 @@
                                         <div *ngIf="medias.length > 0"
                                              class="product-image" fxlayout="row" fxLayoutAlign="center center">
                                             <img class="media" [src]="media.url || media.base64">
+                                            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
                                         </div>
                                     </div>
                                 </div>

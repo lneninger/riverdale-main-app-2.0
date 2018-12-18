@@ -35,13 +35,14 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductMediaController"/> class.
         /// </summary>
+        /// <param name="hubContext"></param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductMediaController(IHubContext<GlobalHub> hubContext, IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(hubContext)
+        public ProductMediaController(/*IHubContext<GlobalHub> hubContext, */IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;

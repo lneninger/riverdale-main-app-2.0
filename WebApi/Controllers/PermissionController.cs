@@ -38,7 +38,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public PermissionController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(hubContext)
+        public PermissionController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.UserManager = userManager;
             this.RoleManager = roleManager;
@@ -51,6 +51,10 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The user manager.
         /// </value>
         public UserManager<AppUser> UserManager { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public RoleManager<IdentityRole> RoleManager { get; }
 
         /// <summary>

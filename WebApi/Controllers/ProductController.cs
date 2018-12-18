@@ -41,7 +41,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductController(IHubContext<GlobalHub> hubContext, IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand):base(hubContext)
+        public ProductController(/*IHubContext<GlobalHub> hubContext, */IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
