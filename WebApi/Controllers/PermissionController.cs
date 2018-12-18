@@ -8,7 +8,7 @@ using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.Security;
 using ApplicationLogic.SignalR;
 using DomainModel.Identity;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using Framework.Web.Helpers;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;

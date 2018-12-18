@@ -6,7 +6,7 @@ using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -19,7 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using DomainModel.File;
 
 namespace DatabaseRepositories.DB
@@ -77,7 +77,7 @@ namespace DatabaseRepositories.DB
 
 
                     var advancedSorting = new List<SortItem<File>>();
-                    Expression<Func<File, object>> expression;
+                    //Expression<Func<File, object>> expression;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.FileThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyFileId;

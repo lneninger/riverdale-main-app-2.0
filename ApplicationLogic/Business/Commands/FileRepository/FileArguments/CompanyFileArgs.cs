@@ -1,4 +1,4 @@
-﻿using Framework.Storage.DataHolders.Messages;
+﻿using Framework.Core.Messages;
 using Framework.Storage.FileStorage.Models;
 using System;
 using System.Collections.Generic;

@@ -13,7 +13,7 @@ using FizzWare.NBuilder;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using LMB.PredicateBuilderExtension;
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,7 @@ namespace DatabaseRepositories.DB
 
 
                     var advancedSorting = new List<SortItem<ProductMedia>>();
-                    Expression<Func<ProductMedia, object>> expression;
+                    //Expression<Func<ProductMedia, object>> expression;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.ProductMediaThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyProductMediaId;

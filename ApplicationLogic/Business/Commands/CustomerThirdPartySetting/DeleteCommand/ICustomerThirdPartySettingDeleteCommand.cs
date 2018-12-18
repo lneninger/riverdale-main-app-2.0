@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DomainModel.Identity;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 
 namespace DatabaseRepositories.DB
 {

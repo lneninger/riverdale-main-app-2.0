@@ -6,7 +6,7 @@ using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Microsoft.AspNetCore.Identity;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand
 {

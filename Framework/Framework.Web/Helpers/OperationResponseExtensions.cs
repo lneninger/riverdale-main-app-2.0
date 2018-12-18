@@ -1,4 +1,4 @@
-﻿using Framework.Storage.DataHolders.Messages;
+﻿using Framework.Core.Messages;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;

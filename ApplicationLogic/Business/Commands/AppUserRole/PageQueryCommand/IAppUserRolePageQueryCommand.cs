@@ -1,6 +1,6 @@
 ﻿using ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.PageQueryCommand

@@ -1,7 +1,7 @@
 ﻿using ApplicationLogic.Business.Commons.DTOs;
 using ApplicationLogic.Repositories.DB;
 using EntityFrameworkCore.DbContextScope;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;

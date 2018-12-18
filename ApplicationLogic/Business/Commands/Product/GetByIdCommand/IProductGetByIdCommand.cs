@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand

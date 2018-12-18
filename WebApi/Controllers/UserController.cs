@@ -14,7 +14,7 @@ using ApplicationLogic.Business.Commands.Security;
 using ApplicationLogic.SignalR;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

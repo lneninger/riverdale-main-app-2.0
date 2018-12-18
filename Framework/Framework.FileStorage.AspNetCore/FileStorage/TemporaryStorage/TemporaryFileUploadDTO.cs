@@ -1,5 +1,4 @@
-﻿using CommunicationModel.Commons;
-using Framework.Commons;
+﻿using Framework.Commons;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,13 +31,14 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
         public TemporaryFileUploadDTO(string fileName, string contentType, Stream stream)
         {
             this.UniqueIdentifier = Guid.NewGuid();
-            //this.File = file;
             this.FileName = fileName;
             this.Size = stream.Length;
             this.ContentType = contentType;
-            var memStream = new MemoryStream();
-            stream.CopyTo(memStream);
-            this.Content = memStream.GetBuffer();
+            using (var memStream = new MemoryStream())
+            {
+                stream.CopyTo(memStream);
+                this.Content = memStream.GetBuffer();
+            }
         }
 
         public TemporaryFileUpdatedResult SaveFile(string folderPath)

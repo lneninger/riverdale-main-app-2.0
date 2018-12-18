@@ -1,5 +1,5 @@
 ﻿//using Framework.FileStorage.Standard.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using Framework.Storage.FileStorage.Models;
 using Framework.Storage.FileStorage.TemporaryStorage;
 using System;

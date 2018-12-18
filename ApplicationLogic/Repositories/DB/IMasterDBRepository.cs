@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ApplicationLogic.Business.Commons.DTOs;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 
 namespace ApplicationLogic.Repositories.DB
 {

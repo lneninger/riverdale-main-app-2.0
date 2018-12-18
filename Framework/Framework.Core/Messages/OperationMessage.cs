@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Framework.Storage.DataHolders.Messages
+namespace Framework.Core.Messages
 {
     public class OperationMessage
     {

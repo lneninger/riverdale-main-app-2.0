@@ -13,7 +13,7 @@ using Framework.Core.Crypto;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using LMB.PredicateBuilderExtension;
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,7 @@ namespace DatabaseRepositories.DB
 
 
                     var advancedSorting = new List<SortItem<AppUser>>();
-                    Expression<Func<AppUser, object>> expression;
+                    //Expression<Func<AppUser, object>> expression;
                     //if (input.Sort.ContainsKey("email"))
                     //{
                     //    expression = o => o.AppUserThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyAppUserId;
@@ -272,9 +272,9 @@ namespace DatabaseRepositories.DB
                     result.Bag = 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email));
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                throw;
             }
             return result;
         }
@@ -290,9 +290,9 @@ namespace DatabaseRepositories.DB
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                throw;
             }
             return result;
         }
@@ -304,9 +304,9 @@ namespace DatabaseRepositories.DB
             {
                 throw new NotImplementedException();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                throw;
             }
             return result;
         }

@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.AppUser.GetAllCommand

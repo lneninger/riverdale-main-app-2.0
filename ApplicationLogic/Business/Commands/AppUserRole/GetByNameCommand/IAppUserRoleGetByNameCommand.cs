@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System;
 
 namespace ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand

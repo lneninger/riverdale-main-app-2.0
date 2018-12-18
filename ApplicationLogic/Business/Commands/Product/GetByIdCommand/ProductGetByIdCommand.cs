@@ -2,7 +2,7 @@
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 {

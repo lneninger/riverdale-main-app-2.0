@@ -84,7 +84,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 for (var i = 0; i < files.Count; i++)
                 {
                     file = files[i];
-                    var fileEntry = new TemporaryFileUploadDTO(file);
+                    
+                    var fileEntry = new TemporaryFileUploadDTO(file.Name, file.ContentType, file.OpenReadStream());
                     var resultItem = fileEntry.SaveFile(BaseTemporaryStorage);
 
                     result.Add(resultItem);

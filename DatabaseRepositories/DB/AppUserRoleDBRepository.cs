@@ -12,7 +12,7 @@ using Framework.Core.Crypto;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using LMB.PredicateBuilderExtension;
 using System;
 using System.Collections.Generic;

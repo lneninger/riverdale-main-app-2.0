@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Product.InsertCommand

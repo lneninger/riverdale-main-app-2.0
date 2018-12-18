@@ -8,12 +8,24 @@
 
   <ItemGroup>
     <Compile Remove="client_app\dist\**" />
+    <Compile Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\**" />
+    <Compile Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\**" />
+    <Compile Remove="client_app\src\app\main\apps\customers - Copy\**" />
     <Compile Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <Content Remove="client_app\dist\**" />
+    <Content Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\**" />
+    <Content Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\**" />
+    <Content Remove="client_app\src\app\main\apps\customers - Copy\**" />
     <Content Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <EmbeddedResource Remove="client_app\dist\**" />
+    <EmbeddedResource Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\**" />
+    <EmbeddedResource Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\**" />
+    <EmbeddedResource Remove="client_app\src\app\main\apps\customers - Copy\**" />
     <EmbeddedResource Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
     <None Remove="client_app\dist\**" />
+    <None Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\**" />
+    <None Remove="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\**" />
+    <None Remove="client_app\src\app\main\apps\customers - Copy\**" />
     <None Remove="client_app\src\app\main\apps\customerthirdpartyappsetting - Copy\**" />
   </ItemGroup>
 
@@ -27,7 +39,6 @@
     <None Remove="client_app\src\app\main\apps\@resolveServices\productcolortype.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\rolepermission.resolve.service.ts" />
     <None Remove="client_app\src\app\main\apps\@resolveServices\thirdpartyapptype.resolve.service.ts" />
-    <None Remove="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\customers\customer.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />
     <None Remove="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
@@ -47,15 +58,9 @@
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\rolepermission.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\@resolveServices\resolve.model.ts" />
-    <TypeScriptCompile Include="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customers\customer.core.module.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder1\" />
-    <Folder Include="client_app\src\app\main\apps\%40hipalanetCommons\NewFolder\" />
   </ItemGroup>
 
 </Project>

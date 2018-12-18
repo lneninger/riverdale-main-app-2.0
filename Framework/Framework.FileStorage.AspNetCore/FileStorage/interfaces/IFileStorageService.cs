@@ -1,5 +1,4 @@
-﻿using CommunicationModel.Commons;
-using Framework.FileStorage.Standard.FileStorage.Models;
+﻿using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
 using System;
 using System.Collections.Generic;

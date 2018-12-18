@@ -9,7 +9,7 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand.Models;
 
 namespace ApplicationLogic.Repositories.DB

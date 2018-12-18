@@ -5,7 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
 using Framework.Core.Crypto;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using FluentValidation;
 
 namespace ApplicationLogic.Business.Commands.Product.InsertCommand

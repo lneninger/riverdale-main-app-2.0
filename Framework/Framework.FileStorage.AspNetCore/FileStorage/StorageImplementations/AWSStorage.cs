@@ -12,7 +12,6 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using CommunicationModel.Commons;
 using Framework.Commons;
 using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Storage.FileStorage.Models;
@@ -199,6 +198,22 @@ namespace Framework.Storage.FileStorage.StorageImplementations
                 };
 
                 await fileTransferUtility.UploadAsync(uploadRequest).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"AWSStorage.AWSUploadPublicFileAsync ERROR - [{ex.Message}]");
+                throw;
+            }
+        }
+        
+        private async Task AWSUploadPublicFileAsync(IAmazonS3 s3Client, byte[] buffer, string amazonBucket, string amazonFileKey)
+        {
+            try
+            {
+                using (var memStream = new MemoryStream(buffer))
+                {
+                    await AWSUploadPublicFileAsync(s3Client, memStream, amazonBucket, amazonFileKey);
+                }
             }
             catch (Exception ex)
             {

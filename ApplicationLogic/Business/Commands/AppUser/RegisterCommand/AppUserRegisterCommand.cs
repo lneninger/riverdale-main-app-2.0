@@ -5,7 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
 using Framework.Core.Crypto;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 using Framework.FluentValidation;
 using Framework.Core.GeneralValidations;
 

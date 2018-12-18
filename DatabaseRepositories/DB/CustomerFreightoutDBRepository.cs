@@ -19,7 +19,7 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using DomainModel._Commons.Enums;
-using Framework.Storage.DataHolders.Messages;
+using Framework.Core.Messages;
 
 namespace DatabaseRepositories.DB
 {
