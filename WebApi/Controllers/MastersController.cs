@@ -127,5 +127,13 @@ namespace RiverdaleMainApp2_0.Controllers
             var result = @enumNames.Select(enumName => new EnumItemDTO<string> { Key = enumName, Value = enumName });
             return this.Ok(result);
         }
+
+         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("producttype")]
+        public IActionResult GetToEnumProductTypes()
+        {
+            var result = this.MasterDataProvider.GetToEnumProductType();
+            return this.Ok(result);
+        }
     }
 }

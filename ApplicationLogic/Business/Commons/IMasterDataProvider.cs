@@ -17,5 +17,7 @@ namespace ApplicationLogic.Business.Commons
         OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer();
 
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumAppUser();
+
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductType();
     }
 }
