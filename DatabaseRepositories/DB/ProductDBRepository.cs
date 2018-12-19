@@ -21,6 +21,8 @@ using System.Linq.Expressions;
 using Framework.Core.Messages;
 using DomainModel.Product;
 using ApplicationLogic.Business.Commons.DTOs;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseRepositories.DB
 {
@@ -105,7 +107,7 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Find(id);
+                    result.Bag = dbLocator.Set<AbstractProduct>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -115,6 +117,26 @@ namespace DatabaseRepositories.DB
 
             return result;
         }
+
+        public OperationResponse<DomainModel.Product.AbstractProduct> GetByIdWithMedias(int id)
+        {
+            var result = new OperationResponse<DomainModel.Product.AbstractProduct>();
+            try
+            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                {
+                    result.Bag = dbLocator.Set<AbstractProduct>().Include(t => t.ProductMedias).Where(o => o.Id == id).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting Product {id}", ex);
+            }
+
+            return result;
+        }
+
+       
 
         public OperationResponse Insert(AbstractProduct entity)
         {
@@ -161,8 +183,7 @@ namespace DatabaseRepositories.DB
         {
             var result = new OperationResponse();
 
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 try
                 {
                     dbLocator.Set<AbstractProduct>().Remove(entity);
@@ -171,11 +192,10 @@ namespace DatabaseRepositories.DB
                 {
                     result.AddException("Error deleting Product", ex);
                 }
-            }
 
             return null;
         }
 
-
+       
     }
 }

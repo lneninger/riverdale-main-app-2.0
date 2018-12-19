@@ -21,10 +21,15 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
             var result = new OperationResponse<ProductGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var getByIdResult = this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetByIdWithMedias(id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
+                    //var entry = this.Repository.Entry(getByIdResult.Bag);
+                    //if (!entry.Collection(t => t.ProductMedias).IsLoaded)
+                    //{
+                    //    entry.Collection(t => t.ProductMedias).Load();
+                    //}
                     result.Bag = new ProductGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,

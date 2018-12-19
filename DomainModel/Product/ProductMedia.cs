@@ -9,11 +9,11 @@ namespace DomainModel.Product
 
         public int ProductId { get; set; }
 
-        public AbstractProduct Product { get; set; }
+        public virtual AbstractProduct Product { get; set; }
 
         public int FileRepositoryId { get; set; }
 
-        public File.File FileRepository { get; set; }
+        public virtual File.File FileRepository { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 

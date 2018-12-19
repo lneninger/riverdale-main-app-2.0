@@ -10,10 +10,10 @@ namespace DomainModel
         public int Id { get; set; }
 
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public string ThirdPartyAppTypeId { get; set; }
-        public ThirdPartyAppType ThirdPartyAppType { get; set; }
+        public virtual ThirdPartyAppType ThirdPartyAppType { get; set; }
 
         public ThirdPartyAppTypeEnum.Enum? ThirdPartyAppTypeEnum
         {

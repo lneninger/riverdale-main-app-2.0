@@ -10,7 +10,7 @@ namespace DomainModel.File
 
         public string FileSystemTypeId { get; set; }
 
-        public FileSystemType FileSystemType { get; set; }
+        public virtual FileSystemType FileSystemType { get; set; }
 
         public string RootPath { get; set; }
 

@@ -15,9 +15,9 @@ namespace DomainModel.Product
 
         public string ProductTypeId { get; set; }
 
-        public ProductType ProductType { get; set; }
+        public virtual ProductType ProductType { get; set; }
 
-        public IEnumerable<ProductMedia> ProductMedias { get; set; }
+        public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 

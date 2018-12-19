@@ -15,14 +15,14 @@ namespace DomainModel
 
         public string Name { get; set; }
 
-        public IEnumerable<CustomerOpportunity> CustomerOpportunities { get; set; }
+        public virtual IEnumerable<CustomerOpportunity> CustomerOpportunities { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
 
-        public IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
+        public virtual IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
 
-        public IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
+        public virtual IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
     }
 }

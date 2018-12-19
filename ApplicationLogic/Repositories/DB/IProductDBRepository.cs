@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using Framework.Core.Messages;
 using DomainModel.Product;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -22,10 +23,11 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<DomainModel.Product.AbstractProduct> GetById(int id);
 
+        OperationResponse<DomainModel.Product.AbstractProduct> GetByIdWithMedias(int id);
+
         OperationResponse Insert(AbstractProduct entity);
 
-        //OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
-
         OperationResponse Delete(AbstractProduct entity);
+
     }
 }

@@ -7,6 +7,6 @@ namespace DomainModel.Product
     public class CompositionProduct: AbstractProduct
     {
 
-        public IEnumerable<CompositionProductBridge> Items { get; set; }
+        public virtual IEnumerable<CompositionProductBridge> Items { get; set; }
     }
 }

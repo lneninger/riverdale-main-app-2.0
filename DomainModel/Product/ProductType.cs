@@ -12,6 +12,6 @@ namespace DomainModel.Product
 
         public string Description { get; set; }
 
-        public IEnumerable<AbstractProduct> Products { get; set; }
+        public virtual IEnumerable<AbstractProduct> Products { get; set; }
     }
 }

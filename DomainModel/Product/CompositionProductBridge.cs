@@ -10,12 +10,12 @@ namespace DomainModel.Product
 
         public int CompositionProductId { get; set; }
 
-        public CompositionProduct CompositionProduct { get; set; }
+        public virtual CompositionProduct CompositionProduct { get; set; }
 
 
         public int CompositionItemId { get; set; }
 
-        public AbstractProduct CompositionItem { get; set; }
+        public virtual AbstractProduct CompositionItem { get; set; }
 
 
         public DateTime? DeletedAt { get; set; }

@@ -8,12 +8,12 @@ namespace DomainModel
     {
         public int Id { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         public int CustomerId { get; set; }
 
         public string CustomerFreightoutRateTypeId { get; set; }
 
-        public CustomerFreightoutRateType CustomerFreightoutRateType { get; set; }
+        public virtual CustomerFreightoutRateType CustomerFreightoutRateType { get; set; }
 
         public decimal Cost { get; set; }
 
