@@ -29,20 +29,19 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<CustomerGetAllCommandOutputDTO>> GetAll()
+        public OperationResponse<IEnumerable<Customer>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<CustomerGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<Customer>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<Customer>().Select(entityItem => new CustomerGetAllCommandOutputDTO
+                    result.Bag = dbLocator.Set<Customer>().AsEnumerable()/*.Select(entityItem => new CustomerGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
                         Name = entityItem.Name,
                         CreatedAt = entityItem.CreatedAt
-
-                    }).ToList();
+                    }).ToList()*/;
                 }
             }
             catch (Exception ex)
@@ -104,75 +103,65 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<CustomerGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<Customer> GetById(int id)
         {
-            var result = new OperationResponse<CustomerGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<Customer>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<Customer>().Where(o => o.Id == id).Select(entityItem => new CustomerGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        ThirdPartySettings = entityItem.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO
-                        {
-                            Id = third.Id,
-                            ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
-                            ThirdPartyCustomerId = third.ThirdPartyCustomerId
-                        }),
-                        Freightout = entityItem.CustomerFreightouts.Select(freightoutItem => new CustomerGetByIdCommandOutputFreightoutDTO
-                        {
-                            Id = freightoutItem.Id,
-                            Cost = freightoutItem.Cost,
-                            SecondLeg = freightoutItem.SecondLeg,
-                            SurchargeHourly = freightoutItem.SurchargeHourly,
-                            SurchargeYearly = freightoutItem.SurchargeYearly,
-                            WProtect = freightoutItem.WProtect,
-                            DateFrom = freightoutItem.DateFrom,
-                            DateTo = freightoutItem.DateTo,
-
-                        }).FirstOrDefault()
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Customer>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error Geting User {id}", ex);
+                result.AddException($"Error getting Customer {id}", ex);
             }
 
             return result;
         }
 
-        public OperationResponse<CustomerInsertCommandOutputDTO> Insert(CustomerInsertCommandInputDTO input)
+        public OperationResponse Insert(Customer entity)
         {
-            var result = new OperationResponse<CustomerInsertCommandOutputDTO>();
-            var entity = new Customer
+            var result = new OperationResponse();
+            try
             {
-                Name = input.Name,
-            };
-
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 dbLocator.Add(entity);
-                dbLocator.SaveChanges();
-
-                var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name
-                }).FirstOrDefault();
-
-                result.Bag = dbResult;
-                return result;
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error adding Customer", ex);
+            }
+
+            return result;
+            //var result = new OperationResponse<CustomerInsertCommandOutputDTO>();
+            //var entity = new Customer
+            //{
+            //    Name = input.Name,
+            //};
+
+            //var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            //{
+            //    dbLocator.Add(entity);
+            //    dbLocator.SaveChanges();
+
+            //    var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
+            //    {
+            //        Id = o.Id,
+            //        Name = o.Name
+            //    }).FirstOrDefault();
+
+            //    result.Bag = dbResult;
+            //    return result;
+            //}
 
         }
 
         public OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<CustomerUpdateCommandOutputDTO>();
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == input.Id);
                 if (entity != null)
@@ -194,26 +183,19 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public OperationResponse<CustomerDeleteCommandOutputDTO> Delete(int id)
+        public OperationResponse<CustomerDeleteCommandOutputDTO> Delete(Customer entity)
         {
             var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
 
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
-                var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == id);
-                if (entity != null)
+                try
                 {
-                    entity.DeletedAt = DateTime.UtcNow;
-                    dbLocator.SaveChanges();
-
-                    var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerDeleteCommandOutputDTO
-                    {
-                        Id = o.Id,
-                        Name = o.Name
-                    }).FirstOrDefault();
-
-                    result.Bag = dbResult;
-                    return result;
+                    dbLocator.Set<Customer>().Remove(entity);
+                }
+                catch (Exception ex)
+                {
+                    result.AddException("Error deleting Customer", ex);
                 }
             }
 

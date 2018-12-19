@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand.Models;
 using Framework.Core.Messages;
 
-namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand
+namespace ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand
 {
-    public class CustomerDeleteCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerDeleteCommand
+    public class ProductColorTypeDeleteCommand : AbstractDBCommand<DomainModel.ProductColorType, IProductColorTypeDBRepository>, IProductColorTypeDeleteCommand
     {
-        public CustomerDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
+        public ProductColorTypeDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, IProductColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<CustomerDeleteCommandOutputDTO> Execute(int id)
+        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Execute(string id)
         {
-            var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
+            var result = new OperationResponse<ProductColorTypeDeleteCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetById(id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = new CustomerDeleteCommandOutputDTO
+                    result.Bag = new ProductColorTypeDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        Name = getByIdResult.Bag.Name,
+                        IsBasicColor = getByIdResult.Bag.IsBasicColor,
+                        HexCode = getByIdResult.Bag.HexCode,
+                        Name = getByIdResult.Bag.Name
                     };
                 }
 
-                var deleteResult = this.Repository.Delete(getByIdResult.Bag);
+                var deleteResult = this.Repository.Delete(id);
                 result.AddResponse(deleteResult);
                 if (result.IsSucceed)
                 {

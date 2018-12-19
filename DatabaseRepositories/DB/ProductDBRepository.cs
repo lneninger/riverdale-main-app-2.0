@@ -37,7 +37,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<AbstractProduct>().Select(entityItem => new ProductGetAllCommandOutputDTO
                     {
@@ -91,7 +91,7 @@ namespace DatabaseRepositories.DB
                         Id = o.Id,
                         Name = o.Name,
                         CreatedAt = o.CreatedAt,
-                        MainPicture = o.ProductMedia.Select(m => new FileItemRefOutputDTO {
+                        MainPicture = o.ProductMedias.Select(m => new FileItemRefOutputDTO {
                             Id = m.Id,
                             FullUrl = m.FileRepository.FullFilePath
                         }).FirstOrDefault()
@@ -106,73 +106,66 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<DomainModel.Product.AbstractProduct> GetById(int id)
         {
-            var result = new OperationResponse<ProductGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<DomainModel.Product.AbstractProduct>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Where(o => o.Id == id).Select(entityItem => new ProductGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        ProductTypeId = entityItem.ProductTypeId,
-                        Medias = entityItem.ProductMedia.Select(m => new FileItemRefOutputDTO {
-                            Id = m.Id,
-                            FullUrl = m.FileRepository.FullFilePath
-                        })
-                    }).FirstOrDefault();
-
-                    if (result.Bag == null)
-                    {
-                        result.AddWarning($"No product found for id {id}");
-                    }
-                    else
-                    {
-                        if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)
-                        {
-                        }
-                    }
+                    result.Bag = dbLocator.Set<AbstractProduct>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error Geting User {id}", ex);
+                result.AddException($"Error getting Product {id}", ex);
             }
 
             return result;
         }
 
-        public OperationResponse<ProductInsertCommandOutputDTO> Insert(ProductInsertCommandInputDTO input)
+        public OperationResponse Insert(AbstractProduct entity)
         {
-            var result = new OperationResponse<ProductInsertCommandOutputDTO>();
-            var entity = new FlowerProduct
+            var result = new OperationResponse();
+            try
             {
-                Name = input.Name,
-            };
-
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 dbLocator.Add(entity);
-                dbLocator.SaveChanges();
-
-                var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductInsertCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name
-                }).FirstOrDefault();
-
-                result.Bag = dbResult;
-                return result;
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Error adding Product", ex);
+            }
+
+            return result;
+
+            //var result = new OperationResponse<ProductInsertCommandOutputDTO>();
+            //var entity = new FlowerProduct
+            //{
+            //    Name = input.Name,
+            //};
+
+            //var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            //{
+            //    dbLocator.Add(entity);
+            //    dbLocator.SaveChanges();
+
+            //    var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductInsertCommandOutputDTO
+            //    {
+            //        Id = o.Id,
+            //        Name = o.Name
+            //    }).FirstOrDefault();
+
+            //    result.Bag = dbResult;
+            //    return result;
+            //}
 
         }
 
         public OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<ProductUpdateCommandOutputDTO>();
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<AbstractProduct>().FirstOrDefault(o => o.Id == input.Id);
                 if (entity != null)
@@ -194,26 +187,19 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public OperationResponse<ProductDeleteCommandOutputDTO> Delete(int id)
+        public OperationResponse<ProductDeleteCommandOutputDTO> Delete(DomainModel.Product.AbstractProduct entity)
         {
             var result = new OperationResponse<ProductDeleteCommandOutputDTO>();
 
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {
-                var entity = dbLocator.Set<AbstractProduct>().FirstOrDefault(o => o.Id == id);
-                if (entity != null)
+                try
                 {
-                    entity.DeletedAt = DateTime.UtcNow;
-                    dbLocator.SaveChanges();
-
-                    var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductDeleteCommandOutputDTO
-                    {
-                        Id = o.Id,
-                        Name = o.Name
-                    }).FirstOrDefault();
-
-                    result.Bag = dbResult;
-                    return result;
+                    dbLocator.Set<AbstractProduct>().Remove(entity);
+                }
+                catch (Exception ex)
+                {
+                    result.AddException("Error deleting Product", ex);
                 }
             }
 

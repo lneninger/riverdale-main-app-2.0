@@ -33,7 +33,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<IEnumerable<ProductMediaGetAllCommandOutputDTO>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<ProductMedia>().Select(entityItem => new ProductMediaGetAllCommandOutputDTO
                     {
@@ -99,17 +99,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductMediaGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<ProductMedia> GetById(int id)
         {
-            var result = new OperationResponse<ProductMediaGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<ProductMedia>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductMedia>().Where(o => o.Id == id).Select(entityItem => new ProductMediaGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<ProductMedia>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -120,24 +117,18 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductMediaInsertCommandOutputDTO> Insert(ProductMediaInsertCommandInputDTO input)
+        public OperationResponse Insert(ProductMedia input)
         {
             var result = new OperationResponse<ProductMediaInsertCommandOutputDTO>();
             var entity = new ProductMedia
             {
             };
 
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 dbLocator.Add(entity);
-                dbLocator.SaveChanges();
 
-                var dbResult = dbLocator.Set<ProductMedia>().Where(o => o.Id == entity.Id).Select(o => new ProductMediaInsertCommandOutputDTO
-                {
-                    Id = o.Id,
-                }).FirstOrDefault();
-
-                result.Bag = dbResult;
+               
                 return result;
             }
 
@@ -146,7 +137,7 @@ namespace DatabaseRepositories.DB
         public OperationResponse<ProductMediaUpdateCommandOutputDTO> Update(ProductMediaUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<ProductMediaUpdateCommandOutputDTO>();
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<ProductMedia>().FirstOrDefault(o => o.Id == input.Id);
                 if (entity != null)

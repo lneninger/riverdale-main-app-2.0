@@ -15,10 +15,26 @@ namespace ApplicationLogic.Business.Commands.AppUser.GetByIdCommand
 
         public OperationResponse<AppUserGetByIdCommandOutputDTO> Execute(string id)
         {
+            var result = new OperationResponse<AppUserGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new AppUserGetByIdCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id,
+                        Email = getByIdResult.Bag.Email,
+                        UserName = getByIdResult.Bag.UserName,
+                        FirstName = getByIdResult.Bag.FirstName,
+                        LastName = getByIdResult.Bag.LastName,
+                        PictureUrl = getByIdResult.Bag.PictureUrl,
+                    };
+                }
             }
+
+            return result;
         }
     }
 }

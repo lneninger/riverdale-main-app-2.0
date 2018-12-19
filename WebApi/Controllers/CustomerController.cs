@@ -41,7 +41,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(/*IHubContext<GlobalHub> hubContext, */ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand): base(/*hubContext*/)
+        public CustomerController(/*IHubContext<GlobalHub> hubContext, */ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, IProductColorTypeDeleteCommand deleteCommand): base(/*hubContext*/)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
@@ -95,7 +95,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ICustomerDeleteCommand DeleteCommand { get; }
+        public IProductColorTypeDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 

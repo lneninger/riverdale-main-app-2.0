@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.GetAllCommand.Models;
 using Framework.Core.Messages;
+using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.Product.GetAllCommand
 {
@@ -16,10 +17,25 @@ namespace ApplicationLogic.Business.Commands.Product.GetAllCommand
 
         public OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>> Execute()
         {
+            var result = new OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetAll();
+                var getAllResult = this.Repository.GetAll();
+                result.AddResponse(getAllResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = getAllResult.Bag.Select(entityItem => new ProductGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        HexCode = entityItem.HexCode,
+                        IsBasicColor = entityItem.IsBasicColor,
+
+                    }).ToList();
+                }
             }
+
+            return result;
         }
     }
 }

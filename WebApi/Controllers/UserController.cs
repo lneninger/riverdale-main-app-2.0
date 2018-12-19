@@ -6,10 +6,10 @@ using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
+//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
+//using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
+//using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Security;
 using ApplicationLogic.SignalR;
 using DomainModel.Identity;
@@ -48,15 +48,15 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
+        public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand/*, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand*/, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
-            this.RegisterCommand = registerCommand;
-            this.UpdateCommand = updateCommand;
+            //this.RegisterCommand = registerCommand;
+            //this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
 
@@ -95,21 +95,21 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </value>
         public IAppUserGetByIdCommand GetByIdCommand { get; }
 
-        /// <summary>
-        /// Gets the insert command.
-        /// </summary>
-        /// <value>
-        /// The insert command.
-        /// </value>
-        public IAppUserRegisterCommand RegisterCommand { get; }
+        ///// <summary>
+        ///// Gets the insert command.
+        ///// </summary>
+        ///// <value>
+        ///// The insert command.
+        ///// </value>
+        //public IAppUserRegisterCommand RegisterCommand { get; }
 
-        /// <summary>
-        /// Gets the update command.
-        /// </summary>
-        /// <value>
-        /// The update command.
-        /// </value>
-        public IAppUserUpdateCommand UpdateCommand { get; }
+        ///// <summary>
+        ///// Gets the update command.
+        ///// </summary>
+        ///// <value>
+        ///// The update command.
+        ///// </value>
+        //public IAppUserUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -158,51 +158,51 @@ namespace RiverdaleMainApp2_0.Controllers
             return this.Ok(result);
         }
 
-          /// <summary>
-        /// Posts the user manager.
-        /// </summary>
-        /// <param name="input">The input.</param>
-        /// <returns></returns>
-        [HttpPost]
-        [HttpPost("register")]
-        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
-        public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //  /// <summary>
+        ///// Posts the user manager.
+        ///// </summary>
+        ///// <param name="input">The input.</param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[HttpPost("register")]
+        //[Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
+        //public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var userIdentity = new AppUser
-            {
-                Email = input.Email,
-                UserName = input.UserName,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                PictureUrl = input.PictureUrl
-            };
+        //    var userIdentity = new AppUser
+        //    {
+        //        Email = input.Email,
+        //        UserName = input.UserName,
+        //        FirstName = input.FirstName,
+        //        LastName = input.LastName,
+        //        PictureUrl = input.PictureUrl
+        //    };
 
-            var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
+        //    var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
 
-            if (!result.Succeeded)
-                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-
-            return new OkObjectResult("Account created");
-        }
+        //    if (!result.Succeeded)
+        //        return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
 
-        /// <summary>
-        /// Puts the specified model.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
-        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage), Authorization.Authorize(Policy = PermissionsEnum.UserRole_Modify)]
-        public IActionResult Put([FromBody]AppUserUpdateCommandInputDTO model)
-        {
-            var appResult = this.UpdateCommand.Execute(model);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
-        }
+        //    return new OkObjectResult("Account created");
+        //}
+
+
+        ///// <summary>
+        ///// Puts the specified model.
+        ///// </summary>
+        ///// <param name="model">The model.</param>
+        //[HttpPut(), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
+        //[Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage), Authorization.Authorize(Policy = PermissionsEnum.UserRole_Modify)]
+        //public IActionResult Put([FromBody]AppUserUpdateCommandInputDTO model)
+        //{
+        //    var appResult = this.UpdateCommand.Execute(model);
+        //    return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+        //}
 
         /// <summary>
         /// Deletes the specified identifier.

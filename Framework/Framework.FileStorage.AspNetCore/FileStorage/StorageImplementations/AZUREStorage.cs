@@ -17,7 +17,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
         {
         }
 
-        public static string Identifier { get; } = FileSourceEnum.AZURE;
+        public static string Identifier { get { return FileSourceEnum.AZURE; } }
 
         public override Task<byte[]> RetrieveFile(string rootFolder, string accessPath, string folderPath, string fileName)
         {

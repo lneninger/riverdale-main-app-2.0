@@ -15,10 +15,24 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand
 
         public OperationResponse<ProductColorTypeGetByIdCommandOutputDTO> Execute(string id)
         {
+            var result = new OperationResponse<ProductColorTypeGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new ProductColorTypeGetByIdCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        HexCode = entityItem.HexCode,
+                        IsBasicColor = entityItem.IsBasicColor,
+                    };
+                }
             }
+
+            return result;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .HasMaxLength(4);
 
             builder.HasOne(t => t.Product)
-                .WithMany(t => t.ProductMedia)
+                .WithMany(t => t.ProductMedias)
                 .HasForeignKey(t => t.ProductId)
                 ;
 

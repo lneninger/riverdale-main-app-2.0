@@ -32,9 +32,10 @@ namespace DomainDatabaseMapping.Mappings.Type
                .IsRequired(true);
 
             // Seed
+            builder.HasData(new FileSystemType { Id = "SYS", Name = "File System", Description = "File System Repository", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
             builder.HasData(new FileSystemType { Id = "DB", Name = "Database", Description = "Internal Database Repository", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
             builder.HasData(new FileSystemType { Id = "AWS", Name = "AWS S3", Description = "Amazon S3 File Repository", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
-            builder.HasData(new FileSystemType { Id = "SYS", Name = "File System", Description = "File System Repository", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
+            builder.HasData(new FileSystemType { Id = "AZU", Name = "Azure Storage", Description = "Azure Storage File Repository", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
 
         }
     }

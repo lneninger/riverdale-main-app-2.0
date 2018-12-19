@@ -43,7 +43,6 @@ namespace DatabaseRepositories.DB
                         Id = entityItem.Id,
                         Name = entityItem.Name,
                         NormalizedName = entityItem.NormalizedName,
-
                     }).ToList();
                 }
             }
@@ -109,7 +108,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<AppUserRoleGetByIdCommandOutputDTO>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag =  dbLocator.Set<IdentityRole>().Where(o => o.Id == id).Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
                     {
@@ -235,7 +234,7 @@ namespace DatabaseRepositories.DB
                 var result = new OperationResponse<AppUserRoleGetByNameCommandOutputDTO>();
                 try
                 {
-                    using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                     {
                         result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).Select(entityItem => new AppUserRoleGetByNameCommandOutputDTO
                         {

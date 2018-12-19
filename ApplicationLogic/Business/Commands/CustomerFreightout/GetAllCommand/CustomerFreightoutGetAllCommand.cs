@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand.Models;
 using Framework.Core.Messages;
+using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand
 {
@@ -16,10 +17,31 @@ namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand
 
         public OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>> Execute()
         {
+            var result = new OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetAll();
+                var getAllResult = this.Repository.GetAll();
+                result.AddResponse(getAllResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = getAllResult.Bag.Select(entityItem => new CustomerFreightoutGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Cost = entityItem.Cost,
+                        CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
+                        CustomerId = entityItem.CustomerId,
+                        DateFrom = entityItem.DateFrom,
+                        DateTo = entityItem.DateTo,
+                        SecondLeg = entityItem.SecondLeg,
+                        SurchargeHourly = entityItem.SurchargeHourly,
+                        SurchargeYearly = entityItem.SurchargeYearly,
+                        WProtect = entityItem.WProtect,
+
+                    }).ToList();
+                }
             }
+
+            return result;
         }
     }
 }

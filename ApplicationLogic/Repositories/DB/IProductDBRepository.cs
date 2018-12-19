@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.Core.Messages;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -19,12 +20,12 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<ProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductPageQueryCommandInputDTO> input);
 
-        OperationResponse<ProductGetByIdCommandOutputDTO> GetById(int id);
+        OperationResponse<DomainModel.Product.AbstractProduct> GetById(int id);
 
         OperationResponse<ProductInsertCommandOutputDTO> Insert(ProductInsertCommandInputDTO input);
 
         OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
 
-        OperationResponse<ProductDeleteCommandOutputDTO> Delete(int id);
+        OperationResponse<ProductDeleteCommandOutputDTO> Delete(AbstractProduct entity);
     }
 }

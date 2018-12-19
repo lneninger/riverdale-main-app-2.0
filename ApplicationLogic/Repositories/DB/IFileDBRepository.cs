@@ -15,7 +15,7 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface IFileDBRepository: IDBRepository
     {
-        OperationResponse<IEnumerable<FileGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<IEnumerable<File>> GetAll();
 
         OperationResponse<PageResult<FilePageQueryCommandOutputDTO>> PageQuery(PageQuery<FilePageQueryCommandInputDTO> input);
 

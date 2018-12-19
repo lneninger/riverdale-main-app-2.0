@@ -18,6 +18,18 @@ namespace ApplicationLogic.Business.Commands.AppUser.UpdateCommand
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
+                var getById = 
+                Select(entityItem => new AppUserGetByIdCommandOutputDTO
+                {
+                    Id = entityItem.Id,
+                    Email = entityItem.Email,
+                    FirstName = entityItem.FirstName,
+                    LastName = entityItem.LastName,
+                    PictureUrl = entityItem.PictureUrl,
+                    UserName = entityItem.UserName
+                }).FirstOrDefault()
+                    ;
+
                 return this.Repository.Update(input);
             }
         }

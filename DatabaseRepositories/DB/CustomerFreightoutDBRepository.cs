@@ -29,15 +29,15 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>> GetAll()
+        public OperationResponse<IEnumerable<CustomerFreightout>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<CustomerFreightout>>();
 
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<CustomerFreightout>().Select(entityItem => new CustomerFreightoutGetAllCommandOutputDTO
+                    result.Bag = dbLocator.Set<CustomerFreightout>().AsEnumerable()/*.Select(entityItem => new CustomerFreightoutGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
                         Cost = entityItem.Cost,
@@ -49,8 +49,7 @@ namespace DatabaseRepositories.DB
                         SurchargeHourly = entityItem.SurchargeHourly,
                         SurchargeYearly = entityItem.SurchargeYearly,
                         WProtect = entityItem.WProtect,
-
-                    }).ToList();
+                    }).ToList()*/;
                 }
             }
             catch (Exception ex)
@@ -117,27 +116,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<CustomerFreightout> GetById(int id)
         {
-            var result = new OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<CustomerFreightout>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == id).Select(entityItem => new CustomerFreightoutGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        CustomerId = entityItem.CustomerId,
-                        Cost = entityItem.Cost,
-                        CustomerFreightoutRateTypeId = entityItem.CustomerFreightoutRateTypeId,
-                        DateFrom = entityItem.DateFrom,
-                        DateTo = entityItem.DateTo,
-                        SecondLeg = entityItem.SecondLeg,
-                        SurchargeHourly = entityItem.SurchargeHourly,
-                        SurchargeYearly = entityItem.SurchargeYearly,
-                        WProtect = entityItem.WProtect,
-
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -148,7 +134,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input)
+        public OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightout entity)
         {
             var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
 
@@ -167,7 +153,7 @@ namespace DatabaseRepositories.DB
                     WProtect = input.WProtect ?? 0,
                 };
 
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     dbLocator.Add(entity);
                     dbLocator.SaveChanges();
@@ -206,7 +192,7 @@ namespace DatabaseRepositories.DB
 
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == input.Id);
                     if (entity != null)

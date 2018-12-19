@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.Core.Messages;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -19,9 +20,9 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<ProductMediaPageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductMediaPageQueryCommandInputDTO> input);
 
-        OperationResponse<ProductMediaGetByIdCommandOutputDTO> GetById(int id);
+        OperationResponse<ProductMedia> GetById(int id);
 
-        OperationResponse<ProductMediaInsertCommandOutputDTO> Insert(ProductMediaInsertCommandInputDTO input);
+        OperationResponse Insert(ProductMedia input);
 
         OperationResponse<ProductMediaUpdateCommandOutputDTO> Update(ProductMediaUpdateCommandInputDTO input);
 

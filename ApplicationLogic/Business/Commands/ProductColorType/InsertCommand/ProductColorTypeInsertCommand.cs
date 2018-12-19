@@ -16,10 +16,49 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.InsertCommand
 
         public OperationResponse<ProductColorTypeInsertCommandOutputDTO> Execute(ProductColorTypeInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<ProductColorTypeInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.Insert(input);
+                var entity = new DomainModel.ProductColorType
+                {
+                    Id = input.Id,
+                    Name = input.Name,
+                    HexCode = input.HexCode,
+                    IsBasicColor = input.IsBasicColor
+                };
+
+                try
+                {
+                    var insertResult = this.Repository.Insert(entity);
+                    result.AddResponse(insertResult);
+                    if (result.IsSucceed)
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddError("Error Adding Product Color Type", ex);
+                }
+
+                if (result.IsSucceed)
+                {
+                    var getByIdResult = this.Repository.GetById(entity.Id);
+                    result.AddResponse(getByIdResult);
+                    if (result.IsSucceed)
+                    { 
+                    result.Bag = new ProductColorTypeInsertCommandOutputDTO
+                     {
+                         Id = getByIdResult.Bag.Id,
+                         Name = getByIdResult.Bag.Name
+                         //ERPId = o.ERPId
+                     };
+                    }
+
+                }
             }
+
+            return result;
         }
     }
 }

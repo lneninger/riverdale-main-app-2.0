@@ -4,14 +4,16 @@ using DomainDatabaseMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainDatabaseMigrations.Migrations
 {
     [DbContext(typeof(MigrationDBContext))]
-    partial class MigrationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181219072942_ProductMediaFileRepository DeleteAt")]
+    partial class ProductMediaFileRepositoryDeleteAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,8 +157,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 873, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 873, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 919, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 919, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -248,7 +250,8 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccessPath")
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
@@ -267,7 +270,8 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar")
+                        .HasMaxLength(150);
 
                     b.Property<int>("FileSize");
 
@@ -278,13 +282,17 @@ namespace DomainDatabaseMigrations.Migrations
                     b.Property<bool?>("IsDeleted");
 
                     b.Property<string>("RelativePath")
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar")
+                        .HasMaxLength(500);
 
                     b.Property<string>("RootPath")
-                        .HasColumnType("nvarchar(300)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ThumbnailFileName")
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar")
+                        .HasMaxLength(150);
 
                     b.Property<int>("ThumbnailFileSize");
 
@@ -343,9 +351,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "DB", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 871, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 871, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "SYS", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 871, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" }
+                        new { Id = "DB", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 916, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 916, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "SYS", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 916, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" }
                     );
                 });
 
@@ -542,9 +550,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 941, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 941, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 941, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 992, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 992, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 992, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -630,8 +638,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 841, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 12, 19, 7, 50, 32, 843, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 877, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 12, 19, 7, 29, 41, 878, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 

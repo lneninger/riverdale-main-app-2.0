@@ -29,26 +29,19 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ProductColorTypeGetAllCommandOutputDTO>> GetAll()
+        public OperationResponse<IEnumerable<ProductColorType>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<ProductColorTypeGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<ProductColorType>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductColorType>().Select(entityItem => new ProductColorTypeGetAllCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        HexCode = entityItem.HexCode,
-                        IsBasicColor = entityItem.IsBasicColor,
-
-                    }).ToList();
+                    result.Bag = dbLocator.Set<ProductColorType>().AsEnumerable();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                result.AddError("Error GetAll ProductColorType", ex);
             }
 
             return result;
@@ -77,7 +70,7 @@ namespace DatabaseRepositories.DB
 
                     var advancedSorting = new List<SortItem<ProductColorType>>();
                     //var advancedSorting = new List<Expression<Func<ProductColorType, object>>>();
-                    Expression<Func<ProductColorType, object>> expression;
+                    //Expression<Func<ProductColorType, object>> expression;
 
                     var sorting = new SortingDTO<ProductColorType>(input.Sort, advancedSorting);
 
@@ -98,20 +91,20 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductColorTypeGetByIdCommandOutputDTO> GetById(string id)
+        public OperationResponse<ProductColorType> GetById(string id)
         {
-            var result = new OperationResponse<ProductColorTypeGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<ProductColorType>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductColorType>().Where(o => o.Id == id).Select(entityItem => new ProductColorTypeGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        HexCode = entityItem.HexCode,
-                        IsBasicColor = entityItem.IsBasicColor,
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<ProductColorType>().Where(o => o.Id == id).FirstOrDefault();//.Select(entityItem => new ProductColorTypeGetByIdCommandOutputDTO
+                    //{
+                    //    Id = entityItem.Id,
+                    //    Name = entityItem.Name,
+                    //    HexCode = entityItem.HexCode,
+                    //    IsBasicColor = entityItem.IsBasicColor,
+                    //}).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -122,33 +115,13 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductColorTypeInsertCommandOutputDTO> Insert(ProductColorTypeInsertCommandInputDTO input)
+        public OperationResponse Insert(ProductColorType entity)
         {
-            var result = new OperationResponse<ProductColorTypeInsertCommandOutputDTO>();
+            var result = new OperationResponse();
             try
             {
-                var entity = new ProductColorType
-                {
-                    Id = input.Id,
-                    Name = input.Name,
-                    HexCode = input.HexCode,
-                    IsBasicColor = input.IsBasicColor
-                };
-
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-                {
-                    dbLocator.Add(entity);
-                    dbLocator.SaveChanges();
-
-                    var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeInsertCommandOutputDTO
-                    {
-                        Id = o.Id,
-                        Name = o.Name
-                        //ERPId = o.ERPId
-                    }).FirstOrDefault();
-
-                    result.Bag = dbResult;
-                }
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                dbLocator.Add(entity);
             }
             catch (Exception ex)
             {
@@ -158,42 +131,31 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input)
-        {
-            var result = new OperationResponse<ProductColorTypeUpdateCommandOutputDTO>();
-            try
-            {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
-                {
-                    var entity = dbLocator.Set<ProductColorType>().FirstOrDefault(o => o.Id == input.Id);
-                    if (entity != null)
-                    {
-                        entity.Name = input.Name;
-                        entity.HexCode = input.HexCode;
-                        entity.IsBasicColor = input.IsBasicColor;
-                    }
+        //public OperationResponse Update(ProductColorType input)
+        //{
+        //    var result = new OperationResponse<ProductColorTypeUpdateCommandOutputDTO>();
+        //    try
+        //    {
+        //        var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+        //        {
+        //            var entity = dbLocator.Set<ProductColorType>().FirstOrDefault(o => o.Id == input.Id);
+        //            if (entity != null)
+        //            {
+                        
+        //            }
 
-                    dbLocator.SaveChanges();
+                   
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.AddException($"Error updating customer freightout", ex);
+        //    }
 
-                    var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeUpdateCommandOutputDTO
-                    {
-                        Id = o.Id,
-                        Name = o.Name
-                        //ERPId = o.ERPId
-                    }).FirstOrDefault();
+        //    return result;
+        //}
 
-                    result.Bag = dbResult;
-                }
-            }
-            catch (Exception ex)
-            {
-                result.AddException($"Error updating customer freightout", ex);
-            }
-
-            return result;
-        }
-
-        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(string id)
+        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(ProductColorType entity)
         {
             var result = new OperationResponse<ProductColorTypeDeleteCommandOutputDTO>();
             try

@@ -15,10 +15,24 @@ namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetByI
 
         public OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO> Execute(int id)
         {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new CustomerThirdPartyAppSettingGetByIdCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id,
+                        CustomerName = getByIdResult.Bag.Customer.Name,
+                        ThirdPartyAppTypeId = getByIdResult.Bag.ThirdPartyAppTypeId,
+                        ThirdPartyCustomerId = getByIdResult.Bag.ThirdPartyCustomerId,
+                    };
+                }
             }
+
+            return result;
         }
     }
 }

@@ -10,7 +10,9 @@ namespace Framework.Storage.FileStorage.Models
 {
     public class FileSourceEnum
     {
-        public static string FileSystem { get; } = "WIN";
+        public static string FileSystem { get; } = "SYS";
+
+        public static string Database { get; } = "DB";
 
         public static string AWS { get; } = "AWS";
 
@@ -18,12 +20,17 @@ namespace Framework.Storage.FileStorage.Models
 
         public enum Enum
         {
-            [Description("Windows File System")]
+            [Description("File System")]
             FileSystem = 1,
+
             [Description("Amazon Cloud File Storage")]
             AWS = 2,
+
             [Description("Azure Cloud File Storage")]
-            AZURE = 3
+            AZURE = 3,
+
+            [Description("Database File Storage")]
+            Database = 4
         }
 
     }

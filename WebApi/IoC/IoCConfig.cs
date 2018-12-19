@@ -21,6 +21,10 @@ using RiverdaleMainApp2_0.AppSettings;
 using Framework.EF.DbContextImpl;
 using ApplicationLogic.SignalR;
 using Framework.FileStorage.Standard.FileStorage.Models;
+using Framework.Storage.FileStorage.StorageImplementations;
+using Framework.Storage.FileStorage.interfaces;
+using Framework.Core.ReflectionHelpers;
+using Autofac.Features.AttributeFilters;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -110,6 +114,19 @@ namespace RiverdaleMainApp2_0.IoC
                 builder.RegisterTypes(repositoryTypes.ToArray())
                 .AsImplementedInterfaces()
                 .TrackInstanceEvents();
+
+                // File Storage implementations injections
+                var FileSystemStorageNamespace = typeof(FileSystemStorage).Namespace;
+                var storageTypes = typeof(FileSystemStorage).Assembly.GetTypes().Where(o => o.Name.EndsWith("Storage") && o.Namespace.Equals(FileSystemStorageNamespace) && o.IsClass);
+                foreach (var storageType in storageTypes)
+                {
+                    var fileSourceEnum = storageType.GetStaticPropertyValue(nameof(FileSystemStorage.Identifier));
+
+                    builder.RegisterType(storageType).Keyed<IFileStorageService>(fileSourceEnum)
+                       .AsImplementedInterfaces()
+                       .WithAttributeFiltering()
+                        .TrackInstanceEvents();
+                }
 
                 // Authentication
                 builder

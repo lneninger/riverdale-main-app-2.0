@@ -24,7 +24,9 @@ namespace Framework.Storage.FileStorage.StorageImplementations
     /// <seealso cref="Framework.Storage.FileStorage.BaseFileStorageService" />
     public class AWSStorage : BaseFileStorageService
     {
-        public static string Identifier { get; } = FileSourceEnum.AWS;
+        public static string Identifier { get { return FileSourceEnum.AWS; } }
+
+
         public static string AWSCredentialKey { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoAccessKey;
         public static string AWSFileRepoSecretKey { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileRepoSecretKey;
         public static string AWSFileStoreRootURL { get; } = AppConfig.Instance.FileStorageSettings.AWS.AWSFileStoreRootURL;

@@ -16,7 +16,39 @@ namespace ApplicationLogic.Business.Commands.CustomerFreightout.DeleteCommand
 
         public OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Execute(int id)
         {
-            return this.Repository.Delete(id);
+            var result = new OperationResponse<CustomerFreightoutDeleteCommandOutputDTO>();
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new CustomerFreightoutDeleteCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id,
+                        CustomerName = getByIdResult.Bag.Customer.Name,
+                        SecondLeg = getByIdResult.Bag.SecondLeg,
+                        SurchargeHourly = getByIdResult.Bag.SurchargeHourly,
+                        SurchargeYearly = getByIdResult.Bag.SurchargeYearly,
+                    };
+                }
+
+                var deleteResult = this.Repository.Delete(id);
+                result.AddResponse(deleteResult);
+                if (result.IsSucceed)
+                {
+                    try
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.AddException("Error deleting Customer Freightout", ex);
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
             //this.FileStorageSettings = null;// fileStorageSettings;
         }
 
-        public OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T: FileArgs
+        public OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T : FileArgs
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -75,10 +75,12 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                 StorageTypeID = fileStorageTypeId,
             };
 
+            OperationResponse<FileInsertCommandOutputDTO> fileInsertResult = null;
+
             using (var transaction = new TransactionScope())
             {
                 // First step. Save file without paths. 
-                var fileInsertResult = this.Repository.Insert(fileDto);
+                fileInsertResult = this.Repository.Insert(fileDto);
 
                 // Second step. Store file and grab its path details.
                 args.FilePrefix = fileInsertResult.Bag.Id.ToString();
@@ -91,7 +93,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                 FileStorageResultDTO fileStorageResult;
                 using (var scope = IoCGlobal.NewScope("FileStorageScope"))
                 {
-                    var fileStorage = IoCGlobal.Resolve<IFileStorageService>(fileStorageTypeId, scope );
+                    var fileStorage = IoCGlobal.Resolve<IFileStorageService>(fileStorageTypeId, scope);
                     //result = fileStorage.Save(secondStepArgs);
                     fileStorageResult = fileStorage.Save(args);
                 }
@@ -106,20 +108,21 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                     ThumbnailFileName = fileStorageResult.ThumbnailFileName,
                     StorageTypeID = fileStorageResult.FileSourceId,
                 };
-                
+
                 this.Repository.Update(fileUpdate);
 
                 transaction.Complete();
-
-                var getById = this.Repository.GetById(fileInsertResult.Bag.Id);
-                result.Bag = new FileInsertCommandOutputDTO
-                {
-                    Id = getById.Bag.Id
-                };
-
-                return result;
             }
+
+            var getById = this.Repository.GetById(fileInsertResult.Bag.Id);
+            result.Bag = new FileInsertCommandOutputDTO
+            {
+                Id = getById.Bag.Id
+            };
+
+            return result;
 
         }
     }
 }
+

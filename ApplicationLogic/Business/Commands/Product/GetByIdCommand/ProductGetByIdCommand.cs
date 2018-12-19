@@ -3,6 +3,9 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
 using Framework.Core.Messages;
+using System.Linq;
+using ApplicationLogic.Business.Commons.DTOs;
+using ApplicationLogic.Business.Commands.Product.Commons;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 {
@@ -15,10 +18,35 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 
         public OperationResponse<ProductGetByIdCommandOutputDTO> Execute(int id)
         {
+            var result = new OperationResponse<ProductGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new ProductGetByIdCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id,
+                        Name = getByIdResult.Bag.Name,
+                        ProductTypeId = getByIdResult.Bag.ProductTypeId,
+                        Medias = getByIdResult.Bag.ProductMedias.Select(m => new FileItemRefOutputDTO
+                        {
+                            Id = m.Id,
+                            FullUrl = m.FileRepository.FullFilePath
+                        })
+                    };
+
+                    if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)
+                    {
+                    }
+                }
             }
+
+            return result;
+
+
+
         }
     }
 }

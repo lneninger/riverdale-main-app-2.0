@@ -29,22 +29,14 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO>> GetAll()
+        public OperationResponse<IEnumerable<CustomerThirdPartyAppSetting>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<CustomerThirdPartyAppSetting>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().Select(entityItem => new CustomerThirdPartyAppSettingGetAllCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        CustomerId = entityItem.CustomerId,
-                        ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
-                        ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
-                        CreatedAt = entityItem.CreatedAt
-
-                    }).ToList();
+                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -106,26 +98,19 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<CustomerThirdPartyAppSetting> GetById(int id)
         {
-            var result = new OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<CustomerThirdPartyAppSetting>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == id).Select(entityItem => new CustomerThirdPartyAppSettingGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        CustomerName = entityItem.Customer.Name,
-                        ThirdPartyAppTypeId = entityItem.ThirdPartyAppTypeId,
-                        ThirdPartyCustomerId = entityItem.ThirdPartyCustomerId,
-
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error geting customer third party setting {id}", ex);
+                result.AddException($"Error getting all customer third party setting", ex);
             }
 
             return result;
@@ -141,7 +126,7 @@ namespace DatabaseRepositories.DB
                 ThirdPartyCustomerId = input.ThirdPartyCustomerId,
             };
 
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 dbLocator.Add(entity);
                 dbLocator.SaveChanges();
@@ -165,7 +150,7 @@ namespace DatabaseRepositories.DB
         public OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO>();
-            using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<CustomerThirdPartyAppSetting>().FirstOrDefault(o => o.Id == input.Id);
                 if (entity != null)

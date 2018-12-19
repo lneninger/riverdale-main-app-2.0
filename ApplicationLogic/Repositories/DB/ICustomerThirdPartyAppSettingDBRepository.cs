@@ -15,9 +15,9 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface ICustomerThirdPartyAppSettingDBRepository : IDBRepository
     {
-        OperationResponse<IEnumerable<CustomerThirdPartyAppSettingGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<IEnumerable<CustomerThirdPartyAppSetting>> GetAll();
         OperationResponse<PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input);
-        OperationResponse<CustomerThirdPartyAppSettingGetByIdCommandOutputDTO> GetById(int id);
+        OperationResponse<CustomerThirdPartyAppSetting> GetById(int id);
         OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO> Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input);
         OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input);
         OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Delete(int id);

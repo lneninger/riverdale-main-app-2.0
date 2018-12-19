@@ -3,8 +3,8 @@ using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
+//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
+//using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.Security;
 using ApplicationLogic.SignalR;
 using DomainModel.Identity;
@@ -38,7 +38,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public PermissionController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
+        public PermissionController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand/*, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand*/, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.UserManager = userManager;
             this.RoleManager = roleManager;
@@ -79,21 +79,21 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </value>
         public IAppUserGetByIdCommand GetByIdCommand { get; }
 
-        /// <summary>
-        /// Gets the insert command.
-        /// </summary>
-        /// <value>
-        /// The insert command.
-        /// </value>
-        public IAppUserRegisterCommand RegisterCommand { get; }
+        ///// <summary>
+        ///// Gets the insert command.
+        ///// </summary>
+        ///// <value>
+        ///// The insert command.
+        ///// </value>
+        //public IAppUserRegisterCommand RegisterCommand { get; }
 
-        /// <summary>
-        /// Gets the update command.
-        /// </summary>
-        /// <value>
-        /// The update command.
-        /// </value>
-        public IAppUserUpdateCommand UpdateCommand { get; }
+        ///// <summary>
+        ///// Gets the update command.
+        ///// </summary>
+        ///// <value>
+        ///// The update command.
+        ///// </value>
+        //public IAppUserUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.

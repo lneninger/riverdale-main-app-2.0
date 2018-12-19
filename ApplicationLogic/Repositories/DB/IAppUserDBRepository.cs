@@ -1,15 +1,16 @@
-﻿using ApplicationLogic.Business.Commands.AppUser.AuthenticateCommand.Models;
+﻿//using ApplicationLogic.Business.Commands.AppUser.AuthenticateCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
+//using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DomainModel.Identity;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -26,7 +27,7 @@ namespace ApplicationLogic.Repositories.DB
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        OperationResponse<AppUserGetByIdCommandOutputDTO> GetById(string id);
+        OperationResponse<AppUser> GetById(string id);
 
         /// <summary>
         /// 
@@ -50,14 +51,14 @@ namespace ApplicationLogic.Repositories.DB
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        OperationResponse<AppUserRegisterCommandOutputDTO> Insert(AppUserRegisterCommandInputDTO input);
+        //OperationResponse<AppUserRegisterCommandOutputDTO> Insert(AppUserRegisterCommandInputDTO input);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        OperationResponse<AppUserAuthenticateCommandOutputDTO> Authenticate(AppUserAuthenticateCommandInputDTO input);
+        //OperationResponse<AppUserAuthenticateCommandOutputDTO> Authenticate(AppUserAuthenticateCommandInputDTO input);
 
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace ApplicationLogic.Repositories.DB
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        OperationResponse<AppUserUpdateCommandOutputDTO> Update(AppUserUpdateCommandInputDTO input);
+        //OperationResponse Update(AppUserUpdateCommandInputDTO input);
 
         /// <summary>
         /// MARK user as deleted

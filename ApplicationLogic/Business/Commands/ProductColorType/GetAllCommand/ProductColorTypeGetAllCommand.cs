@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand.Models;
 using Framework.Core.Messages;
+using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand
 {
@@ -16,10 +17,25 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand
 
         public OperationResponse<IEnumerable<ProductColorTypeGetAllCommandOutputDTO>> Execute()
         {
+            var result = new OperationResponse<IEnumerable<ProductColorTypeGetAllCommandOutputDTO>>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetAll();
+                var getAllResult = this.Repository.GetAll();
+                result.AddResponse(getAllResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = getAllResult.Bag.Select(entityItem => new ProductColorTypeGetAllCommandOutputDTO
+                    {
+                        Id = entityItem.Id,
+                        Name = entityItem.Name,
+                        HexCode = entityItem.HexCode,
+                        IsBasicColor = entityItem.IsBasicColor,
+
+                    }).ToList();
+                }
             }
+
+            return result;
         }
     }
 }

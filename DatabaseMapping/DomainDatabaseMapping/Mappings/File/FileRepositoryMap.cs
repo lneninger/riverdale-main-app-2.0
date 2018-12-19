@@ -23,28 +23,23 @@ namespace DomainDatabaseMapping.Mappings.File
 
 
             builder.Property(t => t.RootPath)
-               .HasColumnType("nvarchar")
-               .HasMaxLength(100)
-               .IsRequired(true);
+               .HasColumnType("nvarchar(300)")
+               .IsRequired(false);
 
             builder.Property(t => t.AccessPath)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(500)
+                .HasColumnType("nvarchar(500)")
                 .IsRequired(false);
 
             builder.Property(t => t.RelativePath)
-               .HasColumnType("nvarchar")
-               .HasMaxLength(500)
+               .HasColumnType("nvarchar(500)")
                .IsRequired(false);
 
             builder.Property(t => t.FileName)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
+                .HasColumnType("nvarchar(150)")
                 .IsRequired(true);
 
             builder.Property(t => t.ThumbnailFileName)
-                .HasColumnType("nvarchar")
-                .HasMaxLength(150)
+                .HasColumnType("nvarchar(150)")
                 .IsRequired(false);
 
 

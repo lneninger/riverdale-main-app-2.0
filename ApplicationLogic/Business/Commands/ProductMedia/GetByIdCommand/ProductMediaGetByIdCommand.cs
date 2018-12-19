@@ -15,10 +15,21 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.GetByIdCommand
 
         public OperationResponse<ProductMediaGetByIdCommandOutputDTO> Execute(int id)
         {
+            var result = new OperationResponse<ProductMediaGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new ProductMediaGetByIdCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id
+                    };
+                }
             }
+
+            return result;
         }
     }
 }

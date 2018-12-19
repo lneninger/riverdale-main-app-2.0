@@ -18,8 +18,9 @@ namespace Framework.Storage.FileStorage.StorageImplementations
     /// <seealso cref="Framework.Storage.FileStorage.BaseFileStorageService" />
     public class FileSystemStorage : BaseFileStorageService
     {
-        public static string Identifier { get; } = FileSourceEnum.FileSystem;
-        public static string FileSystemBaseStoragePath { get; } = AppConfig.Instance.FileStorageSettings.FileSystem.FileSystemBaseStoragePath;
+        public static string Identifier { get { return FileSourceEnum.FileSystem; } } 
+        public static string FileSystemBaseStoragePath { get { return AppConfig.Instance.FileStorageSettings.FileSystem.FileSystemBaseStoragePath; } } 
+
 
         /// <summary>
         /// Retrieves the file from Windows FileSystem.

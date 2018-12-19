@@ -21,13 +21,48 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
 
         public OperationResponse<ProductMediaInsertCommandOutputDTO> Execute(ProductMediaInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<ProductMediaInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var createFileArgs = this.CreateFileArgs(input);
-                this.FileInsertCommand.Execute<DefaultFileArgs>(createFileArgs);
+                var fileInsertResult = this.FileInsertCommand.Execute<DefaultFileArgs>(createFileArgs);
+                result.AddResponse(fileInsertResult);
 
-                return this.Repository.Insert(input);
+                if (result.IsSucceed)
+                {
+                    var entity = new DomainModel.Product.ProductMedia
+                    {
+                        ProductId = input.ProductId,
+                        FileRepositoryId = fileInsertResult.Bag.Id
+                    };
+
+                    try
+                    {
+                        var insertResult = this.Repository.Insert(entity);
+                        dbContextScope.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.AddException("Error saving product media", ex);
+                    }
+
+                    if (result.IsSucceed)
+                    {
+                        var getByIdResult = this.Repository.GetById(entity.Id);
+                        if (result.IsSucceed)
+                        {
+                            result.Bag = new ProductMediaInsertCommandOutputDTO
+                            {
+                                Id = getByIdResult.Bag.Id
+                            };
+                        }
+                    }
+                }
+
+               
             }
+
+            return result;
         }
 
         private DefaultFileArgs CreateFileArgs(ProductMediaInsertCommandInputDTO input)

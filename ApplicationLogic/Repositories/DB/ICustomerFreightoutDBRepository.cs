@@ -15,11 +15,11 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface ICustomerFreightoutDBRepository: IDBRepository
     {
-        OperationResponse<IEnumerable<CustomerFreightoutGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<IEnumerable<CustomerFreightout>> GetAll();
         OperationResponse<PageResult<CustomerFreightoutPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input);
-        OperationResponse<CustomerFreightoutGetByIdCommandOutputDTO> GetById(int id);
-        OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightoutInsertCommandInputDTO input);
-        OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input);
+        OperationResponse<CustomerFreightout> GetById(int id);
+        OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightout input);
+        //OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input);
         OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id);
     }
 }

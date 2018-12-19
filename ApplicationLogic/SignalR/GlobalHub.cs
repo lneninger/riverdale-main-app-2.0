@@ -1,4 +1,6 @@
-﻿using Framework.Autofac;
+﻿using ApplicationLogic.Repositories.DB;
+using EntityFrameworkCore.DbContextScope;
+using Framework.Autofac;
 using Framework.EF.DbContextImpl;
 using Framework.SignalR;
 using Microsoft.AspNet.SignalR;
@@ -10,7 +12,7 @@ namespace ApplicationLogic.SignalR
 {
     public class GlobalHub : BaseSignalR
     {
-        public GlobalHub(ICurrentUserService currentUserService) : base(currentUserService)
+        public GlobalHub(ICurrentUserService currentUserService, IDbContextScopeFactory dbContextScopeFactory, IAppUserDBRepository repository) : base(currentUserService, dbContextScopeFactory, repository)
         {
         }
 
