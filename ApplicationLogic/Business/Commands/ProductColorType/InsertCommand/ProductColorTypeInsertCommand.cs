@@ -46,13 +46,13 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.InsertCommand
                     var getByIdResult = this.Repository.GetById(entity.Id);
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
-                    { 
-                    result.Bag = new ProductColorTypeInsertCommandOutputDTO
-                     {
-                         Id = getByIdResult.Bag.Id,
-                         Name = getByIdResult.Bag.Name
-                         //ERPId = o.ERPId
-                     };
+                    {
+                        result.Bag = new ProductColorTypeInsertCommandOutputDTO
+                        {
+                            Id = getByIdResult.Bag.Id,
+                            Name = getByIdResult.Bag.Name
+                            //ERPId = o.ERPId
+                        };
                     }
 
                 }

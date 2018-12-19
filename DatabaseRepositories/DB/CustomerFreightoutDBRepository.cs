@@ -134,56 +134,69 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightout entity)
+        public OperationResponse Insert(CustomerFreightout entity)
         {
-            var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
-
+            var result = new OperationResponse();
             try
             {
-                var entity = new CustomerFreightout
-                {
-                    Cost = input.Cost ?? 0,
-                    CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId,
-                    CustomerId = input.CustomerId,
-                    DateFrom = input.DateFrom ?? DateTime.UtcNow,
-                    DateTo = input.DateTo ?? DateTime.UtcNow,
-                    SecondLeg = input.SecondLeg ?? 0,
-                    SurchargeHourly = input.SurchargeHourly,
-                    SurchargeYearly = input.SurchargeYearly,
-                    WProtect = input.WProtect ?? 0,
-                };
-
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                {
-                    dbLocator.Add(entity);
-                    dbLocator.SaveChanges();
-
-                    var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
-                    {
-                        Id = o.Id,
-                        CustomerId = o.CustomerId,
-                        CustomerName = o.Customer.Name,
-                        Cost = o.Cost,
-                        CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
-                        DateFrom = o.DateFrom,
-                        DateTo = o.DateTo,
-                        SecondLeg = o.SecondLeg,
-                        SurchargeHourly = o.SurchargeHourly,
-                        SurchargeYearly = o.SurchargeYearly,
-                        WProtect = o.WProtect,
-                    }).FirstOrDefault();
-
-                    result.Bag = dbResult;
-
-                    return result;
-                }
+                dbLocator.Add(entity);
             }
             catch (Exception ex)
             {
-                result.AddException($"Error adding customer freightout {input.ERPId}", ex);
+                result.AddException($"Error adding Customer Freightout", ex);
             }
 
             return result;
+
+            //var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
+
+            //try
+            //{
+            //    var entity = new CustomerFreightout
+            //    {
+            //        Cost = input.Cost ?? 0,
+            //        CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId,
+            //        CustomerId = input.CustomerId,
+            //        DateFrom = input.DateFrom ?? DateTime.UtcNow,
+            //        DateTo = input.DateTo ?? DateTime.UtcNow,
+            //        SecondLeg = input.SecondLeg ?? 0,
+            //        SurchargeHourly = input.SurchargeHourly,
+            //        SurchargeYearly = input.SurchargeYearly,
+            //        WProtect = input.WProtect ?? 0,
+            //    };
+
+            //    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            //    {
+            //        dbLocator.Add(entity);
+            //        dbLocator.SaveChanges();
+
+            //        var dbResult = dbLocator.Set<CustomerFreightout>().Where(o => o.Id == entity.Id).Select(o => new CustomerFreightoutInsertCommandOutputDTO
+            //        {
+            //            Id = o.Id,
+            //            CustomerId = o.CustomerId,
+            //            CustomerName = o.Customer.Name,
+            //            Cost = o.Cost,
+            //            CustomerFreightoutRateTypeId = o.CustomerFreightoutRateTypeId,
+            //            DateFrom = o.DateFrom,
+            //            DateTo = o.DateTo,
+            //            SecondLeg = o.SecondLeg,
+            //            SurchargeHourly = o.SurchargeHourly,
+            //            SurchargeYearly = o.SurchargeYearly,
+            //            WProtect = o.WProtect,
+            //        }).FirstOrDefault();
+
+            //        result.Bag = dbResult;
+
+            //        return result;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    result.AddException($"Error adding customer freightout {input.ERPId}", ex);
+            //}
+
+            //return result;
         }
 
         public OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input)

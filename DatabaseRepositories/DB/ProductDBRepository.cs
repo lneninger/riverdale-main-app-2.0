@@ -181,9 +181,9 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public OperationResponse<ProductDeleteCommandOutputDTO> Delete(DomainModel.Product.AbstractProduct entity)
+        public OperationResponse Delete(DomainModel.Product.AbstractProduct entity)
         {
-            var result = new OperationResponse<ProductDeleteCommandOutputDTO>();
+            var result = new OperationResponse();
 
             using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
             {

@@ -26,6 +26,6 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
 
-        OperationResponse<ProductDeleteCommandOutputDTO> Delete(AbstractProduct entity);
+        OperationResponse Delete(AbstractProduct entity);
     }
 }

@@ -24,8 +24,8 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse Insert(ProductColorType entity);
 
-        OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input);
+        //OperationResponse<ProductColorTypeUpdateCommandOutputDTO> Update(ProductColorTypeUpdateCommandInputDTO input);
         
-        OperationResponse<ProductColorTypeDeleteCommandOutputDTO> Delete(ProductColorType entity);
+        OperationResponse Delete(ProductColorType entity);
     }
 }

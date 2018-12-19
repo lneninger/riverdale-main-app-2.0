@@ -32,7 +32,7 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.DeleteCommand
                     };
                 }
 
-                var deleteResult = this.Repository.Delete(id);
+                var deleteResult = this.Repository.Delete(getByIdResult.Bag);
                 result.AddResponse(deleteResult);
                 if (result.IsSucceed)
                 {

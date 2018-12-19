@@ -18,7 +18,7 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<IEnumerable<CustomerFreightout>> GetAll();
         OperationResponse<PageResult<CustomerFreightoutPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerFreightoutPageQueryCommandInputDTO> input);
         OperationResponse<CustomerFreightout> GetById(int id);
-        OperationResponse<CustomerFreightoutInsertCommandOutputDTO> Insert(CustomerFreightout input);
+        OperationResponse Insert(CustomerFreightout input);
         //OperationResponse<CustomerFreightoutUpdateCommandOutputDTO> Update(CustomerFreightoutUpdateCommandInputDTO input);
         OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id);
     }
