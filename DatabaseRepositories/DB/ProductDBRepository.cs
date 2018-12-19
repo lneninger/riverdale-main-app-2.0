@@ -18,10 +18,8 @@ using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
 using Framework.Core.Messages;
 using DomainModel.Product;
-using ApplicationLogic.Business.Commands.Product.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
 
 namespace DatabaseRepositories.DB
@@ -107,7 +105,7 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<AbstractProduct>().Find(id);
                 }
             }
             catch (Exception ex)
@@ -132,28 +130,6 @@ namespace DatabaseRepositories.DB
             }
 
             return result;
-
-            //var result = new OperationResponse<ProductInsertCommandOutputDTO>();
-            //var entity = new FlowerProduct
-            //{
-            //    Name = input.Name,
-            //};
-
-            //var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            //{
-            //    dbLocator.Add(entity);
-            //    dbLocator.SaveChanges();
-
-            //    var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductInsertCommandOutputDTO
-            //    {
-            //        Id = o.Id,
-            //        Name = o.Name
-            //    }).FirstOrDefault();
-
-            //    result.Bag = dbResult;
-            //    return result;
-            //}
-
         }
 
         //public OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input)
