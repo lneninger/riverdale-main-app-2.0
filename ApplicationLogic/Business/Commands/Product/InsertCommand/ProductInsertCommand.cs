@@ -16,10 +16,45 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand
 
         public OperationResponse<ProductInsertCommandOutputDTO> Execute(ProductInsertCommandInputDTO input)
         {
+            var result = new OperationResponse<ProductInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.Insert(input);
+                var entity = new DomainModel.Product.FlowerProduct
+                {
+                    Name = input.Name,
+                };
+
+                try
+                {
+                    var insertResult = this.Repository.Insert(entity);
+                    result.AddResponse(insertResult);
+                    if (result.IsSucceed)
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddError("Error Adding Product", ex);
+                }
+
+                if (result.IsSucceed)
+                {
+                    var getByIdResult = this.Repository.GetById(entity.Id);
+                    result.AddResponse(getByIdResult);
+                    if (result.IsSucceed)
+                    {
+                        result.Bag = new ProductInsertCommandOutputDTO
+                        {
+                            Id = getByIdResult.Bag.Id,
+                            Name = getByIdResult.Bag.Name
+                        };
+                    }
+
+                }
             }
+
+            return result;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<PageResult<CustomerThirdPartyAppSettingPageQueryCommandOutputDTO>> PageQuery(PageQuery<CustomerThirdPartyAppSettingPageQueryCommandInputDTO> input);
         OperationResponse<CustomerThirdPartyAppSetting> GetById(int id);
         OperationResponse<CustomerThirdPartyAppSettingInsertCommandOutputDTO> Insert(CustomerThirdPartyAppSettingInsertCommandInputDTO input);
-        OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input);
+        //OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input);
         OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Delete(int id);
     }
 }

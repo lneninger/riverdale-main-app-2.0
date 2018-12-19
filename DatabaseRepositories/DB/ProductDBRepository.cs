@@ -156,30 +156,30 @@ namespace DatabaseRepositories.DB
 
         }
 
-        public OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input)
-        {
-            var result = new OperationResponse<ProductUpdateCommandOutputDTO>();
-            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            {
-                var entity = dbLocator.Set<AbstractProduct>().FirstOrDefault(o => o.Id == input.Id);
-                if (entity != null)
-                {
-                    entity.Name = input.Name;
-                }
+        //public OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input)
+        //{
+        //    var result = new OperationResponse<ProductUpdateCommandOutputDTO>();
+        //    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+        //    {
+        //        var entity = dbLocator.Set<AbstractProduct>().FirstOrDefault(o => o.Id == input.Id);
+        //        if (entity != null)
+        //        {
+        //            entity.Name = input.Name;
+        //        }
 
-                dbLocator.SaveChanges();
+        //        dbLocator.SaveChanges();
 
 
-                var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductUpdateCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name
-                }).FirstOrDefault();
+        //        var dbResult = dbLocator.Set<AbstractProduct>().Where(o => o.Id == entity.Id).Select(o => new ProductUpdateCommandOutputDTO
+        //        {
+        //            Id = o.Id,
+        //            Name = o.Name
+        //        }).FirstOrDefault();
 
-                result.Bag = dbResult;
-                return result;
-            }
-        }
+        //        result.Bag = dbResult;
+        //        return result;
+        //    }
+        //}
 
         public OperationResponse Delete(DomainModel.Product.AbstractProduct entity)
         {

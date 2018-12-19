@@ -153,30 +153,30 @@ namespace DatabaseRepositories.DB
 
         }
 
-        public OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input)
-        {
-            var result = new OperationResponse<CustomerUpdateCommandOutputDTO>();
-            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            {
-                var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == input.Id);
-                if (entity != null)
-                {
-                    entity.Name = input.Name;
-                }
+        //public OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input)
+        //{
+        //    var result = new OperationResponse<CustomerUpdateCommandOutputDTO>();
+        //    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+        //    {
+        //        var entity = dbLocator.Set<Customer>().FirstOrDefault(o => o.Id == input.Id);
+        //        if (entity != null)
+        //        {
+        //            entity.Name = input.Name;
+        //        }
 
-                dbLocator.SaveChanges();
+        //        dbLocator.SaveChanges();
 
 
-                var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerUpdateCommandOutputDTO
-                {
-                    Id = o.Id,
-                    Name = o.Name
-                }).FirstOrDefault();
+        //        var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerUpdateCommandOutputDTO
+        //        {
+        //            Id = o.Id,
+        //            Name = o.Name
+        //        }).FirstOrDefault();
 
-                result.Bag = dbResult;
-                return result;
-            }
-        }
+        //        result.Bag = dbResult;
+        //        return result;
+        //    }
+        //}
 
         public OperationResponse<CustomerDeleteCommandOutputDTO> Delete(Customer entity)
         {

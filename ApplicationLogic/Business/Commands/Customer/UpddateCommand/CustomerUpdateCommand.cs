@@ -16,10 +16,39 @@ namespace ApplicationLogic.Business.Commands.Customer.UpdateCommand
 
         public OperationResponse<CustomerUpdateCommandOutputDTO> Execute(CustomerUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.Update(input);
+                var getByIdResult = this.Repository.GetById(input.Id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    getByIdResult.Bag.Name = input.Name;
+
+                    try
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.AddError("Error updating Product Color Type", ex);
+                    }
+
+                    getByIdResult = this.Repository.GetById(input.Id);
+                    result.AddResponse(getByIdResult);
+                    if (result.IsSucceed)
+                    {
+                        result.Bag = new CustomerUpdateCommandOutputDTO
+                        {
+                            Id = getByIdResult.Bag.Id,
+                            Name = getByIdResult.Bag.Name
+                        };
+                    }
+
+                }
             }
+
+            return result;
         }
     }
 }

@@ -16,10 +16,44 @@ namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.Update
 
         public OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Execute(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.Update(input);
+                var getByIdResult = this.Repository.GetById(input.Id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    getByIdResult.Bag.CustomerId = input.CustomerId;
+                    getByIdResult.Bag.ThirdPartyAppTypeId = input.ThirdPartyAppTypeId;
+                    getByIdResult.Bag.ThirdPartyCustomerId = input.ThirdPartyCustomerId;
+
+                    try
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.AddError("Error updating Product Color Type", ex);
+                    }
+
+                    getByIdResult = this.Repository.GetById(input.Id);
+                    result.AddResponse(getByIdResult);
+                    if (result.IsSucceed)
+                    {
+                        result.Bag = new CustomerThirdPartyAppSettingUpdateCommandOutputDTO
+                        {
+                            Id = getByIdResult.Bag.Id,
+                            CustomerId = getByIdResult.Bag.CustomerId,
+                            CustomerName = getByIdResult.Bag.Customer.Name,
+                            ThirdPartyAppTypeId = getByIdResult.Bag.ThirdPartyAppTypeId,
+                            ThirdPartyCustomerId = getByIdResult.Bag.ThirdPartyCustomerId,
+                        };
+                    }
+
+                }
             }
+
+            return result;
         }
     }
 }

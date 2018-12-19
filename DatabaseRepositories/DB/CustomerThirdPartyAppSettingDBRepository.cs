@@ -147,35 +147,35 @@ namespace DatabaseRepositories.DB
 
         }
 
-        public OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
-        {
-            var result = new OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO>();
-            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            {
-                var entity = dbLocator.Set<CustomerThirdPartyAppSetting>().FirstOrDefault(o => o.Id == input.Id);
-                if (entity != null)
-                {
-                    entity.CustomerId = input.CustomerId;
-                    entity.ThirdPartyAppTypeId = input.ThirdPartyAppTypeId;
-                    entity.ThirdPartyCustomerId = input.ThirdPartyCustomerId;
-                }
+        //public OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO> Update(CustomerThirdPartyAppSettingUpdateCommandInputDTO input)
+        //{
+        //    var result = new OperationResponse<CustomerThirdPartyAppSettingUpdateCommandOutputDTO>();
+        //    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+        //    {
+        //        var entity = dbLocator.Set<CustomerThirdPartyAppSetting>().FirstOrDefault(o => o.Id == input.Id);
+        //        if (entity != null)
+        //        {
+        //            entity.CustomerId = input.CustomerId;
+        //            entity.ThirdPartyAppTypeId = input.ThirdPartyAppTypeId;
+        //            entity.ThirdPartyCustomerId = input.ThirdPartyCustomerId;
+        //        }
 
-                dbLocator.SaveChanges();
+        //        dbLocator.SaveChanges();
 
 
-                var dbResult = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingUpdateCommandOutputDTO
-                {
-                    Id = o.Id,
-                    CustomerId = o.CustomerId,
-                    CustomerName = o.Customer.Name,
-                    ThirdPartyAppTypeId = o.ThirdPartyAppTypeId,
-                    ThirdPartyCustomerId = o.ThirdPartyCustomerId,
-                }).FirstOrDefault();
+        //        var dbResult = dbLocator.Set<CustomerThirdPartyAppSetting>().Where(o => o.Id == entity.Id).Select(o => new CustomerThirdPartyAppSettingUpdateCommandOutputDTO
+        //        {
+        //            Id = o.Id,
+        //            CustomerId = o.CustomerId,
+        //            CustomerName = o.Customer.Name,
+        //            ThirdPartyAppTypeId = o.ThirdPartyAppTypeId,
+        //            ThirdPartyCustomerId = o.ThirdPartyCustomerId,
+        //        }).FirstOrDefault();
 
-                result.Bag = dbResult;
-                return result;
-            }
-        }
+        //        result.Bag = dbResult;
+        //        return result;
+        //    }
+        //}
 
         public OperationResponse<CustomerThirdPartyAppSettingDeleteCommandOutputDTO> Delete(int id)
         {

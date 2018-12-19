@@ -24,10 +24,10 @@ namespace ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand
                 {
                     result.Bag = new ProductColorTypeGetByIdCommandOutputDTO
                     {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        HexCode = entityItem.HexCode,
-                        IsBasicColor = entityItem.IsBasicColor,
+                        Id = getByIdResult.Bag.Id,
+                        Name = getByIdResult.Bag.Name,
+                        HexCode = getByIdResult.Bag.HexCode,
+                        IsBasicColor = getByIdResult.Bag.IsBasicColor,
                     };
                 }
             }

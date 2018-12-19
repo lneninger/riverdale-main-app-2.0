@@ -24,7 +24,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse Insert(AbstractProduct entity);
 
-        OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
+        //OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
 
         OperationResponse Delete(AbstractProduct entity);
     }
