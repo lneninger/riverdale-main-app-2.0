@@ -36,17 +36,12 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<Customer>().AsEnumerable()/*.Select(entityItem => new CustomerGetAllCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        CreatedAt = entityItem.CreatedAt
-                    }).ToList()*/;
+                    result.Bag = dbLocator.Set<Customer>().AsEnumerable();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting all", ex);
+                result.AddException($"Error getting all Customer", ex);
             }
 
             return result;

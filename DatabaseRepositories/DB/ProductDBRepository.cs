@@ -32,25 +32,19 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>> GetAll()
+        public OperationResponse<IEnumerable<AbstractProduct>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<AbstractProduct>>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Select(entityItem => new ProductGetAllCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        CreatedAt = entityItem.CreatedAt
-
-                    }).ToList();
+                    result.Bag = dbLocator.Set<AbstractProduct>().AsEnumerable();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting all", ex);
+                result.AddException($"Error getting all Product", ex);
             }
 
             return result;

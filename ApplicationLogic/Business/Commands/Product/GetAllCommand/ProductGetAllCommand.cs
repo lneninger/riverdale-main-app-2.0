@@ -28,8 +28,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetAllCommand
                     {
                         Id = entityItem.Id,
                         Name = entityItem.Name,
-                        HexCode = entityItem.HexCode,
-                        IsBasicColor = entityItem.IsBasicColor,
+                        CreatedAt = entityItem.CreatedAt
 
                     }).ToList();
                 }

@@ -16,13 +16,13 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface IProductDBRepository: IDBRepository
     {
-        OperationResponse<IEnumerable<ProductGetAllCommandOutputDTO>> GetAll();
+        OperationResponse<IEnumerable<AbstractProduct>> GetAll();
 
         OperationResponse<PageResult<ProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductPageQueryCommandInputDTO> input);
 
         OperationResponse<DomainModel.Product.AbstractProduct> GetById(int id);
 
-        OperationResponse<ProductInsertCommandOutputDTO> Insert(ProductInsertCommandInputDTO input);
+        OperationResponse Insert(AbstractProduct entity);
 
         OperationResponse<ProductUpdateCommandOutputDTO> Update(ProductUpdateCommandInputDTO input);
 
