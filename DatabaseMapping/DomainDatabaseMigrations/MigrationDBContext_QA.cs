@@ -9,13 +9,13 @@ using System.Configuration;
 
 namespace DomainDatabaseMapping
 {
-    public class MigrationDBContext: RiverdaleDBContext
+    public class MigrationDBContext_QA: RiverdaleDBContext
     {
-        public MigrationDBContext(DbContextOptions options) : base(options)
+        public MigrationDBContext_QA(DbContextOptions options) : base(options)
         {
         }
 
-        public MigrationDBContext(): base()
+        public MigrationDBContext_QA(): base()
         {
         }
 
@@ -26,7 +26,7 @@ namespace DomainDatabaseMapping
 
             ////base.OnConfiguring(optionsBuilder);
             //optionsBuilder.UseSqlServer(connStr);
-            optionsBuilder.UseSqlServer("Data Source=(local)\\SQLEXPRESS;Initial Catalog=riverdale;Integrated Security=SSPI;Persist Security Info=False;MultipleActiveResultSets=True;Application Name=Riverdale2.0");
+            optionsBuilder.UseSqlServer("Data Source=198.38.92.253;Initial Catalog=riverdale_qa;User Id=riverdale_user;Password=riverdale_user1;MultipleActiveResultSets=True;Application Name=Riverdale2.0");
         }
     }
 }
