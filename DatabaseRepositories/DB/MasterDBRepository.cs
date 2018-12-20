@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using DomainModel.Identity;
 using Framework.Core.Messages;
+using DomainModel.Product;
 
 namespace DatabaseRepositories.DB
 {
@@ -99,6 +100,24 @@ namespace DatabaseRepositories.DB
                 using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
                 {
                     result.Bag = dbLocator.Set<AppUser>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting users", ex);
+            }
+            
+            return result;
+        }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductType()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+                {
+                    result.Bag = dbLocator.Set<ProductType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
                 }
             }
             catch (Exception ex)

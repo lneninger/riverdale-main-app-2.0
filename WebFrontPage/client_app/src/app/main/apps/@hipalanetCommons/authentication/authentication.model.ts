@@ -57,6 +57,18 @@ export class AuthenticationInfo {
     lastName: string;
     accessToken: string;
     pictureUrl: string;
-
     expiresAt: Date;
+    permissions: string[]
+    roles: string[]
+}
+
+
+export interface INavigationAccessRights {
+    permissions?: string[];
+    roles?: string[];
+    accessExtraFilter?: (AuthenticationInfo) => boolean;
+}
+
+export interface INavigationItem extends INavigationAccessRights {
+
 }
