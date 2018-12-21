@@ -1,8 +1,4 @@
-﻿//using ApplicationLogic.Business.Commands.AppUser.AuthenticateCommand;
-//using ApplicationLogic.Business.Commands.AppUser.AuthenticateCommand.Models;
-using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
-//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand.Models;
+﻿using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
 using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
 using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
