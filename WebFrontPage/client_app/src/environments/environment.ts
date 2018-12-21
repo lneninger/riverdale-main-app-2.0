@@ -5,14 +5,6 @@
 export const environment = {
     production: false,
     hmr: false,
-    firebase: {
-        apiKey: "AIzaSyCgVdtPw0go7eKPKadhBsbCH85GY6l91tE",
-        authDomain: "focus-notifications.firebaseapp.com",
-        databaseURL: "https://focus-notifications.firebaseio.com",
-        projectId: "focus-notifications",
-        storageBucket: "focus-notifications.appspot.com",
-        messagingSenderId: "95627638743"
-    },
     appApi: {
         apiProjectUrl: "https://localhost:5001/",
         apiBaseUrl: "https://localhost:5001/api/"

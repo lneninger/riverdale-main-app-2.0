@@ -1,9 +1,8 @@
-﻿import { Directive, AfterViewInit, OnInit, EventEmitter, TemplateRef, ViewContainerRef, Input, OnDestroy } from '@angular/core';
-import { Constants } from '../../shared/smartadmin.config';
+import { Directive, AfterViewInit, OnInit, EventEmitter, TemplateRef, ViewContainerRef, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from './authentication.service';
 import { Subscription } from 'rxjs/Subscription';
-import { AuthenticationTrackerService, INavigationAccessRights } from './authenticationtracker.service';
+import { INavigationAccessRights } from './authentication.model';
 
 @Directive({
     selector: '[access],[accessTest]'
@@ -41,13 +40,12 @@ export class AuthorizationAccessDirective implements OnInit, AfterViewInit, OnDe
         private templateRef: TemplateRef<any>
         , private viewContainer: ViewContainerRef
         , private authenticationService: AuthenticationService
-        , private authTrackerService: AuthenticationTrackerService
     ) {
-        console.log('directive authorization call');
+        //console.log('directive authorization call');
     }
 
     ngOnInit() {
-        this.authPermissionsSubscription = this.authTrackerService.authPermissionsEmmiter.subscribe(o => {
+        this.authPermissionsSubscription = this.authenticationService.onChangedUserInfo.subscribe(o => {
             this.execute();
         });
     }
@@ -88,7 +86,7 @@ export class AuthorizationAccessDirective implements OnInit, AfterViewInit, OnDe
         //}
 
         let requestedRights = <INavigationAccessRights>{ permissions: this._permissions, roles: this._roles, accesExtraFilter: this.accessExtraFilter };
-        let accessToView = this.authTrackerService.validateNavigationPermissions(requestedRights);
+        let accessToView = this.authenticationService.validateNavigationPermissions(requestedRights);
 
         if (this._reverse) {
             accessToView = !accessToView;

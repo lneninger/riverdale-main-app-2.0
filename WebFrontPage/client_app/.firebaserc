@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "focus-notifications"
+    "default": "focus-notifications",
+    "test": "riverdale-test"
   }
 }

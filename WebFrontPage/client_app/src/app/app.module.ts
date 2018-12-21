@@ -21,12 +21,12 @@ import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 
 /******************************Custom************************************/
-import { environment } from '../environments/environment';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+//import { environment } from '../environments/environment';
+//import { AngularFireModule } from '@angular/fire';
+//import { AngularFirestoreModule } from '@angular/fire/firestore';
+//import { AngularFireStorageModule } from '@angular/fire/storage';
+//import { AngularFireAuthModule } from '@angular/fire/auth';
+//import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 
 /******************************Authentication************************************/
@@ -95,11 +95,11 @@ const appRoutes: Routes = [
         , AppStoreModule
 
         // Custom
-        , AngularFireModule.initializeApp(environment.firebase)
-        , AngularFirestoreModule // imports firebase/firestore, only needed for database features
-        , AngularFireAuthModule // imports firebase/auth, only needed for auth features,
-        , AngularFireStorageModule // imports firebase/storage only needed for storage features
-        , AngularFireDatabaseModule // import firebase/database only needed for database features
+        //, AngularFireModule.initializeApp(environment.firebase)
+        //, AngularFirestoreModule // imports firebase/firestore, only needed for database features
+        //, AngularFireAuthModule // imports firebase/auth, only needed for auth features,
+        //, AngularFireStorageModule // imports firebase/storage only needed for storage features
+        //, AngularFireDatabaseModule // import firebase/database only needed for database features
 
         // Authentication
         , AuthenticationCoreModule
