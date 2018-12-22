@@ -52,6 +52,8 @@ export class Authenticate {
 }
 
 export class AuthenticationInfo {
+    email: string;
+    displayName: string;
     userName: string;
     firstName: string;
     lastName: string;

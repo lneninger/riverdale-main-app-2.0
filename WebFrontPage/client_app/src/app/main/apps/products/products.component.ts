@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
     products: any[];
 
     constructor(
-         private service: ProductService
+        private service: ProductService
         , private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
@@ -75,7 +75,7 @@ export class ProductsComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(ProductNewDialogComponent, {
             width: '60%',
-            data: {/* name: this.name, animal: this.animal */}
+            data: {/* name: this.name, animal: this.animal */ }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -114,7 +114,7 @@ export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
         return result;
     }
 
-   
+
 }
 
 
@@ -130,7 +130,7 @@ export class ProductNewDialogComponent {
         private service: ProductService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        ,public dialogRef: MatDialogRef<ProductNewDialogComponent>
+        , public dialogRef: MatDialogRef<ProductNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -152,6 +152,10 @@ export class ProductNewDialogComponent {
                 })
                 .catch(error => reject(error));
         });
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
     }
 
     create(): void {

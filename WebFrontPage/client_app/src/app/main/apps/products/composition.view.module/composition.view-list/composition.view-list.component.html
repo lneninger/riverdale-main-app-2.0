@@ -2,7 +2,7 @@
     <span class="no-todos-text hint-text">There are no todos!</span>
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
-    <todo-list-item class="todo-list-item has-handle"
+    <composition-view-list-item class="todo-list-item has-handle"
                     *ngFor="let todo of todos" [todo]="todo"
                     ngxDraggable
                     [model]="todo"
@@ -10,5 +10,5 @@
                     [ngClass]="{'current-todo':todo?.id == currentTodo?.id}"
                     matRipple
                     [@animate]="{value:'*',params:{y:'100%'}}">
-    </todo-list-item>
+    </composition-view-list-item>
 </div>

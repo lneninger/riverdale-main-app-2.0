@@ -32,9 +32,12 @@ namespace RiverdaleMainApp2_0
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
         public static IWebHostBuilder BuildWebHost(string[] args) =>
+
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
+                var logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                logger.Info("Initializing application configuration");
                 IHostingEnvironment env = hostingContext.HostingEnvironment;
 
                 config.SetBasePath(Directory.GetCurrentDirectory());
@@ -48,6 +51,9 @@ namespace RiverdaleMainApp2_0
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
+                var logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                logger.Info("Initializing application logging");
+
                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                 logging.AddConsole();
                 logging.AddDebug();

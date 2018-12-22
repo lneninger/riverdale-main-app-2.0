@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { ProductColorsComponent, ProductColorNewDialogComponent } from './productcolors.component';
+import { ProductColorComponent } from './productcolor.component';
 import { ProductColorCoreModule, ProductColorService } from './productcolor.core.module';
 
 import {
@@ -27,7 +28,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ProductColorsComponent
-        //, ProductColorComponent
+        , ProductColorComponent
         , ProductColorNewDialogComponent
         
     ],

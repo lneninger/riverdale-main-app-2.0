@@ -13,6 +13,7 @@ export class ProductColor
     name: string;
     hexCode: string;
     isBunchColor: boolean;
+    images: any[];
 
     /**
      * Constructor
@@ -25,5 +26,6 @@ export class ProductColor
         this.name = (input || {}).name;
         this.hexCode = (input || {}).hexCode;
         this.isBunchColor = (input || {}).isBunchColor;
+        this.images = (input || {}).images;
     }
 }

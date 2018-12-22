@@ -33,6 +33,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Framework.Web.Security;
 using Framework.EF.DbContextImpl;
+using Framework.Logging.Log4Net;
 
 namespace RiverdaleMainApp2_0
 {
@@ -41,6 +42,8 @@ namespace RiverdaleMainApp2_0
     /// </summary>
     public class Startup
     {
+        static LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -49,6 +52,7 @@ namespace RiverdaleMainApp2_0
         {
             Configuration = configuration;
             this.ConnectionString = Configuration.GetConnectionString("RiverdaleModel");
+            Logger.Info($"Main Database Connection - RiverdaleModel: {this.ConnectionString}");
 
         }
 
@@ -79,37 +83,53 @@ namespace RiverdaleMainApp2_0
         /// <returns></returns>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
-
-            services.AddElmah(options =>
+            //var logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            Logger.Info("Application startup - Initializing the Infra Services Configuration");
+            try
             {
-                //services.AddElmah(options => option.Path = "you_path_here")
-                //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
-            });
 
-            services.AddCors(builder =>
+                //services.Configure<CookiePolicyOptions>(options =>
+                //{
+                //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                //    options.CheckConsentNeeded = context => true;
+                //    options.MinimumSameSitePolicy = SameSiteMode.None;
+                //});
+
+                services.AddElmah(options =>
+                {
+                    //services.AddElmah(options => option.Path = "you_path_here")
+                    //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
+                });
+
+                services.AddCors(builder =>
+                {
+                    //options.AddPolicy("AllowSpecificOrigin",
+                    //    builder => builder.WithOrigins("http://example.com"));
+                });
+
+                this.ConfigureAuthenticationServices(services);
+
+
+                services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+                services.AddSignalR();
+
+                services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
+
+                return IoCConfig.Init(Configuration, services);
+            }
+            catch (Exception ex)
             {
-                //options.AddPolicy("AllowSpecificOrigin",
-                //    builder => builder.WithOrigins("http://example.com"));
-            });
-
-            this.ConfigureAuthenticationServices(services);
-
-
-            services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
-
-            services.AddSignalR();
-
-            services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
-
-            return IoCConfig.Init(Configuration, services);
+                Logger.Fatal("Application startup - Execption on Infra Services Configuration", ex);
+                throw;
+            }
+            finally
+            {
+                Logger.Info("Application startup - Ending the Infra Services Configuration");
+                Logger.FlushBuffers();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.        
@@ -120,203 +140,246 @@ namespace RiverdaleMainApp2_0
         /// <param name="env">The env.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            try
             {
-                app.UseDeveloperExceptionPage();
+                Logger.Info("Application startup - Initializing the Infra Application Configuration");
+
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+
+                app.UseElmah();
+
+                // Shows UseCors with CorsPolicyBuilder.
+                app.UseCors(builder => builder
+                    .WithOrigins("*")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+               );
+
+                app.UseSignalR(routes =>
+                {
+                    routes.MapHub<GlobalHub>("/hub");
+                });
+
+                app.UseTempFileMiddleware();
+
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+
+                app.UseAuthentication();
+                app.UseMvc();
+
+
+                var securitySeedAsync = this.SecuritySeed().ConfigureAwait(false);
+                securitySeedAsync.GetAwaiter().GetResult();
             }
-
-            app.UseElmah();
-
-            // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder => builder
-                .WithOrigins("*")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-           );
-
-            app.UseSignalR(routes =>
+            catch (Exception ex)
             {
-                routes.MapHub<GlobalHub>("/hub");
-            });
-
-            app.UseTempFileMiddleware();
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseAuthentication();
-            app.UseMvc();
-
-
-            var securitySeedAsync = this.SecuritySeed().ConfigureAwait(false);
-            securitySeedAsync.GetAwaiter().GetResult();
+                Logger.Fatal("Application startup - Execption on Infra Application Configuration", ex);
+            }
+            finally
+            {
+                Logger.Info("Application startup - Ending the Infra Application Configuration");
+                Logger.FlushBuffers();
+            }
         }
 
 
         private void ConfigureAuthenticationServices(IServiceCollection services)
         {
-            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IJwtFactory, JwtFactory>();
-
-            // jwt wire up
-            // Get options from app settings
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-
-            // Configure JwtIssuerOptions
-            services.Configure<JwtIssuerOptions>(options =>
+            try
             {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-            });
+                Logger.Info("Application startup - Initializing the Infra Authentication/Authorization Configuration");
 
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+                services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+                services.AddSingleton<IJwtFactory, JwtFactory>();
 
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                // jwt wire up
+                // Get options from app settings
+                var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
-
-                RequireExpirationTime = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
-            {
-                configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                configureOptions.TokenValidationParameters = tokenValidationParameters;
-                configureOptions.RequireHttpsMetadata = false;
-                configureOptions.SaveToken = true;
-                configureOptions.Events = new JwtBearerEvents
+                // Configure JwtIssuerOptions
+                services.Configure<JwtIssuerOptions>(options =>
                 {
-                    OnTokenValidated = context =>
-                    {
-                        // Add the access_token as a claim, as we may actually need it
-                        var accessToken = context.SecurityToken as JwtSecurityToken;
-                        if (accessToken != null)
-                        {
-                            ClaimsIdentity identity = context.Principal.Identity as ClaimsIdentity;
-                            if (identity != null)
-                            {
-                                identity.AddClaim(new Claim("access_token", accessToken.RawData));
-                            }
-
-                            // Set Current User
-                            var idClaim = identity.FindFirst("id");
-                            if (idClaim != null)
-                            {
-                                // get claim containing user id
-                                var id = idClaim.Value;
-                                using (var currentUserService = IoCGlobal.Resolve<ICurrentUserService>())
-                                {
-                                    currentUserService.CurrentUserId = id;
-                                }
-                            }
-                        }
-
-                        return Task.CompletedTask;
-                    }
-                };
-            });
-
-            // api user claim policy
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-                options.AddPolicy(nameof(Constants.Strings.JwtClaims.Administrator), policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.Administrator));
-
-                var permissionNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
-                PolicyPermissionRequired.BuildPolicies(options, permissionNames);
-
-            });
-
-            // add identity
-            var builder = services.AddIdentityCore<AppUser>
-                (o =>
-                {
-                    // configure identity options
-                    o.Password.RequireDigit = false;
-                    o.Password.RequireLowercase = false;
-                    o.Password.RequireUppercase = false;
-                    o.Password.RequireNonAlphanumeric = false;
-                    o.Password.RequiredLength = 6;
+                    options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                    options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                    options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
                 });
 
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
 
-            builder.AddRoleValidator<RoleValidator<IdentityRole>>();
-            builder.AddRoleManager<RoleManager<IdentityRole>>();
-            builder.AddSignInManager<SignInManager<AppUser>>();
+                    ValidateAudience = true,
+                    ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
-            builder.AddEntityFrameworkStores<IdentityDBContext>()
-            .AddDefaultTokenProviders();
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = _signingKey,
+
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+                }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
+                {
+                    configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                    configureOptions.TokenValidationParameters = tokenValidationParameters;
+                    configureOptions.RequireHttpsMetadata = false;
+                    configureOptions.SaveToken = true;
+                    configureOptions.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = context =>
+                        {
+                            // Add the access_token as a claim, as we may actually need it
+                            var accessToken = context.SecurityToken as JwtSecurityToken;
+                            if (accessToken != null)
+                            {
+                                ClaimsIdentity identity = context.Principal.Identity as ClaimsIdentity;
+                                if (identity != null)
+                                {
+                                    identity.AddClaim(new Claim("access_token", accessToken.RawData));
+                                }
+
+                                // Set Current User
+                                var idClaim = identity.FindFirst("id");
+                                if (idClaim != null)
+                                {
+                                    // get claim containing user id
+                                    var id = idClaim.Value;
+                                    using (var currentUserService = IoCGlobal.Resolve<ICurrentUserService>())
+                                    {
+                                        currentUserService.CurrentUserId = id;
+                                    }
+                                }
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+                // api user claim policy
+                services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                    options.AddPolicy(nameof(Constants.Strings.JwtClaims.Administrator), policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.Administrator));
+
+                    var permissionNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
+                    PolicyPermissionRequired.BuildPolicies(options, permissionNames);
+
+                });
+
+                // add identity
+                var builder = services.AddIdentityCore<AppUser>
+                    (o =>
+                    {
+                        // configure identity options
+                        o.Password.RequireDigit = false;
+                        o.Password.RequireLowercase = false;
+                        o.Password.RequireUppercase = false;
+                        o.Password.RequireNonAlphanumeric = false;
+                        o.Password.RequiredLength = 6;
+                    });
+
+                builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+
+                builder.AddRoleValidator<RoleValidator<IdentityRole>>();
+                builder.AddRoleManager<RoleManager<IdentityRole>>();
+                builder.AddSignInManager<SignInManager<AppUser>>();
+
+                builder.AddEntityFrameworkStores<IdentityDBContext>()
+                .AddDefaultTokenProviders();
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal("Application startup - Execption on Infra Authentication/Authorization Configuration", ex);
+            }
+            finally
+            {
+                Logger.Info("Application startup - Ending the Infra Authentication/Authorization Configuration");
+                Logger.FlushBuffers();
+            }
         }
 
 
 
         private async Task SecuritySeed()
         {
-            var adminUserName = "admin";
-            var adminFirstName = "Administrator";
-            var adminLastName = "Administrator";
-            var adminUserEmail = "admin@riverdale.com";
-            var adminUserPassword = "r1v3rdal3";
-
-            var adminRoleName = "Administrator";
-
-
-
-            using (var userManager = IoCGlobal.Resolve<UserManager<AppUser>>())
+            try
             {
-                using (var roleManager = IoCGlobal.Resolve<RoleManager<IdentityRole>>())
+                Logger.Info("Application startup - Initializing the Authentication Seeding for Administration user");
+
+                var adminUserName = "admin";
+                var adminFirstName = "Administrator";
+                var adminLastName = "Administrator";
+                var adminUserEmail = "admin@riverdale.com";
+                var adminUserPassword = "r1v3rdal3";
+
+                var adminRoleName = "Administrator";
+
+
+
+                using (var userManager = IoCGlobal.Resolve<UserManager<AppUser>>())
                 {
-
-                    var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
-                    if (adminUser == null)
+                    using (var roleManager = IoCGlobal.Resolve<RoleManager<IdentityRole>>())
                     {
-                        var newAdminUser = new AppUser
+
+                        var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                        if (adminUser == null)
                         {
-                            UserName = adminUserName,
-                            FirstName = adminFirstName,
-                            LastName = adminLastName,
-                            Email = adminUserEmail,
-                        };
-                        await userManager.CreateAsync(newAdminUser, adminUserPassword);
-                        adminUser = await userManager.FindByEmailAsync(adminUserEmail);
-                    }
+                            var newAdminUser = new AppUser
+                            {
+                                UserName = adminUserName,
+                                FirstName = adminFirstName,
+                                LastName = adminLastName,
+                                Email = adminUserEmail,
+                            };
+                            await userManager.CreateAsync(newAdminUser, adminUserPassword);
+                            adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                        }
 
-                    var adminRole = await roleManager.FindByNameAsync(adminRoleName);
-                    if (adminRole == null)
-                    {
-                        var newAdminRole = new IdentityRole
+                        var adminRole = await roleManager.FindByNameAsync(adminRoleName);
+                        if (adminRole == null)
                         {
-                            Name = adminRoleName,
-                        };
+                            var newAdminRole = new IdentityRole
+                            {
+                                Name = adminRoleName,
+                            };
 
-                        await roleManager.CreateAsync(newAdminRole);
-                        adminRole = await roleManager.FindByNameAsync(adminRoleName);
+                            await roleManager.CreateAsync(newAdminRole);
+                            adminRole = await roleManager.FindByNameAsync(adminRoleName);
+                        }
+
+                        await userManager.AddToRoleAsync(adminUser, adminRoleName);
+                        var roleClaims = (await roleManager.GetClaimsAsync(adminRole)).Select(o => o.Value);
+                        var claimNames = Enum.GetNames(typeof(PermissionsEnum.Enum)).Except(roleClaims);
+                        foreach (var permission in claimNames)
+                        {
+                            await roleManager.AddClaimAsync(adminRole, new Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, permission));
+                        }
                     }
 
-                    await userManager.AddToRoleAsync(adminUser, adminRoleName);
-                    var roleClaims = (await roleManager.GetClaimsAsync(adminRole)).Select(o => o.Value);
-                    var claimNames = Enum.GetNames(typeof(PermissionsEnum.Enum)).Except(roleClaims);
-                    foreach (var permission in claimNames)
-                    {
-                        await roleManager.AddClaimAsync(adminRole, new Claim(RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions, permission));
-                    }
+
                 }
-
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal("Application startup - Execption on Authentication Seeding for Administration user", ex);
+            }
+            finally
+            {
+                Logger.Info("Application startup - Ending the Authentication Seeding for Administration user");
+                Logger.FlushBuffers();
             }
         }
     }

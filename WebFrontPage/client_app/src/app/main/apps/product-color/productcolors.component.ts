@@ -175,8 +175,20 @@ export class ProductColorNewDialogComponent {
         });
     }
 
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
     create(): void {
         this.save().then(res => {
+            this.dialogRef.close();
+        });
+    }
+
+    createEdit(): void {
+        this.save().then((res: ProductColor) => {
+            this.service.router.navigate([`apps/product-colors/${res.id}`]);
             this.dialogRef.close();
         });
     }

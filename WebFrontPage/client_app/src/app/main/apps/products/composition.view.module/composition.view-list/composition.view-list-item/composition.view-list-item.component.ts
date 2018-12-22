@@ -1,17 +1,17 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Todo } from 'app/main/apps/todo/todo.model';
-import { TodoService } from 'app/main/apps/todo/todo.service';
+import { Todo } from '../../composition.view.model';
+import { CompositionViewService } from '../../composition.view.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector     : 'todo-list-item',
-    templateUrl  : './todo-list-item.component.html',
-    styleUrls    : ['./todo-list-item.component.scss'],
+    selector: 'composition-view-list-item',
+    templateUrl: './composition.view-list-item.component.html',
+    styleUrls: ['./composition.view-list-item.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class TodoListItemComponent implements OnInit, OnDestroy
+export class CompositionViewListItemComponent implements OnInit, OnDestroy
 {
     tags: any[];
 
@@ -37,7 +37,7 @@ export class TodoListItemComponent implements OnInit, OnDestroy
      * @param {ActivatedRoute} _activatedRoute
      */
     constructor(
-        private _todoService: TodoService,
+        private _todoService: CompositionViewService,
         private _activatedRoute: ActivatedRoute
     )
     {

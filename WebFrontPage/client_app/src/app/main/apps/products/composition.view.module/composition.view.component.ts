@@ -6,17 +6,17 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { Todo } from 'app/main/apps/todo/todo.model';
-import { TodoService } from 'app/main/apps/todo/todo.service';
+import { Todo } from './composition.view.model';
+import { CompositionViewService } from './composition.view.service';
 
 @Component({
-    selector     : 'todo',
-    templateUrl  : './todo.component.html',
-    styleUrls    : ['./todo.component.scss'],
+    selector: 'composition-view',
+    templateUrl: './composition.view.component.html',
+    styleUrls: ['./composition.view.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class TodoComponent implements OnInit, OnDestroy
+export class CompositionViewComponent implements OnInit, OnDestroy
 {
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
@@ -36,7 +36,7 @@ export class TodoComponent implements OnInit, OnDestroy
      */
     constructor(
         private _fuseSidebarService: FuseSidebarService,
-        private _todoService: TodoService
+        private _todoService: CompositionViewService
     )
     {
         // Set the defaults

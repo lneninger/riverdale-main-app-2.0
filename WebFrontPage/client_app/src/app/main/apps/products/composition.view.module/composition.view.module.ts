@@ -8,54 +8,54 @@ import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
 
-import { TodoService } from 'app/main/apps/todo/todo.service';
-import { TodoComponent } from 'app/main/apps/todo/todo.component';
-import { TodoMainSidebarComponent } from 'app/main/apps/todo/sidebars/main/main-sidebar.component';
-import { TodoListItemComponent } from 'app/main/apps/todo/todo-list/todo-list-item/todo-list-item.component';
-import { TodoListComponent } from 'app/main/apps/todo/todo-list/todo-list.component';
-import { TodoDetailsComponent } from 'app/main/apps/todo/todo-details/todo-details.component';
+import { CompositionViewService } from './composition.view.service';
+import { CompositionViewComponent } from './composition.view.component';
+import { TodoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
+import { CompositionViewListItemComponent } from './composition.view-list/composition.view-list-item/composition.view-list-item.component';
+import { CompositionViewListComponent } from './composition.view-list/composition.view-list.component';
+import { CompositionViewDetailsComponent } from './composition.view-details/composition.view-details.component';
 
 const routes: Routes = [
     {
         path     : 'all',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
         path     : 'all/:todoId',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
         path     : 'tag/:tagHandle',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
         path     : 'tag/:tagHandle/:todoId',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
         path     : 'filter/:filterHandle',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
         path     : 'filter/:filterHandle/:todoId',
-        component: TodoComponent,
+        component: CompositionViewComponent,
         resolve  : {
-            todo: TodoService
+            todo: CompositionViewService
         }
     },
     {
@@ -66,11 +66,11 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        TodoComponent,
+        CompositionViewComponent,
         TodoMainSidebarComponent,
-        TodoListItemComponent,
-        TodoListComponent,
-        TodoDetailsComponent
+        CompositionViewListItemComponent,
+        CompositionViewListComponent,
+        CompositionViewDetailsComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -91,7 +91,7 @@ const routes: Routes = [
         FuseSidebarModule
     ],
     providers   : [
-        TodoService
+        CompositionViewService
     ]
 })
 export class TodoModule

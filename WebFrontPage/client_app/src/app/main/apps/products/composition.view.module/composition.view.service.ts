@@ -6,10 +6,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { Todo } from 'app/main/apps/todo/todo.model';
+import { Todo } from './composition.view.model';
 
 @Injectable()
-export class TodoService implements Resolve<any>
+export class CompositionViewService implements Resolve<any>
 {
     todos: Todo[];
     selectedTodos: Todo[];

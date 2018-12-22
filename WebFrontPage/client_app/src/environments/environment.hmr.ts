@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     hmr: true,
     appApi: {
         apiProjectUrl: "https://riverdaleapitest.hipalanet.com/",

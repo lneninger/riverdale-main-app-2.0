@@ -6,17 +6,17 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { FuseUtils } from '@fuse/utils';
 import { fuseAnimations } from '@fuse/animations';
 
-import { Todo } from 'app/main/apps/todo/todo.model';
-import { TodoService } from 'app/main/apps/todo/todo.service';
+import { Todo } from '../composition.view.model';
+import { CompositionViewService } from '../composition.view.service';
 
 @Component({
-    selector     : 'todo-details',
-    templateUrl  : './todo-details.component.html',
-    styleUrls    : ['./todo-details.component.scss'],
+    selector: 'composition-view-details',
+    templateUrl: './composition.view-details.component.html',
+    styleUrls: ['./composition.view-details.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class TodoDetailsComponent implements OnInit, OnDestroy
+export class CompositionViewDetailsComponent implements OnInit, OnDestroy
 {
     todo: Todo;
     tags: any[];
@@ -36,7 +36,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        private _todoService: TodoService,
+        private _todoService: CompositionViewService,
         private _formBuilder: FormBuilder
     )
     {

@@ -7,8 +7,21 @@
     <Configurations>Debug;Release;QA</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+  </PropertyGroup>
+
+  <!--Tool to enable web.config transformations. Added manually. Dont use Nuget. After include lines below run 'dotnet restore' and 'dotnet build' at project folder-->
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.1\FocusAIRemote.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='QA|AnyCPU'">
+    <PlatformTarget></PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,10 +29,6 @@
     <Content Remove="Pages\**" />
     <EmbeddedResource Remove="Pages\**" />
     <None Remove="Pages\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="web.config" />
   </ItemGroup>
 
   <ItemGroup>

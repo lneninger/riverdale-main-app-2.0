@@ -5,18 +5,18 @@ import { Subject } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { Todo } from 'app/main/apps/todo/todo.model';
-import { TodoService } from 'app/main/apps/todo/todo.service';
+import { Todo } from '../composition.view.model';
+import { CompositionViewService } from '../composition.view.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector     : 'todo-list',
-    templateUrl  : './todo-list.component.html',
-    styleUrls    : ['./todo-list.component.scss'],
+    selector: 'composition-view-list',
+    templateUrl: './composition.view-list.component.html',
+    styleUrls: ['./composition.view-list.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class TodoListComponent implements OnInit, OnDestroy
+export class CompositionViewListComponent implements OnInit, OnDestroy
 {
     todos: Todo[];
     currentTodo: Todo;
@@ -33,7 +33,7 @@ export class TodoListComponent implements OnInit, OnDestroy
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
-        private _todoService: TodoService,
+        private _todoService: CompositionViewService,
         private _location: Location
     )
     {

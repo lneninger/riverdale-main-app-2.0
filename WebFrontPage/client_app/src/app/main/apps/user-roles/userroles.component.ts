@@ -28,7 +28,7 @@ import { UserRoleService } from './userrole.service';
 })
 export class UserRolesComponent implements OnInit {
     dataSource: UserRolesDataSource | null;
-    displayedColumns = ['name',  'options'];
+    displayedColumns = ['name', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -47,7 +47,7 @@ export class UserRolesComponent implements OnInit {
     userRoles: any[];
 
     constructor(
-         private service: UserRoleService
+        private service: UserRoleService
         , private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
@@ -74,7 +74,7 @@ export class UserRolesComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(UserRoleNewDialogComponent, {
             width: '60%',
-            data: {/* name: this.name, animal: this.animal */}
+            data: {/* name: this.name, animal: this.animal */ }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -127,7 +127,7 @@ export class UserRoleNewDialogComponent {
         private service: UserRoleService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        ,public dialogRef: MatDialogRef<UserRoleNewDialogComponent>
+        , public dialogRef: MatDialogRef<UserRoleNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -149,6 +149,10 @@ export class UserRoleNewDialogComponent {
                 })
                 .catch(error => reject(error));
         });
+    }
+
+    cancel(): void {
+        this.dialogRef.close();
     }
 
     create(): void {

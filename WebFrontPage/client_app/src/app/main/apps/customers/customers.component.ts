@@ -152,6 +152,11 @@ export class CustomerNewDialogComponent {
         });
     }
 
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+
     create(): void {
         this.save().then(res => {
             this.dialogRef.close();

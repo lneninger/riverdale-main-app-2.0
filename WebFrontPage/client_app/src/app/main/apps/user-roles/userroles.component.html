@@ -51,7 +51,7 @@
                        matSort
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
-                
+
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
@@ -78,7 +78,7 @@
                         <p class="text-truncate">{{item.createdAt | date}}</p>
                     </mat-cell>
                 </ng-container>
-               
+
                 <!-- Price Column -->
                 <ng-container matColumnDef="price">
                     <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Price</mat-header-cell>
@@ -125,11 +125,17 @@
             </mat-table>
 
             <mat-paginator #paginator
-                           [length]="dataSource.filteredCount"
                            [pageIndex]="0"
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 25, 100]">
             </mat-paginator>
+
+            <!--<mat-paginator #paginator
+                   [length]="dataSource.filteredCount"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>-->
 
         </div>
         <!-- / CONTENT CARD -->

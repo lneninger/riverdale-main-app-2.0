@@ -195,6 +195,10 @@ export class UserNewDialogComponent {
         });
     }
 
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
     create(): void {
         this.save().then(res => {
             this.dialogRef.close();

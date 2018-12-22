@@ -1,4 +1,6 @@
 ﻿using log4net;
+using log4net.Appender;
+using log4net.Repository.Hierarchy;
 using System;
 
 namespace Framework.Logging.Log4Net
@@ -180,6 +182,24 @@ namespace Framework.Logging.Log4Net
             Global,
             Thread,
             LogicalThread
+        }
+
+
+        public void FlushBuffers()
+        {
+            ILog log = this.InternalLog;// LogManager.GetLogger("whatever");
+            var logger = log.Logger as Logger;
+            if (logger != null)
+            {
+                foreach (IAppender appender in logger.Appenders)
+                {
+                    var buffered = appender as BufferingAppenderSkeleton;
+                    if (buffered != null)
+                    {
+                        buffered.Flush();
+                    }
+                }
+            }
         }
     }
 }
