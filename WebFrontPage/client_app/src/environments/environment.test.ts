@@ -10,7 +10,7 @@ export const environment = {
     //    messagingSenderId: "95627638743"
     //}
     appApi: {
-        apiProjectUrl: "https://riverdaleapi.hipalanet.com/",
-        apiBaseUrl: "https://riverdaleapi.hipalanet.com/api/"
+        apiProjectUrl: "https://riverdaleapitest.hipalanet.com/",
+        apiBaseUrl: "https://riverdaleapitest.hipalanet.com/api/"
     }
 };

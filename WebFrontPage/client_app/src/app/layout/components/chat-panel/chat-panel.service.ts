@@ -6,9 +6,10 @@ import { FuseUtils } from '@fuse/utils';
 
 /*Notifcation Module*/
 import { NotificationModule, NotificationGroupService, IFocusNotificationOptions, NotificationGroupClient, OnChannelNotificationEventArgs } from 'hipalanet-notificationsjs';
+import { AuthenticationService, AuthenticationInfo } from '../../../main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
 /*************************Custom***********************************/
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable()
 export class ChatPanelService {
@@ -49,18 +50,19 @@ export class ChatPanelService {
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private auth: AngularFireAuth
+        private auth: AuthenticationService
+        //private auth: AngularFireAuth
         , private _httpClient: HttpClient
         , private ngZone: NgZone
     ) {
 
         /*Notifcation Module*/
 
-        this.auth.auth.onAuthStateChanged(user => {
+        this.auth.onChangedUserInfo.subscribe((user: AuthenticationInfo) => {
             this.user = user;
             if (this.user) {
                 let option: IFocusNotificationOptions = {
-                    clientInfo: { clientId: user.email, pictureUrl: user.photoURL }
+                    clientInfo: { clientId: user.email, pictureUrl: user.pictureUrl }
                 };
 
                 //debugger;
@@ -88,6 +90,40 @@ export class ChatPanelService {
                 });
             }
         });
+
+
+        //this.auth.auth.onAuthStateChanged(user => {
+        //    this.user = user;
+        //    if (this.user) {
+        //        let option: IFocusNotificationOptions = {
+        //            clientInfo: { clientId: user.email, pictureUrl: user.photoURL }
+        //        };
+
+        //        //debugger;
+        //        this.notifcationModule = new NotificationModule('intance0', '-LPwbRsfymRP688W6ony', option);
+        //        this.notifcationModule.onInitialized.subscribe(res => {
+        //            console.log(`ChatPanelService: Notification Module Initialized!! Chat Groups  Amount: ${this.notifcationModule.notificationGroups.length}`);
+        //            this.chatInitialized = true;
+        //            this._chatGroup = this.notifcationModule.notificationGroups[0];
+        //            this._chatGroup.onClientConnected.subscribe(client => {
+        //                this.ngZone.run(() => { });
+        //            });
+
+        //            this._chatGroup.onChannelNotification.subscribe((args: OnChannelNotificationEventArgs) => {
+        //                if (args.direction == 'received') {
+        //                    if (!this.selectedContact || this.selectedContact.clientIdentifier != args.notificationChannelService.client.clientIdentifier) {
+        //                        args.notificationChannelService.client.unreadMessages += (!args.channelNotification.read);
+        //                    }
+        //                    else {
+        //                        args.notificationChannelService.setMessageAsRead(args.channelNotification.key);
+        //                    }
+        //                }
+
+        //                this.ngZone.run(() => { });
+        //            });
+        //        });
+        //    }
+        //});
 
 
     }

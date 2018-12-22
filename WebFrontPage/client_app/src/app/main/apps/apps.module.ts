@@ -54,12 +54,11 @@ const routes = [
     {
         path        : 'scrumboard',
         loadChildren: './scrumboard/scrumboard.module#ScrumboardModule'
-    }
-    ,
-    {
-        path: 'notification-groups',
-        loadChildren: './notification-groups/notificationgroups.module#NotificationGroupsModule'
     },
+    //{
+    //    path: 'notification-groups',
+    //    loadChildren: './notification-groups/notificationgroups.module#NotificationGroupsModule'
+    //},
     {
         path: 'customers',
         loadChildren: './customers/customers.module#CustomersModule'

@@ -11,7 +11,7 @@ import { navigation } from 'app/navigation/navigation';
 
 /*************************Custom***********************************/
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService, AuthenticationInfo } from '../../../main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
@@ -55,7 +55,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService
         , private _fuseSidebarService: FuseSidebarService
         , private _translateService: TranslateService
-        , private auth: AngularFireAuth
+        //, private auth: AngularFireAuth
         , private router: Router
         , private authenticationService: AuthenticationService
     ) {
@@ -148,7 +148,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     logout() {
-        this.auth.auth.signOut().then(
+        this.authenticationService.logout().then(
             res => {
                 this.router.navigate(['pages/auth/login-2']);
             },
@@ -157,6 +157,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             }
         )
     }
+
+
+    //logout() {
+    //    this.auth.auth.signOut().then(
+    //        res => {
+    //            this.router.navigate(['pages/auth/login-2']);
+    //        },
+    //        error => {
+
+    //        }
+    //    )
+    //}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods

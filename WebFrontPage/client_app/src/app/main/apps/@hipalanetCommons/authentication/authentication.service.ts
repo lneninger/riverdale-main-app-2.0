@@ -64,6 +64,12 @@ export class AuthenticationService {
         });
     }
 
+    logout(): Promise<boolean> {
+        this.accessToken = null;
+        this.userData = null;
+        return of(true).toPromise();
+    }
+
     isAuthenticated(): any {
         // debugger;
         let userDataObservable = of((this.userData || null))

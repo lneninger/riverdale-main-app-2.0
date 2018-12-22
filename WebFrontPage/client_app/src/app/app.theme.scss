@@ -94,7 +94,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/scrumboard/scrumboard.theme";
 @import "src/app/main/apps/todo/todo.theme";
 
-@import "src/app/main/apps/notification-groups/notificationgroups.theme";
+/*@import "src/app/main/apps/notification-groups/notificationgroups.theme";*/
 @import "src/app/main/apps/customers/customers.theme";
 @import "src/app/main/apps/product-color/productcolors.theme";
 @import "src/app/main/apps/products/products.theme";
@@ -149,7 +149,7 @@ $typography: mat-typography-config(
     @include mail-ngrx-theme($theme);
     @include scrumboard-theme($theme);
     @include todo-theme($theme);
-    @include notification-groups-theme($theme);
+    /*@include notification-groups-theme($theme);*/
     @include customers-theme($theme);
     @include product-colors-theme($theme);
     @include users-theme($theme);

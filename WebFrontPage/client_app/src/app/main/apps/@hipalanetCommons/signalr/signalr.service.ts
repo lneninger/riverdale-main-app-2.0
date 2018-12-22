@@ -5,7 +5,10 @@ import { SignalR, ISignalRConnection, BroadcastEventListener } from 'ng2-signalr
 //import { UserActiveService } from './useractive.service';
 import { IConnectionOptions } from 'ng2-signalr/src/services/connection/connection.options';
 
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { UserInfo } from 'firebase';
+import { AuthenticationInfo } from '../authentication/authentication.model';
 
 declare var $: any;
 
@@ -23,7 +26,8 @@ export class SignalRService {
     constructor(
         public signalR: SignalR
         //, private authenticationTrackerService: AuthenticationTrackerService
-        , private auth: AngularFireAuth
+        , private authenticationService: AuthenticationService
+        //, private auth: AngularFireAuth
     ) {
         this.setAuthentication();
 
@@ -35,22 +39,36 @@ export class SignalRService {
         //    this.profileChanged(profile);
         //});
 
-        this.auth.auth.onAuthStateChanged(user => {
+        this.authenticationService.onChangedUserInfo.subscribe((user: AuthenticationInfo) => {
             this.profileChanged(user);
         });
+
+        //this.auth.auth.onAuthStateChanged(user => {
+        //    this.profileChanged(user);
+        //});
 
         //this.profileChanged(this.authenticationTrackerService.authData);
     }
 
-    profileChanged(profile) {
+    profileChanged(profile: AuthenticationInfo) {
         //debugger;
         if (profile/* && this.authenticationTrackerService.isAuthenticated()*/) {
-            this.updateAuthorization(profile.uid/*profile.accessToken*/);
+            this.updateAuthorization(profile.accessToken/*profile.accessToken*/);
             if (!this.connection) {
-                this.createConnection(profile.uid/*profile.accessToken*/);
+                this.createConnection(profile.accessToken/*profile.accessToken*/);
             }
         }
     }
+
+    //profileChanged(profile) {
+    //    //debugger;
+    //    if (profile/* && this.authenticationTrackerService.isAuthenticated()*/) {
+    //        this.updateAuthorization(profile.uid/*profile.accessToken*/);
+    //        if (!this.connection) {
+    //            this.createConnection(profile.uid/*profile.accessToken*/);
+    //        }
+    //    }
+    //}
 
     private setAuthentication() {
         // Set auth headers.

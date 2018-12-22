@@ -8,7 +8,7 @@ import { FuseNavigationService } from '@fuse/components/navigation/navigation.se
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 /*************************Custom***********************************/
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService, AuthenticationInfo } from '../../../../../main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
@@ -50,7 +50,8 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         , private _fuseNavigationService: FuseNavigationService
         , private _fuseSidebarService: FuseSidebarService
         , private _router: Router
-        , private auth: AngularFireAuth
+        //, private auth: AuthenticationService
+        //, private auth: AngularFireAuth
         , private authenticationService: AuthenticationService
     )
     {

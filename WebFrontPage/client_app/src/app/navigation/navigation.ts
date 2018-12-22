@@ -48,14 +48,14 @@ export const navigation: FuseNavigation[] = [
                 icon: 'starts',
                 url: '/apps/opportunities'
             },
-            {
-                id: '',
-                title: 'Recepies',
-                translate: 'NAV.RECIPIES',
-                type: 'item',
-                icon: 'local_florist',
-                url: '/apps/notification-groups'
-            },
+            //{
+            //    id: '',
+            //    title: 'Recepies',
+            //    translate: 'NAV.RECIPIES',
+            //    type: 'item',
+            //    icon: 'local_florist',
+            //    url: '/apps/notification-groups'
+            //},
             {
                 id: '',
                 title: 'Quotes',
