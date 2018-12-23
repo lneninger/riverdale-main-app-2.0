@@ -9,8 +9,7 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 @Injectable()
 export class PermissionResolveService extends BaseResolveService implements Resolve<any> {
-    list: any[];
-    endpoint = `${this.endpoint}masters/permission`;
+    endpoint = `${this.endpoint}permission`;
 
     constructor(http: SecureHttpClientService) {
         super(http);

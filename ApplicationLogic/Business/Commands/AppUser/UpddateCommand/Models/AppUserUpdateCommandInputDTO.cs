@@ -12,5 +12,7 @@ namespace ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models
         public string LastName { get; set; }
 
         public bool EmailConfirmed { get; set; }
+
+        public string PictureUrl { get; set; }
     }
 }

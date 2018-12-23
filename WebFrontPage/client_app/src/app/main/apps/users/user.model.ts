@@ -9,7 +9,7 @@ export class UserGrid {
 }
 
 export class User {
-    id: number;
+    id: string;
     userName: string;
     email: string;
     password: string;

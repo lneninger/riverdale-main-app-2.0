@@ -8,7 +8,6 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 @Injectable()
 export class RoleResolveService extends BaseResolveService implements Resolve<any> {
-    list: any[];
     endpoint = `${this.endpoint}role`;
 
     constructor(http: SecureHttpClientService) {

@@ -16,22 +16,36 @@ namespace ApplicationLogic.Business.Commands.AppUser.UpdateCommand
 
         public OperationResponse<AppUserUpdateCommandOutputDTO> Execute(AppUserUpdateCommandInputDTO input)
         {
-            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            var result = new OperationResponse<AppUserUpdateCommandOutputDTO>();
+            try
             {
-                var getById = 
-                Select(entityItem => new AppUserGetByIdCommandOutputDTO
+                using (var dbContextScope = this.DbContextScopeFactory.Create())
                 {
-                    Id = entityItem.Id,
-                    Email = entityItem.Email,
-                    FirstName = entityItem.FirstName,
-                    LastName = entityItem.LastName,
-                    PictureUrl = entityItem.PictureUrl,
-                    UserName = entityItem.UserName
-                }).FirstOrDefault()
-                    ;
-
-                return this.Repository.Update(input);
+                    var getByIdResult = this.Repository.GetById(input.Id);
+                    result.AddResponse(getByIdResult);
+                    if (getByIdResult.IsSucceed)
+                    {
+                        var entity = getByIdResult.Bag;
+                        entity.FirstName = input.FirstName;
+                        entity.LastName = input.LastName;
+                        entity.PictureUrl = input.PictureUrl;
+                        try
+                        {
+                            dbContextScope.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            result.AddException($"Error updating user", ex);
+                        }
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                result.AddException($"Fatal error updating user", ex);
+            }
+
+            return result;
         }
     }
 }

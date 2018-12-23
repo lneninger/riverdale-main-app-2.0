@@ -85,17 +85,17 @@ export class AuthenticationService {
                     return of(data);
                 }
                 else if (this.accessToken) {
-                    return this.retrieveAuthenticationInfo(this.accessToken);
+                    return this.retrieveAuthenticationInfo(this.accessToken).pipe(catchError(val => {
+                        //debugger;
+                        console.log('Error try to verify authenticated token');
+                        return of(null);
+                    }))
                 }
                 else {
                     return of(null);
                 }
             }))
-            .pipe(catchError(val => {
-                //debugger;
-                console.log('Error try to verify authenticated token');
-                return of(null);
-            }));
+            
 
         let resultPromise = userDataObservable.pipe(mergeMap(userData => {
             // debugger;
@@ -104,7 +104,7 @@ export class AuthenticationService {
                 return of(false);
             }
 
-            if (new Date() > this.userData.expiresAt) {
+            if (new Date() > moment(this.userData.expiresAt).toDate()) {
                 return of(false);
             }
 

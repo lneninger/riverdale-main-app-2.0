@@ -89,10 +89,14 @@ export class UserService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    updatePassword(id: string, passwordData: {password: string, confirmPassword: string}): any {
+    updatePassword(id: string, passwordData: { password: string, passwordConfirm: string}): any {
         return new Promise((resolve, reject) => {
-            let data = { userId: id, ...passwordData };
-            this.http.put(`${environment.appApi.apiBaseUrl}account/updatePassword`, data).subscribe(
+            let data = {
+                userId: id
+                , password: passwordData.password
+                , confirmPassword: passwordData.passwordConfirm
+            };
+            this.http.put(`${environment.appApi.apiBaseUrl}user/updatePassword`, data).subscribe(
                 (res: any) => {
                     resolve(res);
                 },

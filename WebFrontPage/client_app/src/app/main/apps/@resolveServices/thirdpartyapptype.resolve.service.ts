@@ -8,7 +8,6 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 @Injectable()
 export class ThirdPartyAppTypeResolveService extends BaseResolveService implements Resolve<any> {
-    list: any[];
     endpoint = `${this.endpoint}thirdpartyapptype`;
 
     constructor(http: SecureHttpClientService) {

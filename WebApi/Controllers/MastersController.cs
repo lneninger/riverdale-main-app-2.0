@@ -25,6 +25,7 @@ using RiverdaleMainApp2_0.Auth;
 using Authorization = Microsoft.AspNetCore.Authorization;
 using ApplicationLogic.SignalR;
 using Microsoft.AspNet.SignalR;
+using Framework.Core.Messages;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -125,7 +126,7 @@ namespace RiverdaleMainApp2_0.Controllers
         {
             var @enumNames = Enum.GetNames(typeof(PermissionsEnum.Enum));
             var result = @enumNames.Select(enumName => new EnumItemDTO<string> { Key = enumName, Value = enumName });
-            return this.Ok(result);
+            return this.Ok(new OperationResponse<IEnumerable<EnumItemDTO<string>>>(result, null));
         }
 
         /// <summary>

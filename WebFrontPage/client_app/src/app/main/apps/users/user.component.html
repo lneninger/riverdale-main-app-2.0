@@ -112,43 +112,45 @@
                                     </mat-form-field>
 
                                     <div fxFlex="100">
-                                        <button mat-raised-button fxFlex="100">
+                                        <button mat-raised-button fxFlex="100" [disabled]="frmMain.invalid" (click)="save()">
                                             <mat-icon>save</mat-icon>
                                         </button>
                                     </div>
                                 </div>
 
 
-                                <div [formGroup]="frmPassword" fxLayout="row wrap" fxLayoutGap="20px">
-
+                                <div fxLayout="row wrap" fxLayoutGap="20px">
                                     <div fxFlex="100%" class="fuse-card auto-width">
                                         <div class="position-relative p-24">
                                             <div fxLayoutAlign="space-between">
+
                                                 <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
-                                                    <div class="p-16 pt-0">
-                                                        <div class="h1">Password Reset</div>
-                                                        <div class="h4 secondary-text">User's password reset</div>
-                                                    </div>
-
-                                                    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="start stretch">
-
-                                                        <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
-                                                            <mat-label>Password</mat-label>
-                                                            <input matInput cdkFocusInitial formControlName="password" placeholder="Password">
-                                                        </mat-form-field>
-
-                                                        <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
-                                                            <mat-label>Confirm Password</mat-label>
-                                                            <input matInput cdkFocusInitial formControlName="passwordConfirm" placeholder="Confirm Password">
-                                                        </mat-form-field>
-
-                                                        <div fxFlex="100">
-                                                            <button mat-raised-button fxFlex="100" (click)="updatePassword()">
-                                                                <mat-icon>save</mat-icon>
-                                                            </button>
+                                                    <div [formGroup]="frmPassword">
+                                                        <div class="p-16 pt-0">
+                                                            <div class="h1">Password Reset</div>
+                                                            <div class="h4 secondary-text">User's password reset</div>
                                                         </div>
-                                                    </div>
 
+                                                        <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="start stretch">
+
+                                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
+                                                                <mat-label>Password</mat-label>
+                                                                <input matInput cdkFocusInitial formControlName="password" placeholder="Password">
+                                                            </mat-form-field>
+
+                                                            <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
+                                                                <mat-label>Confirm Password</mat-label>
+                                                                <input matInput cdkFocusInitial formControlName="passwordConfirm" placeholder="Confirm Password">
+                                                            </mat-form-field>
+
+                                                            <div fxFlex="100">
+                                                                <button mat-raised-button fxFlex="100" [disabled]="frmPassword.invalid" (click)="updatePassword()">
+                                                                    <mat-icon>save</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
 
                                                 <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
@@ -177,10 +179,10 @@
                                                                             <button type="button" mat-icon-button color="primary" (click)="saveRoleUserItem()">
                                                                                 <mat-icon>save</mat-icon>
                                                                             </button>
-                                                                            
+
                                                                         </ng-container>
                                                                         <ng-container *ngSwitchDefault>
-                                                                            
+
                                                                             <button type="button" mat-icon-button (click)="newRoleUserItem()" [style.visibility]="i == userRoles.length-1 ? 'visible' : 'hidden'">
                                                                                 <mat-icon>add_circle_outline</mat-icon>
                                                                             </button>
@@ -200,8 +202,8 @@
 
                                                                         <ng-container *ngSwitchCase="true">
                                                                             <mat-form-field floatLabel="never">
-                                                                                <mat-select placeholder="User" name="userId" [(value)]="item.userId" [(ngModel)]="item.userId">
-                                                                                    <mat-option *ngFor="let item of listRoles" [value]="item.key">
+                                                                                <mat-select placeholder="Role" name="roleId" [(value)]="item.roleId" [(ngModel)]="item.roleId">
+                                                                                    <mat-option *ngFor="let item of listRole" [value]="item.key">
                                                                                         {{item.value}}
                                                                                     </mat-option>
                                                                                 </mat-select>
@@ -223,11 +225,11 @@
                                                         </mat-table>
                                                     </div>
                                                     <!--<mat-paginator #paginator
-                       [length]="dataSource.filteredCount"
-                       [pageIndex]="0"
-                       [pageSize]="10"
-                       [pageSizeOptions]="[5, 10, 25, 100]">
-        </mat-paginator>-->
+                                                                   [length]="dataSource.filteredCount"
+                                                                   [pageIndex]="0"
+                                                                   [pageSize]="10"
+                                                                   [pageSizeOptions]="[5, 10, 25, 100]">
+                                                    </mat-paginator>-->
                                                 </div>
                                             </div>
                                         </div>

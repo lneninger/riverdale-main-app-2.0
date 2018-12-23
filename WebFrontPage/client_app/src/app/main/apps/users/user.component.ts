@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CustomValidators } from 'ng4-validators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -125,12 +126,11 @@ export class userComponent implements OnInit, OnDestroy {
     createFormBasicInfo(): FormGroup {
         let result = this._formBuilder.group({
             id: [this.currentEntity.id],
-            userName: [this.currentEntity.userName],
+            userName: [this.currentEntity.userName, [Validators.required]],
             firstName: [this.currentEntity.firstName],
             lastName: [this.currentEntity.lastName],
-            email: [this.currentEntity.email],
-            password: [this.currentEntity.password],
-            pictureUrl: [this.currentEntity.pictureUrl],
+            email: [this.currentEntity.email, [Validators.required, Validators.email]],
+            pictureUrl: [this.currentEntity.pictureUrl, [CustomValidators.url]],
         });
 
         result.controls['userName'].disable();
@@ -140,21 +140,24 @@ export class userComponent implements OnInit, OnDestroy {
     }
 
     createFormPassword(): FormGroup {
-        return this._formBuilder.group({
-            password: '',
-            passwordConfirm: '',
+        let result = this._formBuilder.group({
+            password: ['', Validators.required],
+            passwordConfirm: ['', Validators.required],
         });
+
+        result.controls['passwordConfirm'].setValidators(CustomValidators.equalTo(result.controls['password']));
+
+        return result;
+
     }
 
     /**
      * Save user
      */
     save(): void {
-        const basicInfoData = this.frmMain.getRawValue();
+        const basicInfoData = this.frmMain.value;
 
-        Observable.create(observer => {
-            return this.update(basicInfoData);
-        })
+        this.update(basicInfoData)
             .toPromise()
             .then(() => {
                 //debugger;
@@ -164,25 +167,12 @@ export class userComponent implements OnInit, OnDestroy {
                 // Show the success message
                 this._matSnackBar.open('User saved', 'OK', {
                     verticalPosition: 'top',
-                    duration: 2000
+                    duration: 5000
                 });
             });
     }
 
-    /**
-     * Update user
-     */
-    updatePassword() {
-        const passwordData = this.frmPassword.getRawValue();
 
-            this.service.updatePassword(this.id, passwordData)
-                .then((result: User) => {
-                    this._matSnackBar.open('Password reset was success', 'OK', {
-                        verticalPosition: 'top',
-                        duration: 2000
-                    });
-                });
-    }
 
     update(entity: User): Observable<User> {
         return Observable.create(observer => {
@@ -192,6 +182,23 @@ export class userComponent implements OnInit, OnDestroy {
                     observer.complete();
                 });
         });
+    }
+
+    /**
+    * Update user's password
+    */
+    updatePassword() {
+        //debugger;
+        const passwordData = this.frmPassword.value;
+
+        this.service.updatePassword(this.id, passwordData)
+            .then((result: User) => {
+                this.frmPassword.reset();
+                this._matSnackBar.open('Password reset was success', 'OK', {
+                    verticalPosition: 'top',
+                    duration: 5000
+                });
+            });
     }
 
     delete() {
@@ -245,7 +252,7 @@ export class userComponent implements OnInit, OnDestroy {
 
 
     newRoleUserItem() {
-        let item = new RoleUserGrid({ roleId: this.currentEntity.id });
+        let item = new RoleUserGrid({ userId: this.currentEntity.id });
         this.userRoles.push(item);
         this.selectRoleUserItem(item);
         this.tableRoleUser.renderRows();

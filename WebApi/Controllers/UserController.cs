@@ -25,6 +25,9 @@ using RiverdaleMainApp2_0.Auth.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Authorization = Microsoft.AspNetCore.Authorization;
+using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
+using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
+using System;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -39,7 +42,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
-        /// <param name="hubContext"></param>
+        ///// <param name="hubContext"></param>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
         /// <param name="pageQueryCommand">The page query command</param>
@@ -48,7 +51,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand/*, IAppUserRegisterCommand registerCommand, IAppUserUpdateCommand updateCommand*/, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
+        public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand/*, IAppUserRegisterCommand registerCommand*/, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;
@@ -56,7 +59,7 @@ namespace RiverdaleMainApp2_0.Controllers
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
             //this.RegisterCommand = registerCommand;
-            //this.UpdateCommand = updateCommand;
+            this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
 
@@ -103,13 +106,13 @@ namespace RiverdaleMainApp2_0.Controllers
         ///// </value>
         //public IAppUserRegisterCommand RegisterCommand { get; }
 
-        ///// <summary>
-        ///// Gets the update command.
-        ///// </summary>
-        ///// <value>
-        ///// The update command.
-        ///// </value>
-        //public IAppUserUpdateCommand UpdateCommand { get; }
+        /// <summary>
+        /// Gets the update command.
+        /// </summary>
+        /// <value>
+        /// The update command.
+        /// </value>
+        public IAppUserUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -156,6 +159,50 @@ namespace RiverdaleMainApp2_0.Controllers
         {
             var result = this.GetByIdCommand.Execute(id);
             return this.Ok(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut, ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Modify), Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
+        public IActionResult Update([FromBody]AppUserUpdateCommandInputDTO model)
+        {
+            var result = this.UpdateCommand.Execute(model);
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut("updatePassword"), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Modify), Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
+        public async Task<IActionResult> UpdatePassword([FromBody]AppUserUpdatePasswordCommandInputDTO model)
+        {
+            var result = new OperationResponse();
+            var user = await this.UserManager.FindByIdAsync(model.UserId);
+            if (user != null)
+            {
+                try
+                {
+                    var resetPasswordToken = await this.UserManager.GeneratePasswordResetTokenAsync(user);
+                    await this.UserManager.ResetPasswordAsync(user, resetPasswordToken, model.Password);
+                }
+                catch (Exception ex)
+                {
+                    result.AddException($"Error reseting password", ex);
+                }
+            }
+            else
+            {
+                result.AddError("User not found");
+            }
+
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
         }
 
         //  /// <summary>
@@ -226,27 +273,45 @@ namespace RiverdaleMainApp2_0.Controllers
         [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
         public async Task<IActionResult> AddRole([FromBody]AppUserRoleRelationInsertCommandInputDTO model)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            IdentityRole role = null;
             var result = new OperationResponse<IList<string>>();
             var user = await this.UserManager.FindByIdAsync(model.UserId);
-            var role = await this.RoleManager.FindByIdAsync(model.RoleId);
-            if (user != null)
+            if (user == null)
             {
-                await this.UserManager.AddToRoleAsync(user, role.Name);
-
-                result.Bag = await this.UserManager.GetRolesAsync(user);
-
-                return Ok(result);
+                result.AddError("User not found");
             }
-            else
+
+            if (result.IsSucceed)
             {
-                return BadRequest(result.AddError("User not found"));
+                role = await this.RoleManager.FindByIdAsync(model.RoleId);
+                if (role == null)
+                {
+                    result.AddError("Role not found");
+                }
             }
+
+            if (result.IsSucceed)
+            {
+                try
+                {
+                    await this.UserManager.AddToRoleAsync(user, role.Name);
+
+                    result.Bag = await this.UserManager.GetRolesAsync(user);
+
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(result.AddException($"Error adding role {role.Name} to user {user.UserName}", ex));
+                }
+            }
+
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
         }
     }
 }
