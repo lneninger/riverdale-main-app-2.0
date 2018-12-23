@@ -53,7 +53,7 @@
                 <button mat-mini-fab
                         class="save-product-button"
                         [disabled]="disableSave()"
-                         (click)="save()">
+                        (click)="save()">
                     <mat-icon>save</mat-icon>
 
                     <!--<span>SAVE</span>-->
@@ -82,44 +82,162 @@
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
-                                <div [formGroup]="frmMain" fxLayout="row wrap" fxLayoutGap="20px">
-                                    <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                        <mat-label>Name</mat-label>
-                                        <input matInput placeholder="Name"
-                                               name="name"
-                                               formControlName="name"
-                                               required>
-                                    </mat-form-field>-->
+                                <div class="mb-8" [formGroup]="frmMain" fxLayout="row wrap" fxLayoutGap="20px">
 
                                     <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
-                                        <mat-label>First Name</mat-label>
-                                        <input matInput cdkFocusInitial formControlName="firstName" placeholder="First Name">
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
-                                        <mat-label>Last Name</mat-label>
-                                        <input matInput cdkFocusInitial formControlName="lastName" placeholder="Last Name">
-                                    </mat-form-field>
-
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(20% - 20px)">
                                         <mat-label>User Name</mat-label>
                                         <input matInput cdkFocusInitial formControlName="userName" placeholder="User Name">
                                     </mat-form-field>
 
-                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(20% - 20px)">
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
                                         <mat-label>Email</mat-label>
                                         <input matInput cdkFocusInitial formControlName="email" placeholder="Email">
                                     </mat-form-field>
 
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(20% - 20px)">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput cdkFocusInitial formControlName="firstName" placeholder="First Name">
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(20% - 20px)">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput cdkFocusInitial formControlName="lastName" placeholder="Last Name">
+                                    </mat-form-field>
+
+
+
+                                    <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(60% - 20px)">
+                                        <mat-label>Picture URL</mat-label>
+                                        <input matInput cdkFocusInitial formControlName="pictureUrl" placeholder="Picture URL">
+                                    </mat-form-field>
+
+                                    <div fxFlex="100">
+                                        <button mat-raised-button fxFlex="100">
+                                            <mat-icon>save</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
 
-                               
 
+                                <div [formGroup]="frmPassword" fxLayout="row wrap" fxLayoutGap="20px">
+
+                                    <div fxFlex="100%" class="fuse-card auto-width">
+                                        <div class="position-relative p-24">
+                                            <div fxLayoutAlign="space-between">
+                                                <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
+                                                    <div class="p-16 pt-0">
+                                                        <div class="h1">Password Reset</div>
+                                                        <div class="h4 secondary-text">User's password reset</div>
+                                                    </div>
+
+                                                    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="start stretch">
+
+                                                        <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
+                                                            <mat-label>Password</mat-label>
+                                                            <input matInput cdkFocusInitial formControlName="password" placeholder="Password">
+                                                        </mat-form-field>
+
+                                                        <mat-form-field appearance="outline" floatLabel="always" fxFlex="calc(50% - 20px)">
+                                                            <mat-label>Confirm Password</mat-label>
+                                                            <input matInput cdkFocusInitial formControlName="passwordConfirm" placeholder="Confirm Password">
+                                                        </mat-form-field>
+
+                                                        <div fxFlex="100">
+                                                            <button mat-raised-button fxFlex="100" (click)="updatePassword()">
+                                                                <mat-icon>save</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div fxFlex="1 1 40%" fxLayout="column" fxLayoutAlign="start stretch">
+                                                    <div class="p-16 pt-0">
+                                                        <div class="h1">Roles</div>
+                                                        <div class="h4 secondary-text">User Roles</div>
+                                                    </div>
+
+                                                    <div fxLayout="row" fxLayoutAlign="start stretch">
+                                                        <mat-table class="roleuser-table"
+                                                                   #tableRoleUser [dataSource]="userRoles"
+                                                                   matSort
+                                                                   [@animateStagger]="{value:'50'}"
+                                                                   fusePerfectScrollbar
+                                                                   fxFlex>
+
+                                                            <ng-container matColumnDef="options">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    <button mat-icon-button (click)="newRoleUserItem()" [style.visibility]="userRoles.length == 0 ? 'visible' : 'hidden'">
+                                                                        <mat-icon>add_circle_outline</mat-icon>
+                                                                    </button>
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let item; let i = index;" (click)="$event.stopPropagation()">
+                                                                    <ng-container [ngSwitch]="selectedRoleUserItem == item">
+                                                                        <ng-container *ngSwitchCase="true">
+                                                                            <button type="button" mat-icon-button color="primary" (click)="saveRoleUserItem()">
+                                                                                <mat-icon>save</mat-icon>
+                                                                            </button>
+                                                                            
+                                                                        </ng-container>
+                                                                        <ng-container *ngSwitchDefault>
+                                                                            
+                                                                            <button type="button" mat-icon-button (click)="newRoleUserItem()" [style.visibility]="i == userRoles.length-1 ? 'visible' : 'hidden'">
+                                                                                <mat-icon>add_circle_outline</mat-icon>
+                                                                            </button>
+                                                                            <button type="button" color="warn" mat-icon-button (click)="deleteRoleUserItemEdition(item)">
+                                                                                <mat-icon>delete</mat-icon>
+                                                                            </button>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                </mat-cell>
+                                                            </ng-container>
+
+                                                            <!-- Name Column -->
+                                                            <ng-container matColumnDef="userId">
+                                                                <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
+                                                                <mat-cell *matCellDef="let item">
+                                                                    <ng-container [ngSwitch]="selectedRoleUserItem == item">
+
+                                                                        <ng-container *ngSwitchCase="true">
+                                                                            <mat-form-field floatLabel="never">
+                                                                                <mat-select placeholder="User" name="userId" [(value)]="item.userId" [(ngModel)]="item.userId">
+                                                                                    <mat-option *ngFor="let item of listRoles" [value]="item.key">
+                                                                                        {{item.value}}
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                            </mat-form-field>
+                                                                        </ng-container>
+                                                                        <ng-container *ngSwitchDefault>
+                                                                            <p class="text-truncate">{{getRole(item.roleId).value}}</p>
+                                                                        </ng-container>
+                                                                    </ng-container>
+
+                                                                </mat-cell>
+                                                            </ng-container>
+
+                                                            <mat-header-row *matHeaderRowDef="displayedColumnsRoleUsers; sticky:true"></mat-header-row>
+                                                            <mat-row *matRowDef="let item; columns: displayedColumnsRoleUsers;"
+                                                                     class="product-color"
+                                                                     matRipple>
+                                                            </mat-row>
+                                                        </mat-table>
+                                                    </div>
+                                                    <!--<mat-paginator #paginator
+                       [length]="dataSource.filteredCount"
+                       [pageIndex]="0"
+                       [pageSize]="10"
+                       [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </mat-tab>
 
-                   
+
 
                     </mat-tab-group>
                     <!--<div class="p-24">

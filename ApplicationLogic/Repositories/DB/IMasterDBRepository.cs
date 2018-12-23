@@ -19,5 +19,7 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumUser();
 
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductType();
+
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumRole();
     }
 }

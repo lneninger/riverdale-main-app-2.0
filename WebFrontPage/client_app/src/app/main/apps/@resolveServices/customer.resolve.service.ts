@@ -3,44 +3,17 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/r
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
 import { SecureHttpClientService, OperationResponse } from "../@hipalanetCommons/authentication/securehttpclient.service";
+import { BaseResolveService } from "./_base.resolve.service";
 
 
 
 @Injectable()
-export class ThirdPartyAppTypeResolveService implements Resolve<any> {
-    protected _list: any[];
-    public get list() {
-        return this._list;
-    }
+export class ThirdPartyAppTypeResolveService extends BaseResolveService implements Resolve<any> {
+    
+    endpoint = `${this.endpoint}thirdpartyaApptype`;
 
-    public set list(value) {
-        this._list = value;
-    }
-
-    endpoint = `${environment.appApi.apiBaseUrl}masters/customer`;
-
-    constructor(private http: SecureHttpClientService) {
-
-    }
-
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.list != null) {
-            return Promise.resolve(this.list);
-        }
-        else {
-            return new Promise((resolve, reject) => {
-                this.http.get(this.endpoint).toPromise()
-                    .then(res => {
-                        this.list = (<OperationResponse<any[]>>res).bag;
-                        resolve(this.list);
-                    })
-                    .catch(error => reject(error));
-            });
-        }
-    }
-
-    clearCache() {
-        this.list = [];
+    constructor(http: SecureHttpClientService) {
+        super(http);
     }
 
 

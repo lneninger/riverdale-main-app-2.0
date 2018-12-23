@@ -103,14 +103,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<AppUserRoleGetByIdCommandOutputDTO> GetById(string id)
+        public OperationResponse<IdentityRole> GetById(string id)
         {
-            var result = new OperationResponse<AppUserRoleGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<IdentityRole>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag =  dbLocator.Set<IdentityRole>().Where(o => o.Id == id).Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                    result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Id == id).FirstOrDefault();/*.Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
                     {
                         Id = entityItem.Id,
                         Name = entityItem.Name,
@@ -129,7 +129,66 @@ namespace DatabaseRepositories.DB
                     {
                         RoleId = roleClaim.RoleId,
                         PermissionId = roleClaim.ClaimValue,
-                    }).ToList();
+                    }).ToList()*/;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<IEnumerable<AppUser>> GetUsersByRoleId(string id)
+        {
+            var result = new OperationResponse<IEnumerable<AppUser>>();
+            try
+            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                {
+                    //result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Id == id).FirstOrDefault();.Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                    //{
+                    //    Id = entityItem.Id,
+                    //    Name = entityItem.Name,
+                    //    NormalizedName = entityItem.NormalizedName,
+                    //}).FirstOrDefault();
+
+                    result.Bag = dbLocator.Set<IdentityUserRole<string>>().Where(userRole => userRole.RoleId == id).Join(dbLocator.Set<AppUser>(), userRole => userRole.UserId, user => user.Id, (userRole, user) => user/* new AppUserRoleGetByIdCommandOutputUserDTO
+                    {
+                        Id = user.Id,
+                        RoleId = userRole.RoleId,
+                        UserId = user.Id
+                    }*/).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<IEnumerable<IdentityRoleClaim<string>>> GetPermissionsByRoleId(string id)
+        {
+            var result = new OperationResponse<IEnumerable<IdentityRoleClaim<string>>>();
+            try
+            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                {
+                    //result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Id == id).FirstOrDefault();.Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                    //{
+                    //    Id = entityItem.Id,
+                    //    Name = entityItem.Name,
+                    //    NormalizedName = entityItem.NormalizedName,
+                    //}).FirstOrDefault();
+
+                    result.Bag = dbLocator.Set<IdentityRoleClaim<string>>().Where(roleClaim => roleClaim.RoleId == id && roleClaim.ClaimType == "per").Select(roleClaim => roleClaim/*new AppUserRoleGetByIdCommandOutputPermissionDTO
+                    {
+                        RoleId = roleClaim.RoleId,
+                        PermissionId = roleClaim.ClaimValue,
+                    }*/).ToList();
                 }
             }
             catch (Exception ex)

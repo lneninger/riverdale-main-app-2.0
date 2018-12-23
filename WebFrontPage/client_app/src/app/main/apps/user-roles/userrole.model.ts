@@ -1,5 +1,6 @@
 import { RolePermissionGrid } from "../role-permissions/rolepermission.core.module";
 import { User } from "../users/user.core.module";
+import { RoleUserGrid } from "../role-users/roleuser.model";
 
 export class UserRoleGrid {
     id: number;
@@ -10,7 +11,8 @@ export class UserRoleGrid {
 export class UserRole {
     id: number;
     name: string;
-    rolePermissions: RolePermissionGrid[]
+    rolePermissions: RolePermissionGrid[];
+    roleUsers: RoleUserGrid[];
 
     /**
      * Constructor

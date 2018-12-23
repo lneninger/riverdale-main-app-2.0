@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DomainModel.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -28,6 +29,13 @@ namespace ApplicationLogic.Repositories.DB
         /// <param name="id"></param>
         /// <returns></returns>
         OperationResponse<AppUser> GetById(string id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        OperationResponse<IEnumerable<IdentityRole>> GetRolesByUserId(string id);
 
         /// <summary>
         /// 

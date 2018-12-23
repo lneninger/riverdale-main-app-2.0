@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { UserRolesComponent, UserRoleNewDialogComponent } from './userroles.component';
-import { UserRoleComponent } from './userrole.component';
-import { UserRoleCoreModule, UserRoleService } from './userrole.core.module';
+import { UserRoleComponent } from './userRole.component';
+import { UserRoleCoreModule, UserRoleService } from './userRole.core.module';
 
 import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Text;
 using Framework.Core.Messages;
 using ApplicationLogic.Business.Commands.AppUserRole.GetByNameCommand.Models;
+using Microsoft.AspNetCore.Identity;
+using DomainModel.Identity;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -19,7 +21,9 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<IEnumerable<AppUserRoleGetAllCommandOutputDTO>> GetAll();
         OperationResponse<PageResult<AppUserRolePageQueryCommandOutputDTO>> PageQuery(PageQuery<AppUserRolePageQueryCommandInputDTO> input);
         OperationResponse<AppUserRoleGetByNameCommandOutputDTO> GetByName(string name);
-        OperationResponse<AppUserRoleGetByIdCommandOutputDTO> GetById(string id);
+        OperationResponse<IdentityRole> GetById(string id);
+        OperationResponse<IEnumerable<AppUser>> GetUsersByRoleId(string id);
+        OperationResponse<IEnumerable<IdentityRoleClaim<string>>> GetPermissionsByRoleId(string id);
         OperationResponse<AppUserRoleInsertCommandOutputDTO> Insert(AppUserRoleInsertCommandInputDTO input);
         OperationResponse<AppUserRoleUpdateCommandOutputDTO> Update(AppUserRoleUpdateCommandInputDTO input);
         OperationResponse<AppUserRoleDeleteCommandOutputDTO> Delete(string id);

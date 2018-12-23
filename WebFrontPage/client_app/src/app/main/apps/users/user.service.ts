@@ -10,6 +10,8 @@ import { environment } from 'environments/environment';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { User } from './user.model';
 
 @Injectable()
 export class UserService implements Resolve<any>, IPageQueryService {
@@ -61,8 +63,8 @@ export class UserService implements Resolve<any>, IPageQueryService {
      */
     getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${environment.appApi.apiBaseUrl}user/${this.routeParams.id}`).subscribe(response => {
-                this.currentEntity = response;
+            this.http.get<OperationResponseValued<User>>(`${environment.appApi.apiBaseUrl}user/${this.routeParams.id}`).subscribe(response => {
+                this.currentEntity = response.bag;
                 this.onCurrentEntityChanged.next(this.currentEntity);
                 resolve(this.currentEntity);
             });
@@ -86,6 +88,20 @@ export class UserService implements Resolve<any>, IPageQueryService {
                 });
         });
     }
+
+    updatePassword(id: string, passwordData: {password: string, confirmPassword: string}): any {
+        return new Promise((resolve, reject) => {
+            let data = { userId: id, ...passwordData };
+            this.http.put(`${environment.appApi.apiBaseUrl}account/updatePassword`, data).subscribe(
+                (res: any) => {
+                    resolve(res);
+                },
+                error => {
+                    reject(error);
+                });
+        });
+    }
+
 
     /**
      * Add product

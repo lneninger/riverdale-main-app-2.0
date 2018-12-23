@@ -7,8 +7,9 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 
 @Injectable()
-export class UserResolveService extends BaseResolveService implements Resolve<any> {
-    endpoint = `${this.endpoint}user`;
+export class RoleResolveService extends BaseResolveService implements Resolve<any> {
+    list: any[];
+    endpoint = `${this.endpoint}role`;
 
     constructor(http: SecureHttpClientService) {
         super(http);

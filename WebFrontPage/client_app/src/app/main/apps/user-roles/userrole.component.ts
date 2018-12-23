@@ -327,14 +327,11 @@ export class UserRoleComponent implements OnInit, OnDestroy {
 
     saveRoleUserItem() {
         this.addRoleUserItem(this.selectedRoleUserItem);
-        //debugger;
-        //(this.selectedRoleUserItem && this.selectedRoleUserItem.id) ? this.updateRoleUserItem(this.selectedRoleUserItem) : this.addRoleUserItem(this.selectedRoleUserItem);
     }
 
     addRoleUserItem(item) {
         debugger;
         this.serviceRoleUser.add(item).then(res => {
-            //this.roleUsers.push(<RoleUserGrid>res);
 
             this._matSnackBar.open('New UserRole User saved', 'OK', {
                 verticalPosition: 'top',

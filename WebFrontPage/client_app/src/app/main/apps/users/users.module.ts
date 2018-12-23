@@ -14,6 +14,9 @@ import {
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
+import { RoleUserService } from '../role-users/roleuser.service';
+import { RoleUserCoreModule } from '../role-users/roleuser.core.module';
+import { RoleResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
     {
@@ -21,6 +24,7 @@ const routes: Routes = [
         component: userComponent,
         resolve: {
             data: UserService,
+            listRole: RoleResolveService,
         }
     },
 
@@ -67,6 +71,7 @@ const routes: Routes = [
 
         , PopupsModule
         , UserCoreModule
+        , RoleUserCoreModule
     ],
     providers: [
         //usersService

@@ -70,5 +70,13 @@ namespace ApplicationLogic.Business.Commons
                 return this.Repository.GetToEnumProductType();
             }
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumRole()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumRole();
+            }
+        }
     }
 }

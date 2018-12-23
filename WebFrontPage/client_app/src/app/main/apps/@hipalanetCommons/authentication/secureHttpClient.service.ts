@@ -29,10 +29,16 @@ export class SecureHttpClientService {
         return internalHeaders;
     }
 
-    get(url: string, options?: CallOptions) {
+    //get(url: string, options?: CallOptions) {
+    //    let internalOptions = options || <CallOptions>{};
+    //    internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
+    //    return this.httpClient.get<Object>(url, internalOptions);
+    //}
+
+    get<T = Object>(url: string, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
-        return this.httpClient.get<Object>(url, internalOptions);
+        return this.httpClient.get<T>(url, internalOptions);
     }
 
     post(url: string, body: any, options?: CallOptions) {

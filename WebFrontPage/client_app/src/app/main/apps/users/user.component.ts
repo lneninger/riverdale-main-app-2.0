@@ -15,6 +15,8 @@ import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
+import { RoleUserGrid } from '../role-users/roleuser.model';
+import { RoleUserService } from '../role-users/roleuser.core.module';
 
 @Component({
     selector: 'user',
@@ -25,18 +27,21 @@ import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hi
 })
 export class userComponent implements OnInit, OnDestroy {
     // Resolve
-    listuserFreightoutRateType: EnumItem<string>[];
-    listThirdParty: EnumItem<string>[];
+    listRole: EnumItem<string>[];
 
     id: string;
     currentEntity: User;
+    userRoles: RoleUserGrid[];
+
 
     pageType: string;
-    displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyuserId'];
+    displayedColumnsRoleUsers = ['options', 'userId'];
 
     frmMain: FormGroup;
-    frmFreightout: FormGroup;
+    frmPassword: FormGroup;
 
+    @ViewChild('tableRoleUser')
+    tableRoleUser: MatTable<RoleUserGrid>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -52,6 +57,7 @@ export class userComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute
         , private service: UserService
+        , private serviceRoleUser: RoleUserService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -73,8 +79,7 @@ export class userComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Resolve
-        this.listuserFreightoutRateType = this.route.snapshot.data['listuserFreightoutRateType'];
-        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
+        this.listRole = this.route.snapshot.data['listRole'];
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged
@@ -86,6 +91,7 @@ export class userComponent implements OnInit, OnDestroy {
                 let currentEntity = dataResponse;
                 if (currentEntity) {
                     this.currentEntity = new User(currentEntity);
+                    this.userRoles = (currentEntity.userRoles || []).map(item => new RoleUserGrid(item));
                     this.pageType = 'edit';
                 }
                 else {
@@ -94,6 +100,7 @@ export class userComponent implements OnInit, OnDestroy {
                 }
 
                 this.frmMain = this.createFormBasicInfo();
+                this.frmPassword = this.createFormPassword();
             });
     }
 
@@ -116,7 +123,7 @@ export class userComponent implements OnInit, OnDestroy {
      * @returns {FormGroup}
      */
     createFormBasicInfo(): FormGroup {
-        return this._formBuilder.group({
+        let result = this._formBuilder.group({
             id: [this.currentEntity.id],
             userName: [this.currentEntity.userName],
             firstName: [this.currentEntity.firstName],
@@ -125,19 +132,29 @@ export class userComponent implements OnInit, OnDestroy {
             password: [this.currentEntity.password],
             pictureUrl: [this.currentEntity.pictureUrl],
         });
+
+        result.controls['userName'].disable();
+        result.controls['email'].disable();
+
+        return result;
+    }
+
+    createFormPassword(): FormGroup {
+        return this._formBuilder.group({
+            password: '',
+            passwordConfirm: '',
+        });
     }
 
     /**
-     * Save product
+     * Save user
      */
     save(): void {
         const basicInfoData = this.frmMain.getRawValue();
-        const freightoutData = this.frmFreightout.getRawValue();
 
         Observable.create(observer => {
-            return this.update(freightoutData);
+            return this.update(basicInfoData);
         })
-            
             .toPromise()
             .then(() => {
                 //debugger;
@@ -153,8 +170,20 @@ export class userComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Add product
+     * Update user
      */
+    updatePassword() {
+        const passwordData = this.frmPassword.getRawValue();
+
+            this.service.updatePassword(this.id, passwordData)
+                .then((result: User) => {
+                    this._matSnackBar.open('Password reset was success', 'OK', {
+                        verticalPosition: 'top',
+                        duration: 2000
+                    });
+                });
+    }
+
     update(entity: User): Observable<User> {
         return Observable.create(observer => {
             this.service.save(entity)
@@ -163,7 +192,6 @@ export class userComponent implements OnInit, OnDestroy {
                     observer.complete();
                 });
         });
-
     }
 
     delete() {
@@ -201,5 +229,82 @@ export class userComponent implements OnInit, OnDestroy {
     disableSave() {
         return this.disableSaveFrmMain();
     }
+
+
+
+
+    /*******************Role User*************************************************************** */
+    getRole(id: string) {
+        return this.listRole.find(o => o.key == id);
+    }
+
+    selectedRoleUserItem: RoleUserGrid;
+    selectRoleUserItem(item: RoleUserGrid) {
+        this.selectedRoleUserItem = item;
+    }
+
+
+    newRoleUserItem() {
+        let item = new RoleUserGrid({ roleId: this.currentEntity.id });
+        this.userRoles.push(item);
+        this.selectRoleUserItem(item);
+        this.tableRoleUser.renderRows();
+    }
+
+    saveRoleUserItem() {
+        this.addRoleUserItem(this.selectedRoleUserItem);
+    }
+
+    addRoleUserItem(item) {
+        debugger;
+        this.serviceRoleUser.add(item).then(res => {
+
+            this._matSnackBar.open('New UserRole User saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedRoleUserItem = null;
+        });
+
+    }
+
+
+    deleteRoleUserItemEdition(item: RoleUserGrid) {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: `${this.getRole(item.userId).value} ${item.roleId}` }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteRoleUserItemEditionExecution(item);
+            }
+        });
+    }
+
+    deleteRoleUserItemEditionExecution(item: RoleUserGrid) {
+        this.serviceRoleUser.update(item).then(res => {
+
+            let newItem = new RoleUserGrid(<RoleUserGrid>res);
+            let index = this.userRoles.findIndex(listItem => listItem.id == newItem.id);
+            if (index != -1) {
+                this.userRoles.splice(index, 1, newItem);
+            }
+
+            this._matSnackBar.open('Role user deleted', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
+            });
+
+            this.selectedRoleUserItem = null;
+
+        });
+    }
+
+    cancelRoleUserItemEdition() {
+        this.selectedRoleUserItem = null;
+    }
+    /*******************Role User*************************************************************** */
 }
 

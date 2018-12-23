@@ -1,3 +1,4 @@
+import { RoleUserGrid } from "../role-users/roleuser.model";
 
 export class UserGrid {
     id: number;
@@ -15,6 +16,7 @@ export class User {
     firstName: string;
     lastName: string;
     pictureUrl: string;
+    userRoles: RoleUserGrid[];
 
 
     /**
@@ -31,6 +33,7 @@ export class User {
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.pictureUrl = user.pictureUrl;
+        this.userRoles = user.userRoles || [];
     }
 }
 

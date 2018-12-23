@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace DatabaseRepositories.DB
 {
@@ -111,6 +112,36 @@ namespace DatabaseRepositories.DB
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<AppUser>().Where(o => o.Id == id).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error Geting User {id}", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<IEnumerable<IdentityRole>> GetRolesByUserId(string id)
+        {
+            var result = new OperationResponse<IEnumerable<IdentityRole>>();
+            try
+            {
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                {
+                    //result.Bag = dbLocator.Set<IdentityRole>().Where(o => o.Id == id).FirstOrDefault();.Select(entityItem => new AppUserRoleGetByIdCommandOutputDTO
+                    //{
+                    //    Id = entityItem.Id,
+                    //    Name = entityItem.Name,
+                    //    NormalizedName = entityItem.NormalizedName,
+                    //}).FirstOrDefault();
+
+                    result.Bag = dbLocator.Set<IdentityUserRole<string>>().Where(userRole => userRole.UserId == id).Join(dbLocator.Set<IdentityRole>(), userRole => userRole.RoleId, role => role.Id, (userRole, role) => role/* new AppUserRoleGetByIdCommandOutputUserDTO
+                    {
+                        Id = user.Id,
+                        RoleId = userRole.RoleId,
+                        UserId = user.Id
+                    }*/).ToList();
                 }
             }
             catch (Exception ex)

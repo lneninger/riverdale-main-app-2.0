@@ -24,7 +24,13 @@ export class AuthenticationService {
 
     set userData(value: AuthenticationInfo) {
         this._userData = value;
-        this.accessToken = this._userData.accessToken;
+        if (this._userData) {
+            this.accessToken = this._userData.accessToken;
+        }
+        else {
+            this.accessToken = null;
+        }
+
         this.onChangedUserInfo.next(this._userData);
     }
 
@@ -124,7 +130,7 @@ export class AuthenticationService {
             .pipe(mergeMap(isAuthenticated => {
                 if (!isAuthenticated) return of(null);
                 this.unscheduleRefreshToken();
-                const expiresAt = this.userData.expiresAt.getTime();
+                const expiresAt = moment(this.userData.expiresAt).toDate();
             }))
             .pipe(mergeMap((expiresAt: Date) => {
                 if (!expiresAt) return of(null);
