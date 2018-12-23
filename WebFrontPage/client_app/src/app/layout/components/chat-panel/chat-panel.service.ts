@@ -50,7 +50,7 @@ export class ChatPanelService {
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private auth: AuthenticationService
+        private authenticationService: AuthenticationService
         //private auth: AngularFireAuth
         , private _httpClient: HttpClient
         , private ngZone: NgZone
@@ -58,7 +58,7 @@ export class ChatPanelService {
 
         /*Notifcation Module*/
 
-        this.auth.onChangedUserInfo.subscribe((user: AuthenticationInfo) => {
+        this.authenticationService.onChangedUserInfo.subscribe((user: AuthenticationInfo) => {
             this.user = user;
             if (this.user) {
                 let option: IFocusNotificationOptions = {

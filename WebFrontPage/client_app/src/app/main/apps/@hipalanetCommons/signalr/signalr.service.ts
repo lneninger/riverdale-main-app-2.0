@@ -7,7 +7,7 @@ import { IConnectionOptions } from 'ng2-signalr/src/services/connection/connecti
 
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { UserInfo } from 'firebase';
+//import { UserInfo } from 'firebase';
 import { AuthenticationInfo } from '../authentication/authentication.model';
 
 declare var $: any;

@@ -17,7 +17,7 @@ import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 
 /*************************Custom***********************************/
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireAuth } from '@angular/fire/auth';
 
 import { AuthenticationService } from './main/apps/@hipalanetCommons/authentication/authentication.core.module';
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy
         ,private _platform: Platform
         
         // Custom
-        , private auth: AngularFireAuth
+        //, private auth: AngularFireAuth
         , private router: Router
         , private authenticationService: AuthenticationService
     )

@@ -138,10 +138,11 @@ export class AuthenticationService {
             .pipe(mergeMap(() => {
                 return this.refreshToken();
             }))
-            .finally(() => {
+            //.pipe(mergeMap(() => {
+            //}))
+            .subscribe(execute => {
                 this.scheduleRefreshToken();
-            })
-            .subscribe();
+            });
     }
 
     public unscheduleRefreshToken() {
@@ -149,11 +150,11 @@ export class AuthenticationService {
         this.refreshTokenSubscription.unsubscribe();
     }
 
-    refreshToken = () => {
+    refreshToken = (): Observable<boolean> => {
         return Observable.create(observer => {
             this.retrieveAuthenticationInfo(this.accessToken)
                 .subscribe(info => {
-                    observer.next();
+                    observer.next(true);
                     observer.complete();
                 });
             

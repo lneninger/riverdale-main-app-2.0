@@ -3,7 +3,7 @@ import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, Mat
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { HipalanetUtils } from 'hipalanet-ngx-utils';
+import { HipalanetUtils } from '../../../main/apps/@hipalanetCommons/ngx-utls/main';
 
 import { ChatPanelComponent } from 'app/layout/components/chat-panel/chat-panel.component';
 import { ChatPanelService } from 'app/layout/components/chat-panel/chat-panel.service';

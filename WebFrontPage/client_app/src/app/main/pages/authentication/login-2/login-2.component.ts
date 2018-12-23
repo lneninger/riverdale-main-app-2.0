@@ -5,8 +5,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 /*************************Custom***********************************/
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
 import { AuthenticationService, Register, Authenticate } from '../../../apps/@hipalanetCommons/authentication/authentication.core.module';
 
 @Component({
@@ -30,9 +30,9 @@ export class Login2Component implements OnInit
         private _fuseConfigService: FuseConfigService
         , private _formBuilder: FormBuilder
         // Custom
-        , private auth: AngularFireAuth
+        //, private auth: AngularFireAuth
         , private service: AuthenticationService
-        , private database: AngularFireDatabase
+        //, private database: AngularFireDatabase
         , private router: Router
     )
     {

@@ -11,8 +11,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { UserRoleGrid, UserRole } from './userRole.model';
 import { environment } from 'environments/environment';
@@ -48,7 +48,7 @@ export class UserRolesComponent implements OnInit {
 
     constructor(
         private service: UserRoleService
-        , private database: AngularFireDatabase
+        //, private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
 

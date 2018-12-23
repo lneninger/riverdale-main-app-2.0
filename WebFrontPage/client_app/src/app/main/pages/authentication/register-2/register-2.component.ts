@@ -9,8 +9,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { AuthenticationService, Register } from '../../../apps/@hipalanetCommons/authentication/authentication.core.module';
 import { CustomValidators } from 'ng4-validators';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
     selector: 'register-2',
@@ -29,9 +29,9 @@ export class Register2Component implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService
         , private _formBuilder: FormBuilder
         // Custom
-        , private auth: AngularFireAuth
+        //, private auth: AngularFireAuth
         , private service: AuthenticationService
-        , private database: AngularFireDatabase
+        //, private database: AngularFireDatabase
         , private router: Router
     ) {
         // Configure the layout

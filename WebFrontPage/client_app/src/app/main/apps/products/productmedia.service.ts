@@ -6,8 +6,8 @@ import { environment } from 'environments/environment';
 
 
 /*************************Custom***********************************/
-import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 

@@ -11,8 +11,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { ProductColorGrid, ProductColor } from './productcolor.model';
 import { HttpClient } from '@angular/common/http';
@@ -49,7 +49,7 @@ export class ProductColorsComponent implements OnInit {
 
     constructor(
          private service: ProductColorService
-        , private database: AngularFireDatabase
+        //, private database: AngularFireDatabase
         , public dialog: MatDialog
         , private matSnackBar: MatSnackBar
     ) {

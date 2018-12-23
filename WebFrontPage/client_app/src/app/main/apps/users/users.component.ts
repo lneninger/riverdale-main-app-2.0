@@ -11,8 +11,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireDatabase } from '@angular/fire/database';
+//import { AngularFireAuth } from '@angular/fire/auth';
+//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { UserGrid, User } from './user.model';
 import { environment } from 'environments/environment';
@@ -52,7 +52,7 @@ export class usersComponent implements OnInit {
 
     constructor(
         private service: UserService
-        , private database: AngularFireDatabase
+        //, private database: AngularFireDatabase
         , private _matSnackBar: MatSnackBar
         , private matDialog: MatDialog
     ) {
