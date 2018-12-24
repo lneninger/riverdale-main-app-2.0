@@ -6,6 +6,7 @@ import { CustomerFreightoutRateTypeResolveService } from "./customerfreightoutra
 import { PermissionResolveService } from "./permission.resolve.service";
 import { UserResolveService } from "./user.resolve.service";
 import { RoleResolveService } from "./role.resolve.service";
+import { ProductTypeResolveService } from "./producttype.resolve.service";
 
 export { ThirdPartyAppTypeResolveService } from "./thirdpartyapptype.resolve.service";
 export { ProductColorTypeResolveService } from "./productcolortype.resolve.service";
@@ -13,6 +14,7 @@ export { CustomerFreightoutRateTypeResolveService } from "./customerfreightoutra
 export { PermissionResolveService } from "./permission.resolve.service";
 export { UserResolveService } from "./user.resolve.service";
 export { RoleResolveService } from "./role.resolve.service";
+export { ProductTypeResolveService } from "./producttype.resolve.service";
 
 
 @NgModule({
@@ -29,6 +31,7 @@ export { RoleResolveService } from "./role.resolve.service";
         , PermissionResolveService
         , UserResolveService
         , RoleResolveService
+        , ProductTypeResolveService
     ]
 })
 export class HiPalanetResolveModule {

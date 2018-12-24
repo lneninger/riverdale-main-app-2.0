@@ -46,7 +46,7 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductColorType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
+                    result.Bag = dbLocator.Set<ProductColorType>().Where(o => o.IsDeleted == true).Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "HexCode", masterItem.HexCode }, { "IsBasicCode", masterItem.IsBasicColor } } }).ToList();
                 }
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<Customer>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
+                    result.Bag = dbLocator.Set<Customer>().Where(o => o.IsDeleted == true).Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Name } } }).ToList();
                 }
             }
             catch (Exception ex)
@@ -100,7 +100,7 @@ namespace DatabaseRepositories.DB
             {
                 using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
                 {
-                    result.Bag = dbLocator.Set<AppUser>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
+                    result.Bag = dbLocator.Set<AppUser>().Where(o => o.IsDeleted == true).Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
                 }
             }
             catch (Exception ex)
@@ -116,14 +116,14 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<List<EnumItemDTO<string>>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
                     result.Bag = dbLocator.Set<ProductType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error geting users", ex);
+                result.AddException($"Error getting users", ex);
             }
             
             return result;

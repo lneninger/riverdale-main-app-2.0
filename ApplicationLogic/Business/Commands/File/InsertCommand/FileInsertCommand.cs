@@ -26,105 +26,68 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
         public static string FirstStepDefaultFolderPath { get; } = "XX.XX";
         //public FileStorageSettings FileStorageSettings { get; }
 
-        public FileInsertCommand(/*FileStorageSettings fileStorageSettings, */IDbContextScopeFactory dbContextScopeFactory, IFileDBRepository repository) : base(dbContextScopeFactory, repository)
+        public FileInsertCommand(IDbContextScopeFactory dbContextScopeFactory, IFileDBRepository repository) : base(dbContextScopeFactory, repository)
         {
-            //this.FileStorageSettings = null;// fileStorageSettings;
         }
 
         public OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T : FileArgs
         {
+
+
+            //using (var transaction = new TransactionScope())
+            //{
+            DomainModel.File.File file = null;
+            var defaultFileStorageId = (string)typeof(FileSourceEnum).GetStaticPropertyValue(AppConfig.Instance.FileStorageSettings.DefaultFileStorageDestination);
+            var fileStorageTypeId = input.FileSource ?? defaultFileStorageId;
+            var result = new OperationResponse<FileInsertCommandOutputDTO>();
+
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
+                file = new DomainModel.File.File
+                {
+                    RootPath = FileInsertCommand.FirstStepDefaultFileName,
+                    AccessPath = FileInsertCommand.FirstStepDefaultAccessPath,
+                    RelativePath = FileInsertCommand.FirstStepDefaultFolderPath,
+                    FileName = FileInsertCommand.FirstStepDefaultFileName,
+                    FileSize = input.UploadedFile.ContentLength,
+                    ThumbnailFileSize = input.UploadedFile.ThumbnailContent.Length
+                };
 
-                var result = this.Save(input);
+                OperationResponse<DomainModel.File.File> fileInsertResult = null;
+
+
+                // First step. Save file without paths. 
+                fileInsertResult = this.Repository.Insert(file);
+
+                // Second step. Store file and grab its path details.
+                input.FilePrefix = file.Id.ToString();
+                FileStorageResultDTO fileStorageResult;
+                using (var scope = IoCGlobal.NewScope("FileStorageScope"))
+                {
+                    var fileStorage = IoCGlobal.Resolve<IFileStorageService>(fileStorageTypeId, scope);
+                    fileStorageResult = fileStorage.Save(input);
+                }
+
+                file.RootPath = fileStorageResult.RootPath;
+                file.AccessPath = fileStorageResult.AccessPath;
+                file.RelativePath = fileStorageResult.FolderPath;
+                file.FileName = fileStorageResult.FileName;
+                file.FullFilePath = fileStorageResult.FullFilePath;
+                file.ThumbnailFileName = fileStorageResult.ThumbnailFileName;
+                file.ThumbnailFullFilePath = fileStorageResult.ThumbnailFullFilePath;
+                file.FileSystemTypeId = fileStorageResult.FileSourceId;
+                dbContextScope.SaveChanges();
+
+                var getById = this.Repository.GetById(file.Id);
+                result.Bag = new FileInsertCommandOutputDTO
+                {
+                    Id = getById.Bag.Id
+                };
 
                 return result;
             }
         }
 
-        public OperationResponse<FileInsertCommandOutputDTO> Execute(FileInsertCommandInputDTO input)
-        {
-            using (var dbContextScope = this.DbContextScopeFactory.Create())
-            {
-                return this.Repository.Insert(input);
-            }
-        }
-
-
-        public OperationResponse<FileInsertCommandOutputDTO> Save(FileArgs args)
-        {
-            var result = new OperationResponse<FileInsertCommandOutputDTO>();
-            //var language = this.DbModel.ISOLanguageTypes.FirstOrDefault(o => o.ISOLanguageTypeID == args.LanguageTypeId);
-
-            var defaultFileStorageId = (string)typeof(FileSourceEnum).GetStaticPropertyValue(AppConfig.Instance.FileStorageSettings.DefaultFileStorageDestination);
-            var fileStorageTypeId = args.FileSource ?? defaultFileStorageId;
-            var fileDto = new FileInsertCommandInputDTO
-            {
-                //Bel_OriginalFullFileName  = args.OriginalFileName,
-                RootPath = FileInsertCommand.FirstStepDefaultFileName,
-                AccessPath = FileInsertCommand.FirstStepDefaultAccessPath,
-                RelativePath = FileInsertCommand.FirstStepDefaultFolderPath,
-                FileName = FileInsertCommand.FirstStepDefaultFileName,
-                FileContent = args.FileContent,
-                FileThumbnailContent = args.FileThumbnailContent,
-                //FileSize = args.FileContent.Length,
-                FileType = Path.GetExtension(args.UploadedFile.OriginalFileName),
-                MimeContentType = args.ContentType,
-                BelzonaDocumentTypeID = args.FileTypeId,
-                ISOLanguageTypeID = args.LanguageTypeId,
-                StorageTypeID = fileStorageTypeId,
-            };
-
-            OperationResponse<FileInsertCommandOutputDTO> fileInsertResult = null;
-
-            using (var transaction = new TransactionScope())
-            {
-                // First step. Save file without paths. 
-                fileInsertResult = this.Repository.Insert(fileDto);
-
-                // Second step. Store file and grab its path details.
-                args.FilePrefix = fileInsertResult.Bag.Id.ToString();
-                //var secondStepArgs = new DefaultFileArgs(entity.FileRepositoryID, args);
-
-                // insert entity guid id at the begining of filename elements
-                //var fileNameElements = new List<string>(secondStepArgs.TargetFileNameElements);
-                //fileNameElements.Insert(0, entity.FileRepositoryID.ToString());
-                //secondStepArgs.TargetFileNameElements = fileNameElements.ToArray();
-                FileStorageResultDTO fileStorageResult;
-                using (var scope = IoCGlobal.NewScope("FileStorageScope"))
-                {
-                    var fileStorage = IoCGlobal.Resolve<IFileStorageService>(fileStorageTypeId, scope);
-                    //result = fileStorage.Save(secondStepArgs);
-                    fileStorageResult = fileStorage.Save(args);
-                }
-
-                var fileUpdate = new FileUpdateCommandInputDTO
-                {
-                    Id = fileInsertResult.Bag.Id,
-                    RootPath = fileStorageResult.RootPath,
-                    AccessPath = fileStorageResult.AccessPath,
-                    RelativePath = fileStorageResult.FolderPath,
-                    FileName = fileStorageResult.FileName,
-                    FullFilePath = fileStorageResult.FullFilePath,
-                    ThumbnailFileName = fileStorageResult.ThumbnailFileName,
-                    ThumbnailFullFilePath = fileStorageResult.ThumbnailFullFilePath,
-                    StorageTypeID = fileStorageResult.FileSourceId,
-                };
-
-                this.Repository.Update(fileUpdate);
-
-                transaction.Complete();
-            }
-
-            var getById = this.Repository.GetById(fileInsertResult.Bag.Id);
-            result.Bag = new FileInsertCommandOutputDTO
-            {
-                Id = getById.Bag.Id
-            };
-
-            return result;
-
-        }
     }
 }
 

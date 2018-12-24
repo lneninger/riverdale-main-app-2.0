@@ -173,36 +173,30 @@ namespace DatabaseRepositories.DB
 
             return null;
 
-            //var result = new OperationResponse<ProductColorTypeDeleteCommandOutputDTO>();
-            //try
-            //{
-            //    using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
-            //    {
-            //        var entity = dbLocator.Set<ProductColorType>().FirstOrDefault(o => o.Id == id);
-            //        if (entity != null)
-            //        {
-            //            entity.DeletedAt = DateTime.UtcNow;
-            //            dbLocator.SaveChanges();
-
-            //            var dbResult = dbLocator.Set<ProductColorType>().Where(o => o.Id == entity.Id).Select(o => new ProductColorTypeDeleteCommandOutputDTO
-            //            {
-            //                Id = o.Id,
-            //                Name = o.Name
-            //                //ERPId = o.ERPId
-            //            }).FirstOrDefault();
-
-            //            result.Bag = dbResult;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    result.AddException($"Error deleting customer freightout", ex);
-            //}
-
-            //return result;
         }
 
+        public OperationResponse<ProductColorTypeDeleteCommandOutputDTO> LogicalDelete(ProductColorType entity)
+        {
+            var result = new OperationResponse<ProductColorTypeDeleteCommandOutputDTO>();
+
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                try
+                {
+                    if (!(entity.IsDeleted ?? false))
+                    {
+                        entity.DeletedAt = DateTime.UtcNow;
+                        dbLocator.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddException("Error voiding Product Color Type", ex);
+                }
+            }
+
+            return null;
+        }
 
     }
 }

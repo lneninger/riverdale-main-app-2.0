@@ -39,3 +39,8 @@ export interface IProductMedia extends IUploadedFile {
    
 }
 
+
+export class ProductNewDialogResult {
+    goTo: 'Edit';
+    data: Product;
+}

@@ -7,6 +7,7 @@ using ApplicationLogic.Business.Commands.ProductMedia.InsertCommand.Models;
 using Framework.Core.Messages;
 using ApplicationLogic.Business.Commands.File.InsertCommand;
 using FocusApplication.Business.Commands.FileRepository.FileArguments;
+using System.Transactions;
 
 namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
 {
@@ -24,42 +25,45 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
             var result = new OperationResponse<ProductMediaInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var createFileArgs = this.CreateFileArgs(input);
-                var fileInsertResult = this.FileInsertCommand.Execute<DefaultFileArgs>(createFileArgs);
-                result.AddResponse(fileInsertResult);
-
-                if (result.IsSucceed)
+                using (var transaction = new TransactionScope())
                 {
-                    var entity = new DomainModel.Product.ProductMedia
-                    {
-                        ProductId = input.ProductId,
-                        FileRepositoryId = fileInsertResult.Bag.Id
-                    };
-
-                    try
-                    {
-                        var insertResult = this.Repository.Insert(entity);
-                        dbContextScope.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        result.AddException("Error saving product media", ex);
-                    }
+                    var createFileArgs = this.CreateFileArgs(input);
+                    var fileInsertResult = this.FileInsertCommand.Execute<DefaultFileArgs>(createFileArgs);
+                    result.AddResponse(fileInsertResult);
 
                     if (result.IsSucceed)
                     {
-                        var getByIdResult = this.Repository.GetById(entity.Id);
+                        var entity = new DomainModel.Product.ProductMedia
+                        {
+                            ProductId = input.ProductId,
+                            FileRepositoryId = fileInsertResult.Bag.Id
+                        };
+
+                        try
+                        {
+                            var insertResult = this.Repository.Insert(entity);
+                            dbContextScope.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            result.AddException("Error saving product media", ex);
+                        }
+
                         if (result.IsSucceed)
                         {
-                            result.Bag = new ProductMediaInsertCommandOutputDTO
+                            var getByIdResult = this.Repository.GetById(entity.Id);
+                            if (result.IsSucceed)
                             {
-                                Id = getByIdResult.Bag.Id
-                            };
+                                result.Bag = new ProductMediaInsertCommandOutputDTO
+                                {
+                                    Id = getByIdResult.Bag.Id
+                                };
+                            }
                         }
                     }
-                }
 
-               
+                    transaction.Complete();
+                }
             }
 
             return result;

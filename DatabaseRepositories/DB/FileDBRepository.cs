@@ -119,63 +119,77 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<FileInsertCommandOutputDTO> Insert(FileInsertCommandInputDTO input)
+        public OperationResponse<DomainModel.File.File> Insert(DomainModel.File.File entity)
         {
-            var result = new OperationResponse<FileInsertCommandOutputDTO>();
-            var entity = new File
+            var result = new OperationResponse<DomainModel.File.File>(entity, null);
+            try
             {
-                RootPath = input.AccessPath,
-                AccessPath = input.AccessPath,
-                FullFilePath = input.AccessPath,
-                RelativePath = input.RelativePath,
-                FileName = input.FileName,
-                FileSize = input.FileSize,
-                ThumbnailFileName = input.ThumbnailFileName
-            };
-
-            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            dbLocator.Add(entity);
-            dbLocator.SaveChanges();
-
-            var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileInsertCommandOutputDTO
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                dbLocator.Add(entity);
+                dbLocator.SaveChanges();
+            }
+            catch (Exception ex)
             {
-                Id = o.Id,
-            }).FirstOrDefault();
-
-            result.Bag = dbResult;
-            return result;
-
-        }
-
-        public OperationResponse<FileUpdateCommandOutputDTO> Update(FileUpdateCommandInputDTO input)
-        {
-            var result = new OperationResponse<FileUpdateCommandOutputDTO>();
-            var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            var entity = dbLocator.Set<File>().FirstOrDefault(o => o.Id == input.Id);
-            if (entity != null)
-            {
-                entity.RootPath = input.RootPath ?? entity.RootPath;
-                entity.AccessPath = input.AccessPath ?? entity.AccessPath;
-                entity.RelativePath = input.RelativePath ?? entity.RelativePath;
-                entity.FullFilePath = input.FullFilePath ?? entity.FullFilePath;
-                entity.FileName = input.FileName ?? entity.FileName;
-                entity.FileSize = input.FileSize ?? entity.FileSize;
-                entity.ThumbnailFileName = input.ThumbnailFileName ?? entity.ThumbnailFileName;
-                entity.ThumbnailFullFilePath = input.ThumbnailFullFilePath ?? entity.ThumbnailFullFilePath;
-                entity.FileSystemTypeId = input.StorageTypeID ?? entity.FileSystemTypeId;
+                result.AddException($"Error adding File", ex);
             }
 
-            dbLocator.SaveChanges();
-
-
-            var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileUpdateCommandOutputDTO
-            {
-                Id = o.Id,
-            }).FirstOrDefault();
-
-            result.Bag = dbResult;
             return result;
+
+            //var result = new OperationResponse<FileInsertCommandOutputDTO>();
+            //var entity = new File
+            //{
+            //    RootPath = input.AccessPath,
+            //    AccessPath = input.AccessPath,
+            //    FullFilePath = input.AccessPath,
+            //    RelativePath = input.RelativePath,
+            //    FileName = input.FileName,
+            //    FileSize = input.FileSize,
+            //    ThumbnailFileName = input.ThumbnailFileName
+            //};
+
+            //var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            //dbLocator.Add(entity);
+            //dbLocator.SaveChanges();
+
+            //var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileInsertCommandOutputDTO
+            //{
+            //    Id = o.Id,
+            //}).FirstOrDefault();
+
+            //result.Bag = dbResult;
+            //return result;
+
         }
+
+        //public OperationResponse<FileUpdateCommandOutputDTO> Update(FileUpdateCommandInputDTO input)
+        //{
+        //    var result = new OperationResponse<FileUpdateCommandOutputDTO>();
+        //    var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+        //    var entity = dbLocator.Set<File>().FirstOrDefault(o => o.Id == input.Id);
+        //    if (entity != null)
+        //    {
+        //        entity.RootPath = input.RootPath ?? entity.RootPath;
+        //        entity.AccessPath = input.AccessPath ?? entity.AccessPath;
+        //        entity.RelativePath = input.RelativePath ?? entity.RelativePath;
+        //        entity.FullFilePath = input.FullFilePath ?? entity.FullFilePath;
+        //        entity.FileName = input.FileName ?? entity.FileName;
+        //        entity.FileSize = input.FileSize ?? entity.FileSize;
+        //        entity.ThumbnailFileName = input.ThumbnailFileName ?? entity.ThumbnailFileName;
+        //        entity.ThumbnailFullFilePath = input.ThumbnailFullFilePath ?? entity.ThumbnailFullFilePath;
+        //        entity.FileSystemTypeId = input.StorageTypeID ?? entity.FileSystemTypeId;
+        //    }
+
+        //    dbLocator.SaveChanges();
+
+
+        //    var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileUpdateCommandOutputDTO
+        //    {
+        //        Id = o.Id,
+        //    }).FirstOrDefault();
+
+        //    result.Bag = dbResult;
+        //    return result;
+        //}
 
         public OperationResponse<FileDeleteCommandOutputDTO> Delete(int id)
         {

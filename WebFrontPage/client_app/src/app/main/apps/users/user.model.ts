@@ -38,3 +38,10 @@ export class User {
 }
 
 
+
+export class UserNewDialogResult {
+    goTo: 'Edit';
+    data: User;
+}
+
+

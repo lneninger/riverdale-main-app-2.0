@@ -25,6 +25,8 @@ namespace ApplicationLogic.Repositories.DB
 
         //OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input);
 
+        OperationResponse<CustomerDeleteCommandOutputDTO> LogicalDelete(Customer entity);
+
         OperationResponse<CustomerDeleteCommandOutputDTO> Delete(Customer entity);
     }
 }

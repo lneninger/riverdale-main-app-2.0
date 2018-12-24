@@ -22,7 +22,7 @@ namespace DomainModel.File
 
         public string FullFilePath { get; set; }
 
-        public int FileSize { get; set; }
+        public long FileSize { get; set; }
 
         public string ThumbnailFileName { get; set; }
 

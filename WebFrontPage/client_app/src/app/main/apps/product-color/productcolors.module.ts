@@ -16,7 +16,13 @@ import {
 
 const routes: Routes = [
     
-
+    {
+        path: 'new',
+        component: ProductColorsComponent,
+        data: { action: 'new' },
+        resolve: {
+        }
+    },
     {
         path: '**',
         component: ProductColorsComponent,

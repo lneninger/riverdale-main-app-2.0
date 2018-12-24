@@ -14,10 +14,12 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { UserRoleGrid, UserRole } from './userRole.model';
+import { UserRoleGrid, UserRole, UserRoleNewDialogResult } from './userRole.model';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserRoleService } from './userrole.service';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'userRoles',
@@ -48,7 +50,7 @@ export class UserRolesComponent implements OnInit {
 
     constructor(
         private service: UserRoleService
-        //, private database: AngularFireDatabase
+        , private route: ActivatedRoute
         , public dialog: MatDialog
     ) {
 
@@ -69,7 +71,18 @@ export class UserRolesComponent implements OnInit {
         // debugger;
         this.dataSource = new UserRolesDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
+        this.initializeQueryListeners();
     }
+
+    initializeQueryListeners() {
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (this.route.snapshot.data['action'] == 'new') {
+                this.openDialog();
+            }
+        });
+    }
+
 
     openDialog(): void {
         const dialogRef = this.dialog.open(UserRoleNewDialogComponent, {
@@ -77,9 +90,14 @@ export class UserRolesComponent implements OnInit {
             data: {/* name: this.name, animal: this.animal */ }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed with', result);
-            this.dataSource.dataChanged.next('');
+        dialogRef.afterClosed().subscribe((result: UserRoleNewDialogResult) => {
+            if (result && result.goTo == 'Edit') {
+                this.service.router.navigate([`apps/userroles/${result.data.id}`]);
+            }
+            else {
+                this.service.router.navigate([`../`], { relativeTo: this.route });
+                this.dataSource.dataChanged.next('');
+            }
         });
     }
 }
@@ -162,9 +180,13 @@ export class UserRoleNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: UserRole) => {
-            this.service.router.navigate([`apps/userRoles/${res.id}`]);
-            this.dialogRef.close();
+        this.save().then((res: OperationResponseValued<UserRole>) => {
+            debugger;
+            let result = <UserRoleNewDialogResult>{
+                goTo: 'Edit',
+                data: res.bag
+            }
+            this.dialogRef.close(result);
         });
     }
 }

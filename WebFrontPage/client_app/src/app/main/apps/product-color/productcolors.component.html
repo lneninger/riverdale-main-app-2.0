@@ -31,11 +31,10 @@
             </div>
             <!-- / SEARCH -->
             <!-- ADD BUTTON -->
-            <button mat-raised-button
-                    (click)="openDialog()"
+            <a [routerLink]="['/apps/product-colors/new']" mat-raised-button
                     class="add-product-color-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW Product Color</span>
-            </button>
+                <span>ADD NEW PRODUCT COLOR</span>
+            </a>
             <!-- / ADD BUTTON -->
 
         </div>

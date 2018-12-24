@@ -26,3 +26,7 @@ export class Customer {
 }
 
 
+export class CustomerNewDialogResult {
+    goTo: 'Edit';
+    data: Customer;
+}

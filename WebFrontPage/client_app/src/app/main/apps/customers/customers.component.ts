@@ -14,11 +14,13 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { CustomerGrid, Customer } from './customer.model';
+import { CustomerGrid, Customer, CustomerNewDialogResult } from './customer.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { CustomerService } from './customer.service';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'customers',
@@ -48,8 +50,8 @@ export class CustomersComponent implements OnInit {
     customers: any[];
 
     constructor(
-         private service: CustomerService
-        //, private database: AngularFireDatabase
+        private service: CustomerService
+        , private route: ActivatedRoute
         , public dialog: MatDialog
     ) {
 
@@ -70,7 +72,18 @@ export class CustomersComponent implements OnInit {
         // debugger;
         this.dataSource = new CustomersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
+        this.initializeQueryListeners();
     }
+
+    initializeQueryListeners() {
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (this.route.snapshot.data['action'] == 'new') {
+                this.openDialog();
+            }
+        });
+    }
+
 
     openDialog(): void {
         const dialogRef = this.dialog.open(CustomerNewDialogComponent, {
@@ -78,9 +91,14 @@ export class CustomersComponent implements OnInit {
             data: {/* name: this.name, animal: this.animal */}
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed with', result);
-            this.dataSource.dataChanged.next('');
+        dialogRef.afterClosed().subscribe((result: CustomerNewDialogResult) => {
+            if (result && result.goTo == 'Edit') {
+                this.service.router.navigate([`apps/customers/${result.data.id}`]);
+            }
+            else {
+                this.service.router.navigate([`../`], { relativeTo: this.route });
+                this.dataSource.dataChanged.next('');
+            }
         });
     }
 }
@@ -164,9 +182,13 @@ export class CustomerNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: Customer) => {
-            this.service.router.navigate([`apps/customers/${res.id}`]);
-            this.dialogRef.close();
+        this.save().then((res: OperationResponseValued<Customer>) => {
+            debugger;
+            let result = <CustomerNewDialogResult> {
+                goTo: 'Edit',
+                data: res.bag
+            }
+            this.dialogRef.close(result);
         });
     }
 }

@@ -27,3 +27,10 @@ export class UserRole {
 }
 
 
+
+export class UserRoleNewDialogResult {
+    goTo: 'Edit';
+    data: UserRole;
+}
+
+

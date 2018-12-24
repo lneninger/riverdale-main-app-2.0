@@ -111,7 +111,7 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
 
     delete(id: number): any {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}customer/{id}`).subscribe((res: any) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}customer/${id}`).subscribe((res: any) => {
                 resolve(res);
             },
             error => {

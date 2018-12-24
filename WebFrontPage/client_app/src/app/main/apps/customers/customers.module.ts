@@ -14,11 +14,18 @@ import {
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule
 } from '@angular/material';
 import { ThirdPartyAppTypeResolveService, CustomerFreightoutRateTypeResolveService } from '../@resolveServices/resolve.module';
-import { CustomerThirdPartyAppSettingCoreModule  } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module';
+import { CustomerThirdPartyAppSettingCoreModule } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module';
 import { CustomerFreightoutCoreModule } from '../customerfreightout/customerfreightout.core.module';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 
 const routes: Routes = [
+    {
+        path: 'new',
+        component: CustomersComponent,
+        data: { action: 'new' },
+        resolve: {
+        }
+    },
     {
         path: ':id',
         component: CustomerComponent,
@@ -43,7 +50,7 @@ const routes: Routes = [
         CustomersComponent
         , CustomerComponent
         , CustomerNewDialogComponent
-        
+
     ],
     entryComponents: [
         CustomerNewDialogComponent

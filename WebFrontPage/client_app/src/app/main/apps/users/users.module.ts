@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { usersComponent, UserNewDialogComponent } from './users.component';
+import { UsersComponent, UserNewDialogComponent } from './users.component';
 import { userComponent } from './user.component';
 import { UserCoreModule, UserService } from './user.core.module';
 
@@ -20,6 +20,13 @@ import { RoleResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
     {
+        path: 'new',
+        component: UsersComponent,
+        data: { action: 'new' },
+        resolve: {
+        }
+    },
+    {
         path: ':id',
         component: userComponent,
         resolve: {
@@ -27,10 +34,9 @@ const routes: Routes = [
             listRole: RoleResolveService,
         }
     },
-
     {
         path: '**',
-        component: usersComponent,
+        component: UsersComponent,
         resolve: {
             //data: usersService
         }
@@ -39,7 +45,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        usersComponent
+        UsersComponent
         , userComponent
         , UserNewDialogComponent
         

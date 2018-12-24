@@ -9,7 +9,7 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 @Injectable()
 export class ProductColorTypeResolveService extends BaseResolveService implements Resolve<any> {
-    endpoint = `${this.endpoint}masters/productcolortype`;
+    endpoint = `${this.endpoint}productcolortype`;
     constructor(http: SecureHttpClientService) {
         super(http);
     }

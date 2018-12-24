@@ -29,5 +29,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse Delete(AbstractProduct entity);
 
+        OperationResponse LogicalDelete(AbstractProduct entity);
+
     }
 }

@@ -14,11 +14,14 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { ProductGrid, Product } from './product.model';
+import { ProductGrid, Product, ProductNewDialogResult } from './product.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductService } from './product.service';
+import { ProductTypeResolveService } from '../@resolveServices/resolve.module';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'products',
@@ -48,7 +51,8 @@ export class ProductsComponent implements OnInit {
     products: any[];
 
     constructor(
-        private service: ProductService
+        private route: ActivatedRoute
+        , private service: ProductService
         //, private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
@@ -70,17 +74,32 @@ export class ProductsComponent implements OnInit {
         // debugger;
         this.dataSource = new ProductsDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
+        this.initializeQueryListeners();
+    }
+
+    initializeQueryListeners() {
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (this.route.snapshot.data['action'] == 'new') {
+                this.openDialog();
+            }
+        });
     }
 
     openDialog(): void {
         const dialogRef = this.dialog.open(ProductNewDialogComponent, {
             width: '60%',
-            data: {/* name: this.name, animal: this.animal */ }
+            data: { listProductType: this.route.snapshot.data.listProductType }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed with', result);
-            this.dataSource.dataChanged.next('');
+        dialogRef.afterClosed().subscribe((result: ProductNewDialogResult) => {
+            if (result && result.goTo == 'Edit') {
+                this.service.router.navigate([`apps/products/${result.data.id}`]);
+            }
+            else {
+                this.service.router.navigate([`../`], { relativeTo: this.route });
+                this.dataSource.dataChanged.next('');
+            }
         });
     }
 }
@@ -124,7 +143,8 @@ export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
     templateUrl: 'productnew.dialog.component.html',
 })
 export class ProductNewDialogComponent {
-
+    listProductType: any[];
+    
     frmMain: FormGroup;
     constructor(
         private service: ProductService
@@ -132,10 +152,12 @@ export class ProductNewDialogComponent {
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<ProductNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
+        , private route: ActivatedRoute
     ) {
-
+        this.listProductType = this.data.listProductType;
         this.frmMain = frmBuilder.group({
-            'name': ['', [Validators.required]]
+            'name': ['', [Validators.required]],
+            'productTypeId': ['']
         });
     }
 
@@ -165,9 +187,13 @@ export class ProductNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: Product) => {
-            this.service.router.navigate([`apps/products/${res.id}`]);
-            this.dialogRef.close();
+        this.save().then((res: OperationResponseValued<Product>) => {
+            debugger;
+            let result = <ProductNewDialogResult>{
+                goTo: 'Edit',
+                data: res.bag
+            }
+            this.dialogRef.close(result);
         });
     }
 }

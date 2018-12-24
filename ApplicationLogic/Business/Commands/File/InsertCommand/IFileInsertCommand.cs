@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.File.InsertCommand
 {
-    public interface IFileInsertCommand: ICommandFunc<FileInsertCommandInputDTO, OperationResponse<FileInsertCommandOutputDTO>>
+    public interface IFileInsertCommand/*: ICommandFunc<FileInsertCommandInputDTO, OperationResponse<FileInsertCommandOutputDTO>>*/
     {
         OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T : FileArgs;
     }

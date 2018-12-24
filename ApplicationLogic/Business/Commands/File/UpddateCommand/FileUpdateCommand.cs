@@ -16,10 +16,39 @@ namespace ApplicationLogic.Business.Commands.File.UpdateCommand
 
         public OperationResponse<FileUpdateCommandOutputDTO> Execute(FileUpdateCommandInputDTO input)
         {
+            var result = new OperationResponse<FileUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.Update(input);
+                var getByIdResult = this.Repository.GetById(input.Id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    //getByIdResult.Bag.Name = input.Name;
+
+                    try
+                    {
+                        dbContextScope.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.AddError("Error updating Product Color Type", ex);
+                    }
+
+                    getByIdResult = this.Repository.GetById(input.Id);
+                    result.AddResponse(getByIdResult);
+                    if (result.IsSucceed)
+                    {
+                        result.Bag = new FileUpdateCommandOutputDTO
+                        {
+                            Id = getByIdResult.Bag.Id,
+                            FileName = getByIdResult.Bag.FileName
+                        };
+                    }
+
+                }
             }
+
+            return result;
         }
     }
 }

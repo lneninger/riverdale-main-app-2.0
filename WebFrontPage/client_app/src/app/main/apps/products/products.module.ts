@@ -16,8 +16,18 @@ import {
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
+import { environment } from 'environments/environment';
+import { ProductTypeResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
+    {
+        path: 'new',
+        component: ProductsComponent,
+        data: { action: 'new' },
+        resolve: {
+            listProductType: ProductTypeResolveService,
+        }
+    },
     {
         path: ':id',
         component: ProductComponent,
@@ -40,7 +50,6 @@ const routes: Routes = [
         ProductsComponent
         , ProductComponent
         , ProductNewDialogComponent
-        
     ],
     entryComponents: [
         ProductNewDialogComponent
@@ -71,13 +80,10 @@ const routes: Routes = [
         , PopupsModule
         , ProductCoreModule
         , CustomFileUploadModule
-        , HipalanetUtils
+        , HipalanetUtils.forRoot({ fileRetrieveUrl: environment.appApi.apiUploadFileUrl })
 
     ],
     providers: [
-        //ProductsService
-        //, ProductService
-        //, ProductsListService
     ]
 })
 export class ProductsModule {

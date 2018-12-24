@@ -22,6 +22,13 @@ import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 
 const routes: Routes = [
     {
+        path: 'new',
+        component: UserRolesComponent,
+        data: { action: 'new' },
+        resolve: {
+        }
+    },
+    {
         path: ':id',
         component: UserRoleComponent,
         resolve: {

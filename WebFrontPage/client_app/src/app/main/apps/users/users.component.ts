@@ -14,12 +14,14 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { UserGrid, User } from './user.model';
+import { UserGrid, User, UserNewDialogResult } from './user.model';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from './user.service';
 import { AuthenticationService, Register } from '../@hipalanetCommons/authentication/authentication.core.module';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'users',
@@ -28,7 +30,7 @@ import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hi
     animations: fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })
-export class usersComponent implements OnInit {
+export class UsersComponent implements OnInit {
     dataSource: UsersDataSource | null;
     displayedColumns = ['options', 'userName', 'email', 'firstName', 'lastName'];
 
@@ -52,7 +54,7 @@ export class usersComponent implements OnInit {
 
     constructor(
         private service: UserService
-        //, private database: AngularFireDatabase
+        , private route: ActivatedRoute
         , private _matSnackBar: MatSnackBar
         , private matDialog: MatDialog
     ) {
@@ -72,7 +74,18 @@ export class usersComponent implements OnInit {
         // debugger;
         this.dataSource = new UsersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
+        this.initializeQueryListeners();
     }
+
+    initializeQueryListeners() {
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (this.route.snapshot.data['action'] == 'new') {
+                this.openDialog();
+            }
+        });
+    }
+
 
     openDialog(): void {
         const dialogRef = this.matDialog.open(UserNewDialogComponent, {
@@ -80,10 +93,14 @@ export class usersComponent implements OnInit {
             data: {/* name: this.name, animal: this.animal */ }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed with', result);
-            debugger;
-            this.dataSource.dataChanged.next('');
+        dialogRef.afterClosed().subscribe((result: UserNewDialogResult) => {
+            if (result && result.goTo == 'Edit') {
+                this.service.router.navigate([`apps/users/${result.data.id}`]);
+            }
+            else {
+                this.service.router.navigate([`../`], { relativeTo: this.route });
+                this.dataSource.dataChanged.next('');
+            }
         });
     }
 
@@ -206,9 +223,13 @@ export class UserNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: User) => {
-            this.service.router.navigate([`apps/users/${res.id}`]);
-            this.dialogRef.close();
+        this.save().then((res: OperationResponseValued<User>) => {
+            debugger;
+            let result = <UserNewDialogResult>{
+                goTo: 'Edit',
+                data: res.bag
+            }
+            this.dialogRef.close(result);
         });
     }
 }

@@ -10,7 +10,7 @@ import { map, switchMap, mergeMap } from 'rxjs/operators'
 export class FileUrlPipe implements PipeTransform {
     constructor(private sanitized: DomSanitizer/*, private config: EnvironmentData*/, @Inject(HIPALANET_UTILS_CONFIGPROVIDER) private envProvider: EnvironmentData | EnvironmentProvider) { }
     transform(value: string, defaultSrc?: string, thumbnail: boolean = true): Observable<string> {
-
+        //debugger;
         let configDataObservable: Observable<EnvironmentData>;
         if ((<EnvironmentData>this.envProvider).fileRetrieveUrl !== undefined) {
             configDataObservable = of(<EnvironmentData>this.envProvider);

@@ -195,6 +195,28 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
+        public OperationResponse LogicalDelete(AbstractProduct entity)
+        {
+            var result = new OperationResponse();
+
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                try
+                {
+                    if (!(entity.IsDeleted ?? false))
+                    {
+                        entity.DeletedAt = DateTime.UtcNow;
+                        dbLocator.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddException("Error voiding Product Color Type", ex);
+                }
+            }
+
+            return null;
+        }
 
     }
 }

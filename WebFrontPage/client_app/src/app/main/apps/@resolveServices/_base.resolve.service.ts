@@ -10,6 +10,10 @@ export abstract class BaseResolveService implements Resolve<any> {
     constructor(protected http: SecureHttpClientService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return this.noDependencyResolve();
+    }
+
+    noDependencyResolve() {
         if (this.list != null) {
             return Promise.resolve(this.list);
         }
@@ -25,8 +29,6 @@ export abstract class BaseResolveService implements Resolve<any> {
             });
         }
     }
-
-
 
 
     clearCache() {

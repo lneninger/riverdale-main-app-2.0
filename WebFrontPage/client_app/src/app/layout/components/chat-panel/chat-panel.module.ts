@@ -26,7 +26,7 @@ import { ChatPanelService } from 'app/layout/components/chat-panel/chat-panel.se
 
         FuseSharedModule,
 
-        HipalanetUtils.forRoot({ fileRetrieveUrl: '' })
+        HipalanetUtils
     ],
     exports     : [
         ChatPanelComponent

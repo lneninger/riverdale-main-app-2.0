@@ -29,3 +29,9 @@ export class ProductColor
         this.images = (input || {}).images;
     }
 }
+
+
+export class ProductColorNewDialogResult {
+    goTo: 'Edit';
+    data: ProductColor;
+}

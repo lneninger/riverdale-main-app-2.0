@@ -33,11 +33,10 @@
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <button mat-raised-button
-                    (click)="openDialog()"
+            <a [routerLink]="['/apps/customers/new']" mat-raised-button
                     class="add-product-button fuse-white mt-24 mt-md-0">
                 <span>ADD NEW CUSTOMER</span>
-            </button>
+            </a>
             <!-- / ADD BUTTON -->
 
         </div>

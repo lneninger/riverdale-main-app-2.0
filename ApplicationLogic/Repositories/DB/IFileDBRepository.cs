@@ -22,9 +22,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<File> GetById(int id);
 
-        OperationResponse<FileInsertCommandOutputDTO> Insert(FileInsertCommandInputDTO input);
-
-        OperationResponse<FileUpdateCommandOutputDTO> Update(FileUpdateCommandInputDTO input);
+        OperationResponse<DomainModel.File.File> Insert(File input);
 
         OperationResponse<FileDeleteCommandOutputDTO> Delete(int id);
     }

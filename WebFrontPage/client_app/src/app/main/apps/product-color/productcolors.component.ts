@@ -14,11 +14,13 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { ProductColorGrid, ProductColor } from './productcolor.model';
+import { ProductColorGrid, ProductColor, ProductColorNewDialogResult } from './productcolor.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductColorService } from './productcolor.core.module';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'product-colors',
@@ -48,8 +50,8 @@ export class ProductColorsComponent implements OnInit {
     customers: any[];
 
     constructor(
-         private service: ProductColorService
-        //, private database: AngularFireDatabase
+        private service: ProductColorService
+        , private route: ActivatedRoute
         , public dialog: MatDialog
         , private matSnackBar: MatSnackBar
     ) {
@@ -70,8 +72,18 @@ export class ProductColorsComponent implements OnInit {
     ngOnInit(): void {
         // debugger;
         this.dataSource = new ProductColorsDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
-
+        this.initializeQueryListeners();
     }
+
+    initializeQueryListeners() {
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (this.route.snapshot.data['action'] == 'new') {
+                this.openDialog();
+            }
+        });
+    }
+
 
     selectedItem: ProductColorGrid;
     selectItem(item: ProductColorGrid) {
@@ -97,8 +109,14 @@ export class ProductColorsComponent implements OnInit {
             data: {/* name: this.name, animal: this.animal */ }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed with', result);
+        dialogRef.afterClosed().subscribe((result: ProductColorNewDialogResult) => {
+            if (result && result.goTo == 'Edit') {
+                this.service.router.navigate([`apps/productcolors/${result.data.id}`]);
+            }
+            else {
+                this.service.router.navigate([`../`], { relativeTo: this.route });
+                this.dataSource.dataChanged.next('');
+            }
         });
     }
 
@@ -187,9 +205,13 @@ export class ProductColorNewDialogComponent {
     }
 
     createEdit(): void {
-        this.save().then((res: ProductColor) => {
-            this.service.router.navigate([`apps/product-colors/${res.id}`]);
-            this.dialogRef.close();
+        this.save().then((res: OperationResponseValued<ProductColor>) => {
+            debugger;
+            let result = <ProductColorNewDialogResult>{
+                goTo: 'Edit',
+                data: res.bag
+            }
+            this.dialogRef.close(result);
         });
     }
     

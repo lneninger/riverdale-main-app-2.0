@@ -130,27 +130,7 @@ namespace DatabaseRepositories.DB
             }
 
             return result;
-            //var result = new OperationResponse<CustomerInsertCommandOutputDTO>();
-            //var entity = new Customer
-            //{
-            //    Name = input.Name,
-            //};
-
-            //var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            //{
-            //    dbLocator.Add(entity);
-            //    dbLocator.SaveChanges();
-
-            //    var dbResult = dbLocator.Set<Customer>().Where(o => o.Id == entity.Id).Select(o => new CustomerInsertCommandOutputDTO
-            //    {
-            //        Id = o.Id,
-            //        Name = o.Name
-            //    }).FirstOrDefault();
-
-            //    result.Bag = dbResult;
-            //    return result;
-            //}
-
+            
         }
 
         //public OperationResponse<CustomerUpdateCommandOutputDTO> Update(CustomerUpdateCommandInputDTO input)
@@ -191,6 +171,29 @@ namespace DatabaseRepositories.DB
                 catch (Exception ex)
                 {
                     result.AddException("Error deleting Customer", ex);
+                }
+            }
+
+            return null;
+        }
+
+        public OperationResponse<CustomerDeleteCommandOutputDTO> LogicalDelete(Customer entity)
+        {
+            var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
+
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                try
+                {
+                    if (!(entity.IsDeleted ?? false))
+                    {
+                        entity.DeletedAt = DateTime.UtcNow;
+                        dbLocator.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.AddException("Error voiding Customer", ex);
                 }
             }
 

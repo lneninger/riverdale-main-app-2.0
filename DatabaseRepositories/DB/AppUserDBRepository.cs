@@ -98,7 +98,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error geting users", ex);
+                result.AddException($"Error getting users", ex);
             }
 
             return result;

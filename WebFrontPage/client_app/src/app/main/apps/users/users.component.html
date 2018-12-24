@@ -30,11 +30,11 @@
             </div>
             <!-- / SEARCH -->
             <!-- ADD BUTTON -->
-            <button mat-raised-button
+            <a [routerLink]="['/apps/users/new']" mat-raised-button
                     (click)="openDialog()"
                     class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW User</span>
-            </button>
+                <span>ADD NEW USER</span>
+            </a>
             <!-- / ADD BUTTON -->
 
         </div>

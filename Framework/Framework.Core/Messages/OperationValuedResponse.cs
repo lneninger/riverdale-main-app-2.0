@@ -24,7 +24,7 @@ namespace Framework.Core.Messages
         /// Initializes a new instance of the <see cref="OperationResponse{T}"/> class.
         /// </summary>
         /// <param name="baseResponse">The base response.</param>
-        public OperationResponse(OperationResponse baseResponse): this()
+        public OperationResponse(OperationResponse baseResponse = null): this()
         {
             if (baseResponse != null)
             {
@@ -37,7 +37,7 @@ namespace Framework.Core.Messages
         /// </summary>
         /// <param name="bag">The bag.</param>
         /// <param name="baseResponse">The base response.</param>
-        public OperationResponse(T bag, OperationResponse baseResponse): this(baseResponse)
+        public OperationResponse(T bag, OperationResponse baseResponse = null): this(baseResponse)
         {
             this.Bag = bag;
         }
