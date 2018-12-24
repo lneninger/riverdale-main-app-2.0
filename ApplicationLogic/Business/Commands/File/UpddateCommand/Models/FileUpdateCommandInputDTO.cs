@@ -10,9 +10,11 @@ namespace ApplicationLogic.Business.Commands.File.UpdateCommand.Models
         public string RelativePath { get; set; }
         public string FileName { get; set; }
         public int? FileSize { get; set; }
+        public string FullFilePath { get; set; }
 
         public string ThumbnailFileName { get; set; }
         public int ThumbnaiFileSize { get; set; }
+        public string ThumbnailFullFilePath { get; set; }
 
         public string FileType { get; set; }
         public string MimeContentType { get; set; }

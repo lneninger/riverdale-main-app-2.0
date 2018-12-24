@@ -85,7 +85,8 @@ namespace DatabaseRepositories.DB
                         Id = o.Id,
                         Name = o.Name,
                         CreatedAt = o.CreatedAt,
-                        MainPicture = o.ProductMedias.Select(m => new FileItemRefOutputDTO {
+                        MainPicture = o.ProductMedias.Select(m => new FileItemRefOutputDTO
+                        {
                             Id = m.Id,
                             FullUrl = m.FileRepository.FullFilePath
                         }).FirstOrDefault()
@@ -124,9 +125,7 @@ namespace DatabaseRepositories.DB
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Include(t => t.ProductMedias).Where(o => o.Id == id).FirstOrDefault();
-                }
+                result.Bag = dbLocator.Set<AbstractProduct>().Include(t => t.ProductMedias).Where(o => o.Id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -136,7 +135,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-       
+
 
         public OperationResponse Insert(AbstractProduct entity)
         {
@@ -184,18 +183,18 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                try
-                {
-                    dbLocator.Set<AbstractProduct>().Remove(entity);
-                }
-                catch (Exception ex)
-                {
-                    result.AddException("Error deleting Product", ex);
-                }
+            try
+            {
+                dbLocator.Set<AbstractProduct>().Remove(entity);
+            }
+            catch (Exception ex)
+            {
+                result.AddException("Error deleting Product", ex);
+            }
 
             return null;
         }
 
-       
+
     }
 }

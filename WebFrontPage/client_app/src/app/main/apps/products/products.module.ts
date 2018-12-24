@@ -15,6 +15,7 @@ import {
 } from '@angular/material';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
+import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
 
 const routes: Routes = [
     {
@@ -70,6 +71,8 @@ const routes: Routes = [
         , PopupsModule
         , ProductCoreModule
         , CustomFileUploadModule
+        , HipalanetUtils
+
     ],
     providers: [
         //ProductsService

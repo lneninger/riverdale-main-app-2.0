@@ -1,7 +1,7 @@
 import { RoleUserGrid } from "../role-users/roleuser.model";
 
 export class UserGrid {
-    id: number;
+    id: string;
     email: string;
     userName: string;
     firstName: string;

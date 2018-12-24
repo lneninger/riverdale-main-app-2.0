@@ -25,6 +25,7 @@ using Framework.Storage.FileStorage.StorageImplementations;
 using Framework.Storage.FileStorage.interfaces;
 using Framework.Core.ReflectionHelpers;
 using Autofac.Features.AttributeFilters;
+using Framework.Storage.FileStorage.TemporaryStorage;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -49,8 +50,11 @@ namespace RiverdaleMainApp2_0.IoC
                 .RegisterInstance(configuration.GetSection("CustomSettings").Get<CustomSettings>())
                 .As<CustomSettings>();
 
+                // File Mechanism
                 builder
                 .RegisterInstance<FileStorageSettings>(configuration.GetSection("fileStorage").Get<FileStorageSettings>());
+
+                builder.RegisterType<TemporaryStorage>().AsSelf();
 
                 builder.RegisterSignalRHubs(typeof(Startup).GetTypeInfo().Assembly, typeof(GlobalHub).GetTypeInfo().Assembly);
 

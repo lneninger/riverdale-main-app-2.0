@@ -1,4 +1,4 @@
-﻿import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser'
 import { PipeTransform, Pipe, Inject } from '@angular/core';
 import { EnvironmentProvider, EnvironmentData, HIPALANET_UTILS_CONFIGPROVIDER } from './_common';
 //import { Constants } from '../../shared/smartadmin.config';
@@ -8,26 +8,31 @@ import { map, switchMap, mergeMap } from 'rxjs/operators'
 
 @Pipe({ name: 'fileUrl' })
 export class FileUrlPipe implements PipeTransform {
-    constructor(private sanitized: DomSanitizer, private config: EnvironmentData, @Inject(HIPALANET_UTILS_CONFIGPROVIDER) private envProvider: EnvironmentProvider) { }
+    constructor(private sanitized: DomSanitizer/*, private config: EnvironmentData*/, @Inject(HIPALANET_UTILS_CONFIGPROVIDER) private envProvider: EnvironmentData | EnvironmentProvider) { }
     transform(value: string, defaultSrc?: string, thumbnail: boolean = true): Observable<string> {
 
         let configDataObservable: Observable<EnvironmentData>;
-        if (!!this.config) {
-            configDataObservable = of(this.config);
+        if ((<EnvironmentData>this.envProvider).fileRetrieveUrl !== undefined) {
+            configDataObservable = of(<EnvironmentData>this.envProvider);
         }
-        else if (!!this.envProvider) {
-            configDataObservable = this.envProvider.getEnvironnmentData();
+        else if ((<EnvironmentProvider>this.envProvider).getEnvironnmentData !== undefined) {
+            configDataObservable = (<EnvironmentProvider>this.envProvider).getEnvironnmentData();
         }
         else {
             console.log('HIPALANET: No configuration found');
             return Observable.throw('HIPALANET: No configuration found');
         }
 
-        if (!value && defaultSrc) {
-            return of(defaultSrc);
+        if (!value) {
+            if (defaultSrc) {
+                return of(defaultSrc);
+            }
+            else {
+                return null;
+            }
         }
 
-        if (value.indexOf('http') == 0) {
+        if (value.toString().indexOf('http') == 0) {
             return of(value);
         }
 
@@ -40,12 +45,12 @@ export class FileUrlPipe implements PipeTransform {
 
         if (thumbnail !== undefined) {
             //debugger;
-            return configDataObservable.pipe(map(config => config), mergeMap(config => {
+            return configDataObservable.pipe(mergeMap(config => {
                 return of(`${config.fileRetrieveUrl}?id=${value}&thumbnail=${thumbnail}`);
             }));
         }
         else {
-            return configDataObservable.pipe(map(config => config), mergeMap(config => {
+            return configDataObservable.pipe(mergeMap(config => {
                 return of(`${config.fileRetrieveUrl}?id=${value}&thumbnail=true`);
             }));
         }

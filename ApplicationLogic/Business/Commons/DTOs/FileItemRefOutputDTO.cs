@@ -9,5 +9,6 @@ namespace ApplicationLogic.Business.Commons.DTOs
         public int Id { get; set; }
 
         public string FullUrl { get; set; }
+        public int FileId { get; set; }
     }
 }

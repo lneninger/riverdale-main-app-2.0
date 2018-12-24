@@ -5,6 +5,9 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { HiPalanetResolveModule } from './@resolveServices/resolve.module';
 import { CustomSignalRModule } from './@hipalanetCommons/signalr/signalr.module'
 import { AuthenticationCoreModule } from './@hipalanetCommons/authentication/authentication.core.module';
+import { HipalanetUtils } from './@hipalanetCommons/ngx-utils/main';
+import { environment } from 'environments/environment';
+import { EnvironmentData } from './@hipalanetCommons/ngx-utils/_common';
 
 const routes = [
     {
@@ -89,6 +92,7 @@ const routes = [
         //, AuthenticationCoreModule
         , HiPalanetResolveModule
         , CustomSignalRModule
+        , HipalanetUtils.forRoot({ fileRetrieveUrl: environment.appApi.apiUploadFileUrl })
     ],
     exports: [
         //AuthenticationCoreModule

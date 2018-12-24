@@ -25,11 +25,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    //var entry = this.Repository.Entry(getByIdResult.Bag);
-                    //if (!entry.Collection(t => t.ProductMedias).IsLoaded)
-                    //{
-                    //    entry.Collection(t => t.ProductMedias).Load();
-                    //}
+                    
                     result.Bag = new ProductGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
@@ -38,8 +34,9 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                         Medias = getByIdResult.Bag.ProductMedias.Select(m => new FileItemRefOutputDTO
                         {
                             Id = m.Id,
+                            FileId = m.FileRepositoryId,
                             FullUrl = m.FileRepository.FullFilePath
-                        })
+                        }).ToList()
                     };
 
                     if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)

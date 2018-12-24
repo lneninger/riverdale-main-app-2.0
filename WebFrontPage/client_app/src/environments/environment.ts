@@ -7,7 +7,8 @@ export const environment = {
     hmr: false,
     appApi: {
         apiProjectUrl: "https://localhost:5001/",
-        apiBaseUrl: "https://localhost:5001/api/"
+        apiBaseUrl: "https://localhost:5001/api/",
+        apiUploadFileUrl: "https://localhost:5001/upload.axd"
     }
 };
 

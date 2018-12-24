@@ -24,12 +24,12 @@ namespace Framework.EF.DbContextImpl
         {
             var changed = this.ChangeTracker.Entries<ITrackChangesEntity>();
 
-            string userId;
+            string userId = null;
 
-                using (var currentUserService = IoCGlobal.Resolve<ICurrentUserService>())
-                {
-                    userId = currentUserService.CurrentUserId;
-                }
+            //using (var currentUserService = IoCGlobal.Resolve<ICurrentUserService>())
+            //{
+            //    userId = currentUserService.CurrentUserId;
+            //}
 
             foreach (var changedEntity in changed.Where(o => o.State == EntityState.Added))
             {

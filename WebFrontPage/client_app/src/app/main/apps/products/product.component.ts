@@ -16,7 +16,7 @@ import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.ab
 import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
 import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups/file/file.popup.module';
-import { FileUploadService, CustomFileUploader } from '../@hipalanetCommons/fileupload/fileupload.module';
+import { FileUploadService, CustomFileUploader, ISelectedFile } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { ProductMediaService } from './product.core.module';
 
 @Component({
@@ -33,7 +33,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     id: string;
     currentEntity: Product;
-    medias: ProductMediaGrid[];
+    medias: (ProductMediaGrid | ISelectedFile)[];
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyProductId'];
@@ -85,8 +85,17 @@ export class ProductComponent implements OnInit, OnDestroy {
             };
 
             this.serviceProductMedia.add(productMedia).then(result => {
-                this.medias.push(fileUploaded);
+                //this.medias.push(fileUploaded);
             });
+
+        });
+
+        this.customUploader.onCompleteAll.subscribe(result => {
+            this._matSnackBar.open('Product Media saved', 'OK', {
+                verticalPosition: 'top',
+                duration: 5000
+            });
+
         });
 
         // Set the private defaults
@@ -176,7 +185,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 // Show the success message
                 this._matSnackBar.open('Product saved', 'OK', {
                     verticalPosition: 'top',
-                    duration: 2000
+                    duration: 5000
                 });
             });
     }

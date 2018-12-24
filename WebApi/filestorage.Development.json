@@ -3,7 +3,7 @@
     "DefaultFileStorageDestination": "FileSystem",
     "TemporaryFolderPath": "D:\\Temp\\RiverdaleMainApp2_0\\TemporaryFolder",
     "FileSystem": {
-      "FileSystemBaseStoragePath": "C:\\Temp\\BelzonaBaseFileStorage"
+      "FileSystemBaseStoragePath": "D:\\Temp\\BelzonaBaseFileStorage"
     },
     "AWS": {
       "AWSFileRepoAccessKey": "",

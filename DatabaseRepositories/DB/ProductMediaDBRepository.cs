@@ -120,17 +120,11 @@ namespace DatabaseRepositories.DB
         public OperationResponse Insert(ProductMedia input)
         {
             var result = new OperationResponse<ProductMediaInsertCommandOutputDTO>();
-            var entity = new ProductMedia
-            {
-            };
 
             var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-            {
-                dbLocator.Add(entity);
+            dbLocator.Add(input);
 
-               
-                return result;
-            }
+            return result;
 
         }
 

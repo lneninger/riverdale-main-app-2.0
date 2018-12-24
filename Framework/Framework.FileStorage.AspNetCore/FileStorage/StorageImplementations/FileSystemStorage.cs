@@ -54,6 +54,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
 
             var directoryPath = Path.Combine(rootPath, folderPath);
             var relativeFilePath = Path.Combine(folderPath, fileName);
+            string thumbnailFileNameWithExtension = null;
             try
             {
                 if (!Directory.Exists(directoryPath))
@@ -71,13 +72,34 @@ namespace Framework.Storage.FileStorage.StorageImplementations
                     }
                 }
 
+
+                string thumbnailFilePath = null;
+                if (args.UploadedFile.ThumbnailContent != null && args.UploadedFile.ThumbnailContent.Length > 0)
+                {
+                    // main file name construction
+                    var thumbnailFileName = $"{fileName}_thumbnail";
+                    thumbnailFileNameWithExtension = thumbnailFileName + ".png";
+                    thumbnailFilePath = Path.Combine(directoryPath, thumbnailFileNameWithExtension);
+
+                    using (var fileStream = File.OpenWrite(thumbnailFilePath))
+                    {
+                        using (var streamWriter = new BinaryWriter(fileStream))
+                        {
+                            streamWriter.Write(args.UploadedFile.ThumbnailContent);
+                        }
+                    }
+                }
+
                 var result = new FileStorageResultDTO
                 {
                     RootPath = rootPath,
                     AccessPath = null,
                     FolderPath = folderPath,
                     FileName = fileName,
-                    FileSourceId = Identifier
+                    ThumbnailFileName = thumbnailFileNameWithExtension,
+                    FileSourceId = Identifier,
+                    FullFilePath = filePath,
+                    ThumbnailFullFilePath = thumbnailFilePath
                 };
 
                 return result;

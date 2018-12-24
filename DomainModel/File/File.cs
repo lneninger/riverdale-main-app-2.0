@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainModel.File
 {
-    public class File: AbstractBaseEntity, ILogicalDeleteEntity
+    public class File : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
 
@@ -23,7 +23,6 @@ namespace DomainModel.File
         public string FullFilePath { get; set; }
 
         public int FileSize { get; set; }
-
 
         public string ThumbnailFileName { get; set; }
 

@@ -16,6 +16,10 @@ namespace Framework.FileStorage.Standard.FileStorage.Models
 
         public string ThumbnailFileName { get; set; }
 
+        public string ThumbnailFullFilePath { get; set; }
+
         public string FileSourceId { get; set; }
+
+        public string FullFilePath { get; set; }
     }
 }

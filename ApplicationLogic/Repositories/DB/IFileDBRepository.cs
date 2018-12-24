@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Framework.Core.Messages;
+using DomainModel.File;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -19,7 +20,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<FilePageQueryCommandOutputDTO>> PageQuery(PageQuery<FilePageQueryCommandInputDTO> input);
 
-        OperationResponse<FileGetByIdCommandOutputDTO> GetById(int id);
+        OperationResponse<File> GetById(int id);
 
         OperationResponse<FileInsertCommandOutputDTO> Insert(FileInsertCommandInputDTO input);
 

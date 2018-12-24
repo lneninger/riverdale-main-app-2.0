@@ -24,10 +24,13 @@ export class Product {
 }
 
 export class ProductMediaGrid {
+    id?: number;
+    fileId?: number;
 
     constructor(item?) {
         let internal = item || <ProductMediaGrid>{};
-
+        this.id = internal.id;
+        this.fileId = internal.fileId;
     }
 }
 

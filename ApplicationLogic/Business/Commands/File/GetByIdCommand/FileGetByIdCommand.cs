@@ -15,10 +15,21 @@ namespace ApplicationLogic.Business.Commands.File.GetByIdCommand
 
         public OperationResponse<FileGetByIdCommandOutputDTO> Execute(int id)
         {
+            var result = new OperationResponse<FileGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetById(id);
+                var getByIdResult = this.Repository.GetById(id);
+                result.AddResponse(getByIdResult);
+                if (result.IsSucceed)
+                {
+                    result.Bag = new FileGetByIdCommandOutputDTO
+                    {
+                        Id = getByIdResult.Bag.Id,
+                    };
+                }
             }
+
+            return result;
         }
     }
 }

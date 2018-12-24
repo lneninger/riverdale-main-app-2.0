@@ -18,6 +18,6 @@ namespace Framework.Storage.FileStorage.interfaces
         //string Identifier { get; }
         FileStorageResultDTO Save(FileArgs args);
 
-        Task<byte[]> RetrieveFile(string rootFolder, string accessPath, string folderPath, string fileName);
+        Task<byte[]> RetrieveFile(string rootPath, string accessPath, string folderPath, string fileName);
     }
 }

@@ -101,22 +101,19 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<FileGetByIdCommandOutputDTO> GetById(int id)
+        public OperationResponse<File> GetById(int id)
         {
-            var result = new OperationResponse<FileGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<File>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<File>().Where(o => o.Id == id).Select(entityItem => new FileGetByIdCommandOutputDTO
-                    {
-                        Id = entityItem.Id,
-                    }).FirstOrDefault();
+                    result.Bag = dbLocator.Set<File>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error Geting User {id}", ex);
+                result.AddException($"Error getting File {id}", ex);
             }
 
             return result;
@@ -158,11 +155,13 @@ namespace DatabaseRepositories.DB
             if (entity != null)
             {
                 entity.RootPath = input.RootPath ?? entity.RootPath;
-                entity.AccessPath = input.RootPath ?? entity.AccessPath;
-                entity.RelativePath = input.RootPath ?? entity.RelativePath;
+                entity.AccessPath = input.AccessPath ?? entity.AccessPath;
+                entity.RelativePath = input.RelativePath ?? entity.RelativePath;
+                entity.FullFilePath = input.FullFilePath ?? entity.FullFilePath;
                 entity.FileName = input.FileName ?? entity.FileName;
                 entity.FileSize = input.FileSize ?? entity.FileSize;
                 entity.ThumbnailFileName = input.ThumbnailFileName ?? entity.ThumbnailFileName;
+                entity.ThumbnailFullFilePath = input.ThumbnailFullFilePath ?? entity.ThumbnailFullFilePath;
                 entity.FileSystemTypeId = input.StorageTypeID ?? entity.FileSystemTypeId;
             }
 

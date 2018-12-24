@@ -11,6 +11,7 @@ export const environment = {
     //}
     appApi: {
         apiProjectUrl: "https://riverdaleapi.hipalanet.com/",
-        apiBaseUrl: "https://riverdaleapi.hipalanet.com/api/"
+        apiBaseUrl: "https://riverdaleapi.hipalanet.com/api/",
+        apiUploadFileUrl: "https://riverdaleapi.hipalanet.com/upload.axd"
     }
 };

@@ -105,7 +105,9 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                     AccessPath = fileStorageResult.AccessPath,
                     RelativePath = fileStorageResult.FolderPath,
                     FileName = fileStorageResult.FileName,
+                    FullFilePath = fileStorageResult.FullFilePath,
                     ThumbnailFileName = fileStorageResult.ThumbnailFileName,
+                    ThumbnailFullFilePath = fileStorageResult.ThumbnailFullFilePath,
                     StorageTypeID = fileStorageResult.FileSourceId,
                 };
 

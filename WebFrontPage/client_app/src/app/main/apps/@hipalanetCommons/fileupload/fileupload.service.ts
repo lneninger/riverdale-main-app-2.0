@@ -81,6 +81,10 @@ export class CustomFileUploader {
             console.log(item);
         };
     }
+
+    isUploaded(obj: any) {
+        return (<ISelectedFile>obj).fileItem !== undefined;
+    }
 }
 
 export interface UploaderDefaultSettings extends FileUploaderOptions {

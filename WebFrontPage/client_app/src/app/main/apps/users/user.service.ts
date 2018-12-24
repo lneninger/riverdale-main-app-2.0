@@ -126,7 +126,7 @@ export class UserService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    delete(id: number): any {
+    delete(id: string): any {
         return new Promise((resolve, reject) => {
             this.http.delete(`${environment.appApi.apiBaseUrl}user/{id}`).subscribe((res: any) => {
                 resolve(res);
