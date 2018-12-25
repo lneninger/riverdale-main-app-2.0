@@ -5,6 +5,8 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
 using Framework.Core.Messages;
+using ApplicationLogic.Business.Commands.Product.Commons;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Business.Commands.Product.InsertCommand
 {
@@ -19,10 +21,29 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand
             var result = new OperationResponse<ProductInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var entity = new DomainModel.Product.FlowerProduct
+                AbstractProduct entity = null;
+
+                if (input.ProductTypeId == nameof(ProductTypeEnum.FLW))
                 {
-                    Name = input.Name,
-                };
+                    entity = new DomainModel.Product.FlowerProduct
+                    {
+                        Name = input.Name,
+                    };
+                }
+                else if (input.ProductTypeId == nameof(ProductTypeEnum.COMP))
+                {
+                    entity = new DomainModel.Product.CompositionProduct
+                    {
+                        Name = input.Name,
+                    };
+                }
+                else if (input.ProductTypeId == nameof(ProductTypeEnum.HARD))
+                {
+                    entity = new DomainModel.Product.HardgoodProduct
+                    {
+                        Name = input.Name,
+                    };
+                }
 
                 try
                 {
