@@ -1,5 +1,5 @@
 <div *ngIf="todos.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-    <span class="no-todos-text hint-text">There are no todos!</span>
+    <span class="no-todos-text hint-text">There are no selected composition items!</span>
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <composition-view-list-item class="todo-list-item has-handle"

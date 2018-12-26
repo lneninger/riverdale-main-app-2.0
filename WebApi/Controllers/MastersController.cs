@@ -62,7 +62,7 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("thirdpartyapptype")]
         public IActionResult ThirdPartyAppType()
         {
-            var result = this.MasterDataProvider.GetToEnumThirdPartyAppType();
+            var result = this.MasterDataProvider.GetToEnumThirdPartyAppTypes();
 
             return this.Ok(result);
         }
@@ -73,9 +73,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("productcolortype")]
-        public IActionResult ProductColorType()
+        public IActionResult ProductColorTypes()
         {
-            var result = this.MasterDataProvider.GetToEnumProductColorType();
+            var result = this.MasterDataProvider.GetToEnumProductColorTypes();
             return this.Ok(result);
         }
 
@@ -85,9 +85,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("customerfreightoutratetype")]
-        public IActionResult CustomerFreightoutRateType()
+        public IActionResult CustomerFreightoutRateTypes()
         {
-            var result = this.MasterDataProvider.GetToEnumCustomerFreightoutRateType();
+            var result = this.MasterDataProvider.GetToEnumCustomerFreightoutRateTypes();
             return this.Ok(result);
         }
 
@@ -97,9 +97,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("customer")]
-        public IActionResult Customer()
+        public IActionResult Customers()
         {
-            var result = this.MasterDataProvider.GetToEnumCustomer();
+            var result = this.MasterDataProvider.GetToEnumCustomers();
             return this.Ok(result);
         }
 
@@ -109,9 +109,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
         [Route("user")]
-        public IActionResult GetToEnumAppUser()
+        public IActionResult GetToEnumAppUsers()
         {
-            var result = this.MasterDataProvider.GetToEnumAppUser();
+            var result = this.MasterDataProvider.GetToEnumAppUsers();
             return this.Ok(result);
         }
 
@@ -137,7 +137,7 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("role")]
         public IActionResult GetToEnumRoles()
         {
-            var result = this.MasterDataProvider.GetToEnumRole();
+            var result = this.MasterDataProvider.GetToEnumRoles();
             return this.Ok(result);
         }
 
@@ -149,7 +149,19 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("producttype")]
         public IActionResult GetToEnumProductTypes()
         {
-            var result = this.MasterDataProvider.GetToEnumProductType();
+            var result = this.MasterDataProvider.GetToEnumProductTypes();
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<int>>))]
+        [Route("product")]
+        public IActionResult GetToEnumProducts()
+        {
+            var result = this.MasterDataProvider.GetToEnumProducts();
             return this.Ok(result);
         }
     }

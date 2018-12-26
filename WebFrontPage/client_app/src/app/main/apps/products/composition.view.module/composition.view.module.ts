@@ -15,6 +15,8 @@ import { CompositionViewListItemComponent } from './composition.view-list/compos
 import { CompositionViewListComponent } from './composition.view-list/composition.view-list.component';
 import { CompositionViewDetailsComponent } from './composition.view-details/composition.view-details.component';
 
+import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
+
 const routes: Routes = [
     {
         path     : 'all',
@@ -89,6 +91,8 @@ const routes: Routes = [
         
         , FuseSharedModule
         , FuseSidebarModule
+
+        , HipalanetUtils
     ],
     providers   : [
         CompositionViewService

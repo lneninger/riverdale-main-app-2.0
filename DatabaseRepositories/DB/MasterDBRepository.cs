@@ -146,5 +146,23 @@ namespace DatabaseRepositories.DB
 
             return result;
         }
+
+        public OperationResponse<List<EnumItemDTO<int>>> GetToEnumProducts()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<int>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()} } }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error geting users", ex);
+            }
+
+            return result;
+        }
     }
 }

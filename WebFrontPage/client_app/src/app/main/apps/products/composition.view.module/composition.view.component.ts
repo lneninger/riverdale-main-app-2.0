@@ -85,10 +85,12 @@ export class CompositionViewComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedTodos => {
 
-                setTimeout(() => {
-                    this.hasSelectedTodos = selectedTodos.length > 0;
-                    this.isIndeterminate = (selectedTodos.length !== this._todoService.todos.length && selectedTodos.length > 0);
-                }, 0);
+                if (selectedTodos && (this._todoService.todos && this._todoService.todos.length)) {
+                    setTimeout(() => {
+                        this.hasSelectedTodos = selectedTodos.length > 0;
+                        this.isIndeterminate = (selectedTodos.length !== this._todoService.todos.length && selectedTodos.length > 0);
+                    }, 0);
+                }
             });
 
         this._todoService.onFiltersChanged

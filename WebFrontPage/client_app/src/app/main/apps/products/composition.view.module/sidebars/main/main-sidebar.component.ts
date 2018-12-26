@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ElementRef, ViewChild, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { pipe, of, fromEvent, Subject } from "rxjs";
+import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 
+import { Product } from '../../../product.model';
 import { CompositionViewService } from '../../composition.view.service';
+import { EnumItem, ProductResolveService } from 'app/main/apps/@resolveServices/resolve.module';
 
 @Component({
     selector     : 'todo-main-sidebar',
@@ -16,7 +18,21 @@ import { CompositionViewService } from '../../composition.view.service';
 })
 export class TodoMainSidebarComponent implements OnInit, OnDestroy
 {
-    productTermFilter: string;
+    private _currentEntity: Product;
+
+    get currentEntity() {
+        return this._currentEntity;
+    }
+
+    @Input('entity')
+    set currentEntity(value: Product) {
+        this._currentEntity = value;
+    }
+
+    @ViewChild('productFilterElement')
+    productFilterElement: ElementRef;
+
+    listProduct: EnumItem<number>[];
 
     folders: any[];
     filters: any[];
@@ -34,8 +50,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
      * @param {Router} _router
      */
     constructor(
-        private _todoService: CompositionViewService,
-        private _router: Router
+        private _todoService: CompositionViewService
+        , private _router: Router
+        , private productResolveService: ProductResolveService
     )
     {
         // Set the defaults
@@ -44,6 +61,13 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
             'withinpixels': 'johndoe@withinpixels.com'
         };
         this.selectedAccount = 'creapond';
+
+        this.productResolveService.noDependencyResolve()
+            .then(originalList => {
+                this.filterProducts(null);
+            });
+
+        
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -58,6 +82,19 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        fromEvent(this.productFilterElement.nativeElement, 'keyup')
+            .pipe(
+                filter(e => { return (<any>e).keyCode == 13 }),
+                takeUntil(this._unsubscribeAll),
+                debounceTime(150),
+                distinctUntilChanged()
+            )
+            .subscribe(() => {
+                debugger;
+                let term = <string>this.productFilterElement.nativeElement.value;
+                this.filterProducts(term);
+            });
+
         this._todoService.onFiltersChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(filters => {
@@ -84,6 +121,13 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    filterProducts(term: string) {
+        this.listProduct = (<EnumItem<number>[]>this.productResolveService.list).filter(o =>
+            o.key != this.currentEntity.id
+            && o.value  && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) != -1)
+        )
+    }
 
     /**
      * New todo

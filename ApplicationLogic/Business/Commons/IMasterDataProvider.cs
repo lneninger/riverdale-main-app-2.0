@@ -8,18 +8,20 @@ namespace ApplicationLogic.Business.Commons
 {
     public interface IMasterDataProvider
     {
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumThirdPartyAppTypes();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductColorTypes();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumCustomerFreightoutRateTypes();
 
-        OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomer();
+        OperationResponse<List<EnumItemDTO<int>>> GetToEnumCustomers();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumAppUser();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumAppUsers();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductType();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductTypes();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumRole();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumRoles();
+
+        OperationResponse<List<EnumItemDTO<int>>> GetToEnumProducts();
     }
 }

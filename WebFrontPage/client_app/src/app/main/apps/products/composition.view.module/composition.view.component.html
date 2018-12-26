@@ -6,7 +6,7 @@
 
     <!-- SIDEBAR -->
     <fuse-sidebar class="sidebar" name="todo-main-sidebar" position="left" lockedOpen="gt-md">
-        <todo-main-sidebar></todo-main-sidebar>
+        <todo-main-sidebar [entity]="currentEntity"></todo-main-sidebar>
     </fuse-sidebar>
     <!-- / SIDEBAR -->
 
@@ -23,10 +23,10 @@
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                <!--<div class="search" fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="secondary-text">search</mat-icon>
                     <input [formControl]="searchInput" placeholder="Search for a task" fxFlex>
-                </div>
+                </div>-->
 
             </div>
 
