@@ -1,12 +1,12 @@
-@mixin todo-theme($theme) {
+@mixin composition-view-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
     $accent: map-get($theme, accent);
     $is-dark: map-get($theme, is-dark);
 
-    // Todo
-    todo {
+    // Composition View
+    composition-view {
 
         .center {
 
@@ -40,14 +40,12 @@
             }
         }
     }
-
     // Todo list
-    todo-list {
+    composition-view-list {
         border-right-color: map-get($foreground, divider);
     }
-
     // Todo list item
-    todo-list-item {
+    composition-view-list-item {
         border-bottom-color: map-get($foreground, divider);
 
         .tags {
@@ -60,7 +58,8 @@
         &.completed {
             @if ($is-dark) {
                 background: map-get($background, background);
-            } @else {
+            }
+            @else {
                 background: #EFEFEF;
             }
 
@@ -73,14 +72,14 @@
         &.selected {
             @if ($is-dark) {
                 background: map-get($background, background);
-            } @else {
+            }
+            @else {
                 background: map-get($accent, 50);
             }
         }
     }
-
     // Todo details
-    todo-details {
+    composition-view-details {
 
         .todo-header {
             background: map-get($background, background);

@@ -9,6 +9,7 @@ export class ProductGrid {
 export class Product {
     id: number;
     name: string;
+    productTypeId: string;
     medias: ProductMediaGrid[]
 
     /**
@@ -17,9 +18,11 @@ export class Product {
      * @param product
      */
     constructor(product?) {
-        product = product || {};
-        this.id = product.id;
-        this.name = product.name;
+        let internal = product || {};
+        this.id = internal.id;
+        this.name = internal.name;
+        this.productTypeId = internal.productTypeId
+        this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
     }
 }
 

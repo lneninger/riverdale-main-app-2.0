@@ -66,34 +66,37 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        CompositionViewComponent,
-        TodoMainSidebarComponent,
-        CompositionViewListItemComponent,
-        CompositionViewListComponent,
-        CompositionViewDetailsComponent
+        CompositionViewComponent
+        , TodoMainSidebarComponent
+        , CompositionViewListItemComponent
+        , CompositionViewListComponent
+        , CompositionViewDetailsComponent
     ],
     imports     : [
-        RouterModule.forChild(routes),
+        RouterModule//.forChild(routes),
 
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatSelectModule,
-
-        NgxDnDModule,
-
-        FuseSharedModule,
-        FuseSidebarModule
+        , MatButtonModule
+        , MatCheckboxModule
+        , MatDatepickerModule
+        , MatFormFieldModule
+        , MatIconModule
+        , MatInputModule
+        , MatMenuModule
+        , MatRippleModule
+        , MatSelectModule
+        
+        , NgxDnDModule
+        
+        , FuseSharedModule
+        , FuseSidebarModule
     ],
     providers   : [
         CompositionViewService
+    ],
+    exports: [
+        CompositionViewComponent
     ]
 })
-export class TodoModule
+export class CompositionViewModule
 {
 }

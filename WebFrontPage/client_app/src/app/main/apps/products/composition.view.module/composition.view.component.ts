@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -7,7 +7,9 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { Todo } from './composition.view.model';
+import { Product, IProductMedia, ProductMediaGrid } from '../product.model';
 import { CompositionViewService } from './composition.view.service';
+import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
 
 @Component({
     selector: 'composition-view',
@@ -18,6 +20,29 @@ import { CompositionViewService } from './composition.view.service';
 })
 export class CompositionViewComponent implements OnInit, OnDestroy
 {
+    private _currentEntity: Product;
+
+    get currentEntity() {
+        return this._currentEntity;
+    }
+
+    @Input('entity')
+    set currentEntity(value: Product) {
+        this._currentEntity = value;
+        if (this._currentEntity != null) {
+            this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
+            this.frmMain = this.createFormBasicInfo();
+        }
+        else {
+            this.medias = null;
+        }
+    }
+
+    medias: (ProductMediaGrid | ISelectedFile)[];
+
+    frmMain: FormGroup;
+
+
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
     filters: any[];
@@ -35,8 +60,9 @@ export class CompositionViewComponent implements OnInit, OnDestroy
      * @param {TodoService} _todoService
      */
     constructor(
-        private _fuseSidebarService: FuseSidebarService,
-        private _todoService: CompositionViewService
+        private _fuseSidebarService: FuseSidebarService
+        , private _todoService: CompositionViewService
+        , private _formBuilder: FormBuilder
     )
     {
         // Set the defaults
@@ -114,6 +140,19 @@ export class CompositionViewComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    /**
+     * Create product form
+     *
+     * @returns {FormGroup}
+     */
+    createFormBasicInfo(): FormGroup {
+        //debugger;
+        return this._formBuilder.group({
+            id: [this.currentEntity.id],
+            name: [this.currentEntity.name],
+        });
+    }
+
 
     /**
      * Deselect current todo

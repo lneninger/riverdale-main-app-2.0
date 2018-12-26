@@ -6,6 +6,8 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { ProductsComponent, ProductNewDialogComponent } from './products.component';
 import { ProductComponent } from './product.component';
 import { ProductCoreModule, ProductService } from './product.core.module';
+import { BasicProductModule } from './basicproduct.view.module/basicproduct.module';
+import { CompositionViewModule } from './composition.view.module/composition.view.module';
 
 import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
@@ -79,6 +81,8 @@ const routes: Routes = [
 
         , PopupsModule
         , ProductCoreModule
+        , BasicProductModule
+        , CompositionViewModule
         , CustomFileUploadModule
         , HipalanetUtils.forRoot({ fileRetrieveUrl: environment.appApi.apiUploadFileUrl })
 

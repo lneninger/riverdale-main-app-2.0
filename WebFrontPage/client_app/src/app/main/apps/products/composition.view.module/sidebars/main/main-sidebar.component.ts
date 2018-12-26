@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { TodoService } from 'app/main/apps/todo/todo.service';
+import { CompositionViewService } from '../../composition.view.service';
 
 @Component({
     selector     : 'todo-main-sidebar',
@@ -16,6 +16,8 @@ import { TodoService } from 'app/main/apps/todo/todo.service';
 })
 export class TodoMainSidebarComponent implements OnInit, OnDestroy
 {
+    productTermFilter: string;
+
     folders: any[];
     filters: any[];
     tags: any[];
@@ -32,7 +34,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
      * @param {Router} _router
      */
     constructor(
-        private _todoService: TodoService,
+        private _todoService: CompositionViewService,
         private _router: Router
     )
     {

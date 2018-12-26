@@ -98,6 +98,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/customers/customers.theme";
 @import "src/app/main/apps/product-color/productcolors.theme";
 @import "src/app/main/apps/products/products.theme";
+@import "src/app/main/apps/products/composition.view.module/composition.view.theme";
 @import "src/app/main/apps/users/users.theme";
 @import "src/app/main/apps/user-roles/userroles.theme";
 
@@ -155,6 +156,7 @@ $typography: mat-typography-config(
     @include users-theme($theme);
     @include userroles-theme($theme);
     @include products-theme($theme);
+    @include composition-view-theme($theme);
     // Pages
     @include login-theme($theme);
     @include login-2-theme($theme);

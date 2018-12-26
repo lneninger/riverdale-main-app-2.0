@@ -28,15 +28,11 @@ import { ProductMediaService } from './product.core.module';
 })
 export class ProductComponent implements OnInit, OnDestroy {
     // Resolve
-    listProductFreightoutRateType: EnumItem<string>[];
-    listThirdParty: EnumItem<string>[];
-
     id: string;
     currentEntity: Product;
     medias: (ProductMediaGrid | ISelectedFile)[];
 
     pageType: string;
-    displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyProductId'];
 
     frmMain: FormGroup;
 
@@ -87,7 +83,6 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.serviceProductMedia.add(productMedia).then(result => {
                 //this.medias.push(fileUploaded);
             });
-
         });
 
         this.customUploader.onCompleteAll.subscribe(result => {
@@ -95,7 +90,6 @@ export class ProductComponent implements OnInit, OnDestroy {
                 verticalPosition: 'top',
                 duration: 5000
             });
-
         });
 
         // Set the private defaults
@@ -110,9 +104,6 @@ export class ProductComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        // Resolve
-        this.listProductFreightoutRateType = this.route.snapshot.data['listProductFreightoutRateType'];
-        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged
@@ -124,15 +115,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.id = currentEntity.id;
                 if (currentEntity) {
                     this.currentEntity = new Product(currentEntity);
-                    this.medias = (currentEntity.medias || []).map(item => new ProductMediaGrid(item));
-                    this.pageType = 'edit';
                 }
-                else {
-                    this.pageType = 'new';
-                    this.currentEntity = new Product();
-                }
-
-                this.frmMain = this.createFormBasicInfo();
             });
     }
 
@@ -145,112 +128,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Create product form
-     *
-     * @returns {FormGroup}
-     */
-    createFormBasicInfo(): FormGroup {
-        //debugger;
-        return this._formBuilder.group({
-            id: [this.currentEntity.id],
-            name: [this.currentEntity.name],
-        });
+    isBasicProduct(entity) {
+        return entity && ['FLW', 'HARD'].indexOf(entity.productTypeId) != -1;
     }
 
-    /**
-     * Save product
-     */
-    save(): void {
-        const basicInfoData = this.frmMain.getRawValue();
-
-        Observable.create(observer => {
-            if (!this.disableSaveFrmMain()) {
-                return of(false);
-            }
-            else {
-                return this.update(basicInfoData);
-            }
-        })
-            .toPromise()
-            .then(() => {
-                //debugger;
-                // Trigger the subscription with new data
-                this.service.onCurrentEntityChanged.next(basicInfoData);
-
-                // Show the success message
-                this._matSnackBar.open('Product saved', 'OK', {
-                    verticalPosition: 'top',
-                    duration: 5000
-                });
-            });
+    isCompositionProduct(entity) {
+        return entity && ['COMP'].indexOf(entity.productTypeId) != -1;
     }
 
-    /**
-     * Add product
-     */
-    update(entity: Product): Observable<Product> {
-        return Observable.create(observer => {
-            this.service.save(entity)
-                .then((result: Product) => {
-                    observer.next(result);
-                    observer.complete();
-                });
-        });
-
-    }
-
-    delete() {
-        const dialogRef = this.matDialog.open(DeletePopupComponent, {
-            width: '250px',
-            data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
-        });
-
-        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
-            if (result == 'YES') {
-                this.deleteExecution();
-            }
-        });
-    }
-
-    deleteExecution() {
-        this.service.delete(this.currentEntity.id)
-            .then(() => {
-
-                // Show the success message
-                this._matSnackBar.open('Product deleted', 'OK', {
-                    verticalPosition: 'top',
-                    duration: 2000
-                });
-
-                // Change the location with new one
-                this._location.go('apps/products');
-            });
-    }
-
-    openFileDialog() {
-        const dialogRef = this.matDialog.open(FilePopupComponent, {
-            width: '250px',
-            data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
-        });
-
-        dialogRef.afterClosed().subscribe((result: FilePopupResult) => {
-            if (result == 'YES') {
-                this.deleteExecution();
-            }
-        });
-    }
-
-    disableSaveFrmMain() {
-        return (this.frmMain.invalid || this.frmMain.pristine);
-    }
-
-    disableSave() {
-        return this.disableSaveFrmMain();
-    }
 }
 
