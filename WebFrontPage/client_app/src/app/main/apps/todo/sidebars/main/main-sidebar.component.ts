@@ -59,13 +59,13 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
         this._todoService.onFiltersChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(filters => {
-                this.filters = filters;
+                this.filters = [filters[0]];
             });
 
         this._todoService.onTagsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(tags => {
-                this.tags = tags;
+                this.tags = [tags[0]];
             });
     }
 

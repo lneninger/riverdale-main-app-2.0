@@ -1,7 +1,13 @@
 @import "src/@fuse/scss/fuse";
 
-todo {
+composition-view {
     width: 100%;
+    /*The original selector :  content > *:not(router-outlet) is not applicable when nest the component into another. Forced style below */
+    display: flex;
+    flex: 1 0 auto;
+    width: 100%;
+    min-width: 100%;
+    /*The original selector ... END*/
 
     .center {
 
@@ -51,16 +57,16 @@ todo {
 
             @include media-breakpoint('lt-xl') {
 
-                todo-list {
+                composition-view-list {
                     border-right: 0;
                 }
 
-                todo-list,
-                todo-details {
+                composition-view-list,
+                composition-view-details {
                     flex: 1 0 100%;
                 }
 
-                todo-details {
+                composition-view-details {
                     display: none !important;
                 }
 

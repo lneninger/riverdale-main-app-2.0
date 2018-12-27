@@ -135,7 +135,8 @@ export class AuthenticationService {
             .pipe(mergeMap((expiresAt: Date) => {
                 if (!expiresAt) return of(null);
                 const now = moment();
-                var dateDiff = moment(expiresAt).diff(now);
+                const expiresAtSubtracted = moment(expiresAt).subtract(30, 'seconds');
+                const dateDiff = expiresAtSubtracted.diff(now);
                 return timer(Math.max(1, dateDiff));
             }))
 

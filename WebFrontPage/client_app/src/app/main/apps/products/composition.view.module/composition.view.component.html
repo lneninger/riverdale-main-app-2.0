@@ -1,15 +1,13 @@
-<div id="todo" class="page-layout carded left-sidebar inner-scroll">
+<div id="todo" class="page-layout carded left-sidebar">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
-
     <!-- SIDEBAR -->
     <fuse-sidebar class="sidebar" name="todo-main-sidebar" position="left" lockedOpen="gt-md">
         <todo-main-sidebar [entity]="currentEntity"></todo-main-sidebar>
     </fuse-sidebar>
     <!-- / SIDEBAR -->
-
     <!-- CENTER -->
     <div class="center">
 
@@ -32,7 +30,6 @@
 
         </div>
         <!-- / CONTENT HEADER -->
-
         <!-- CONTENT CARD -->
         <div class="content-card" [ngClass]="{'current-todo-selected':currentTodo}">
 
@@ -77,7 +74,6 @@
 
             </div>
             <!-- / CONTENT TOOLBAR -->
-
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
                 <composition-view-list fusePerfectScrollbar fxFlex></composition-view-list>

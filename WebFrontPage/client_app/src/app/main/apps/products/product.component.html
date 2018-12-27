@@ -1,4 +1,5 @@
-<basic-product *ngIf="isBasicProduct(currentEntity)" [entity]="currentEntity" fxFlex="100%"></basic-product>
+<div id="todo" class="page-layout carded left-sidebar inner-scroll">
+<basic-product *ngIf="isBasicProduct(currentEntity)" [entity]="currentEntity" fxFlex></basic-product>
 
-<composition-view *ngIf="isCompositionProduct(currentEntity)" [entity]="currentEntity" fxFlex="100%"></composition-view>
-<!--<composition-view *ngIf="isCompositionProduct(currentEntity)" [entity]="currentEntity"></composition-view>-->
+<composition-view *ngIf="isCompositionProduct(currentEntity)" [entity]="currentEntity" fxFlex></composition-view>
+</div>

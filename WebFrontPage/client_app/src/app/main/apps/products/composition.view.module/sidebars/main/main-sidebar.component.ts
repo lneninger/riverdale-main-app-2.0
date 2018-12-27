@@ -7,7 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { Product } from '../../../product.model';
 import { CompositionViewService } from '../../composition.view.service';
-import { EnumItem, ProductResolveService } from 'app/main/apps/@resolveServices/resolve.module';
+import { EnumItem, ProductResolveService } from '../../../../@resolveServices/resolve.module';
 
 @Component({
     selector     : 'todo-main-sidebar',
@@ -125,8 +125,8 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     filterProducts(term: string) {
         this.listProduct = (<EnumItem<number>[]>this.productResolveService.list).filter(o =>
             o.key != this.currentEntity.id
-            && o.value  && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) != -1)
-        )
+            && o.value && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) != -1)
+        );//.splice(0, 3);
     }
 
     /**
