@@ -52,6 +52,7 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand
                     if (result.IsSucceed)
                     {
                         dbContextScope.SaveChanges();
+
                     }
                 }
                 catch (Exception ex)

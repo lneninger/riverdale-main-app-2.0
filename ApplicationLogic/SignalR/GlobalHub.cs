@@ -20,7 +20,7 @@ namespace ApplicationLogic.SignalR
         {
             using (var scope = IoCGlobal.NewScope())
             {
-                Clients.All.SendCoreAsync("EntityChanged", new object[] { @event });
+                Clients.All.SendCoreAsync("dataChanged", new object[] { @event });
             }
         }
 
