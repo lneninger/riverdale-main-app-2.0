@@ -3,7 +3,7 @@
      class="header accent p-24 pb-4">
     <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
         <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            check_box
+            extension
         </mat-icon>
         <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Composition</span>
     </div>
@@ -59,7 +59,7 @@
             <div class="nav-item" *ngFor="let productItem of listProduct">
                 <a class="nav-link" matRipple [routerLink]="'/apps/todo/filter/' + productItem.key"
                    [routerLinkActive]="['active', 'accent']">
-                    <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras.pictureId | fileUrl:'assets/images/avatars/profile.jpg':false | async)">
+                    <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
                     <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->
                     <span>{{productItem.value}}</span>
                 </a>
