@@ -17,6 +17,8 @@ namespace DomainModel.Product
 
         public virtual AbstractProduct CompositionItem { get; set; }
 
+        public int Stems { get; set; }
+
 
         public DateTime? DeletedAt { get; set; }
 

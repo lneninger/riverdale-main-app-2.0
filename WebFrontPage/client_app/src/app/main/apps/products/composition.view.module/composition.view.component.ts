@@ -7,7 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { Todo } from './composition.view.model';
-import { CompostionProduct, IProductMedia, ProductMediaGrid, CompositionItem } from '../product.model';
+import { CompositionProduct, IProductMedia, ProductMediaGrid, CompositionItem } from '../product.model';
 import { CompositionViewService } from './composition.view.service';
 import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
 import { ProductService } from '../product.service';
@@ -21,14 +21,14 @@ import { ProductService } from '../product.service';
 })
 export class CompositionViewComponent implements OnInit, OnDestroy
 {
-    private _currentEntity: CompostionProduct;
+    private _currentEntity: CompositionProduct;
 
     get currentEntity() {
         return this._currentEntity;
     }
 
     @Input('entity')
-    set currentEntity(value: CompostionProduct) {
+    set currentEntity(value: CompositionProduct) {
         this._currentEntity = value;
         if (this._currentEntity != null) {
             this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));

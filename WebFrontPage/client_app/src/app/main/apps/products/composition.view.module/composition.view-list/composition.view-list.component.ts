@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Todo } from '../composition.view.model';
 import { CompositionViewService } from '../composition.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { CompostionProduct, ProductMediaGrid } from '../../product.model';
+import { CompositionProduct, ProductMediaGrid } from '../../product.model';
 
 @Component({
     selector: 'composition-view-list',
@@ -28,11 +28,6 @@ export class CompositionViewListComponent implements OnInit, OnDestroy
     @Input('entity')
     set currentEntity(value: CompositionProduct) {
         this._currentEntity = value;
-        if (this._currentEntity != null) {
-        }
-        else {
-            this.medias = null;
-        }
     }
 
 

@@ -6,7 +6,11 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand.Models
     public class ProductInsertCommandOutputDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string ERPId { get; set; }
+
+        public int Stems { get; set; }
+
+        public int ProductId { get; set; }
+
+        public int RelatedProductId { get; set; }
     }
 }
