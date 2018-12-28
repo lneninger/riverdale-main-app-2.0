@@ -56,12 +56,12 @@
 
             <div class="nav-subheader">FILTERS</div>
 
-            <div class="nav-item" *ngFor="let productItem of listProduct">
-                <a class="nav-link" matRipple [routerLink]="'/apps/todo/filter/' + productItem.key"
+            <div class="nav-item" *ngFor="let compositionItem of listProduct">
+                <a class="nav-link" matRipple (click)="selectedToAddItem(compositionItem)"
                    [routerLinkActive]="['active', 'accent']">
-                    <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
+                    <img class="avatar mr-0 mr-sm-16" [src]="(compositionItem.extras.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
                     <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->
-                    <span>{{productItem.value}}</span>
+                    <span>{{compositionItem.value}}</span>
                 </a>
             </div>
 

@@ -1,4 +1,5 @@
 import { IUploadedFile } from "../@hipalanetCommons/fileupload/fileupload.model";
+import { EnumItem } from "../@resolveServices/resolve.model";
 
 export class ProductGrid {
     id: number;
@@ -26,6 +27,16 @@ export class Product {
     }
 }
 
+export class CompositionProduct extends Product{
+    items: CompositionItem[];
+
+    constructor(product?) {
+        super(product);
+        let internal = product || {};
+        this.items = (internal.items || []).map(item => new CompositionItem(item));
+    }
+}
+
 export class ProductMediaGrid {
     id?: number;
     fileId?: number;
@@ -46,4 +57,17 @@ export interface IProductMedia extends IUploadedFile {
 export class ProductNewDialogResult {
     goTo: 'Edit';
     data: Product;
+}
+
+
+
+export class CompositionItem {
+    productId: number;
+    compositionItemId: number;
+    stems: number;
+
+    constructor(enumItem: EnumItem<number>) {
+        this.compositionItemId = enumItem.key;
+        this.stems = 1;
+    }
 }

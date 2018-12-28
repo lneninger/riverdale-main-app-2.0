@@ -3,7 +3,7 @@
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <composition-view-list-item class="todo-list-item has-handle"
-                    *ngFor="let todo of todos" [todo]="todo"
+                    *ngFor="let todo of currentEntity.items" [todo]="todo"
                     ngxDraggable
                     [model]="todo"
                     (click)="readTodo(todo.id)"

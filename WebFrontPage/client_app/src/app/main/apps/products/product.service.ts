@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'environments/environment';
 
 
@@ -9,7 +9,8 @@ import { environment } from 'environments/environment';
 //import { AngularFireDatabase } from '@angular/fire/database';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
-import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { CompositionItem } from './product.model';
 
 @Injectable()
 export class ProductService implements Resolve<any>, IPageQueryService {
@@ -17,6 +18,9 @@ export class ProductService implements Resolve<any>, IPageQueryService {
     routeParams: any;
     currentEntity: any;
     onCurrentEntityChanged: BehaviorSubject<any>;
+
+
+    onCompositionItemAdded: Subject<CompositionItem> = new Subject<CompositionItem>();
 
     /**
      * Constructor
@@ -116,6 +120,20 @@ export class ProductService implements Resolve<any>, IPageQueryService {
             error => {
                 reject(error);
             });
+
+        });
+    }
+
+    addCompositionItem(item: CompositionItem): any {
+        return new Promise((resolve, reject) => {
+            this.http.post<OperationResponse<CompositionItem>>(`${environment.appApi.apiBaseUrl}product/addCompositionItem`, item).subscribe((res: OperationResponse<CompositionItem>) => {
+                const responseItem = res.bag; 
+                this.onCompositionItemAdded.next(responseItem);
+                resolve(res);
+            },
+                error => {
+                    reject(error);
+                });
 
         });
     }

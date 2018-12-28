@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Todo } from '../composition.view.model';
 import { CompositionViewService } from '../composition.view.service';
 import { takeUntil } from 'rxjs/operators';
+import { CompostionProduct, ProductMediaGrid } from '../../product.model';
 
 @Component({
     selector: 'composition-view-list',
@@ -18,6 +19,24 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CompositionViewListComponent implements OnInit, OnDestroy
 {
+    private _currentEntity: CompositionProduct;
+
+    get currentEntity() {
+        return this._currentEntity;
+    }
+
+    @Input('entity')
+    set currentEntity(value: CompositionProduct) {
+        this._currentEntity = value;
+        if (this._currentEntity != null) {
+        }
+        else {
+            this.medias = null;
+        }
+    }
+
+
+
     todos: Todo[];
     currentTodo: Todo;
 

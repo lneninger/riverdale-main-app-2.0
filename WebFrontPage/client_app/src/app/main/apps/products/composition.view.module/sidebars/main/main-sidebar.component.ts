@@ -5,9 +5,10 @@ import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/oper
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { Product } from '../../../product.model';
+import { Product, CompositionItem } from '../../../product.model';
 import { CompositionViewService } from '../../composition.view.service';
 import { EnumItem, ProductResolveService } from '../../../../@resolveServices/resolve.module';
+import { ProductService } from '../../../product.service';
 
 @Component({
     selector     : 'todo-main-sidebar',
@@ -53,6 +54,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
         private _todoService: CompositionViewService
         , private _router: Router
         , private productResolveService: ProductResolveService
+        , private productService: ProductService
     )
     {
         // Set the defaults
@@ -126,7 +128,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
         this.listProduct = (<EnumItem<number>[]>this.productResolveService.list).filter(o =>
             o.key != this.currentEntity.id
             && o.value && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) != -1)
-        );//.splice(0, 3);
+        );
     }
 
     /**
@@ -139,5 +141,15 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
                 this._todoService.onNewTodoClicked.next('');
             });
         });
+    }
+
+
+    selectedToAddItem(enumItem: EnumItem<number>) {
+        const item = new CompositionItem(enumItem);
+        item.productId = this.currentEntity.id;
+        this.productService.addCompositionItem(item).subscribe(response => {
+
+        });
+
     }
 }

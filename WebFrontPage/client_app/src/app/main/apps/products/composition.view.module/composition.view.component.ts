@@ -7,9 +7,10 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { Todo } from './composition.view.model';
-import { Product, IProductMedia, ProductMediaGrid } from '../product.model';
+import { CompostionProduct, IProductMedia, ProductMediaGrid, CompositionItem } from '../product.model';
 import { CompositionViewService } from './composition.view.service';
 import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
+import { ProductService } from '../product.service';
 
 @Component({
     selector: 'composition-view',
@@ -20,14 +21,14 @@ import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.mod
 })
 export class CompositionViewComponent implements OnInit, OnDestroy
 {
-    private _currentEntity: Product;
+    private _currentEntity: CompostionProduct;
 
     get currentEntity() {
         return this._currentEntity;
     }
 
     @Input('entity')
-    set currentEntity(value: Product) {
+    set currentEntity(value: CompostionProduct) {
         this._currentEntity = value;
         if (this._currentEntity != null) {
             this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
@@ -63,6 +64,7 @@ export class CompositionViewComponent implements OnInit, OnDestroy
         private _fuseSidebarService: FuseSidebarService
         , private _todoService: CompositionViewService
         , private _formBuilder: FormBuilder
+        , private productService: ProductService
     )
     {
         // Set the defaults
@@ -70,6 +72,8 @@ export class CompositionViewComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.productService.onCompositionItemAdded.subscribe(this.onCompositionItemAdded)
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -209,5 +213,10 @@ export class CompositionViewComponent implements OnInit, OnDestroy
     toggleSidebar(name): void
     {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
+
+
+    onCompositionItemAdded(item: CompositionItem) {
+        this.currentEntity.items.push(item);
     }
 }

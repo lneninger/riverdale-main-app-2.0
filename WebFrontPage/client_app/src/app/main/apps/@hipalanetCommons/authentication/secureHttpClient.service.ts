@@ -41,10 +41,10 @@ export class SecureHttpClientService {
         return this.httpClient.get<T>(url, internalOptions);
     }
 
-    post(url: string, body: any, options?: CallOptions) {
+    post<T = Object>(url: string, body: any, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
-        return this.httpClient.post(url, body, internalOptions);
+        return this.httpClient.post<T>(url, body, internalOptions);
     }
 
     put(url: string, body: any, options?: CallOptions) {

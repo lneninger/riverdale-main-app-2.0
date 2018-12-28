@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
 
-import { Todo } from './composition.view.model';
+import { Todo, CompositionItem } from './composition.view.model';
 
 @Injectable()
 export class CompositionViewService implements Resolve<any>
@@ -442,4 +442,12 @@ export class CompositionViewService implements Resolve<any>
                 });
         });
     }
+
+
+
+
+    addCompositionItem(item: CompositionItem) {
+
+    }
+
 }
