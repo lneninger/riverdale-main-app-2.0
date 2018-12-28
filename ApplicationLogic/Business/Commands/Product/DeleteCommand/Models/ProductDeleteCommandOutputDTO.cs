@@ -11,9 +11,7 @@ namespace ApplicationLogic.Business.Commands.Product.DeleteCommand.Models
         }
 
         public int Id { get; set; }
-
-        public int ProductId { get; set; }
-
-        public int RelatedProductId { get; set; }
+        public string Name { get; set; }
+        public string ERPId { get; set; }
     }
 }
