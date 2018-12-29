@@ -21,7 +21,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<ProductBridgePageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductBridgePageQueryCommandInputDTO> input);
 
-        OperationResponse<CompositionProductBridge> GetById(int id);
+        OperationResponse<CompositionProductBridge> GetById(int id, bool forceRefresh = false);
 
         OperationResponse<CompositionProductBridge> GetByIdWithMedias(int id);
 
@@ -30,6 +30,8 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse Delete(CompositionProductBridge entity);
 
         OperationResponse LogicalDelete(CompositionProductBridge entity);
+
+        void Detach(int id);
 
     }
 }

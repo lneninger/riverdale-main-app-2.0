@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand.Models
+namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
 {
-    public class ProductBridgeInsertCommandOutputDTO
+    public class ProductGetByIdCommandOutputRelatedProductItemDTO
     {
         public int Id { get; set; }
 

@@ -3,6 +3,8 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using System;
 using System.Collections.Generic;
+using DomainModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseRepositories
 {
@@ -29,6 +31,24 @@ namespace DatabaseRepositories
             }
         }
 
-        
+        public void Detach(AbstractBaseEntity entity)
+        {
+            var dbContext = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            foreach (var entry in dbContext.Entry(entity).Navigations)
+            {
+                if (entry.CurrentValue is IEnumerable<AbstractBaseEntity> children)
+                {
+                    foreach (var child in children)
+                    {
+                        dbContext.Entry(child).State = EntityState.Detached;
+                    }
+                }
+                else if (entry.CurrentValue is AbstractBaseEntity child)
+                {
+                    dbContext.Entry(child).State = EntityState.Detached;
+                }
+            }
+            dbContext.Entry(entity).State = EntityState.Detached;
+        }
     }
 }

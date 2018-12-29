@@ -6,6 +6,7 @@ using Framework.Core.Messages;
 using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
 using ApplicationLogic.Business.Commands.Product.Commons;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 {
@@ -41,6 +42,17 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 
                     if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)
                     {
+                        result.Bag.RelatedProducts = ((CompositionProduct)getByIdResult.Bag).Items.Select(o => new ProductGetByIdCommandOutputRelatedProductItemDTO {
+                            Id = o.Id,
+                            ProductId = o.CompositionProductId,
+                            RelatedProductId = o.CompositionItemId,
+                            Stems = o.Stems,
+                            RelatedProductName = o.CompositionItem.Name,
+                            RelatedProductTypeName = o.CompositionItem.ProductType.Name,
+                            RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,
+                            RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+
+                        }).ToList();
                     }
                 }
             }

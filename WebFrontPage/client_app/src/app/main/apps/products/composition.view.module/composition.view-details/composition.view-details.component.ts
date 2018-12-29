@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { Todo } from '../composition.view.model';
 import { CompositionViewService } from '../composition.view.service';
+import { CompositionProduct } from '../../product.model';
 
 @Component({
     selector: 'composition-view-details',
@@ -25,6 +26,9 @@ export class CompositionViewDetailsComponent implements OnInit, OnDestroy
 
     @ViewChild('titleInput')
     titleInputField;
+
+    @Input('entity')
+    currentEntity: CompositionProduct;
 
     // Private
     private _unsubscribeAll: Subject<any>;

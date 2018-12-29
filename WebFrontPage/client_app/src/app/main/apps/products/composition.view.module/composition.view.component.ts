@@ -28,10 +28,10 @@ export class CompositionViewComponent implements OnInit, OnDestroy
     }
 
     @Input('entity')
-    set currentEntity(value: CompositionProduct) {
-        this._currentEntity = value;
-        if (this._currentEntity != null) {
-            this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
+    set currentEntity(value: any) {
+        if (this._currentEntity != value) {
+            this._currentEntity = new CompositionProduct(value);
+            this.medias = this._currentEntity.medias;
             this.frmMain = this.createFormBasicInfo();
         }
         else {
@@ -73,7 +73,7 @@ export class CompositionViewComponent implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.productService.onCompositionItemAdded.subscribe(this.onCompositionItemAdded)
+        this.productService.onCompositionItemAdded.subscribe(this.onCompositionItemAdded.bind(this));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -217,6 +217,7 @@ export class CompositionViewComponent implements OnInit, OnDestroy
 
 
     onCompositionItemAdded(item: CompositionItem) {
-        this.currentEntity.items.push(item);
+        debugger;
+        this.currentEntity.relatedProducts.push(item);
     }
 }

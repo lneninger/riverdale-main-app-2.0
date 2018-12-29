@@ -126,7 +126,7 @@ export class ProductService implements Resolve<any>, IPageQueryService {
 
     addCompositionItem(item: CompositionItem): any {
         return new Promise((resolve, reject) => {
-            this.http.post<OperationResponse<CompositionItem>>(`${environment.appApi.apiBaseUrl}product/addCompositionItem`, item).subscribe((res: OperationResponse<CompositionItem>) => {
+            this.http.post<OperationResponse<CompositionItem>>(`${environment.appApi.apiBaseUrl}productbridge`, item).subscribe((res: OperationResponse<CompositionItem>) => {
                 const responseItem = res.bag; 
                 this.onCompositionItemAdded.next(responseItem);
                 resolve(res);

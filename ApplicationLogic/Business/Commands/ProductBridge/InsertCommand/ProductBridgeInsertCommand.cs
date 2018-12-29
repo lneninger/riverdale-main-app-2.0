@@ -7,6 +7,7 @@ using ApplicationLogic.Business.Commands.ProductBridge.InsertCommand.Models;
 using Framework.Core.Messages;
 using ApplicationLogic.Business.Commands.Product.Commons;
 using DomainModel.Product;
+using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
 {
@@ -45,17 +46,22 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
 
                 if (result.IsSucceed)
                 {
-                    var getByIdResult = this.Repository.GetById(entity.Id);
+                    //this.Repository.Detach(entity.Id);
+                    var getByIdResult = this.Repository.GetById(entity.Id, true);
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
+
                         result.Bag = new ProductBridgeInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.CompositionProductId,
                             RelatedProductId = getByIdResult.Bag.CompositionItemId,
                             Stems = getByIdResult.Bag.Stems,
-
+                            RelatedProductName = getByIdResult.Bag.CompositionItem.Name,
+                            RelatedProductTypeName = getByIdResult.Bag.CompositionItem.ProductType.Name,
+                            RelatedProductTypeDescription = getByIdResult.Bag.CompositionItem.ProductType.Description,
+                            RelatedProductPictureId = getByIdResult.Bag.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
                         };
                     }
 

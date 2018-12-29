@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Todo } from '../../composition.view.model';
 import { CompositionViewService } from '../../composition.view.service';
 import { takeUntil } from 'rxjs/operators';
+import { CompositionItem } from '../../../product.model';
 
 @Component({
     selector: 'composition-view-list-item',
@@ -15,8 +16,8 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
 {
     tags: any[];
 
-    @Input()
-    todo: Todo;
+    @Input('entity')
+    currentEntity: CompositionItem;
 
     @HostBinding('class.selected')
     selected: boolean;
@@ -61,8 +62,8 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Set the initial values
-        this.todo = new Todo(this.todo);
-        this.completed = this.todo.completed;
+        this.currentEntity = new CompositionItem(this.currentEntity);
+        //this.completed = this.todo.completed;
 
         // Subscribe to update on selected todo change
         this._todoService.onSelectedTodosChanged
@@ -74,7 +75,7 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
                 {
                     for ( const todo of selectedTodos )
                     {
-                        if ( todo.id === this.todo.id )
+                        if ( todo.id === this.currentEntity.id )
                         {
                             this.selected = true;
                             break;
@@ -110,7 +111,7 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
      */
     onSelectedChange(): void
     {
-        this._todoService.toggleSelectedTodo(this.todo.id);
+        this._todoService.toggleSelectedTodo(this.currentEntity.id);
     }
 
     /**
@@ -120,8 +121,8 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
     {
         event.stopPropagation();
 
-        this.todo.toggleStar();
-        this._todoService.updateTodo(this.todo);
+        //this.todo.toggleStar();
+        //this._todoService.updateTodo(this.todo);
     }
 
     /**
@@ -131,8 +132,8 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
     {
         event.stopPropagation();
 
-        this.todo.toggleImportant();
-        this._todoService.updateTodo(this.todo);
+        //this.todo.toggleImportant();
+        //this._todoService.updateTodo(this.todo);
     }
 
     /**
@@ -142,7 +143,7 @@ export class CompositionViewListItemComponent implements OnInit, OnDestroy
     {
         event.stopPropagation();
 
-        this.todo.toggleCompleted();
-        this._todoService.updateTodo(this.todo);
+        //this.todo.toggleCompleted();
+        //this._todoService.updateTodo(this.todo);
     }
 }

@@ -24,5 +24,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
                 this.ProductTypeId = value == null ? null : value.ToString();
             }
         }
+
+        public IEnumerable<ProductGetByIdCommandOutputRelatedProductItemDTO> RelatedProducts { get; set; }
     }
 }

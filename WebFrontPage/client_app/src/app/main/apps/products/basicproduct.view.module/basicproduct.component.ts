@@ -40,9 +40,9 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     }
 
     @Input('entity')
-    set currentEntity(value: Product) {
-        this._currentEntity = value;
-        if (this._currentEntity != null) {
+    set currentEntity(value: any) {
+        if (value) {
+        this._currentEntity = new Product(value);
             //debugger;
             this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
             this.frmMain = this.createFormBasicInfo();

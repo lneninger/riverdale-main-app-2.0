@@ -29,7 +29,7 @@ import { ProductMediaService } from './product.core.module';
 export class ProductComponent implements OnInit, OnDestroy {
     // Resolve
     id: string;
-    currentEntity: Product;
+    currentEntity: any;
     medias: (ProductMediaGrid | ISelectedFile)[];
 
     pageType: string;
@@ -114,7 +114,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 let currentEntity = dataResponse.bag;
                 this.id = currentEntity.id;
                 if (currentEntity) {
-                    this.currentEntity = new Product(currentEntity);
+                    this.currentEntity = currentEntity;
                 }
             });
     }

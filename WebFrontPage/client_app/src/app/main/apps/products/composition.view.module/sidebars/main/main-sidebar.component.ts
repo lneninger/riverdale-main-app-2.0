@@ -11,14 +11,13 @@ import { EnumItem, ProductResolveService } from '../../../../@resolveServices/re
 import { ProductService } from '../../../product.service';
 
 @Component({
-    selector     : 'todo-main-sidebar',
-    templateUrl  : './main-sidebar.component.html',
-    styleUrls    : ['./main-sidebar.component.scss'],
+    selector: 'todo-main-sidebar',
+    templateUrl: './main-sidebar.component.html',
+    styleUrls: ['./main-sidebar.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class TodoMainSidebarComponent implements OnInit, OnDestroy
-{
+export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     private _currentEntity: Product;
 
     get currentEntity() {
@@ -55,11 +54,10 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
         , private _router: Router
         , private productResolveService: ProductResolveService
         , private productService: ProductService
-    )
-    {
+    ) {
         // Set the defaults
         this.accounts = {
-            'creapond'    : 'johndoe@creapond.com',
+            'creapond': 'johndoe@creapond.com',
             'withinpixels': 'johndoe@withinpixels.com'
         };
         this.selectedAccount = 'creapond';
@@ -69,7 +67,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
                 this.filterProducts(null);
             });
 
-        
+
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -82,8 +80,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         fromEvent(this.productFilterElement.nativeElement, 'keyup')
             .pipe(
                 filter(e => { return (<any>e).keyCode == 13 }),
@@ -113,8 +110,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -134,8 +130,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     /**
      * New todo
      */
-    newTodo(): void
-    {
+    newTodo(): void {
         this._router.navigate(['/apps/todo/all']).then(() => {
             setTimeout(() => {
                 this._todoService.onNewTodoClicked.next('');
@@ -147,7 +142,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy
     selectedToAddItem(enumItem: EnumItem<number>) {
         const item = new CompositionItem(enumItem);
         item.productId = this.currentEntity.id;
-        this.productService.addCompositionItem(item).subscribe(response => {
+        this.productService.addCompositionItem(item).then(response => {
+
+        }, error => {
 
         });
 

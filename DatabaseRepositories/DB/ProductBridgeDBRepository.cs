@@ -45,7 +45,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting all Product", ex);
+                result.AddException($"Error getting all Product Bridge", ex);
             }
 
             return result;
@@ -92,25 +92,31 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting customer page query", ex);
+                result.AddException($"Error getting Product Bridge page query", ex);
             }
 
             return result;
         }
 
-        public OperationResponse<CompositionProductBridge> GetById(int id)
+        public OperationResponse<CompositionProductBridge> GetById(int id, bool forceRefresh = false)
         {
             var result = new OperationResponse<CompositionProductBridge>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<CompositionProductBridge>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<CompositionProductBridge>().Find(id);//.FirstOrDefault();
+                    if (forceRefresh && result.Bag != null)
+                    {
+                        this.Detach(result.Bag);
+                        result.Bag = dbLocator.Set<CompositionProductBridge>().Find(id);//.FirstOrDefault();
+
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product {id}", ex);
+                result.AddException($"Error getting Product Bridge {id}", ex);
             }
 
             return result;
@@ -126,7 +132,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product {id}", ex);
+                result.AddException($"Error getting Product Bridge {id}", ex);
             }
 
             return result;
@@ -144,7 +150,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error adding Product", ex);
+                result.AddException($"Error adding Product Bridge", ex);
             }
 
             return result;
@@ -161,7 +167,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException("Error deleting Product", ex);
+                result.AddException("Error deleting Product Bridge", ex);
             }
 
             return null;
@@ -183,11 +189,37 @@ namespace DatabaseRepositories.DB
                 }
                 catch (Exception ex)
                 {
-                    result.AddException("Error voiding Product Color Type", ex);
+                    result.AddException("Error voiding Product Bridge", ex);
                 }
             }
 
             return null;
+        }
+
+
+        public void Detach(int id)
+        {
+            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            {
+                try
+                {
+                    var trackedEntity = dbLocator.ChangeTracker.Entries<CompositionProductBridge>().FirstOrDefault(trackedItem => trackedItem.Entity.Id == id);
+                    if (trackedEntity != null)
+                    {
+                        dbLocator.Entry<CompositionProductBridge>(trackedEntity.Entity).State = EntityState.Detached;
+                    }
+
+                    //var entity = dbLocator.Find<CompositionProductBridge>(id);
+                    //if (entity != null)
+                    //{
+                    //    dbLocator.Entry<CompositionProductBridge>(entity).State = EntityState.Detached;
+                    //}
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
         }
 
     }

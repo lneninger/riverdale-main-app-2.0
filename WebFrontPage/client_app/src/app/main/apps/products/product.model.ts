@@ -28,12 +28,12 @@ export class Product {
 }
 
 export class CompositionProduct extends Product{
-    items: CompositionItem[];
+    relatedProducts: CompositionItem[];
 
     constructor(product?) {
         super(product);
         let internal = product || {};
-        this.items = (internal.items || []).map(item => new CompositionItem(item));
+        this.relatedProducts = (internal.relatedProducts || []).map(item => new CompositionItem(item));
     }
 }
 
@@ -62,12 +62,30 @@ export class ProductNewDialogResult {
 
 
 export class CompositionItem {
+    id: number;
     productId: number;
-    compositionItemId: number;
+    relatedProductId: number;
+    relatedProductName: string;
+    relatedProductTypeName: string;
+    relatedProductTypeDescription: string;
+    relatedProductPictureId: number;
     stems: number;
 
-    constructor(enumItem: EnumItem<number>) {
-        this.compositionItemId = enumItem.key;
-        this.stems = 1;
+    constructor(item?) {
+        let internal = item || {};
+        if (internal.key) {
+            this.relatedProductId = internal.key;
+            this.stems = 1;
+        }
+        else {
+            this.id = internal.id;
+            this.productId = internal.productId
+            this.relatedProductId = internal.relatedProductId
+            this.relatedProductName = internal.relatedProductName
+            this.relatedProductTypeName = internal.relatedProductTypeName
+            this.relatedProductTypeDescription = internal.relatedProductTypeDescription
+            this.relatedProductPictureId = internal.relatedProductPictureId
+            this.stems = internal.stems;
+        }
     }
 }
