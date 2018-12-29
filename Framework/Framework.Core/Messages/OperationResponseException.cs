@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,15 @@ namespace Framework.Core.Messages
 
         public OperationResponse OperationResponse { get; }
 
+
+        public override string ToString() {
+            var sbResult = new StringBuilder();
+            sbResult.AppendLine(base.ToString());
+            sbResult.Append(new string('-', 80) );
+
+            sbResult.Append(JsonConvert.SerializeObject(this.Data ) );
+
+            return sbResult.ToString();
+        }
     }
 }

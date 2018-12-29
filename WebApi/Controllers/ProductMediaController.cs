@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using RiverdaleMainApp2_0.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Authorization = Microsoft.AspNetCore.Authorization;
@@ -146,8 +147,16 @@ namespace RiverdaleMainApp2_0.Controllers
         [Authorization.Authorize(Policy = PermissionsEnum.Product_Manage)]
         public IActionResult Post([FromBody]ProductMediaInsertCommandInputDTO model)
         {
-            var appResult = this.InsertCommand.Execute(model);
-            return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+            try
+            {
+                var appResult = this.InsertCommand.Execute(model);
+                return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error("Error adding ProductMedia", ex);
+                throw;
+            }
         }
 
         /// <summary>

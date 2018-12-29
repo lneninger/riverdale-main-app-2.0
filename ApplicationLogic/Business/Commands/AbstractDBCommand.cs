@@ -5,11 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentValidation;
+using Framework.Logging.Log4Net;
 
 namespace ApplicationLogic.Business.Commands
 {
     public class AbstractDBCommand<TEntity, TRepository>: BaseIoCDisposable where TEntity: class, new() where TRepository : IDBRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public AbstractDBCommand(IDbContextScopeFactory dbContextScopeFactory, TRepository repository, FluentValidation.IValidator validator = null)
         {
             this.DbContextScopeFactory = dbContextScopeFactory;

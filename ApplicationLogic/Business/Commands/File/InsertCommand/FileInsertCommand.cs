@@ -58,6 +58,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
 
                 // First step. Save file without paths. 
                 fileInsertResult = this.Repository.Insert(file);
+                result.AddResponse(fileInsertResult);
 
                 // Second step. Store file and grab its path details.
                 input.FilePrefix = file.Id.ToString();
@@ -79,10 +80,17 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                 dbContextScope.SaveChanges();
 
                 var getById = this.Repository.GetById(file.Id);
-                result.Bag = new FileInsertCommandOutputDTO
+                result.AddResponse(getById);
+                if (result.IsSucceed)
                 {
-                    Id = getById.Bag.Id
-                };
+                    result.Bag = new FileInsertCommandOutputDTO
+                    {
+                        Id = getById.Bag.Id
+                    };
+                }
+                else {
+                    this.Logger.Error("Error retrieving File", new OperationResponseException(result));
+                }
 
                 return result;
             }

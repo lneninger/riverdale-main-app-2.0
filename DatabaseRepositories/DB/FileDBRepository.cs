@@ -113,7 +113,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting File {id}", ex);
+                result.AddException($"Error getting File {id}, {ex.Message}", ex);
             }
 
             return result;
@@ -130,7 +130,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error adding File", ex);
+                result.AddException($"Error adding File, {ex.Message}", ex);
             }
 
             return result;

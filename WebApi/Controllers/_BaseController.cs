@@ -12,6 +12,7 @@ using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand.Models
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Logging.Log4Net;
 using Microsoft.AspNet.SignalR;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,11 @@ namespace RiverdaleMainApp2_0.Controllers
     [Produces("application/json")]
     public class BaseController : Controller
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>

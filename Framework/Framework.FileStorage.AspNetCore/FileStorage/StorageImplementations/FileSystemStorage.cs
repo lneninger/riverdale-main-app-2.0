@@ -106,6 +106,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
             }
             catch (Exception ex)
             {
+                this.Logger.Error("Error saving uploaded file", ex);
                 throw ex;
             }
         }

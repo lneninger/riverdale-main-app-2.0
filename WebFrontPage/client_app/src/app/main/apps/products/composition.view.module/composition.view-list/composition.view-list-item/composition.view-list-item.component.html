@@ -23,20 +23,20 @@
                 {{currentEntity.relatedProductTypeName}}
             </div>
 
-            <div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
+            <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
 
                 <div class="tag" fxLayout="row" fxLayoutAlign="start center" *ngFor="let tagId of currentEntity.tags">
                     <div class="tag-color" [ngStyle]="{'background-color': tags | getById:tagId:'color'}"></div>
                     <div class="tag-label">{{tags | getById:tagId:'title'}}</div>
                 </div>
 
-            </div>
+            </div>-->
 
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="toggleImportant($event)"
+            <!--<button mat-icon-button (click)="toggleImportant($event)"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="currentEntity.important">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!currentEntity.important">error_outline</mat-icon>
@@ -51,10 +51,10 @@
             <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation()"
                     fxHide.xs>
                 <mat-icon class="secondary-text">more_vert</mat-icon>
-            </button>
+            </button>-->
 
             <mat-menu #moreMenu="matMenu">
-                <button mat-menu-item aria-label="toggle done" (click)="toggleCompleted($event)">
+                <!--<button mat-menu-item aria-label="toggle done" (click)="toggleCompleted($event)">
                     <ng-container *ngIf="currentEntity.completed">
                         <mat-icon>check_box</mat-icon>
                         <span>Mark as undone</span>
@@ -85,7 +85,7 @@
                         <mat-icon>star_border</mat-icon>
                         <span>Add star</span>
                     </ng-container>
-                </button>
+                </button>-->
             </mat-menu>
 
         </div>

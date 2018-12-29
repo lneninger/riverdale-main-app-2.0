@@ -1,4 +1,5 @@
 ﻿using Framework.FileStorage.Standard.FileStorage.Models;
+using Framework.Logging.Log4Net;
 using Framework.Storage.FileStorage.interfaces;
 using Framework.Storage.FileStorage.Models;
 using System;
@@ -12,6 +13,8 @@ namespace Framework.Storage.FileStorage
 {
     public abstract class BaseFileStorageService: IFileStorageService
     {
+        public LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Func<string[], string> BuildRelativePath;
         public Func<string[], string> BuildFileName;
 
