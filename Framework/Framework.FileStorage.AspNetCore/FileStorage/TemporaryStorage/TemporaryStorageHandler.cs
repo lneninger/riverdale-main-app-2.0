@@ -187,9 +187,17 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                             mimeType = FileHelpers.GetMimeTypeByExtension(fileInfo.FileName);
                         }
 
+
+                        context.Response.OnStarting(state =>
+                        {
+                            var httpContext = (HttpContext)state;
+                            httpContext.Response.ContentType = mimeType;
+                            return Task.FromResult(0);
+                        }, context);
+
                         var memStream = new MemoryStream(result);
                         memStream.CopyTo(context.Response.Body);
-                        context.Response.ContentType = mimeType;
+                        //context.Response.ContentType = mimeType;
                         context.Response.Body.Flush();
 
                     }

@@ -15,6 +15,7 @@ using DomainModel.File;
 using DomainDatabaseMapping.Mappings.File;
 using DomainDatabaseMapping.Mappings.Type;
 using DomainDatabaseMapping.Mappings.Product;
+using Framework.EF.Logging;
 
 namespace DomainDatabaseMapping
 {
@@ -32,6 +33,7 @@ namespace DomainDatabaseMapping
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseLazyLoadingProxies();
+            optionsBuilder.UseLoggerFactory(CustomLoggerFactory.LoggerFactoryImpl);
         }
 
         /********************************SECURITY*********************************/

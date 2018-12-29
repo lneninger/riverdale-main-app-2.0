@@ -42,6 +42,10 @@ namespace DomainDatabaseMapping.Mappings.File
                 .HasColumnType("nvarchar(150)")
                 .IsRequired(false);
 
+            builder.Property(t => t.FileSize)
+                .HasColumnType("bigint")
+                .IsRequired(true);
+
 
 
         }
