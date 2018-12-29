@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,31 +8,60 @@ using System.Threading.Tasks;
 
 namespace Framework.Web.Security
 {
-    public class PolicyPermissionRequiredHandler : AuthorizationHandler<PolicyPermissionRequired>
+    public class PolicyPermissionRequiredHandler : IAuthorizationHandler// AuthorizationHandler<PolicyPermissionRequired>
+
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PolicyPermissionRequired requirement)
+        public Task HandleAsync(AuthorizationHandlerContext context/*, PolicyPermissionRequired requirement*/)
         {
-            if (!context.User.HasClaim(c => c.Type == JwtConstants.Strings.JwtClaimIdentifiers.Permissions))
+            var pendingRequirements = context.PendingRequirements.ToList();
+            bool allowed = false;
+
+            foreach (var requirement in pendingRequirements)
             {
-                //TODO: Use the following if targeting a version of
-                //.NET Framework older than 4.6:
-                //      return Task.FromResult(0);
-                return Task.CompletedTask;
+                if (requirement is PolicyPermissionRequired)
+                {
+                    allowed = VerifyPermissionRequired(context, requirement as PolicyPermissionRequired);
+                    if (allowed)
+                    {
+                        break;
+                    }
+                }
+                else if (requirement is RolesAuthorizationRequirement)
+                {
+                    allowed = VerifyRolePermission(context, requirement as RolesAuthorizationRequirement);
+                    if (allowed)
+                    {
+                        break;
+                    }
+                }
             }
 
+            if (allowed) {
+                pendingRequirements.ForEach(requirement =>
+                {
+                    context.Succeed(requirement);
+                });
+            }
+            
+            return Task.CompletedTask;
+        }
+
+        private static bool VerifyPermissionRequired(AuthorizationHandlerContext context, PolicyPermissionRequired requirement)
+        {
             var permissions = context.User.FindAll(JwtConstants.Strings.JwtClaimIdentifiers.Permissions);//  FindFirst(c => c.Type == ClaimTypes.DateOfBirth && c.Issuer == "http://contoso.com").Value);
 
             var matchClaimCount = permissions.Count(permission => permission.Value == requirement.Permission);
 
-            if (matchClaimCount > 0)
-            {
-                context.Succeed(requirement);
-            }
+            return (matchClaimCount > 0);
+        }
 
-            //TODO: Use the following if targeting a version of
-            //.NET Framework older than 4.6:
-            //      return Task.FromResult(0);
-            return Task.CompletedTask;
+        private static bool VerifyRolePermission(AuthorizationHandlerContext context, RolesAuthorizationRequirement requirement)
+        {
+            var roleClaims = context.User.FindAll(JwtConstants.Strings.JwtClaimIdentifiers.Rol);//  FindFirst(c => c.Type == ClaimTypes.DateOfBirth && c.Issuer == "http://contoso.com").Value);
+
+            var matchClaimCount = roleClaims.Count(roleClaim => requirement.AllowedRoles.Contains(roleClaim.Value));
+
+            return (matchClaimCount > 0);
         }
     }
 }

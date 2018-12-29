@@ -82,7 +82,7 @@
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
-                                <div [formGroup]="frmMain">
+                                <div [formGroup]="frmMain" fxLayout="row wrap">
                                     <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                                         <mat-label>Name</mat-label>
                                         <input matInput placeholder="Name"
@@ -90,6 +90,12 @@
                                                formControlName="name"
                                                required>
                                     </mat-form-field>
+
+                                    <div fxFlex="100">
+                                        <button mat-raised-button fxFlex="100" [disabled]="disableSaveFrmMain()" (click)="save()">
+                                            <mat-icon>save</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="fuse-card auto-width">
@@ -183,60 +189,10 @@
                                                 </mat-row>
                                             </mat-table>
                                         </div>
-                                        <!--<mat-paginator #paginator
-                                                       [length]="dataSource.filteredCount"
-                                                       [pageIndex]="0"
-                                                       [pageSize]="10"
-                                                       [pageSizeOptions]="[5, 10, 25, 100]">
-                                        </mat-paginator>-->
+                                      
                                     </div>
                                 </div>
-                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                    <mat-label>ERP Code</mat-label>
-                                    <input matInput placeholder="External ERP Code"
-                                           name="erpId"
-                                           formControlName="erpId"
-                                           required>
-                                </mat-form-field>-->
-                                <!--<mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-
-                                    <mat-label>Categories</mat-label>
-
-                                    <mat-chip-list #categoryList name="categories" formControlName="categories">
-
-                                        <mat-chip *ngFor="let category of currentEntity.categories"
-                                                  [removable]="true" (removed)="currentEntity.removeCategory(category)">
-                                            {{category}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input [matChipInputFor]="categoryList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="currentEntity.addCategory($event)"/>
-
-                                    </mat-chip-list>
-
-                                </mat-form-field>
-
-                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-
-                                    <mat-label>Tags</mat-label>
-
-                                    <mat-chip-list #tagList name="tags" formControlName="tags">
-
-                                        <mat-chip *ngFor="let tag of currentEntity.tags"
-                                                  [removable]="true" (removed)="currentEntity.removeTag(tag)">
-                                            {{tag}}
-                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                        </mat-chip>
-
-                                        <input [matChipInputFor]="tagList"
-                                               [matChipInputAddOnBlur]="true"
-                                               (matChipInputTokenEnd)="currentEntity.addTag($event)"/>
-
-                                    </mat-chip-list>
-
-                                </mat-form-field>-->
+                                
 
                             </div>
 
@@ -245,33 +201,7 @@
                         <mat-tab label="Delivery">
                             <div class="tab-content p-24" fusePerfectScrollbar>
                                 <div fxLayout="column" fxLayoutGap="20px">
-                                    <!--<div class="fuse-card auto-width">
-                                        <div class="position-relative p-24"
-                                             fxLayout="column" fxLayoutAlign="start start">
-                                            <div class="p-16 pt-0">
-                                                <div class="h1">Delivery</div>
-                                                <div class="h4 secondary-text">Delivery settings</div>
-                                            </div>
-
-                                            <div fxLayout="row" fxLayoutGap="20px">
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                                    <mat-label>Name</mat-label>
-                                                    <input matInput placeholder="Name"
-                                                           name="name"
-                                                           formControlName="name"
-                                                           required>
-                                                </mat-form-field>
-                                                <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
-                                                    <mat-label>Name</mat-label>
-                                                    <input matInput placeholder="Name"
-                                                           name="name"
-                                                           formControlName="name"
-                                                           required>
-                                                </mat-form-field>
-                                            </div>
-
-                                        </div>
-                                    </div>-->
+                                   
                                     <div class="fuse-card auto-width" [formGroup]="frmFreightout">
                                         <div class="position-relative p-24"
                                              fxLayout="column" fxLayoutAlign="start strench">
@@ -342,6 +272,12 @@
                                                     <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
                                                     <mat-datepicker #dateEnd></mat-datepicker>
                                                 </mat-form-field>
+
+                                                <div fxFlex="100">
+                                                    <button mat-raised-button fxFlex="100" [disabled]="disableSaveFrmFreightout()" (click)="saveCustomerFreightout()">
+                                                        <mat-icon>save</mat-icon>
+                                                    </button>
+                                                </div>
                                             </div>
 
                                         </div>

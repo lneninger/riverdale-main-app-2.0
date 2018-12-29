@@ -19,6 +19,7 @@ import { DataSource } from '@angular/cdk/table';
 import { CustomerThirdPartyAppSettingService } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.service';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../@hipalanetCommons/popups/delete/delete.popup.module';
 import { CustomerFreightoutService, CustomerFreightout } from '../customerfreightout/customerfreightout.core.module';
+import { OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
 
 @Component({
     selector: 'customer',
@@ -158,43 +159,34 @@ export class CustomerComponent implements OnInit, OnDestroy {
      */
     save(): void {
         const basicInfoData = this.frmMain.getRawValue();
-        const freightoutData = this.frmFreightout.getRawValue();
-
+        //debugger;
         Observable.create(observer => {
-            if (!this.disableSaveFrmMain()) {
-                return of(false);
+            if (this.disableSaveFrmMain()) {
+                observer.next(null);
+                observer.complete();
             }
             else {
-                return this.update(basicInfoData);
+                this.service.save(basicInfoData).then(response => {
+                    observer.next(response);
+                    observer.complete();
+                });
             }
         })
-        .pipe(() =>
-            Observable.create(observer => {
-                if (!this.disableSaveFrmFreightout()) {
-                    if (freightoutData.id) {
-                        return this.serviceFreightout.update(freightoutData)
-                    }
-                    else {
-                        return this.serviceFreightout.add(freightoutData)
-                    }
-                }
-                else {
-                    return of(false);
-                }
-            })
-        )
-        .toPromise()
-        .then(() => {
-            //debugger;
-            // Trigger the subscription with new data
-            this.service.onCurrentEntityChanged.next(basicInfoData);
+            .toPromise()
+            .then((response: OperationResponse<Customer>) => {
+                //debugger;
+                // Trigger the subscription with new data
+                this.service.onCurrentEntityChanged.next(basicInfoData);
 
-            // Show the success message
-            this._matSnackBar.open('Customer saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 2000
+                // Show the success message
+                this._matSnackBar.open('Customer saved', 'OK', {
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
+
+                // Change the location with new one
+                //this.service.router.navigate([`../`], { relativeTo: this.route });
             });
-        });
     }
 
     /**
@@ -238,6 +230,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 this._location.go('apps/customers');
             });
     }
+
+
 
 
 
@@ -335,34 +329,32 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
 
-
-
-    addCustomerFreightout(item: CustomerFreightout) {
-        //debugger;
-        return this.serviceFreightout.update(item);
-
-    }
-
-    updateCustomerFreightout(item: CustomerFreightout) {
-        this.serviceThirdParty.update(item).then(res => {
-
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
-            if (index != -1) {
-                this.thirdPartySettings.splice(index, 1, newItem);
+    saveCustomerFreightout() {
+        const freightoutData = this.frmFreightout.getRawValue();
+        Observable.create(observer => {
+            if (!this.disableSaveFrmFreightout()) {
+                if (freightoutData.id) {
+                    return this.serviceFreightout.update(freightoutData)
+                }
+                else {
+                    return this.serviceFreightout.add(freightoutData)
+                }
             }
+            else {
+                return of(false);
+            }
+        })
+            .toPromise()
+            .then(() => {
+                //debugger;
 
-            this._matSnackBar.open('Customer Third Party Settings saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 2000
+                // Show the success message
+                this._matSnackBar.open('Customer freighout saved', 'OK', {
+                    verticalPosition: 'top',
+                    duration: 2000
+                });
             });
-
-            this.selectedItem = null;
-
-        });
     }
-
-
 
 
 

@@ -87,6 +87,8 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
                     {
                         Id = getById.Bag.Id
                     };
+
+
                 }
                 else {
                     this.Logger.Error("Error retrieving File", new OperationResponseException(result));
