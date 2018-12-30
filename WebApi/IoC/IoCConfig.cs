@@ -26,6 +26,9 @@ using Framework.Storage.FileStorage.interfaces;
 using Framework.Core.ReflectionHelpers;
 using Autofac.Features.AttributeFilters;
 using Framework.Storage.FileStorage.TemporaryStorage;
+//using Microsoft.AspNet.SignalR;
+//using Autofac.Integration.SignalR;
+//using Microsoft.AspNet.SignalR.Infrastructure;
 
 namespace RiverdaleMainApp2_0.IoC
 {
@@ -85,7 +88,19 @@ namespace RiverdaleMainApp2_0.IoC
 
                 // SignalR Context
                 //builder.Register(ctx => ctx.GetHubContext<GlobalHub>());
+                //builder.RegisterType<Autofac.Integration.SignalR.AutofacDependencyResolver>()
+                //    .As<IDependencyResolver>()
+                //    .SingleInstance();
+                //builder.Register((context, p) =>
+                //        context.Resolve<IDependencyResolver>()
+                //            .Resolve<Microsoft.AspNet.SignalR.Infrastructure.IConnectionManager>()
+                //            .GetConnectionContext<SignalRConnection>());
 
+    //            builder.Register(ctx =>
+    //ctx.Resolve<IDependencyResolver>()
+    //   .Resolve<IConnectionManager>()
+    //   .GetHubContext())
+    //   .Named<IHubContext>("EventHub");
 
                 var targetAssembly = Assembly.GetExecutingAssembly();
 
@@ -144,6 +159,13 @@ namespace RiverdaleMainApp2_0.IoC
                 //.AsImplementedInterfaces()
                 //.TrackInstanceEvents();
             });
+
+            // SignalR access to DI container
+            //GlobalHost.DependencyResolver = new AutofacDependencyResolver(container);
+
+            //SignalR OWIN configuration
+            //var signalRConfiguration = new HubConfiguration();
+            //signalRConfiguration.Resolver = new AutofacDependencyResolver(container);
 
             return new AutofacServiceProvider(container);
         }

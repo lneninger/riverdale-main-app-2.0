@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using Authorization = Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using ApplicationLogic.SignalR;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {

@@ -13,13 +13,16 @@ using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Authorization = Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.SignalR;
+using Framework.SignalR;
+//using Microsoft.AspNet.SignalR.Infrastructure;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -41,8 +44,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(/*IHubContext<GlobalHub> hubContext, */ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand): base(/*hubContext*/)
+        public CustomerController(IHubContext<GlobalHub, IGlobalHub> hubContext, ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand): base(/*hubContext*/)
         {
+            this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -58,6 +62,11 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The get all command.
         /// </value>
         public ICustomerGetAllCommand GetAllCommand { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
 
         /// <summary>
         /// 
@@ -146,6 +155,13 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
+            if(appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs("ENTITY_CHANGED", "CUSTOMER", appResult.Bag);
+
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+
+            }
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 

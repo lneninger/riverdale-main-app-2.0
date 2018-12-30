@@ -23,7 +23,7 @@ using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand.Models;
 using Authorization = Microsoft.AspNetCore.Authorization;
 using ApplicationLogic.SignalR;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {

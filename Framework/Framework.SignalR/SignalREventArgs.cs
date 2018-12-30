@@ -6,10 +6,19 @@ namespace Framework.SignalR
 {
     public class SignalREventArgs
     {
-        string EventName { get; set; }
+        public SignalREventArgs(string eventName, string entityName, object entity)
+        {
+            this.EventName = eventName;
+            this.EntityName = entityName;
+            this.EntityName = entityName;
+            this.EntityName = entityName;
+            this.Entity = entity;
+        }
 
-        string EntityName { get; set; }
+        public string EventName { get; set; }
 
-        object Entity { get; set; }
+        public string EntityName { get; set; }
+
+        public object Entity { get; set; }
     }
 }

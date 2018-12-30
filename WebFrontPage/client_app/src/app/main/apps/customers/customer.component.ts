@@ -189,20 +189,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
             });
     }
 
-    /**
-     * Add product
-     */
-    update(entity: Customer): Observable<Customer> {
-        return Observable.create(observer => {
-            this.service.save(entity)
-                .then((result: Customer) => {
-                    observer.next(result);
-                    observer.complete();
-                });
-        });
-
-    }
-
     delete() {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
@@ -334,14 +320,23 @@ export class CustomerComponent implements OnInit, OnDestroy {
         Observable.create(observer => {
             if (!this.disableSaveFrmFreightout()) {
                 if (freightoutData.id) {
-                    return this.serviceFreightout.update(freightoutData)
+                    this.serviceFreightout.update(freightoutData)
+                        .then(response => {
+                            observer.next(response);
+                            observer.complete();
+                        });
                 }
                 else {
                     return this.serviceFreightout.add(freightoutData)
+                        .then(response => {
+                            observer.next(response);
+                            observer.complete();
+                        });
                 }
             }
             else {
-                return of(false);
+                observer.next(null);
+                observer.complete();
             }
         })
             .toPromise()
@@ -351,7 +346,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 // Show the success message
                 this._matSnackBar.open('Customer freighout saved', 'OK', {
                     verticalPosition: 'top',
-                    duration: 2000
+                    duration: 5000
                 });
             });
     }

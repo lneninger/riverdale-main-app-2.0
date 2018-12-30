@@ -24,7 +24,7 @@ using ApplicationLogic.Business.Commons.DTOs;
 using RiverdaleMainApp2_0.Auth;
 using Authorization = Microsoft.AspNetCore.Authorization;
 using ApplicationLogic.SignalR;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Framework.Core.Messages;
 
 namespace RiverdaleMainApp2_0.Controllers

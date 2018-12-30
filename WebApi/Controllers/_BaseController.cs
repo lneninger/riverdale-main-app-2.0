@@ -13,7 +13,7 @@ using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Logging.Log4Net;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

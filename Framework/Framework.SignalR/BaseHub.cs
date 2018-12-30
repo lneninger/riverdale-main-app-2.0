@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Framework.SignalR
 {
-    public abstract class BaseHub : Hub
+    public abstract class BaseHub<TClient> : Hub<TClient> where TClient: class
     {
         public override Task OnConnectedAsync()
         {
@@ -33,9 +33,9 @@ namespace Framework.SignalR
 
         protected abstract string GetUserName();
 
-        public async Task SendMessage(string user, string message)
-        {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
-        }
+        //public async Task SendMessage(string user, string message)
+        //{
+        //    await Clients.All.SendAsync("ReceiveMessage", user, message);
+        //}
     }
 }

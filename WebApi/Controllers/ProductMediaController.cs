@@ -13,7 +13,7 @@ using ApplicationLogic.Business.Commands.ProductMedia.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +43,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductMediaController(/*IHubContext<GlobalHub> hubContext, */IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductMediaController(/*IHubContext<GlobalHub> hubContext,  */IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;

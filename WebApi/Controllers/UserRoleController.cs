@@ -16,7 +16,7 @@ using CommunicationModel;
 using DomainModel.Identity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Core.Messages;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;

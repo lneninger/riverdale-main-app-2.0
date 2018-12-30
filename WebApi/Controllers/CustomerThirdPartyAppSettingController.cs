@@ -12,7 +12,7 @@ using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateComm
 using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using Authorization = Microsoft.AspNetCore.Authorization;
 

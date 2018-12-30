@@ -10,7 +10,7 @@ using EntityFrameworkCore.DbContextScope;
 
 namespace ApplicationLogic.SignalR
 {
-    public class BaseSignalR : Framework.SignalR.BaseHub
+    public class BaseSignalR<T> : Framework.SignalR.BaseHub<T> where T: class
     {
         public BaseSignalR(ICurrentUserService currentUserService, IDbContextScopeFactory dbContextScopeFactory, IAppUserDBRepository repository)
         {

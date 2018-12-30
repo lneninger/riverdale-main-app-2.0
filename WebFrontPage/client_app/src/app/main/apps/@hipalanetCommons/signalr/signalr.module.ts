@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SignalR, ISignalRConnection } from 'ng2-signalr';
+import { SignalRModule, SignalR, ISignalRConnection } from 'ng2-signalr';
 import { Router, ActivationEnd } from '@angular/router';
 import { SignalRService } from './signalr.service';
 import { UserActiveService } from './useractive.service';
@@ -9,7 +9,9 @@ export { UserActiveService } from './useractive.service';
 
 
 @NgModule({
-    imports: [],
+    imports: [
+        SignalRModule
+    ],
     providers: [
         SignalRService,
         UserActiveService

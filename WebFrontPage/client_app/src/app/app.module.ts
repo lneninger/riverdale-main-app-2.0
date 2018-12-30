@@ -31,6 +31,7 @@ import { LayoutModule } from 'app/layout/layout.module';
 
 /******************************Authentication************************************/
 import { AuthenticationCoreModule } from 'app/main/apps/@hipalanetCommons/authentication/authentication.core.module';
+import { CustomSignalRModule } from './main/apps/@hipalanetCommons/signalr/signalr.module';
 
 
 const appRoutes: Routes = [
@@ -103,6 +104,7 @@ const appRoutes: Routes = [
 
         // Authentication
         , AuthenticationCoreModule
+        , CustomSignalRModule
 
     ],
     exports: [

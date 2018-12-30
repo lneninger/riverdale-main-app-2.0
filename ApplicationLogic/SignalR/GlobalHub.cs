@@ -3,24 +3,29 @@ using EntityFrameworkCore.DbContextScope;
 using Framework.Autofac;
 using Framework.EF.DbContextImpl;
 using Framework.SignalR;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ApplicationLogic.SignalR
 {
-    public class GlobalHub : BaseSignalR
+    public interface IGlobalHub {
+        void DataChanged(SignalREventArgs @event);
+    }
+
+
+    public class GlobalHub : Hub<IGlobalHub>// BaseSignalR<IGlobalHub>
     {
-        public GlobalHub(ICurrentUserService currentUserService, IDbContextScopeFactory dbContextScopeFactory, IAppUserDBRepository repository) : base(currentUserService, dbContextScopeFactory, repository)
+        public GlobalHub(/*ICurrentUserService currentUserService, IDbContextScopeFactory dbContextScopeFactory, IAppUserDBRepository repository*/) : base(/*currentUserService, dbContextScopeFactory, repository*/)
         {
         }
 
-        public void EntityChanged(SignalREventArgs @event)
+        public void SendMessageDataChanged(SignalREventArgs @event)
         {
             using (var scope = IoCGlobal.NewScope())
             {
-                Clients.All.SendCoreAsync("dataChanged", new object[] { @event });
+                this.Clients.All.DataChanged(@event);
             }
         }
 

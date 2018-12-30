@@ -84,6 +84,15 @@ export class SignalRService {
         this.onDataChangedMessage$ = new BroadcastEventListener<any>('dataChanged');
         this.connection.listen(this.onDataChangedMessage$);
         this.onDataChangedMessage$.subscribe(messageData => {
+            debugger;
+            console.log(`SignalR dataChanged`, messageData);
+            this.onDataChangedMessage.next(messageData);
+        });
+
+        this.onDataChangedMessage$ = new BroadcastEventListener<any>('DataChanged');
+        this.connection.listen(this.onDataChangedMessage$);
+        this.onDataChangedMessage$.subscribe(messageData => {
+            debugger;
             console.log(`SignalR dataChanged`, messageData);
             this.onDataChangedMessage.next(messageData);
         });

@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 //import { AngularFireAuth } from '@angular/fire/auth';
 
 import { AuthenticationService } from './main/apps/@hipalanetCommons/authentication/authentication.core.module';
+import { SignalRService } from './main/apps/@hipalanetCommons/signalr/signalr.module';
 
 @Component({
     selector   : 'app',
@@ -54,7 +55,8 @@ export class AppComponent implements OnInit, OnDestroy
         ,private _fuseSplashScreenService: FuseSplashScreenService
         ,private _fuseTranslationLoaderService: FuseTranslationLoaderService
         ,private _translateService: TranslateService
-        ,private _platform: Platform
+        , private _platform: Platform
+        , private signaRService: SignalRService
         
         // Custom
         //, private auth: AngularFireAuth

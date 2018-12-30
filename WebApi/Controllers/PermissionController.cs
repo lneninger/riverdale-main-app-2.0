@@ -10,7 +10,7 @@ using ApplicationLogic.SignalR;
 using DomainModel.Identity;
 using Framework.Core.Messages;
 using Framework.Web.Helpers;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;

@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Authorization;
 using Framework.Web.Security;
 using Framework.EF.DbContextImpl;
 using Framework.Logging.Log4Net;
+//using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0
 {
@@ -118,7 +119,9 @@ namespace RiverdaleMainApp2_0
 
                 services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
 
-                return IoCConfig.Init(Configuration, services);
+                var autofacServiceProvider = IoCConfig.Init(Configuration, services);
+
+                return autofacServiceProvider;
             }
             catch (Exception ex)
             {
@@ -162,6 +165,12 @@ namespace RiverdaleMainApp2_0
                 {
                     routes.MapHub<GlobalHub>("/hub");
                 });
+
+                //app.Use(async (context, next) =>
+                //{
+                //    var hubContext = context.RequestServices
+                //                            .GetRequiredService<IHubContext<GlobalHub>>();
+                //});
 
                 app.UseTempFileMiddleware();
 
