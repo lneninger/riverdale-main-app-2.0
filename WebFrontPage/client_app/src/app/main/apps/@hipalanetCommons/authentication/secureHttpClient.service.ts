@@ -29,6 +29,24 @@ export class SecureHttpClientService {
         return internalHeaders;
     }
 
+    addPostContentTypeHeader(headers: HttpHeaders) {
+        let internalHeaders = headers || new HttpHeaders();
+        internalHeaders = internalHeaders.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        return internalHeaders;
+    }
+
+    addOriginHeader(headers: HttpHeaders) {
+        let internalHeaders = headers || new HttpHeaders();
+        console.log(`${window.location.origin}`);
+        internalHeaders = internalHeaders.set('Access-Control-Allow-Origin', window.location.origin);
+
+        return internalHeaders;
+    }
+
+    addWithCredentialsOption(options: CallOptions) {
+        options.withCredentials = true;
+    }
     //get(url: string, options?: CallOptions) {
     //    let internalOptions = options || <CallOptions>{};
     //    internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
@@ -37,36 +55,49 @@ export class SecureHttpClientService {
 
     get<T = Object>(url: string, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         return this.httpClient.get<T>(url, internalOptions);
     }
 
     post<T = Object>(url: string, body: any, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
+        //internalOptions.headers = this.addPostContentTypeHeader(internalOptions.headers);
+        debugger;
         return this.httpClient.post<T>(url, body, internalOptions);
     }
 
     put(url: string, body: any, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        this.addWithCredentialsOption(internalOptions);
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.put(url, body, internalOptions);
     }
 
     delete(url: string, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.delete(url, internalOptions);
     }
 
     head(url: string, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        this.addWithCredentialsOption(internalOptions);
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.head(url, internalOptions);
     }
 
     patch(url: string, body: any, options?: CallOptions) {
         let internalOptions = options || <CallOptions>{};
+        this.addWithCredentialsOption(internalOptions);
+        internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.patch(url, body, internalOptions);
     }

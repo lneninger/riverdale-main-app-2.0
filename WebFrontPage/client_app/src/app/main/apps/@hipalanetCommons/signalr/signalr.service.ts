@@ -1,100 +1,42 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SignalR, ISignalRConnection, BroadcastEventListener } from 'ng2-signalr';
-import { IConnectionOptions } from 'ng2-signalr/src/services/connection/connection.options';
+//import { SignalR, ISignalRConnection, BroadcastEventListener } from 'ng2-signalr';
+//import { IConnectionOptions } from 'ng2-signalr/src/services/connection/connection.options';
 
-import { AuthenticationService } from '../authentication/authentication.service';
-import { AuthenticationInfo } from '../authentication/authentication.model';
+//import { AuthenticationService } from '../authentication/authentication.service';
+//import { AuthenticationInfo } from '../authentication/authentication.model';
+//import { HubItem, HubConnectionOptions } from './signalr.model';
+
+//import * as signalR from '@aspnet/signalr';
+import { BaseSignalRService } from './basesignalr.service';
+import { Subject } from 'rxjs';
 
 declare var $: any;
 
 @Injectable()
-export class SignalRService {
+export class SignalRService extends BaseSignalRService{
 
-    private connection: ISignalRConnection;
-    onDataChangedMessage$: BroadcastEventListener<any>;
-    private onActiveUsersMessage$: BroadcastEventListener<any>;
+    onDataChanged: Subject<any> = new Subject<any>();
+    onActiveUsers: Subject<any> = new Subject<any>();
 
-    onConnect: EventEmitter<ISignalRConnection>;
-    onActiveUsers: EventEmitter<ISignalRConnection>;
-    onDataChangedMessage: EventEmitter<ISignalRConnection>;
+    constructor() {
+        super();
+        let promise = this.connect('globalhub');
 
-    constructor(
-        public signalR: SignalR
-        , private authenticationService: AuthenticationService
-    ) {
-        this.setAuthentication();
-
-        this.onConnect = new EventEmitter<ISignalRConnection>();
-        this.onActiveUsers = new EventEmitter<ISignalRConnection>();
-
-        this.authenticationService.onChangedUserInfo.subscribe((user: AuthenticationInfo) => {
-            this.profileChanged(user);
-        });
-
-    }
-
-    profileChanged(profile: AuthenticationInfo) {
-        //debugger;
-        if (profile) {
-            if (!this.connection) {
-                this.createConnection(profile.accessToken);
-            }
-        }
-    }
-
-    private setAuthentication() {
-        // Set auth headers.
-        let $ = (<any>window).$;
-        $.signalR.ajaxDefaults.headers = {
-            'Content-Type': "application/json",
-            "Authorization": ''
-        };
-    }
-
-   
-    private createConnection(accessToken) {
-        if (!this.connection) {
-            
-            let options: IConnectionOptions = {
-                qs: {'access_token': accessToken}
-            };
-
-            this.connection = this.signalR.createConnection(options);
-            this.connection.start().then(connection => {
-                this.connection = connection;
-                this.configureListeners();
-                this.onConnect.next(this.connection);
-                this.onConnect.next(connection);
-
+        promise.then(hubItem => {
+            this.addListener('globalhub', 'dataChanged', (data: any) => {
+                debugger;
+                console.log(`event from Server: `, data);
+                this.onDataChanged.next(data);
             });
-        }
+
+            this.addListener('globalhub', 'activeUsers', (data: any) => {
+                debugger;
+                console.log(`event from Server: `, data);
+                this.onActiveUsers.next(data);
+            });
+        });
+        
     }
 
-    private configureListeners() {
-        // active users
-        /*
-        this.onActiveUsersMessage$ = new BroadcastEventListener<any>('userActiveLocationMessage');
-        this.connection.listen(this.onActiveUsersMessage$);
-        this.onActiveUsersMessage$.subscribe(activeUsersMessage => {
-            this.onActiveUsers.next(activeUsersMessage);
-        });
-        */
-
-        // global message
-        this.onDataChangedMessage$ = new BroadcastEventListener<any>('dataChanged');
-        this.connection.listen(this.onDataChangedMessage$);
-        this.onDataChangedMessage$.subscribe(messageData => {
-            debugger;
-            console.log(`SignalR dataChanged`, messageData);
-            this.onDataChangedMessage.next(messageData);
-        });
-
-        this.onDataChangedMessage$ = new BroadcastEventListener<any>('DataChanged');
-        this.connection.listen(this.onDataChangedMessage$);
-        this.onDataChangedMessage$.subscribe(messageData => {
-            debugger;
-            console.log(`SignalR dataChanged`, messageData);
-            this.onDataChangedMessage.next(messageData);
-        });
-    }
 }
+

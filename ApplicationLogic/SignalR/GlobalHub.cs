@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ApplicationLogic.SignalR
 {
     public interface IGlobalHub {
-        void DataChanged(SignalREventArgs @event);
+        Task DataChanged(SignalREventArgs @event);
     }
 
 

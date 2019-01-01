@@ -21,7 +21,7 @@ import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 
 /******************************Custom************************************/
-//import { environment } from '../environments/environment';
+import { environment } from '../environments/environment';
 //import { AngularFireModule } from '@angular/fire';
 //import { AngularFirestoreModule } from '@angular/fire/firestore';
 //import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -32,6 +32,9 @@ import { LayoutModule } from 'app/layout/layout.module';
 /******************************Authentication************************************/
 import { AuthenticationCoreModule } from 'app/main/apps/@hipalanetCommons/authentication/authentication.core.module';
 import { CustomSignalRModule } from './main/apps/@hipalanetCommons/signalr/signalr.module';
+import { SignalRConfiguration } from 'ng2-signalr';
+
+
 
 
 const appRoutes: Routes = [

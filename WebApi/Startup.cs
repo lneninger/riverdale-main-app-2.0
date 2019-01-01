@@ -34,6 +34,7 @@ using Microsoft.AspNetCore.Authorization;
 using Framework.Web.Security;
 using Framework.EF.DbContextImpl;
 using Framework.Logging.Log4Net;
+using RiverdaleMainApp2_0.AppSettings;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0
@@ -96,26 +97,34 @@ namespace RiverdaleMainApp2_0
                 //    options.MinimumSameSitePolicy = SameSiteMode.None;
                 //});
 
+                var customSettings = this.Configuration.GetSection("CustomSettings").Get<CustomSettings>();
+                Logger.Info($"Application startup - Allowed origins: {string.Join(",", customSettings.AllowedOrigins)}");
+
+                services.AddCors(options => {
+                    options.AddPolicy("Development", builder => builder
+                    .WithOrigins(customSettings.AllowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials());
+                });
+
+                this.ConfigureAuthenticationServices(services);
+
+
                 services.AddElmah(options =>
                 {
                     //services.AddElmah(options => option.Path = "you_path_here")
                     //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
                 });
 
-                services.AddCors(builder =>
-                {
-                    //options.AddPolicy("AllowSpecificOrigin",
-                    //    builder => builder.WithOrigins("http://example.com"));
+                services.AddSignalR(config => {
+                    config.EnableDetailedErrors = true;
                 });
-
-                this.ConfigureAuthenticationServices(services);
-
 
                 services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-                services.AddSignalR();
 
                 services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
 
@@ -155,15 +164,12 @@ namespace RiverdaleMainApp2_0
                 app.UseElmah();
 
                 // Shows UseCors with CorsPolicyBuilder.
-                app.UseCors(builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-               );
+                app.UseCors("Development");
 
                 app.UseSignalR(routes =>
                 {
-                    routes.MapHub<GlobalHub>("/hub");
+                    routes.MapHub<GlobalHub>("/globalhub", configureOptions => {
+                    });
                 });
 
                 //app.Use(async (context, next) =>

@@ -17,5 +17,10 @@ namespace RiverdaleMainApp2_0.AppSettings
         ///   <c>true</c> if [active execution trace interceptor]; otherwise, <c>false</c>.
         /// </value>
         public bool ActiveExecutionTraceInterceptor { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string[] AllowedOrigins { get; set; }
     }
 }
