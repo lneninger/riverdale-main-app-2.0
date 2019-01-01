@@ -7,7 +7,9 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class PermissionResolveService extends BaseResolveService implements Resolve<any> {
     endpoint = `${this.endpoint}permission`;
 

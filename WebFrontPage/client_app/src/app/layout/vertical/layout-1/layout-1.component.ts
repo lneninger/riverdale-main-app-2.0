@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { navigation } from 'app/navigation/navigation';
+import { ResolveUpdateManagerService } from '../../../main/apps/@resolveServices/resolve.module';
 
 @Component({
     selector     : 'vertical-layout-1',
@@ -26,6 +27,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
      */
     constructor(
         private _fuseConfigService: FuseConfigService
+        , private resolveUpdateManagerService: ResolveUpdateManagerService
     )
     {
         // Set the defaults

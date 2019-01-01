@@ -12,11 +12,14 @@ using ApplicationLogic.Business.Commands.ProductMedia.UpdateCommand;
 using ApplicationLogic.Business.Commands.ProductMedia.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
+using DomainModel.Product;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.SignalR;
 //using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
 using System;
 using System.Collections.Generic;
@@ -43,8 +46,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductMediaController(/*IHubContext<GlobalHub> hubContext,  */IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductMediaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductMediaPageQueryCommand pageQueryCommand, IProductMediaGetAllCommand getAllCommand, IProductMediaGetByIdCommand getByIdCommand, IProductMediaInsertCommand insertCommand, IProductMediaUpdateCommand updateCommand, IProductMediaDeleteCommand deleteCommand):base(/*hubContext*/)
         {
+            this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -60,6 +64,11 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The get all command.
         /// </value>
         public IProductMediaGetAllCommand GetAllCommand { get; }
+
+        /// <summary>
+        ///          
+        /// </summary>
+        public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
 
         /// <summary>
         /// 
@@ -150,6 +159,12 @@ namespace RiverdaleMainApp2_0.Controllers
             try
             {
                 var appResult = this.InsertCommand.Execute(model);
+                if (appResult.IsSucceed)
+                {
+                    var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(ProductMedia), appResult.Bag);
+                    this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+
+                }
                 return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
             }
             catch (Exception ex)

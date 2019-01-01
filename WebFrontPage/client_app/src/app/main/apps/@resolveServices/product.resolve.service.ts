@@ -7,7 +7,9 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ProductResolveService extends BaseResolveService implements Resolve<any> {
     endpoint = `${this.endpoint}product`;
     constructor(http: SecureHttpClientService) {

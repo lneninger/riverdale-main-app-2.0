@@ -7,7 +7,9 @@ import { BaseResolveService } from "./_base.resolve.service";
 
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ProductTypeResolveService extends BaseResolveService implements Resolve<any> {
 
     endpoint = `${this.endpoint}producttype`;

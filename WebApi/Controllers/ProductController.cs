@@ -13,10 +13,12 @@ using ApplicationLogic.Business.Commands.Product.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.SignalR;
 //using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +37,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
+        /// <param name="hubContext"></param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductController(/*IHubContext<GlobalHub> hubContext, */IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand):base(/*hubContext*/)
         {
+            this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -58,6 +62,11 @@ namespace RiverdaleMainApp2_0.Controllers
         /// The get all command.
         /// </value>
         public IProductGetAllCommand GetAllCommand { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
 
         /// <summary>
         /// 
@@ -146,6 +155,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Post([FromBody]ProductInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "Product", appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+
+            }
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 

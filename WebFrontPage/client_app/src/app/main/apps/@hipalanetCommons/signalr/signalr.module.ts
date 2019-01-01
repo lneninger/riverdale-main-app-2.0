@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 
 export { SignalRService } from './signalr.service';
 export { UserActiveService } from './useractive.service';
+export * from './signalr.model';
 
 //export function createConfig(): SignalRConfiguration {
 

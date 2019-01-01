@@ -9,13 +9,14 @@ import { Injectable, EventEmitter } from '@angular/core';
 //import * as signalR from '@aspnet/signalr';
 import { BaseSignalRService } from './basesignalr.service';
 import { Subject } from 'rxjs';
+import { ISignalREventArgs } from './signalr.model';
 
 declare var $: any;
 
 @Injectable()
 export class SignalRService extends BaseSignalRService{
 
-    onDataChanged: Subject<any> = new Subject<any>();
+    onDataChanged: Subject<ISignalREventArgs> = new Subject<ISignalREventArgs>();
     onActiveUsers: Subject<any> = new Subject<any>();
 
     constructor() {
@@ -23,7 +24,7 @@ export class SignalRService extends BaseSignalRService{
         let promise = this.connect('globalhub');
 
         promise.then(hubItem => {
-            this.addListener('globalhub', 'dataChanged', (data: any) => {
+            this.addListener('globalhub', 'dataChanged', (data: ISignalREventArgs) => {
                 debugger;
                 console.log(`event from Server: `, data);
                 this.onDataChanged.next(data);
