@@ -155,8 +155,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 911, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 911, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 187, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 187, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -269,7 +269,8 @@ namespace DomainDatabaseMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<long>("FileSize");
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FileSystemTypeId");
 
@@ -343,10 +344,10 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "SYS", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 908, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
-                        new { Id = "DB", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 908, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 908, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "AZU", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 908, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
+                        new { Id = "SYS", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
+                        new { Id = "DB", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "AZU", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
                     );
                 });
 
@@ -427,9 +428,18 @@ namespace DomainDatabaseMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("CreatedAt");
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
 
-                    b.Property<string>("CreatedBy");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -440,9 +450,12 @@ namespace DomainDatabaseMigrations.Migrations
                     b.Property<string>("ProductTypeId")
                         .IsRequired();
 
-                    b.Property<DateTime?>("UpdatedAt");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
 
-                    b.Property<string>("UpdatedBy");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
 
                     b.HasKey("Id");
 
@@ -493,9 +506,18 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasMaxLength(4)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("CreatedAt");
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
 
-                    b.Property<string>("CreatedBy");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
 
                     b.Property<DateTime?>("DeletedAt");
 
@@ -505,9 +527,12 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<int>("ProductId");
 
-                    b.Property<DateTime?>("UpdatedAt");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
 
-                    b.Property<string>("UpdatedBy");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
 
                     b.HasKey("Id");
 
@@ -524,9 +549,18 @@ namespace DomainDatabaseMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(4);
 
-                    b.Property<DateTime?>("CreatedAt");
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
 
-                    b.Property<string>("CreatedBy");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -536,18 +570,21 @@ namespace DomainDatabaseMigrations.Migrations
                         .IsRequired()
                         .HasMaxLength(25);
 
-                    b.Property<DateTime?>("UpdatedAt");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
 
-                    b.Property<string>("UpdatedBy");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
 
                     b.HasKey("Id");
 
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 50, 35, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 50, 35, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 50, 35, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -598,6 +635,185 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductColorType","CNF");
                 });
 
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("SaleSeasonTypeId");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("SaleSeasonTypeId");
+
+                    b.ToTable("SaleOpportunity","OPP");
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("SaleOpportunityId");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SaleOpportunityId");
+
+                    b.ToTable("SaleOpportunityProduct","OPP");
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleSeasonCategoryType", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SaleSeasonCategoryType","OPP");
+
+                    b.HasData(
+                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
+                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
+                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
+                    );
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleSeasonType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25);
+
+                    b.Property<string>("SaleSeasonCategoryTypeId")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SaleSeasonCategoryTypeId");
+
+                    b.ToTable("SaleSeasonType","OPP");
+                });
+
             modelBuilder.Entity("DomainModel.ThirdPartyAppType", b =>
                 {
                     b.Property<string>("Id")
@@ -633,8 +849,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 869, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2018, 12, 29, 1, 34, 49, 872, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 100, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 1, 2, 4, 39, 47, 102, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 
@@ -762,6 +978,9 @@ namespace DomainDatabaseMigrations.Migrations
                 {
                     b.HasBaseType("DomainModel.Product.AbstractProduct");
 
+                    b.Property<string>("ProductColorTypeId");
+
+                    b.HasIndex("ProductColorTypeId");
 
                     b.ToTable("FlowerProduct");
 
@@ -852,6 +1071,40 @@ namespace DomainDatabaseMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunity", b =>
+                {
+                    b.HasOne("DomainModel.Customer", "Customer")
+                        .WithMany("SaleOpportunities")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DomainModel.SaleOpportunity.SaleSeasonType", "SaleSeasonType")
+                        .WithMany("SaleOpportunities")
+                        .HasForeignKey("SaleSeasonTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityProduct", b =>
+                {
+                    b.HasOne("DomainModel.Product.AbstractProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunity", "SaleOpportunity")
+                        .WithMany("SaleOpportunityProducts")
+                        .HasForeignKey("SaleOpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleSeasonType", b =>
+                {
+                    b.HasOne("DomainModel.SaleOpportunity.SaleSeasonCategoryType", "SaleSeasonCategoryType")
+                        .WithMany("SaleSeasons")
+                        .HasForeignKey("SaleSeasonCategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -895,6 +1148,13 @@ namespace DomainDatabaseMigrations.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DomainModel.Product.FlowerProduct", b =>
+                {
+                    b.HasOne("DomainModel.ProductColorType", "ProductColorType")
+                        .WithMany()
+                        .HasForeignKey("ProductColorTypeId");
                 });
 #pragma warning restore 612, 618
         }

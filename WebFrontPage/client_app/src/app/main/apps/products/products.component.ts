@@ -32,7 +32,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductsComponent implements OnInit {
     dataSource: ProductsDataSource | null;
-    displayedColumns = ['name', 'createdAt', 'options'];
+    displayedColumns = ['name', 'colorName', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

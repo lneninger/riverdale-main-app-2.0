@@ -50,14 +50,13 @@
                         *ngIf="pageType ==='new'" (click)="add()">
                     <span>ADD</span>
                 </button>-->
-                <button mat-mini-fab
+                <!--<button mat-mini-fab
                         class="save-product-button"
                         [disabled]="disableSave()"
                         (click)="save()">
                     <mat-icon>save</mat-icon>
 
-                    <!--<span>SAVE</span>-->
-                </button>
+                </button>-->
             </div>
 
             <!--<button mat-raised-button
@@ -82,14 +81,28 @@
 
                             <div class="tab-content p-24" fusePerfectScrollbar>
 
-                                <div [formGroup]="frmMain">
-                                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
+                                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
                                         <mat-label>Name</mat-label>
                                         <input matInput placeholder="Name"
                                                name="name"
                                                formControlName="name"
                                                required>
                                     </mat-form-field>
+                                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                                        <mat-select placeholder="Product Color" name="productTypeId" formControlName="productColorTypeId">
+                                            <mat-option *ngFor="let item of listProductColorType" [value]="item.key">
+                                                {{item.value}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+
+                                    <div fxFlex="100">
+                                        <button mat-raised-button fxFlex="100" [disabled]="disableSave()" (click)="save()">
+                                            <mat-icon>save</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>

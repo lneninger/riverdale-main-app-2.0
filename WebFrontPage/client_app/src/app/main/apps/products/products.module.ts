@@ -19,7 +19,7 @@ import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
 import { environment } from 'environments/environment';
-import { ProductTypeResolveService } from '../@resolveServices/resolve.module';
+import { ProductTypeResolveService, ProductColorTypeResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
     {
@@ -35,6 +35,7 @@ const routes: Routes = [
         component: ProductComponent,
         resolve: {
             data: ProductService,
+            listProductColorType: ProductColorTypeResolveService,
         }
     },
 

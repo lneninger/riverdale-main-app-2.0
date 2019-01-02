@@ -2,10 +2,11 @@
 {
     internal class SCHEMAS
     {
-        public static string FILE { get; } = "FILE";
-        public static string PRODUCT { get; } = "PROD";
-        public static string CRM { get; } = "CRM";
-        public static string QUOTE { get; } = "QUOTE";
-        public static string CONFIG { get; } = "CNF";
+        public const string FILE = "FILE";
+        public const string PRODUCT = "PROD";
+        public const string CRM = "CRM";
+        public const string QUOTE = "QUOTE";
+        public const string CONFIG = "CNF";
+        public const string SALE_OPPORTUNITY = "OPP";
     }
 }

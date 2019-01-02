@@ -32,6 +32,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     currentEntity: any;
     medias: (ProductMediaGrid | ISelectedFile)[];
 
+
     pageType: string;
 
     frmMain: FormGroup;
@@ -104,6 +105,8 @@ export class ProductComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+        
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged

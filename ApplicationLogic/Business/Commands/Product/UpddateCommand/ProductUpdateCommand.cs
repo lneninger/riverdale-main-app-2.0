@@ -5,6 +5,7 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.UpdateCommand.Models;
 using Framework.Core.Messages;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Business.Commands.Product.UpdateCommand
 {
@@ -24,6 +25,10 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand
                 if (result.IsSucceed)
                 {
                     getByIdResult.Bag.Name = input.Name;
+                    if (getByIdResult.Bag is FlowerProduct)
+                    {
+                        (getByIdResult.Bag as FlowerProduct).ProductColorTypeId = input.ProductColorTypeId;
+                    }
 
                     try
                     {

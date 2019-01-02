@@ -23,6 +23,7 @@ using DomainModel.Product;
 using ApplicationLogic.Business.Commons.DTOs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using ApplicationLogic.Business.Commands.Product.Commons;
 
 namespace DatabaseRepositories.DB
 {
@@ -84,6 +85,7 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         Name = o.Name,
+                        ColorName = o.ProductTypeId == "FLW" && ((FlowerProduct)o).ProductColorType != null ? ((FlowerProduct)o).ProductColorType.Name : null,
                         CreatedAt = o.CreatedAt,
                         MainPicture = o.ProductMedias.Select(m => new FileItemRefOutputDTO
                         {

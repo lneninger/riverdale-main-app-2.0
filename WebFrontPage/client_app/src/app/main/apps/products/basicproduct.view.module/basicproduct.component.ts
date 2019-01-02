@@ -28,8 +28,7 @@ import { ProductMediaService } from '../product.core.module';
 })
 export class BasicProductComponent implements OnInit, OnDestroy {
     // Resolve
-    listProductFreightoutRateType: EnumItem<string>[];
-    listThirdParty: EnumItem<string>[];
+    listProductColorType: EnumItem<number>[];
 
     id: string;
 
@@ -42,7 +41,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     @Input('entity')
     set currentEntity(value: any) {
         if (value) {
-        this._currentEntity = new Product(value);
+            this._currentEntity = new Product(value);
             //debugger;
             this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
             this.frmMain = this.createFormBasicInfo();
@@ -130,8 +129,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Resolve
-        this.listProductFreightoutRateType = this.route.snapshot.data['listProductFreightoutRateType'];
-        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
+        this.listProductColorType = this.route.snapshot.data['listProductColorType'];
 
         // Subscribe to update product on changes
         //this.service.onCurrentEntityChanged
@@ -178,6 +176,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         return this._formBuilder.group({
             id: [this.currentEntity.id],
             name: [this.currentEntity.name],
+            productColorTypeId: [this.currentEntity.productColorTypeId],
         });
     }
 
@@ -188,15 +187,23 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         const basicInfoData = this.frmMain.getRawValue();
 
         Observable.create(observer => {
-            if (!this.disableSaveFrmMain()) {
-                return of(false);
+            if (this.disableSaveFrmMain()) {
+                observer.next(null);
+                observer.complete();
             }
             else {
-                return this.update(basicInfoData);
+                this.service.save(basicInfoData)
+                    .then((response) => {
+                        observer.next(response);
+                        observer.complete();
+                    })
             }
         })
             .toPromise()
-            .then(() => {
+            .then((response) => {
+                if (response == null) {
+                    return;
+                }
                 //debugger;
                 // Trigger the subscription with new data
                 this.service.onCurrentEntityChanged.next(basicInfoData);

@@ -11,6 +11,7 @@ export class Product {
     id: number;
     name: string;
     productTypeId: string;
+    productColorTypeId: string;
     medias: ProductMediaGrid[]
 
     /**
@@ -23,6 +24,7 @@ export class Product {
         this.id = internal.id;
         this.name = internal.name;
         this.productTypeId = internal.productTypeId
+        this.productColorTypeId = internal.productColorTypeId;
         this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
     }
 }

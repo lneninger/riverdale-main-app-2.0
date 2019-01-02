@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using DomainModel.Identity;
@@ -16,6 +15,8 @@ using DomainDatabaseMapping.Mappings.File;
 using DomainDatabaseMapping.Mappings.Type;
 using DomainDatabaseMapping.Mappings.Product;
 using Framework.EF.Logging;
+using DomainModel.SaleOpportunity;
+using DomainDatabaseMapping.Mappings.SaleOpportunity;
 
 namespace DomainDatabaseMapping
 {
@@ -56,9 +57,16 @@ namespace DomainDatabaseMapping
         public DbSet<DomainModel.File.File> FileRepositories { get; set; }
         public DbSet<FileSystemType> FileSystemTypes { get; set; }
 
+        //Opportunity
+        public DbSet<SaleOpportunity> SaleOpportunities { get; set; }
+        public DbSet<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
+        public DbSet<SaleSeasonType> SaleSeasonTypes { get; set; }
+        public DbSet<SaleSeasonCategoryType> SaleSeasonCategoryTypes { get; set; }
+
         // Quote
         public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
         public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -82,6 +90,12 @@ namespace DomainDatabaseMapping
             // Commons
             modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new FileSystemTypeMap(modelBuilder));
+
+            // Opportunity
+            modelBuilder.ApplyConfiguration(new SaleOpportunityMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SaleOpportunityProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SaleSeasonTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SaleSeasonCategoryTypeMap(modelBuilder));
 
             // Quote
             modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));

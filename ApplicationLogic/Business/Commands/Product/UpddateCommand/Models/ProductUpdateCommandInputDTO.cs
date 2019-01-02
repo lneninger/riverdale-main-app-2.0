@@ -10,6 +10,6 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand.Models
 
         public string Name { get; set; }
 
-        public List<UploadedFile> Medias { get; set; }
+        public string ProductColorTypeId { get; set; }
     }
 }

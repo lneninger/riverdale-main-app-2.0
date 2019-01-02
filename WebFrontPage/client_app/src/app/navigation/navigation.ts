@@ -46,7 +46,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.OPPORTUNITIES',
                 type: 'item',
                 icon: 'starts',
-                url: '/apps/opportunities'
+                url: '/apps/saleopportunities'
             },
             //{
             //    id: '',

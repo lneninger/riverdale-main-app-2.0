@@ -42,7 +42,8 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 
                     if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)
                     {
-                        result.Bag.RelatedProducts = ((CompositionProduct)getByIdResult.Bag).Items.Select(o => new ProductGetByIdCommandOutputRelatedProductItemDTO {
+                        result.Bag.RelatedProducts = ((CompositionProduct)getByIdResult.Bag).Items.Select(o => new ProductGetByIdCommandOutputRelatedProductItemDTO
+                        {
                             Id = o.Id,
                             ProductId = o.CompositionProductId,
                             RelatedProductId = o.CompositionItemId,
@@ -53,6 +54,11 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                             RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
 
                         }).ToList();
+                    }
+                    else if (result.Bag.ProductTypeEnum == ProductTypeEnum.FLW)
+                    {
+                        result.Bag.ProductColorTypeId = ((FlowerProduct)getByIdResult.Bag).ProductColorTypeId;
+
                     }
                 }
             }

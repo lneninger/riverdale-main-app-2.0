@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DomainModel.SaleOpportunity;
 
 namespace DomainModel
 {
@@ -24,5 +25,7 @@ namespace DomainModel
         public virtual IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
 
         public virtual IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
+
+        public virtual IEnumerable<SaleOpportunity.SaleOpportunity> SaleOpportunities { get; set; }
     }
 }
