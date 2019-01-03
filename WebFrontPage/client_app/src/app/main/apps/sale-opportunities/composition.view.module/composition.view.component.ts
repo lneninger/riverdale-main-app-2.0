@@ -31,7 +31,7 @@ export class CompositionViewComponent implements OnInit, OnDestroy
     set currentEntity(value: any) {
         if (this._currentEntity != value) {
             this._currentEntity = new SaleOpportunity(value);
-            this.products = this._currentEntity.products;
+            this.products = this._currentEntity.relatedProducts;
             this.frmMain = this.createFormBasicInfo();
         }
         else {

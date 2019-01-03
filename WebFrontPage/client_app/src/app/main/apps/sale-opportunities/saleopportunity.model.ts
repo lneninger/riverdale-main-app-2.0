@@ -12,7 +12,7 @@ export class SaleOpportunity {
     name: string;
     productTypeId: string;
     productColorTypeId: string;
-    products: ProductGrid[]
+    relatedProducts: ProductGrid[]
 
     /**
      * Constructor
@@ -25,7 +25,7 @@ export class SaleOpportunity {
         this.name = internal.name;
         this.productTypeId = internal.productTypeId
         this.productColorTypeId = internal.productColorTypeId;
-        this.products = (internal.products || []).map(item => new ProductGrid(item));
+        this.relatedProducts = (internal.relatedProducts || []).map(item => new ProductGrid(item));
     }
 }
 
