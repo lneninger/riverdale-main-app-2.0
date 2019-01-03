@@ -23,5 +23,9 @@ namespace ApplicationLogic.Business.Commons
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumRoles();
 
         OperationResponse<List<EnumItemDTO<int>>> GetToEnumProducts();
+
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategories();
+
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons();
     }
 }

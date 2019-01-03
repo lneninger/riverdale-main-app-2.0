@@ -18,7 +18,7 @@ import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
 import { environment } from 'environments/environment';
-import { ProductTypeResolveService, ProductColorTypeResolveService } from '../@resolveServices/resolve.module';
+import { SaleSeasonCategoryTypeResolveService, CustomerResolveService, ProductResolveService } from '../@resolveServices/resolve.module';
 
 const routes: Routes = [
     {
@@ -26,7 +26,8 @@ const routes: Routes = [
         component: SaleOpportunitiesComponent,
         data: { action: 'new' },
         resolve: {
-            listProductType: ProductTypeResolveService,
+            listSeasonCategoryType: SaleSeasonCategoryTypeResolveService,
+            listCustomer: CustomerResolveService,
         }
     },
     {
@@ -34,7 +35,7 @@ const routes: Routes = [
         component: SaleOpportunityComponent,
         resolve: {
             data: SaleOpportunityService,
-            listProductColorType: ProductColorTypeResolveService,
+            listProduct: ProductResolveService,
         }
     },
 

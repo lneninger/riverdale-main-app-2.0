@@ -10,6 +10,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.UpdateCommand.Model
 
         public string Name { get; set; }
 
-        public string SaleOpportunityColorTypeId { get; set; }
+        public int SaleSeasonTypeId { get; set; }
     }
 }

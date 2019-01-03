@@ -11,10 +11,10 @@ namespace DomainModel.SaleOpportunity
         public string Name { get; set; }
 
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public int SaleSeasonTypeId { get; set; }
-        public SaleSeasonType SaleSeasonType { get; set; }
+        public virtual SaleSeasonType SaleSeasonType { get; set; }
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }

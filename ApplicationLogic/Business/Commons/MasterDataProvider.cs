@@ -86,5 +86,21 @@ namespace ApplicationLogic.Business.Commons
                 return this.Repository.GetToEnumProducts();
             }
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategories()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumSeasonCategories();
+            }
+        }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumSeasonCategoriesWithSeasons();
+            }
+        }
     }
 }

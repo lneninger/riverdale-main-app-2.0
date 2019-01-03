@@ -18,7 +18,7 @@
                     account_box
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Products
+                    Sale Opportunities
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -27,15 +27,15 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a product">
+                    <input #filter placeholder="Search for a opportunity">
                 </div>
             </div>
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <a [routerLink]="['/apps/products/new']" mat-raised-button
+            <a [routerLink]="['/apps/saleopportunities/new']" mat-raised-button
                     class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW PRODUCT</span>
+                <span>ADD NEW OPPORTUNITY</span>
             </a>
             <!-- / ADD BUTTON -->
 

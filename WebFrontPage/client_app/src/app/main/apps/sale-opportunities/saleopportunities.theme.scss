@@ -1,9 +1,9 @@
-@mixin products-theme($theme) {
+@mixin saleopportunities-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    products {
+    sale-opportunities {
 
         .header {
 

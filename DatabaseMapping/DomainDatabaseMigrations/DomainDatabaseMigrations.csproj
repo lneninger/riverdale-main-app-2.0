@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20181123114735_TrackEntity CreatedAtNotNull.cs" />
     <Compile Remove="Migrations\20181123115158_TrackEntity CreatedAtNotNull.cs" />
+    <Compile Remove="Migrations\20190102043948_SaleOpportunity schema.cs" />
+    <Compile Remove="Migrations\20190103011110_SaleOpportunity schema.cs" />
   </ItemGroup>
 
   <ItemGroup>

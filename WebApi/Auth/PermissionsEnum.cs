@@ -71,6 +71,23 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string UserRole_Manage = nameof(Enum.UserRole_Manage);
 
+
+        // Sale Opportunity
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunity_Read = nameof(Enum.SaleOpportunity_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunity_Modify = nameof(Enum.SaleOpportunity_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunity_Manage = nameof(Enum.SaleOpportunity_Manage);
+
         // Quote
         /// <summary>
         /// 
@@ -172,6 +189,21 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             Quote_Manage,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunity_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunity_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunity_Manage,
         }
     }
 }

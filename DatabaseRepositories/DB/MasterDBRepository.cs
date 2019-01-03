@@ -12,6 +12,7 @@ using DomainModel.Identity;
 using Framework.Core.Messages;
 using DomainModel.Product;
 using Microsoft.AspNetCore.Identity;
+using DomainModel.SaleOpportunity;
 
 namespace DatabaseRepositories.DB
 {
@@ -160,6 +161,60 @@ namespace DatabaseRepositories.DB
             catch (Exception ex)
             {
                 result.AddException($"Error geting users", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategories()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<SaleSeasonCategoryType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting season categories", ex);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<SaleSeasonCategoryType>().Select(masterItem => new EnumItemDTO<string>
+                    {
+                        Key = masterItem.Id, Value = masterItem.Name
+                        , Extras = new Dictionary<string, object>
+                        {
+                            { "Description", masterItem.Description }
+                            , { "SaleSeasonTypes", masterItem.SaleSeasons.Select(
+                                seasonType => new EnumItemDTO<int>
+                                {
+                                    Key = seasonType.Id
+                                    , Value = seasonType.Name
+                                    , Extras = new Dictionary<string, object>
+                                    {
+                                        { "Description", seasonType.Description }
+                                    }
+                                })
+                            }
+                        }
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting season categories with season types", ex);
             }
 
             return result;

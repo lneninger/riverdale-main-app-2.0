@@ -10,6 +10,7 @@ import { RoleResolveService } from "./role.resolve.service";
 import { ProductTypeResolveService } from "./producttype.resolve.service";
 import { ProductResolveService } from "./product.resolve.service";
 import { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
+import { SaleSeasonCategoryTypeResolveService } from "./saleseasoncategorytype.resolve.service";
 
 export * from "./resolve.model";
 export { CustomerResolveService } from "./customer.resolve.service";
@@ -21,6 +22,8 @@ export { UserResolveService } from "./user.resolve.service";
 export { RoleResolveService } from "./role.resolve.service";
 export { ProductTypeResolveService } from "./producttype.resolve.service";
 export { ProductResolveService } from "./product.resolve.service";
+export { SaleSeasonCategoryTypeResolveService } from "./saleseasoncategorytype.resolve.service";
+
 export { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
 
 @NgModule({
@@ -40,6 +43,7 @@ export { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
         , RoleResolveService
         , ProductTypeResolveService
         , ProductResolveService
+        , SaleSeasonCategoryTypeResolveService
 
 
         , ResolveUpdateManagerService

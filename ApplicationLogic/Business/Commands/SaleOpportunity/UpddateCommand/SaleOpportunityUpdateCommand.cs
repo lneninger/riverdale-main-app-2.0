@@ -25,6 +25,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.UpdateCommand
                 if (result.IsSucceed)
                 {
                     getByIdResult.Bag.Name = input.Name;
+                    getByIdResult.Bag.SaleSeasonTypeId = input.SaleSeasonTypeId;
 
                     try
                     {

@@ -19,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SaleOpportunityService } from './saleopportunity.core.module';
-import { ProductTypeResolveService } from '../@resolveServices/resolve.module';
+import { ProductTypeResolveService, EnumItem } from '../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 
@@ -89,7 +89,7 @@ export class SaleOpportunitiesComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(SaleOpportunityNewDialogComponent, {
             width: '60%',
-            data: { listProductType: this.route.snapshot.data.listProductType }
+            data: { listSeasonCategoryType: this.route.snapshot.data.listSeasonCategoryType }
         });
 
         dialogRef.afterClosed().subscribe((result: SaleOpportunityNewDialogResult) => {
@@ -143,8 +143,19 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
     templateUrl: 'saleopportunitynew.dialog.component.html',
 })
 export class SaleOpportunityNewDialogComponent {
-    listProductType: any[];
-    
+    listSeasonCategoryType: any[];
+    private _selectedSeasonCategory: EnumItem<string>;
+
+
+    get selectedCategorySeasons() {
+        if (this._selectedSeasonCategory != null) {
+            return this._selectedSeasonCategory.extras['saleSeasonTypes'];
+        }
+        else {
+            return null;
+        }
+    }
+
     frmMain: FormGroup;
     constructor(
         private service: SaleOpportunityService
@@ -154,10 +165,10 @@ export class SaleOpportunityNewDialogComponent {
         , @Inject(MAT_DIALOG_DATA) public data: any
         , private route: ActivatedRoute
     ) {
-        this.listProductType = this.data.listProductType;
+        this.listSeasonCategoryType = this.data.listSeasonCategoryType;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'productTypeId': ['']
+            'saleSeasonTypeId': ['']
         });
     }
 

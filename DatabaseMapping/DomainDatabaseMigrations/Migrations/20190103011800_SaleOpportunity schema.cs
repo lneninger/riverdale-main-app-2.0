@@ -8,6 +8,9 @@ namespace DomainDatabaseMigrations.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("UPDATE PROD.ProductMedia set CreatedBy='lneninger'");
+            migrationBuilder.Sql("UPDATE PROD.Product set CreatedBy='lneninger'");
+
             migrationBuilder.EnsureSchema(
                 name: "OPP");
 
@@ -217,7 +220,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "BISERP",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 100, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 761, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "CNF",
@@ -225,7 +228,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "SFORCE",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 102, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 764, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "FILE",
@@ -233,7 +236,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "AWS",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 803, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "FILE",
@@ -241,7 +244,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "AZU",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 803, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "FILE",
@@ -249,7 +252,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "DB",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 803, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "FILE",
@@ -257,7 +260,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "SYS",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 168, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 803, DateTimeKind.Utc));
 
             migrationBuilder.InsertData(
                 schema: "OPP",
@@ -265,9 +268,9 @@ namespace DomainDatabaseMigrations.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Description", "Name", "UpdatedAt", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { "EVERYDAY", new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), "Seed", "Available at any moment", "Every day", null, null },
-                    { "HOLIDAY", new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), "Seed", "Holiday", "Holiday", null, null },
-                    { "YEARROUND", new DateTime(2019, 1, 2, 4, 39, 47, 185, DateTimeKind.Utc), "Seed", "Sale around the year", "Year round", null, null }
+                    { "EVERYDAY", new DateTime(2019, 1, 3, 1, 17, 59, 814, DateTimeKind.Utc), "Seed", "Available at any moment", "Every day", null, null },
+                    { "HOLIDAY", new DateTime(2019, 1, 3, 1, 17, 59, 814, DateTimeKind.Utc), "Seed", "Holiday", "Holiday", null, null },
+                    { "YEARROUND", new DateTime(2019, 1, 3, 1, 17, 59, 814, DateTimeKind.Utc), "Seed", "Sale around the year", "Year round", null, null }
                 });
 
             migrationBuilder.UpdateData(
@@ -276,7 +279,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "COMP",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 900, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "PROD",
@@ -284,7 +287,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "FLW",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 900, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "PROD",
@@ -292,7 +295,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "HARD",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 282, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 900, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "QUOTE",
@@ -300,7 +303,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "BOX",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 187, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 818, DateTimeKind.Utc));
 
             migrationBuilder.UpdateData(
                 schema: "QUOTE",
@@ -308,7 +311,7 @@ namespace DomainDatabaseMigrations.Migrations
                 keyColumn: "Id",
                 keyValue: "CUBE",
                 column: "CreatedAt",
-                value: new DateTime(2019, 1, 2, 4, 39, 47, 187, DateTimeKind.Utc));
+                value: new DateTime(2019, 1, 3, 1, 17, 59, 818, DateTimeKind.Utc));
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleOpportunity_CustomerId",
@@ -524,6 +527,10 @@ namespace DomainDatabaseMigrations.Migrations
                 keyValue: "CUBE",
                 column: "CreatedAt",
                 value: new DateTime(2019, 1, 1, 19, 32, 53, 27, DateTimeKind.Utc));
+
+            migrationBuilder.Sql("UPDATE PROD.ProductMedia set CreatedBy=NULL");
+            migrationBuilder.Sql("UPDATE PROD.Product set CreatedBy=NULL");
+
         }
     }
 }

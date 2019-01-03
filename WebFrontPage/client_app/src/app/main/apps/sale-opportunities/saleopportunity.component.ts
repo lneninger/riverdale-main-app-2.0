@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { SaleOpportunity } from './saleopportunity.model';
+import { SaleOpportunity, ProductGrid } from './saleopportunity.model';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
@@ -29,7 +29,7 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
     // Resolve
     id: string;
     currentEntity: any;
-    medias: (ProductMediaGrid | ISelectedFile)[];
+    medias: (ProductGrid | ISelectedFile)[];
 
 
     pageType: string;
@@ -53,8 +53,8 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
      */
     constructor(
         private route: ActivatedRoute
-        , private serviceProductMedia: ProductMediaService
-        , private service: ProductService
+        //, private serviceProductMedia: ProductService
+        , private service: SaleOpportunityService
         , private _formBuilder: FormBuilder
         , private _location: Location
         , private _matSnackBar: MatSnackBar
@@ -62,35 +62,36 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
         , private fileUploadService: FileUploadService
     ) {
         //debugger;
-        this.customUploader = this.fileUploadService.create();
 
         // Set the default
-        this.currentEntity = new Product();
+        this.currentEntity = new SaleOpportunity();
 
 
-        this.customUploader.onSelectedNew.subscribe(selectedFile => {
-            this.medias.push(selectedFile);
-        });
+        //this.customUploader = this.fileUploadService.create();
 
-        this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-            let productMedia = {
-                ...<IProductMedia>{
-                    productId: this.currentEntity.id,
-                }
-                , ...fileUploaded
-            };
+        //this.customUploader.onSelectedNew.subscribe(selectedFile => {
+        //    this.medias.push(selectedFile);
+        //});
 
-            this.serviceProductMedia.add(productMedia).then(result => {
-                //this.medias.push(fileUploaded);
-            });
-        });
+        //this.customUploader.onCompleteItem.subscribe(fileUploaded => {
+        //    let productMedia = {
+        //        ...<IProductMedia>{
+        //            productId: this.currentEntity.id,
+        //        }
+        //        , ...fileUploaded
+        //    };
 
-        this.customUploader.onCompleteAll.subscribe(result => {
-            this._matSnackBar.open('Product Media saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 5000
-            });
-        });
+        //    this.serviceProductMedia.add(productMedia).then(result => {
+        //        //this.medias.push(fileUploaded);
+        //    });
+        //});
+
+        //this.customUploader.onCompleteAll.subscribe(result => {
+        //    this._matSnackBar.open('Product Media saved', 'OK', {
+        //        verticalPosition: 'top',
+        //        duration: 5000
+        //    });
+        //});
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();

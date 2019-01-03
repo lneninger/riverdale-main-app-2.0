@@ -164,5 +164,29 @@ namespace RiverdaleMainApp2_0.Controllers
             var result = this.MasterDataProvider.GetToEnumProducts();
             return this.Ok(result);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("seasonCategory")]
+        public IActionResult GetToEnumSeasonCategories()
+        {
+            var result = this.MasterDataProvider.GetToEnumSeasonCategories();
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("seasonCategoryWithSeasons")]
+        public IActionResult GetToEnumSeasonCategoriesWithSeasons()
+        {
+            var result = this.MasterDataProvider.GetToEnumSeasonCategoriesWithSeasons();
+            return this.Ok(result);
+        }
     }
 }
