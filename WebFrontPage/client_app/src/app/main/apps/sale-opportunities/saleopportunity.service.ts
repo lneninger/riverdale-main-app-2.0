@@ -79,7 +79,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}product`, entity).subscribe(
+            this.http.put(`${environment.appApi.apiBaseUrl}saleopportunity`, entity).subscribe(
                 (res: any) => {
                     resolve(res);
                 },
@@ -98,7 +98,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}product`, entity).subscribe(
+            this.http.post(`${environment.appApi.apiBaseUrl}saleopportunity`, entity).subscribe(
                 (res: any) => {
                     resolve(res);
                 },
@@ -112,7 +112,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
 
     delete(id: number): any {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}product/{id}`).subscribe((res: any) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}saleopportunity/{id}`).subscribe((res: any) => {
                 resolve(res);
             },
             error => {

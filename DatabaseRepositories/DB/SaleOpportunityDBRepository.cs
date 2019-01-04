@@ -85,6 +85,10 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         Name = o.Name,
+                        SaleSeasonTypeId = o.SaleSeasonTypeId,
+                        SaleSeasonTypeName = o.SaleSeasonType.Name,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.Name,
                         CreatedAt = o.CreatedAt,
                     });
                 }

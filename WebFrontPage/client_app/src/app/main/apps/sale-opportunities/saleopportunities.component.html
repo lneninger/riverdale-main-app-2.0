@@ -59,10 +59,17 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="colorName">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Color</mat-header-cell>
+                <ng-container matColumnDef="customerName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Customer</mat-header-cell>
                     <mat-cell *matCellDef="let item">
-                        <p class="text-truncate">{{item.colorName}}</p>
+                        <p class="text-truncate">{{item.customerName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="saleSeasonTypeName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Season</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.saleSeasonTypeName}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -127,7 +134,7 @@
                 <mat-row *matRowDef="let item; columns: displayedColumns;"
                          class="product"
                          matRipple
-                         [routerLink]="'/apps/products/'+item.id">
+                         [routerLink]="'/apps/saleopportunities/'+item.id">
                 </mat-row>
             </mat-table>
 

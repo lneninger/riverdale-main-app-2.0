@@ -32,7 +32,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SaleOpportunitiesComponent implements OnInit {
     dataSource: SaleOpportunitiesDataSource | null;
-    displayedColumns = ['name', 'colorName', 'createdAt', 'options'];
+    displayedColumns = ['name', 'customerName', 'saleSeasonTypeName', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -89,7 +89,7 @@ export class SaleOpportunitiesComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(SaleOpportunityNewDialogComponent, {
             width: '60%',
-            data: { listSeasonCategoryType: this.route.snapshot.data.listSeasonCategoryType }
+            data: { listSeasonCategoryType: this.route.snapshot.data.listSeasonCategoryType, listCustomer: this.route.snapshot.data.listCustomer }
         });
 
         dialogRef.afterClosed().subscribe((result: SaleOpportunityNewDialogResult) => {
@@ -122,7 +122,7 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}product/pagequery`;
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}saleopportunity/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
 
@@ -143,13 +143,13 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
     templateUrl: 'saleopportunitynew.dialog.component.html',
 })
 export class SaleOpportunityNewDialogComponent {
-    listSeasonCategoryType: any[];
-    private _selectedSeasonCategory: EnumItem<string>;
-
+    listSeasonCategoryType: EnumItem<string>[];
+    listCustomer: EnumItem<number>[];
+    selectedSeasonCategory: EnumItem<string>;
 
     get selectedCategorySeasons() {
-        if (this._selectedSeasonCategory != null) {
-            return this._selectedSeasonCategory.extras['saleSeasonTypes'];
+        if (this.selectedSeasonCategory != null) {
+            return this.selectedSeasonCategory.extras['saleSeasonTypes'];
         }
         else {
             return null;
@@ -166,9 +166,12 @@ export class SaleOpportunityNewDialogComponent {
         , private route: ActivatedRoute
     ) {
         this.listSeasonCategoryType = this.data.listSeasonCategoryType;
+        this.listCustomer = this.data.listCustomer;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'saleSeasonTypeId': ['']
+            'saleSeasonTypeId': ['', [Validators.required]],
+            'customerId': ['', [Validators.required]],
+            //'saleSeasonCategoryTypeId': ['']
         });
     }
 

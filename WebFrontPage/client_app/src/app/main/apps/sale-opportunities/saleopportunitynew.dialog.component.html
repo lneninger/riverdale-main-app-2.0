@@ -5,8 +5,8 @@
             <input matInput cdkFocusInitial formControlName="name" placeholder="Name">
         </mat-form-field>
         <mat-form-field floatLabel="never">
-            <mat-select placeholder="Season Category Type" name="seasonCategoryTypeId" formControlName="saleSeasonCategoryTypeId">
-                <mat-option *ngFor="let item of listSeasonCategoryType" [value]="item.key">
+            <mat-select placeholder="Season Category Type" name="seasonCategoryTypeId" [(ngModel)]="selectedSeasonCategory" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let item of listSeasonCategoryType" [value]="item">
                     {{item.value}}
                 </mat-option>
             </mat-select>
@@ -14,6 +14,13 @@
         <mat-form-field floatLabel="never">
             <mat-select placeholder="Product Type" name="productTypeId" formControlName="saleSeasonTypeId">
                 <mat-option *ngFor="let item of selectedCategorySeasons" [value]="item.key">
+                    {{item.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field floatLabel="never">
+            <mat-select placeholder="Customer" name="customerId" formControlName="customerId">
+                <mat-option *ngFor="let item of listCustomer" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>

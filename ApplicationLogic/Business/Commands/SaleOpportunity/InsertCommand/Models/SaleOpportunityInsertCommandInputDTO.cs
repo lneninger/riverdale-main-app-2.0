@@ -7,6 +7,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.InsertCommand.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string SaleOpportunityTypeId { get; set; }
+        public int SaleSeasonTypeId { get; set; }
+        public int CustomerId { get; set; }
     }
 }
