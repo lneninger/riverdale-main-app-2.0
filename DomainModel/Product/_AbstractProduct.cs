@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainModel._Commons.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,6 +17,14 @@ namespace DomainModel.Product
         public string ProductTypeId { get; set; }
 
         public virtual ProductType ProductType { get; set; }
+
+        public ProductTypeEnum ProductTypeEnum { get {
+                return (ProductTypeEnum)Enum.Parse(typeof(ProductTypeEnum), this.ProductTypeId);
+            }
+            set {
+                this.ProductTypeId = value.ToString();
+            }
+        }
 
         public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
 

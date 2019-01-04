@@ -32,6 +32,7 @@ namespace DomainDatabaseMapping.Mappings.Product
                .HasMaxLength(100)
                .IsRequired(true);
 
+
             // Seed
             builder.HasData(new ProductType { Id = "FLW", Name = "Flower", Description = "Raw Flower", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
             builder.HasData(new ProductType { Id = "COMP", Name = "Composition", Description = "Multiple Product Composition. Kit", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });

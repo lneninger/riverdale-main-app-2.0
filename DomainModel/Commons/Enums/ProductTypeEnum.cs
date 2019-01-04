@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.Product.Commons
+namespace DomainModel._Commons.Enums
 {
     public enum  ProductTypeEnum
     {

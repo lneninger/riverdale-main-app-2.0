@@ -28,6 +28,8 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .ValueGeneratedOnAdd()
                 ;
 
+            builder.Ignore(t => t.ProductTypeEnum);
+
             builder.HasOne(t => t.ProductType)
                 .WithMany(t => t.Products)
                 .HasForeignKey(t => t.ProductTypeId)

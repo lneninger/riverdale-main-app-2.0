@@ -23,7 +23,7 @@ using DomainModel.Product;
 using ApplicationLogic.Business.Commons.DTOs;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using ApplicationLogic.Business.Commands.Product.Commons;
+using DomainModel._Commons.Enums;
 
 namespace DatabaseRepositories.DB
 {

@@ -5,7 +5,6 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.ProductBridge.InsertCommand.Models;
 using Framework.Core.Messages;
-using ApplicationLogic.Business.Commands.Product.Commons;
 using DomainModel.Product;
 using System.Linq;
 
