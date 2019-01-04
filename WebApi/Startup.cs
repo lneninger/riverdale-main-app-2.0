@@ -100,13 +100,15 @@ namespace RiverdaleMainApp2_0
                 var customSettings = this.Configuration.GetSection("CustomSettings").Get<CustomSettings>();
                 Logger.Info($"Application startup - Allowed origins: {string.Join(",", customSettings.AllowedOrigins)}");
 
-                services.AddCors(options => {
-                    options.AddPolicy("Development", builder => builder
-                    .WithOrigins(customSettings.AllowedOrigins)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials());
-                });
+                services.AddCors();
+
+                //services.AddCors(options => {
+                //    options.AddPolicy("Development", builder => builder
+                //    .WithOrigins(customSettings.AllowedOrigins)
+                //    .AllowAnyHeader()
+                //    .AllowAnyMethod()
+                //    .AllowCredentials());
+                //});
 
                 this.ConfigureAuthenticationServices(services);
 
@@ -164,7 +166,12 @@ namespace RiverdaleMainApp2_0
                 app.UseElmah();
 
                 // Shows UseCors with CorsPolicyBuilder.
-                app.UseCors("Development");
+                //app.UseCors("Development");
+                app.UseCors(builder => builder
+                   .AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                );
 
                 app.UseSignalR(routes =>
                 {

@@ -6,6 +6,7 @@ export const environment = {
     production: false,
     hmr: false,
     appApi: {
+        withCredentials: false,
         apiProjectUrl: "https://localhost:5001/",
         apiBaseUrl: "https://localhost:5001/api/",
         apiUploadFileUrl: "https://localhost:5001/upload.axd"
