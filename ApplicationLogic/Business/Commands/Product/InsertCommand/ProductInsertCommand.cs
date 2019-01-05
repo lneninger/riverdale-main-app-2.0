@@ -5,8 +5,8 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
 using Framework.Core.Messages;
-using ApplicationLogic.Business.Commands.Product.Commons;
 using DomainModel.Product;
+using DomainModel._Commons.Enums;
 
 namespace ApplicationLogic.Business.Commands.Product.InsertCommand
 {

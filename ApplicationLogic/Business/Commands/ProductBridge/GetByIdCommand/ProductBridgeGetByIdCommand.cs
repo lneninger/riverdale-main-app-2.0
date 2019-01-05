@@ -5,7 +5,6 @@ using ApplicationLogic.Business.Commands.ProductBridge.GetByIdCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
-using ApplicationLogic.Business.Commands.Product.Commons;
 
 namespace ApplicationLogic.Business.Commands.ProductBridge.GetByIdCommand
 {

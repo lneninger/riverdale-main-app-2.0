@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using ApplicationLogic.Business.Commons.DTOs;
 
-namespace ApplicationLogic.Business.Commands.ProductBridge.GetByIdCommand.Models
+namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.GetByIdCommand.Models
 {
-    public class ProductBridgeGetByIdCommandOutputDTO
+    public class SaleOpportunityProductGetByIdCommandOutputDTO
     {
         public int Id { get; set; }
 
@@ -12,8 +12,9 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.GetByIdCommand.Models
 
         public int RelatedProductId { get; set; }
 
-        public int Stems { get; set; }
+        public int ProductAmmount { get; set; }
 
         public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
+        public int SaleOpportunityId { get; internal set; }
     }
 }

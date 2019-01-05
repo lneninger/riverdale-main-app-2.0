@@ -6,7 +6,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { SaleOpportunitiesComponent, SaleOpportunityNewDialogComponent } from './saleopportunities.component';
 import { SaleOpportunityComponent } from './saleopportunity.component';
 import { SaleOpportunityCoreModule, SaleOpportunityService } from './saleopportunity.core.module';
-import { CompositionViewModule } from './composition.view.module/composition.view.module';
+import { SaleOpportunityViewModule } from './saleopportunity.view.module/saleopportunity.view.module';
 
 import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
@@ -19,6 +19,7 @@ import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileuplo
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
 import { environment } from 'environments/environment';
 import { SaleSeasonCategoryTypeResolveService, CustomerResolveService, ProductResolveService } from '../@resolveServices/resolve.module';
+import { SaleOpportunityViewComponent } from './saleopportunity.view.module/saleopportunity.view.component';
 
 const routes: Routes = [
     {
@@ -32,7 +33,7 @@ const routes: Routes = [
     },
     {
         path: ':id',
-        component: SaleOpportunityComponent,
+        component: SaleOpportunityViewComponent,
         resolve: {
             data: SaleOpportunityService,
             listProduct: ProductResolveService,
@@ -82,7 +83,7 @@ const routes: Routes = [
 
         , PopupsModule
         , SaleOpportunityCoreModule
-        , CompositionViewModule
+        , SaleOpportunityViewModule
         , CustomFileUploadModule
         , HipalanetUtils.forRoot({ fileRetrieveUrl: environment.appApi.apiUploadFileUrl })
 

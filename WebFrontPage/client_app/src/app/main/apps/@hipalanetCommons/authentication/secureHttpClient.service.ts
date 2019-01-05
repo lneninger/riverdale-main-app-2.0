@@ -29,24 +29,24 @@ export class SecureHttpClientService {
         return internalHeaders;
     }
 
-    addPostContentTypeHeader(headers: HttpHeaders) {
-        let internalHeaders = headers || new HttpHeaders();
-        internalHeaders = internalHeaders.set('Content-Type', 'application/x-www-form-urlencoded');
+    //addPostContentTypeHeader(headers: HttpHeaders) {
+    //    let internalHeaders = headers || new HttpHeaders();
+    //    internalHeaders = internalHeaders.set('Content-Type', 'application/x-www-form-urlencoded');
 
-        return internalHeaders;
-    }
+    //    return internalHeaders;
+    //}
 
-    addOriginHeader(headers: HttpHeaders) {
-        let internalHeaders = headers || new HttpHeaders();
-        console.log(`${window.location.origin}`);
-        internalHeaders = internalHeaders.set('Access-Control-Allow-Origin', window.location.origin);
+    //addOriginHeader(headers: HttpHeaders) {
+    //    let internalHeaders = headers || new HttpHeaders();
+    //    console.log(`${window.location.origin}`);
+    //    internalHeaders = internalHeaders.set('Access-Control-Allow-Origin', window.location.origin);
 
-        return internalHeaders;
-    }
+    //    return internalHeaders;
+    //}
 
-    addWithCredentialsOption(options: CallOptions) {
-        options.withCredentials = true;
-    }
+    //addWithCredentialsOption(options: CallOptions) {
+    //    options.withCredentials = true;
+    //}
     //get(url: string, options?: CallOptions) {
     //    let internalOptions = options || <CallOptions>{};
     //    internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);

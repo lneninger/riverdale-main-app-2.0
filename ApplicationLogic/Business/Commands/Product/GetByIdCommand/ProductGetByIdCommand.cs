@@ -5,8 +5,8 @@ using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
-using ApplicationLogic.Business.Commands.Product.Commons;
 using DomainModel.Product;
+using DomainModel._Commons.Enums;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
 {

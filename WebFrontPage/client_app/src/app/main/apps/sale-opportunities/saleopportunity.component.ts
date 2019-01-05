@@ -135,7 +135,7 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
         return entity && ['FLW', 'HARD'].indexOf(entity.productTypeId) != -1;
     }
 
-    isCompositionProduct(entity) {
+    isOpportunityProduct(entity) {
         return entity && ['COMP'].indexOf(entity.productTypeId) != -1;
     }
 

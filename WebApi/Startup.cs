@@ -35,6 +35,7 @@ using Framework.Web.Security;
 using Framework.EF.DbContextImpl;
 using Framework.Logging.Log4Net;
 using RiverdaleMainApp2_0.AppSettings;
+using RiverdaleMainApp2_0.ErrorHandling;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0
@@ -163,6 +164,8 @@ namespace RiverdaleMainApp2_0
                     app.UseDeveloperExceptionPage();
                 }
 
+                app.ConfigureExceptionHandler();
+
                 app.UseElmah();
 
                 // Shows UseCors with CorsPolicyBuilder.
@@ -171,6 +174,7 @@ namespace RiverdaleMainApp2_0
                    .AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod()
+                   .AllowCredentials()
                 );
 
                 app.UseSignalR(routes =>

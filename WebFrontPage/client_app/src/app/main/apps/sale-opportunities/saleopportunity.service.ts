@@ -8,7 +8,7 @@ import { environment } from 'environments/environment';
 /*************************Custom***********************************/
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { CompositionItem } from './saleopportunity.model';
+import { SaleOpportunityItem } from './saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
@@ -18,7 +18,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onCurrentEntityChanged: BehaviorSubject<any>;
 
 
-    onCompositionItemAdded: Subject<CompositionItem> = new Subject<CompositionItem>();
+    onCompositionItemAdded: Subject<SaleOpportunityItem> = new Subject<SaleOpportunityItem>();
 
     /**
      * Constructor
@@ -122,9 +122,9 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    addCompositionItem(item: CompositionItem): any {
+    addSaleOpportunityProductItem(item: SaleOpportunityItem): any {
         return new Promise((resolve, reject) => {
-            this.http.post<OperationResponse<CompositionItem>>(`${environment.appApi.apiBaseUrl}productbridge`, item).subscribe((res: OperationResponse<CompositionItem>) => {
+            this.http.post<OperationResponse<SaleOpportunityItem>>(`${environment.appApi.apiBaseUrl}saleopportunityproduct`, item).subscribe((res: OperationResponse<SaleOpportunityItem>) => {
                 const responseItem = res.bag; 
                 this.onCompositionItemAdded.next(responseItem);
                 resolve(res);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ApplicationLogic.Business.Commands.Product.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
+using DomainModel._Commons.Enums;
 
 namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
 {

@@ -47,31 +47,31 @@ export class SaleOpportunityNewDialogResult {
 
 
 
-export class CompositionItem {
+export class SaleOpportunityItem {
     id: number;
+    saleOpportunityId: number;
     productId: number;
-    relatedProductId: number;
-    relatedProductName: string;
-    relatedProductTypeName: string;
-    relatedProductTypeDescription: string;
-    relatedProductPictureId: number;
-    stems: number;
+    productName: string;
+    productTypeName: string;
+    productTypeDescription: string;
+    productPictureId: number;
+    productAmount: number;
 
     constructor(item?) {
         let internal = item || {};
         if (internal.key) {
-            this.relatedProductId = internal.key;
-            this.stems = 1;
+            this.productId = internal.key;
+            this.productAmount = 1;
         }
         else {
             this.id = internal.id;
+            this.saleOpportunityId = internal.saleOpportunityId
             this.productId = internal.productId
-            this.relatedProductId = internal.relatedProductId
-            this.relatedProductName = internal.relatedProductName
-            this.relatedProductTypeName = internal.relatedProductTypeName
-            this.relatedProductTypeDescription = internal.relatedProductTypeDescription
-            this.relatedProductPictureId = internal.relatedProductPictureId
-            this.stems = internal.stems;
+            this.productName = internal.productName
+            this.productTypeName = internal.productTypeName
+            this.productTypeDescription = internal.productTypeDescription
+            this.productPictureId = internal.productPictureId
+            this.productAmount = internal.productAmount;
         }
     }
 }
