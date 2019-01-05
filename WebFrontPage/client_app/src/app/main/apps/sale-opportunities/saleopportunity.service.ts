@@ -18,7 +18,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onCurrentEntityChanged: BehaviorSubject<any>;
 
 
-    onCompositionItemAdded: Subject<SaleOpportunityItem> = new Subject<SaleOpportunityItem>();
+    onSaleOpportunityItemAdded: Subject<SaleOpportunityItem> = new Subject<SaleOpportunityItem>();
 
     /**
      * Constructor
@@ -126,7 +126,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http.post<OperationResponse<SaleOpportunityItem>>(`${environment.appApi.apiBaseUrl}saleopportunityproduct`, item).subscribe((res: OperationResponse<SaleOpportunityItem>) => {
                 const responseItem = res.bag; 
-                this.onCompositionItemAdded.next(responseItem);
+                this.onSaleOpportunityItemAdded.next(responseItem);
                 resolve(res);
             },
                 error => {

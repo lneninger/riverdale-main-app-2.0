@@ -30,12 +30,18 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
-                        //Medias = getByIdResult.Bag.SaleOpportunityMedias.Select(m => new FileItemRefOutputDTO
-                        //{
-                        //    Id = m.Id,
-                        //    FileId = m.FileRepositoryId,
-                        //    FullUrl = m.FileRepository.FullFilePath
-                        //}).ToList()
+                        RelatedProducts = getByIdResult.Bag.SaleOpportunityProducts.Select(o => new SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO
+                        {
+                            Id = o.Id,
+                            SaleOpportunityId = o.SaleOpportunityId,
+                            ProductId = o.ProductId,
+                            ProductAmount = o.ProductAmount,
+                            ProductName = o.Product.Name,
+                            ProductTypeName = o.Product.ProductType.Name,
+                            ProductTypeDescription = o.Product.ProductType.Description,
+                            ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+
+                        }).ToList()
                     };
 
                     

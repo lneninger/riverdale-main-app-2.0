@@ -14,6 +14,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public string SaleOpportunityTypeId { get; set; }
         
 
-        public IEnumerable<SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO> RelatedSaleOpportunitys { get; set; }
+        public IEnumerable<SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO> RelatedProducts { get; internal set; }
     }
 }

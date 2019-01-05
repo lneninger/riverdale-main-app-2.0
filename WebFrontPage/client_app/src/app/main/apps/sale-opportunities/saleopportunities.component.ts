@@ -202,7 +202,7 @@ export class SaleOpportunityNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<SaleOpportunity>) => {
-            debugger;
+            //debugger;
             let result = <SaleOpportunityNewDialogResult>{
                 goTo: 'Edit',
                 data: res.bag

@@ -1,4 +1,4 @@
-@mixin composition-view-theme($theme) {
+@mixin saleopportunity-view-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
@@ -6,7 +6,7 @@
     $is-dark: map-get($theme, is-dark);
 
     // Composition View
-    composition-view {
+    saleopportunity-view {
 
         .center {
 
@@ -41,7 +41,7 @@
         }
     }
     // Todo list
-    composition-view-list {
+    saleopportunity-view-list {
         border-right-color: map-get($foreground, divider);
     }
     // Todo list item
@@ -79,7 +79,7 @@
         }
     }
     // Todo details
-    composition-view-details {
+    saleopportunity-view-details {
 
         .todo-header {
             background: map-get($background, background);

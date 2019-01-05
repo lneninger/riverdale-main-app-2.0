@@ -75,7 +75,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.saleOpportunityService.onCompositionItemAdded.subscribe(this.onCompositionItemAdded.bind(this));
+        this.saleOpportunityService.onSaleOpportunityItemAdded.subscribe(this.onSaleOpportunityItemAdded.bind(this));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        debugger;
+        //debugger;
         this.currentEntity = this.saleOpportunityService.currentEntity.bag;
 
         this._todoService.onSelectedTodosChanged
@@ -221,7 +221,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
     }
 
 
-    onCompositionItemAdded(item: SaleOpportunityItem) {
+    onSaleOpportunityItemAdded(item: SaleOpportunityItem) {
         debugger;
         this.currentEntity.relatedProducts.push(item);
     }

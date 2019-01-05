@@ -10,17 +10,17 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
         <div class="avatar">
-            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.relatedProductPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
+            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.productPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
         </div>
         <div class="info" fxFlex fxFlexLayout="column">
 
 
             <div class="title">
-                {{currentEntity.relatedProductName}}
+                {{currentEntity.productName}}
             </div>
 
             <div class="notes">
-                {{currentEntity.relatedProductTypeName}}
+                {{currentEntity.productTypeName}}
             </div>
 
             <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">

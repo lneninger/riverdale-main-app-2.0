@@ -32,11 +32,17 @@ export class SaleOpportunity {
 export class ProductGrid {
     id?: number;
     fileId?: number;
+    productName?: string;
+    productTypeName?: string;
+    productAmount: number;
 
     constructor(item?) {
         let internal = item || <ProductGrid>{};
         this.id = internal.id;
         this.fileId = internal.fileId;
+        this.productName = internal.productName;
+        this.productTypeName = internal.productTypeName;
+        this.productAmount = internal.productAmount;
     }
 }
 

@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-composition-view {
+saleopportunity-view {
     width: 100%;
     /*The original selector :  content > *:not(router-outlet) is not applicable when nest the component into another. Forced style below */
     display: flex;
@@ -8,7 +8,6 @@ composition-view {
     width: 100%;
     min-width: 100%;
     /*The original selector ... END*/
-
     .center {
 
         .header {
@@ -57,16 +56,16 @@ composition-view {
 
             @include media-breakpoint('lt-xl') {
 
-                composition-view-list {
+                saleopportunity-view-list {
                     border-right: 0;
                 }
 
-                composition-view-list,
-                composition-view-details {
+                saleopportunity-view-list,
+                saleopportunity-view-details {
                     flex: 1 0 100%;
                 }
 
-                composition-view-details {
+                saleopportunity-view-details {
                     display: none !important;
                 }
 

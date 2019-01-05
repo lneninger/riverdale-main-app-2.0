@@ -102,6 +102,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/users/users.theme";
 @import "src/app/main/apps/user-roles/userroles.theme";
 @import "src/app/main/apps/sale-opportunities/saleopportunities.theme";
+@import "src/app/main/apps/sale-opportunities/saleopportunity.view.module/saleopportunity.view.theme";
 
 
 @import "src/app/main/pages/authentication/login/login.theme";
@@ -159,6 +160,7 @@ $typography: mat-typography-config(
     @include products-theme($theme);
     @include composition-view-theme($theme);
     @include saleopportunities-theme($theme);
+    @include saleopportunity-view-theme($theme);
     // Pages
     @include login-theme($theme);
     @include login-2-theme($theme);
