@@ -10,9 +10,13 @@ export class SaleOpportunityGrid {
 export class SaleOpportunity {
     id: number;
     name: string;
+    customerName: string;
+    seasonName: string;
+    targetPrice: number;
     productTypeId: string;
     productColorTypeId: string;
-    relatedProducts: ProductGrid[]
+    relatedProducts: ProductGrid[];
+    settings: SaleOpportunitySettings;
 
     /**
      * Constructor
@@ -23,9 +27,13 @@ export class SaleOpportunity {
         let internal = product || {};
         this.id = internal.id;
         this.name = internal.name;
+        this.seasonName = internal.seasonName;
+        this.customerName = internal.customerName;
+        this.targetPrice = internal.targetPrice;
         this.productTypeId = internal.productTypeId
         this.productColorTypeId = internal.productColorTypeId;
         this.relatedProducts = (internal.relatedProducts || []).map(item => new ProductGrid(item));
+        this.settings = new SaleOpportunitySettings(internal.settings || {});
     }
 }
 
@@ -79,5 +87,17 @@ export class SaleOpportunityItem {
             this.productPictureId = internal.productPictureId
             this.productAmount = internal.productAmount;
         }
+    }
+}
+
+export class SaleOpportunitySettings {
+    id?: number;
+    delivered: boolean;
+
+    constructor(settings) {
+
+        let internal = settings || {};
+        this.id = internal.id;
+        this.delivered = internal.delivered;
     }
 }

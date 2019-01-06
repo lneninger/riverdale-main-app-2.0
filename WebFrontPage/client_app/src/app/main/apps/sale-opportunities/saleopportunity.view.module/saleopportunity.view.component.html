@@ -14,6 +14,23 @@
         <!-- CONTENT HEADER -->
         <div class="header" fxLayout="row" fxLayoutAlign="start center">
 
+            <div class="main-fields" fxFlex="100%" fxLayout="row" fxLayoutGap="30px" [@animate]="{value:'*',params:{delay:'300ms'}}">
+                <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
+                    <mat-label>Season</mat-label>
+                    <input matInput [value]="currentEntity.seasonName">
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always" appearance="outline" fxFlex="50%">
+                    <mat-label>Customer</mat-label>
+                    <input matInput [value]="currentEntity.customerName" >
+                </mat-form-field>
+
+                <mat-form-field floatLabel="always" appearance="outline" fxFlex="10%">
+                    <mat-label>Target Price</mat-label>
+                    <input matInput [value]="currentEntity.targetPrice">
+                </mat-form-field>
+            </div>
+
             <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
 
                 <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
@@ -21,10 +38,11 @@
                     <mat-icon>menu</mat-icon>
                 </button>
 
+
                 <!--<div class="search" fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="secondary-text">search</mat-icon>
-                    <input [formControl]="searchInput" placeholder="Search for a task" fxFlex>
-                </div>-->
+            <mat-icon class="secondary-text">search</mat-icon>
+            <input [formControl]="searchInput" placeholder="Search for a task" fxFlex>
+        </div>-->
 
             </div>
 
@@ -37,33 +55,40 @@
             <div class="toolbar px-24 py-8">
 
                 <div class="todo-selection" fxFlex="row" fxLayoutAlign="start center">
-                    <mat-checkbox (click)="toggleSelectAll()" [checked]="hasSelectedTodos"
-                                  [indeterminate]="isIndeterminate"></mat-checkbox>
+                    <!--<mat-checkbox (click)="toggleSelectAll()" [checked]="hasSelectedTodos"
+                  [indeterminate]="isIndeterminate"></mat-checkbox>
 
-                    <button mat-icon-button [matMenuTriggerFor]="selectMenu">
-                        <mat-icon>arrow_drop_down</mat-icon>
+    <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+        <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #selectMenu="matMenu">
+        <button mat-menu-item (click)="selectTodos()">All</button>
+        <button mat-menu-item (click)="deselectTodos()">None</button>
+        <button mat-menu-item (click)="selectTodos('read', true)">Read</button>
+        <button mat-menu-item (click)="selectTodos('read', false)">Unread</button>
+        <button mat-menu-item (click)="selectTodos('starred', true)">Starred</button>
+        <button mat-menu-item (click)="selectTodos('starred', false)">Unstarred</button>
+        <button mat-menu-item (click)="selectTodos('important', true)">Important</button>
+        <button mat-menu-item (click)="selectTodos('important', false)">Unimportant</button>
+    </mat-menu>
+
+    <div class="toolbar-separator" *ngIf="hasSelectedTodos"></div>
+
+    <button mat-icon-button [matMenuTriggerFor]="labelMenu" *ngIf="hasSelectedTodos">
+        <mat-icon class="secondary-text">label</mat-icon>
+    </button>
+    <mat-menu #labelMenu="matMenu">
+        <button mat-menu-item *ngFor="let tag of tags" (click)="toggleTagOnSelectedTodos(tag.id)">
+            {{tag.title}}
+        </button>
+    </mat-menu>-->
+
+                    <button *ngIf="activeArea == 'settings'" mat-icon-button (click)="setActiveArea('products')">
+                        <mat-icon>format_list_numbered</mat-icon>
                     </button>
-                    <mat-menu #selectMenu="matMenu">
-                        <button mat-menu-item (click)="selectTodos()">All</button>
-                        <button mat-menu-item (click)="deselectTodos()">None</button>
-                        <button mat-menu-item (click)="selectTodos('read', true)">Read</button>
-                        <button mat-menu-item (click)="selectTodos('read', false)">Unread</button>
-                        <button mat-menu-item (click)="selectTodos('starred', true)">Starred</button>
-                        <button mat-menu-item (click)="selectTodos('starred', false)">Unstarred</button>
-                        <button mat-menu-item (click)="selectTodos('important', true)">Important</button>
-                        <button mat-menu-item (click)="selectTodos('important', false)">Unimportant</button>
-                    </mat-menu>
-
-                    <div class="toolbar-separator" *ngIf="hasSelectedTodos"></div>
-
-                    <button mat-icon-button [matMenuTriggerFor]="labelMenu" *ngIf="hasSelectedTodos">
-                        <mat-icon class="secondary-text">label</mat-icon>
+                    <button *ngIf="activeArea != 'settings'" mat-icon-button (click)="setActiveArea('settings')">
+                        <mat-icon>settings</mat-icon>
                     </button>
-                    <mat-menu #labelMenu="matMenu">
-                        <button mat-menu-item *ngFor="let tag of tags" (click)="toggleTagOnSelectedTodos(tag.id)">
-                            {{tag.title}}
-                        </button>
-                    </mat-menu>
                 </div>
 
                 <div *ngIf="currentTodo" fxHide.gt-lg>
@@ -76,8 +101,12 @@
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
-                <saleopportunity-view-list [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-list>
-                <saleopportunity-view-details [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-details>
+                <div *ngIf="activeArea != 'settings'">
+                    <saleopportunity-view-list [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-list>
+                    <saleopportunity-view-details [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-details>
+                </div>
+
+                <saleopportunity-view-settings *ngIf="activeArea == 'settings'" [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-settings>
             </div>
             <!-- / CONTENT -->
 

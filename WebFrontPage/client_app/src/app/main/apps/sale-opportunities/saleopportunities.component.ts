@@ -22,6 +22,7 @@ import { SaleOpportunityService } from './saleopportunity.core.module';
 import { ProductTypeResolveService, EnumItem } from '../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
+import { CustomValidators } from 'ng4-validators';
 
 @Component({
     selector: 'sale-opportunities',
@@ -32,7 +33,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SaleOpportunitiesComponent implements OnInit {
     dataSource: SaleOpportunitiesDataSource | null;
-    displayedColumns = ['name', 'customerName', 'saleSeasonTypeName', 'createdAt', 'options'];
+    displayedColumns = ['name', 'customerName', 'saleSeasonTypeName', 'targetPrice', 'createdAt', 'options'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -171,7 +172,7 @@ export class SaleOpportunityNewDialogComponent {
             'name': ['', [Validators.required]],
             'saleSeasonTypeId': ['', [Validators.required]],
             'customerId': ['', [Validators.required]],
-            //'saleSeasonCategoryTypeId': ['']
+            'targetPrice': ['', CustomValidators.number]
         });
     }
 

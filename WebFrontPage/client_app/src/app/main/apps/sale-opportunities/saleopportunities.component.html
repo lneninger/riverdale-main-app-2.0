@@ -73,6 +73,12 @@
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="targetPrice">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Target Price</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.targetPrice}}</p>
+                    </mat-cell>
+                </ng-container>
                 <!--<ng-container matColumnDef="erpId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>ERP Code</mat-header-cell>
         <mat-cell *matCellDef="let item">

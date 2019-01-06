@@ -1,4 +1,5 @@
-﻿using Framework.EF.Design;
+﻿using DomainModel.SaleOpportunity;
+using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -25,6 +26,9 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
                .HasMaxLength(100)
                .IsRequired(true);
 
+            builder.HasOne(t => t.SaleOpportunitySettings)
+            .WithOne(t => t.SaleOpportunity)
+            .HasForeignKey<SaleOpportunitySettings>(t => t.SaleOpportunityId);
 
             builder.HasOne(t => t.Customer)
                .WithMany(t => t.SaleOpportunities)

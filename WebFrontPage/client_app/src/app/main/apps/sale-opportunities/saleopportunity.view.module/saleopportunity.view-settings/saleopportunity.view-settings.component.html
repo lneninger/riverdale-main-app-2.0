@@ -1,0 +1,24 @@
+<div class="fields" fxFlex="100%" fxLayout="row wrap" fxLayoutGap="30px" [@animate]="{value:'*',params:{delay:'300ms'}}">
+
+    <mat-form-field floatLabel="always" appearance="outline" fxFlex="20%">
+        <mat-label>Margin</mat-label>
+        <input matInput [(ngModel)]="currentEntity.settings.riverdaleMargin">
+    </mat-form-field>
+
+    <mat-checkbox [(ngModel)]="currentEntity.settings.delivered">Delivered</mat-checkbox>
+
+    <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
+        <mat-label>FOC</mat-label>
+        <input matInput [(ngModel)]="currentEntity.settings.seasonName">
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
+        <mat-label>Farm Type</mat-label>
+        <input matInput [(ngModel)]="currentEntity.settings.customerName">
+    </mat-form-field>
+
+    <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
+        <mat-label>Farm</mat-label>
+        <input matInput [(ngModel)]="currentEntity.settings.targetPrice">
+    </mat-form-field>
+</div>

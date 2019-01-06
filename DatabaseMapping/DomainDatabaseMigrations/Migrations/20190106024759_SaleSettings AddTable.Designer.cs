@@ -4,48 +4,22 @@ using DomainDatabaseMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainDatabaseMigrations.Migrations
 {
     [DbContext(typeof(MigrationDBContext))]
-    partial class MigrationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190106024759_SaleSettings AddTable")]
+    partial class SaleSettingsAddTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DomainModel.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Alpha2Code")
-                        .IsRequired()
-                        .HasMaxLength(3);
-
-                    b.Property<string>("Alpha3Code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Country","CNF");
-
-                    b.HasData(
-                        new { Id = 170, Alpha2Code = "CO", Alpha3Code = "COL", Name = "Colombia" },
-                        new { Id = 218, Alpha2Code = "EC", Alpha3Code = "ECU", Name = "Ecuador" },
-                        new { Id = 188, Alpha2Code = "CR", Alpha3Code = "CRI", Name = "Costa Rica" },
-                        new { Id = 840, Alpha2Code = "US", Alpha3Code = "USA", Name = "United States of America" }
-                    );
-                });
 
             modelBuilder.Entity("DomainModel.Customer", b =>
                 {
@@ -183,8 +157,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 105, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 105, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 995, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 995, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -372,94 +346,11 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "SYS", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 66, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
-                        new { Id = "DB", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 67, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 67, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "AZU", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 67, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
+                        new { Id = "SYS", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 972, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
+                        new { Id = "DB", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 972, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 972, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "AZU", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 972, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
                     );
-                });
-
-            modelBuilder.Entity("DomainModel.Grower", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getutcdate()")
-                        .HasAnnotation("ColumnOrder", 100);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("SYSTEM_USER")
-                        .HasAnnotation("ColumnOrder", 101);
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("GrowerTypeId");
-
-                    b.Property<bool?>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("OriginId");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasAnnotation("ColumnOrder", 102);
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(100)")
-                        .HasAnnotation("ColumnOrder", 103);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GrowerTypeId");
-
-                    b.HasIndex("OriginId");
-
-                    b.ToTable("Grower","CRM");
-                });
-
-            modelBuilder.Entity("DomainModel.GrowerType", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("getutcdate()")
-                        .HasAnnotation("ColumnOrder", 100);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("SYSTEM_USER")
-                        .HasAnnotation("ColumnOrder", 101);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasAnnotation("ColumnOrder", 102);
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(100)")
-                        .HasAnnotation("ColumnOrder", 103);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GrowerType","CRM");
                 });
 
             modelBuilder.Entity("DomainModel.Identity.AppUser", b =>
@@ -531,25 +422,6 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("DomainModel.Location", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("CountryId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Location","CNF");
                 });
 
             modelBuilder.Entity("DomainModel.Product.AbstractProduct", b =>
@@ -712,9 +584,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 198, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 198, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 198, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 58, 84, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 58, 84, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 58, 84, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -865,9 +737,7 @@ namespace DomainDatabaseMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Delivered")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("Delivered");
 
                     b.Property<int>("SaleOpportunityId");
 
@@ -876,7 +746,7 @@ namespace DomainDatabaseMigrations.Migrations
                     b.HasIndex("SaleOpportunityId")
                         .IsUnique();
 
-                    b.ToTable("SaleOpportunitySettings","OPP");
+                    b.ToTable("SaleOpportunitySettings");
                 });
 
             modelBuilder.Entity("DomainModel.SaleOpportunity.SaleSeasonCategoryType", b =>
@@ -918,9 +788,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("SaleSeasonCategoryType","OPP");
 
                     b.HasData(
-                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 101, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
-                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 101, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
-                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 101, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
+                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 993, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
+                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 993, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
+                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 993, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
                     );
                 });
 
@@ -1003,8 +873,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 1, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 1, 6, 5, 30, 10, 2, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 921, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 1, 6, 2, 47, 57, 923, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 
@@ -1189,26 +1059,6 @@ namespace DomainDatabaseMigrations.Migrations
                     b.HasOne("DomainModel.File.FileSystemType", "FileSystemType")
                         .WithMany()
                         .HasForeignKey("FileSystemTypeId");
-                });
-
-            modelBuilder.Entity("DomainModel.Grower", b =>
-                {
-                    b.HasOne("DomainModel.Grower", "GrowerType")
-                        .WithMany()
-                        .HasForeignKey("GrowerTypeId");
-
-                    b.HasOne("DomainModel.Location", "Origin")
-                        .WithMany()
-                        .HasForeignKey("OriginId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DomainModel.Location", b =>
-                {
-                    b.HasOne("DomainModel.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DomainModel.Product.AbstractProduct", b =>

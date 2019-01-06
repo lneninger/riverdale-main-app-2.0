@@ -45,10 +45,14 @@ namespace DomainDatabaseMapping
         // Config
         public DbSet<ThirdPartyAppType> ThirdPartyAppTypes { get; set; }
         public DbSet<ProductColorType> ProductColorTypes { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         // CRM
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
+        public DbSet<GrowerType> GrowerTypes { get; set; }
+        public DbSet<Grower> Growers { get; set; }
 
         // Business
         public DbSet<CustomerOpportunity> CustomerOpportunities { get; set; }
@@ -59,6 +63,7 @@ namespace DomainDatabaseMapping
 
         //Opportunity
         public DbSet<SaleOpportunity> SaleOpportunities { get; set; }
+        public DbSet<SaleOpportunitySettings> SaleOpportunitySettings { get; set; }
         public DbSet<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
         public DbSet<SaleSeasonType> SaleSeasonTypes { get; set; }
         public DbSet<SaleSeasonCategoryType> SaleSeasonCategoryTypes { get; set; }
@@ -80,12 +85,18 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new ThirdPartyAppTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductColorMap(modelBuilder));
 
+            modelBuilder.ApplyConfiguration(new LocationMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CountryMap(modelBuilder));
+
+
             // CRM
             modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new GrowerTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new GrowerMap(modelBuilder));
 
-            // Business
-            modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
+        // Business
+        modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
 
             // Commons
             modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
@@ -93,6 +104,7 @@ namespace DomainDatabaseMapping
 
             // Opportunity
             modelBuilder.ApplyConfiguration(new SaleOpportunityMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SaleOpportunitySettingsMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleOpportunityProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonCategoryTypeMap(modelBuilder));

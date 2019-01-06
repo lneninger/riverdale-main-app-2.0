@@ -89,6 +89,7 @@ namespace DatabaseRepositories.DB
                         SaleSeasonTypeName = o.SaleSeasonType.Name,
                         CustomerId = o.CustomerId,
                         CustomerName = o.Customer.Name,
+                        TargetPrice = o.TargetPrice,
                         CreatedAt = o.CreatedAt,
                     });
                 }

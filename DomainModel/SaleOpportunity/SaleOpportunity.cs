@@ -10,15 +10,20 @@ namespace DomainModel.SaleOpportunity
 
         public string Name { get; set; }
 
+        public decimal? TargetPrice { get; set; }
+
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
         public int SaleSeasonTypeId { get; set; }
         public virtual SaleSeasonType SaleSeasonType { get; set; }
 
+        public virtual SaleOpportunitySettings SaleOpportunitySettings { get; set; }
+
+        public virtual IEnumerable<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
+
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }
 
-        public virtual IEnumerable<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
     }
 }

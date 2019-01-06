@@ -225,4 +225,11 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         debugger;
         this.currentEntity.relatedProducts.push(item);
     }
+
+    activeArea: ActiveAreaType;
+    setActiveArea(area: ActiveAreaType) {
+        this.activeArea = area;
+    }
 }
+declare type ActiveAreaType = 'settings' | 'products';
+

@@ -1,34 +1,37 @@
-<h1 mat-dialog-title>New Product</h1>
+<h1 mat-dialog-title>New Opportunity</h1>
 <div mat-dialog-content [formGroup]="frmMain">
-    <section fxLayoutGap="20px">
-        <mat-form-field>
+    <section fxLayout="row wrap" fxLayoutGap="20px">
+        <mat-form-field fxFlex="30%"> 
             <input matInput cdkFocusInitial formControlName="name" placeholder="Name">
         </mat-form-field>
-        <mat-form-field floatLabel="never">
+        <mat-form-field  fxFlex="30%" floatLabel="never">
             <mat-select placeholder="Season Category Type" name="seasonCategoryTypeId" [(ngModel)]="selectedSeasonCategory" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let item of listSeasonCategoryType" [value]="item">
                     {{item.value}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field floatLabel="never">
+        <mat-form-field  fxFlex="30%" floatLabel="never">
             <mat-select placeholder="Product Type" name="productTypeId" formControlName="saleSeasonTypeId">
                 <mat-option *ngFor="let item of selectedCategorySeasons" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field floatLabel="never">
+        <mat-form-field  fxFlex="50%" floatLabel="never">
             <mat-select placeholder="Customer" name="customerId" formControlName="customerId">
                 <mat-option *ngFor="let item of listCustomer" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <mat-form-field>
+            <input matInput cdkFocusInitial formControlName="targetPrice" placeholder="Target Price">
+        </mat-form-field>
     </section>
 </div>
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
-    <button mat-button (click)="create()" >Create</button>
-    <button mat-button (click)="createEdit()">Create And Edit</button>
+    <button mat-button (click)="create()" [disabled]="frmMain.invalid">Create</button>
+    <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button>
 </div>

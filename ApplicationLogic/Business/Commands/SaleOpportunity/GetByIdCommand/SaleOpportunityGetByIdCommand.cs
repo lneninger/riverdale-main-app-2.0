@@ -25,11 +25,15 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    
+
                     result.Bag = new SaleOpportunityGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
+                        CustomerName = getByIdResult.Bag.Customer.Name,
+                        SeasonName = getByIdResult.Bag.SaleSeasonType.Name,
+                        TargetPrice = getByIdResult.Bag.TargetPrice,
+
                         RelatedProducts = getByIdResult.Bag.SaleOpportunityProducts.Select(o => new SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO
                         {
                             Id = o.Id,
@@ -42,9 +46,16 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                             ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
 
                         }).ToList()
+
                     };
 
-                    
+                    if (getByIdResult.Bag.SaleOpportunitySettings != null)
+                    {
+                        result.Bag.Settings = new SaleOpportunityGetByIdCommandOutputSettingsDTO
+                        {
+                            Delivered = getByIdResult.Bag.SaleOpportunitySettings.Delivered
+                        };
+                    }
                 }
             }
 

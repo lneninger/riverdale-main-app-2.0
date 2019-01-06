@@ -11,6 +11,13 @@ saleopportunity-view {
     .center {
 
         .header {
+            .main-fields {
+                color: white;
+
+                .mat-form-field-appearance-outline .mat-form-field-outline {
+                    color: rgba(4,60,87, 0.30);
+                }
+            }
 
             .search-wrapper {
                 border-radius: 28px;

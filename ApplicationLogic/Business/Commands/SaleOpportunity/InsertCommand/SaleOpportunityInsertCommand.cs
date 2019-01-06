@@ -24,7 +24,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.InsertCommand
                 {
                     Name = input.Name,
                     SaleSeasonTypeId = input.SaleSeasonTypeId,
-                    CustomerId = input.CustomerId
+                    CustomerId = input.CustomerId,
+                    TargetPrice = input.TargetPrice
                 };
 
                 try

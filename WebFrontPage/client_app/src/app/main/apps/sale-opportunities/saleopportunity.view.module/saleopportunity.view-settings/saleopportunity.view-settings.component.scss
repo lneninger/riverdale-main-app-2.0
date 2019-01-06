@@ -1,0 +1,19 @@
+saleopportunity-view-settings {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    position: relative;
+    padding: 0;
+    border-right: 1px solid;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .fields{
+        padding: 20px;
+    }
+
+    .no-todos-text {
+        font-size: 24px;
+        font-weight: 300;
+    }
+}

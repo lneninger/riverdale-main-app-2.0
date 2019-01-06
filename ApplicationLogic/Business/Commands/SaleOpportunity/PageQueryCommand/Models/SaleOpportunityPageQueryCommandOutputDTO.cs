@@ -6,11 +6,19 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.PageQueryCommand.Mo
     public class SaleOpportunityPageQueryCommandOutputDTO
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
+
         public int CustomerId { get; set; }
+
         public string CustomerName { get; set; }
+
+        public decimal? TargetPrice { get; set; }
+
         public int SaleSeasonTypeId { get; set; }
+
         public string SaleSeasonTypeName { get; set; }
+
         public DateTime? CreatedAt { get; set; }
     }
 }

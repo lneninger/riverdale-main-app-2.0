@@ -8,11 +8,17 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string SaleOpportunityColorTypeId { get; set; }
 
-        public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
+        public string CustomerName { get; set; }
+
+        public string SeasonName { get; set; }
+
+        public decimal? TargetPrice { get; set; }
+
         public string SaleOpportunityTypeId { get; set; }
-        
+
+        public SaleOpportunityGetByIdCommandOutputSettingsDTO Settings { get; set; }
+
 
         public IEnumerable<SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO> RelatedProducts { get; internal set; }
     }

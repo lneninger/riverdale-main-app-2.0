@@ -17,6 +17,7 @@ import { SaleOpportunityViewDetailsComponent } from './saleopportunity.view-deta
 
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { SaleOpportunityCoreModule } from '../saleopportunity.core.module';
+import { SaleOpportunityViewSettingsComponent } from './saleopportunity.view-settings/saleopportunity.view-settings.component';
 
 const routes: Routes = [
     {
@@ -74,6 +75,7 @@ const routes: Routes = [
         , SaleOpportunityViewListItemComponent
         , SaleOpportunityViewListComponent
         , SaleOpportunityViewDetailsComponent
+        , SaleOpportunityViewSettingsComponent
     ],
     imports     : [
         RouterModule//.forChild(routes),
