@@ -1,15 +1,15 @@
-<div class="fields" fxFlex="100%" fxLayout="row wrap" fxLayoutGap="30px" [@animate]="{value:'*',params:{delay:'300ms'}}">
+<div [formGroup]="frmMain" class="fields" fxFlex="100%" fxLayout="row wrap" fxLayoutGap="30px" [@animate]="{value:'*',params:{delay:'300ms'}}">
 
     <mat-form-field floatLabel="always" appearance="outline" fxFlex="20%">
         <mat-label>Margin</mat-label>
-        <input matInput [(ngModel)]="currentEntity.settings.riverdaleMargin">
+        <input matInput formControlName="riverdaleMargin" [(ngModel)]="currentEntity.settings.riverdaleMargin">
     </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="currentEntity.settings.delivered">Delivered</mat-checkbox>
+    <mat-checkbox formControlName="delivered" [(ngModel)]="currentEntity.settings.delivered">Delivered</mat-checkbox>
 
     <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
         <mat-label>FOC</mat-label>
-        <input matInput [(ngModel)]="currentEntity.settings.seasonName">
+        <input matInput formControlName="foc" [(ngModel)]="currentEntity.settings.foc">
     </mat-form-field>
 
     <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
@@ -23,7 +23,7 @@
 
     <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
         <mat-label>Farm</mat-label>
-        <mat-select name="growerId" formControlName="growerId">
+        <mat-select name="growerId" formControlName="growerId" [(ngModel)]="currentEntity.settings.growerId">
             <mat-option *ngFor="let item of selectedGrowers" [value]="item.key">
                 {{item.value}}
             </mat-option>

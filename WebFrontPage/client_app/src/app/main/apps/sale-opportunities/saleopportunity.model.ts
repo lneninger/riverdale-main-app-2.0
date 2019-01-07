@@ -93,11 +93,17 @@ export class SaleOpportunityItem {
 export class SaleOpportunitySettings {
     id?: number;
     delivered: boolean;
+    riverdaleMargin: number;
+    foc: number;
+    growerId: number;
 
     constructor(settings) {
 
         let internal = settings || {};
         this.id = internal.id;
         this.delivered = internal.delivered;
+        this.riverdaleMargin = internal.riverdaleMargin;
+        this.foc = internal.foc;
+        this.growerId = internal.growerId;
     }
 }

@@ -10,6 +10,8 @@ import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
 import { EnumItem } from 'app/main/apps/@resolveServices/resolve.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomValidators } from 'ng4-validators';
 
 @Component({
     selector: 'saleopportunity-view-settings',
@@ -23,6 +25,7 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
     private _currentEntity: SaleOpportunity;
     listGrowerType: EnumItem<string>[];
     selectedGrowerType: EnumItem<string>;
+    frmMain: FormGroup;
     get selectedGrowers() {
         if (this.selectedGrowerType != null) {
             return this.selectedGrowerType.extras['growers'];
@@ -41,6 +44,14 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
         this._currentEntity = value;
     }
 
+    createForm() {
+        this.frmMain = this.formBuilder.group({
+            'riverdaleMargin': ['', [CustomValidators.number]],
+            'delivered': ['', []],
+            'foc': ['', [CustomValidators.number]],
+            'growerId': ['', [CustomValidators.number]],
+        });
+    }
 
 
     todos: Todo[];
@@ -59,7 +70,8 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _todoService: SaleOpportunityViewService,
-        private _location: Location
+        private _location: Location,
+        private formBuilder: FormBuilder
     )
     {
         //debugger;

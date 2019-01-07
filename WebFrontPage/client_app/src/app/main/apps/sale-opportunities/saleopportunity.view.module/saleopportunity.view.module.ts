@@ -18,6 +18,7 @@ import { SaleOpportunityViewDetailsComponent } from './saleopportunity.view-deta
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { SaleOpportunityCoreModule } from '../saleopportunity.core.module';
 import { SaleOpportunityViewSettingsComponent } from './saleopportunity.view-settings/saleopportunity.view-settings.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
     {
@@ -79,7 +80,7 @@ const routes: Routes = [
     ],
     imports     : [
         RouterModule//.forChild(routes),
-
+        , FormsModule
         , MatButtonModule
         , MatCheckboxModule
         , MatDatepickerModule
