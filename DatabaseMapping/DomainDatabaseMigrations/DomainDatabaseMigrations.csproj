@@ -11,6 +11,11 @@
     <Compile Remove="Migrations\20181123115158_TrackEntity CreatedAtNotNull.cs" />
     <Compile Remove="Migrations\20190102043948_SaleOpportunity schema.cs" />
     <Compile Remove="Migrations\20190103011110_SaleOpportunity schema.cs" />
+    <Compile Remove="Migrations\20190107024613_GrowerType Inflate.cs" />
+    <Compile Remove="Migrations\20190107025008_GrowerType Inflate.cs" />
+    <Compile Remove="Migrations\20190107025602_GrowerType Inflate.cs" />
+    <Compile Remove="Migrations\20190107025913_GrowerType Inflate.cs" />
+    <Compile Remove="Migrations\20190107030215_GrowerType Inflate.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -219,5 +219,44 @@ namespace DatabaseRepositories.DB
 
             return result;
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<GrowerType>().Select(masterItem => new EnumItemDTO<string>
+                    {
+                        Key = masterItem.Id,
+                        Value = masterItem.Name
+                        ,
+                        Extras = new Dictionary<string, object>
+                        {
+                            { "Description", masterItem.Description }
+                            , { "Growers", masterItem.Growers.Select(
+                                seasonType => new EnumItemDTO<int>
+                                {
+                                    Key = seasonType.Id
+                                    , Value = seasonType.Name
+                                    , Extras = new Dictionary<string, object>
+                                    {
+                                        { "CityName", seasonType.Origin.City},
+                                        { "CountryName", seasonType.Origin.Country}
+                                    }
+                                }).ToList()
+                            }
+                        }
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting season grower types with grower types", ex);
+            }
+
+            return result;
+        }
     }
 }

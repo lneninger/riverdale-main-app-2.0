@@ -96,7 +96,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting customer page query", ex);
+                result.AddException($"Error getting sale opportunity page query", ex);
             }
 
             return result;

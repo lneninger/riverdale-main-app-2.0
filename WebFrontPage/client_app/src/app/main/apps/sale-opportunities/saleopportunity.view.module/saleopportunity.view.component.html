@@ -101,7 +101,7 @@
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
-                <div *ngIf="activeArea != 'settings'">
+                <div *ngIf="activeArea != 'settings'" fxFlex="100%">
                     <saleopportunity-view-list [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-list>
                     <saleopportunity-view-details [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-details>
                 </div>

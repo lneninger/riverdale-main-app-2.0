@@ -19,7 +19,7 @@ namespace DomainDatabaseMapping.Mappings
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)
-                .ValueGeneratedOnAdd();
+                .HasMaxLength(8);
 
 
             builder.Property(t => t.Name)
@@ -30,6 +30,10 @@ namespace DomainDatabaseMapping.Mappings
               .HasColumnType("nvarchar(250)")
               .IsRequired(false);
 
+
+            builder.HasData(new GrowerType { Id = "THIRD", Name = "Third Party", Description = "Third Party Grower", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
+            builder.HasData(new GrowerType { Id = "FUNZAMIA", Name = "Funza Miami", Description = "Branch Miami", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
+            builder.HasData(new GrowerType { Id = "FUNZABTA", Name = "Funza Bogota", Description = "Branch Bogota", CreatedAt = DateTime.UtcNow, CreatedBy = "Seed" });
         }
     }
 }

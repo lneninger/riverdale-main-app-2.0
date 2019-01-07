@@ -53,6 +53,7 @@ namespace DomainDatabaseMapping
         public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
         public DbSet<GrowerType> GrowerTypes { get; set; }
         public DbSet<Grower> Growers { get; set; }
+        public DbSet<GrowerFreight> GrowerFreights { get; set; }
 
         // Business
         public DbSet<CustomerOpportunity> CustomerOpportunities { get; set; }
@@ -94,6 +95,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GrowerTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GrowerMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new GrowerFreightMap(modelBuilder));
 
         // Business
         modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));

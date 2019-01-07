@@ -4,14 +4,16 @@ using DomainDatabaseMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainDatabaseMigrations.Migrations
 {
     [DbContext(typeof(MigrationDBContext))]
-    partial class MigrationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190107015859_Update Seed Countries 2")]
+    partial class UpdateSeedCountries2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,8 +191,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 963, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 963, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 973, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 973, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -378,10 +380,10 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "SYS", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 931, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
-                        new { Id = "DB", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 931, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 931, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "AZU", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 931, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
+                        new { Id = "SYS", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 942, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
+                        new { Id = "DB", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 942, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 942, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "AZU", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 942, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
                     );
                 });
 
@@ -390,10 +392,6 @@ namespace DomainDatabaseMigrations.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(3);
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
@@ -490,8 +488,7 @@ namespace DomainDatabaseMigrations.Migrations
             modelBuilder.Entity("DomainModel.GrowerType", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(8);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
@@ -523,12 +520,6 @@ namespace DomainDatabaseMigrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GrowerType","CRM");
-
-                    b.HasData(
-                        new { Id = "THIRD", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 907, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Third Party Grower", Name = "Third Party" },
-                        new { Id = "FUNZAMIA", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 907, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Miami", Name = "Funza Miami" },
-                        new { Id = "FUNZABTA", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 907, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Bogota", Name = "Funza Bogota" }
-                    );
                 });
 
             modelBuilder.Entity("DomainModel.Identity.AppUser", b =>
@@ -781,9 +772,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 44, 56, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 44, 56, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 44, 56, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 58, 82, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 58, 82, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 58, 82, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -987,9 +978,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("SaleSeasonCategoryType","OPP");
 
                     b.HasData(
-                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 959, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
-                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 959, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
-                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 959, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
+                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 969, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
+                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 969, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
+                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 969, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
                     );
                 });
 
@@ -1072,8 +1063,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 856, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 1, 7, 3, 13, 43, 859, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 861, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 1, 7, 1, 58, 57, 864, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 

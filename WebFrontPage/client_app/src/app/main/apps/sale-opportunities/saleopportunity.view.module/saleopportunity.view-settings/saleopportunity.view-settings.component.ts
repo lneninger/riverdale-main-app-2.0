@@ -9,6 +9,7 @@ import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
+import { EnumItem } from 'app/main/apps/@resolveServices/resolve.model';
 
 @Component({
     selector: 'saleopportunity-view-settings',
@@ -20,6 +21,16 @@ import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
 export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
 {
     private _currentEntity: SaleOpportunity;
+    listGrowerType: EnumItem<string>[];
+    selectedGrowerType: EnumItem<string>;
+    get selectedGrowers() {
+        if (this.selectedGrowerType != null) {
+            return this.selectedGrowerType.extras['growers'];
+        }
+        else {
+            return null;
+        }
+    }
 
     get currentEntity() {
         return this._currentEntity;
@@ -51,6 +62,8 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
         private _location: Location
     )
     {
+        //debugger;
+        this.listGrowerType = this._activatedRoute.snapshot.data.listGrowerType;
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }

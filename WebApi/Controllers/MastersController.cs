@@ -188,5 +188,17 @@ namespace RiverdaleMainApp2_0.Controllers
             var result = this.MasterDataProvider.GetToEnumSeasonCategoriesWithSeasons();
             return this.Ok(result);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("growerTypeWithGrowers")]
+        public IActionResult GetToEnumGrowerTypeWithGrowers()
+        {
+            var result = this.MasterDataProvider.GetToEnumGrowerTypesWithGrower();
+            return this.Ok(result);
+        }
     }
 }

@@ -11,6 +11,7 @@ import { ProductTypeResolveService } from "./producttype.resolve.service";
 import { ProductResolveService } from "./product.resolve.service";
 import { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
 import { SaleSeasonCategoryTypeResolveService } from "./saleseasoncategorytype.resolve.service";
+import { GrowerTypeResolveService } from "./growertype.resolve.service";
 
 export * from "./resolve.model";
 export { CustomerResolveService } from "./customer.resolve.service";
@@ -23,6 +24,7 @@ export { RoleResolveService } from "./role.resolve.service";
 export { ProductTypeResolveService } from "./producttype.resolve.service";
 export { ProductResolveService } from "./product.resolve.service";
 export { SaleSeasonCategoryTypeResolveService } from "./saleseasoncategorytype.resolve.service";
+export { GrowerTypeResolveService } from "./growertype.resolve.service";
 
 export { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
 
@@ -44,6 +46,7 @@ export { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
         , ProductTypeResolveService
         , ProductResolveService
         , SaleSeasonCategoryTypeResolveService
+        , GrowerTypeResolveService
 
 
         , ResolveUpdateManagerService

@@ -102,5 +102,13 @@ namespace ApplicationLogic.Business.Commons
                 return this.Repository.GetToEnumSeasonCategoriesWithSeasons();
             }
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower()
+        {
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                return this.Repository.GetToEnumGrowerTypesWithGrower();
+            }
+        }
     }
 }

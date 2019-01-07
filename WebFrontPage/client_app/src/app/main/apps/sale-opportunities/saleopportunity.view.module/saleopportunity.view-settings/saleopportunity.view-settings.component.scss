@@ -1,7 +1,6 @@
 saleopportunity-view-settings {
     display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
+    flex: 1 0 100%;
     position: relative;
     padding: 0;
     border-right: 1px solid;
@@ -10,6 +9,8 @@ saleopportunity-view-settings {
 
     .fields{
         padding: 20px;
+        align-items:flex-start;
+        align-content:flex-start;
     }
 
     .no-todos-text {
