@@ -10,11 +10,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
 
         public int SaleOpportunityId { get; set; }
 
-        public int RelatedSaleOpportunityId { get; set; }
-
         public int ProductAmount { get; set; }
 
         public string ProductName { get; set; }
+
+        public string ProductTypeId { get; set; }
 
         public string ProductTypeName { get; set; }
 

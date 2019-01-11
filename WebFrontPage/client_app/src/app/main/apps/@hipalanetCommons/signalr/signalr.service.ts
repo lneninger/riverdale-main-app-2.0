@@ -25,13 +25,13 @@ export class SignalRService extends BaseSignalRService{
 
         promise.then(hubItem => {
             this.addListener('globalhub', 'dataChanged', (data: ISignalREventArgs) => {
-                debugger;
+                //debugger;
                 console.log(`event from Server: `, data);
                 this.onDataChanged.next(data);
             });
 
             this.addListener('globalhub', 'activeUsers', (data: any) => {
-                debugger;
+                //debugger;
                 console.log(`event from Server: `, data);
                 this.onActiveUsers.next(data);
             });

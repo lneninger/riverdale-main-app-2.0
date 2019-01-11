@@ -33,6 +33,7 @@ import { environment } from '../environments/environment';
 import { AuthenticationCoreModule } from 'app/main/apps/@hipalanetCommons/authentication/authentication.core.module';
 import { CustomSignalRModule } from './main/apps/@hipalanetCommons/signalr/signalr.module';
 import { SignalRConfiguration } from 'ng2-signalr';
+import { HiPalanetResolveModule } from './main/apps/@resolveServices//resolve.module';
 
 
 
@@ -107,6 +108,7 @@ const appRoutes: Routes = [
 
         // Authentication
         , AuthenticationCoreModule
+        , HiPalanetResolveModule
         , CustomSignalRModule
 
     ],

@@ -9,6 +9,7 @@ import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
+import { Form, FormArray } from '@angular/forms';
 
 @Component({
     selector: 'saleopportunity-view-list',
@@ -28,6 +29,16 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     @Input('entity')
     set currentEntity(value: SaleOpportunity) {
         this._currentEntity = value;
+    }
+
+
+    private _formItems: FormArray;
+    get formItems() {
+        return this._formItems;
+    }
+    @Input('formItems')
+    set formItems(value: FormArray) {
+        this._formItems = value;
     }
 
 
@@ -123,11 +134,11 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
      *
      * @param todoId
      */
-    readTodo(todoId): void
-    {
-        // Set current todo
-        this._todoService.setCurrentTodo(todoId);
-    }
+    //readTodo(todoId): void
+    //{
+    //    // Set current todo
+    //    this._todoService.setCurrentTodo(todoId);
+    //}
 
     /**
      * On drop

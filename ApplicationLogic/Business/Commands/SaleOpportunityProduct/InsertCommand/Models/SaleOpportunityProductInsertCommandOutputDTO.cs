@@ -13,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.InsertComman
 
         public int ProductAmmount { get; set; }
 
-        public string RelatedProductName { get; set; }
+        public string ProductName { get; set; }
 
         public string ProductTypeName { get; set; }
 

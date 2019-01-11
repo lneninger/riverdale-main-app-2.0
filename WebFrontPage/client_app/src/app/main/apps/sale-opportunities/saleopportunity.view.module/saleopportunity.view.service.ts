@@ -10,7 +10,7 @@ import { Todo } from './saleopportunity.view.model';
 import { SaleOpportunityItem } from '../saleopportunity.model';
 
 @Injectable()
-export class SaleOpportunityViewService implements Resolve<any>
+export class SaleOpportunityViewService// implements Resolve<any>
 {
     todos: Todo[];
     selectedTodos: Todo[];
@@ -51,52 +51,52 @@ export class SaleOpportunityViewService implements Resolve<any>
         this.onNewTodoClicked = new Subject();
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
-        this.routeParams = route.params;
+    ///**
+    // * Resolver
+    // *
+    // * @param {ActivatedRouteSnapshot} route
+    // * @param {RouterStateSnapshot} state
+    // * @returns {Observable<any> | Promise<any> | any}
+    // */
+    //resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
+    //{
+    //    this.routeParams = route.params;
 
-        return new Promise((resolve, reject) => {
+    //    return new Promise((resolve, reject) => {
 
-            Promise.all([
-                this.getFilters(),
-                this.getTags(),
-                this.getTodos()
-            ]).then(
-                () => {
-                    if ( this.routeParams.todoId )
-                    {
-                        this.setCurrentTodo(this.routeParams.todoId);
-                    }
-                    else
-                    {
-                        this.setCurrentTodo(null);
-                    }
+    //        Promise.all([
+    //            this.getFilters(),
+    //            this.getTags(),
+    //            this.getTodos()
+    //        ]).then(
+    //            () => {
+    //                if ( this.routeParams.todoId )
+    //                {
+    //                    this.setCurrentTodo(this.routeParams.todoId);
+    //                }
+    //                else
+    //                {
+    //                    this.setCurrentTodo(null);
+    //                }
 
-                    this.onSearchTextChanged.subscribe(searchText => {
-                        if ( searchText !== '' )
-                        {
-                            this.searchText = searchText;
-                            this.getTodos();
-                        }
-                        else
-                        {
-                            this.searchText = searchText;
-                            this.getTodos();
-                        }
-                    });
-                    resolve();
-                },
-                reject
-            );
-        });
-    }
+    //                this.onSearchTextChanged.subscribe(searchText => {
+    //                    if ( searchText !== '' )
+    //                    {
+    //                        this.searchText = searchText;
+    //                        this.getTodos();
+    //                    }
+    //                    else
+    //                    {
+    //                        this.searchText = searchText;
+    //                        this.getTodos();
+    //                    }
+    //                });
+    //                resolve();
+    //            },
+    //            reject
+    //        );
+    //    });
+    //}
 
     /**
      * Get all filters
@@ -346,30 +346,30 @@ export class SaleOpportunityViewService implements Resolve<any>
      *
      * @param id
      */
-    setCurrentTodo(id): void
-    {
-        this.currentTodo = this.todos.find(todo => {
-            return todo.id === id;
-        });
+    //setCurrentTodo(id): void
+    //{
+    //    this.currentTodo = this.todos.find(todo => {
+    //        return todo.id === id;
+    //    });
 
-        this.onCurrentTodoChanged.next([this.currentTodo, 'edit']);
+    //    this.onCurrentTodoChanged.next([this.currentTodo, 'edit']);
 
-        const tagHandle    = this.routeParams.tagHandle,
-              filterHandle = this.routeParams.filterHandle;
+    //    const tagHandle    = this.routeParams.tagHandle,
+    //          filterHandle = this.routeParams.filterHandle;
 
-        if ( tagHandle )
-        {
-            this._location.go('apps/todo/tag/' + tagHandle + '/' + id);
-        }
-        else if ( filterHandle )
-        {
-            this._location.go('apps/todo/filter/' + filterHandle + '/' + id);
-        }
-        else
-        {
-            this._location.go('apps/todo/all/' + id);
-        }
-    }
+    //    if ( tagHandle )
+    //    {
+    //        this._location.go('apps/todo/tag/' + tagHandle + '/' + id);
+    //    }
+    //    else if ( filterHandle )
+    //    {
+    //        this._location.go('apps/todo/filter/' + filterHandle + '/' + id);
+    //    }
+    //    else
+    //    {
+    //        this._location.go('apps/todo/all/' + id);
+    //    }
+    //}
 
     /**
      * Toggle tag on selected todos

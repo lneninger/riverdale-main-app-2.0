@@ -3,10 +3,9 @@
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <saleopportunity-view-list-item class="todo-list-item has-handle"
-                                *ngFor="let todo of currentEntity.relatedProducts" [entity]="todo"
+                                *ngFor="let todo of currentEntity.relatedProducts; let i = index" [entity]="todo" [formGroup]="formItems.controls[i]"
                                 ngxDraggable
                                 [model]="todo"
-                                (click)="readTodo(todo.id)"
                                 [ngClass]="{'current-todo':todo?.id == currentTodo?.id}"
                                 matRipple
                                 [@animate]="{value:'*',params:{y:'100%'}}">

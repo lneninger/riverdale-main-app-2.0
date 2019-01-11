@@ -57,7 +57,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.InsertComman
                             ProductId = getByIdResult.Bag.ProductId,
                             SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
                             ProductAmmount = getByIdResult.Bag.ProductAmount,
-                            RelatedProductName = getByIdResult.Bag.Product.Name,
+                            ProductName = getByIdResult.Bag.Product.Name,
                             ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
                             ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
                             ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()

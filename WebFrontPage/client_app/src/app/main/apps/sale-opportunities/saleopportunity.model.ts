@@ -15,7 +15,7 @@ export class SaleOpportunity {
     targetPrice: number;
     productTypeId: string;
     productColorTypeId: string;
-    relatedProducts: ProductGrid[];
+    relatedProducts: SaleOpportunityItem[];
     settings: SaleOpportunitySettings;
 
     /**
@@ -32,7 +32,7 @@ export class SaleOpportunity {
         this.targetPrice = internal.targetPrice;
         this.productTypeId = internal.productTypeId
         this.productColorTypeId = internal.productColorTypeId;
-        this.relatedProducts = (internal.relatedProducts || []).map(item => new ProductGrid(item));
+        this.relatedProducts = (internal.relatedProducts || []).map(item => new SaleOpportunityItem(item));
         this.settings = new SaleOpportunitySettings(internal.settings || {});
     }
 }
@@ -66,6 +66,7 @@ export class SaleOpportunityItem {
     saleOpportunityId: number;
     productId: number;
     productName: string;
+    productTypeId: string;
     productTypeName: string;
     productTypeDescription: string;
     productPictureId: number;
@@ -79,12 +80,13 @@ export class SaleOpportunityItem {
         }
         else {
             this.id = internal.id;
-            this.saleOpportunityId = internal.saleOpportunityId
-            this.productId = internal.productId
-            this.productName = internal.productName
-            this.productTypeName = internal.productTypeName
-            this.productTypeDescription = internal.productTypeDescription
-            this.productPictureId = internal.productPictureId
+            this.saleOpportunityId = internal.saleOpportunityId;
+            this.productId = internal.productId;
+            this.productName = internal.productName;
+            this.productTypeId = internal.productTypeId;
+            this.productTypeName = internal.productTypeName;
+            this.productTypeDescription = internal.productTypeDescription;
+            this.productPictureId = internal.productPictureId;
             this.productAmount = internal.productAmount;
         }
     }

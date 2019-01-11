@@ -101,7 +101,7 @@ namespace DatabaseRepositories.DB
             {
                 using (var dbLocator = AmbientDbContextLocator.Get<IdentityDBContext>())
                 {
-                    result.Bag = dbLocator.Set<AppUser>().Where(o => o.IsDeleted == true).Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
+                    result.Bag = dbLocator.Set<AppUser>().Where(o => (o.IsDeleted ?? false) == false).Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.UserName, Extras = new Dictionary<string, object> { { "Email", masterItem.NormalizedEmail }, { "FirstName", masterItem.FirstName }, { "LastName", masterItem.LastName } } }).ToList();
                 }
             }
             catch (Exception ex)

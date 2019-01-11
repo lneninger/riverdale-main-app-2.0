@@ -28,11 +28,12 @@ export class ResolveUpdateManagerService {
         this.dataChangedSubscription = this.signalrService.onDataChanged.subscribe((eventData: ISignalREventArgs) => {
             switch (eventData.entityName) {
                 case 'Customer':
-                    debugger;
+                    //debugger;
                     this.customerResolveService.clearCache();
                     break;
                 case 'Product':
-                    debugger;
+                case 'ProductMedia':
+                    //debugger;
                     this.productResolveService.clearCache();
                     break;
             }

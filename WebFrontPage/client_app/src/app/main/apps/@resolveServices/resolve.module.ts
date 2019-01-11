@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
 import { CustomerCoreModule } from "../customers/customer.core.module";
 import { CustomerResolveService } from "./customer.resolve.service";
 import { ThirdPartyAppTypeResolveService } from "./thirdpartyapptype.resolve.service";
@@ -53,5 +53,10 @@ export { ResolveUpdateManagerService } from "./resolve.updatemanager.service";
     ]
 })
 export class HiPalanetResolveModule {
-
+    constructor(@Optional() @SkipSelf() parentModule: HiPalanetResolveModule) {
+        if (parentModule) {
+            throw new Error(
+                'ResolveModule is already loaded. Import it in the AppModule only');
+        }
+    }
 }

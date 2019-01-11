@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { HiPalanetResolveModule } from './@resolveServices/resolve.module';
 import { CustomSignalRModule } from './@hipalanetCommons/signalr/signalr.module'
 import { AuthenticationCoreModule } from './@hipalanetCommons/authentication/authentication.core.module';
 import { HipalanetUtils } from './@hipalanetCommons/ngx-utils/main';
@@ -95,8 +94,7 @@ const routes = [
         RouterModule.forChild(routes)
         , FuseSharedModule
         //, AuthenticationCoreModule
-        , HiPalanetResolveModule
-        , CustomSignalRModule
+        
         , HipalanetUtils.forRoot({ fileRetrieveUrl: environment.appApi.apiUploadFileUrl })
     ],
     exports: [

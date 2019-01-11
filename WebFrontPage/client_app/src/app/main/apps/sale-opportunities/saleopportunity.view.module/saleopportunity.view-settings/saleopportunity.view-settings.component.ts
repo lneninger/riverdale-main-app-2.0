@@ -148,11 +148,7 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
      *
      * @param todoId
      */
-    readTodo(todoId): void
-    {
-        // Set current todo
-        this._todoService.setCurrentTodo(todoId);
-    }
+   
 
     /**
      * On drop

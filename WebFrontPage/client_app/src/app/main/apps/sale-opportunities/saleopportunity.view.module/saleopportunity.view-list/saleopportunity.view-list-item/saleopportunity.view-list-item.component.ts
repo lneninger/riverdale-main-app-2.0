@@ -5,6 +5,7 @@ import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunityItem } from '../../../saleopportunity.model';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'saleopportunity-view-list-item',
@@ -18,6 +19,9 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
 
     @Input('entity')
     currentEntity: SaleOpportunityItem;
+
+    @Input('formGroup')
+    formGroup: FormGroup;
 
     @HostBinding('class.selected')
     selected: boolean;
@@ -111,7 +115,8 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
      */
     onSelectedChange(): void
     {
-        this._todoService.toggleSelectedTodo(this.currentEntity.id);
+        console.log(`Selected changed`, this.currentEntity, this.formGroup.value);
+        //this._todoService.toggleSelectedTodo(this.currentEntity.id);
     }
 
     /**

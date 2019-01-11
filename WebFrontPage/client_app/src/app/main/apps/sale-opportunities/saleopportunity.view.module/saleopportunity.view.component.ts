@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { SaleOpportunity, ProductGrid, SaleOpportunityItem } from '../saleopport
 import { SaleOpportunityViewService } from './saleopportunity.view.service';
 import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
 import { SaleOpportunityService } from '../saleopportunity.core.module';
+import { CustomValidators } from 'ng4-validators';
 
 @Component({
     selector: 'saleopportunity-view',
@@ -24,12 +25,12 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
 {
     private _currentEntity: SaleOpportunity;
 
-    get currentEntity() {
+    get currentEntity(): SaleOpportunity {
         return this._currentEntity;
     }
 
     @Input('entity')
-    set currentEntity(value: any) {
+    set currentEntity(value: SaleOpportunity) {
         if (this._currentEntity != value) {
             this._currentEntity = new SaleOpportunity(value);
             this.products = this._currentEntity.relatedProducts;
@@ -43,7 +44,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
     products: (ProductGrid | ISelectedFile)[];
 
     frmMain: FormGroup;
-
+    frmOpportunityItems: FormArray;
 
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
@@ -89,6 +90,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
     {
         //debugger;
         this.currentEntity = this.saleOpportunityService.currentEntity.bag;
+        this.frmOpportunityItems = this._formBuilder.array([]);
+        this.currentEntity.relatedProducts.forEach(item => {
+            this.frmOpportunityItems.push(this.createFormOpportunityItem(item));
+        });
 
         this._todoService.onSelectedTodosChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -164,6 +169,21 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         });
     }
 
+    createFormOpportunityItem(item: SaleOpportunityItem) {
+        let result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]] ,
+            productAmount: [item.productAmount, [Validators.required, CustomValidators.number]], 
+            selected: '', 
+        });
+
+        result.controls['selected'].valueChanges.subscribe(value => {
+            //value.
+        });
+        
+
+        return result;
+    }
+
 
     /**
      * Deselect current todo
@@ -223,6 +243,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
 
     onSaleOpportunityItemAdded(item: SaleOpportunityItem) {
         debugger;
+        this.frmOpportunityItems.push(this.createFormOpportunityItem(item));
         this.currentEntity.relatedProducts.push(item);
     }
 

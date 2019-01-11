@@ -41,6 +41,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                             ProductId = o.ProductId,
                             ProductAmount = o.ProductAmount,
                             ProductName = o.Product.Name,
+                            ProductTypeId = o.Product.ProductTypeId,
                             ProductTypeName = o.Product.ProductType.Name,
                             ProductTypeDescription = o.Product.ProductType.Description,
                             ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
