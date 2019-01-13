@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
-import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog, MatAutocompleteSelectedEvent, MatAutocomplete, MatChipInputEvent } from '@angular/material';
 import { Subject, Observable, of } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, startWith, map } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductMediaGrid, IProductMedia } from '../product.model';
+import { Product, ProductMediaGrid, IProductMedia, ProductAllowedColorTypeGrid } from '../product.model';
 import { ProductService } from '../product.service';
 import { EnumItem } from '../../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../../@hipalanetCommons/datatable/datasource.abstract.class';
@@ -17,7 +18,7 @@ import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../../@hipalanetCommons/popups/delete/delete.popup.module';
 import { FilePopupComponent, FilePopupResult } from '../../@hipalanetCommons/popups/file/file.popup.module';
 import { FileUploadService, CustomFileUploader, ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.module';
-import { ProductMediaService } from '../product.core.module';
+import { ProductMediaService, ProductAllowedColorTypeService } from '../product.core.module';
 
 @Component({
     selector: 'basic-product',
@@ -28,7 +29,15 @@ import { ProductMediaService } from '../product.core.module';
 })
 export class BasicProductComponent implements OnInit, OnDestroy {
     // Resolve
-    listProductColorType: EnumItem<number>[];
+    listProductColorType: EnumItem<string>[];
+
+    // Settings
+    @ViewChild('auto') matAutocomplete: MatAutocomplete;
+    productAllowedColorTypeCtrl = new FormControl();
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    filteredProductAllowedColorTypes: Observable<EnumItem<string>[]>;
+
+
 
     id: string;
 
@@ -44,6 +53,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
             this._currentEntity = new Product(value);
             //debugger;
             this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
+            this.productAllowedColorTypes = (this._currentEntity.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));
             this.frmMain = this.createFormBasicInfo();
         }
         else {
@@ -52,6 +62,8 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     }
 
     medias: (ProductMediaGrid | ISelectedFile)[];
+    productAllowedColorTypes: ProductAllowedColorTypeGrid[];
+
 
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyProductId'];
@@ -76,6 +88,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute
         , private serviceProductMedia: ProductMediaService
+        , private serviceProductAllowedColorType: ProductAllowedColorTypeService
         , private service: ProductService
         , private _formBuilder: FormBuilder
         , private _location: Location
@@ -83,6 +96,11 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         , private matDialog: MatDialog
         , private fileUploadService: FileUploadService
     ) {
+        // Settings
+        this.filteredProductAllowedColorTypes = this.productAllowedColorTypeCtrl.valueChanges.pipe(
+            startWith(null),
+            map((fruit: string | null) => fruit ? this._filterProductAllowedColorTypes(fruit) : this.listProductColorType.slice()));
+
         //debugger;
         this.customUploader = this.fileUploadService.create();
 
@@ -277,6 +295,51 @@ export class BasicProductComponent implements OnInit, OnDestroy {
 
     disableSave() {
         return this.disableSaveFrmMain();
+    }
+
+
+    /**********************************ProductAllowedColorType************************************/
+    getProductColorType(productColorTypeId: string) {
+        return this.listProductColorType.find(item => item.key == productColorTypeId);
+    }
+
+    private _filterProductAllowedColorTypes(value: string): EnumItem<string>[] {
+        const filterValue = value.toLowerCase();
+        return this.listProductColorType.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0);
+    }
+    selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
+        debugger;
+        const productColortTypeId = event.option.value;
+        let productColorTypeItem = this.listProductColorType.find(item => item.key == <string>event.option.value);// < EnumItem < string >> event.option.value;
+        this.addProductAllowedColorType(productColorTypeItem);
+    }
+    addTypedColorType(event: MatChipInputEvent): void {
+        // Add fruit only when MatAutocomplete is not open
+        // To make sure this does not conflict with OptionSelected Event
+        if (!this.matAutocomplete.isOpen) {
+            const value = event.value;
+            const selectedItem = this.listProductColorType.find(item => item.key == value);
+            this.addProductAllowedColorType(selectedItem);
+        }
+    }
+
+    removeProductAllowedColorType(item: ProductAllowedColorTypeGrid): void {
+        const index = this.productAllowedColorTypes.indexOf(item);
+        if (index >= 0) {
+            this.serviceProductAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
+                debugger;
+            });
+        }
+    }
+
+    addProductAllowedColorType(item: EnumItem<string>) {
+        let allowedColorType = <ProductAllowedColorTypeGrid>{ productId: this.currentEntity.id, productColorTypeId: item.key };
+        this.serviceProductAllowedColorType.add(allowedColorType).then(response => {
+            // debugger;
+            this.productAllowedColorTypes.push(response.bag);
+            this.productAllowedColorTypeCtrl.setValue(null);
+
+        });
     }
 }
 

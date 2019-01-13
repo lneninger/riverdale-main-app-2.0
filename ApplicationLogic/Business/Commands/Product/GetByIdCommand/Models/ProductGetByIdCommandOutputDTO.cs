@@ -27,6 +27,9 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
             }
         }
 
+        // Collections
         public IEnumerable<ProductGetByIdCommandOutputRelatedProductItemDTO> RelatedProducts { get; set; }
+
+        public IEnumerable<ProductGetByIdCommandOutputAllowedColorTypeItemDTO> ProductAllowedColorTypes { get; internal set; }
     }
 }

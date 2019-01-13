@@ -37,6 +37,11 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                             Id = m.Id,
                             FileId = m.FileRepositoryId,
                             FullUrl = m.FileRepository.FullFilePath
+                        }).ToList(),
+                        ProductAllowedColorTypes = getByIdResult.Bag.ProductAllowedColorTypes.Select(m => new ProductGetByIdCommandOutputAllowedColorTypeItemDTO
+                        {
+                            Id = m.Id,
+                            ProductColorTypeId = m.ProductColorTypeId,
                         }).ToList()
                     };
 

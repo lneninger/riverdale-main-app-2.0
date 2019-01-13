@@ -9,7 +9,7 @@ import { BasicProductComponent } from "./basicproduct.component";
 import {
     MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
     MatButtonModule, MatChipsModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatSelectModule, MatSnackBarModule,
-    MatSortModule,
+    MatSortModule, MatAutocompleteModule, 
     MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule, MatProgressBarModule
 } from '@angular/material';
 
@@ -40,6 +40,7 @@ import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
         , MatSnackBarModule
         , MatDatepickerModule
         , MatProgressBarModule
+        , MatAutocompleteModule
         , FuseSharedModule
 
         , PopupsModule

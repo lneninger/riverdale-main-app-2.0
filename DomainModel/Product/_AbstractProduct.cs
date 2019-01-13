@@ -26,10 +26,14 @@ namespace DomainModel.Product
             }
         }
 
-        public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
-
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
+
+        //Collections
+
+        public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
+
+        public virtual IEnumerable<ProductAllowedColorType> ProductAllowedColorTypes { get; set; }
     }
 }

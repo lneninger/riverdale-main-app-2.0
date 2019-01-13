@@ -12,7 +12,8 @@ export class Product {
     name: string;
     productTypeId: string;
     productColorTypeId: string;
-    medias: ProductMediaGrid[]
+    medias: ProductMediaGrid[];
+    productAllowedColorTypes: ProductAllowedColorTypeGrid[];
 
     /**
      * Constructor
@@ -26,6 +27,8 @@ export class Product {
         this.productTypeId = internal.productTypeId
         this.productColorTypeId = internal.productColorTypeId;
         this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
+        //debugger;
+        this.productAllowedColorTypes = (internal.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));
     }
 }
 
@@ -47,6 +50,19 @@ export class ProductMediaGrid {
         let internal = item || <ProductMediaGrid>{};
         this.id = internal.id;
         this.fileId = internal.fileId;
+    }
+}
+
+export class ProductAllowedColorTypeGrid {
+    id?: number;
+    productId?: number;
+    productColorTypeId?: string;
+
+    constructor(item?) {
+        let internal = item || <ProductAllowedColorTypeGrid>{};
+        this.id = internal.id;
+        this.productId = internal.productId;
+        this.productColorTypeId = internal.productColorTypeId;
     }
 }
 

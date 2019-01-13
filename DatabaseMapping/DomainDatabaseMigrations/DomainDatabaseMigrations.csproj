@@ -16,6 +16,9 @@
     <Compile Remove="Migrations\20190107025602_GrowerType Inflate.cs" />
     <Compile Remove="Migrations\20190107025913_GrowerType Inflate.cs" />
     <Compile Remove="Migrations\20190107030215_GrowerType Inflate.cs" />
+    <Compile Remove="Migrations\20190113121655_AddTable ProductAllowedColorType.cs" />
+    <Compile Remove="Migrations\20190113122302_AddTable ProductAllowedColorType.cs" />
+    <Compile Remove="Migrations\20190113122616_AddTable ProductAllowedColorType.cs" />
   </ItemGroup>
 
   <ItemGroup>

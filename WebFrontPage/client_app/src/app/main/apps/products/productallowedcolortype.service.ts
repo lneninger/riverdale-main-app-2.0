@@ -10,10 +10,10 @@ import { environment } from 'environments/environment';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { ProductAllowedColorTypeGrid, ProductMediaGrid } from './product.model';
+import { ProductAllowedColorTypeGrid } from './product.model';
 
 @Injectable()
-export class ProductMediaService implements Resolve<any>, IPageQueryService {
+export class ProductAllowedColorTypeService implements Resolve<any>, IPageQueryService {
 
     routeParams: any;
     currentEntity: any;
@@ -62,7 +62,7 @@ export class ProductMediaService implements Resolve<any>, IPageQueryService {
      */
     getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${environment.appApi.apiBaseUrl}productmedia/${this.routeParams.id}`).subscribe(response => {
+            this.http.get(`${environment.appApi.apiBaseUrl}productallowedcolortype/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
                 this.onCurrentEntityChanged.next(this.currentEntity);
                 resolve(this.currentEntity);
@@ -78,7 +78,7 @@ export class ProductMediaService implements Resolve<any>, IPageQueryService {
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}productmedia`, entity).subscribe(
+            this.http.put(`${environment.appApi.apiBaseUrl}productallowedcolortype`, entity).subscribe(
                 (res: any) => {
                     resolve(res);
                 },
@@ -95,10 +95,10 @@ export class ProductMediaService implements Resolve<any>, IPageQueryService {
      * @param product
      * @returns {Promise<any>}
      */
-    add(entity): Promise<any> {
+    add(entity): Promise<OperationResponse<ProductAllowedColorTypeGrid>> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}productmedia`, entity).subscribe(
-                (res: any) => {
+            this.http.post(`${environment.appApi.apiBaseUrl}productallowedcolortype`, entity).subscribe(
+                (res: OperationResponse<ProductAllowedColorTypeGrid>) => {
                     resolve(res);
                 },
                 error => {
@@ -109,14 +109,14 @@ export class ProductMediaService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    delete(id: number): Promise<OperationResponse<ProductMediaGrid>> {
+    delete(id: number): Promise<OperationResponse<ProductAllowedColorTypeGrid>> {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}productmedia/{id}`).subscribe((res: OperationResponse<ProductMediaGrid>) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}productallowedcolortype/{id}`).subscribe((res: OperationResponse<ProductAllowedColorTypeGrid>) => {
                 resolve(res);
             },
-            error => {
-                reject(error);
-            });
+                error => {
+                    reject(error);
+                });
 
         });
     }

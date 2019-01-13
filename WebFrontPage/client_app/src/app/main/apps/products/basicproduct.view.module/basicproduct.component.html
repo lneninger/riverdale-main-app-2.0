@@ -18,7 +18,7 @@
 
                 <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                     <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                        person
+                        filter_vintage
                     </mat-icon>
                     <!--<img *ngIf="currentEntity.images && currentEntity.images[0]; else noImage " [src]="currentEntity.images[0].url">
                     <ng-template #noImage>
@@ -89,6 +89,7 @@
                                                formControlName="name"
                                                required>
                                     </mat-form-field>
+
                                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
                                         <mat-select placeholder="Product Color" name="productTypeId" formControlName="productColorTypeId">
                                             <mat-option *ngFor="let item of listProductColorType" [value]="item.key">
@@ -97,14 +98,53 @@
                                         </mat-select>
                                     </mat-form-field>
 
-
                                     <div fxFlex="100">
                                         <button mat-raised-button fxFlex="100" [disabled]="disableSave()" (click)="save()">
                                             <mat-icon>save</mat-icon>
                                         </button>
                                     </div>
-                                </div>
 
+                                    <div class="fuse-card mt-12" fxFlex="100%">
+                                        <div class="position-relative p-24"
+                                             fxLayout="column" fxLayoutAlign="start stretch">
+                                            <div class="p-16 pt-0">
+                                                <div class="h1">Allowed Colors</div>
+                                                <div class="h4 secondary-text">Colors whom the product can be tied</div>
+                                            </div>
+                                            <div fxLayout="row" fxLayoutAlign="start stretch">
+                                                <!--{{productAllowedColorTypes | json}}-->
+                                                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="example-chip-list">
+                                                    <mat-chip-list #chipList>
+                                                        <mat-chip *ngFor="let productAllowedColorType of productAllowedColorTypes"
+                                                                  [selectable]="true"
+                                                                  [removable]="true"
+                                                                  (removed)="removeProductAllowedColorType(productAllowedColorType)">
+                                                            {{(getProductColorType(productAllowedColorType.productColorTypeId) || {}).value}}
+                                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                                        </mat-chip>
+                                                        <input placeholder="New Allowed Color..."
+                                                               #fruitInput
+                                                               [formControl]="productAllowedColorTypeCtrl"
+                                                               [matAutocomplete]="auto"
+                                                               [matChipInputFor]="chipList"
+                                                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                               [matChipInputAddOnBlur]="addOnBlur"
+                                                               (matChipInputTokenEnd)="addTypedColorType($event)">
+                                                    </mat-chip-list>
+                                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProductAllowedColorType($event)">
+                                                        <mat-option *ngFor="let item of listProductColorType" [value]="item.key">
+                                                            {{item.value}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </mat-tab>
@@ -147,7 +187,7 @@
                                                     <img class="media" [src]="(media.fileId | fileUrl : 'assets/images/ecommerce/product-image-placeholder.png': false) | async">
                                                 </ng-container>
                                             </ng-container>
-</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

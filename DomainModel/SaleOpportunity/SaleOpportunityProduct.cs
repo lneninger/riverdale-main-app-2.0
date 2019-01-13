@@ -15,6 +15,9 @@ namespace DomainModel.SaleOpportunity
         public int ProductId { get; set; }
         public virtual AbstractProduct Product { get; set; }
 
+        public int? ProductAllowedColorTypeId { get; set; }
+        public virtual ProductAllowedColorType ProductAllowedColorType { get; set; }
+
         public int ProductAmount { get; set; }
 
         public DateTime? DeletedAt { get; set; }

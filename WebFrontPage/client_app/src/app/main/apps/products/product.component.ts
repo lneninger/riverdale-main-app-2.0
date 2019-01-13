@@ -3,13 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductMediaGrid, IProductMedia } from './product.model';
+import { Product, ProductMediaGrid, IProductMedia, ProductAllowedColorTypeGrid } from './product.model';
 import { ProductService } from './product.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
@@ -27,15 +27,15 @@ import { ProductMediaService } from './product.core.module';
     animations: fuseAnimations
 })
 export class ProductComponent implements OnInit, OnDestroy {
+    
+
     // Resolve
     id: string;
     currentEntity: any;
-    medias: (ProductMediaGrid | ISelectedFile)[];
-
 
     pageType: string;
 
-    frmMain: FormGroup;
+    //frmMain: FormGroup;
 
 
     public customUploader: CustomFileUploader;
@@ -62,36 +62,14 @@ export class ProductComponent implements OnInit, OnDestroy {
         , private matDialog: MatDialog
         , private fileUploadService: FileUploadService
     ) {
+        
+
+
         //debugger;
         this.customUploader = this.fileUploadService.create();
 
         // Set the default
         this.currentEntity = new Product();
-
-
-        this.customUploader.onSelectedNew.subscribe(selectedFile => {
-            this.medias.push(selectedFile);
-        });
-
-        this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-            let productMedia = {
-                ...<IProductMedia>{
-                    productId: this.currentEntity.id,
-                }
-                , ...fileUploaded
-            };
-
-            this.serviceProductMedia.add(productMedia).then(result => {
-                //this.medias.push(fileUploaded);
-            });
-        });
-
-        this.customUploader.onCompleteAll.subscribe(result => {
-            this._matSnackBar.open('Product Media saved', 'OK', {
-                verticalPosition: 'top',
-                duration: 5000
-            });
-        });
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();

@@ -17,6 +17,7 @@ using DomainDatabaseMapping.Mappings.Product;
 using Framework.EF.Logging;
 using DomainModel.SaleOpportunity;
 using DomainDatabaseMapping.Mappings.SaleOpportunity;
+using DomainModel.Product;
 
 namespace DomainDatabaseMapping
 {
@@ -39,7 +40,7 @@ namespace DomainDatabaseMapping
 
         /********************************SECURITY*********************************/
         // Security
-        
+
 
         /*********************************CRM  Master Tables**********************/
         // Config
@@ -61,6 +62,11 @@ namespace DomainDatabaseMapping
         // Commons
         public DbSet<DomainModel.File.File> FileRepositories { get; set; }
         public DbSet<FileSystemType> FileSystemTypes { get; set; }
+
+        // Products
+        public DbSet<AbstractProduct> Products { get; set; }
+        public DbSet<ProductAllowedColorType> ProductAllowedColorTypes { get; set; }
+
 
         //Opportunity
         public DbSet<SaleOpportunity> SaleOpportunities { get; set; }
@@ -97,8 +103,8 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new GrowerMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GrowerFreightMap(modelBuilder));
 
-        // Business
-        modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
+            // Business
+            modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
 
             // Commons
             modelBuilder.ApplyConfiguration(new FileRepositoryMap(modelBuilder));
@@ -118,6 +124,7 @@ namespace DomainDatabaseMapping
             // Product
             modelBuilder.ApplyConfiguration(new AbstractProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductMediaMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ProductAllowedColorTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CompositionProductBridgeProductMap(modelBuilder));
@@ -126,5 +133,5 @@ namespace DomainDatabaseMapping
         }
 
 
-}
+    }
 }

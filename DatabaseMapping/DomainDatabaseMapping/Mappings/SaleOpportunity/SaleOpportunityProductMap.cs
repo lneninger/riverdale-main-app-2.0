@@ -21,6 +21,10 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.Property(t => t.ProductAllowedColorTypeId)
+                .IsRequired(false);
+
+
             builder.HasOne(t => t.SaleOpportunity)
                .WithMany(t => t.SaleOpportunityProducts)
                .HasForeignKey(t => t.SaleOpportunityId);
@@ -29,6 +33,11 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
             builder.HasOne(t => t.Product)
                .WithMany()
                .HasForeignKey(t => t.ProductId);
+
+            builder.HasOne(t => t.ProductAllowedColorType)
+               .WithMany()
+               .HasForeignKey(t => t.ProductAllowedColorTypeId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
