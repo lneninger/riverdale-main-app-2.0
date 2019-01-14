@@ -85,6 +85,11 @@ const routes = [
         path: 'saleopportunities',
         loadChildren: './sale-opportunities/saleopportunities.module#SaleOpportunitiesModule'
     }
+    ,
+    {
+        path: 'funza',
+        loadChildren: './funza/funzas.module#FunzasModule'
+    }
 
     
 ];

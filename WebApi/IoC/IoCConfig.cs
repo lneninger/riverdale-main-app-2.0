@@ -26,6 +26,7 @@ using Framework.Storage.FileStorage.interfaces;
 using Framework.Core.ReflectionHelpers;
 using Autofac.Features.AttributeFilters;
 using Framework.Storage.FileStorage.TemporaryStorage;
+using ApplicationLogic.AppSettings;
 //using Microsoft.AspNet.SignalR;
 //using Autofac.Integration.SignalR;
 //using Microsoft.AspNet.SignalR.Infrastructure;
@@ -52,6 +53,10 @@ namespace RiverdaleMainApp2_0.IoC
                 builder
                 .RegisterInstance(configuration.GetSection("CustomSettings").Get<CustomSettings>())
                 .As<CustomSettings>();
+
+                builder
+                .RegisterInstance(configuration.GetSection("FunzaSettings").Get<FunzaSettings>())
+                .As<FunzaSettings>();
 
                 // File Mechanism
                 builder
@@ -131,6 +136,12 @@ namespace RiverdaleMainApp2_0.IoC
                 var repositoryAssembly = typeof(CustomerDBRepository).Assembly;
                 var repositoryTypes = repositoryAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(repositoryTypes.ToArray())
+                .AsImplementedInterfaces()
+                .TrackInstanceEvents();
+
+                var funzaRepositoriesAssembly = typeof(FunzaRepositories.SecurityRepository).Assembly;
+                var funzaRepositoryTypes = funzaRepositoriesAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(funzaRepositoryTypes.ToArray())
                 .AsImplementedInterfaces()
                 .TrackInstanceEvents();
 

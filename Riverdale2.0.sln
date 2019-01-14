@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Core", "Framework
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.FluentValidation", "Framework\Framework.FluentValidation\Framework.FluentValidation.csproj", "{4066C295-56F0-4DB8-95EB-857C0935DFB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunzaRepositories", "FunzaRepositories\FunzaRepositories.csproj", "{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,12 @@ Global
 		{4066C295-56F0-4DB8-95EB-857C0935DFB1}.QA|Any CPU.Build.0 = QA|Any CPU
 		{4066C295-56F0-4DB8-95EB-857C0935DFB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4066C295-56F0-4DB8-95EB-857C0935DFB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +180,7 @@ Global
 		{5B8BA5F8-612E-47A7-9526-80F5A6204FC0} = {EDA86202-E80B-479B-8BF4-802D70465402}
 		{9ED2E799-2B46-4426-90F9-96D4E405E74E} = {EDA86202-E80B-479B-8BF4-802D70465402}
 		{4066C295-56F0-4DB8-95EB-857C0935DFB1} = {EDA86202-E80B-479B-8BF4-802D70465402}
+		{9AC2CF42-D652-42CA-BEBC-AA4BE5B81891} = {7D9D0FDB-0466-4E42-8ADF-AB2CD1FE125F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9ABAE05F-1BFA-4416-9700-689ED630B228}

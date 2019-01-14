@@ -29,7 +29,7 @@ export const navigation: FuseNavigation[] = [
                     }
                 ]
             },
-            
+
             {
                 id: 'Recipes',
                 title: 'Recipes',
@@ -121,13 +121,21 @@ export const navigation: FuseNavigation[] = [
                 icon: 'person',
                 url: '/apps/users'
             },
-{
+            {
                 id: 'roles',
                 title: 'Roles',
                 translate: 'NAV.ROLES',
                 type: 'item',
                 icon: 'lock',
                 url: '/apps/roles'
+            },
+            {
+                id: 'funza',
+                title: 'Funza',
+                translate: 'NAV.FUNZA',
+                type: 'item',
+                icon: 'lock',
+                url: '/apps/funza'
             },
             //{
             //    id: 'calendar',

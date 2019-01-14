@@ -6,6 +6,7 @@ export const locale = {
             'MASTERS': 'Masters',
             'RECIPIES': 'Recipies',
             'OPPORTUNITIES': 'Opportunities',
+            'FUNZA': 'Funza',
             'SETTINGS': 'Settings',
             'USERS': 'Users',
             'PRODUCTS': 'Products',

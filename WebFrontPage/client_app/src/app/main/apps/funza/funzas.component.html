@@ -1,0 +1,143 @@
+<div id="funzas" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    account_box
+                </mat-icon>
+                <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    UserRoles
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper mx-32 mx-md-0">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input #filter placeholder="Search for a user role">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+
+            <!-- ADD BUTTON -->
+            <button (click)="authenticate()" mat-raised-button
+                    class="add-product-button fuse-white mt-24 mt-md-0">
+                <span>AUTHENTICATE</span>
+            </button>
+            <!-- / ADD BUTTON -->
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table class="userRoles-table"
+                       #table [dataSource]="dataSource"
+                       matSort
+                       [@animateStagger]="{value:'50'}"
+                       fusePerfectScrollbar>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.name}}</p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="erpId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>ERP Code</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.erpId}}</p>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="salesforceId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Salesforce Code</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.salesforceId}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="createdAt">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Created at</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <p class="text-truncate">{{item.createdAt | date}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Price</mat-header-cell>
+                    <mat-cell *matCellDef="let item" fxHide fxShow.gt-xs>
+                        <p class="price text-truncate">
+                            {{item.data.priceTaxIncl | currency:'USD':'symbol'}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+                <!-- Quantity Column -->
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Quantity</mat-header-cell>
+                    <mat-cell *matCellDef="let item" fxHide fxShow.gt-sm>
+                        <span class="quantity-indicator text-truncate"
+                              [ngClass]="{'red-500':item.data.quantity <= 5, 'amber-500':item.data.quantity > 5 && item.data.quantity <= 25,'green-600':item.data.quantity > 25}">
+                        </span>
+                        <span>
+                            {{item.data.quantity}}
+                        </span>
+                    </mat-cell>
+                </ng-container>
+                <!-- Active Column -->
+
+                <ng-container matColumnDef="options">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                    <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
+                        <mat-menu #cellMenu="matMenu">
+                            <a mat-menu-item [routerLink]="['/apps/userRoles/settings', {id: item.id}]">Settings</a>
+                            <button mat-menu-item>Help</button>
+                        </mat-menu>
+
+                        <button mat-icon-button [matMenuTriggerFor]="cellMenu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                <mat-row *matRowDef="let item; columns: displayedColumns;"
+                         class="userRole"
+                         matRipple
+                         [routerLink]="'/apps/roles/'+item.id">
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator
+                           [pageIndex]="0"
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+
+            <!--<mat-paginator #paginator
+                   [length]="dataSource.filteredCount"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>-->
+
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

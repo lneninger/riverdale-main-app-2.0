@@ -1,4 +1,4 @@
-<div id="todo" class="page-layout carded left-sidebar">
+<div id="todo" class="page-layout carded left-sidebar inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -107,10 +107,10 @@
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
-                <div *ngIf="activeArea != 'settings'" fxFlex="100%">
+                <ng-container *ngIf="activeArea != 'settings'">
                     <saleopportunity-view-list [entity]="currentEntity" [formItems]="frmOpportunityItems" fusePerfectScrollbar fxFlex></saleopportunity-view-list>
                     <saleopportunity-view-details [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-details>
-                </div>
+                </ng-container>
 
                 <saleopportunity-view-settings *ngIf="activeArea == 'settings'" [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-settings>
             </div>

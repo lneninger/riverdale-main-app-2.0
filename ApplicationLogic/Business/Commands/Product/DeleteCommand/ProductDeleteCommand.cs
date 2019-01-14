@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.Product.DeleteCommand
 {
-    public class ProductDeleteCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, IProductDBRepository>, IProductDeleteCommand
+    public class ProductDeleteCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, IProductDBRepository>, IFunzaIntegrationAuthenticateCommand
     {
         public ProductDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, IProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
