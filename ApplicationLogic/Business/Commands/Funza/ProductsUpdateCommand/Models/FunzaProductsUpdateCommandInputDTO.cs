@@ -29,6 +29,6 @@ namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand.Models
         public string ReferenceTypeName { get; set; }
        
         public bool SendQuotator { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime FunzaUpdatedDate { get; set; }
     }
 }

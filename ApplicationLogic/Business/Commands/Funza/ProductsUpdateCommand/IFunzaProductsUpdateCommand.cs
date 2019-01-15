@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand.Models
 {
-    public interface IFunzaProductsUpdateCommand: ICommandFunc<FunzaProductsUpdateCommandInputDTO, OperationResponse<FunzaProductsUpdateCommandOutputDTO>>
+    public interface IFunzaProductsUpdateCommand: ICommandFunc<IEnumerable<FunzaProductsUpdateCommandInputDTO>, OperationResponse<FunzaProductsUpdateCommandOutputDTO>>
     {
     }
 }

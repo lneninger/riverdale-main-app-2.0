@@ -24,13 +24,13 @@ namespace ApplicationLogic.AppSettings
 
         public string TokenType { get; set; }
 
-        public string ExpiresIn { get; set; }
+        public TimeSpan? ExpiresIn { get; set; }
 
         public string UserName { get; set; }
 
         public string Issued { get; set; }
 
-        public string Expires { get; set; }
+        public DateTime? Expires { get; set; }
 
     }
 }

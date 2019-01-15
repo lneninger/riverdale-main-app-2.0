@@ -30,6 +30,6 @@ namespace DomainModel.Funza
         public string ReferenceTypeName { get; set; }
 
         public bool SendQuotator { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime FunzaUpdatedDate { get; set; }
     }
 }
