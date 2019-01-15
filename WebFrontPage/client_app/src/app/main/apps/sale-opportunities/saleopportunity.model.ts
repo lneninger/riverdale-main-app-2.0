@@ -71,6 +71,7 @@ export class SaleOpportunityItem {
     productTypeDescription: string;
     productPictureId: number;
     productAmount: number;
+    productColorTypeId?: string;
 
     constructor(item?) {
         let internal = item || {};
@@ -88,6 +89,7 @@ export class SaleOpportunityItem {
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
             this.productAmount = internal.productAmount;
+            this.productColorTypeId = internal.productColorTypeId;
         }
     }
 }

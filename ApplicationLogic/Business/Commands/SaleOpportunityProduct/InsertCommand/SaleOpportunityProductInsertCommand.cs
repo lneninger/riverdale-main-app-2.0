@@ -56,11 +56,12 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.InsertComman
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.ProductId,
                             SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
-                            ProductAmmount = getByIdResult.Bag.ProductAmount,
+                            ProductAmount = getByIdResult.Bag.ProductAmount,
                             ProductName = getByIdResult.Bag.Product.Name,
+                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
                             ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
                             ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
                         };
                     }
 

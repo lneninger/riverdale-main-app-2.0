@@ -173,6 +173,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         let result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]] ,
             productAmount: [item.productAmount, [Validators.required, CustomValidators.number]], 
+            productColorTypeId: item.productColorTypeId, 
             selected: '', 
         });
 

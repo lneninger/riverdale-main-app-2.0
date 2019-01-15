@@ -157,7 +157,8 @@ export class ProductNewDialogComponent {
         this.listProductType = this.data.listProductType;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'productTypeId': ['']
+            'productTypeId': [''],
+            'colorTypeId': [''],
         });
     }
 

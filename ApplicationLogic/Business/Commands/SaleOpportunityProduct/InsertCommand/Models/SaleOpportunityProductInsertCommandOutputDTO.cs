@@ -11,9 +11,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.InsertComman
 
         public int SaleOpportunityId { get; set; }
 
-        public int ProductAmmount { get; set; }
+        public int ProductAmount { get; set; }
 
         public string ProductName { get; set; }
+
+        public string ProductTypeId { get; set; }
 
         public string ProductTypeName { get; set; }
 

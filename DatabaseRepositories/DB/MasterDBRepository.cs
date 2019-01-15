@@ -155,7 +155,7 @@ namespace DatabaseRepositories.DB
             {
                 using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    result.Bag = dbLocator.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()} } }).ToList();
+                    result.Bag = dbLocator.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()}, { "AllowedColorTypes", masterItem.ProductAllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
                 }
             }
             catch (Exception ex)

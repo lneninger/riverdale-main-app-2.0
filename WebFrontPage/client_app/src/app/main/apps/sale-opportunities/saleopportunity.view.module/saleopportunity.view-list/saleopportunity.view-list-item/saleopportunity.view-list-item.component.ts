@@ -6,6 +6,7 @@ import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunityItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
+import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
 
 @Component({
     selector: 'saleopportunity-view-list-item',
@@ -16,6 +17,8 @@ import { FormArray, FormGroup } from '@angular/forms';
 export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
 {
     tags: any[];
+    listProductColorType: EnumItem<string>[];
+    listProduct: EnumItem<number>[];
 
     @Input('entity')
     currentEntity: SaleOpportunityItem;
@@ -42,10 +45,13 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
      * @param {ActivatedRoute} _activatedRoute
      */
     constructor(
-        private _todoService: SaleOpportunityViewService,
-        private _activatedRoute: ActivatedRoute
+        private _todoService: SaleOpportunityViewService
+        , private serviceProductColorTypeResolve: ProductColorTypeResolveService
+        , private serviceProductResolve: ProductResolveService
+        , private _activatedRoute: ActivatedRoute
     )
     {
+
         // Disable move if path is not /all
         if ( _activatedRoute.snapshot.url[0].path !== 'all' )
         {
@@ -68,6 +74,9 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
         // Set the initial values
         this.currentEntity = new SaleOpportunityItem(this.currentEntity);
         //this.completed = this.todo.completed;
+
+        this.listProductColorType = this.serviceProductColorTypeResolve.list;
+        this.listProduct =  this.serviceProductResolve.list;
 
         // Subscribe to update on selected todo change
         this._todoService.onSelectedTodosChanged
@@ -150,5 +159,15 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
 
         //this.todo.toggleCompleted();
         //this._todoService.updateTodo(this.todo);
+    }
+
+    isAllowedColorType(productColorTypeId: string) {
+        let productItem = this.listProduct.find(productItem => productItem.key == this.currentEntity.productId);
+
+        if (productItem) {
+            return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) != -1
+        }
+
+        return false;
     }
 }
