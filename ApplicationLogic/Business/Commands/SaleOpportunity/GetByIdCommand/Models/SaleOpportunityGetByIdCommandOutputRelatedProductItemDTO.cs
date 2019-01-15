@@ -12,7 +12,13 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
 
         public int ProductAmount { get; set; }
 
+        public string ProductColorTypeId { get; set; }
+
+        public int ProductId { get; internal set; }
+
         public string ProductName { get; set; }
+
+        public int ProductPictureId { get; set; }
 
         public string ProductTypeId { get; set; }
 
@@ -20,8 +26,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
 
         public string ProductTypeDescription { get; set; }
 
-        public int ProductPictureId { get; set; }
 
-        public int ProductId { get; internal set; }
     }
 }

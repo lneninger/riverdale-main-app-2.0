@@ -75,6 +75,11 @@ namespace DomainDatabaseMapping
         public DbSet<SaleSeasonType> SaleSeasonTypes { get; set; }
         public DbSet<SaleSeasonCategoryType> SaleSeasonCategoryTypes { get; set; }
 
+
+        // Funza
+        public DbSet<DomainModel.Funza.ProductReference> FunzaProductReferences { get; set; }
+
+
         // Quote
         public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
         public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
@@ -116,6 +121,10 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new SaleOpportunityProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonCategoryTypeMap(modelBuilder));
+
+            // Funza
+            modelBuilder.ApplyConfiguration(new DomainDatabaseMapping.Mappings.Funza.ProductMReferenceMap(modelBuilder));
+
 
             // Quote
             modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));

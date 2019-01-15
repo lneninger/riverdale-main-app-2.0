@@ -44,11 +44,16 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                             ProductTypeId = o.Product.ProductTypeId,
                             ProductTypeName = o.Product.ProductType.Name,
                             ProductTypeDescription = o.Product.ProductType.Description,
-                            ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
-
+                            ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            ProductColorTypeId = o.ProductAllowedColorType?.ProductColorTypeId
                         }).ToList()
 
                     };
+
+                    //if (getByIdResult.Bag.ProductAllowedColorType != null)
+                    //{
+                    //    result.Bag.ProductColorTypeId = getByIdResult.Bag.ProductAllowedColorType.ProductColorTypeId;
+                    //}
 
                     if (getByIdResult.Bag.SaleOpportunitySettings != null)
                     {

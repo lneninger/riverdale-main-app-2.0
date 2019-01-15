@@ -33,6 +33,7 @@ export class ResolveUpdateManagerService {
                     break;
                 case 'Product':
                 case 'ProductMedia':
+                case 'ProductAllowedColorType':
                     //debugger;
                     this.productResolveService.clearCache();
                     break;

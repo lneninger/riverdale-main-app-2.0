@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Models
+namespace ApplicationLogic.Business.Commands.Funza.GetByIdCommand.Models
 {
-    public class SaleOpportunityGetByIdCommandOutputFreightoutDTO
+    public class ProductGetByIdCommandOutputFreightoutDTO
     {
         public int Id { get; set; }
 

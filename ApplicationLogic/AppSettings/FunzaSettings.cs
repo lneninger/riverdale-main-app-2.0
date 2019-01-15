@@ -11,5 +11,26 @@ namespace ApplicationLogic.AppSettings
         public string AuthenticationUserName { get; set; }
 
         public string AuthenticationPassword { get; set; }
+
+        public TokenSettings TokenSettings { get; set; }
+
+        public string GetProductsURL { get; set; }
+
+    }
+
+    public class TokenSettings
+    {
+        public string AccessToken { get; set; }
+
+        public string TokenType { get; set; }
+
+        public string ExpiresIn { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Issued { get; set; }
+
+        public string Expires { get; set; }
+
     }
 }

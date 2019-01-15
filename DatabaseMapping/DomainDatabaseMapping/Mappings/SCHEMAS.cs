@@ -8,5 +8,7 @@
         public const string QUOTE = "QUOTE";
         public const string CONFIG = "CNF";
         public const string SALE_OPPORTUNITY = "OPP";
+
+        public const string FUNZA = "FUNZA";
     }
 }

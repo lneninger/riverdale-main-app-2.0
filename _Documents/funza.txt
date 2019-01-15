@@ -1,0 +1,37 @@
+Creo oportuno cerrar el requerimiento anterior antes de comenzar a desarrollar este. Si ya lo probaron voy a publicar en producción y hacer la actualización del Source Control.
+ 
+ 
+Nuevo requerimiento..
+ 
+Endpoints:
+Productos: https://ffapswprodapi.azurewebsites.net/api/v1/Productos/ProductosReferencia
+Colores: https://ffapswprodapi.azurewebsites.net/api/v1/Productos/ColoresReferencia
+Empaques: https://ffapswprodapi.azurewebsites.net/api/v1/Productos/Empaques
+Categorias: https://ffapswprodapi.azurewebsites.net/api/v1/Productos/Categorias
+ 
+ 
+ 
+Yo debo descargar el catalogo de lo que hay en Funza y crear un diccionario que te sirva de referencia para parear las referencias de productos Funza (lo que descarga el cotizador) vs nuestra referencia salvada en flowersrv.dbo.flower_master
+Te refieres a todos los datos de la Api? Productos, Clientes, CertificadosProveedores?
+ 
+Si las referencias que nosotros usamos para flores, colores no hacen el match con los datos de funza, como el sistema se debe comportar?
+ 
+Si estamos creado una cotizacion(receta) como vamos a encontrarla dentro de la lista de recetas del pedido?
+ 
+Pedido
+  Recetas
+     Productos
+       IdProducto
+ 
+Recapitulando.
+Despues de recuperar los datos del pedido. Tendria que generar nuestra receta haciendo match entre los datos del catalogo de Funza y los datos nuestros.  
+Para este proceso, los elementos de nuestro catalogo deben referenciar los datos del cataáogo de funza. 
+ 
+Vamos a subdividir esta tarea:
+ 
+ 
+1.	Análisis inicial: 2horas
+2.	Recuperancion de los datos del pedido: 8 horas
+3.	Recuperación del catálogo de Funza: Pendiente análisis.
+4.	Análisis de match para generar las receta:
+5.	Generación de la receta: ?

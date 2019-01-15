@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunityItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
+import { SaleOpportunityService } from '../../../saleopportunity.core.module';
 
 @Component({
     selector: 'saleopportunity-view-list-item',
@@ -46,6 +47,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
      */
     constructor(
         private _todoService: SaleOpportunityViewService
+        , private service: SaleOpportunityService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private serviceProductResolve: ProductResolveService
         , private _activatedRoute: ActivatedRoute
@@ -169,5 +171,14 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
         }
 
         return false;
+    }
+
+    updateItem() {
+        let data = <SaleOpportunityItem>this.formGroup.value;
+        this.service.updateSaleOpportunityProductItem(data).then(response => {
+            //debugger;
+        }, error => {
+
+        });
     }
 }

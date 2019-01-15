@@ -13,16 +13,16 @@ import { SaleOpportunityViewService } from './saleopportunity.view.service';
 import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
 import { SaleOpportunityService } from '../saleopportunity.core.module';
 import { CustomValidators } from 'ng4-validators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'saleopportunity-view',
     templateUrl: './saleopportunity.view.component.html',
     styleUrls: ['./saleopportunity.view.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class SaleOpportunityViewComponent implements OnInit, OnDestroy
-{
+export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     private _currentEntity: SaleOpportunity;
 
     get currentEntity(): SaleOpportunity {
@@ -68,8 +68,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         , private _todoService: SaleOpportunityViewService
         , private _formBuilder: FormBuilder
         , private saleOpportunityService: SaleOpportunityService
-    )
-    {
+        , private _matSnackBar: MatSnackBar
+    ) {
         // Set the defaults
         this.searchInput = new FormControl('');
 
@@ -77,6 +77,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         this._unsubscribeAll = new Subject();
 
         this.saleOpportunityService.onSaleOpportunityItemAdded.subscribe(this.onSaleOpportunityItemAdded.bind(this));
+        this.saleOpportunityService.onSaleOpportunityItemUpdated.subscribe(this.onSaleOpportunityItemUpdated.bind(this));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,8 +87,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         //debugger;
         this.currentEntity = this.saleOpportunityService.currentEntity.bag;
         this.frmOpportunityItems = this._formBuilder.array([]);
@@ -132,12 +132,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
         this._todoService.onCurrentTodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(([currentTodo, formType]) => {
-                if ( !currentTodo )
-                {
+                if (!currentTodo) {
                     this.currentTodo = null;
                 }
-                else
-                {
+                else {
                     this.currentTodo = currentTodo;
                 }
             });
@@ -146,8 +144,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -171,34 +168,47 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
 
     createFormOpportunityItem(item: SaleOpportunityItem) {
         let result = this._formBuilder.group({
-            id: [item.id, [Validators.required, CustomValidators.number]] ,
-            productAmount: [item.productAmount, [Validators.required, CustomValidators.number]], 
-            productColorTypeId: item.productColorTypeId, 
-            selected: '', 
+            'id': [item.id, [Validators.required, CustomValidators.number]],
+            'productId': [item.productId, [Validators.required, CustomValidators.number]],
+            'productAmount': [item.productAmount, [Validators.required, CustomValidators.number]],
+            'productColorTypeId': item.productColorTypeId,
+            'selected': '',
         });
 
         result.controls['selected'].valueChanges.subscribe(value => {
             //value.
         });
-        
 
         return result;
+    }
+
+    updateFormOpportunityItem(formGroup: FormGroup, item: SaleOpportunityItem) {
+        let value = {
+            id: item.id,
+            productId: item.productId,
+            productAmount: item.productAmount,
+            productColorTypeId: item.productColorTypeId
+        };
+
+        formGroup.reset(value);
+        //formGroup.controls['id'].setValue(item.id);
+        //formGroup.controls['productId'].setValue(item.productId);
+        //formGroup.controls['productAmount'].setValue(item.productAmount);
+        //formGroup.controls['productColorTypeId'].setValue(item.productColorTypeId);
     }
 
 
     /**
      * Deselect current todo
      */
-    deselectCurrentTodo(): void
-    {
+    deselectCurrentTodo(): void {
         this._todoService.onCurrentTodoChanged.next([null, null]);
     }
 
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
+    toggleSelectAll(): void {
         this._todoService.toggleSelectAll();
     }
 
@@ -208,16 +218,14 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
      * @param filterParameter
      * @param filterValue
      */
-    selectTodos(filterParameter?, filterValue?): void
-    {
+    selectTodos(filterParameter?, filterValue?): void {
         this._todoService.selectTodos(filterParameter, filterValue);
     }
 
     /**
      * Deselect todos
      */
-    deselectTodos(): void
-    {
+    deselectTodos(): void {
         this._todoService.deselectTodos();
     }
 
@@ -226,8 +234,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
      *
      * @param tagId
      */
-    toggleTagOnSelectedTodos(tagId): void
-    {
+    toggleTagOnSelectedTodos(tagId): void {
         this._todoService.toggleTagOnSelectedTodos(tagId);
     }
 
@@ -236,16 +243,33 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy
      *
      * @param name
      */
-    toggleSidebar(name): void
-    {
+    toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
 
     onSaleOpportunityItemAdded(item: SaleOpportunityItem) {
-        debugger;
+        // debugger;
         this.frmOpportunityItems.push(this.createFormOpportunityItem(item));
         this.currentEntity.relatedProducts.push(item);
+            this._matSnackBar.open('Product Add', 'OK', {
+                verticalPosition: 'top',
+                duration: 5000
+            });
+    }
+
+    onSaleOpportunityItemUpdated(item: SaleOpportunityItem) {
+        // debugger;
+        let index = this.currentEntity.relatedProducts.findIndex(relatedPorductItem => relatedPorductItem.id == item.id);
+        if (index >= 0) {
+            this.currentEntity.relatedProducts.splice(index, 1, item);
+            this.updateFormOpportunityItem((<FormGroup>this.frmOpportunityItems.controls[index]), item);
+
+            this._matSnackBar.open('Product Updated', 'OK', {
+                verticalPosition: 'top',
+                duration: 5000
+            });
+        }
     }
 
     activeArea: ActiveAreaType;

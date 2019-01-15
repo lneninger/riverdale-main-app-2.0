@@ -44,21 +44,19 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-icon-button (click)="toggleImportant($event)" [disabled]="formGroup.controls['productColorTypeId'].invalid || formGroup.controls['productColorTypeId'].pristine" [ngClass]="{'gray-fg': formGroup.controls['productColorTypeId'].invalid || formGroup.controls['productColorTypeId'].pristine, 'green-fg': formGroup.controls['productColorTypeId'].valid && formGroup.controls['productColorTypeId'].dirty}"
-                        aria-label="Save amount" fxHide.xs>
-                    <mat-icon>check</mat-icon>
-                </button>
             </div>
+
             <div class="option">
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
                     <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
                     <input matInput formControlName="productAmount">
                 </mat-form-field>
-                <button mat-icon-button (click)="toggleImportant($event)" [disabled]="formGroup.controls['productAmount'].invalid || formGroup.controls['productAmount'].pristine" [ngClass]="{'gray-fg': formGroup.controls['productAmount'].invalid || formGroup.controls['productAmount'].pristine, 'green-fg': formGroup.controls['productAmount'].valid && formGroup.controls['productAmount'].dirty}"
-                        aria-label="Save amount" fxHide.xs>
-                    <mat-icon>check</mat-icon>
-                </button>
             </div>
+
+            <button mat-mini-fab (click)="updateItem()" [disabled]="formGroup.invalid || formGroup.pristine"
+                    aria-label="Save amount">
+                <mat-icon>check</mat-icon>
+            </button>
 
             <!--<button mat-icon-button (click)="toggleImportant($event)"
             aria-label="Toggle important" fxHide.xs>

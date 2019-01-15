@@ -7,8 +7,8 @@ using System.Text;
 
 namespace ApplicationLogic.Repositories.Funza
 {
-    public interface ISecurityRepository
+    public interface IMastersRepository
     {
-        OperationResponse<Dictionary<string, object>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword);
+        OperationResponse<IEnumerable<FunzaGetProductsCommandOutputDTO>> GetProducts(string authenticationURL, string accessToken);
     }
 }

@@ -8,10 +8,12 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityProduct.UpdateComman
     {
         public int Id { get; set; }
 
-        public int SaleOpportunityId { get; set; }
+        //public int SaleOpportunityId { get; set; }
 
         public int ProductId { get; set; }
 
-        public int ProductAmmount { get; set; }
+        public int ProductAmount { get; set; }
+
+        public string ProductColorTypeId { get; set; }
     }
 }

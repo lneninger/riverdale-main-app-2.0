@@ -3,6 +3,7 @@ import { HttpClient, HttpHandler, HttpHeaders, HttpParams } from "@angular/commo
 
 import { AuthenticationService } from "./authentication.service";
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { Observable } from "rxjs";
 
 
 @Injectable({
@@ -53,7 +54,7 @@ export class SecureHttpClientService {
     //    return this.httpClient.get<Object>(url, internalOptions);
     //}
 
-    get<T = Object>(url: string, options?: CallOptions) {
+    get<T = Object>(url: string, options?: CallOptions): Observable<T> {
         let internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
@@ -61,7 +62,7 @@ export class SecureHttpClientService {
         return this.httpClient.get<T>(url, internalOptions);
     }
 
-    post<T = Object>(url: string, body: any, options?: CallOptions) {
+    post<T = Object>(url: string, body: any, options?: CallOptions): Observable<T> {
         let internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
@@ -71,12 +72,12 @@ export class SecureHttpClientService {
         return this.httpClient.post<T>(url, body, internalOptions);
     }
 
-    put(url: string, body: any, options?: CallOptions) {
+    put<T = Object>(url: string, body: any, options?: CallOptions): Observable<T> {
         let internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
-        return this.httpClient.put(url, body, internalOptions);
+        return this.httpClient.put<T>(url, body, internalOptions);
     }
 
     delete(url: string, options?: CallOptions) {

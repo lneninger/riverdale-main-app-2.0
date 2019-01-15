@@ -308,7 +308,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         return this.listProductColorType.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0);
     }
     selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
-        debugger;
+        //debugger;
         const productColortTypeId = event.option.value;
         let productColorTypeItem = this.listProductColorType.find(item => item.key == <string>event.option.value);// < EnumItem < string >> event.option.value;
         this.addProductAllowedColorType(productColorTypeItem);
@@ -327,7 +327,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         const index = this.productAllowedColorTypes.indexOf(item);
         if (index >= 0) {
             this.serviceProductAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
-                debugger;
+                //debugger;
             });
         }
     }

@@ -1,5 +1,6 @@
-﻿using ApplicationLogic.Business.Commands.Funza.AuthenticateCommand;
-using ApplicationLogic.Business.Commands.Funza.AuthenticateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand;
+using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand.Models;
+using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand;
 using ApplicationLogic.SignalR;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
@@ -29,16 +30,23 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaAuthenticateCommand authenticateCommand):base()
+        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaAuthenticateCommand authenticateCommand, IFunzaGetProductsCommand getProductsCommand) :base()
         {
             this.SignalRHubContext = hubContext;
             this.AuthenticateCommand = authenticateCommand;
+            this.GetProductsCommand = getProductsCommand;
+            
         }
 
         /// <summary>
         /// 
         /// </summary>
         public IFunzaAuthenticateCommand AuthenticateCommand { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IFunzaGetProductsCommand GetProductsCommand { get; }
 
         /// <summary>
         /// 
@@ -55,6 +63,7 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Authenticate()
         {
             var result = this.AuthenticateCommand.Execute();
+            var productsTest = this.GetProductsCommand.Execute();
 
             return this.Ok(result);
         }

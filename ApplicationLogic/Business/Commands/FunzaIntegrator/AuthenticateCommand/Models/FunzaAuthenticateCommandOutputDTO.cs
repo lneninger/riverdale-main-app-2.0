@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ApplicationLogic.Business.Commands.Funza.AuthenticateCommand.Models
+namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand.Models
 {
     public class FunzaAuthenticateCommandOutputDTO
     {
-
-        public FunzaAuthenticateCommandOutputDTO()
-        {
-        }
-
         public string AccessToken { get; set; }
         public string TokenType { get; set; }
         public string ExpiresIn { get; set; }

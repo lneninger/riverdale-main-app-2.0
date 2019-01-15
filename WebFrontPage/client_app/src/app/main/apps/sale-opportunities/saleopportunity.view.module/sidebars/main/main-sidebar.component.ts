@@ -143,10 +143,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         const item = new SaleOpportunityItem(enumItem);
         item.saleOpportunityId = this.currentEntity.id;
         this.productService.addSaleOpportunityProductItem(item).then(response => {
-
+            debugger;
         }, error => {
 
         });
-
     }
 }

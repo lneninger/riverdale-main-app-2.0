@@ -35,7 +35,7 @@
     "../DatabaseRepositories/DB/SaleOpportunityProductDBRepository.cs",
     "../ApplicationLogic/Repositories/DB/ISaleOpportunityProductDBRepository.cs",
     "../ApplicationLogic/Business/Commands/SaleOpportunityProduct",
-    "../ApplicationLogic/Business/Commands/Funza/AuthenticateCommand",
-    "Controllers/FunzaController.cs"
+    "../ApplicationLogic/Business/Commands/FunzaIntegrator/AuthenticateCommand",
+    "Controllers/FunzaController.cs", "../ApplicationLogic/Business/Commands/FunzaIntegrator/GetProductsCommand", "../FunzaRepositories/SecurityRepository.cs"
   ]
 }

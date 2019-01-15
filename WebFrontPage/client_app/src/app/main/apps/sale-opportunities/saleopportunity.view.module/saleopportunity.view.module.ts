@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule
+    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
@@ -90,7 +90,8 @@ const routes: Routes = [
         , MatMenuModule
         , MatRippleModule
         , MatSelectModule
-        
+        , MatSnackBarModule
+
         , NgxDnDModule
         
         , FuseSharedModule
