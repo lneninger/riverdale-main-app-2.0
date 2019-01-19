@@ -5,6 +5,7 @@ import { IConnectionOptions } from 'ng2-signalr/src/services/connection/connecti
 import { AuthenticationService } from '../authentication/authentication.service';
 import { AuthenticationInfo } from '../authentication/authentication.model';
 import { HubItem, HubConnectionOptions } from './signalr.model';
+import { environment } from 'environments/environment';
 
 import * as signalR from '@aspnet/signalr';
 
@@ -17,7 +18,7 @@ export class BaseSignalRService {
     connect(hubName: string, url: string = null, options: HubConnectionOptions = null) {
         let connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Trace)
-            .withUrl(`https://localhost:5001/${hubName}`)
+            .withUrl(`{environment.apiProjectUrl}${hubName}`)
             .build();
 
         let promise = new Promise<HubItem>((accept, reject) => {
