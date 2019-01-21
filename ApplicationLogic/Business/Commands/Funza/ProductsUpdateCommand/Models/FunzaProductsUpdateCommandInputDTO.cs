@@ -13,7 +13,7 @@ namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand.Models
         public string Code { get; set; }
         public bool Active { get; set; }
         public string Description { get; set; }
-        public string Observations { get; set; }
+        public string Comments { get; set; }
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }

@@ -15,12 +15,12 @@ using DomainModel.Funza;
 
 namespace ApplicationLogic.Repositories.DB
 {
-    public interface IFunzaProductReferenceDBRepository: IDBRepository
+    public interface IFunzaColorReferenceDBRepository: IDBRepository
     {
-        OperationResponse<DomainModel.Funza.ProductReference> GetById(int id);
+        OperationResponse<DomainModel.Funza.ColorReference> GetById(int id);
 
-        OperationResponse Add(ProductReference entity);
+        OperationResponse Add(ColorReference entity);
 
-        OperationResponse<ProductReference> GetByFunzaId(int id);
+        OperationResponse<ColorReference> GetByFunzaId(string id);
     }
 }

@@ -11,14 +11,11 @@ using DomainModel.Funza;
 
 namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand
 {
-    public class FunzaProductsUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, IProductDBRepository>, IFunzaProductsUpdateCommand
+    public class FunzaProductsUpdateCommand : AbstractDBCommand<DomainModel.Funza.ProductReference, IFunzaProductReferenceDBRepository>, IFunzaProductsUpdateCommand
     {
-        public FunzaProductsUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IFunzaProductReferenceDBRepository funzaProductReferenceDBRepository, IProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public FunzaProductsUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IFunzaProductReferenceDBRepository repository) : base(dbContextScopeFactory, repository)
         {
-            this.FunzaProductReferenceDBRepository = funzaProductReferenceDBRepository;
         }
-
-        public IFunzaProductReferenceDBRepository FunzaProductReferenceDBRepository { get; }
 
         public OperationResponse<FunzaProductsUpdateCommandOutputDTO> Execute(IEnumerable<FunzaProductsUpdateCommandInputDTO> input)
         {
@@ -26,24 +23,36 @@ namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
 
-                OperationResponse<DomainModel.Funza.ProductReference> getByIdResult;
-                OperationResponse<DomainModel.Funza.ProductReference> prepareToSaveResult;
+                OperationResponse<DomainModel.Funza.ProductReference> getByFunzaIdResult;
+                OperationResponse prepareToSaveResult;
                 DomainModel.Funza.ProductReference entity = null;
 
                 try
                 {
-                    
+
                     foreach (var dtoItem in input)
                     {
-                        getByIdResult = this.FunzaProductReferenceDBRepository.GetById(dtoItem.Id);
-                        // Add
-                        if (!getByIdResult.IsSucceed)
+                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
+                        bool addEntity = false;
+                        if (!getByFunzaIdResult.IsSucceed)
                         {
-                            entity = this.MapDTO(dtoItem);
-                            prepareToSaveResult = this.FunzaProductReferenceDBRepository.Add(entity);
+                            addEntity = true;
+                        }
+                        else if (getByFunzaIdResult.Bag == null)
+                        {
+                            addEntity = true;
+                        }
+
+                        entity = getByFunzaIdResult.Bag;
+                        entity = this.MapDTO(dtoItem, entity);
+
+                        if (addEntity)
+                        {
+                            prepareToSaveResult = this.Repository.Add(entity);
                             result.AddResponse(prepareToSaveResult);
                         }
                     }
+
 
                     if (result.IsSucceed)
                     {
@@ -52,39 +61,37 @@ namespace ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand
                 }
                 catch (Exception ex)
                 {
-                    result.AddError("Error Adding Product", ex);
+                    result.AddError("Error Sync Funza Products", ex);
                 }
-
-               
             }
 
             return result;
         }
 
-        private ProductReference MapDTO(FunzaProductsUpdateCommandInputDTO dtoItem)
+        private ProductReference MapDTO(FunzaProductsUpdateCommandInputDTO dtoItem, DomainModel.Funza.ProductReference entity = null)
         {
-            var result = new ProductReference
-            {
-                Active = dtoItem.Active,
-                CategoryId = dtoItem.CategoryId,
-                CategoryName = dtoItem.CategoryName,
-                Code = dtoItem.Code,
-                ColorId = dtoItem.ColorId,
-                Description = dtoItem.Description,
-                GradeId = dtoItem.GradeId,
-                Observations = dtoItem.Observations,
-                ProductTypeId = dtoItem.ProductTypeId,
-                ProductTypeName = dtoItem.ProductTypeName,
-                ReferenceCode = dtoItem.ReferenceCode,
-                ReferenceDescription = dtoItem.ReferenceDescription,
-                ReferenceId = dtoItem.ReferenceId,
-                ReferenceTypeId = dtoItem.ReferenceTypeId,
-                ReferenceTypeName = dtoItem.ReferenceTypeName,
-                SendQuotator = dtoItem.SendQuotator,
-                SpecieId = dtoItem.SpecieId,
-                FunzaUpdatedDate = dtoItem.FunzaUpdatedDate,
-                VarieryId = dtoItem.VarieryId,
-            };
+            var result = entity ?? new ProductReference();
+
+            result.FunzaId = dtoItem.Id;
+            result.Active = dtoItem.Active;
+            result.CategoryId = dtoItem.CategoryId;
+            result.CategoryName = dtoItem.CategoryName;
+            result.Code = dtoItem.Code;
+            result.ColorId = dtoItem.ColorId;
+            result.Description = dtoItem.Description;
+            result.GradeId = dtoItem.GradeId;
+            result.Comments = dtoItem.Comments;
+            result.ProductTypeId = dtoItem.ProductTypeId;
+            result.ProductTypeName = dtoItem.ProductTypeName;
+            result.ReferenceCode = dtoItem.ReferenceCode;
+            result.ReferenceDescription = dtoItem.ReferenceDescription;
+            result.ReferenceId = dtoItem.ReferenceId;
+            result.ReferenceTypeId = dtoItem.ReferenceTypeId;
+            result.ReferenceTypeName = dtoItem.ReferenceTypeName;
+            result.SendQuotator = dtoItem.SendQuotator;
+            result.SpecieId = dtoItem.SpecieId;
+            result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
+            result.VarieryId = dtoItem.VarieryId;
 
             return result;
         }

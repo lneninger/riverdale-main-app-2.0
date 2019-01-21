@@ -16,6 +16,11 @@ namespace ApplicationLogic.AppSettings
 
         public string GetProductsURL { get; set; }
 
+        public string GetColorsURL { get;  set; }
+
+        public string GetCategoriesURL { get;  set; }
+
+        public string GetPackingURL { get;  set; }
     }
 
     public class TokenSettings

@@ -4,9 +4,11 @@ using System.Text;
 
 namespace DomainModel.Funza
 {
-    public class ProductReference
+    public class ProductReference : AbstractBaseEntity
     {
         public int Id { get; set; }
+        public int FunzaId { get; set; }
+
         public int SpecieId { get; set; }
         public int VarieryId { get; set; }
         public int GradeId { get; set; }
@@ -14,7 +16,7 @@ namespace DomainModel.Funza
         public string Code { get; set; }
         public bool Active { get; set; }
         public string Description { get; set; }
-        public string Observations { get; set; }
+        public string Comments { get; set; }
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
@@ -30,6 +32,7 @@ namespace DomainModel.Funza
         public string ReferenceTypeName { get; set; }
 
         public bool SendQuotator { get; set; }
+
         public DateTime FunzaUpdatedDate { get; set; }
     }
 }

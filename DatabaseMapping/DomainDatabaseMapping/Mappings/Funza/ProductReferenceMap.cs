@@ -1,5 +1,4 @@
 ﻿using DomainModel.Funza;
-using DomainModel.Product;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,10 +8,10 @@ using System.Text;
 
 namespace DomainDatabaseMapping.Mappings.Funza
 {
-    public class ProductMReferenceMap : BaseAbstractMap, IEntityTypeConfiguration<ProductReference>
+    public class ProductReferenceMap : BaseAbstractMap, IEntityTypeConfiguration<ProductReference>
     {
 
-        public ProductMReferenceMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        public ProductReferenceMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
@@ -23,7 +22,11 @@ namespace DomainDatabaseMapping.Mappings.Funza
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)
+                .ValueGeneratedOnAdd()
                 .IsRequired();
+
+            builder.Property(t => t.FunzaId)
+              .IsRequired();
 
             builder.Property(t => t.CategoryName)
                 .HasColumnType("varchar(200)")
@@ -40,7 +43,7 @@ namespace DomainDatabaseMapping.Mappings.Funza
                .IsRequired(false)
                ;
 
-            builder.Property(t => t.Observations)
+            builder.Property(t => t.Comments)
                .HasColumnType("varchar(200)")
                .IsRequired(false)
                ;
