@@ -29,7 +29,6 @@ namespace ApplicationLogic.Business.Commands.Funza.CategoriesUpdateCommand
 
                 try
                 {
-
                     foreach (var dtoItem in input)
                     {
                         getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);

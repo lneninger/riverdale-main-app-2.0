@@ -21,7 +21,7 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand
         public OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>>();
-                var getPackingsResult = this.Repository.GetPackings(this.FunzaSettings.GetProductsURL, this.FunzaSettings.TokenSettings.AccessToken);
+                var getPackingsResult = this.Repository.GetPackings(this.FunzaSettings.GetPackingsURL, this.FunzaSettings.TokenSettings.AccessToken);
                 result.AddResponse(getPackingsResult);
                 if (result.IsSucceed)
                 {

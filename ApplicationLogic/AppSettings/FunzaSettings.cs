@@ -20,7 +20,9 @@ namespace ApplicationLogic.AppSettings
 
         public string GetCategoriesURL { get;  set; }
 
-        public string GetPackingURL { get;  set; }
+        public string GetPackingsURL { get;  set; }
+
+        public string GetQuotesURL { get; set; }
     }
 
     public class TokenSettings

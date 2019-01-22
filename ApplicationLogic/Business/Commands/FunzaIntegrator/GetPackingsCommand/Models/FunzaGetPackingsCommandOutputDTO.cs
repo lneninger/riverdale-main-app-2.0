@@ -29,8 +29,8 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand.
         public decimal VolumneEquivalenteFull { get; set; }
         public bool? EviarACotizador { get; set; }
         public string EquivalenteFullCotizador { get; set; }
-        public string[] CargosFacturaDefinitiva { get; set; }
-        public string[] ItemsFacturaDefinitiva { get; set; }
-        public string[] ItemsNota { get; set; }
+        //public string[] CargosFacturaDefinitiva { get; set; }
+        //public string[] ItemsFacturaDefinitiva { get; set; }
+        //public string[] ItemsNota { get; set; }
     }
 }

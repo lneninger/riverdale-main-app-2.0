@@ -33,9 +33,9 @@
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <button (click)="authenticate()" mat-raised-button
-                    class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>AUTHENTICATE</span>
+            <button (click)="authenticate()" mat-fab 
+                    class="add-product-button fuse-white mt-24 mt-md-0 font-size-40">
+                <mat-icon class="">restore</mat-icon>
             </button>
             <!-- / ADD BUTTON -->
 
@@ -43,9 +43,9 @@
         <!-- / HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card">
+        <div *ngIf="activeOptions == 'products'" class="content-card">
 
-            <mat-table class="userRoles-table"
+            <mat-table class="products-table"
                        #table [dataSource]="dataSource"
                        matSort
                        [@animateStagger]="{value:'50'}"
@@ -128,13 +128,6 @@
                            [pageSize]="10"
                            [pageSizeOptions]="[5, 10, 25, 100]">
             </mat-paginator>
-
-            <!--<mat-paginator #paginator
-                   [length]="dataSource.filteredCount"
-                   [pageIndex]="0"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>-->
 
         </div>
         <!-- / CONTENT CARD -->

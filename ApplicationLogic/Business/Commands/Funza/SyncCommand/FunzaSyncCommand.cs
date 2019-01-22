@@ -51,7 +51,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
         {
             var taskDictionary = new Dictionary<string, Task<Object>>();
             var result = new OperationResponse();
-
+            
             taskDictionary.Add(
                 "Products"
                 , Task.Run<object>(() =>
@@ -81,7 +81,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                     return new OperationResponse<FunzaColorsUpdateCommandOutputDTO>();
                 })
             );
-
+            
             taskDictionary.Add(
                 "Categories"
                 , Task.Run<object>(() =>
@@ -96,7 +96,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                     return new OperationResponse<FunzaCategoriesUpdateCommandOutputDTO>();
                 })
             );
-
+            
             taskDictionary.Add(
                 "Packings"
                 , Task.Run<object>(() =>
@@ -111,9 +111,9 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                     return new OperationResponse<FunzaPackingsUpdateCommandOutputDTO>();
                 })
             );
-
+            
             Task.WaitAll(taskDictionary.Values.ToArray());
-
+            
             result.AddResponse(taskDictionary["Products"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Colors"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Categories"].Result as OperationResponse);
@@ -194,8 +194,8 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                 CargoMasterCode = item.CodigoCargoMaster,
                 CreatedBy = item.CodigoCargoMaster,
                 CreatedDate = item.CreatedDate,
-                DefinitiveInvoiceCargo = item.CargosFacturaDefinitiva,
-                DefinitiveInvoiceItems = item.ItemsFacturaDefinitiva,
+                //DefinitiveInvoiceCargo = item.CargosFacturaDefinitiva,
+                //DefinitiveInvoiceItems = item.ItemsFacturaDefinitiva,
                 Description = item.Descripcion,
                 EquivalentFullQuotator = item.EquivalenteFullCotizador,
                 EquivalentsFull = item.EquivalentesFull,
@@ -205,7 +205,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                 Length = item.Largo,
                 Name = item.Nombre,
                 NameEnglish = item.NombreIngles,
-                NoteItems = item.ItemsNota,
+                //NoteItems = item.ItemsNota,
                 SentToQuotator = item.EviarACotizador,
                 State = item.Estado,
                 UpdatedBy = item.UpdatedBy,

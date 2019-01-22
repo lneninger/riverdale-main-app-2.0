@@ -21,7 +21,7 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesComman
         public OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutputDTO>>();
-                var getCategoriesResult = this.Repository.GetCategories(this.FunzaSettings.GetProductsURL, this.FunzaSettings.TokenSettings.AccessToken);
+                var getCategoriesResult = this.Repository.GetCategories(this.FunzaSettings.GetCategoriesURL, this.FunzaSettings.TokenSettings.AccessToken);
                 result.AddResponse(getCategoriesResult);
                 if (result.IsSucceed)
                 {

@@ -32,6 +32,8 @@ export class FunzasComponent implements OnInit {
     dataSource: FunzaProductsDataSource | null;
     displayedColumns = ['name', 'options'];
 
+    activeOptions: ActiveOptions = 'products';
+
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
 
@@ -108,3 +110,4 @@ export class FunzaProductsDataSource extends DataSourceAbstract<UserRoleGrid>
 }
 
 
+declare type ActiveOptions = 'products' | 'colors' | 'categories' | 'packings';
