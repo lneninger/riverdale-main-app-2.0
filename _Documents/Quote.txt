@@ -1,0 +1,36 @@
+Quote
+61830
+
+
+
+General:
+[  ]-	Errores al salvar la receta deben ser descriptivos. “Error found while recipe saving” debe ser “Error found while saving recipe; ________________” 
+
+Generic Recipe
+
+[OK]-	Cambiar el título a Generic Recipe 
+[OK]-	En el primer segmento informativo del “Recipe Definition” (donde esta date, product name…) 
+a) Reemplazar “Box Grade” por “Stems” del quote.
+b) Mover el “Farm Quote Number” al primer renglón de la segunda columna (esta de ultimo). 
+c) Añadir el “Farm” En el segundo renglón de la segunda columna, debajo de la nueva posición de “Farm Quote Number”
+[OK]-	Debe validar que la suma de los stems en el “basic recipe” sea igual a los stems en el quote (intranet.dbo.quotes3.stems). Si es diferente, debe alertar “The stems in this recipe are different to the stems in quote ######”.
+[  ]-	En Edit Quote, después de salvar un “basic recipe”, si quieres trabajar en un “basic recipe” de otra cotización, toca refrescar la página. Si solo se llama la otra cotización, al abrir el “Recipe Form” en la segunda cotización, aparece el “basic recipe” de la cotización anterior.
+[  ]-	Me permitió salvar dos récords de “basic recipe” para el mismo quoteid. Imagino que es un error: me di cuenta al hacer esta consulta SELECT *  FROM [intranet].[dbo].[RecipeBasic] a(nolock)where a.QuoteID = '61830'.
+[  ]-	En Edit Quote, al llamar la cotización despues de (creo) salvar la receta, el botón esta en verde, pero no llama el “basic recipe”, aparece como para crearla de nuevo. 
+                                        
+Box Composition
+[OK]-	Cambiar el título de la página que aparece cuando le das click a box composition, a “Box Composition” (dice “Recipe Definition”)
+[  ]-	En el drop down mostrar solo los colores disponibles de cada 
+[  ]-	En la lista del lado derecho “colors” debe tener sort alfabético.
+[  ]-	Es posible cambiar el color de los rows de cada specific recipe para que corresponda al color seleccionado? la combinación del producto se veria en el display. (si es problemático no, es una idea suelta)
+[  ]-	Cuando se cambia el producto, el grado se desaparece pero no se nota que se desaparece, debería resaltarse que esta vacío.
+[  ]-	Cuando se cambia el producto, despues de que se pone el grado de nuevo, la validación de si el color existe no se hace automáticamente, para disparar la validación, toca cambiar el color a otro y ponerlo en el inicial o en otro para que valide si existe o no en ese tipo de producto. 
+
+Sample Request
+[  ]-	En “Selection Details” (despues de que seleccionas los bunches en “Bunch Finder”) no esta llamando las sub recetas, tal vez no están salvadas porque dio error.
+ 
+[  ]-	Cambiar el título de la última sección (Vida Upload Configuration) a “Send Samples Recipes to Vida Prebook”
+                    
+Gracias,
+
+Miguel Trujillo
