@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { UserRoleGrid, UserRole, UserRoleNewDialogResult } from './funza.model';
+import { FunzaProductGrid, FunzaColorGrid } from './funza.model';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FunzaService } from './funza.core.module';
@@ -32,7 +32,7 @@ export class FunzasComponent implements OnInit {
     dataSource: FunzaProductsDataSource | null;
     displayedColumns = ['name', 'options'];
 
-    activeOptions: ActiveOptions = 'products';
+    activeOption: ActiveOptions = 'products';
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -79,7 +79,7 @@ export class FunzasComponent implements OnInit {
     }
 }
 
-export class FunzaProductsDataSource extends DataSourceAbstract<UserRoleGrid>
+export class FunzaProductsDataSource extends DataSourceAbstract<FunzaProductGrid>
 {
     /**
      * Constructor
@@ -97,7 +97,37 @@ export class FunzaProductsDataSource extends DataSourceAbstract<UserRoleGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}userRole/pagequery`;
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}funzaproduct/pagequery`;
+
+    public getFilter(rawFilterObject: {}): {} {
+
+
+        let result = {};
+
+
+        return result;
+    }
+}
+
+export class FunzaColorsDataSource extends DataSourceAbstract<FunzaColorGrid>
+{
+    /**
+     * Constructor
+     *
+     * @param {UserRolesListService} _service
+     * @param {MatPaginator} _matPaginator
+     * @param {MatSort} _matSort
+     */
+    constructor(
+        service: FunzaService
+        , filterElement: ElementRef
+        , matPaginator: MatPaginator
+        , matSort: MatSort
+    ) {
+        super(service, filterElement, matPaginator, matSort);
+    }
+
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}funzaproduct/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
 

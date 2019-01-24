@@ -27,24 +27,24 @@ namespace ApplicationLogic.Business.Commands.Grower.GetByIdCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
-                        ThirdPartySettings = getByIdResult.Bag.GrowerThirdPartyAppSettings.Select(third => new GrowerGetByIdCommandOutputThirdPartySettingsDTO
-                        {
-                            Id = third.Id,
-                            ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
-                            ThirdPartyGrowerId = third.ThirdPartyGrowerId
-                        }),
-                        Freightout = getByIdResult.Bag.GrowerFreightouts.Select(freightoutItem => new GrowerGetByIdCommandOutputFreightoutDTO
-                        {
-                            Id = freightoutItem.Id,
-                            Cost = freightoutItem.Cost,
-                            SecondLeg = freightoutItem.SecondLeg,
-                            SurchargeHourly = freightoutItem.SurchargeHourly,
-                            SurchargeYearly = freightoutItem.SurchargeYearly,
-                            WProtect = freightoutItem.WProtect,
-                            DateFrom = freightoutItem.DateFrom,
-                            DateTo = freightoutItem.DateTo,
+                        //ThirdPartySettings = getByIdResult.Bag.GrowerThirdPartyAppSettings.Select(third => new GrowerGetByIdCommandOutputThirdPartySettingsDTO
+                        //{
+                        //    Id = third.Id,
+                        //    ThirdPartyAppTypeId = third.ThirdPartyAppTypeId,
+                        //    ThirdPartyGrowerId = third.ThirdPartyGrowerId
+                        //}),
+                        //Freightout = getByIdResult.Bag.GrowerFreightouts.Select(freightoutItem => new GrowerGetByIdCommandOutputFreightoutDTO
+                        //{
+                        //    Id = freightoutItem.Id,
+                        //    Cost = freightoutItem.Cost,
+                        //    SecondLeg = freightoutItem.SecondLeg,
+                        //    SurchargeHourly = freightoutItem.SurchargeHourly,
+                        //    SurchargeYearly = freightoutItem.SurchargeYearly,
+                        //    WProtect = freightoutItem.WProtect,
+                        //    DateFrom = freightoutItem.DateFrom,
+                        //    DateTo = freightoutItem.DateTo,
 
-                        }).FirstOrDefault()
+                        //}).FirstOrDefault()
                     };
                 }
             }

@@ -12,7 +12,7 @@ export interface FuseNavigationItem
     externalUrl?: boolean;
     openInNewTab?: boolean;
     function?: any;
-    permissions?: stirng[];
+    permissions?: string[];
     badge?: {
         title?: string;
         translate?: string;

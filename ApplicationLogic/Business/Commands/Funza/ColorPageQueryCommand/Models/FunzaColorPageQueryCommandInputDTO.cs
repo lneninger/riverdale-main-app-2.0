@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.Funza.PageQueryCommand.Models
+namespace ApplicationLogic.Business.Commands.Funza.ColorPageQueryCommand.Models
 {
-    public class ProductPageQueryCommandInputDTO: BaseFilter
+    public class FunzaColorPageQueryCommandInputDTO: BaseFilter
     {
     }
 }

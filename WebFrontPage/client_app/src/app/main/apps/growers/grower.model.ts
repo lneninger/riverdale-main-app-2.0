@@ -1,17 +1,18 @@
-import { ThirdPartyGrid } from "../growerthirdpartyappsetting/growerthirdpartyappsetting.model";
-import { GrowerFreightout } from "../growerfreightout/growerfreightout.core.module";
+//import { ThirdPartyGrid } from "../growerthirdpartyappsetting/growerthirdpartyappsetting.model";
+//import { GrowerFreightout } from "../growerfreightout/growerfreightout.core.module";
 
 export class GrowerGrid {
     id: number;
-    erpId: string;
+    //erpId: string;
     name: string;
+    code: string;
 }
 
 export class Grower {
     id: number;
     name: string;
-    freightout: GrowerFreightout
-    thirdPartySettings: ThirdPartyGrid[]
+    //freightout: GrowerFreightout
+    //thirdPartySettings: ThirdPartyGrid[]
 
     /**
      * Constructor

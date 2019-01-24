@@ -1,17 +1,7 @@
-﻿using DomainModel;
-using ApplicationLogic.Business.Commands.File.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.File.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.File.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.File.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.File.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.File.UpdateCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Framework.Core.Messages;
-using DomainModel.File;
+﻿using ApplicationLogic.Business.Commands.Funza.ProductPageQueryCommand.Models;
 using DomainModel.Funza;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -22,5 +12,7 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse Add(ProductReference entity);
 
         OperationResponse<ProductReference> GetByFunzaId(int id);
+
+        OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaProductPageQueryCommandInputDTO> input);
     }
 }

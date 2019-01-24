@@ -23,6 +23,22 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string Customer_Manage = nameof(Enum.Customer_Manage);
 
+        // Grower
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Grower_Read = nameof(Enum.Grower_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Grower_Modify = nameof(Enum.Grower_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Grower_Manage = nameof(Enum.Grower_Manage);
+
         // Product
         /// <summary>
         /// 
@@ -124,6 +140,22 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             Customer_Manage,
+
+            // Grower
+            /// <summary>
+            /// 
+            /// </summary>
+            Grower_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Grower_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Grower_Manage,
 
             // Product
 

@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.Funza.ProductPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
@@ -77,6 +77,56 @@ namespace DatabaseRepositories.DB
             catch (Exception ex)
             {
                 result.AddException($"Error getting Funza Product {id}", ex);
+            }
+
+            return result;
+        }
+
+
+        public OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaProductPageQueryCommandInputDTO> input)
+        {
+            var result = new OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>>();
+            try
+            {
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<ProductReference>();
+                if (input.CustomFilter != null)
+                {
+                    var filter = input.CustomFilter;
+                    if (!string.IsNullOrWhiteSpace(filter.Term))
+                    {
+                        predicate = predicate.And(o => o.ReferenceDescription.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    }
+                }
+
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+
+
+                    var query = dbLocator.Set<ProductReference>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<ProductReference>>();
+                    Expression<Func<ProductReference, object>> expression = null;
+                    //if (input.Sort.ContainsKey("erpId"))
+                    //{
+                    //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
+                    //    advancedSorting.Add(new SortItem<ProductReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //}
+
+                    var sorting = new SortingDTO<ProductReference>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<ProductReference, FunzaProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaProductPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        Name = o.ReferenceDescription,
+                        CreatedAt = o.CreatedAt
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer page query", ex);
             }
 
             return result;

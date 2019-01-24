@@ -8,13 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.Funza.ColorPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
 using Framework.Core.Messages;
 using DomainModel.Funza;
 
@@ -77,6 +76,56 @@ namespace DatabaseRepositories.DB
             catch (Exception ex)
             {
                 result.AddException($"Error getting Funza Color {id}", ex);
+            }
+
+            return result;
+        }
+
+
+         public OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaColorPageQueryCommandInputDTO> input)
+        {
+            var result = new OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>>();
+            try
+            {
+                // predicate construction
+                var predicate = PredicateBuilderExtension.True<ColorReference>();
+                if (input.CustomFilter != null)
+                {
+                    var filter = input.CustomFilter;
+                    //if (!string.IsNullOrWhiteSpace(filter.Term))
+                    //{
+                    //    predicate = predicate.And(o => o.ReferenceDescription.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                    //}
+                }
+
+                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+
+
+                    var query = dbLocator.Set<ColorReference>().AsQueryable();
+
+
+                    var advancedSorting = new List<SortItem<ColorReference>>();
+                    Expression<Func<ColorReference, object>> expression = null;
+                    //if (input.Sort.ContainsKey("erpId"))
+                    //{
+                    //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
+                    //    advancedSorting.Add(new SortItem<ColorReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //}
+
+                    var sorting = new SortingDTO<ColorReference>(input.Sort, advancedSorting);
+
+                    result.Bag = query.ProcessPagingSort<ColorReference, FunzaColorPageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaColorPageQueryCommandOutputDTO
+                    {
+                        Id = o.Id,
+                        Name = o.Name,
+                        CreatedAt = o.CreatedAt
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting customer page query", ex);
             }
 
             return result;

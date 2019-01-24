@@ -54,7 +54,6 @@
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\productcolortype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\%40resolveServices\customerfreightoutratetype.resolve.service.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\@resolveServices\resolve.model.ts" />
-    <TypeScriptCompile Include="client_app\src\app\main\apps\customers - Copy\customer.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customerthirdpartyappsetting\customerthirdpartyappsetting.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\product-color\productcolor.core.module.ts" />
     <TypeScriptCompile Include="client_app\src\app\main\apps\customers\customer.core.module.ts" />
@@ -62,20 +61,6 @@
 
   <ItemGroup>
     <Folder Include="client_app\src\app\main\apps\%40hipalanetCommons\ngx-utls\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="client_app\src\app\main\apps\customers - Copy\customer.component.html" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customer.component.scss" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customer.component.ts" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customer.model.ts" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customer.service.ts" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customernew.dialog.component.html" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customers.component.html" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customers.component.scss" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customers.component.ts" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customers.module.ts" />
-    <None Include="client_app\src\app\main\apps\customers - Copy\customers.theme.scss" />
   </ItemGroup>
 
 </Project>

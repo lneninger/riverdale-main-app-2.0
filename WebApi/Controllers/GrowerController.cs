@@ -1,15 +1,15 @@
-﻿using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Grower.DeleteCommand;
+using ApplicationLogic.Business.Commands.Grower.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.Grower.GetAllCommand;
+using ApplicationLogic.Business.Commands.Grower.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.Grower.GetByIdCommand;
+using ApplicationLogic.Business.Commands.Grower.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.Grower.InsertCommand;
+using ApplicationLogic.Business.Commands.Grower.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.Grower.PageQueryCommand;
+using ApplicationLogic.Business.Commands.Grower.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.Grower.UpdateCommand;
+using ApplicationLogic.Business.Commands.Grower.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
@@ -27,7 +27,7 @@ using Framework.SignalR;
 namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
-    /// Customer API interface
+    /// Grower API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
@@ -44,7 +44,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerController(IHubContext<GlobalHub, IGlobalHub> hubContext, ICustomerPageQueryCommand pageQueryCommand, ICustomerGetAllCommand getAllCommand, ICustomerGetByIdCommand getByIdCommand, ICustomerInsertCommand insertCommand, ICustomerUpdateCommand updateCommand, ICustomerDeleteCommand deleteCommand): base(/*hubContext*/)
+        public GrowerController(IHubContext<GlobalHub, IGlobalHub> hubContext, IGrowerPageQueryCommand pageQueryCommand, IGrowerGetAllCommand getAllCommand, IGrowerGetByIdCommand getByIdCommand, IGrowerInsertCommand insertCommand, IGrowerUpdateCommand updateCommand, IGrowerDeleteCommand deleteCommand): base(/*hubContext*/)
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
@@ -61,7 +61,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ICustomerGetAllCommand GetAllCommand { get; }
+        public IGrowerGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
@@ -71,7 +71,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// 
         /// </summary>
-        public ICustomerPageQueryCommand PageQueryCommand { get; }
+        public IGrowerPageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ICustomerGetByIdCommand GetByIdCommand { get; }
+        public IGrowerGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -88,7 +88,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ICustomerInsertCommand InsertCommand { get; }
+        public IGrowerInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -96,7 +96,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ICustomerUpdateCommand UpdateCommand { get; }
+        public IGrowerUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -104,16 +104,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ICustomerDeleteCommand DeleteCommand { get; }
+        public IGrowerDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<CustomerPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<GrowerPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<CustomerPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<GrowerPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -124,7 +124,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<CustomerGetAllCommandOutputDTO>))]
+        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<GrowerGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
@@ -137,7 +137,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(CustomerGetByIdCommandOutputDTO))]
+        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(GrowerGetByIdCommandOutputDTO))]
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -150,14 +150,14 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(CustomerInsertCommandOutputDTO))]
-        [Authorization.Authorize(Policy = PermissionsEnum.Customer_Manage)]
-        public IActionResult Post([FromBody]CustomerInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(GrowerInsertCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.Grower_Manage)]
+        public IActionResult Post([FromBody]GrowerInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             if(appResult.IsSucceed)
             {
-                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(DomainModel.Company.Customer.Customer), appResult.Bag);
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(DomainModel.Company.Grower.Grower), appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
 
             }
@@ -168,9 +168,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(CustomerUpdateCommandOutputDTO))]
-        [Authorization.Authorize(Policy = PermissionsEnum.Customer_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
-        public IActionResult Put([FromBody]CustomerUpdateCommandInputDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(GrowerUpdateCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.Grower_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
+        public IActionResult Put([FromBody]GrowerUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -181,7 +181,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(CustomerDeleteCommandOutputDTO))]
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(GrowerDeleteCommandOutputDTO))]
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);

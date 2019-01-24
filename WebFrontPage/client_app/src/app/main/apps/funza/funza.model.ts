@@ -2,35 +2,17 @@ import { RolePermissionGrid } from "../role-permissions/rolepermission.core.modu
 import { User } from "../users/user.core.module";
 import { RoleUserGrid } from "../role-users/roleuser.model";
 
-export class UserRoleGrid {
+export class FunzaProductGrid {
     id: number;
-    erpId: string;
+    funzaId: string;
     name: string;
 }
 
-export class UserRole {
+
+export class FunzaColorGrid {
     id: number;
+    funzaId: string;
     name: string;
-    rolePermissions: RolePermissionGrid[];
-    roleUsers: RoleUserGrid[];
-
-    /**
-     * Constructor
-     *
-     * @param userRole
-     */
-    constructor(userRole?) {
-        userRole = userRole || {};
-        this.id = userRole.id;
-        this.name = userRole.name;
-    }
-}
-
-
-
-export class UserRoleNewDialogResult {
-    goTo: 'Edit';
-    data: UserRole;
 }
 
 

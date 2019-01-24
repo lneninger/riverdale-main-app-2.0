@@ -12,6 +12,7 @@ using System.Text;
 using Framework.Core.Messages;
 using DomainModel.File;
 using DomainModel.Funza;
+using ApplicationLogic.Business.Commands.Funza.ColorPageQueryCommand.Models;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -22,5 +23,8 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse Add(ColorReference entity);
 
         OperationResponse<ColorReference> GetByFunzaId(string id);
+
+        OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaColorPageQueryCommandInputDTO> input);
+        
     }
 }
