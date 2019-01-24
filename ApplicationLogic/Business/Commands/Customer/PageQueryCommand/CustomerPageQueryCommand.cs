@@ -9,7 +9,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.Customer.PageQueryCommand
 {
-    public class CustomerPageQueryCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerPageQueryCommand
+    public class CustomerPageQueryCommand : AbstractDBCommand<DomainModel.Company.Customer.Customer, ICustomerDBRepository>, ICustomerPageQueryCommand
     {
         public CustomerPageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
         {

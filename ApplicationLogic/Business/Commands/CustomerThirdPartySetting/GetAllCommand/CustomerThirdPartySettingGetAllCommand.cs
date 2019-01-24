@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetAllCommand
 {
-    public class CustomerThirdPartyAppSettingGetAllCommand : AbstractDBCommand<DomainModel.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingGetAllCommand
+    public class CustomerThirdPartyAppSettingGetAllCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingGetAllCommand
     {
         public CustomerThirdPartyAppSettingGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerThirdPartyAppSettingDBRepository repository) : base(dbContextScopeFactory, repository)
         {

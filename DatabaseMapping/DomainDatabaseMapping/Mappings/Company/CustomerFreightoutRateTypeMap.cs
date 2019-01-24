@@ -1,10 +1,10 @@
-﻿using DomainModel;
+﻿using DomainModel.Company.Customer;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace DomainDatabaseMapping.Mappings
+namespace DomainDatabaseMapping.Mappings.Company
 {
     public class CustomerFreightoutRateTypeMap : BaseAbstractMap, IEntityTypeConfiguration<CustomerFreightoutRateType>
     {

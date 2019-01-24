@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.DeleteCommand
 {
-    public class CustomerFreightoutDeleteCommand : AbstractDBCommand<DomainModel.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutDeleteCommand
+    public class CustomerFreightoutDeleteCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutDeleteCommand
     {
         public CustomerFreightoutDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerFreightoutDBRepository repository) : base(dbContextScopeFactory, repository)
         {

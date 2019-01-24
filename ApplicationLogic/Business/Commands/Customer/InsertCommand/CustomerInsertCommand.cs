@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.Customer.InsertCommand
 {
-    public class CustomerInsertCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerInsertCommand
+    public class CustomerInsertCommand : AbstractDBCommand<DomainModel.Company.Customer.Customer, ICustomerDBRepository>, ICustomerInsertCommand
     {
         public CustomerInsertCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -19,7 +19,7 @@ namespace ApplicationLogic.Business.Commands.Customer.InsertCommand
             var result = new OperationResponse<CustomerInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var entity = new DomainModel.Customer
+                var entity = new DomainModel.Company.Customer.Customer
                 {
                     Name = input.Name,
                 };

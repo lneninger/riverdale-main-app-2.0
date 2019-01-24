@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand
 {
-    public class CustomerFreightoutUpdateCommand : AbstractDBCommand<DomainModel.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutUpdateCommand
+    public class CustomerFreightoutUpdateCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutUpdateCommand
     {
         public CustomerFreightoutUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerFreightoutDBRepository repository) : base(dbContextScopeFactory, repository)
         {

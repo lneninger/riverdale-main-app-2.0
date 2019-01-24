@@ -18,6 +18,10 @@ using Framework.EF.Logging;
 using DomainModel.SaleOpportunity;
 using DomainDatabaseMapping.Mappings.SaleOpportunity;
 using DomainModel.Product;
+using DomainModel.Company;
+using DomainModel.Company.Customer;
+using DomainModel.Company.Grower;
+using DomainDatabaseMapping.Mappings.Company;
 
 namespace DomainDatabaseMapping
 {
@@ -50,8 +54,14 @@ namespace DomainDatabaseMapping
         public DbSet<Country> Countries { get; set; }
 
         // CRM
+        public DbSet<AbstractCompany> Companies { get; set; }
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
+        public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
+        public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
+
+
         public DbSet<GrowerType> GrowerTypes { get; set; }
         public DbSet<Grower> Growers { get; set; }
         public DbSet<GrowerFreight> GrowerFreights { get; set; }
@@ -84,9 +94,6 @@ namespace DomainDatabaseMapping
 
 
         // Quote
-        public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
-        public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -105,11 +112,18 @@ namespace DomainDatabaseMapping
 
 
             // CRM
+            modelBuilder.ApplyConfiguration(new AbstractCompanyMap(modelBuilder));
+
             modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CustomerFreightoutMap(modelBuilder));
+
             modelBuilder.ApplyConfiguration(new GrowerTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GrowerMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GrowerFreightMap(modelBuilder));
+            
+
 
             // Business
             modelBuilder.ApplyConfiguration(new CustomerOpportunityMap(modelBuilder));
@@ -133,9 +147,7 @@ namespace DomainDatabaseMapping
 
 
             // Quote
-            modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
-            modelBuilder.ApplyConfiguration(new CustomerFreightoutMap(modelBuilder));
-
+            
             // Product
             modelBuilder.ApplyConfiguration(new AbstractProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductMediaMap(modelBuilder));

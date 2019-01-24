@@ -13,6 +13,8 @@ using Framework.Core.Messages;
 using DomainModel.Product;
 using Microsoft.AspNetCore.Identity;
 using DomainModel.SaleOpportunity;
+using DomainModel.Company.Customer;
+using DomainModel.Company.Grower;
 
 namespace DatabaseRepositories.DB
 {

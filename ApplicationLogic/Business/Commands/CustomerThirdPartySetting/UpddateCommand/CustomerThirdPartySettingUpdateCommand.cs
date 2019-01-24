@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand
 {
-    public class CustomerThirdPartyAppSettingUpdateCommand : AbstractDBCommand<DomainModel.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingUpdateCommand
+    public class CustomerThirdPartyAppSettingUpdateCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingUpdateCommand
     {
         public CustomerThirdPartyAppSettingUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerThirdPartyAppSettingDBRepository repository) : base(dbContextScopeFactory, repository)
         {

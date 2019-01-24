@@ -1,10 +1,10 @@
-﻿using DomainModel;
+﻿using DomainModel.Company.Grower;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace DomainDatabaseMapping.Mappings
+namespace DomainDatabaseMapping.Mappings.Company
 {
     public class GrowerTypeMap : BaseAbstractMap, IEntityTypeConfiguration<GrowerType>
     {

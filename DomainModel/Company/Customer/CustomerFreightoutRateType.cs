@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DomainModel
+namespace DomainModel.Company.Customer
 {
-    public class GrowerType : AbstractBaseEntity
+    public class CustomerFreightoutRateType: AbstractBaseEntity
     {
         public string Id { get; set; }
 
@@ -12,6 +12,6 @@ namespace DomainModel
 
         public string Description { get; set; }
 
-        public virtual IEnumerable<Grower> Growers { get; set; }
+        public virtual IEnumerable<CustomerFreightout> CustomerFreightouts { get; set; }
     }
 }

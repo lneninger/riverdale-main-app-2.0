@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetAllCommand
 {
-    public class CustomerFreightoutGetAllCommand : AbstractDBCommand<DomainModel.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutGetAllCommand
+    public class CustomerFreightoutGetAllCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutGetAllCommand
     {
         public CustomerFreightoutGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerFreightoutDBRepository repository) : base(dbContextScopeFactory, repository)
         {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DomainModel
+namespace DomainModel.Company.Customer
 {
     public class CustomerThirdPartyAppSetting : AbstractBaseEntity, ILogicalDeleteEntity
     {

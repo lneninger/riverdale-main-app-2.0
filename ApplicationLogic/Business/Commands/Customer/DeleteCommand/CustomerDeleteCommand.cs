@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.Customer.DeleteCommand
 {
-    public class CustomerDeleteCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerDeleteCommand
+    public class CustomerDeleteCommand : AbstractDBCommand<DomainModel.Company.Customer.Customer, ICustomerDBRepository>, ICustomerDeleteCommand
     {
         public CustomerDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)
         {

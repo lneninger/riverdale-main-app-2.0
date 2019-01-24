@@ -6,7 +6,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.GetByIdCommand
 {
-    public class CustomerFreightoutGetByIdCommand : AbstractDBCommand<DomainModel.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutGetByIdCommand
+    public class CustomerFreightoutGetByIdCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutGetByIdCommand
     {
 
         public CustomerFreightoutGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerFreightoutDBRepository repository) : base(dbContextScopeFactory, repository)

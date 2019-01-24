@@ -6,7 +6,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetByIdCommand
 {
-    public class CustomerThirdPartyAppSettingGetByIdCommand : AbstractDBCommand<DomainModel.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingGetByIdCommand
+    public class CustomerThirdPartyAppSettingGetByIdCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingGetByIdCommand
     {
 
         public CustomerThirdPartyAppSettingGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerThirdPartyAppSettingDBRepository repository) : base(dbContextScopeFactory, repository)

@@ -1,4 +1,4 @@
-﻿using DomainModel;
+﻿using DomainModel.Company.Customer;
 using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;

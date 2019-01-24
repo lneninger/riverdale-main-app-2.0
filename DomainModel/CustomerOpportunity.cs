@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DomainModel.Company.Customer;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

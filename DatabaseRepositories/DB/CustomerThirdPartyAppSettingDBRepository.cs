@@ -1,25 +1,20 @@
-﻿using DomainDatabaseMapping;
-using DomainModel;
+﻿using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand.Models;
+using ApplicationLogic.Repositories.DB;
+using DomainDatabaseMapping;
+using DomainModel.Company.Customer;
 using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
-using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.UpdateCommand.Models;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance;
+using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using LMB.PredicateBuilderExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using LMB.PredicateBuilderExtension;
-using Framework.EF.DbContextImpl.Persistance;
-using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
-using Framework.Core.Messages;
 
 namespace DatabaseRepositories.DB
 {

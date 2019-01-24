@@ -3,24 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using DomainModel.SaleOpportunity;
 
-namespace DomainModel
+namespace DomainModel.Company.Customer
 {
-    public class Customer : AbstractBaseEntity, ILogicalDeleteEntity
+    public class Customer : AbstractCompany
     {
         public Customer()
         {
             this.CustomerOpportunities = new List<CustomerOpportunity>();
         }
 
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public virtual IEnumerable<CustomerOpportunity> CustomerOpportunities { get; set; }
-
-        public DateTime? DeletedAt { get; set; }
-
-        public bool? IsDeleted { get; set; }
 
         public virtual IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
 

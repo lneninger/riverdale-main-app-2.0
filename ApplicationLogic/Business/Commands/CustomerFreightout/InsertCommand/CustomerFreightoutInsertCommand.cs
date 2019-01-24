@@ -8,7 +8,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand
 {
-    public class CustomerFreightoutInsertCommand : AbstractDBCommand<DomainModel.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutInsertCommand
+    public class CustomerFreightoutInsertCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerFreightout, ICustomerFreightoutDBRepository>, ICustomerFreightoutInsertCommand
     {
         public CustomerFreightoutInsertCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerFreightoutDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -19,7 +19,7 @@ namespace ApplicationLogic.Business.Commands.CustomerFreightout.InsertCommand
             var result = new OperationResponse<CustomerFreightoutInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var entity = new DomainModel.CustomerFreightout
+                var entity = new DomainModel.Company.Customer.CustomerFreightout
                 {
                     Cost = input.Cost ?? 0,
                     CustomerFreightoutRateTypeId = input.CustomerFreightoutRateTypeId,

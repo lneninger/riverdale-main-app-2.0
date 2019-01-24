@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand
 {
-    public class CustomerGetByIdCommand : AbstractDBCommand<DomainModel.Customer, ICustomerDBRepository>, ICustomerGetByIdCommand
+    public class CustomerGetByIdCommand : AbstractDBCommand<DomainModel.Company.Customer.Customer, ICustomerDBRepository>, ICustomerGetByIdCommand
     {
 
         public CustomerGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerDBRepository repository) : base(dbContextScopeFactory, repository)

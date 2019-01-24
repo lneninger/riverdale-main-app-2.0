@@ -9,7 +9,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.CustomerThirdPartyAppSetting.PageQueryCommand
 {
-    public class CustomerThirdPartyAppSettingPageQueryCommand : AbstractDBCommand<DomainModel.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingPageQueryCommand
+    public class CustomerThirdPartyAppSettingPageQueryCommand : AbstractDBCommand<DomainModel.Company.Customer.CustomerThirdPartyAppSetting, ICustomerThirdPartyAppSettingDBRepository>, ICustomerThirdPartyAppSettingPageQueryCommand
     {
         public CustomerThirdPartyAppSettingPageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, ICustomerThirdPartyAppSettingDBRepository repository) : base(dbContextScopeFactory, repository)
         {

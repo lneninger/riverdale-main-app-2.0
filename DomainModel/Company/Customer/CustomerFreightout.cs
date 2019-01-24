@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DomainModel
+namespace DomainModel.Company.Customer
 {
     public class CustomerFreightout : AbstractBaseEntity, ILogicalDeleteEntity
     {

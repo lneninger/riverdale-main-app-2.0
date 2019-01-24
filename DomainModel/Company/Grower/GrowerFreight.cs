@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DomainModel
+namespace DomainModel.Company.Grower
 {
     public class GrowerFreight : AbstractBaseEntity, ILogicalDeleteEntity
     {
