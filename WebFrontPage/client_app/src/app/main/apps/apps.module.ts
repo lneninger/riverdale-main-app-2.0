@@ -66,6 +66,10 @@ const routes = [
         loadChildren: './customers/customers.module#CustomersModule'
     },
     {
+        path: 'growers',
+        loadChildren: './growers/growers.module#GrowersModule'
+    },
+    {
         path: 'product-colors',
         loadChildren: './product-color/productcolors.module#ProductColorsModule'
     },

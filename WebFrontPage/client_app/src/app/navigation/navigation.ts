@@ -88,12 +88,22 @@ export const navigation: FuseNavigation[] = [
                 url: '/apps/customers'
             },
             {
-                id: 'product-colors',
-                title: 'Product Colors',
+                id: 'growers',
+                title: 'Growers',
                 translate: 'NAV.CALENDAR',
                 type: 'item',
+                icon: 'person',
+                url: '/apps/customers',
+                permissions: ["Customer_*"],
+            },
+            {
+                id: 'product-colors',
+                title: 'Product Colors',
+                translate: 'NAV.COLORS',
+                type: 'item',
                 icon: 'color_lens',
-                url: '/apps/product-colors'
+                url: '/apps/product-colors',
+                permissions: ["ProductColor_*"],
             },
             {
                 id: 'products',
@@ -101,7 +111,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PRODUCTS',
                 type: 'item',
                 icon: 'filter_vintage',
-                url: '/apps/products'
+                url: '/apps/products',
+                permissions: ["Product_*"],
             },
             {
                 id: 'Settings',
@@ -111,7 +122,8 @@ export const navigation: FuseNavigation[] = [
                 icon: 'gear',
                 children: [
 
-                ]
+                ],
+                permissions: ["Settings_*"],
             },
             {
                 id: 'users',
@@ -119,7 +131,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.USERS',
                 type: 'item',
                 icon: 'person',
-                url: '/apps/users'
+                url: '/apps/users',
+                permissions: ["User_*"],
             },
             {
                 id: 'roles',
@@ -127,7 +140,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.ROLES',
                 type: 'item',
                 icon: 'lock',
-                url: '/apps/roles'
+                url: '/apps/roles',
+                permissions: ["UserRole_*"],
             },
             {
                 id: 'funza',
@@ -135,7 +149,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.FUNZA',
                 type: 'item',
                 icon: 'lock',
-                url: '/apps/funza'
+                url: '/apps/funza',
+                permissions: ["Funza_*"],
             },
             //{
             //    id: 'calendar',

@@ -1,0 +1,120 @@
+<div id="grower" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/growers'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div class="product-image mr-8 mr-sm-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                    <mat-icon class="logo-icon s-32 mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                        person
+                    </mat-icon>
+                    <!--<img *ngIf="currentEntity.images && currentEntity.images[0]; else noImage " [src]="currentEntity.images[0].url">
+                    <ng-template #noImage>
+                        <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                    </ng-template>-->
+                </div>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{currentEntity.name}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        New Grower
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Grower Detail</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- / APP TITLE -->
+            <div class="save-product-button" fxLayoutGap="20px">
+                <button mat-mini-fab (click)="delete()" color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <!--<button mat-raised-button
+                        [disabled]="frmMain.invalid"
+                        *ngIf="pageType ==='new'" (click)="add()">
+                    <span>ADD</span>
+                </button>-->
+                <button mat-mini-fab
+                        class="save-product-button"
+                        [disabled]="disableSave()"
+                         (click)="save()">
+                    <mat-icon>save</mat-icon>
+
+                    <!--<span>SAVE</span>-->
+                </button>
+            </div>
+
+            <!--<button mat-raised-button
+                    class="save-product-button"
+                    [disabled]="frmMain.invalid || frmMain.pristine"
+                    *ngIf="pageType ==='edit'" (click)="save()">
+                <span>SAVE</span>
+            </button>-->
+        </div>
+        <!-- / HEADER -->
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="frmMain" class="product w-100-p" fxLayout="column" fxFlex>
+
+                    <mat-tab-group>
+
+                        <mat-tab label="Basic Info">
+
+                            <div class="tab-content p-24" fusePerfectScrollbar>
+
+                                <div [formGroup]="frmMain" fxLayout="row wrap">
+                                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Name"
+                                               name="name"
+                                               formControlName="name"
+                                               required>
+                                    </mat-form-field>
+
+                                    <div fxFlex="100">
+                                        <button mat-raised-button fxFlex="100" [disabled]="disableSaveFrmMain()" (click)="save()">
+                                            <mat-icon>save</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </mat-tab>
+
+                       
+
+                    </mat-tab-group>
+                   
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

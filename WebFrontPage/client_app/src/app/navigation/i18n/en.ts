@@ -9,6 +9,7 @@ export const locale = {
             'FUNZA': 'Funza',
             'SETTINGS': 'Settings',
             'USERS': 'Users',
+            'COLORS': 'Product Colors',
             'PRODUCTS': 'Products',
             'ROLES': 'Roles',
             'DASHBOARDS': 'Dashboards',
