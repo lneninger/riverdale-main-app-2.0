@@ -45,7 +45,7 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getCustomer()
             ]).then(
                 () => {
                     resolve();
@@ -56,11 +56,11 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Get product
+     * Get customer
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getCustomer(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}customer/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
@@ -71,9 +71,9 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Save product
+     * Save customer
      *
-     * @param product
+     * @param customer
      * @returns {Promise<any>}
      */
     save(entity): Promise<any> {
@@ -90,9 +90,9 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Add product
+     * Add customer
      *
-     * @param product
+     * @param customer
      * @returns {Promise<any>}
      */
     add(entity): Promise<any> {

@@ -1,4 +1,4 @@
-<div id="customers" class="page-layout carded fullwidth inner-scroll">
+<div id="growers" class="page-layout carded fullwidth inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -18,7 +18,7 @@
                     account_box
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Customers
+                    Growers
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -27,15 +27,15 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a customer">
+                    <input #filter placeholder="Search for a grower">
                 </div>
             </div>
             <!-- / SEARCH -->
 
             <!-- ADD BUTTON -->
-            <a [routerLink]="['/apps/customers/new']" mat-raised-button
+            <a [routerLink]="['/apps/growers/new']" mat-raised-button
                     class="add-product-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW CUSTOMER</span>
+                <span>ADD NEW GROWER</span>
             </a>
             <!-- / ADD BUTTON -->
 
@@ -45,7 +45,7 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
-            <mat-table class="customers-table"
+            <mat-table class="growers-table"
                        #table [dataSource]="dataSource"
                        matSort
                        [@animateStagger]="{value:'50'}"
@@ -58,7 +58,7 @@
                         <p class="text-truncate">{{item.name}}</p>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="erpId">
+                <!--<ng-container matColumnDef="erpId">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>ERP Code</mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         <p class="text-truncate">{{item.erpId}}</p>
@@ -69,7 +69,7 @@
                     <mat-cell *matCellDef="let item">
                         <p class="text-truncate">{{item.salesforceId}}</p>
                     </mat-cell>
-                </ng-container>
+                </ng-container>-->
 
                 <ng-container matColumnDef="createdAt">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Created at</mat-header-cell>
@@ -117,9 +117,9 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
                 <mat-row *matRowDef="let item; columns: displayedColumns;"
-                         class="customer"
+                         class="grower"
                          matRipple
-                         [routerLink]="'/apps/customers/'+item.id">
+                         [routerLink]="'/apps/growers/'+item.id">
                 </mat-row>
             </mat-table>
 

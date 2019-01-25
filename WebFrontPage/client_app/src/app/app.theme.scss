@@ -96,6 +96,7 @@ $typography: mat-typography-config(
 
 /*@import "src/app/main/apps/notification-groups/notificationgroups.theme";*/
 @import "src/app/main/apps/customers/customers.theme";
+@import "src/app/main/apps/growers/growers.theme";
 @import "src/app/main/apps/product-color/productcolors.theme";
 @import "src/app/main/apps/products/products.theme";
 @import "src/app/main/apps/products/composition.view.module/composition.view.theme";
@@ -103,6 +104,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/user-roles/userroles.theme";
 @import "src/app/main/apps/sale-opportunities/saleopportunities.theme";
 @import "src/app/main/apps/sale-opportunities/saleopportunity.view.module/saleopportunity.view.theme";
+@import "src/app/main/apps/funza/funzas.theme";
 
 
 @import "src/app/main/pages/authentication/login/login.theme";
@@ -154,6 +156,7 @@ $typography: mat-typography-config(
     @include todo-theme($theme);
     /*@include notification-groups-theme($theme);*/
     @include customers-theme($theme);
+    @include growers-theme($theme);
     @include product-colors-theme($theme);
     @include users-theme($theme);
     @include userroles-theme($theme);
@@ -161,6 +164,7 @@ $typography: mat-typography-config(
     @include composition-view-theme($theme);
     @include saleopportunities-theme($theme);
     @include saleopportunity-view-theme($theme);
+    @include funza-theme($theme);
     // Pages
     @include login-theme($theme);
     @include login-2-theme($theme);

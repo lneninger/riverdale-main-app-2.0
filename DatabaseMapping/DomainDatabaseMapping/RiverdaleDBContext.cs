@@ -1,27 +1,18 @@
 ﻿using DomainDatabaseMapping.Mappings;
-using DomainModel;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Hosting;
-using System.IO;
-using DomainModel.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using DomainModel.File;
+using DomainDatabaseMapping.Mappings.Company;
 using DomainDatabaseMapping.Mappings.File;
-using DomainDatabaseMapping.Mappings.Type;
 using DomainDatabaseMapping.Mappings.Product;
-using Framework.EF.Logging;
-using DomainModel.SaleOpportunity;
 using DomainDatabaseMapping.Mappings.SaleOpportunity;
-using DomainModel.Product;
+using DomainDatabaseMapping.Mappings.Type;
+using DomainModel;
 using DomainModel.Company;
 using DomainModel.Company.Customer;
 using DomainModel.Company.Grower;
-using DomainDatabaseMapping.Mappings.Company;
+using DomainModel.File;
+using DomainModel.Product;
+using DomainModel.SaleOpportunity;
+using Framework.EF.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace DomainDatabaseMapping
 {
@@ -55,6 +46,7 @@ namespace DomainDatabaseMapping
 
         // CRM
         public DbSet<AbstractCompany> Companies { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
@@ -113,6 +105,7 @@ namespace DomainDatabaseMapping
 
             // CRM
             modelBuilder.ApplyConfiguration(new AbstractCompanyMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CompanyTypeMap(modelBuilder));
 
             modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));

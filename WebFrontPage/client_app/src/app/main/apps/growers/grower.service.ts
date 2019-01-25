@@ -44,7 +44,7 @@ export class GrowerService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
 
             Promise.all([
-                this.getProduct()
+                this.getGrower()
             ]).then(
                 () => {
                     resolve();
@@ -55,11 +55,11 @@ export class GrowerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Get product
+     * Get grower
      *
      * @returns {Promise<any>}
      */
-    getProduct(): Promise<any> {
+    getGrower(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}grower/${this.routeParams.id}`).subscribe(response => {
                 this.currentEntity = response;
@@ -70,9 +70,9 @@ export class GrowerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Save product
+     * Save grower
      *
-     * @param product
+     * @param grower
      * @returns {Promise<any>}
      */
     save(entity): Promise<any> {
@@ -89,9 +89,9 @@ export class GrowerService implements Resolve<any>, IPageQueryService {
     }
 
     /**
-     * Add product
+     * Add grower
      *
-     * @param product
+     * @param grower
      * @returns {Promise<any>}
      */
     add(entity): Promise<any> {

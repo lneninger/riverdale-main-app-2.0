@@ -1,8 +1,8 @@
 @import "src/@fuse/scss/fuse";
 
-customers {
+growers {
 
-    #customers {
+    #growers {
 
         .top-bg {
 
@@ -54,7 +54,7 @@ customers {
         }
     }
 
-    .customers-table {
+    .growers-table {
         flex: 1 1 auto;
         border-bottom: 1px solid rgba(0, 0, 0, .12);
         overflow: auto;
@@ -64,7 +64,7 @@ customers {
             min-height: 64px;
         }
 
-        .customers {
+        .growers {
             position: relative;
             cursor: pointer;
             height: 84px;

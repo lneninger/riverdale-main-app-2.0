@@ -41,18 +41,19 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
 
         this._unsubscribeAll = new Subject();
 
-        fromEvent(this.filterElement.nativeElement, 'keyup')
-            .pipe(
-                filter(e => { /*console.log('first event: ', e); */return (<any>e).keyCode == 13 }),
-                takeUntil(this._unsubscribeAll),
-                debounceTime(150),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                this.filter.term = <string>this.filterElement.nativeElement.value;
-                this._filterChange.next(this.filter.term);
-            });
-
+        if (this.filterElement) {
+            fromEvent(this.filterElement.nativeElement, 'keyup')
+                .pipe(
+                    filter(e => { /*console.log('first event: ', e); */return (<any>e).keyCode == 13 }),
+                    takeUntil(this._unsubscribeAll),
+                    debounceTime(150),
+                    distinctUntilChanged()
+                )
+                .subscribe(() => {
+                    this.filter.term = <string>this.filterElement.nativeElement.value;
+                    this._filterChange.next(this.filter.term);
+                });
+        }
     }
 
     connect(): Observable<any[]> {

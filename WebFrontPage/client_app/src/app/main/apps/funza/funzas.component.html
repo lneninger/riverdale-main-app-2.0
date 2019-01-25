@@ -3,7 +3,6 @@
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
-
     <!-- CENTER -->
     <div class="center">
 
@@ -22,18 +21,28 @@
                 </span>
             </div>
             <!-- / APP TITLE -->
-
             <!-- SEARCH -->
-            <!--<div class="search-wrapper mx-32 mx-md-0">
-                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a user role">
+            <div fxFlex="100%" fxLayout="column" fxLayoutAlign="center center " fxLayoutGap="20px">
+                <div class="search-wrapper mx-32 mx-md-0">
+                    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon>search</mat-icon>
+                        <input #filter placeholder="Search for a user role">
+                    </div>
                 </div>
-            </div>-->
+                <div fxLayoutGap="20px">
+                    <button (click)="activeArea('products')" mat-mini-fab
+                            class="add-product-button fuse-white mt-24 mt-md-0">
+                        <mat-icon class="">filter_vintage</mat-icon>
+                    </button>
+                    <button (click)="activeArea('colors')" mat-mini-fab
+                            class="add-product-button fuse-white mt-24 mt-md-0">
+                        <mat-icon class="">color_lens</mat-icon>
+                    </button>
+                </div>
+            </div>
             <!-- / SEARCH -->
-
             <!-- ADD BUTTON -->
-            <button (click)="authenticate()" mat-fab 
+            <button (click)="authenticate()" mat-fab
                     class="add-product-button fuse-white mt-24 mt-md-0 font-size-40">
                 <mat-icon class="">restore</mat-icon>
             </button>
@@ -41,7 +50,6 @@
 
         </div>
         <!-- / HEADER -->
-
         <!-- CONTENT CARD -->
         <div *ngIf="activeOption == 'products'" class="content-card">
 

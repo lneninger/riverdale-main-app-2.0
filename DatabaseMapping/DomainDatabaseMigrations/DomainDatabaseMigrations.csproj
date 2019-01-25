@@ -19,6 +19,10 @@
     <Compile Remove="Migrations\20190113121655_AddTable ProductAllowedColorType.cs" />
     <Compile Remove="Migrations\20190113122302_AddTable ProductAllowedColorType.cs" />
     <Compile Remove="Migrations\20190113122616_AddTable ProductAllowedColorType.cs" />
+    <Compile Remove="Migrations\20190125094907_Add Company Table.cs" />
+    <Compile Remove="Migrations\20190125100601_Add Legacy Ids columns.cs" />
+    <Compile Remove="Migrations\20190125101324_Add Optional Company Origin.cs" />
+    <Compile Remove="Migrations\20190125101939_Add Fix CompanyType Mapping.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,13 +27,21 @@ namespace DomainModel.Company
         }
 
 
-        public int OriginId { get; set; }
+        public int? OriginId { get; set; }
         public virtual Location Origin { get; set; }
 
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
 
+
+
         //Collections
+
+
+
+        // Legacy
+        public int? OLD_CustomerId { get; set; }
+        public int? OLD_GrowerId { get; set; }
     }
 }

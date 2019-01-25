@@ -41,7 +41,7 @@ namespace DomainDatabaseMapping.Mappings.Company
             builder.HasOne(t => t.Origin)
                 .WithMany()
                 .HasForeignKey(t => t.OriginId)
-                ;
+                .IsRequired(false);
 
         }
     }

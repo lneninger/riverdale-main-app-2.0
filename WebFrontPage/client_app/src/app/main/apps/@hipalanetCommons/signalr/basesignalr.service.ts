@@ -18,7 +18,7 @@ export class BaseSignalRService {
     connect(hubName: string, url: string = null, options: HubConnectionOptions = null) {
         let connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Trace)
-            .withUrl(`{environment.apiProjectUrl}${hubName}`)
+            .withUrl(`${environment.appApi.apiProjectUrl}${hubName}`)
             .build();
 
         let promise = new Promise<HubItem>((accept, reject) => {
