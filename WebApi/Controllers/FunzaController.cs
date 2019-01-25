@@ -60,8 +60,8 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaAuthenticateCommandOutputDTO>))]
-        [Route("authenticate")]
-        public IActionResult Authenticate()
+        [Route("sync")]
+        public IActionResult sync()
         {
             var result = this.AuthenticateCommand.Execute();
             var productsTest = this.SyncCommand.Execute();

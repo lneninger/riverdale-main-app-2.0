@@ -98,6 +98,10 @@ export class FunzasComponent implements OnInit, AfterViewInit {
         }
     }
 
+    sync() {
+        this.service.sync();
+    }
+
     activeProducts() {
         setTimeout(() => {
             this.dataSource = new FunzaProductsDataSource(this.service, this.filter, this.paginator, this.sort);
