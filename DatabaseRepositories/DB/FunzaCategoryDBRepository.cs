@@ -1,22 +1,11 @@
-﻿using DomainDatabaseMapping;
-using DomainModel;
+﻿using ApplicationLogic.Repositories.DB;
+using DomainDatabaseMapping;
+using DomainModel.Funza;
 using EntityFrameworkCore.DbContextScope;
-using FizzWare.NBuilder;
-using ApplicationLogic.Repositories.DB;
-
+using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using LMB.PredicateBuilderExtension;
-using Framework.EF.DbContextImpl.Persistance;
-using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
-using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
-using Framework.Core.Messages;
-using DomainModel.Funza;
 
 namespace DatabaseRepositories.DB
 {
@@ -38,7 +27,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting all Funza Categorys", ex);
+                result.AddException($"Error getting all Funza Categories", ex);
             }
 
             return result;

@@ -1,7 +1,7 @@
 <ng-container *ngIf="!item.hidden">
 
     <!-- item.url -->
-    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && !item.externalUrl && !item.function"
+    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && !item.externalUrl && !item.function" [access]="item.permissions"
        [routerLink]="[item.url]" [routerLinkActive]="['active', 'accent']"
        [routerLinkActiveOptions]="{exact: item.exactMatch || false}"
        [target]="item.openInNewTab ? '_blank' : '_self'">
@@ -9,19 +9,19 @@
     </a>
 
     <!-- item.externalUrl -->
-    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && item.externalUrl && !item.function"
+    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && item.externalUrl && !item.function" [access]="item.permissions"
        [href]="item.url" [target]="item.openInNewTab ? '_blank' : '_self'">
         <ng-container *ngTemplateOutlet="itemContent"></ng-container>
     </a>
 
     <!-- item.function -->
-    <span class="nav-link" [ngClass]="item.classes" *ngIf="!item.url && item.function"
+    <span class="nav-link" [ngClass]="item.classes" *ngIf="!item.url && item.function" [access]="item.permissions"
           (click)="item.function()">
         <ng-container *ngTemplateOutlet="itemContent"></ng-container>
     </span>
 
     <!-- item.url && item.function -->
-    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && !item.externalUrl && item.function"
+    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && !item.externalUrl && item.function" [access]="item.permissions"
        (click)="item.function()"
        [routerLink]="[item.url]" [routerLinkActive]="['active', 'accent']"
        [routerLinkActiveOptions]="{exact: item.exactMatch || false}"
@@ -30,13 +30,13 @@
     </a>
 
     <!-- item.externalUrl && item.function -->
-    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && item.externalUrl && item.function"
+    <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && item.externalUrl && item.function" [access]="item.permissions"
        (click)="item.function()"
        [href]="item.url" [target]="item.openInNewTab ? '_blank' : '_self'">
         <ng-container *ngTemplateOutlet="itemContent"></ng-container>
     </a>
 
-    <ng-template #itemContent>
+    <ng-template #itemContent [access]="item.permissions">
         <mat-icon class="nav-link-icon" *ngIf="item.icon">{{item.icon}}</mat-icon>
         <span class="nav-link-title" [translate]="item.translate">{{item.title}}</span>
         <span class="nav-link-badge" *ngIf="item.badge" [translate]="item.badge.translate"
