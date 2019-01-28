@@ -1,5 +1,6 @@
 ﻿using ApplicationLogic.AppSettings;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
+using ApplicationLogic.Business.Commons.FunzaManager;
 using ApplicationLogic.Repositories.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
@@ -9,19 +10,28 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand
 {
     public class FunzaGetQuotesCommand : BaseIoCDisposable, IFunzaGetQuotesCommand
     {
-        public FunzaGetQuotesCommand(IMastersRepository repository, FunzaSettings funzaSettings)
+        public FunzaGetQuotesCommand(IMastersRepository repository, IFunzaManager funzaManager)
         {
             this.Repository = repository;
-            this.FunzaSettings = funzaSettings;
+            this.FunzaManager = funzaManager;
         }
 
         public IMastersRepository Repository { get; }
-        public FunzaSettings FunzaSettings { get; }
+        public IFunzaManager FunzaManager { get; }
 
         public OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>>();
-                var requestResult = this.Repository.GetQuotes(this.FunzaSettings.GetQuotesURL, this.FunzaSettings.TokenSettings.AccessToken);
+            var settings = this.FunzaManager.GetAuthenticationSetting("basic");
+            var refreshAuthenticationResult = this.FunzaManager.RefreshAuthentication(settings);
+
+            result.AddResponse(refreshAuthenticationResult);
+            if (!result.IsSucceed)
+            {
+                return result;
+            }
+
+                var requestResult = this.Repository.GetQuotes(this.FunzaManager.FunzaSettings.GetQuotesURL, settings.TokenSettings.AccessToken);
                 result.AddResponse(requestResult);
                 if (result.IsSucceed)
                 {

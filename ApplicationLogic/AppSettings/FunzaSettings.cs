@@ -6,13 +6,22 @@ namespace ApplicationLogic.AppSettings
 {
     public class FunzaSettings
     {
-        public string AuthenticationURL { get; set; }
 
-        public string AuthenticationUserName { get; set; }
+        //public string AuthenticationURL { get; set; }
 
-        public string AuthenticationPassword { get; set; }
+        //public string AuthenticationUserName { get; set; }
 
-        public TokenSettings TokenSettings { get; set; }
+        //public string AuthenticationPassword { get; set; }
+
+
+        //public string AuthenticationFullURL { get; set; }
+
+        //public string AuthenticationFullUserName { get; set; }
+
+        //public string AuthenticationFullPassword { get; set; }
+
+
+        public Dictionary<string, FunzaAuthenticationSettings> AuthenticationSettingsCollection { get; } = new Dictionary<string, FunzaAuthenticationSettings>();
 
         public string GetProductsURL { get; set; }
 
@@ -38,6 +47,17 @@ namespace ApplicationLogic.AppSettings
         public string Issued { get; set; }
 
         public DateTime? Expires { get; set; }
+
+    }
+
+    public class FunzaAuthenticationSettings {
+        public string AuthenticationURL { get; set; }
+
+        public string AuthenticationUserName { get; set; }
+
+        public string AuthenticationPassword { get; set; }
+
+        public TokenSettings TokenSettings { get; set; }
 
     }
 }

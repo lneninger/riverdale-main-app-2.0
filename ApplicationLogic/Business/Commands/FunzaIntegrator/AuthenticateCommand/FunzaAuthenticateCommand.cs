@@ -24,16 +24,15 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
         public ISecurityRepository Repository { get; }
         public FunzaSettings FunzaSettings { get; }
 
-        public OperationResponse<FunzaAuthenticateCommandOutputDTO> Execute()
+        public OperationResponse<TokenSettings> Execute(FunzaAuthenticationSettings settings)
         {
-            var result = new OperationResponse<FunzaAuthenticateCommandOutputDTO>();
-            if (this.FunzaSettings.TokenSettings == null || !this.ValidateToken(this.FunzaSettings.TokenSettings))
-            {
-                var authenticateResult = this.Repository.Authenticate(this.FunzaSettings.AuthenticationURL, this.FunzaSettings.AuthenticationUserName, this.FunzaSettings.AuthenticationPassword);
+            var result = new OperationResponse<TokenSettings>();
+           
+                var authenticateResult = this.Repository.Authenticate(settings.AuthenticationURL, settings.AuthenticationUserName, settings.AuthenticationPassword);
                 result.AddResponse(authenticateResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = new FunzaAuthenticateCommandOutputDTO
+                    var tempDTO = new FunzaAuthenticateCommandOutputDTO
                     {
                         AccessToken = authenticateResult.Bag["access_token"].ToString(),
                         TokenType = authenticateResult.Bag["token_type"].ToString(),
@@ -43,7 +42,7 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
                         Expires = authenticateResult.Bag[".expires"].ToString(),
                     };
 
-                    this.FunzaSettings.TokenSettings = new TokenSettings
+                    result.Bag = new TokenSettings
                     {
                         AccessToken = result.Bag.AccessToken,
                         TokenType = result.Bag.TokenType,
@@ -53,27 +52,15 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
 
                     if(TimeSpan.TryParse(authenticateResult.Bag["expires_in"].ToString(), out TimeSpan tempExpiresIn))
                     {
-                        this.FunzaSettings.TokenSettings.ExpiresIn = tempExpiresIn;
+                    result.Bag.ExpiresIn = tempExpiresIn;
                     }
 
                     if(DateTime.TryParse(authenticateResult.Bag[".expires"].ToString(), out DateTime tempExpires))
                     {
-                        this.FunzaSettings.TokenSettings.Expires = tempExpires;
+                    result.Bag.Expires = tempExpires;
                     }
                 }
-            }
-            else
-            {
-                result.Bag = new FunzaAuthenticateCommandOutputDTO
-                {
-                    AccessToken = this.FunzaSettings.TokenSettings.AccessToken,
-                    TokenType = this.FunzaSettings.TokenSettings.TokenType,
-                    ExpiresIn = this.FunzaSettings.TokenSettings.ExpiresIn?.ToString(),
-                    UserName = this.FunzaSettings.TokenSettings.UserName,
-                    Issued = this.FunzaSettings.TokenSettings.Issued,
-                    Expires = this.FunzaSettings.TokenSettings.Expires?.ToString(),
-                };
-            }
+            
 
             return result;
         }

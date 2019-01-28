@@ -1,142 +1,151 @@
-#product {
+basic-product {
+    width: 100%;
+    /*The original selector :  content > *:not(router-outlet) is not applicable when nest the component into another. Forced style below */
+    display: flex;
+    flex: 1 0 auto;
+    width: 100%;
+    min-width: 100%;
+    /*The original selector ... END*/
+    #product {
 
-    .header {
+        .header {
 
-        .product-image {
-            overflow: hidden;
-            width: 56px;
-            min-width: 56px;
-            max-width: 56px;
-            height: 56px;
-            min-height: 56px;
-            max-height: 56px;
-            border-radius: 4px;
+            .product-image {
+                overflow: hidden;
+                width: 56px;
+                min-width: 56px;
+                max-width: 56px;
+                height: 56px;
+                min-height: 56px;
+                max-height: 56px;
+                border-radius: 4px;
 
-            img {
-                height: 100%;
-                width: auto;
-                max-width: none;
+                img {
+                    height: 100%;
+                    width: auto;
+                    max-width: none;
+                }
+            }
+
+            .subtitle {
+                margin: 6px 0 0 0;
             }
         }
 
-        .subtitle {
-            margin: 6px 0 0 0;
-        }
-    }
+        .content {
 
-    .content {
-
-        .mat-tab-group,
-        .mat-tab-body-wrapper,
-        .tab-content {
-            flex: 1 1 auto;
-            max-width: 100%;
-        }
-
-        .mat-tab-body-content {
-            display: flex;
-
-            .product-thirdparty-table {
+            .mat-tab-group,
+            .mat-tab-body-wrapper,
+            .tab-content {
                 flex: 1 1 auto;
-                border-bottom: 1px solid rgba(0, 0, 0, .12);
-                overflow: auto;
-                -webkit-overflow-scrolling: touch;
+                max-width: 100%;
+            }
 
-                .mat-header-row {
-                    min-height: 64px;
-                }
+            .mat-tab-body-content {
+                display: flex;
 
-                .products {
-                    position: relative;
-                    cursor: pointer;
-                    height: 84px;
-                }
+                .product-thirdparty-table {
+                    flex: 1 1 auto;
+                    border-bottom: 1px solid rgba(0, 0, 0, .12);
+                    overflow: auto;
+                    -webkit-overflow-scrolling: touch;
 
-                .mat-cell {
-                    min-width: 0;
-                    display: flex;
-                    align-items: center;
-                }
-
-                .mat-column-id {
-                    flex: 1 1 150px;
-                }
-
-                .mat-column-thirdPartyAppTypeId {
-                    flex: 1 1 150px;
-
-                    .product-image {
-                        width: 52px;
-                        height: 52px;
-                        border: 1px solid rgba(0, 0, 0, .12);
+                    .mat-header-row {
+                        min-height: 64px;
                     }
-                }
 
-                .mat-column-thirdPartyProductId {
-                    flex: 0 1 240px;
-                }
+                    .products {
+                        position: relative;
+                        cursor: pointer;
+                        height: 84px;
+                    }
 
-                .mat-column-price {
-                    flex: 0 1 160px;
-                }
+                    .mat-cell {
+                        min-width: 0;
+                        display: flex;
+                        align-items: center;
+                    }
 
-                .mat-column-quantity {
-                    flex: 0 1 160px;
-                }
+                    .mat-column-id {
+                        flex: 1 1 150px;
+                    }
 
-                .mat-column-active {
-                    flex: 0 1 80px;
-                }
+                    .mat-column-thirdPartyAppTypeId {
+                        flex: 1 1 150px;
 
-                .quantity-indicator {
-                    display: inline-block;
-                    vertical-align: middle;
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 4px;
-                    margin-right: 8px;
+                        .product-image {
+                            width: 52px;
+                            height: 52px;
+                            border: 1px solid rgba(0, 0, 0, .12);
+                        }
+                    }
 
-                    & + span {
+                    .mat-column-thirdPartyProductId {
+                        flex: 0 1 240px;
+                    }
+
+                    .mat-column-price {
+                        flex: 0 1 160px;
+                    }
+
+                    .mat-column-quantity {
+                        flex: 0 1 160px;
+                    }
+
+                    .mat-column-active {
+                        flex: 0 1 80px;
+                    }
+
+                    .quantity-indicator {
                         display: inline-block;
                         vertical-align: middle;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 4px;
+                        margin-right: 8px;
+
+                        & + span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .active-icon {
+                        border-radius: 50%;
                     }
                 }
+            }
 
-                .active-icon {
-                    border-radius: 50%;
+            .mat-tab-label {
+                height: 64px;
+            }
+
+            .product-image {
+                overflow: hidden;
+                width: 128px;
+                height: 128px;
+                margin-right: 16px;
+                margin-bottom: 16px;
+                border-radius: 4px;
+
+                img {
+                    height: 100%;
+                    width: auto;
+                    max-width: none;
                 }
             }
-        }
-
-        .mat-tab-label {
-            height: 64px;
-        }
-
-        .product-image {
-            overflow: hidden;
-            width: 128px;
-            height: 128px;
-            margin-right: 16px;
-            margin-bottom: 16px;
-            border-radius: 4px;
-
-            img {
-                height: 100%;
-                width: auto;
-                max-width: none;
+            // Temporary prefix alignment fix
+            .mat-form-field-appearance-outline .mat-form-field-prefix,
+            .mat-form-field-appearance-outline .mat-form-field-suffix {
+                top: 0;
             }
-        }
-        // Temporary prefix alignment fix
-        .mat-form-field-appearance-outline .mat-form-field-prefix,
-        .mat-form-field-appearance-outline .mat-form-field-suffix {
-            top: 0;
-        }
 
-        .add-media-button {
-            position: absolute;
-            left: 18px;
-            top: 16px;
-            z-index: 10;
+            .add-media-button {
+                position: absolute;
+                left: 18px;
+                top: 16px;
+                z-index: 10;
+            }
         }
     }
 }
