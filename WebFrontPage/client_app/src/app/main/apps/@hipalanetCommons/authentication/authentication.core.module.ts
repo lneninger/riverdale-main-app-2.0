@@ -3,7 +3,7 @@ import { AuthenticationService } from "./authentication.service";
 import { SecureHttpClientService } from "./securehttpclient.service";
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HttpClientModule } from "@angular/common/http";
-import { AuthorizationAccessDirective } from "./authorizationviewaccess.directive";
+//import { AuthorizationAccessDirective } from "./authorizationviewaccess.directive";
 
 export { AuthenticationService } from "./authentication.service";
 export { SecureHttpClientService, OperationResponse } from "./securehttpclient.service";
@@ -16,7 +16,7 @@ export * from "./authentication.model";
         , NgxWebstorageModule.forRoot()
     ],
     declarations: [
-        AuthorizationAccessDirective
+        //AuthorizationAccessDirective
     ],
     providers: [
         AuthenticationService,

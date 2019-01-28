@@ -99,13 +99,6 @@ const appRoutes: Routes = [
         ,LayoutModule
         , AppStoreModule
 
-        // Custom
-        //, AngularFireModule.initializeApp(environment.firebase)
-        //, AngularFirestoreModule // imports firebase/firestore, only needed for database features
-        //, AngularFireAuthModule // imports firebase/auth, only needed for auth features,
-        //, AngularFireStorageModule // imports firebase/storage only needed for storage features
-        //, AngularFireDatabaseModule // import firebase/database only needed for database features
-
         // Authentication
         , AuthenticationCoreModule
         , HiPalanetResolveModule
@@ -113,7 +106,7 @@ const appRoutes: Routes = [
 
     ],
     exports: [
-        //AuthenticationCoreModule
+        AuthenticationCoreModule
     ],
     bootstrap   : [
         AppComponent

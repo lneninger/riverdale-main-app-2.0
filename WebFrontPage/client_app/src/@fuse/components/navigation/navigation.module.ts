@@ -12,26 +12,31 @@ import { FuseNavVerticalGroupComponent } from './vertical/group/group.component'
 import { FuseNavHorizontalItemComponent } from './horizontal/item/item.component';
 import { FuseNavHorizontalCollapsableComponent } from './horizontal/collapsable/collapsable.component';
 
+/******************************Authentication************************************/
+import { AuthenticationModule } from '../../../app/main/apps/@hipalanetCommons/authentication/authentication.module';
+
 @NgModule({
     imports     : [
-        CommonModule,
-        RouterModule,
+        CommonModule
+        , RouterModule
 
-        MatIconModule,
-        MatRippleModule,
+        , MatIconModule
+        , MatRippleModule
 
-        TranslateModule.forChild()
+        , TranslateModule.forChild()
+
+        , AuthenticationModule
     ],
     exports     : [
         FuseNavigationComponent
     ],
     declarations: [
-        FuseNavigationComponent,
-        FuseNavVerticalGroupComponent,
-        FuseNavVerticalItemComponent,
-        FuseNavVerticalCollapsableComponent,
-        FuseNavHorizontalItemComponent,
-        FuseNavHorizontalCollapsableComponent
+        FuseNavigationComponent
+        , FuseNavVerticalGroupComponent
+        , FuseNavVerticalItemComponent
+        , FuseNavVerticalCollapsableComponent
+        , FuseNavHorizontalItemComponent
+        , FuseNavHorizontalCollapsableComponent
     ]
 })
 export class FuseNavigationModule

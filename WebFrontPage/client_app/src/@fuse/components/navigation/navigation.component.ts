@@ -19,6 +19,8 @@ export class FuseNavigationComponent implements OnInit
     @Input()
     navigation: any;
 
+
+    description: string = 'Peter';
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -48,6 +50,7 @@ export class FuseNavigationComponent implements OnInit
         // Load the navigation either from the input or from the service
         this.navigation = this.navigation || this._fuseNavigationService.getCurrentNavigation();
 
+        // debugger;
         // Subscribe to the current navigation changes
         this._fuseNavigationService.onNavigationChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -71,5 +74,11 @@ export class FuseNavigationComponent implements OnInit
              // Mark for check
              this._changeDetectorRef.markForCheck();
          });
+    }
+
+    getClasses(item: any) {
+        console.log(item);
+        let test = item;
+        //debugger;
     }
 }

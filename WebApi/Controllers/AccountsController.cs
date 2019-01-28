@@ -95,20 +95,27 @@ namespace RiverdaleMainApp2_0.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]AppUserAuthenticateCommandInputDTO input)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var identity = await GetClaimsIdentity(input.UserName, input.Password);
-            if (identity == null)
+                var identity = await GetClaimsIdentity(input.UserName, input.Password);
+                if (identity == null)
+                {
+                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                }
+
+                var id = identity.Claims.Single(c => c.Type == "id").Value;
+
+                return await this.GenerateAuthenticationInfo(id);
+            }
+            catch (Exception ex)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                throw;
             }
-
-            var id = identity.Claims.Single(c => c.Type == "id").Value;
-
-            return await this.GenerateAuthenticationInfo(id);
         }
 
         /// <summary>
@@ -139,35 +146,43 @@ namespace RiverdaleMainApp2_0.Controllers
 
         private async Task<IActionResult> GenerateAuthenticationInfo(string id)
         {
-            var dbUser = await this.UserManager.FindByIdAsync(id);
-            var identity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(dbUser.UserName, id));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, dbUser.UserName));
-
-            var claims = (await this.UserManager.GetClaimsAsync(dbUser)).AsEnumerable();
-            var roleNames = await this.UserManager.GetRolesAsync(dbUser);
-            foreach (var roleName in roleNames)
+            try
             {
-                claims = claims.Concat((await this.RoleManager.GetClaimsAsync(await this.RoleManager.FindByNameAsync(roleName))).ToList());
+                var dbUser = await this.UserManager.FindByIdAsync(id);
+                var identity = await Task.FromResult(this.JwtFactory.GenerateClaimsIdentity(dbUser.UserName, id));
+                identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, id));
+                identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, dbUser.UserName));
+
+                var claims = (await this.UserManager.GetClaimsAsync(dbUser)).AsEnumerable();
+                var roleNames = await this.UserManager.GetRolesAsync(dbUser);
+                foreach (var roleName in roleNames)
+                {
+                    claims = claims.Concat((await this.RoleManager.GetClaimsAsync(await this.RoleManager.FindByNameAsync(roleName))).ToList());
+                }
+
+                var permissions = claims.Where(claim => claim.Type == RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions).GroupBy(o => o.Value);
+                
+                permissions.ToList().ForEach(permission =>
+                {
+                    identity.AddClaim(permission.ElementAt(0));
+                });
+
+                return Ok(new
+                {
+                    UserName = dbUser.UserName,
+                    FirstName = dbUser.FirstName,
+                    LastName = dbUser.LastName,
+                    AccessToken = await this.JwtFactory.GenerateEncodedToken(dbUser.UserName, identity),//identity.tokenString,
+                    PictureUrl = dbUser.PictureUrl,
+                    permissions = permissions.Select(o => o.ElementAt(0).Value),
+                    ExpiresAt = this.JwtOptions.Expiration,
+                    ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds
+                });
             }
-
-            var permissions = claims.Where(claim => claim.Type == RiverdaleMainApp2_0.Auth.Constants.Strings.JwtClaimIdentifiers.Permissions);
-            permissions.ToList().ForEach(permission =>
+            catch (Exception ex)
             {
-                identity.AddClaim(permission);
-            });
-
-            return Ok(new
-            {
-                UserName = dbUser.UserName,
-                FirstName = dbUser.FirstName,
-                LastName = dbUser.LastName,
-                AccessToken = await this.JwtFactory.GenerateEncodedToken(dbUser.UserName, identity),//identity.tokenString,
-                PictureUrl = dbUser.PictureUrl,
-                permissions = permissions.Select(o => o.Value),
-                ExpiresAt = this.JwtOptions.Expiration,
-                ExpiresIn = this.JwtOptions.ValidFor.TotalSeconds
-            });
+                throw;
+            }
         }
 
         [NonAction]

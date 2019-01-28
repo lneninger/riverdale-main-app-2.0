@@ -10,7 +10,9 @@ import { mergeMap, catchError } from "rxjs/operators";
 import { SecureHttpClientService } from "./securehttpclient.service";
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthenticationService {
 
     static tokenKey = 'hipalanet|riverdale';
@@ -72,6 +74,7 @@ export class AuthenticationService {
 
     logout(): Promise<boolean> {
         this.accessToken = null;
+        debugger;
         this.userData = null;
         return of(true).toPromise();
     }
@@ -119,6 +122,7 @@ export class AuthenticationService {
                 return of(null);
             }))
             .pipe(mergeMap(res => {
+                //debugger;
                 this.userData = res;
                 return of(res);
             }));
@@ -206,6 +210,11 @@ export class AuthenticationService {
         if (result && accessExtraFilter != null) {
             result = accessExtraFilter(this.userData);
         }
+
+        if (!result) {
+            console.log(`No access allowed : ${JSON.stringify(permissions)}, userData: ${JSON.stringify(this.userData)}`);
+        }
+       
 
         return result;
     }

@@ -1,5 +1,4 @@
-import { Directive, AfterViewInit, OnInit, EventEmitter, TemplateRef, ViewContainerRef, Input, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Directive, AfterViewInit, OnInit, TemplateRef, ViewContainerRef, Input, OnDestroy } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { Subscription } from 'rxjs/Subscription';
 import { INavigationAccessRights } from './authentication.model';
@@ -7,33 +6,38 @@ import { INavigationAccessRights } from './authentication.model';
 @Directive({
     selector: '[access],[accessTest]'
 })
-export class AuthorizationAccessDirective implements OnInit, AfterViewInit, OnDestroy {
+export class AuthorizationAccessDirective implements OnInit/*, AfterViewInit*/, OnDestroy {
     private hasView = false;
     private authPermissionsSubscription: Subscription;
 
     _permissions: string[];
     @Input('access') set permissions(permissions: string[]) {
         this._permissions = permissions;
+        this.execute();
     }
 
     _reverse: boolean = false;
     @Input('accessReverse') set reverse(reverse: boolean) {
         this._reverse = reverse;
+        this.execute();
     }
 
     _roles: string[];
-    @Input() set roles(roles: string[]) {
+    @Input('accessRoles') set roles(roles: string[]) {
         this._roles = roles;
+        this.execute();
     }
 
     _groups: string[];
     @Input() set groups(groups: string[]) {
         this._groups = groups;
+        this.execute();
     }
 
     _accessExtraFilter: (userInfo) => boolean;
     @Input() set accessExtraFilter(accessExtraFilter: (userInfo) => boolean) {
         this._accessExtraFilter = accessExtraFilter;
+        this.execute();
     }
 
     constructor(
@@ -51,11 +55,11 @@ export class AuthorizationAccessDirective implements OnInit, AfterViewInit, OnDe
     }
 
 
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.execute();
-        });
-    }
+    //ngAfterViewInit() {
+    //    setTimeout(() => {
+    //        this.execute();
+    //    });
+    //}
 
     ngOnDestroy() {
         if (this.authPermissionsSubscription) {
@@ -64,27 +68,7 @@ export class AuthorizationAccessDirective implements OnInit, AfterViewInit, OnDe
     }
 
     execute() {
-        //let permissions: string[] = [];
-        //let roles: string[] = [];
-
-        //if (this._permissions) {
-        //    permissions = this._permissions;
-        //}
-
-        //if (this._roles) {
-        //    roles = this._roles;
-        //}
-
-        //let resultPermissions = permissions.length > 0 && this.authTrackerService.userHasPermissions(permissions);
-        //let resultRoles = roles.length > 0 && this.authTrackerService.userHasRoles(roles);
-
-
-        //let accessToView = resultPermissions || resultRoles;
-
-        //if (accessToView && this.accessExtraFilter != null) {
-        //    accessToView = this.accessExtraFilter(this.authTrackerService.userInfo);
-        //}
-
+        //debugger;
         let requestedRights = <INavigationAccessRights>{ permissions: this._permissions, roles: this._roles, accesExtraFilter: this.accessExtraFilter };
         let accessToView = this.authenticationService.validateNavigationPermissions(requestedRights);
 

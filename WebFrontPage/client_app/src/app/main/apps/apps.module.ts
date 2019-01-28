@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CustomSignalRModule } from './@hipalanetCommons/signalr/signalr.module'
-import { AuthenticationCoreModule } from './@hipalanetCommons/authentication/authentication.core.module';
+//import { AuthenticationCoreModule } from './@hipalanetCommons/authentication/authentication.core.module';
 import { HipalanetUtils } from './@hipalanetCommons/ngx-utils/main';
 import { environment } from 'environments/environment';
 import { EnvironmentData } from './@hipalanetCommons/ngx-utils/_common';

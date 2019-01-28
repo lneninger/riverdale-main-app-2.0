@@ -55,6 +55,22 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string Product_Manage = nameof(Enum.Product_Manage);
 
+        // Product Color
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductColor_Read = nameof(Enum.ProductColor_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductColor_Modify = nameof(Enum.ProductColor_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductColor_Manage = nameof(Enum.ProductColor_Manage);
+
         // User
         /// <summary>
         /// 
@@ -120,6 +136,39 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string Quote_Manage = nameof(Enum.Quote_Manage);
 
+        // Funza
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Funza_Read = nameof(Enum.Funza_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Funza_Modify = nameof(Enum.Funza_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Funza_Manage = nameof(Enum.Funza_Manage);
+
+        // Settings
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Settings_Read = nameof(Enum.Settings_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Settings_Modify = nameof(Enum.Settings_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string Settings_Manage = nameof(Enum.Settings_Manage);
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -173,6 +222,23 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             Product_Manage,
+
+            // Product Color
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductColor_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductColor_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductColor_Manage,
 
             // User
             /// <summary>
@@ -236,6 +302,38 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             SaleOpportunity_Manage,
+
+            // Funza
+            /// <summary>
+            /// 
+            /// </summary>
+            Funza_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Funza_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Funza_Manage,
+
+            // Settings
+            /// <summary>
+            /// 
+            /// </summary>
+            Settings_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Settings_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Settings_Manage,
         }
     }
 }
