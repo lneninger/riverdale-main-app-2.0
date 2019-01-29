@@ -7,21 +7,26 @@ using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Core.Messages;
 using ApplicationLogic.Repositories.Funza;
+using ApplicationLogic.Business.Commons.FunzaManager;
 
 namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand
 {
     public class FunzaQuoteGetItemsCommand : IFunzaQuoteGetItemsCommand
     {
-        public FunzaQuoteGetItemsCommand(IQuoteRepository repository)
+        public FunzaQuoteGetItemsCommand(IQuoteRepository repository, IFunzaManager funzaManager)
         {
             this.Repository = repository;
+            this.FunzaManager = funzaManager;
         }
 
+        public IFunzaManager FunzaManager { get; }
         public IQuoteRepository Repository { get; }
 
         public OperationResponse<PageResult<FunzaQuoteGetItemsCommandOutputDTO>> Execute(PageQuery<FunzaQuoteGetItemsCommandInputDTO> input)
         {
-            return this.Repository.PageQuery(input);
+            var result = new OperationResponse<PageResult<FunzaQuoteGetItemsCommandOutputDTO>>();
+            var settings = this.FunzaManager.GetAuthenticationSetting("full");
+            return this.Repository.PageQuery(input, this.FunzaManager.FunzaSettings.GetQuotesURL, settings.TokenSettings.AccessToken);
         }
     }
 }
