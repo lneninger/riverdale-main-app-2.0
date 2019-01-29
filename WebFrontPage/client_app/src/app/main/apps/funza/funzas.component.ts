@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { FunzaProductGrid, FunzaColorGrid } from './funza.model';
+import { FunzaProductGrid, FunzaColorGrid, FunzaCategoryGrid, FunzaPackingGrid } from './funza.model';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FunzaService } from './funza.core.module';
@@ -95,6 +95,12 @@ export class FunzasComponent implements OnInit, AfterViewInit {
             case 'colors':
                 this.activeColors();
                 break;
+            case 'categories':
+                this.activeCategories();
+                break;
+            case 'packings':
+                this.activePackings();
+                break;
         }
     }
 
@@ -111,6 +117,18 @@ export class FunzasComponent implements OnInit, AfterViewInit {
     activeColors() {
         setTimeout(() => {
             this.dataSource = new FunzaColorsDataSource(this.service, this.filter, this.paginator, this.sort);
+        }, 0);
+    }
+
+    activeCategories() {
+        setTimeout(() => {
+            this.dataSource = new FunzaCategoriesDataSource(this.service, this.filter, this.paginator, this.sort);
+        }, 0);
+    }
+
+    activePackings() {
+        setTimeout(() => {
+            this.dataSource = new FunzaPackingsDataSource(this.service, this.filter, this.paginator, this.sort);
         }, 0);
     }
 }
@@ -169,5 +187,59 @@ export class FunzaColorsDataSource extends DataSourceAbstract<FunzaColorGrid>
     }
 }
 
+export class FunzaCategoriesDataSource extends DataSourceAbstract<FunzaCategoryGrid>
+{
+    /**
+     * Constructor
+     *
+     * @param {UserRolesListService} _service
+     * @param {MatPaginator} _matPaginator
+     * @param {MatSort} _matSort
+     */
+    constructor(
+        service: FunzaService
+        , filterElement: ElementRef
+        , matPaginator: MatPaginator
+        , matSort: MatSort
+    ) {
+        super(service, filterElement, matPaginator, matSort);
+    }
+
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}funzacategory/pagequery`;
+
+    public getFilter(rawFilterObject: {}): {} {
+        let result = {};
+
+        return result;
+    }
+}
+
+
+export class FunzaPackingsDataSource extends DataSourceAbstract<FunzaPackingGrid>
+{
+    /**
+     * Constructor
+     *
+     * @param {UserRolesListService} _service
+     * @param {MatPaginator} _matPaginator
+     * @param {MatSort} _matSort
+     */
+    constructor(
+        service: FunzaService
+        , filterElement: ElementRef
+        , matPaginator: MatPaginator
+        , matSort: MatSort
+    ) {
+        super(service, filterElement, matPaginator, matSort);
+    }
+
+    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}funzapacking/pagequery`;
+
+    public getFilter(rawFilterObject: {}): {} {
+        let result = {};
+
+        return result;
+    }
+}
 
 declare type ActiveOptions = 'products' | 'colors' | 'categories' | 'packings';

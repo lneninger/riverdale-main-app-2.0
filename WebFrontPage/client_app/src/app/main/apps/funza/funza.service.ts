@@ -14,7 +14,7 @@ import { SecureHttpClientService } from '../@hipalanetCommons/authentication/sec
 
 @Injectable()
 export class FunzaService implements IPageQueryService {
-    
+
     /**
      * Constructor
      *
@@ -27,7 +27,7 @@ export class FunzaService implements IPageQueryService {
         // Set the defaults
     }
 
-    
+
 
     /**
      * Get entity
@@ -43,5 +43,9 @@ export class FunzaService implements IPageQueryService {
         });
     }
 
-    
+
+    getQuoteItems(term: string): Observable<any> {
+        return this.http.post(`${environment.appApi.apiBaseUrl}funzaquotes/get`, { term: term });
+    }
+
 }

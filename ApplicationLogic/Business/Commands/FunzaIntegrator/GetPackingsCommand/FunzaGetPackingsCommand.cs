@@ -1,5 +1,6 @@
 ﻿using ApplicationLogic.AppSettings;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand.Models;
+using ApplicationLogic.Business.Commons.FunzaManager;
 using ApplicationLogic.Repositories.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
@@ -9,19 +10,20 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand
 {
     public class FunzaGetPackingsCommand : BaseIoCDisposable, IFunzaGetPackingsCommand
     {
-        public FunzaGetPackingsCommand(IMastersRepository repository, FunzaSettings funzaSettings)
+        public FunzaGetPackingsCommand(IMastersRepository repository, IFunzaManager funzaManager)
         {
             this.Repository = repository;
-            this.FunzaSettings = funzaSettings;
+            this.FunzaManager = funzaManager;
         }
 
         public IMastersRepository Repository { get; }
-        public FunzaSettings FunzaSettings { get; }
+        public IFunzaManager FunzaManager { get; }
 
         public OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>>();
-                var getPackingsResult = this.Repository.GetPackings(this.FunzaSettings.GetPackingsURL, this.FunzaSettings.TokenSettings.AccessToken);
+            var authenticationSettings = this.FunzaManager.GetAuthenticationSetting("basic");
+                var getPackingsResult = this.Repository.GetPackings(this.FunzaManager.FunzaSettings.GetPackingsURL, authenticationSettings.TokenSettings.AccessToken);
                 result.AddResponse(getPackingsResult);
                 if (result.IsSucceed)
                 {

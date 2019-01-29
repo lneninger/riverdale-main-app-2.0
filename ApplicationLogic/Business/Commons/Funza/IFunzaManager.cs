@@ -10,7 +10,7 @@ namespace ApplicationLogic.Business.Commons.FunzaManager
     {
         FunzaSettings FunzaSettings { get; }
 
-        FunzaAuthenticationSettings GetAuthenticationSetting(string key);
+        FunzaAuthenticationSettings GetAuthenticationSetting(string key, bool refreshAuthentication = true);
 
         OperationResponse RefreshAuthentication(FunzaAuthenticationSettings settings);
     }

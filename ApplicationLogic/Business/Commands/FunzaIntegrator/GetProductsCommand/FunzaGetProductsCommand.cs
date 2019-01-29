@@ -1,5 +1,6 @@
 ﻿using ApplicationLogic.AppSettings;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand.Models;
+using ApplicationLogic.Business.Commons.FunzaManager;
 using ApplicationLogic.Repositories.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
@@ -9,19 +10,20 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand
 {
     public class FunzaGetProductsCommand : BaseIoCDisposable, IFunzaGetProductsCommand
     {
-        public FunzaGetProductsCommand(IMastersRepository repository, FunzaSettings funzaSettings)
+        public FunzaGetProductsCommand(IMastersRepository repository, IFunzaManager funzaManager)
         {
             this.Repository = repository;
-            this.FunzaSettings = funzaSettings;
+            this.FunzaManager = funzaManager;
         }
 
         public IMastersRepository Repository { get; }
-        public FunzaSettings FunzaSettings { get; }
+        public IFunzaManager FunzaManager { get; }
 
         public OperationResponse<IEnumerable<FunzaGetProductsCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetProductsCommandOutputDTO>>();
-                var getProductsResult = this.Repository.GetProducts(this.FunzaSettings.GetProductsURL, this.FunzaSettings.TokenSettings.AccessToken);
+            var authenticationSettings = this.FunzaManager.GetAuthenticationSetting("basic");
+                var getProductsResult = this.Repository.GetProducts(this.FunzaManager.FunzaSettings.GetProductsURL, authenticationSettings.TokenSettings.AccessToken);
                 result.AddResponse(getProductsResult);
                 if (result.IsSucceed)
                 {

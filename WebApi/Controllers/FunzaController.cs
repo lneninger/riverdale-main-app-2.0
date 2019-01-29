@@ -1,4 +1,6 @@
-﻿using ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand;
+using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand;
@@ -31,10 +33,10 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaAuthenticateCommand authenticateCommand, IFunzaSyncCommand syncCommand) :base()
+        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand quoteGetItemsCommand, IFunzaSyncCommand syncCommand) :base()
         {
             this.SignalRHubContext = hubContext;
-            this.AuthenticateCommand = authenticateCommand;
+            this.QuoteGetItemsCommand = quoteGetItemsCommand;
             this.SyncCommand = syncCommand;
             
         }
@@ -42,7 +44,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// 
         /// </summary>
-        public IFunzaAuthenticateCommand AuthenticateCommand { get; }
+        public IFunzaQuoteGetItemsCommand QuoteGetItemsCommand { get; }
 
         /// <summary>
         /// 
@@ -63,10 +65,18 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("sync")]
         public IActionResult sync()
         {
-            var result = this.AuthenticateCommand.Execute();
-            var productsTest = this.SyncCommand.Execute();
+            var syncResult = this.SyncCommand.Execute();
 
-            return this.Ok(result);
+            return this.Ok(syncResult);
+        }
+
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaQuoteGetItemsCommandOutputDTO>))]
+        [Route("sync")]
+        public IActionResult GetQuoteItems([FromBody]PageQuery<FunzaQuoteGetItemsCommandInputDTO> input)
+        {
+            var syncResult = this.QuoteGetItemsCommand.Execute(input);
+
+            return this.Ok(syncResult);
         }
 
     }

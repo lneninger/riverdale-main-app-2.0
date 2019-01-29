@@ -22,7 +22,7 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand
         public OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>>();
-            var settings = this.FunzaManager.GetAuthenticationSetting("basic");
+            var settings = this.FunzaManager.GetAuthenticationSetting("full");
             var refreshAuthenticationResult = this.FunzaManager.RefreshAuthentication(settings);
 
             result.AddResponse(refreshAuthenticationResult);

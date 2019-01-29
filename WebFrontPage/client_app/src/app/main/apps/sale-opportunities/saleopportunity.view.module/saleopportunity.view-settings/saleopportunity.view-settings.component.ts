@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, fromEvent, Observable } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
 import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
+import { FunzaService } from '../../../funza/funza.core.module';
 import { EnumItem } from 'app/main/apps/@resolveServices/resolve.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng4-validators';
 
 @Component({
@@ -18,14 +19,20 @@ import { CustomValidators } from 'ng4-validators';
     templateUrl: './saleopportunity.view-settings.component.html',
     styleUrls: ['./saleopportunity.view-settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
-{
+export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private _currentEntity: SaleOpportunity;
     listGrowerType: EnumItem<string>[];
     selectedGrowerType: EnumItem<string>;
     frmMain: FormGroup;
+
+    quotesObservable: Observable<EnumItem<number>>;
+
+
+    @ViewChild('funzaQuote')
+    funzaQuoteElement: ElementRef;
+
     get selectedGrowers() {
         if (this.selectedGrowerType != null) {
             return this.selectedGrowerType.extras['growers'];
@@ -50,7 +57,10 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
             'delivered': ['', []],
             'foc': ['', [CustomValidators.number]],
             'growerId': ['', [CustomValidators.number]],
+            'funzaQuote': ['', [CustomValidators.number]],
         });
+
+        (<FormControl>this.frmMain.controls['funzaQuote'])
     }
 
 
@@ -69,11 +79,12 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
+        private funzaService: FunzaService,
         private _todoService: SaleOpportunityViewService,
         private _location: Location,
         private formBuilder: FormBuilder
-    )
-    {
+    ) {
+        this._unsubscribeAll = new Subject();
         //debugger;
         this.listGrowerType = this._activatedRoute.snapshot.data.listGrowerType;
         // Set the private defaults
@@ -87,8 +98,7 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to update todos on changes
         this._todoService.onTodosChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -100,40 +110,49 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
         this._todoService.onCurrentTodoChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(currentTodo => {
-                if ( !currentTodo )
-                {
+                if (!currentTodo) {
                     // Set the current todo id to null to deselect the current todo
                     this.currentTodo = null;
 
                     // Handle the location changes
-                    const tagHandle    = this._activatedRoute.snapshot.params.tagHandle,
-                          filterHandle = this._activatedRoute.snapshot.params.filterHandle;
+                    const tagHandle = this._activatedRoute.snapshot.params.tagHandle,
+                        filterHandle = this._activatedRoute.snapshot.params.filterHandle;
 
-                    if ( tagHandle )
-                    {
+                    if (tagHandle) {
                         this._location.go('apps/todo/tag/' + tagHandle);
                     }
-                    else if ( filterHandle )
-                    {
+                    else if (filterHandle) {
                         this._location.go('apps/todo/filter/' + filterHandle);
                     }
-                    else
-                    {
+                    else {
                         this._location.go('apps/todo/all');
                     }
                 }
-                else
-                {
+                else {
                     this.currentTodo = currentTodo;
                 }
             });
     }
 
+
+    ngAfterViewInit() {
+        fromEvent(this.funzaQuoteElement.nativeElement, 'blur')
+            .pipe(
+                takeUntil(this._unsubscribeAll)
+                , distinctUntilChanged()
+            )
+            .subscribe(() => {
+                this.quotesObservable = this.funzaService.getQuoteItems(this.funzaQuoteElement.nativeElement.value);
+            });
+
+
+    }
+
+
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -148,15 +167,14 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, OnDestroy
      *
      * @param todoId
      */
-   
+
 
     /**
      * On drop
      *
      * @param ev
      */
-    onDrop(ev): void
-    {
+    onDrop(ev): void {
 
     }
 }

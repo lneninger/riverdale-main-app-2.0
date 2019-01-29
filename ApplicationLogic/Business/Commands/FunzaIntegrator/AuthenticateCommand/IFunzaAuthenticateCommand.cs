@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
 {
-    public interface IFunzaAuthenticateCommand: ICommandAction<OperationResponse<TokenSettings>>
+    public interface IFunzaAuthenticateCommand: ICommandFunc<FunzaAuthenticationSettings, OperationResponse<TokenSettings>>
     {
     }
 }

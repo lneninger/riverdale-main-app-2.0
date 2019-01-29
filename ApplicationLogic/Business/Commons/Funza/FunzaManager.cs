@@ -1,6 +1,5 @@
 ﻿using ApplicationLogic.AppSettings;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand;
-using ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateFullCommand;
 using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
@@ -19,9 +18,22 @@ namespace ApplicationLogic.Business.Commons.FunzaManager
         public FunzaSettings FunzaSettings { get; }
         public FunzaAuthenticateCommand FunzaAuthenticateCommand { get; }
 
-        public FunzaAuthenticationSettings GetAuthenticationSetting(string key)
+        public FunzaAuthenticationSettings GetAuthenticationSetting(string key, bool refreshAuthentication = true)
         {
-            return this.FunzaSettings.AuthenticationSettingsCollection[key];
+            var result = this.FunzaSettings.AuthenticationSettingsCollection[key];
+            if (refreshAuthentication)
+            {
+                lock (this)
+                {
+                    var refreshResult = this.RefreshAuthentication(result);
+                    if (!refreshResult.IsSucceed)
+                    {
+                        throw new OperationResponseException(refreshResult);
+                    }
+                }
+            }
+
+            return result;
         }
 
         public OperationResponse RefreshAuthentication(FunzaAuthenticationSettings settings)

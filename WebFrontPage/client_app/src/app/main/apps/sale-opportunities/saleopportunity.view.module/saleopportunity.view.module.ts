@@ -17,6 +17,8 @@ import { SaleOpportunityViewDetailsComponent } from './saleopportunity.view-deta
 
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { SaleOpportunityCoreModule } from '../saleopportunity.core.module';
+import { FunzaCoreModule } from '../../funza/funza.core.module';
+
 import { SaleOpportunityViewSettingsComponent } from './saleopportunity.view-settings/saleopportunity.view-settings.component';
 import { FormsModule } from '@angular/forms';
 
@@ -99,6 +101,7 @@ const routes: Routes = [
 
         , HipalanetUtils
         , SaleOpportunityCoreModule
+        , FunzaCoreModule
     ],
     providers   : [
         SaleOpportunityViewService

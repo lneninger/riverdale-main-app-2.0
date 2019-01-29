@@ -83,6 +83,7 @@ namespace DomainDatabaseMapping
         public DbSet<DomainModel.Funza.ColorReference> FunzaPColorReferences { get; set; }
         public DbSet<DomainModel.Funza.CategoryReference> FunzaCategoryReferences { get; set; }
         public DbSet<DomainModel.Funza.PackingReference> FunzaPackingReferences { get; set; }
+        public DbSet<DomainModel.Funza.QuoteReference> FunzaQuoteReferences { get; set; }
 
 
         // Quote
@@ -137,6 +138,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new DomainDatabaseMapping.Mappings.Funza.ColorReferenceMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new DomainDatabaseMapping.Mappings.Funza.CategoryReferenceMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new DomainDatabaseMapping.Mappings.Funza.PackingReferenceMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new DomainDatabaseMapping.Mappings.Funza.QuoteReferenceMap(modelBuilder));
 
 
             // Quote

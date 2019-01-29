@@ -43,7 +43,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        
+
 
         public OperationResponse<ColorReference> GetById(int id)
         {
@@ -82,7 +82,7 @@ namespace DatabaseRepositories.DB
         }
 
 
-         public OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaColorPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaColorPageQueryCommandInputDTO> input)
         {
             var result = new OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>>();
             try
@@ -145,7 +145,7 @@ namespace DatabaseRepositories.DB
             }
 
             return result;
-            
+
         }
 
     }

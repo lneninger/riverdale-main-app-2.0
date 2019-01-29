@@ -1,5 +1,6 @@
 ﻿using ApplicationLogic.AppSettings;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesCommand.Models;
+using ApplicationLogic.Business.Commons.FunzaManager;
 using ApplicationLogic.Repositories.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
@@ -9,24 +10,25 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesComman
 {
     public class FunzaGetCategoriesCommand : BaseIoCDisposable, IFunzaGetCategoriesCommand
     {
-        public FunzaGetCategoriesCommand(IMastersRepository repository, FunzaSettings funzaSettings)
+        public FunzaGetCategoriesCommand(IMastersRepository repository, IFunzaManager funzaManager)
         {
             this.Repository = repository;
-            this.FunzaSettings = funzaSettings;
+            this.FunzaManager = funzaManager;
         }
 
         public IMastersRepository Repository { get; }
-        public FunzaSettings FunzaSettings { get; }
+        public IFunzaManager FunzaManager { get; }
 
         public OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutputDTO>> Execute()
         {
             var result = new OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutputDTO>>();
-                var getCategoriesResult = this.Repository.GetCategories(this.FunzaSettings.GetCategoriesURL, this.FunzaSettings.TokenSettings.AccessToken);
-                result.AddResponse(getCategoriesResult);
-                if (result.IsSucceed)
-                {
+            var authenticationSettings = this.FunzaManager.GetAuthenticationSetting("basic");
+            var getCategoriesResult = this.Repository.GetCategories(this.FunzaManager.FunzaSettings.GetCategoriesURL, authenticationSettings.TokenSettings.AccessToken);
+            result.AddResponse(getCategoriesResult);
+            if (result.IsSucceed)
+            {
                 result.Bag = getCategoriesResult.Bag;
-                }
+            }
 
             return result;
         }

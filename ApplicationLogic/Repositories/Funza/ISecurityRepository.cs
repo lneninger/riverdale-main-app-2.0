@@ -10,6 +10,5 @@ namespace ApplicationLogic.Repositories.Funza
     public interface ISecurityRepository
     {
         OperationResponse<Dictionary<string, object>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword);
-        OperationResponse<Dictionary<string, object>> AuthenticateFull(object authenticationFullURL, string authenticationUserName, string authenticationPassword);
     }
 }

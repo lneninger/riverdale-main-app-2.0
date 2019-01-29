@@ -12,6 +12,7 @@ using System.Text;
 using Framework.Core.Messages;
 using DomainModel.File;
 using DomainModel.Funza;
+using ApplicationLogic.Business.Commands.Funza.CategoryPageQueryCommand.Models;
 
 namespace ApplicationLogic.Repositories.DB
 {
@@ -22,5 +23,8 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse Add(CategoryReference entity);
 
         OperationResponse<CategoryReference> GetByFunzaId(int id);
+
+        OperationResponse<PageResult<FunzaCategoryPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaCategoryPageQueryCommandInputDTO> input);
+
     }
 }
