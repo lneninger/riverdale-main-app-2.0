@@ -142,7 +142,9 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
                 , distinctUntilChanged()
             )
             .subscribe(() => {
+                debugger;
                 this.quotesObservable = this.funzaService.getQuoteItems(this.funzaQuoteElement.nativeElement.value);
+                this.quotesObservable.subscribe();
             });
 
 

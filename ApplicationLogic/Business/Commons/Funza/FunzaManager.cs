@@ -9,14 +9,14 @@ namespace ApplicationLogic.Business.Commons.FunzaManager
 {
     public class FunzaManager : IFunzaManager
     {
-        public FunzaManager(FunzaSettings funzaSettings, FunzaAuthenticateCommand funzaAuthenticateCommand)
+        public FunzaManager(FunzaSettings funzaSettings, IFunzaAuthenticateCommand funzaAuthenticateCommand)
         {
             this.FunzaSettings = funzaSettings;
             this.FunzaAuthenticateCommand = funzaAuthenticateCommand;
         }
 
         public FunzaSettings FunzaSettings { get; }
-        public FunzaAuthenticateCommand FunzaAuthenticateCommand { get; }
+        public IFunzaAuthenticateCommand FunzaAuthenticateCommand { get; }
 
         public FunzaAuthenticationSettings GetAuthenticationSetting(string key, bool refreshAuthentication = true)
         {

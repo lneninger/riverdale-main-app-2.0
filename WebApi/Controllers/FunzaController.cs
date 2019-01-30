@@ -71,7 +71,7 @@ namespace RiverdaleMainApp2_0.Controllers
         }
 
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaQuoteGetItemsCommandOutputDTO>))]
-        [Route("sync")]
+        [Route("quoteitems")]
         public IActionResult GetQuoteItems([FromBody]PageQuery<FunzaQuoteGetItemsCommandInputDTO> input)
         {
             var syncResult = this.QuoteGetItemsCommand.Execute(input);

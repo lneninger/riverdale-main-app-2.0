@@ -29,6 +29,7 @@ const routes: Routes = [
         resolve: {
             listSeasonCategoryType: SaleSeasonCategoryTypeResolveService,
             listCustomer: CustomerResolveService,
+            listGrower: GrowerTypeResolveService,
         }
     },
     {

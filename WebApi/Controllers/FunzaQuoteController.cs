@@ -54,14 +54,14 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaQuoteGetItemsCommandOutputDTO>))]
-        [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<FunzaQuoteGetItemsCommandInputDTO> input)
-        {
-            var result = this.PageQueryCommand.Execute(input);
+        //[HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaQuotePageQueryCommandOutputDTO>))]
+        //[Route("pagequery")]
+        //public IActionResult PageQuery([FromBody]PageQuery<FunzaQuotePageQueryCommandInputDTO> input)
+        //{
+        //    var result = this.PageQueryCommand.Execute(input);
 
-            return this.Ok(result);
-        }
+        //    return this.Ok(result);
+        //}
 
     }
 }

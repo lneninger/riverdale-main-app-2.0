@@ -122,7 +122,7 @@ namespace RiverdaleMainApp2_0.IoC
                 .TrackInstanceEvents();
 
                 var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
-                var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) && type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)) );
+                var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) || type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)) );
                 builder.RegisterTypes(dataGenericDataRetrieverTypes.ToArray())
                 .AsImplementedInterfaces()
                 .TrackInstanceEvents();

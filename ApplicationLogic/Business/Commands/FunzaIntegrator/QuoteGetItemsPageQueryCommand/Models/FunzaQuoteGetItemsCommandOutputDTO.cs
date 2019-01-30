@@ -6,7 +6,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Model
     public class FunzaQuoteGetItemsCommandOutputDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
 }

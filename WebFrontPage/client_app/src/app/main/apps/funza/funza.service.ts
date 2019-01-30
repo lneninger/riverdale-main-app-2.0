@@ -45,7 +45,7 @@ export class FunzaService implements IPageQueryService {
 
 
     getQuoteItems(term: string): Observable<any> {
-        return this.http.post(`${environment.appApi.apiBaseUrl}funzaquotes/get`, { term: term });
+        return this.http.post(`${environment.appApi.apiBaseUrl}funza/quoteitems`, { customFilter: { term: term } });
     }
 
 }

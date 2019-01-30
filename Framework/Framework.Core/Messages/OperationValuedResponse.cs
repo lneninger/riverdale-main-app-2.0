@@ -32,6 +32,12 @@ namespace Framework.Core.Messages
             }
         }
 
+        public void ClearErrors()
+        {
+            var errors = this.Messages.Where(o => o.MessageType == MessageTypeEnum.Error).ToList();
+            errors.ForEach(error => this.Messages.Remove(error));
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OperationResponse{T}"/> class.
         /// </summary>

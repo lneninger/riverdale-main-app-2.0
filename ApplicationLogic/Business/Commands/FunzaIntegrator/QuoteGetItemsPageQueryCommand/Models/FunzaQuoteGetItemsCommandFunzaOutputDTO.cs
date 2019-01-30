@@ -4,8 +4,8 @@ using System;
 
 namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models
 {
-    public class FunzaQuoteGetItemsCommandFunzaOutputDTO: FunzaPageResult
+    public class FunzaQuoteGetItemsCommandFunzaOutputDTO
     {
-        
+        public string Titulo { get; set; }
     }
 }

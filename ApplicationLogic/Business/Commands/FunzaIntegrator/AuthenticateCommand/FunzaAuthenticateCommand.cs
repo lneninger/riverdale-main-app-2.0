@@ -27,12 +27,17 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
         public OperationResponse<TokenSettings> Execute(FunzaAuthenticationSettings settings)
         {
             var result = new OperationResponse<TokenSettings>();
-           
-                var authenticateResult = this.Repository.Authenticate(settings.AuthenticationURL, settings.AuthenticationUserName, settings.AuthenticationPassword);
-                result.AddResponse(authenticateResult);
-                if (result.IsSucceed)
+
+            var authenticateResult = this.Repository.Authenticate(settings.AuthenticationURL, settings.AuthenticationUserName, settings.AuthenticationPassword);
+            result.AddResponse(authenticateResult);
+            if (result.IsSucceed && authenticateResult.Bag != null)
+            {
+                FunzaAuthenticateCommandOutputDTO tempDTO = null;
+                try
                 {
-                    var tempDTO = new FunzaAuthenticateCommandOutputDTO
+                    // Trying another authentication format
+                    // Local hosting
+                    tempDTO = new FunzaAuthenticateCommandOutputDTO
                     {
                         AccessToken = authenticateResult.Bag["access_token"].ToString(),
                         TokenType = authenticateResult.Bag["token_type"].ToString(),
@@ -41,26 +46,50 @@ namespace ApplicationLogic.Business.Commands.FunzaIntegrator.AuthenticateCommand
                         Issued = authenticateResult.Bag[".issued"].ToString(),
                         Expires = authenticateResult.Bag[".expires"].ToString(),
                     };
-
-                    result.Bag = new TokenSettings
+                }
+                catch (Exception ex)
+                {
+                    // Trying another authentication format
+                    // AzureHost
+                    tempDTO = new FunzaAuthenticateCommandOutputDTO
                     {
-                        AccessToken = result.Bag.AccessToken,
-                        TokenType = result.Bag.TokenType,
-                        UserName = result.Bag.UserName,
-                        Issued = result.Bag.Issued,
+                        AccessToken = authenticateResult.Bag["accessToken"].ToString(),
+                        EncryptedAccessToken = authenticateResult.Bag["encryptedAccessToken"].ToString(),
+                        ExpiresIn = authenticateResult.Bag["expireInSeconds"].ToString(),
+                        UserId = authenticateResult.Bag["userId"].ToString(),
                     };
+                }
 
-                    if(TimeSpan.TryParse(authenticateResult.Bag["expires_in"].ToString(), out TimeSpan tempExpiresIn))
-                    {
+                result.Bag = new TokenSettings
+                {
+                    AccessToken = tempDTO.AccessToken,
+                    TokenType = tempDTO.TokenType,
+                    UserName = tempDTO.UserName,
+                    Issued = tempDTO.Issued,
+                };
+
+                if (TimeSpan.TryParse(tempDTO.ExpiresIn, out TimeSpan tempExpiresIn))
+                {
                     result.Bag.ExpiresIn = tempExpiresIn;
-                    }
+                }
 
-                    if(DateTime.TryParse(authenticateResult.Bag[".expires"].ToString(), out DateTime tempExpires))
-                    {
+                if (DateTime.TryParse(tempDTO.Expires, out DateTime tempExpires))
+                {
                     result.Bag.Expires = tempExpires;
+                }
+                else if (result.Bag.ExpiresIn.HasValue)
+                {
+                    if (result.Bag.ExpiresIn.Value.TotalDays > 1)
+                    {
+                        result.Bag.Expires = DateTime.UtcNow.AddDays(1);
+                    }
+                    else
+                    {
+                        result.Bag.Expires = DateTime.UtcNow.AddSeconds(result.Bag.ExpiresIn.Value.TotalSeconds);
                     }
                 }
-            
+            }
+
 
             return result;
         }
