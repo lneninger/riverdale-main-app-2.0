@@ -100,6 +100,7 @@ export class SaleOpportunitySettings {
     riverdaleMargin: number;
     foc: number;
     growerId: number;
+    funzaQuote: string;
 
     constructor(settings) {
 
