@@ -16,6 +16,12 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Model
         public int PasoCreacion { get; set; }
 
         public string Codigo { get; set; }
+
+        public FunzaQuoteGetItemsCommandFunzaOutputSubClientDTO SubCliente { get; set; }
+        public FunzaQuoteGetItemsCommandFunzaOutputBouquetTypeDTO TipoRamo { get; set; }
+        public FunzaQuoteGetItemsCommandFunzaOutputSeasonDTO Temporada { get; set; }
+        public List<FunzaQuoteGetItemsCommandFunzaOutputProductDTO> Productos { get; set; }
+        public List<FunzaQuoteGetItemsCommandFunzaOutputSupplyDTO> Insumos { get; set; }
     }
 
     public class FunzaQuoteGetItemsCommandFunzaOutputSubClientDTO
@@ -27,11 +33,6 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Model
         public bool Estado { get; set; }//"estado": true,
         public int ClienteId { get; set; }//"clienteId": 3,
         public string ClienteNombre { get; set; }//"clienteNombre": "RIVERDALE FARMS, LLC.",
-        public List<FunzaQuoteGetItemsCommandFunzaOutputBouquetTypeDTO> TipoRamo { get; set; }
-        public List<FunzaQuoteGetItemsCommandFunzaOutputSeasonDTO> Temporada { get; set; }
-        public List<FunzaQuoteGetItemsCommandFunzaOutputProductDTO> Productos { get; set; }
-        public List<FunzaQuoteGetItemsCommandFunzaOutputSupplyDTO> Insumos { get; set; }
-
     }
 
     public class FunzaQuoteGetItemsCommandFunzaOutputProductTypeDTO

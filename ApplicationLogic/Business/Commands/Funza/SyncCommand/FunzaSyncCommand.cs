@@ -1,7 +1,9 @@
 ﻿using ApplicationLogic.Business.Commands.Funza.CategoriesUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.ColorsUpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand;
 using ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand.Models;
+using ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetColorsCommand;
@@ -10,6 +12,7 @@ using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand.Models;
+using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
 using DomainModel.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
@@ -22,7 +25,7 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
 {
     public class FunzaSyncCommand : BaseIoCDisposable, IFunzaSyncCommand
     {
-        public FunzaSyncCommand(IFunzaGetProductsCommand getProductsCommand, IFunzaProductsUpdateCommand productsUpdateCommand, IFunzaGetColorsCommand getColorsCommand, IFunzaColorsUpdateCommand colorsUpdateCommand, IFunzaGetCategoriesCommand getCategoriesCommand, IFunzaCategoriesUpdateCommand categoriesUpdateCommand, IFunzaGetPackingsCommand getPackingsCommand, IFunzaPackingsUpdateCommand packingsUpdateCommand)
+        public FunzaSyncCommand(IFunzaGetProductsCommand getProductsCommand, IFunzaProductsUpdateCommand productsUpdateCommand, IFunzaGetColorsCommand getColorsCommand, IFunzaColorsUpdateCommand colorsUpdateCommand, IFunzaGetCategoriesCommand getCategoriesCommand, IFunzaCategoriesUpdateCommand categoriesUpdateCommand, IFunzaGetPackingsCommand getPackingsCommand, IFunzaPackingsUpdateCommand packingsUpdateCommand, IFunzaQuoteGetItemsCommand getQuotesCommand, IFunzaQuotesUpdateCommand quotesUpdateCommand)
         {
             this.ProductsUpdateCommand = productsUpdateCommand;
             this.GetProductsCommand = getProductsCommand;
@@ -35,17 +38,21 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
 
             this.GetPackingsCommand = getPackingsCommand;
             this.PackingsUpdateCommand = packingsUpdateCommand;
+
+            this.GetQuotesCommand = getQuotesCommand;
+            this.QuotesUpdateCommand = quotesUpdateCommand;
         }
 
         public IFunzaGetProductsCommand GetProductsCommand { get; }
         public IFunzaGetColorsCommand GetColorsCommand { get; }
         public IFunzaProductsUpdateCommand ProductsUpdateCommand { get; }
-
         public IFunzaPackingsUpdateCommand PackingsUpdateCommand { get; }
         public IFunzaColorsUpdateCommand ColorsUpdateCommand { get; }
         public IFunzaGetCategoriesCommand GetCategoriesCommand { get; }
         public IFunzaCategoriesUpdateCommand CategoriesUpdateCommand { get; }
         public IFunzaGetPackingsCommand GetPackingsCommand { get; }
+        public IFunzaQuoteGetItemsCommand GetQuotesCommand { get; }
+        public IFunzaQuotesUpdateCommand QuotesUpdateCommand { get; }
 
         public OperationResponse Execute()
         {
@@ -111,13 +118,29 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                     return new OperationResponse<FunzaPackingsUpdateCommandOutputDTO>();
                 })
             );
-            
+
+            taskDictionary.Add(
+                "Quotes"
+                , Task.Run<object>(() =>
+                {
+                    var source = this.GetQuotesCommand.Execute();
+                    if (source.IsSucceed && source.Bag != null && source.Bag.Count() > 0)
+                    {
+                        var dest = this.Map(source.Bag);
+                        return this.PackingsUpdateCommand.Execute(dest);
+                    }
+
+                    return new OperationResponse<FunzaPackingsUpdateCommandOutputDTO>();
+                })
+            );
+
             Task.WaitAll(taskDictionary.Values.ToArray());
             
             result.AddResponse(taskDictionary["Products"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Colors"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Categories"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Packings"].Result as OperationResponse);
+            result.AddResponse(taskDictionary["Quotes"].Result as OperationResponse);
 
             return result;
         }
@@ -194,8 +217,6 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                 CargoMasterCode = item.CodigoCargoMaster,
                 CreatedBy = item.CodigoCargoMaster,
                 CreatedDate = item.CreatedDate,
-                //DefinitiveInvoiceCargo = item.CargosFacturaDefinitiva,
-                //DefinitiveInvoiceItems = item.ItemsFacturaDefinitiva,
                 Description = item.Descripcion,
                 EquivalentFullQuotator = item.EquivalenteFullCotizador,
                 EquivalentsFull = item.EquivalentesFull,
@@ -205,7 +226,36 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                 Length = item.Largo,
                 Name = item.Nombre,
                 NameEnglish = item.NombreIngles,
-                //NoteItems = item.ItemsNota,
+                SentToQuotator = item.EviarACotizador,
+                State = item.Estado,
+                UpdatedBy = item.UpdatedBy,
+                UpdatedDate = item.UpdatedDate,
+                Volume = item.Volumen,
+                VolumeDescripcion = item.DescripcionVolumen,
+                VolumeEquivalentFull = item.VolumneEquivalenteFull,
+                Weight = item.Peso,
+                Width = item.Ancho,
+            });
+
+            return result;
+        }
+
+        private IEnumerable<FunzaQuotesUpdateCommandInputDTO> Map(IEnumerable<FunzaGetQuotesCommandOutputDTO> source)
+        {
+            var result = source.Select(item => new FunzaPackingsUpdateCommandInputDTO
+            {
+                CargoMasterCode = item.CodigoCargoMaster,
+                CreatedBy = item.CodigoCargoMaster,
+                CreatedDate = item.CreatedDate,
+                Description = item.Descripcion,
+                EquivalentFullQuotator = item.EquivalenteFullCotizador,
+                EquivalentsFull = item.EquivalentesFull,
+                Id = item.Id,
+                Height = item.Alto,
+                Image = item.Imagen,
+                Length = item.Largo,
+                Name = item.Nombre,
+                NameEnglish = item.NombreIngles,
                 SentToQuotator = item.EviarACotizador,
                 State = item.Estado,
                 UpdatedBy = item.UpdatedBy,

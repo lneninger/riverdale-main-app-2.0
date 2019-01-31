@@ -51,13 +51,94 @@ namespace FunzaRepositories
 
             if (response.Data != null && response.Data.Success)
             {
-                result.Bag = new PageResult<FunzaQuoteGetItemsCommandOutputDTO>
-                {
-                    Items = response.Data.Result.Items.Select(item => new FunzaQuoteGetItemsCommandOutputDTO {
-                        Title = item.Titulo
-                    }).ToList()
-                };
+                result.Bag = MappingQuoteGetAllResult(response);
             }
+
+            return result;
+        }
+
+        private static PageResult<FunzaQuoteGetItemsCommandOutputDTO> MappingQuoteGetAllResult(IRestResponse<FunzaPageResult<FunzaQuoteGetItemsCommandFunzaOutputDTO>> response)
+        {
+            var result = new PageResult<FunzaQuoteGetItemsCommandOutputDTO>
+            {
+                Items = response.Data.Result.Items.Select(item => new FunzaQuoteGetItemsCommandOutputDTO
+                {
+                    Title = item.Titulo,
+                    Code = item.Codigo,
+                    CreateStep = item.PasoCreacion,
+                    Status = item.Estado,
+                    AdjustRequestUserId = item.AdjustRequestUserId,
+                    SubClient = new FunzaQuoteGetItemsCommandOutputSubClientDTO
+                    {
+                        Id = item.SubCliente.Id,
+                        ClientId = item.SubCliente.ClienteId,
+                        ClientName = item.SubCliente.ClienteNombre,
+                        Name = item.SubCliente.Nombre,
+                        Code = item.SubCliente.Codigo,
+                        Margen = item.SubCliente.Margen,
+                        Status = item.SubCliente.Estado
+                    },
+                    BouquetType = new FunzaQuoteGetItemsCommandOutputBouquetTypeDTO
+                    {
+                        Id = item.TipoRamo.Id,
+                        Abrev = item.TipoRamo.Abrev,
+                        CreatedDate = item.TipoRamo.CreationTime,
+                        CreatedUserId = item.TipoRamo.CreatorUserId,
+                        Name = item.TipoRamo.Nombre,
+                        Labor = item.TipoRamo.Labor.Select(laborItem => new FunzaQuoteGetItemsCommandOutputLaborDTO
+                        {
+                            BouquetTypeId = laborItem.TipoRamoId,
+                            Active = laborItem.Activo,
+                            Stems = laborItem.CantidadTallos,
+                            Amount = laborItem.Monto
+                        }).ToList()
+                    },
+                    Products = item.Productos.Select(productItem => new FunzaQuoteGetItemsCommandOutputProductDTO
+                    {
+                        Id = productItem.Id,
+                        ProductId = productItem.ProductoId,
+                        ColorId = productItem.ColorId,
+                        ColorName = productItem.ColorNombre,
+                        ConfirmationPrice = productItem.ConfirmationPrice,
+                        Discount = productItem.Descuento,
+                        GradeId = productItem.GradoId,
+                        GradeName = productItem.GradoNombre,
+                        IsAdjusted = productItem.IsAdjusted,
+                        IsDeleted = productItem.IsDeleted,
+                        Price = productItem.PrecioValor,
+                        PriceId = productItem.PrecioId,
+                        TotalPrice = productItem.PrecioTotal,
+                        ProductDescription = productItem.ProductoDescripcion,
+                        Quantity = productItem.Cantidad,
+                        SpecieId = productItem.EspecieId,
+                        SpecieName = productItem.EspecieNombre,
+                    }).ToList(),
+                    Season = new FunzaQuoteGetItemsCommandOutputSeasonDTO
+                    {
+                        Id = item.Temporada.Id,
+                        Active = item.Temporada.Activo,
+                        Name = item.Temporada.Nombre,
+                        BeginDate = item.Temporada.FechaInicio,
+                        EndDate = item.Temporada.FechaFin,
+                        Code = item.Temporada.Codigo
+                    },
+                    Supplies = item.Insumos.Select(supplyItem => new FunzaQuoteGetItemsCommandOutputSupplyDTO
+                    {
+                        Id = supplyItem.Id,
+                        Category = supplyItem.Categoria,
+                        ConfirmationPrice = supplyItem.ConfirmationPrice,
+                        Description = supplyItem.Descripcion,
+                        Discount = supplyItem.Descuento,
+                        IsAdjusted = supplyItem.IsAdjusted,
+                        IsDeleted = supplyItem.IsDeleted,
+                        Price = supplyItem.PrecioValor,
+                        PriceId = supplyItem.PrecioId,
+                        Quantity = supplyItem.Cantidad,
+                        SupplyId = supplyItem.InsumoId,
+                        TotalPrice = supplyItem.PrecioTotal
+                    }).ToList()
+                }).ToList()
+            };
 
             return result;
         }
