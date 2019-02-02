@@ -7,6 +7,8 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Model
 {
     public class FunzaQuoteGetItemsCommandFunzaOutputDTO
     {
+        public int Id { get; set; }//"id": 1405
+
         public string Titulo { get; set; }
 
         public int Estado { get; set; }
@@ -16,6 +18,35 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Model
         public int PasoCreacion { get; set; }
 
         public string Codigo { get; set; }
+
+        public decimal PrecioEmpaqueValor { get; set; }//"precioEmpaqueValor": 1.34,
+        public int EmpaqueId { get; set; }//"empaqueId": 7,
+        public int PrecioEmpaqueId { get; set; }//"precioEmpaqueId": 1,
+        public decimal DescuentoEmpaque { get; set; }//"descuentoEmpaque": 0.0,
+        public decimal DescuentoLabor { get; set; }//"descuentoLabor": 0.0,
+        public int EmpaqueNombre { get; set; }//"empaqueNombre": "HPMP",
+        public int ComboId { get; set; }//"comboId": null,
+        public int Cotizaciones { get; set; }//"cotizaciones": [],
+        public int Ordenes { get; set; }//"ordenes": [],
+        public int CotizacionSateliteId { get; set; }//"cotizacionSateliteId": null,
+        public int CotizacionSatelite { get; set; }//"cotizacionSatelite": null,
+        public int CotizacionSatelites { get; set; }//"cotizacionSatelites": null,
+        public int CotizacionAjustes { get; set; }//"cotizacionAjustes": [],
+        public decimal Margen { get; set; }//"margen": 0.08,
+        public int NoBouquets { get; set; }//"noBouquets": 17,
+        public decimal StartingPrice { get; set; }//"startingPrice": 4.29437351,
+        public decimal PricePerBouquet { get; set; }//"pricePerBouquet": 0.07882353,
+        public string[] Comentarios { get; set; }//"comentarios": [],
+        public string CreatorUserName { get; set; }//"creatorUserName": "Mtrujillo",
+        public string LastModifierUserName { get; set; }//"lastModifierUserName": "Mtrujillo",
+        public int ConfirmPriceLabor { get; set; }//"confirmPriceLabor": 0.0,
+        public int ConfirmPriceEmpaque { get; set; }//"confirmPriceEmpaque": 0.0,
+        public decimal CostoTotal { get; set; }//"costoTotal": 3.92082357,
+        public decimal FinalPrice { get; set; }//"finalPrice": 4.26176453,
+        public DateTime LastModificationTime { get; set; }//"lastModificationTime": "2019-01-18T19:25:49.9448287",
+        public int LastModifierUserId { get; set; }//"lastModifierUserId": 30,
+        public DateTime CreationTime { get; set; }//"creationTime": "2019-01-18T12:24:07.9413533",
+        public int CreatorUserId { get; set; }//"creatorUserId": 30,
 
         public FunzaQuoteGetItemsCommandFunzaOutputSubClientDTO SubCliente { get; set; }
         public FunzaQuoteGetItemsCommandFunzaOutputBouquetTypeDTO TipoRamo { get; set; }

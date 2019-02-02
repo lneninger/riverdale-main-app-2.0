@@ -1,4 +1,5 @@
 ﻿using ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand.Models;
+using ApplicationLogic.Repositories.DB;
 using DomainModel.Funza;
 using EntityFrameworkCore.DbContextScope;
 using Framework.Core.Messages;
@@ -28,7 +29,7 @@ namespace ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand
 
                     foreach (var dtoItem in input)
                     {
-                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
+                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.FunzaId);
                         bool addEntity = false;
                         if (!getByFunzaIdResult.IsSucceed)
                         {
@@ -68,26 +69,25 @@ namespace ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand
         {
             var result = entity ?? new QuoteReference();
 
-            result.FunzaId = dtoItem.Id;
-            result.Active = dtoItem.Active;
-            result.CategoryId = dtoItem.CategoryId;
-            result.CategoryName = dtoItem.CategoryName;
+            result.FunzaId = dtoItem.FunzaId;
+            result.AdjustRequestUserId = dtoItem.AdjustRequestUserId;
             result.Code = dtoItem.Code;
-            result.ColorId = dtoItem.ColorId;
-            result.Description = dtoItem.Description;
-            result.GradeId = dtoItem.GradeId;
+            result.ComboId = dtoItem.ComboId;
             result.Comments = dtoItem.Comments;
-            result.QuoteTypeId = dtoItem.QuoteTypeId;
-            result.QuoteTypeName = dtoItem.QuoteTypeName;
-            result.ReferenceCode = dtoItem.ReferenceCode;
-            result.ReferenceDescription = dtoItem.ReferenceDescription;
-            result.ReferenceId = dtoItem.ReferenceId;
-            result.ReferenceTypeId = dtoItem.ReferenceTypeId;
-            result.ReferenceTypeName = dtoItem.ReferenceTypeName;
-            result.SendQuotator = dtoItem.SendQuotator;
-            result.SpecieId = dtoItem.SpecieId;
-            result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
-            result.VarieryId = dtoItem.VarieryId;
+            result.ConfirmationPackingPrice = dtoItem.ConfirmationPackingPrice;
+            result.ConfirmationPriceLabor = dtoItem.ConfirmationPriceLabor;
+            result.CreatedByUserName = dtoItem.CreatedByUserName;
+            result.CreateStep = dtoItem.CreateStep;
+            result.CreationTime = dtoItem.CreationTime;
+            result.CreatorUserId = dtoItem.CreatorUserId;
+            result.FinalPrice = dtoItem.FinalPrice;
+            result.LaborDiscount = dtoItem.LaborDiscount;
+            result.LastModificationTime = dtoItem.LastModificationTime;
+            result.Margen = dtoItem.Margen;
+            result.PackingDescount = dtoItem.PackingDescount;
+            result.PackingId = dtoItem.PackingId;
+            result.PackingName = dtoItem.PackingName;
+            result.PackingPrice = dtoItem.PackingPrice;
 
             return result;
         }

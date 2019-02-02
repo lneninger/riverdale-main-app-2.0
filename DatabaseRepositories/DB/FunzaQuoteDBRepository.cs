@@ -95,7 +95,7 @@ namespace DatabaseRepositories.DB
                     var filter = input.CustomFilter;
                     if (!string.IsNullOrWhiteSpace(filter.Term))
                     {
-                        predicate = predicate.And(o => o.ReferenceDescription.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                        predicate = predicate.And(o => o.Title.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
                     }
                 }
 
@@ -119,7 +119,7 @@ namespace DatabaseRepositories.DB
                     result.Bag = query.ProcessPagingSort<QuoteReference, FunzaQuotePageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaQuotePageQueryCommandOutputDTO
                     {
                         Id = o.Id,
-                        Name = o.ReferenceDescription,
+                        Title = o.Title,
                         CreatedAt = o.CreatedAt
                     });
                 }

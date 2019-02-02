@@ -1,6 +1,7 @@
 ﻿using ApplicationLogic.Business.Commands.Funza.CategoriesUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.ColorsUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand;
+using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.ProductsUpdateCommand.Models;
 using ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand.Models;
@@ -12,10 +13,10 @@ using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand.Models;
-using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
 using DomainModel.Funza;
 using Framework.Autofac;
 using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,11 +124,23 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
                 "Quotes"
                 , Task.Run<object>(() =>
                 {
-                    var source = this.GetQuotesCommand.Execute();
-                    if (source.IsSucceed && source.Bag != null && source.Bag.Count() > 0)
+                    int pageIndex = 0;
+                    int pageSize = 100;
+                    var pageQuery = new PageQuery<FunzaQuoteGetItemsCommandInputDTO> {
+                        PageIndex = pageIndex, PageSize = pageSize
+                    };
+
+                    PageResult<FunzaQuoteGetItemsCommandOutputDTO> loopResult = null;
+
+                    for (; pageIndex == 0 || (pageIndex > 0 && loopResult.Items.Count == pageSize); pageIndex++)
                     {
-                        var dest = this.Map(source.Bag);
-                        return this.PackingsUpdateCommand.Execute(dest);
+                        var source = this.GetQuotesCommand.Execute(pageQuery);
+                        loopResult = source.Bag;
+                        if (source.IsSucceed && source.Bag != null && loopResult.Items.Count() > 0)
+                        {
+                            var dest = this.Map(loopResult.Items);
+                            return this.QuotesUpdateCommand.Execute(dest);
+                        }
                     }
 
                     return new OperationResponse<FunzaPackingsUpdateCommandOutputDTO>();
@@ -240,32 +253,94 @@ namespace ApplicationLogic.Business.Commands.Funza.PackingsUpdateCommand
             return result;
         }
 
-        private IEnumerable<FunzaQuotesUpdateCommandInputDTO> Map(IEnumerable<FunzaGetQuotesCommandOutputDTO> source)
+        private IEnumerable<FunzaQuotesUpdateCommandInputDTO> Map(IEnumerable<FunzaQuoteGetItemsCommandOutputDTO> source)
         {
-            var result = source.Select(item => new FunzaPackingsUpdateCommandInputDTO
+            var result = source.Select(item => new FunzaQuotesUpdateCommandInputDTO
             {
-                CargoMasterCode = item.CodigoCargoMaster,
-                CreatedBy = item.CodigoCargoMaster,
-                CreatedDate = item.CreatedDate,
-                Description = item.Descripcion,
-                EquivalentFullQuotator = item.EquivalenteFullCotizador,
-                EquivalentsFull = item.EquivalentesFull,
-                Id = item.Id,
-                Height = item.Alto,
-                Image = item.Imagen,
-                Length = item.Largo,
-                Name = item.Nombre,
-                NameEnglish = item.NombreIngles,
-                SentToQuotator = item.EviarACotizador,
-                State = item.Estado,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
-                Volume = item.Volumen,
-                VolumeDescripcion = item.DescripcionVolumen,
-                VolumeEquivalentFull = item.VolumneEquivalenteFull,
-                Weight = item.Peso,
-                Width = item.Ancho,
-            });
+                FunzaId = item.Id,
+                Title = item.Title,
+                Code = item.Code,
+                CreateStep = item.CreateStep,
+                Status = item.Status,
+                AdjustRequestUserId = item.AdjustRequestUserId,
+
+                
+
+
+
+
+
+
+                SubClient = new FunzaQuoteUpdateCommandOutputSubClientDTO
+                {
+                    Id = item.SubClient.Id,
+                    ClientId = item.SubClient.ClientId,
+                    ClientName = item.SubClient.ClientName,
+                    Name = item.SubClient.Name,
+                    Code = item.SubClient.Code,
+                    Margen = item.SubClient.Margen,
+                    Status = item.SubClient.Status
+                },
+                BouquetType = new FunzaQuoteUpdateCommandOutputBouquetTypeDTO
+                {
+                    Id = item.BouquetType.Id,
+                    Abrev = item.BouquetType.Abrev,
+                    CreatedDate = item.BouquetType.CreatedDate,
+                    CreatedUserId = item.BouquetType.CreatedUserId,
+                    Name = item.BouquetType.Name,
+                    Labor = item.BouquetType.Labor.Select(laborItem => new FunzaQuoteUpdateCommandOutputLaborDTO
+                    {
+                        BouquetTypeId = laborItem.BouquetTypeId,
+                        Active = laborItem.Active,
+                        Stems = laborItem.Stems,
+                        Amount = laborItem.Amount
+                    }).ToList()
+                },
+                Products = item.Products.Select(productItem => new FunzaQuoteUpdateCommandOutputProductDTO
+                {
+                    Id = productItem.Id,
+                    ProductId = productItem.ProductId,
+                    ColorId = productItem.ColorId,
+                    ColorName = productItem.ColorName,
+                    ConfirmationPrice = productItem.ConfirmationPrice,
+                    Discount = productItem.Discount,
+                    GradeId = productItem.GradeId,
+                    GradeName = productItem.GradeName,
+                    IsAdjusted = productItem.IsAdjusted,
+                    IsDeleted = productItem.IsDeleted,
+                    Price = productItem.Price,
+                    PriceId = productItem.PriceId,
+                    TotalPrice = productItem.TotalPrice,
+                    ProductDescription = productItem.ProductDescription,
+                    Quantity = productItem.Quantity,
+                    SpecieId = productItem.SpecieId,
+                    SpecieName = productItem.SpecieName,
+                }).ToList(),
+                Season = new FunzaQuoteUpdateCommandOutputSeasonDTO
+                {
+                    Id = item.Season.Id,
+                    Active = item.Season.Active,
+                    Name = item.Season.Name,
+                    BeginDate = item.Season.BeginDate,
+                    EndDate = item.Season.EndDate,
+                    Code = item.Season.Code
+                },
+                Supplies = item.Supplies.Select(supplyItem => new FunzaQuoteUpdateCommandOutputSupplyDTO
+                {
+                    Id = supplyItem.Id,
+                    Category = supplyItem.Category,
+                    ConfirmationPrice = supplyItem.ConfirmationPrice,
+                    Description = supplyItem.Description,
+                    Discount = supplyItem.Discount,
+                    IsAdjusted = supplyItem.IsAdjusted,
+                    IsDeleted = supplyItem.IsDeleted,
+                    Price = supplyItem.Price,
+                    PriceId = supplyItem.PriceId,
+                    Quantity = supplyItem.Quantity,
+                    SupplyId = supplyItem.SupplyId,
+                    TotalPrice = supplyItem.TotalPrice
+                }).ToList()
+            }).ToList();
 
             return result;
         }

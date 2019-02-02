@@ -9,7 +9,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.Funza.QuotePageQueryCommand
 {
-    public class FunzaQuotePageQueryCommand : AbstractDBCommand<DomainModel.Quote.AbstractQuote, IFunzaQuoteReferenceDBRepository>, IFunzaQuotePageQueryCommand
+    public class FunzaQuotePageQueryCommand : AbstractDBCommand<DomainModel.Funza.QuoteReference, IFunzaQuoteReferenceDBRepository>, IFunzaQuotePageQueryCommand
     {
         public FunzaQuotePageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, IFunzaQuoteReferenceDBRepository repository) : base(dbContextScopeFactory, repository)
         {

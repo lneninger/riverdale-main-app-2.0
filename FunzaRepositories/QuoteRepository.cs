@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
 using ApplicationLogic.Business.Commons.Funza.DTOs;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
@@ -12,22 +11,7 @@ namespace FunzaRepositories
 {
     public class QuoteRepository : ApplicationLogic.Repositories.Funza.IQuoteRepository
     {
-        
-
-        public OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>> GetQuotes(string endpointURL, string accessToken)
-        {
-            var result = new OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>>();
-
-            var client = new RestClient(endpointURL);
-
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", $"Bearer {accessToken}");
-
-            var response = client.Execute<List<FunzaGetQuotesCommandOutputDTO>>(request);
-            result.Bag = response.Data;
-
-            return result;
-        }
+    
 
         public OperationResponse<PageResult<FunzaQuoteGetItemsCommandOutputDTO>> PageQuery(PageQuery<FunzaQuoteGetItemsCommandInputDTO> input, string endpointURL, string accessToken)
         {
