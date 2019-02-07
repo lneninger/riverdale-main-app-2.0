@@ -54,7 +54,7 @@ namespace DomainModel.Funza
 
         public decimal PricePerBouquet { get; set; }
 
-        public string[] Comments { get; set; }
+        public string Comments { get; set; }
 
         public string CreatedByUserName { get; set; }
 
@@ -76,6 +76,6 @@ namespace DomainModel.Funza
 
         public int CreatorUserId { get; set; }
 
-        public QuoteReferenceSubClient SubClient { get; set; }
+        public virtual QuoteReferenceSubClient SubClient { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
 
 namespace ApplicationLogic.Repositories.Funza
 {
@@ -19,7 +18,5 @@ namespace ApplicationLogic.Repositories.Funza
         OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutputDTO>> GetCategories(string getProductsURL, string accessToken);
 
         OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>> GetPackings(string getProductsURL, string accessToken);
-
-        OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>> GetQuotes(string getQuotesURL, string accessToken);
     }
 }

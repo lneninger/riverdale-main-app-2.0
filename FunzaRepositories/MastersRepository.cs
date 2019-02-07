@@ -4,7 +4,6 @@ using ApplicationLogic.Business.Commands.FunzaIntegrator.GetCategoriesCommand.Mo
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetColorsCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetPackingsCommand.Models;
 using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand.Models;
-using ApplicationLogic.Business.Commands.FunzaIntegrator.GetQuotesCommand.Models;
 using Framework.Core.Messages;
 using RestSharp;
 
@@ -72,19 +71,6 @@ namespace FunzaRepositories
             return result;
         }
 
-        public OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>> GetQuotes(string endpointURL, string accessToken)
-        {
-            var result = new OperationResponse<IEnumerable<FunzaGetQuotesCommandOutputDTO>>();
-
-            var client = new RestClient(endpointURL);
-
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", $"Bearer {accessToken}");
-
-            var response = client.Execute<List<FunzaGetQuotesCommandOutputDTO>>(request);
-            result.Bag = response.Data;
-
-            return result;
-        }
+        
     }
 }

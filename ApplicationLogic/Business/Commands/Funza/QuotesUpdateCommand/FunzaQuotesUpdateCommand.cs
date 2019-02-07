@@ -73,7 +73,7 @@ namespace ApplicationLogic.Business.Commands.Funza.QuotesUpdateCommand
             result.AdjustRequestUserId = dtoItem.AdjustRequestUserId;
             result.Code = dtoItem.Code;
             result.ComboId = dtoItem.ComboId;
-            result.Comments = dtoItem.Comments;
+            result.Comments = string.Join("#||#", dtoItem.Comments);
             result.ConfirmationPackingPrice = dtoItem.ConfirmationPackingPrice;
             result.ConfirmationPriceLabor = dtoItem.ConfirmationPriceLabor;
             result.CreatedByUserName = dtoItem.CreatedByUserName;

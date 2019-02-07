@@ -28,7 +28,7 @@ namespace DomainDatabaseMapping.Mappings.Funza
             builder.Property(t => t.FunzaId)
               .IsRequired();
 
-            builder.Property(t => t.Name)
+            builder.Property(t => t.Title)
                 .HasColumnType("varchar(100)")
                 .IsRequired(true)
                 ;
