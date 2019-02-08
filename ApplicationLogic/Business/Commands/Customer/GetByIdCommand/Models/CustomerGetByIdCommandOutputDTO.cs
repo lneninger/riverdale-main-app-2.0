@@ -7,6 +7,8 @@ namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public CustomerGetByIdCommandOutputSettingsDTO CustomerSettings { get; set; }
         public IEnumerable<CustomerGetByIdCommandOutputThirdPartySettingsDTO> ThirdPartySettings { get; set; }
         public CustomerGetByIdCommandOutputFreightoutDTO Freightout { get; set; }
     }

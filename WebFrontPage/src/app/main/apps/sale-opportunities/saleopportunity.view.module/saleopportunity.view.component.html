@@ -1,61 +1,97 @@
 <div id="todo" class="page-layout carded left-sidebar inner-scroll">
-
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="todo-main-sidebar" position="left" lockedOpen="gt-md">
-        <todo-main-sidebar *ngIf="showProductsSidebar" [entity]="currentEntity"></todo-main-sidebar>
-        <customer-sidebar *ngIf="showCustomerSidebar" [entity]="currentEntity"></customer-sidebar>
+    <fuse-sidebar
+        class="sidebar"
+        name="todo-main-sidebar"
+        position="left"
+        lockedOpen="gt-md"
+    >
+        <todo-main-sidebar
+            *ngIf="showProductsSidebar"
+            [entity]="currentEntity"
+        ></todo-main-sidebar>
+        <customer-sidebar
+            *ngIf="showCustomerSidebar"
+            [entity]="currentEntity"
+        ></customer-sidebar>
     </fuse-sidebar>
     <!-- / SIDEBAR -->
     <!-- CENTER -->
     <div class="center">
-
         <!-- CONTENT HEADER -->
         <div class="header" fxLayout="row" fxLayoutAlign="start center">
-
-            <div class="main-fields" fxFlex="100%" fxLayout="row" fxLayoutGap="30px" [@animate]="{value:'*',params:{delay:'300ms'}}">
-                <mat-form-field floatLabel="always" appearance="outline" fxFlex="30%">
+            <div
+                class="main-fields"
+                fxFlex="100%"
+                fxLayout="row"
+                fxLayoutGap="30px"
+                [@animate]="{ value: '*', params: { delay: '300ms' } }"
+            >
+                <mat-form-field
+                    floatLabel="always"
+                    appearance="outline"
+                    fxFlex="30%"
+                >
                     <mat-label>Season</mat-label>
-                    <input matInput [value]="currentEntity.seasonName">
+                    <input matInput [value]="currentEntity.seasonName" />
                 </mat-form-field>
 
-                <mat-form-field floatLabel="always" appearance="outline" fxFlex="50%">
+                <mat-form-field
+                    floatLabel="always"
+                    appearance="outline"
+                    fxFlex="50%"
+                >
                     <mat-label>Customer</mat-label>
-                    <input matInput [value]="currentEntity.customerName" >
+                    <input matInput [value]="currentEntity.customerName" />
                 </mat-form-field>
 
-                <mat-form-field floatLabel="always" appearance="outline" fxFlex="10%">
+                <mat-form-field
+                    floatLabel="always"
+                    appearance="outline"
+                    fxFlex="10%"
+                >
                     <mat-label>Target Price</mat-label>
-                    <input matInput [value]="currentEntity.targetPrice">
+                    <input matInput [value]="currentEntity.targetPrice" />
                 </mat-form-field>
             </div>
 
-            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
-
-                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
-                        (click)="toggleSidebar('todo-main-sidebar')">
+            <div
+                class="search-wrapper"
+                fxFlex
+                fxLayout="row"
+                fxLayoutAlign="start center"
+            >
+                <button
+                    mat-icon-button
+                    class="sidebar-toggle"
+                    fxHide.gt-md
+                    (click)="toggleSidebar('todo-main-sidebar')"
+                >
                     <mat-icon>menu</mat-icon>
                 </button>
-
 
                 <!--<div class="search" fxLayout="row" fxLayoutAlign="start center">
             <mat-icon class="secondary-text">search</mat-icon>
             <input [formControl]="searchInput" placeholder="Search for a task" fxFlex>
         </div>-->
-
             </div>
-
         </div>
         <!-- / CONTENT HEADER -->
         <!-- CONTENT CARD -->
-        <div class="content-card" [ngClass]="{'current-todo-selected':currentTodo}">
-
+        <div
+            class="content-card"
+            [ngClass]="{ 'current-todo-selected': currentTodo }"
+        >
             <!-- CONTENT TOOLBAR -->
             <div class="toolbar px-24 py-8">
-
-                <div class="todo-selection" fxFlex="row" fxLayoutAlign="start center">
+                <div
+                    class="todo-selection"
+                    fxFlex="row"
+                    fxLayoutAlign="start center"
+                >
                     <!--<mat-checkbox (click)="toggleSelectAll()" [checked]="hasSelectedTodos"
                       [indeterminate]="isIndeterminate"></mat-checkbox>
 
@@ -84,26 +120,102 @@
             </button>
         </mat-menu>-->
 
-                    <button *ngIf="activeArea == 'settings'" mat-icon-button (click)="setActiveArea('products')">
+                    <button
+                        *ngIf="activeArea == 'settings'"
+                        mat-icon-button
+                        (click)="setActiveArea('products')"
+                    >
                         <mat-icon>format_list_numbered</mat-icon>
                     </button>
-                    <button *ngIf="activeArea != 'settings'" mat-icon-button (click)="setActiveArea('settings')"
-                    matTooltip="Products quote info" [attr.aria-label]="'Products quote info'">
+                    <button
+                        *ngIf="activeArea != 'settings'"
+                        mat-icon-button
+                        (click)="setActiveArea('settings')"
+                        matTooltip="Products quote info"
+                        [attr.aria-label]="'Products quote info'"
+                    >
                         <mat-icon>settings</mat-icon>
                     </button>
 
                     <div class="toolbar-separator"></div>
-                    
-                    <button  mat-icon-button (click)="showCustomerSidebar = !showCustomerSidebar"
-                    matTooltip="Customer Info" [attr.aria-label]="'Display Customer Info (' + currentEntity.customerName + ')'"
+
+                    <button
+                        mat-icon-button
+                        (click)="showCustomerSidebar = !showCustomerSidebar"
+                        matTooltip="Customer Info"
+                        [attr.aria-label]="
+                            'Display Customer Info (' +
+                            currentEntity.customerName +
+                            ')'
+                        "
                     >
                         <mat-icon>person</mat-icon>
                     </button>
+
+                    <div class="toolbar-separator"></div>
+                    <div>BOUQUET</div>
+                    <button
+                        mat-icon-button
+                        (click)="addBouquet()"
+                        matTooltip="New Bouquet"
+                        [attr.aria-label]="'New Bouquet'"
+                    >
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        (click)="showCustomerSidebar = !showCustomerSidebar"
+                        matTooltip="Copy Bouquet"
+                        [attr.aria-label]="'Copy Bouquet'"
+                    >
+                        <mat-icon>file_copy</mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        (click)="showCustomerSidebar = !showCustomerSidebar"
+                        matTooltip="Move to Another Sample Box"
+                        [attr.aria-label]="'Move to Another Sample Box'"
+                    >
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+
+                    <div class="toolbar-separator"></div>
+                    <div>BOX</div>
+                    <button
+                        mat-icon-button
+                        (click)="addSampleBox()"
+                        matTooltip="New Sample Box"
+                        [attr.aria-label]="'New Sample Box'"
+                    >
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        (click)="showCustomerSidebar = !showCustomerSidebar"
+                        matTooltip="Copy Sample Box"
+                        [attr.aria-label]="'Copy Sample Box'"
+                    >
+                        <mat-icon>file_copy</mat-icon>
+                    </button>
+
+                    <button
+                    mat-icon-button
+                    (click)="setActiveDetailArea('SampleBoxs')"
+                    matTooltip="View Sample Boxs"
+                    [attr.aria-label]="'View Sample Boxs'"
+                >
+                    <mat-icon>visibility</mat-icon>
+                </button>
                 </div>
 
                 <div fxFlexAlign="end center">
                     <button mat-icon-button (click)="setActiveArea('products')">
-                        <mat-icon class="font-size-40">power_settings_new</mat-icon>
+                        <mat-icon class="font-size-40"
+                            >power_settings_new</mat-icon
+                        >
                     </button>
                 </div>
 
@@ -112,24 +224,43 @@
                         <mat-icon class="secondary-text">arrow_back</mat-icon>
                     </button>
                 </div>
-
             </div>
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
                 <ng-container *ngIf="activeArea != 'settings'">
-                    <saleopportunity-view-list [entity]="currentEntity" [formItems]="frmOpportunityItems" fusePerfectScrollbar fxFlex></saleopportunity-view-list>
-                    <saleopportunity-view-details [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-details>
+                    <saleopportunity-view-list
+                        [entity]="currentEntity"
+                        [formItems]="frmOpportunityItems"
+                        fusePerfectScrollbar
+                        fxFlex
+                    ></saleopportunity-view-list>
+                    <ng-container *ngIf="activeDetailArea != 'SampleBoxs'">
+                        <saleopportunity-view-details
+                            [entity]="currentEntity"
+                            fusePerfectScrollbar
+                            fxFlex
+                        ></saleopportunity-view-details>
+                    </ng-container>
+                    <ng-container *ngIf="activeDetailArea == 'SampleBoxs'">
+                            <saleopportunity-view-sampleboxs
+                                [entity]="currentEntity"
+                                fusePerfectScrollbar
+                                fxFlex
+                            ></saleopportunity-view-sampleboxs>
+                        </ng-container>
                 </ng-container>
 
-                <saleopportunity-view-settings *ngIf="activeArea == 'settings'" [entity]="currentEntity" fusePerfectScrollbar fxFlex></saleopportunity-view-settings>
+                <saleopportunity-view-settings
+                    *ngIf="activeArea == 'settings'"
+                    [entity]="currentEntity"
+                    fusePerfectScrollbar
+                    fxFlex
+                ></saleopportunity-view-settings>
             </div>
             <!-- / CONTENT -->
-
         </div>
         <!-- / CONTENT CARD -->
-
     </div>
     <!-- / CENTER -->
-
 </div>

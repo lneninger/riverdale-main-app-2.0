@@ -15,7 +15,10 @@ namespace DomainDatabaseMapping.Mappings.Company
 
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            
+            builder
+               .HasOne(t => t.CustomerSettings)
+               .WithOne(c => c.Customer)
+               .HasForeignKey<CustomerSettings>(t => t.CustomerId);
         }
     }
 }

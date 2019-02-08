@@ -11,8 +11,6 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-//import { AngularFireAuth } from '@angular/fire/auth';
-//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult } from './saleopportunity.model';
 import { HttpClient } from '@angular/common/http';
@@ -54,7 +52,6 @@ export class SaleOpportunitiesComponent implements OnInit {
     constructor(
         private route: ActivatedRoute
         , private service: SaleOpportunityService
-        //, private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
 
@@ -78,10 +75,9 @@ export class SaleOpportunitiesComponent implements OnInit {
         this.initializeQueryListeners();
     }
 
-    initializeQueryListeners() {
+    initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (this.route.snapshot.data['action'] == 'new') {
+            if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
         });
@@ -94,7 +90,7 @@ export class SaleOpportunitiesComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result: SaleOpportunityNewDialogResult) => {
-            if (result && result.goTo == 'Edit') {
+            if (result && result.goTo === 'Edit') {
                 this.service.router.navigate([`apps/saleopportunities/${result.data.id}`]);
             }
             else {
@@ -123,12 +119,12 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}saleopportunity/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}saleopportunity/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
 
 
-        let result = {};
+        const result = {};
 
 
         return result;
@@ -148,7 +144,7 @@ export class SaleOpportunityNewDialogComponent {
     listCustomer: EnumItem<number>[];
     selectedSeasonCategory: EnumItem<string>;
 
-    get selectedCategorySeasons() {
+    get selectedCategorySeasons(): Object {
         if (this.selectedSeasonCategory != null) {
             return this.selectedSeasonCategory.extras['saleSeasonTypes'];
         }
@@ -176,7 +172,7 @@ export class SaleOpportunityNewDialogComponent {
         });
     }
 
-    save() {
+    save(): Promise<{}> {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
@@ -203,11 +199,11 @@ export class SaleOpportunityNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<SaleOpportunity>) => {
-            //debugger;
-            let result = <SaleOpportunityNewDialogResult>{
+            const result = <SaleOpportunityNewDialogResult>{
                 goTo: 'Edit',
                 data: res.bag
-            }
+            };
+            
             this.dialogRef.close(result);
         });
     }

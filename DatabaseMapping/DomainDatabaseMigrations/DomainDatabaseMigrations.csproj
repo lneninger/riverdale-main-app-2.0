@@ -23,6 +23,9 @@
     <Compile Remove="Migrations\20190125100601_Add Legacy Ids columns.cs" />
     <Compile Remove="Migrations\20190125101324_Add Optional Company Origin.cs" />
     <Compile Remove="Migrations\20190125101939_Add Fix CompanyType Mapping.cs" />
+    <Compile Remove="Migrations\20190208053519_Remove Identity Customer Settings .cs" />
+    <Compile Remove="Migrations\20190208055014_Remove Identity Customer Settings 1.cs" />
+    <Compile Remove="Migrations\20190208055222_Remove Identity Customer Settings 1.cs" />
   </ItemGroup>
 
   <ItemGroup>

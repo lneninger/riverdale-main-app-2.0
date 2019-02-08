@@ -9,6 +9,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public int CustomerId { get; set; }
         public string CustomerName { get; set; }
 
         public string SeasonName { get; set; }

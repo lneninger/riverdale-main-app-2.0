@@ -12,6 +12,8 @@ namespace DomainModel.Company.Customer
             this.CustomerOpportunities = new List<CustomerOpportunity>();
         }
 
+        public virtual CustomerSettings CustomerSettings { get; set; }
+
         public virtual IEnumerable<CustomerOpportunity> CustomerOpportunities { get; set; }
 
         public virtual IEnumerable<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }

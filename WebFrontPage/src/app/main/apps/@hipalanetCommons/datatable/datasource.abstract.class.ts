@@ -18,14 +18,14 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
     private _filterChange = new BehaviorSubject('');
 
     private _dataChanged = new BehaviorSubject('');
-    get dataChanged() {
+    get dataChanged(): BehaviorSubject<string> {
         return this._dataChanged;
     }
 
     private _filteredDataChange = new BehaviorSubject('');
 
     private _filter: { [key: string]: any; } = {};
-    public get filter() {
+    public get filter(): { [key: string]: any; } {
         return this._filter;
     }
 
@@ -44,7 +44,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
         if (this.filterElement) {
             fromEvent(this.filterElement.nativeElement, 'keyup')
                 .pipe(
-                    filter(e => { /*console.log('first event: ', e); */return (<any>e).keyCode == 13 }),
+                    filter(e => (<any>e).keyCode === 13 ),
                     takeUntil(this._unsubscribeAll),
                     debounceTime(150),
                     distinctUntilChanged()
@@ -57,7 +57,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
     }
 
     connect(): Observable<any[]> {
-        //debugger;
+        // debugger;
         const displayDataChanges = [
             this._matPaginator.page,
             this._filterChange,
@@ -68,10 +68,10 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
         return merge(...displayDataChanges)
             .pipe(
             mergeMap(() => {
-                //debugger;
-                    let pageIndex = this._matPaginator.pageIndex;
-                    let pageSize = this._matPaginator.pageSize;
-                    let sortObj = this.getSortSelection();
+                // debugger;
+                    const pageIndex = this._matPaginator.pageIndex;
+                    const pageSize = this._matPaginator.pageSize;
+                    const sortObj = this.getSortSelection();
 
                     return this.getData(pageIndex, pageSize, sortObj, this.filter);
                 }))
@@ -85,7 +85,7 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
     }
 
     getSortSelection(): any {
-        let result = new SortCollection();
+        const result = new SortCollection();
 
         if (!this._matSort.active || this._matSort.direction === '') {
             return result;
@@ -98,8 +98,8 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
 
     public abstract get remoteEnpoint(): string;
 
-    getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: {}) {
-        let postData = new PageQueryData(pageIndex, pageSize, sortObj, filter);
+    getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: any): Observable<Object> {
+        const postData = new PageQueryData(pageIndex, pageSize, sortObj, filter);
 
         return this.service.http.post(this.remoteEnpoint, postData);
     }

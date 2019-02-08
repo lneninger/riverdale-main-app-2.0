@@ -30,6 +30,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
+                        CustomerId = getByIdResult.Bag.CustomerId,
                         CustomerName = getByIdResult.Bag.Customer.Name,
                         SeasonName = getByIdResult.Bag.SaleSeasonType.Name,
                         TargetPrice = getByIdResult.Bag.TargetPrice,

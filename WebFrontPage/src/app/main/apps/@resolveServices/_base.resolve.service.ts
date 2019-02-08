@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { environment } from 'environments/environment';
-import { SecureHttpClientService, OperationResponse } from "../@hipalanetCommons/authentication/securehttpclient.service";
-import { EnumItem } from "./resolve.model";
-import { Subject } from "rxjs";
+import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { EnumItem } from './resolve.model';
+import { Subject } from 'rxjs';
 
 export abstract class BaseResolveService implements Resolve<any> {
     list: EnumItem<any>[] = null;
@@ -13,11 +13,11 @@ export abstract class BaseResolveService implements Resolve<any> {
 
     constructor(protected http: SecureHttpClientService) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<EnumItem<any>[]> {
         return this.noDependencyResolve();
     }
 
-    noDependencyResolve(forceReload: boolean = false) {
+    noDependencyResolve(forceReload: boolean = false): Promise<EnumItem<any>[]> {
         if (this.list != null && !forceReload) {
             return Promise.resolve(this.list);
         }
@@ -25,7 +25,7 @@ export abstract class BaseResolveService implements Resolve<any> {
             return new Promise<EnumItem<any>[]>((resolve, reject) => {
                 this.http.get(this.endpoint).toPromise()
                     .then(res => {
-                        //debugger;
+                        // debugger;
                         this.list = (<OperationResponse<EnumItem<any>[]>>res).bag;
                         resolve(this.list);
                     })

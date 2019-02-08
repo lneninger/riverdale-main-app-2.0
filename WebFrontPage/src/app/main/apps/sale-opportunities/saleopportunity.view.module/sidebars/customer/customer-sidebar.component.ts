@@ -28,6 +28,8 @@ import {
     ProductResolveService
 } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.service';
+import { Customer } from 'app/main/apps/customers/customer.model';
+import { CustomerService } from 'app/main/apps/customers/customer.core.module';
 
 @Component({
     selector: 'customer-sidebar',
@@ -38,12 +40,26 @@ import { SaleOpportunityService } from '../../../saleopportunity.service';
 })
 export class CustomerSidebarComponent implements OnInit, OnDestroy {
     private _currentEntity: SaleOpportunity;
+    public customer: Customer;
 
-
-    private _currentDataArea: CurrentDataAreaType  = 'ALL';
-    get showCustomerInfo(): boolean{
-        return (<CurrentDataAreaType[]>['ALL', 'INFO']).indexOf(this._currentDataArea) !== -1; 
+    private _currentDataArea: CurrentDataAreaType = 'ALL';
+    get showCustomerInfo(): boolean {
+        return (
+            (<CurrentDataAreaType[]>['ALL', 'INFO']).indexOf(
+                this._currentDataArea
+            ) !== -1
+        );
     }
+
+    get showCustomerSettings(): boolean {
+        return (
+            (<CurrentDataAreaType[]>['ALL', 'SETTINGS']).indexOf(
+                this._currentDataArea
+            ) !== -1
+        );
+    }
+
+    
 
     get currentEntity(): SaleOpportunity {
         return this._currentEntity;
@@ -52,6 +68,9 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
     @Input('entity')
     set currentEntity(value: SaleOpportunity) {
         this._currentEntity = value;
+        if (this._currentEntity && this._currentEntity.customerId) {
+            this.getCustomer(this._currentEntity.customerId);
+        }
     }
 
     @ViewChild('productFilterElement')
@@ -79,7 +98,8 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
         private _todoService: SaleOpportunityViewService,
         private _router: Router,
         private productResolveService: ProductResolveService,
-        private productService: SaleOpportunityService
+        private productService: SaleOpportunityService,
+        private customerService: CustomerService
     ) {
         // Set the defaults
         this.accounts = {
@@ -104,20 +124,20 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        fromEvent(this.productFilterElement.nativeElement, 'keyup')
-            .pipe(
-                filter(e => (<any>e).keyCode === 13),
-                takeUntil(this._unsubscribeAll),
-                debounceTime(150),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                // debugger;
-                const term = <string>(
-                    this.productFilterElement.nativeElement.value
-                );
-                this.filterProducts(term);
-            });
+        // fromEvent(this.productFilterElement.nativeElement, 'keyup')
+        //     .pipe(
+        //         filter(e => (<any>e).keyCode === 13),
+        //         takeUntil(this._unsubscribeAll),
+        //         debounceTime(150),
+        //         distinctUntilChanged()
+        //     )
+        //     .subscribe(() => {
+        //         // debugger;
+        //         const term = <string>(
+        //             this.productFilterElement.nativeElement.value
+        //         );
+        //         this.filterProducts(term);
+        //     });
 
         this._todoService.onFiltersChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -178,8 +198,13 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
             error => {}
         );
     }
-}
 
+    getCustomer(id: number): void {
+        this.customerService.getCustomer(id).then(data => {
+            this.customer = data.bag;
+        });
+    }
+}
 
 export declare type CurrentDataAreaType = 'ALL' | 'INFO' | 'SETTINGS';
 

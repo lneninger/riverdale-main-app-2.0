@@ -1,5 +1,5 @@
-import { IUploadedFile } from "../@hipalanetCommons/fileupload/fileupload.model";
-import { EnumItem } from "../@resolveServices/resolve.model";
+import { IUploadedFile } from '../@hipalanetCommons/fileupload/fileupload.model';
+import { EnumItem } from '../@resolveServices/resolve.model';
 
 export class SaleOpportunityGrid {
     id: number;
@@ -10,6 +10,7 @@ export class SaleOpportunityGrid {
 export class SaleOpportunity {
     id: number;
     name: string;
+    customerId: number;
     customerName: string;
     seasonName: string;
     targetPrice: number;
@@ -21,16 +22,17 @@ export class SaleOpportunity {
     /**
      * Constructor
      *
-     * @param product
+     * @param product Product
      */
     constructor(product?) {
-        let internal = product || {};
+        const internal = product || {};
         this.id = internal.id;
         this.name = internal.name;
         this.seasonName = internal.seasonName;
         this.customerName = internal.customerName;
+        this.customerId = internal.customerId;
         this.targetPrice = internal.targetPrice;
-        this.productTypeId = internal.productTypeId
+        this.productTypeId = internal.productTypeId;
         this.productColorTypeId = internal.productColorTypeId;
         this.relatedProducts = (internal.relatedProducts || []).map(item => new SaleOpportunityItem(item));
         this.settings = new SaleOpportunitySettings(internal.settings || {});
@@ -45,7 +47,7 @@ export class ProductGrid {
     productAmount: number;
 
     constructor(item?) {
-        let internal = item || <ProductGrid>{};
+        const internal = item || <ProductGrid>{};
         this.id = internal.id;
         this.fileId = internal.fileId;
         this.productName = internal.productName;
@@ -74,7 +76,7 @@ export class SaleOpportunityItem {
     productColorTypeId?: string;
 
     constructor(item?) {
-        let internal = item || {};
+        const internal = item || {};
         if (internal.key) {
             this.productId = internal.key;
             this.productAmount = 1;
@@ -104,7 +106,7 @@ export class SaleOpportunitySettings {
 
     constructor(settings) {
 
-        let internal = settings || {};
+        const internal = settings || {};
         this.id = internal.id;
         this.delivered = internal.delivered;
         this.riverdaleMargin = internal.riverdaleMargin;
@@ -112,3 +114,7 @@ export class SaleOpportunitySettings {
         this.growerId = internal.growerId;
     }
 }
+
+
+
+

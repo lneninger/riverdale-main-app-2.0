@@ -34,11 +34,12 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     showCustomerSidebar: boolean;
-    
+    activeArea: ActiveAreaType;
+    activeDetailArea: ActiveDetailAreaType;
 
     @Input('entity')
     set currentEntity(value: SaleOpportunity) {
-        if (this._currentEntity != value) {
+        if (this._currentEntity !== value) {
             this._currentEntity = new SaleOpportunity(value);
             this.products = this._currentEntity.relatedProducts;
             this.frmMain = this.createFormBasicInfo();
@@ -64,10 +65,13 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {TodoService} _todoService
+     * 
+     * @param route Current route service
+     * @param _fuseSidebarService  sidebar component
+     * @param _todoService 
+     * @param _formBuilder 
+     * @param saleOpportunityService 
+     * @param _matSnackBar 
      */
     constructor(
         private route: ActivatedRoute
@@ -95,7 +99,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        //debugger;
+        // debugger;
         this.currentEntity = this.saleOpportunityService.currentEntity.bag;
         this.frmOpportunityItems = this._formBuilder.array([]);
         this.currentEntity.relatedProducts.forEach(item => {
@@ -166,15 +170,15 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      * @returns {FormGroup}
      */
     createFormBasicInfo(): FormGroup {
-        //debugger;
+        // debugger;
         return this._formBuilder.group({
             id: [this.currentEntity.id],
             name: [this.currentEntity.name],
         });
     }
 
-    createFormOpportunityItem(item: SaleOpportunityItem) {
-        let result = this._formBuilder.group({
+    createFormOpportunityItem(item: SaleOpportunityItem): FormGroup {
+        const result = this._formBuilder.group({
             'id': [item.id, [Validators.required, CustomValidators.number]],
             'productId': [item.productId, [Validators.required, CustomValidators.number]],
             'productAmount': [item.productAmount, [Validators.required, CustomValidators.number]],
@@ -183,14 +187,13 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         });
 
         result.controls['selected'].valueChanges.subscribe(value => {
-            //value.
         });
 
         return result;
     }
 
-    updateFormOpportunityItem(formGroup: FormGroup, item: SaleOpportunityItem) {
-        let value = {
+    updateFormOpportunityItem(formGroup: FormGroup, item: SaleOpportunityItem): void {
+        const value = {
             id: item.id,
             productId: item.productId,
             productAmount: item.productAmount,
@@ -198,10 +201,6 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         };
 
         formGroup.reset(value);
-        //formGroup.controls['id'].setValue(item.id);
-        //formGroup.controls['productId'].setValue(item.productId);
-        //formGroup.controls['productAmount'].setValue(item.productAmount);
-        //formGroup.controls['productColorTypeId'].setValue(item.productColorTypeId);
     }
 
 
@@ -255,7 +254,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
 
-    onSaleOpportunityItemAdded(item: SaleOpportunityItem) {
+    onSaleOpportunityItemAdded(item: SaleOpportunityItem): void {
         // debugger;
         this.frmOpportunityItems.push(this.createFormOpportunityItem(item));
         this.currentEntity.relatedProducts.push(item);
@@ -265,9 +264,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             });
     }
 
-    onSaleOpportunityItemUpdated(item: SaleOpportunityItem) {
+    onSaleOpportunityItemUpdated(item: SaleOpportunityItem): void {
         // debugger;
-        let index = this.currentEntity.relatedProducts.findIndex(relatedPorductItem => relatedPorductItem.id == item.id);
+        const index = this.currentEntity.relatedProducts.findIndex(relatedPorductItem => relatedPorductItem.id === item.id);
         if (index >= 0) {
             this.currentEntity.relatedProducts.splice(index, 1, item);
             this.updateFormOpportunityItem((<FormGroup>this.frmOpportunityItems.controls[index]), item);
@@ -279,10 +278,24 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         }
     }
 
-    activeArea: ActiveAreaType;
-    setActiveArea(area: ActiveAreaType) {
+    setActiveArea(area: ActiveAreaType): void {
         this.activeArea = area;
+    }
+
+    
+    setActiveDetailArea(area: ActiveDetailAreaType): void {
+        this.activeDetailArea = area;
+    }
+
+
+    addSampleBox(): void{
+        
+    }
+
+    addBouquet(): void{
+
     }
 }
 declare type ActiveAreaType = 'settings' | 'products';
+declare type ActiveDetailAreaType = 'ItemDetails' | 'SampleBoxs';
 

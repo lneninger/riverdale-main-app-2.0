@@ -49,6 +49,7 @@ namespace DomainDatabaseMapping
         public DbSet<CompanyType> CompanyTypes { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerSettings> CustomerSettings { get; set; }
         public DbSet<CustomerThirdPartyAppSetting> CustomerThirdPartyAppSettings { get; set; }
         public DbSet<CustomerFreightoutRateType> CustomerFreightoutRateTypes { get; set; }
         public DbSet<CustomerFreightout> CustomerFreightouts { get; set; }
@@ -109,6 +110,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new CompanyTypeMap(modelBuilder));
 
             modelBuilder.ApplyConfiguration(new CustomerMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CustomerSettingsMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerThirdPartyAppSettingMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerFreightoutRateTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new CustomerFreightoutMap(modelBuilder));

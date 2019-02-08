@@ -27,6 +27,7 @@ namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
+
                         ThirdPartySettings = getByIdResult.Bag.CustomerThirdPartyAppSettings.Select(third => new CustomerGetByIdCommandOutputThirdPartySettingsDTO
                         {
                             Id = third.Id,
@@ -46,6 +47,19 @@ namespace ApplicationLogic.Business.Commands.Customer.GetByIdCommand
 
                         }).FirstOrDefault()
                     };
+
+                    if (getByIdResult.Bag.CustomerSettings != null)
+                    {
+                        result.Bag.CustomerSettings = new CustomerGetByIdCommandOutputSettingsDTO
+                        {
+                            Id = getByIdResult.Bag.CustomerSettings.CustomerId,
+                            DefaultDuty = getByIdResult.Bag.CustomerSettings.DefaultDuty,
+                            DefaultIsDeliver = getByIdResult.Bag.CustomerSettings.DefaultIsDeliver,
+                            DefaultIsWet = getByIdResult.Bag.CustomerSettings.DefaultIsWet,
+                            DefaultOther = getByIdResult.Bag.CustomerSettings.DefaultOther,
+                            DefaultRebate = getByIdResult.Bag.CustomerSettings.DefaultRebate,
+                        };
+                    }
                 }
             }
 
