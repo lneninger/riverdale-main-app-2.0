@@ -34,7 +34,7 @@
     "../DatabaseRepositories/DB/SaleOpportunityDBRepository.cs",
     "../DatabaseRepositories/DB/SaleOpportunityProductDBRepository.cs",
     "../ApplicationLogic/Repositories/DB/ISaleOpportunityProductDBRepository.cs",
-    "../ApplicationLogic/Business/Commands/SaleOpportunityProduct",
+    "../ApplicationLogic/Business/Commands/SampleBoxProduct",
     "../ApplicationLogic/Business/Commands/FunzaIntegrator/AuthenticateCommand",
     "Controllers/FunzaController.cs", "../ApplicationLogic/Business/Commands/FunzaIntegrator/GetProductsCommand", "../FunzaRepositories/SecurityRepository.cs", "../DatabaseMapping/DomainDatabaseMapping/Mappings/Company/GrowerTypeMap.cs", "../DatabaseMapping/DomainDatabaseMapping/Mappings/Company/GrowerFreightMap.cs"
   ]

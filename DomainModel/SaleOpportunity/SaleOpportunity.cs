@@ -21,7 +21,7 @@ namespace DomainModel.SaleOpportunity
 
         public virtual SaleOpportunitySettings SaleOpportunitySettings { get; set; }
 
-        public virtual IEnumerable<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
+        public virtual ICollection<SampleBox> SampleBoxes { get; set; }
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }

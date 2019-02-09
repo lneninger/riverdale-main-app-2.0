@@ -6,6 +6,7 @@ using Framework.Core.Messages;
 using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
 using DomainModel.SaleOpportunity;
+using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
 {
@@ -35,18 +36,21 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                         SeasonName = getByIdResult.Bag.SaleSeasonType.Name,
                         TargetPrice = getByIdResult.Bag.TargetPrice,
 
-                        RelatedProducts = getByIdResult.Bag.SaleOpportunityProducts.Select(o => new SaleOpportunityGetByIdCommandOutputRelatedSaleOpportunityItemDTO
+                        SampleBoxes = getByIdResult.Bag.SampleBoxes.Select(o => new SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO
                         {
                             Id = o.Id,
                             SaleOpportunityId = o.SaleOpportunityId,
-                            ProductId = o.ProductId,
-                            ProductAmount = o.ProductAmount,
-                            ProductName = o.Product.Name,
-                            ProductTypeId = o.Product.ProductTypeId,
-                            ProductTypeName = o.Product.ProductType.Name,
-                            ProductTypeDescription = o.Product.ProductType.Description,
-                            ProductPictureId = o.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
-                            ProductColorTypeId = o.ProductAllowedColorType?.ProductColorTypeId
+                            SampleBoxProducts = o.SampleBoxProducts.Select(item => new SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO {
+                                Id = o.Id,
+                                ProductId = item.ProductId,
+                                ProductAmount = item.ProductAmount,
+                                ProductName = item.Product.Name,
+                                ProductTypeId = item.Product.ProductTypeId,
+                                ProductTypeName = item.Product.ProductType.Name,
+                                ProductTypeDescription = item.Product.ProductType.Description,
+                                ProductPictureId = item.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                                ProductColorTypeId = item.ProductAllowedColorType?.ProductColorTypeId
+                            }).ToList()
                         }).ToList()
 
                     };

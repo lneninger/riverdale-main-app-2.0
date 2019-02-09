@@ -14,9 +14,7 @@ export class SaleOpportunity {
     customerName: string;
     seasonName: string;
     targetPrice: number;
-    productTypeId: string;
-    productColorTypeId: string;
-    relatedProducts: SaleOpportunityItem[];
+    sampleBoxs: SampleBox[];
     settings: SaleOpportunitySettings;
 
     /**
@@ -32,11 +30,26 @@ export class SaleOpportunity {
         this.customerName = internal.customerName;
         this.customerId = internal.customerId;
         this.targetPrice = internal.targetPrice;
-        this.productTypeId = internal.productTypeId;
-        this.productColorTypeId = internal.productColorTypeId;
-        this.relatedProducts = (internal.relatedProducts || []).map(item => new SaleOpportunityItem(item));
+        this.sampleBoxs = (internal.sampleBoxs || []).map(item => new SampleBox(item));
         this.settings = new SaleOpportunitySettings(internal.settings || {});
     }
+}
+
+export class SampleBox{
+    id: number;
+    name: string;
+    parentSampleBoxId: number;
+    relatedProducts: SaleOpportunityItem[];
+
+    constructor(sampleBox?){
+        const internal = sampleBox || {};
+        this.id = internal.id;
+        this.name = internal.name;
+        this.parentSampleBoxId = internal.parentSampleBoxId;
+        this.relatedProducts = (internal.relatedProducts || []).map(item => new SaleOpportunityItem(item));
+
+    }
+
 }
 
 export class ProductGrid {

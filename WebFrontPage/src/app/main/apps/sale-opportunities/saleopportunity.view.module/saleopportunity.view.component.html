@@ -182,7 +182,15 @@
                     </button>
 
                     <div class="toolbar-separator"></div>
-                    <div>BOX</div>
+                    
+                    <mat-form-field>
+                            <mat-select placeholder="BOX">
+                              <mat-option *ngFor="let box of currentEntity.sampleBoxs" [value]="box.name">
+                                {{food.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+
                     <button
                         mat-icon-button
                         (click)="addSampleBox()"
