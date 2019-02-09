@@ -2,9 +2,6 @@
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DomainDatabaseMapping.Mappings.SaleOpportunity
 {
@@ -26,6 +23,7 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
                .HasMaxLength(100)
                .IsRequired(true);
 
+            // Relationships
             builder.HasOne(t => t.SaleOpportunitySettings)
             .WithOne(t => t.SaleOpportunity)
             .HasForeignKey<SaleOpportunitySettings>(t => t.SaleOpportunityId);
@@ -36,8 +34,13 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
 
 
             builder.HasOne(t => t.SaleSeasonType)
-               .WithMany(t => t.SaleOpportunities)
+               .WithMany(p => p.SaleOpportunities)
                .HasForeignKey(t => t.SaleSeasonTypeId);
+
+
+            builder.HasMany(t => t.SampleBoxes)
+               .WithOne(c => c.SaleOpportunity)
+               .HasForeignKey(c => c.SaleOpportunityId);
         }
     }
 }

@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Todo } from './saleopportunity.view.model';
-import { SaleOpportunityItem } from '../saleopportunity.model';
+import { SampleBoxItem } from '../saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityViewService// implements Resolve<any>
@@ -373,8 +373,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
 
 
 
-    addCompositionItem(item: SaleOpportunityItem): void {
-        console.log(item);
-    }
+    // addCompositionItem(item: SaleOpportunityItem): void {
+    //     console.log(item);
+    // }
 
 }

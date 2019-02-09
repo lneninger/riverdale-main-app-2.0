@@ -117,7 +117,7 @@ namespace RiverdaleMainApp2_0.Controllers
         {
             var result = this.PageQueryCommand.Execute(input);
 
-            return this.Ok(result);
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
         }
 
         /// <summary>

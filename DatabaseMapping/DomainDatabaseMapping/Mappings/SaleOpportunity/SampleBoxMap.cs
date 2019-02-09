@@ -26,6 +26,9 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
             builder.Property(t => t.Name)
                 .HasMaxLength(200);
 
+            builder.Property(t => t.SaleOpportunityId)
+                .IsRequired();
+
             // Collections
         }
     }

@@ -14,7 +14,7 @@ export class SaleOpportunity {
     customerName: string;
     seasonName: string;
     targetPrice: number;
-    sampleBoxs: SampleBox[];
+    sampleBoxes: SampleBoxItem[];
     settings: SaleOpportunitySettings;
 
     /**
@@ -30,26 +30,38 @@ export class SaleOpportunity {
         this.customerName = internal.customerName;
         this.customerId = internal.customerId;
         this.targetPrice = internal.targetPrice;
-        this.sampleBoxs = (internal.sampleBoxs || []).map(item => new SampleBox(item));
+        this.sampleBoxes = (internal.sampleBoxes || []).map(item => new SampleBoxItem(item));
         this.settings = new SaleOpportunitySettings(internal.settings || {});
     }
 }
 
-export class SampleBox{
+export class SampleBoxItem{
     id: number;
     name: string;
+    order: number;
     parentSampleBoxId: number;
-    relatedProducts: SaleOpportunityItem[];
+    relatedProducts: SampleBoxProductItem[];
 
     constructor(sampleBox?){
         const internal = sampleBox || {};
         this.id = internal.id;
         this.name = internal.name;
         this.parentSampleBoxId = internal.parentSampleBoxId;
-        this.relatedProducts = (internal.relatedProducts || []).map(item => new SaleOpportunityItem(item));
+        this.relatedProducts = (internal.relatedProducts || []).map(item => new SampleBoxProductItem(item));
 
     }
 
+}
+
+export class SampleBoxGrid {
+    id?: number;
+    order?: number;
+
+    constructor(item?) {
+        const internal = item || <SampleBoxGrid>{};
+        this.id = internal.id;
+        this.order = internal.order;
+    }
 }
 
 export class ProductGrid {
@@ -76,9 +88,9 @@ export class SaleOpportunityNewDialogResult {
 
 
 
-export class SaleOpportunityItem {
+export class SampleBoxProductItem {
     id: number;
-    saleOpportunityId: number;
+    sampleBoxId: number;
     productId: number;
     productName: string;
     productTypeId: string;
@@ -96,7 +108,7 @@ export class SaleOpportunityItem {
         }
         else {
             this.id = internal.id;
-            this.saleOpportunityId = internal.saleOpportunityId;
+            this.sampleBoxId = internal.sampleBoxId;
             this.productId = internal.productId;
             this.productName = internal.productName;
             this.productTypeId = internal.productTypeId;

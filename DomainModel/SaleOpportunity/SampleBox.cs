@@ -11,7 +11,7 @@ namespace DomainModel.SaleOpportunity
         public int Order { get; set; }
 
         public int SaleOpportunityId { get; set; }
-        public SaleOpportunity SaleOpportunity { get; set; }
+        public virtual SaleOpportunity SaleOpportunity { get; set; }
 
         public virtual ICollection<SampleBoxProduct> SampleBoxProducts { get; set; }
 
