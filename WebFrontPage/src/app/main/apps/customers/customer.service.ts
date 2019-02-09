@@ -6,8 +6,8 @@ import { environment } from 'environments/environment';
 
 
 /*************************Custom***********************************/
-//import { AngularFireDatabase } from '@angular/fire/database';
-//import { AngularFireAuth } from '@angular/fire/auth';
+// import { AngularFireDatabase } from '@angular/fire/database';
+// import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
@@ -22,7 +22,7 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     /**
      * Constructor
      *
-     * @param {HttpClient} _httpClient
+     * @param _httpClient Client Http
      */
     constructor(
         public http: SecureHttpClientService
@@ -35,9 +35,9 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     /**
      * Resolver
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
+     * @param route Current Route
+     * @param state Current State
+     * @returns Reslve data result
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         this.routeParams = route.params;
@@ -58,7 +58,7 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     /**
      * Get customer
      *
-     * @returns {Promise<any>}
+     * @returns Customer data
      */
     getCustomer(id?: number): Promise<any> {
         const internalId = id || this.routeParams.id;
@@ -74,8 +74,8 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     /**
      * Save customer
      *
-     * @param customer
-     * @returns {Promise<any>}
+     * @param customer Customer
+     * @returns Save action result
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -93,8 +93,8 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
     /**
      * Add customer
      *
-     * @param customer
-     * @returns {Promise<any>}
+     * @param customer Object to save
+     * @returns Add Customer result
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {

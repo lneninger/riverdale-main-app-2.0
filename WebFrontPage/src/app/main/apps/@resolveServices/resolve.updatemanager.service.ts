@@ -34,7 +34,7 @@ export class ResolveUpdateManagerService {
 
         merge(...productEvents)
         .subscribe((eventData: ISignalREventArgs) => {
-            this.productResolveService.clearCache();
+            this.productResolveService.reloadCache();
         });
 
         const customerEvents = [
@@ -42,7 +42,7 @@ export class ResolveUpdateManagerService {
         ];
         merge(...customerEvents)
         .subscribe((eventData: ISignalREventArgs) => {
-            this.customerResolveService.clearCache();
+            this.customerResolveService.reloadCache();
         });
 
     }

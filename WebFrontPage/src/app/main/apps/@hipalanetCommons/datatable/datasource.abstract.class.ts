@@ -98,8 +98,8 @@ export abstract class DataSourceAbstract<T> extends DataSource<T>
 
     public abstract get remoteEnpoint(): string;
 
-    getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filter: any): Observable<Object> {
-        const postData = new PageQueryData(pageIndex, pageSize, sortObj, filter);
+    getData(pageIndex: number, pageSize: number, sortObj: SortCollection, filterParam: any): Observable<Object> {
+        const postData = new PageQueryData(pageIndex, pageSize, sortObj, filterParam);
 
         return this.service.http.post(this.remoteEnpoint, postData);
     }

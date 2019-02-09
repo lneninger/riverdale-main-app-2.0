@@ -31,8 +31,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Constructor
      *
-     * @param {HttpClient} _httpClient
-     * @param {Location} _location
+     * @param _httpClient Http Client
+     * @param _location Location provider
      */
     constructor(
         private _httpClient: HttpClient,
@@ -51,57 +51,11 @@ export class SaleOpportunityViewService// implements Resolve<any>
         this.onNewTodoClicked = new Subject();
     }
 
-    ///**
-    // * Resolver
-    // *
-    // * @param {ActivatedRouteSnapshot} route
-    // * @param {RouterStateSnapshot} state
-    // * @returns {Observable<any> | Promise<any> | any}
-    // */
-    //resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    //{
-    //    this.routeParams = route.params;
-
-    //    return new Promise((resolve, reject) => {
-
-    //        Promise.all([
-    //            this.getFilters(),
-    //            this.getTags(),
-    //            this.getTodos()
-    //        ]).then(
-    //            () => {
-    //                if ( this.routeParams.todoId )
-    //                {
-    //                    this.setCurrentTodo(this.routeParams.todoId);
-    //                }
-    //                else
-    //                {
-    //                    this.setCurrentTodo(null);
-    //                }
-
-    //                this.onSearchTextChanged.subscribe(searchText => {
-    //                    if ( searchText !== '' )
-    //                    {
-    //                        this.searchText = searchText;
-    //                        this.getTodos();
-    //                    }
-    //                    else
-    //                    {
-    //                        this.searchText = searchText;
-    //                        this.getTodos();
-    //                    }
-    //                });
-    //                resolve();
-    //            },
-    //            reject
-    //        );
-    //    });
-    //}
-
+   
     /**
      * Get all filters
      *
-     * @returns {Promise<any>}
+     * @returns Filters
      */
     getFilters(): Promise<any>
     {
@@ -118,7 +72,7 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Get all tags
      *
-     * @returns {Promise<any>}
+     * @returns Tags
      */
     getTags(): Promise<any>
     {
@@ -135,7 +89,7 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Get todos
      *
-     * @returns {Promise<Todo[]>}
+     * @returns Todos
      */
     getTodos(): Promise<Todo[]>
     {
@@ -155,8 +109,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Get todos by params
      *
-     * @param handle
-     * @returns {Promise<Todo[]>}
+     * @param handle Handle
+     * @returns Todos by params
      */
     getTodosByParams(handle): Promise<Todo[]>
     {
@@ -180,8 +134,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Get todos by filter
      *
-     * @param handle
-     * @returns {Promise<Todo[]>}
+     * @param handle Handle
+     * @returns List Todo
      */
     getTodosByFilter(handle): Promise<Todo[]>
     {
@@ -215,8 +169,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Get todos by tag
      *
-     * @param handle
-     * @returns {Promise<Todo[]>}
+     * @param handle Handle
+     * @returns List of Todos
      */
     getTodosByTag(handle): Promise<Todo[]>
     {
@@ -247,7 +201,7 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Toggle selected todo by id
      *
-     * @param id
+     * @param id Toggle Id
      */
     toggleSelectedTodo(id): void
     {
@@ -305,8 +259,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Select todos
      *
-     * @param filterParameter
-     * @param filterValue
+     * @param filterParameter Filter parameters
+     * @param filterValue Filter value
      */
     selectTodos(filterParameter?, filterValue?): void
     {
@@ -341,40 +295,12 @@ export class SaleOpportunityViewService// implements Resolve<any>
         this.onSelectedTodosChanged.next(this.selectedTodos);
     }
 
-    /**
-     * Set current todo by id
-     *
-     * @param id
-     */
-    //setCurrentTodo(id): void
-    //{
-    //    this.currentTodo = this.todos.find(todo => {
-    //        return todo.id === id;
-    //    });
-
-    //    this.onCurrentTodoChanged.next([this.currentTodo, 'edit']);
-
-    //    const tagHandle    = this.routeParams.tagHandle,
-    //          filterHandle = this.routeParams.filterHandle;
-
-    //    if ( tagHandle )
-    //    {
-    //        this._location.go('apps/todo/tag/' + tagHandle + '/' + id);
-    //    }
-    //    else if ( filterHandle )
-    //    {
-    //        this._location.go('apps/todo/filter/' + filterHandle + '/' + id);
-    //    }
-    //    else
-    //    {
-    //        this._location.go('apps/todo/all/' + id);
-    //    }
-    //}
+   
 
     /**
      * Toggle tag on selected todos
      *
-     * @param tagId
+     * @param tagId Tag Id
      */
     toggleTagOnSelectedTodos(tagId): void
     {
@@ -386,8 +312,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Toggle tag on todo
      *
-     * @param tagId
-     * @param todo
+     * @param tagId Tag Id
+     * @param todo Todo Item
      */
     toggleTagOnTodo(tagId, todo): void
     {
@@ -408,9 +334,9 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Has tag?
      *
-     * @param tagId
-     * @param todo
-     * @returns {boolean}
+     * @param tagId Tag Id
+     * @param todo Todo Item
+     * @returns Has tag result
      */
     hasTag(tagId, todo): any
     {
@@ -425,8 +351,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
     /**
      * Update the todo
      *
-     * @param todo
-     * @returns {Promise<any>}
+     * @param todo List todo
+     * @returns Result Todo
      */
     updateTodo(todo): any
     {
@@ -447,8 +373,8 @@ export class SaleOpportunityViewService// implements Resolve<any>
 
 
 
-    addCompositionItem(item: SaleOpportunityItem) {
-
+    addCompositionItem(item: SaleOpportunityItem): void {
+        console.log(item);
     }
 
 }

@@ -88,13 +88,15 @@
                 <ng-container *ngIf="showCustomerInfo">
                     <div class="nav-subheader">INFO</div>
 
-                    <mat-form-field class="example-full-width">
-                        <input
-                            matInput
-                            placeholder="Name"
-                            value="{{ customer.name }}"
-                        />
-                    </mat-form-field>
+                    <div fxLayout="column">
+                        <mat-form-field class="example-full-width">
+                            <input
+                                matInput
+                                placeholder="Name"
+                                value="{{ customer.name }}"
+                            />
+                        </mat-form-field>
+                    </div>
                 </ng-container>
 
                 <ng-container *ngIf="showCustomerSettings">
@@ -108,9 +110,7 @@
                         >
                         <mat-checkbox
                             disabled="disabled"
-                            [checked]="
-                                customer.customerSettings.defaultIsDeliver
-                            "
+                            [checked]="customer.customerSettings.defaultIsDeliver"
                             >Deliver</mat-checkbox
                         >
                         <mat-checkbox
@@ -123,9 +123,7 @@
                             <input
                                 matInput
                                 placeholder="Rebate"
-                                [value]="
-                                    customer.customerSettings.defaultRebate
-                                "
+                                [value]="customer.customerSettings.defaultRebate"
                             />
                         </mat-form-field>
                     </div>

@@ -1,4 +1,4 @@
-import { HubConnection } from "@aspnet/signalr";
+import { HubConnection } from '@aspnet/signalr';
 
 export class HubItem {
     hubName: string;

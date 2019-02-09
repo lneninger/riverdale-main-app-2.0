@@ -1,6 +1,6 @@
-import { ThirdPartyGrid } from "../customerthirdpartyappsetting/customerthirdpartyappsetting.model";
-import { CustomerFreightout } from "../customerfreightout/customerfreightout.core.module";
-import { CustomerThirdPartyAppSettingCoreModule, CustomerThirdPartyAppSettingService } from "../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module";
+import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
+import { CustomerFreightout } from '../customerfreightout/customerfreightout.core.module';
+import { CustomerThirdPartyAppSettingCoreModule, CustomerThirdPartyAppSettingService } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.core.module';
 
 export class CustomerGrid {
     id: number;
@@ -11,14 +11,14 @@ export class CustomerGrid {
 export class Customer {
     id: number;
     name: string;
-    customerSettings: CustomerThirdPartyAppSettingCoreModule;
+    customerSettings: CustomerSettings;
     freightout: CustomerFreightout;
     thirdPartySettings: ThirdPartyGrid[];
 
     /**
      * Constructor
      *
-     * @param customer
+     * @param customer Input object
      */
     constructor(customer?) {
         customer = customer || {};

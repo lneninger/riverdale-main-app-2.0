@@ -10,6 +10,7 @@ import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { SaleOpportunity } from '../../saleopportunity.model';
 
+
 @Component({
     selector: 'saleopportunity-view-sampleboxs',
     templateUrl: './saleopportunity.view-sampleboxs.component.html',
@@ -36,8 +37,8 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {TodoService} _todoService
-     * @param {FormBuilder} _formBuilder
+     * @param _todoService Todo Service
+     * @param _formBuilder Form Builder
      */
     constructor(
         private _todoService: SaleOpportunityViewService,
@@ -127,7 +128,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Create todo form
      *
-     * @returns {FormGroup}
+     * @returns Form Group
      */
     createTodoForm(): FormGroup
     {
@@ -148,7 +149,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Toggle star
      *
-     * @param event
+     * @param event Event
      */
     toggleStar(event): void
     {
@@ -160,7 +161,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Toggle important
      *
-     * @param event
+     * @param event Event
      */
     toggleImportant(event): void
     {
@@ -172,7 +173,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Toggle Completed
      *
-     * @param event
+     * @param event Event
      */
     toggleCompleted(event): void
     {
@@ -184,7 +185,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Toggle Deleted
      *
-     * @param event
+     * @param event Event
      */
     toggleDeleted(event): void
     {
@@ -196,7 +197,7 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Toggle tag on todo
      *
-     * @param tagId
+     * @param tagId Tag Id
      */
     toggleTagOnTodo(tagId): void
     {
@@ -206,8 +207,8 @@ export class SaleOpportunityViewSampleBoxsComponent implements OnInit, OnDestroy
     /**
      * Has tag?
      *
-     * @param tagId
-     * @returns {any}
+     * @param tagId Tag Id
+     * @returns Has Tag
      */
     hasTag(tagId): any
     {

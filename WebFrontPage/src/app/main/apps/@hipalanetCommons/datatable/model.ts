@@ -4,9 +4,7 @@ import { SecureHttpClientService } from '../authentication/securehttpclient.serv
 
 
 declare type SortDirection = '' | 'asc' | 'desc';
-declare type SortObject = { 
-    [key: string]: SortDirection; 
-};
+declare type SortObject = { [key: string]: SortDirection;  };
 
 export class SortCollection {
 

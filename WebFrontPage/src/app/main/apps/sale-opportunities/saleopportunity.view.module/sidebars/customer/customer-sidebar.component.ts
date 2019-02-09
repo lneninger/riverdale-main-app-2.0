@@ -59,8 +59,6 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
         );
     }
 
-    
-
     get currentEntity(): SaleOpportunity {
         return this._currentEntity;
     }
@@ -108,7 +106,7 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
         };
         this.selectedAccount = 'creapond';
 
-        this.productResolveService.noDependencyResolve().then(originalList => {
+        this.productResolveService.onList.subscribe(list => {
             this.filterProducts(null);
         });
 
@@ -166,9 +164,7 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     filterProducts(term: string): void {
-        this.listProduct = (<EnumItem<number>[]>(
-            this.productResolveService.list
-        )).filter(
+        this.productResolveService.list.filter(
             o =>
                 o.key !== this.currentEntity.id &&
                 o.value &&
@@ -207,5 +203,3 @@ export class CustomerSidebarComponent implements OnInit, OnDestroy {
 }
 
 export declare type CurrentDataAreaType = 'ALL' | 'INFO' | 'SETTINGS';
-
-

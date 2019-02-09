@@ -106,9 +106,9 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
     /**
      * Constructor
      *
-     * @param {ProductsListService} _service
-     * @param {MatPaginator} _matPaginator
-     * @param {MatSort} _matSort
+     * @param _service Service
+     * @param _matPaginator Paginator
+     * @param _matSort Sort
      */
     constructor(
         service: SaleOpportunityService
@@ -203,7 +203,7 @@ export class SaleOpportunityNewDialogComponent {
                 goTo: 'Edit',
                 data: res.bag
             };
-            
+
             this.dialogRef.close(result);
         });
     }

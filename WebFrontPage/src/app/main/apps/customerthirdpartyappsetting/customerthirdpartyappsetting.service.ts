@@ -6,8 +6,6 @@ import { environment } from 'environments/environment';
 
 
 /*************************Custom***********************************/
-//import { AngularFireDatabase } from '@angular/fire/database';
-//import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { ThirdPartyGrid } from './customerthirdpartyappsetting.model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
@@ -21,7 +19,7 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
     /**
      * Constructor
      *
-     * @param {HttpClient} _httpClient
+     * @param _httpClient HttpClient Provider
      */
     constructor(
         public http: SecureHttpClientService
@@ -34,9 +32,9 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
     /**
      * Resolver
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
+     * @param route Current route
+     * @param state Current state
+     * @returns Resolve data result
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         this.routeParams = route.params;
@@ -57,7 +55,7 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
     /**
      * Get product
      *
-     * @returns {Promise<any>}
+     * @returns Entity
      */
     getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -73,8 +71,8 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
     /**
      * Add Customer Third Party App Setting
      *
-     * @param product
-     * @returns {Promise<any>}
+     * @param product Product
+     * @returns Entity
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -88,8 +86,8 @@ export class CustomerThirdPartyAppSettingService implements Resolve<any>, IPageQ
     /**
      * Save Customer Third Party App Setting
      *
-     * @param product
-     * @returns {Promise<any>}
+     * @param product Product
+     * @returns Update Product Result
      */
     update(entity): Promise<any> {
         return new Promise((resolve, reject) => {

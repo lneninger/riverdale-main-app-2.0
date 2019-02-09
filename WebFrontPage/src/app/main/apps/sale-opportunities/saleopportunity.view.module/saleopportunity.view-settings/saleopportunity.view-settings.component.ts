@@ -29,20 +29,25 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
 
     quotesObservable: Observable<EnumItem<number>>;
 
+    todos: Todo[];
+    currentTodo: Todo;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
     @ViewChild('funzaQuote')
     funzaQuoteElement: ElementRef;
 
-    get selectedGrowers() {
+    get selectedGrowers(): EnumItem<any>[] {
         if (this.selectedGrowerType != null) {
-            return this.selectedGrowerType.extras['growers'];
+            return <EnumItem<any>[]>this.selectedGrowerType.extras['growers'];
         }
         else {
             return null;
         }
     }
 
-    get currentEntity() {
+    get currentEntity(): SaleOpportunity {
         return this._currentEntity;
     }
 
@@ -51,7 +56,7 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
         this._currentEntity = value;
     }
 
-    createForm() {
+    createForm(): any {
         this.frmMain = this.formBuilder.group({
             'riverdaleMargin': ['', [CustomValidators.number]],
             'delivered': ['', []],
@@ -59,23 +64,17 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
             'growerId': ['', [CustomValidators.number]],
             'funzaQuote': ['', [CustomValidators.number]],
         });
-
-        (<FormControl>this.frmMain.controls['funzaQuote'])
     }
 
 
-    todos: Todo[];
-    currentTodo: Todo;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
 
     /**
      * Constructor
      *
-     * @param {ActivatedRoute} _activatedRoute
-     * @param {TodoService} _todoService
-     * @param {Location} _location
+     * @param _activatedRoute ActiveRoute
+     * @param _todoService Todo Service
+     * @param _location Location
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -85,7 +84,7 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
         private formBuilder: FormBuilder
     ) {
         this._unsubscribeAll = new Subject();
-        //debugger;
+        // debugger;
         this.listGrowerType = this._activatedRoute.snapshot.data.listGrowerType;
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -135,14 +134,14 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
     }
 
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): any {
         fromEvent(this.funzaQuoteElement.nativeElement, 'blur')
             .pipe(
                 takeUntil(this._unsubscribeAll)
                 , distinctUntilChanged()
             )
             .subscribe(() => {
-                //debugger;
+                // debugger;
                 this.quotesObservable = this.funzaService.getQuoteItems(this.funzaQuoteElement.nativeElement.value);
                 this.quotesObservable.subscribe();
             });
@@ -167,14 +166,14 @@ export class SaleOpportunityViewSettingsComponent implements OnInit, AfterViewIn
     /**
      * Read todo
      *
-     * @param todoId
+     * @param todoId Todo Id
      */
 
 
     /**
      * On drop
      *
-     * @param ev
+     * @param ev Event
      */
     onDrop(ev): void {
 

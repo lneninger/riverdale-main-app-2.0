@@ -26,7 +26,7 @@ export class Todo
     /**
      * Constructor
      *
-     * @param todo
+     * @param todo Input element
      */
     constructor(todo)
     {

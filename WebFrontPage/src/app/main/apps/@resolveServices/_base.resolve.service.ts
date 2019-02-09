@@ -3,44 +3,47 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { environment } from 'environments/environment';
 import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
 import { EnumItem } from './resolve.model';
-import { Subject } from 'rxjs';
+import { Subject, Observable, of, merge } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 export abstract class BaseResolveService implements Resolve<any> {
-    list: EnumItem<any>[] = null;
+    list: EnumItem<any>[];
     onList: Subject<EnumItem<any>[]> = new Subject<EnumItem<any>[]>();
 
     endpoint = `${environment.appApi.apiBaseUrl}masters/`;
 
     constructor(protected http: SecureHttpClientService) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<EnumItem<any>[]> {
-        return this.noDependencyResolve();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+       return  merge(this.noDependencyResolve())
+            .pipe(mergeMap(() => {
+                return of(true);
+            }));
     }
 
-    noDependencyResolve(forceReload: boolean = false): Promise<EnumItem<any>[]> {
+    noDependencyResolve(forceReload: boolean = false): Observable<boolean> {
         if (this.list != null && !forceReload) {
-            return Promise.resolve(this.list);
+            return of(true);
         }
         else {
-            return new Promise<EnumItem<any>[]>((resolve, reject) => {
-                this.http.get(this.endpoint).toPromise()
-                    .then(res => {
-                        // debugger;
-                        this.list = (<OperationResponse<EnumItem<any>[]>>res).bag;
-                        resolve(this.list);
-                    })
-                    .catch(error => reject(error));
+            return Observable.create(observer => {
+                this.http.get(this.endpoint)
+                .subscribe(res => {
+                    // debugger;
+                    this.list = (<OperationResponse<EnumItem<any>[]>>res).bag;
+                    this.onList.next(this.list);    
+                    observer.next(true);
+                    observer.complete();
+                });
             });
         }
     }
 
 
-    clearCache(): void {
+    reloadCache(): void {
         // this.list = [];
         if (this.list !== null) {
-            this.noDependencyResolve(true).then((o: EnumItem<any>[]) => {
-                this.onList.next(o);
-            });
+            this.noDependencyResolve(true);
         }
     }
 

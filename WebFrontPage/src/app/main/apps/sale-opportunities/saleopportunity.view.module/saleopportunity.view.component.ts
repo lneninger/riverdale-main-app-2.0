@@ -68,10 +68,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      * 
      * @param route Current route service
      * @param _fuseSidebarService  sidebar component
-     * @param _todoService 
-     * @param _formBuilder 
-     * @param saleOpportunityService 
-     * @param _matSnackBar 
+     * @param _todoService Todo Service
+     * @param _formBuilder FormBuilder Provider
+     * @param saleOpportunityService  Sale Opportunity Service
+     * @param _matSnackBar Snackbar
      */
     constructor(
         private route: ActivatedRoute
@@ -167,7 +167,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     /**
      * Create product form
      *
-     * @returns {FormGroup}
+     * @returns Basic Info
      */
     createFormBasicInfo(): FormGroup {
         // debugger;
@@ -221,8 +221,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     /**
      * Select todos
      *
-     * @param filterParameter
-     * @param filterValue
+     * @param filterParameter Filter Parameter
+     * @param filterValue Filter Value
      */
     selectTodos(filterParameter?, filterValue?): void {
         this._todoService.selectTodos(filterParameter, filterValue);
@@ -238,7 +238,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     /**
      * Toggle tag on selected todos
      *
-     * @param tagId
+     * @param tagId Tag Id
      */
     toggleTagOnSelectedTodos(tagId): void {
         this._todoService.toggleTagOnSelectedTodos(tagId);
@@ -247,7 +247,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     /**
      * Toggle the sidebar
      *
-     * @param name
+     * @param name Toggle Sidebar
      */
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
