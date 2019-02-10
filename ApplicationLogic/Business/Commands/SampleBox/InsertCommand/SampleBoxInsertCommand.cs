@@ -23,9 +23,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
             {
                 var entity = new DomainModel.SaleOpportunity.SampleBox
                 {
-                    SampleBoxId = input.SampleBoxId,
-                    ProductId = input.ProductId,
-                    ProductAmount = input.ProductAmount
+                    Order = input.Order,
+                    Name = input.Name
                 };
 
                 try
@@ -40,7 +39,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                 }
                 catch (Exception ex)
                 {
-                    result.AddError("Error Adding Product", ex);
+                    result.AddError("Error adding Sample Box", ex);
                 }
 
                 if (result.IsSucceed)
@@ -54,14 +53,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                         result.Bag = new SampleBoxInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.ProductId,
-                            SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                            ProductAmount = getByIdResult.Bag.ProductAmount,
-                            ProductName = getByIdResult.Bag.Product.Name,
-                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
-                            ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
-                            ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            Order = getByIdResult.Bag.Order,
+                            Name = getByIdResult.Bag.Name,
                         };
                     }
 

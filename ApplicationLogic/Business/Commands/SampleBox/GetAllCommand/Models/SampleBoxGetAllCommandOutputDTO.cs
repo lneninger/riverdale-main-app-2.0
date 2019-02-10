@@ -7,14 +7,10 @@ namespace ApplicationLogic.Business.Commands.SampleBox.GetAllCommand.Models
     {
         public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public string Name { get; set; }
 
-        public int RelatedProductId { get; set; }
-
-        public int ProductAmount { get; set; }
+        public int Order { get; set; }
 
         public DateTime? CreatedAt { get; set; }
-
-        public FileItemRefOutputDTO MainPicture { get; set; }
     }
 }

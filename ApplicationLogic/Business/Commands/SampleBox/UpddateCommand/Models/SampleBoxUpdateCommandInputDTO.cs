@@ -8,12 +8,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models
     {
         public int Id { get; set; }
 
-        //public int SaleOpportunityId { get; set; }
+        public string Name { get; set; }
 
-        public int ProductId { get; set; }
-
-        public int ProductAmount { get; set; }
-
-        public string ProductColorTypeId { get; set; }
+        public int Order { get; set; }
     }
 }

@@ -1,30 +1,20 @@
-﻿using DomainDatabaseMapping;
-using DomainModel;
+﻿using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.Models;
+using ApplicationLogic.Repositories.DB;
+using DomainDatabaseMapping;
+using DomainModel.Product;
+using DomainModel.SaleOpportunity;
 using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
-using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand.Models;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance;
+using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using LMB.PredicateBuilderExtension;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using LMB.PredicateBuilderExtension;
-using Framework.EF.DbContextImpl.Persistance;
-using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using Framework.Core.Messages;
-using DomainModel.Product;
-using ApplicationLogic.Business.Commons.DTOs;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.Models;
-using DomainModel.SaleOpportunity;
 
 namespace DatabaseRepositories.DB
 {
@@ -46,7 +36,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting all Product ", ex);
+                result.AddException($"Error getting all Sample Box's Product ", ex);
             }
 
             return result;
@@ -93,7 +83,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  page query", ex);
+                result.AddException($"Error getting Sample Box's Product  page query", ex);
             }
 
             return result;
@@ -117,7 +107,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  {id}", ex);
+                result.AddException($"Error getting Sample Box's Product  {id}", ex);
             }
 
             return result;
@@ -133,7 +123,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  {id}", ex);
+                result.AddException($"Error getting Sample Box's Product  {id}", ex);
             }
 
             return result;
@@ -151,7 +141,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error adding Product ", ex);
+                result.AddException($"Error adding Sample Box's Product ", ex);
             }
 
             return result;
@@ -168,7 +158,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException("Error deleting Product ", ex);
+                result.AddException("Error deleting Sample Box's Product ", ex);
             }
 
             return null;
@@ -190,7 +180,7 @@ namespace DatabaseRepositories.DB
                 }
                 catch (Exception ex)
                 {
-                    result.AddException("Error voiding Product ", ex);
+                    result.AddException("Error voiding Sample Box's Product ", ex);
                 }
             }
 

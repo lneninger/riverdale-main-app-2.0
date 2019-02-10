@@ -46,10 +46,10 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {EcommerceProductService} _ecommerceProductService
-     * @param {FormBuilder} _formBuilder
-     * @param {Location} _location
-     * @param {MatSnackBar} _matSnackBar
+     * @param _ecommerceProductService
+     * @param _formBuilder
+     * @param _location
+     * @param _matSnackBar
      */
     constructor(
         private route: ActivatedRoute
@@ -61,37 +61,9 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
         , private matDialog: MatDialog
         , private fileUploadService: FileUploadService
     ) {
-        //debugger;
 
         // Set the default
         this.currentEntity = new SaleOpportunity();
-
-
-        //this.customUploader = this.fileUploadService.create();
-
-        //this.customUploader.onSelectedNew.subscribe(selectedFile => {
-        //    this.medias.push(selectedFile);
-        //});
-
-        //this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-        //    let productMedia = {
-        //        ...<IProductMedia>{
-        //            productId: this.currentEntity.id,
-        //        }
-        //        , ...fileUploaded
-        //    };
-
-        //    this.serviceProductMedia.add(productMedia).then(result => {
-        //        //this.medias.push(fileUploaded);
-        //    });
-        //});
-
-        //this.customUploader.onCompleteAll.subscribe(result => {
-        //    this._matSnackBar.open('Product Media saved', 'OK', {
-        //        verticalPosition: 'top',
-        //        duration: 5000
-        //    });
-        //});
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -113,8 +85,7 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(dataResponse => {
 
-                //debugger;
-                let currentEntity = dataResponse.bag;
+                const currentEntity = dataResponse.bag;
                 this.id = currentEntity.id;
                 if (currentEntity) {
                     this.currentEntity = currentEntity;
@@ -131,12 +102,12 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    isBasicProduct(entity) {
-        return entity && ['FLW', 'HARD'].indexOf(entity.productTypeId) != -1;
+    isBasicProduct(entity): boolean {
+        return entity && ['FLW', 'HARD'].indexOf(entity.productTypeId) !== -1;
     }
 
-    isOpportunityProduct(entity) {
-        return entity && ['COMP'].indexOf(entity.productTypeId) != -1;
+    isOpportunityProduct(entity): boolean {
+        return entity && ['COMP'].indexOf(entity.productTypeId) !== -1;
     }
 
 }

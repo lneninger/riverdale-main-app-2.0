@@ -1,27 +1,23 @@
 ﻿using ApplicationLogic.Business.Commands.SaleOpportunity.UpdateCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.DeleteCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetAllCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.DeleteCommand;
+using ApplicationLogic.Business.Commands.SampleBox.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.GetAllCommand;
+using ApplicationLogic.Business.Commands.SampleBox.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand;
+using ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.InsertCommand;
+using ApplicationLogic.Business.Commands.SampleBox.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand;
+using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand;
+using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
-//using Microsoft.AspNet.SignalR;
-using Microsoft.AspNetCore.Authorization;
-//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
-using System.Linq;
 using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
@@ -31,8 +27,8 @@ namespace RiverdaleMainApp2_0.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/sampleboxproduct")]
-    public class SampleBoxProductController : BaseController
+    [Route("api/samplebox")]
+    public class SampleBoxController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SaleOpportunityController"/> class.
@@ -44,7 +40,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public SampleBoxProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, ISampleBoxProductPageQueryCommand pageQueryCommand, ISampleBoxProductGetAllCommand getAllCommand, ISampleBoxProductGetByIdCommand getByIdCommand, ISampleBoxProductInsertCommand insertCommand, ISampleBoxProductUpdateCommand updateCommand, ISampleBoxProductDeleteCommand deleteCommand):base(/*hubContext*/)
+        public SampleBoxController(IHubContext<GlobalHub, IGlobalHub> hubContext, ISampleBoxPageQueryCommand pageQueryCommand, ISampleBoxGetAllCommand getAllCommand, ISampleBoxGetByIdCommand getByIdCommand, ISampleBoxInsertCommand insertCommand, ISampleBoxUpdateCommand updateCommand, ISampleBoxDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
@@ -61,7 +57,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ISampleBoxProductGetAllCommand GetAllCommand { get; }
+        public ISampleBoxGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
@@ -71,7 +67,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// 
         /// </summary>
-        public ISampleBoxProductPageQueryCommand PageQueryCommand { get; }
+        public ISampleBoxPageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -80,7 +76,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ISampleBoxProductGetByIdCommand GetByIdCommand { get; }
+        public ISampleBoxGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -88,7 +84,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ISampleBoxProductInsertCommand InsertCommand { get; }
+        public ISampleBoxInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -96,7 +92,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ISampleBoxProductUpdateCommand UpdateCommand { get; }
+        public ISampleBoxUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -104,16 +100,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ISampleBoxProductDeleteCommand DeleteCommand { get; }
+        public ISampleBoxDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<SampleBoxProductPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<SampleBoxPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<SampleBoxProductPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<SampleBoxPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -124,7 +120,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<SampleBoxProductGetAllCommandOutputDTO>))]
+        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<SampleBoxGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
@@ -137,7 +133,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(SampleBoxProductGetByIdCommandOutputDTO))]
+        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(SampleBoxGetByIdCommandOutputDTO))]
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -150,9 +146,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(SampleBoxProductInsertCommandOutputDTO))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(SampleBoxInsertCommandOutputDTO))]
         //[Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunity_Manage)]
-        public IActionResult Post([FromBody]SampleBoxProductInsertCommandInputDTO model)
+        public IActionResult Post([FromBody]SampleBoxInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             if (appResult.IsSucceed)
@@ -170,7 +166,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="model">The model.</param>
         [HttpPut(), ProducesResponseType(200, Type = typeof(SaleOpportunityUpdateCommandOutputDTO))]
         [Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunity_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
-        public IActionResult Put([FromBody]SampleBoxProductUpdateCommandInputDTO model)
+        public IActionResult Put([FromBody]SampleBoxUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -181,7 +177,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(SampleBoxProductDeleteCommandOutputDTO))]
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(SampleBoxDeleteCommandOutputDTO))]
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);

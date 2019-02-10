@@ -7,11 +7,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models
     {
         public int Id { get; set; }
 
-        public int SampleBoxId { get; set; }
+        public string Name { get; set; }
 
-        public int ProductId { get; set; }
-
-        public int ProductAmount { get; set; }
-
+        public int Order { get; set; }
     }
 }

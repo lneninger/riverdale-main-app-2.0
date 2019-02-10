@@ -27,7 +27,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.GetAllCommand
                     result.Bag = getAllResult.Bag.Select(entityItem => new SampleBoxGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
-                        ProductAmount = entityItem.ProductAmount,
+                        Name = entityItem.Name,
+                        Order = entityItem.Order,
                         CreatedAt = entityItem.CreatedAt
 
                     }).ToList();

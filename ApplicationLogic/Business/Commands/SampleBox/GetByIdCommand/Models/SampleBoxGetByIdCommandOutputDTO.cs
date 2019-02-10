@@ -12,9 +12,9 @@ namespace ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand.Models
 
         public int RelatedProductId { get; set; }
 
-        public int ProductAmmount { get; set; }
+        public string Name { get; set; }
 
-        public int SampleBoxId { get; set; }
+        public int Order { get; set; }
 
         public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
     }

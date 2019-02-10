@@ -1,30 +1,19 @@
-﻿using DomainDatabaseMapping;
-using DomainModel;
+﻿using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
+using ApplicationLogic.Repositories.DB;
+using DomainDatabaseMapping;
+using DomainModel.SaleOpportunity;
 using EntityFrameworkCore.DbContextScope;
 using FizzWare.NBuilder;
-using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SampleBox.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance;
+using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using LMB.PredicateBuilderExtension;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using LMB.PredicateBuilderExtension;
-using Framework.EF.DbContextImpl.Persistance;
-using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using Framework.Core.Messages;
-using DomainModel.Product;
-using ApplicationLogic.Business.Commons.DTOs;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
-using DomainModel.SaleOpportunity;
 
 namespace DatabaseRepositories.DB
 {
@@ -64,7 +53,7 @@ namespace DatabaseRepositories.DB
                     var filter = input.CustomFilter;
                     if (!string.IsNullOrWhiteSpace(filter.Term))
                     {
-                        predicate = predicate.And(o => o.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                        predicate = predicate.And(o => o.SampleBoxProducts.Any(sampleProductItem => sampleProductItem.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase)));
                     }
                 }
 
@@ -73,10 +62,10 @@ namespace DatabaseRepositories.DB
                     var query = dbLocator.Set<SampleBox>().AsQueryable();
 
                     var advancedSorting = new List<SortItem<SampleBox>>();
-                    Expression<Func<AbstractProduct, object>> expression;
+                    Expression<Func<SampleBox, object>> expression;
                     if (input.Sort.ContainsKey("productType"))
                     {
-                        expression = o => o.ProductType.Name;
+                        expression = o => o.SampleBoxProducts.FirstOrDefault().Product.ProductType.Name;
                         advancedSorting.Add(new SortItem<SampleBox> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
                     }
 
@@ -85,15 +74,14 @@ namespace DatabaseRepositories.DB
                     result.Bag = query.ProcessPagingSort<SampleBox, SampleBoxPageQueryCommandOutputDTO>(predicate, input, sorting, o => new SampleBoxPageQueryCommandOutputDTO
                     {
                         Id = o.Id,
-                        SampleBoxId = o.SampleBoxId,
-                        ProductId = o.ProductId,
-                        ProductAmount = o.ProductAmount
+                        Order = o.Order,
+                        Name = o.Name
                     });
                 }
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  page query", ex);
+                result.AddException($"Error getting Sample Box  page query", ex);
             }
 
             return result;
@@ -117,7 +105,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  {id}", ex);
+                result.AddException($"Error getting Sample Box  {id}", ex);
             }
 
             return result;
@@ -133,7 +121,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error getting Product  {id}", ex);
+                result.AddException($"Error getting Sample Box  {id}", ex);
             }
 
             return result;
@@ -151,7 +139,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException($"Error adding Product ", ex);
+                result.AddException($"Error adding Sample Box ", ex);
             }
 
             return result;
@@ -168,7 +156,7 @@ namespace DatabaseRepositories.DB
             }
             catch (Exception ex)
             {
-                result.AddException("Error deleting Product ", ex);
+                result.AddException("Error deleting Sample Box ", ex);
             }
 
             return null;
@@ -190,7 +178,7 @@ namespace DatabaseRepositories.DB
                 }
                 catch (Exception ex)
                 {
-                    result.AddException("Error voiding Product ", ex);
+                    result.AddException("Error voiding Sample Box ", ex);
                 }
             }
 
@@ -209,12 +197,6 @@ namespace DatabaseRepositories.DB
                     {
                         dbLocator.Entry<SampleBox>(trackedEntity.Entity).State = EntityState.Detached;
                     }
-
-                    //var entity = dbLocator.Find<SampleBox>(id);
-                    //if (entity != null)
-                    //{
-                    //    dbLocator.Entry<SampleBox>(entity).State = EntityState.Detached;
-                    //}
                 }
                 catch (Exception ex)
                 {

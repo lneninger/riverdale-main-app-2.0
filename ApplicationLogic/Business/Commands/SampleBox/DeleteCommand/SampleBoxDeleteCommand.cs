@@ -28,8 +28,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.DeleteCommand
                     result.Bag = new SampleBoxDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                        ProductId = getByIdResult.Bag.ProductId
+                        Name = getByIdResult.Bag.Name,
+                        Order = getByIdResult.Bag.Order
                     };
                 }
 

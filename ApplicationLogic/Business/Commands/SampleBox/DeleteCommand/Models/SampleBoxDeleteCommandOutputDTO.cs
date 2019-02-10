@@ -12,10 +12,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.DeleteCommand.Models
 
         public int Id { get; set; }
 
-        public int SampleBoxId { get; set; }
+        public string Name { get; set; }
 
-        public int ProductId { get; set; }
-
-        public int ProductAmmount { get; set; }
+        public int Order { get; set; }
     }
 }

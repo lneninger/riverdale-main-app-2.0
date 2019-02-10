@@ -24,13 +24,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    getByIdResult.Bag.ProductAmount = input.ProductAmount;
-
-                    var newAllowedProductColorTypeId = getByIdResult.Bag.Product.ProductAllowedColorTypes.Where(allowedColorTypeItem => allowedColorTypeItem.ProductColorTypeId == input.ProductColorTypeId).Select(allowedColorTypeItem => allowedColorTypeItem.Id).FirstOrDefault();
-                    if (newAllowedProductColorTypeId != default(int))
-                    {
-                        getByIdResult.Bag.ProductAllowedColorTypeId = newAllowedProductColorTypeId;
-                    }
+                    getByIdResult.Bag.Name = input.Name;
 
                     try
                     {
@@ -38,7 +32,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
                     }
                     catch (Exception ex)
                     {
-                        result.AddError("Error updating Product Color Type", ex);
+                        result.AddError("Error updating Sample Box", ex);
                     }
 
                     getByIdResult = this.Repository.GetById(input.Id);
@@ -48,15 +42,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
                         result.Bag = new SampleBoxUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                            ProductId = getByIdResult.Bag.ProductId,
-                            ProductAmount = getByIdResult.Bag.ProductAmount,
-                            ProductName = getByIdResult.Bag.Product.Name,
-                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
-                            ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
-                            ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
-                            ProductColorTypeId = getByIdResult.Bag.ProductAllowedColorType?.ProductColorTypeId
+                            Name = getByIdResult.Bag.Name,
+                            Order = getByIdResult.Bag.Order,
                         };
                     }
 
