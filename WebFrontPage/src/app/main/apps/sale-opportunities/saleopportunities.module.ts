@@ -18,7 +18,12 @@ import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
 import { environment } from 'environments/environment';
-import { SaleSeasonCategoryTypeResolveService, ProductColorTypeResolveService, CustomerResolveService, ProductResolveService, GrowerTypeResolveService } from '../@resolveServices/resolve.module';
+import { 
+    SaleSeasonCategoryTypeResolveService
+    , ProductColorTypeResolveService
+    , CustomerResolveService, ProductResolveService
+    , GrowerTypeResolveService 
+} from '../@resolveServices/resolve.module';
 import { SaleOpportunityViewComponent } from './saleopportunity.view.module/saleopportunity.view.component';
 
 const routes: Routes = [
@@ -47,7 +52,7 @@ const routes: Routes = [
         path: '**',
         component: SaleOpportunitiesComponent,
         resolve: {
-            //data: ProductsService
+            // data: ProductsService
         }
     }
 ];

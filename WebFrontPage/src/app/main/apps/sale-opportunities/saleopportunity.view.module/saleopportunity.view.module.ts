@@ -19,12 +19,12 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
 
 import { SaleOpportunityViewService } from './saleopportunity.view.service';
-import { SaleOpportunityViewComponent } from './saleopportunity.view.component';
+import { SaleOpportunityViewComponent, SampleBoxProductNewDialogComponent } from './saleopportunity.view.component';
 import { TodoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { SaleOpportunityViewListItemComponent } from './saleopportunity.view-list/saleopportunity.view-list-item/saleopportunity.view-list-item.component';
 import { SaleOpportunityViewListComponent } from './saleopportunity.view-list/saleopportunity.view-list.component';
 import { SaleOpportunityViewDetailsComponent } from './saleopportunity.view-details/saleopportunity.view-details.component';
-import { SaleOpportunityViewSampleBoxsComponent } from './saleopportunity.view-sampleboxs/saleopportunity.view-sampleboxs.component';
+import { SaleOpportunityViewSampleBoxesComponent } from './saleopportunity.view-sampleboxes/saleopportunity.view-sampleboxes.component';
 
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { SaleOpportunityCoreModule } from '../saleopportunity.core.module';
@@ -91,8 +91,9 @@ const routes: Routes = [
         , SaleOpportunityViewListItemComponent
         , SaleOpportunityViewListComponent
         , SaleOpportunityViewDetailsComponent
-        , SaleOpportunityViewSampleBoxsComponent
+        , SaleOpportunityViewSampleBoxesComponent
         , SaleOpportunityViewSettingsComponent
+        , SampleBoxProductNewDialogComponent
     ],
     imports     : [
         RouterModule// .forChild(routes),
@@ -123,6 +124,9 @@ const routes: Routes = [
     ],
     exports: [
         SaleOpportunityViewComponent
+    ],
+    entryComponents: [
+        SampleBoxProductNewDialogComponent
     ]
 })
 export class SaleOpportunityViewModule

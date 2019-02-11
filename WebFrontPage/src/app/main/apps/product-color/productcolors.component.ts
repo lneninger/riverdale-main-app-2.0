@@ -11,8 +11,6 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-//import { AngularFireAuth } from '@angular/fire/auth';
-//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { ProductColorGrid, ProductColor, ProductColorNewDialogResult } from './productcolor.model';
 import { HttpClient } from '@angular/common/http';
@@ -45,6 +43,7 @@ export class ProductColorsComponent implements OnInit {
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    selectedItem: ProductColorGrid;
 
     /* ******************************Custom Notification***********************************************/
     customers: any[];
@@ -75,22 +74,21 @@ export class ProductColorsComponent implements OnInit {
         this.initializeQueryListeners();
     }
 
-    initializeQueryListeners() {
+    initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (this.route.snapshot.data['action'] == 'new') {
+            // debugger;
+            if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
         });
     }
 
 
-    selectedItem: ProductColorGrid;
-    selectItem(item: ProductColorGrid) {
+    selectItem(item: ProductColorGrid): void {
         this.selectedItem = item;
     }
 
-    save() {
+    save(): void {
         this.service.save(this.selectedItem).then(res => {
             this.selectedItem = null;
             this.matSnackBar.open('Notification Group added', 'OK', {
@@ -110,7 +108,7 @@ export class ProductColorsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result: ProductColorNewDialogResult) => {
-            if (result && result.goTo == 'Edit') {
+            if (result && result.goTo === 'Edit') {
                 this.service.router.navigate([`apps/productcolors/${result.data.id}`]);
             }
             else {
@@ -127,9 +125,9 @@ export class ProductColorsDataSource extends DataSourceAbstract<ProductColorGrid
     /**
      * Constructor
      *
-     * @param {CustomersListService} _service
-     * @param {MatPaginator} _matPaginator
-     * @param {MatSort} _matSort
+     * @param _service: Product Color Service
+     * @param _matPaginator Grid Paginator
+     * @param _matSort Grid Sort provider
      */
     constructor(
         service: ProductColorService
@@ -140,14 +138,10 @@ export class ProductColorsDataSource extends DataSourceAbstract<ProductColorGrid
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}productcolortype/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}productcolortype/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
-
-
-        let result = {};
-
-
+        const result = {};
         return result;
     }
 }
@@ -178,7 +172,7 @@ export class ProductColorNewDialogComponent {
         });
     }
 
-    save() {
+    save(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
@@ -206,11 +200,12 @@ export class ProductColorNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<ProductColor>) => {
-            debugger;
-            let result = <ProductColorNewDialogResult>{
+            // debugger;
+            const  result = <ProductColorNewDialogResult>{
                 goTo: 'Edit',
                 data: res.bag
-            }
+            };
+
             this.dialogRef.close(result);
         });
     }

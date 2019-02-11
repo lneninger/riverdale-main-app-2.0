@@ -1,6 +1,6 @@
-@import 'src/@fuse/scss/fuse';
+@import "src/@fuse/scss/fuse";
 
-saleopportunity-view-sampleboxs {
+saleopportunity-view-sampleboxes {
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
@@ -24,6 +24,18 @@ saleopportunity-view-sampleboxs {
             font-weight: 600;
         }
 
+        .samplebox {
+            border: 1px solid gray;
+            border-radius: 10px;
+            flex: 30%;
+            flex-flow: row wrap;
+            min-height: 40px;
+
+            &:hover {
+                background-color: gray;
+            }
+        }
+
         .tag {
             font-size: 11px;
             border-radius: 2px;
@@ -39,7 +51,6 @@ saleopportunity-view-sampleboxs {
         }
 
         .dates {
-
             .mat-form-field {
                 width: auto !important;
             }

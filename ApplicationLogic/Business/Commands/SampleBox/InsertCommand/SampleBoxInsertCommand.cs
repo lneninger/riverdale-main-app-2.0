@@ -24,7 +24,8 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                 var entity = new DomainModel.SaleOpportunity.SampleBox
                 {
                     Order = input.Order,
-                    Name = input.Name
+                    Name = input.Name,
+                    SaleOpportunityId = input.SaleOpportunityId
                 };
 
                 try
@@ -55,6 +56,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                             Id = getByIdResult.Bag.Id,
                             Order = getByIdResult.Bag.Order,
                             Name = getByIdResult.Bag.Name,
+                            SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId
                         };
                     }
 

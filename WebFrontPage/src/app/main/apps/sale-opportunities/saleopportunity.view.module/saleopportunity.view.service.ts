@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { FuseUtils } from '@fuse/utils';
@@ -35,8 +35,10 @@ export class SaleOpportunityViewService// implements Resolve<any>
      * @param _location Location provider
      */
     constructor(
-        private _httpClient: HttpClient,
-        private _location: Location
+        private _httpClient: HttpClient
+        , private _location: Location
+        , public router: Router
+
     )
     {
         // Set the defaults

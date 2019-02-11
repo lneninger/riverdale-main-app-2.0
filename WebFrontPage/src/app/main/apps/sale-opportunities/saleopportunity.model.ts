@@ -39,6 +39,7 @@ export class SampleBoxItem{
     id: number;
     name: string;
     order: number;
+    saleOpportunityId: number;
     parentSampleBoxId: number;
     relatedProducts: SampleBoxProductItem[];
 
@@ -46,6 +47,8 @@ export class SampleBoxItem{
         const internal = sampleBox || {};
         this.id = internal.id;
         this.name = internal.name;
+        this.order = internal.order;
+        this.saleOpportunityId = internal.saleOpportunityId;
         this.parentSampleBoxId = internal.parentSampleBoxId;
         this.relatedProducts = (internal.relatedProducts || []).map(item => new SampleBoxProductItem(item));
 
@@ -89,6 +92,36 @@ export class SaleOpportunityNewDialogResult {
 
 
 export class SampleBoxProductItem {
+    id: number;
+    sampleBoxId: number;
+    productId: number;
+    productName: string;
+    productTypeId: string;
+    productTypeName: string;
+    productTypeDescription: string;
+    productPictureId: number;
+    sampleBoxProductSubItems: SampleBoxProductSubItem[];
+
+    constructor(item?) {
+        const internal = item || {};
+        if (internal.key) {
+            this.productId = internal.key;
+        }
+        else {
+            this.id = internal.id;
+            this.sampleBoxId = internal.sampleBoxId;
+            this.productId = internal.productId;
+            this.productName = internal.productName;
+            this.productTypeId = internal.productTypeId;
+            this.productTypeName = internal.productTypeName;
+            this.productTypeDescription = internal.productTypeDescription;
+            this.productPictureId = internal.productPictureId;
+            this.sampleBoxProductSubItems = (internal.sampleBoxProductSubItems || []).map(subItem => new SampleBoxProductSubItem(subItem));
+        }
+    }
+}
+
+export class SampleBoxProductSubItem {
     id: number;
     sampleBoxId: number;
     productId: number;
@@ -141,5 +174,9 @@ export class SaleOpportunitySettings {
 }
 
 
+export class SampleBoxItemNewDialogResult{
+    goTo: 'Edit';
+    data: SampleBoxItem;
+}
 
 

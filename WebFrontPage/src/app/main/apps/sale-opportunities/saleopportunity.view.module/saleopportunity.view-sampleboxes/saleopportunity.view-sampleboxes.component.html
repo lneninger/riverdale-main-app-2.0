@@ -11,12 +11,14 @@
 
     <div class="todo-header" fxLayout="row" fxLayoutAlign="space-between center">
 
-        <button mat-button class="toggle-complete-button" (click)="toggleCompleted($event)"
+        <button mat-button class="toggle-complete-button"
                 aria-label="Toggle completed" fxFlex="0 1 auto">
-            <mat-icon *ngIf="false && todo.completed">check_box</mat-icon>
-            <mat-icon *ngIf="false && !todo.completed">check_box_outline_blank</mat-icon>
-            <span class="ml-8">Mark as Done</span>
+            <!-- <mat-icon *ngIf="todo.completed">check_box</mat-icon>
+            <mat-icon *ngIf="!todo.completed">check_box_outline_blank</mat-icon> -->
+            <span class="ml-8">Opportunity Sample Box</span>
         </button>
+
+        <!-- {{currentEntity | json}} -->
 <!--
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
@@ -52,18 +54,16 @@
     -->
     </div>
 
-    <div class="todo-content" *ngIf="todo">
+    <div class="todo-content">
 
-        <form [formGroup]="todoForm" (submit)="addTodo()">
-
-            <div class="tags mb-24" fxFlexFill fxLayout="row wrap">
-                <div class="tag" fxLayout="row" fxLayoutAlign="start center" *ngFor="let tagId of todo.tags">
-                    <div class="tag-color" [ngStyle]="{'background-color': tags | getById:tagId:'color'}"></div>
-                    <div class="tag-label">{{tags | getById:tagId:'title'}}</div>
+            <div class="tags mb-24"  fxLayout="row" fxLayoutGap="20px">
+                <div class="samplebox" fxLayout="row" fxLayoutAlign="start center" *ngFor="let sampleBox of currentEntity.sampleBoxes" (click)="toggleSampleBox(sampleBox)">
+                    <div class="tag-color"></div>
+                    <!-- <div class="tag-label">{{sampleBox |json}}</div> -->
                 </div>
             </div>
 
-            <mat-form-field appearance="outline" class="title mt-8" fxFill>
+            <!-- <mat-form-field appearance="outline" class="title mt-8" fxFill>
                 <mat-label>Title</mat-label>
                 <textarea matInput
                           #titleInput
@@ -105,8 +105,7 @@
                     mat-raised-button color="accent"
                     [disabled]="todoForm.invalid">
                 SAVE
-            </button>
-        </form>
+            </button> -->
 
     </div>
 </div>

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SaleOpportunityItem } from '../../../saleopportunity.model';
+import { SampleBoxProductSubItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.core.module';
@@ -22,7 +22,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     listProduct: EnumItem<number>[];
 
     @Input('entity')
-    currentEntity: SaleOpportunityItem;
+    currentEntity: SampleBoxProductSubItem;
 
     @Input('formGroup')
     formGroup: FormGroup;
@@ -42,12 +42,11 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {TodoService} _todoService
-     * @param {ActivatedRoute} _activatedRoute
+     * @param _todoService
+     * @param _activatedRoute
      */
     constructor(
-        private _todoService: SaleOpportunityViewService
-        , private service: SaleOpportunityService
+        private saleOpportunityService: SaleOpportunityService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private serviceProductResolve: ProductResolveService
         , private _activatedRoute: ActivatedRoute
@@ -74,21 +73,20 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Set the initial values
-        this.currentEntity = new SaleOpportunityItem(this.currentEntity);
-        //this.completed = this.todo.completed;
+        this.currentEntity = new SampleBoxProductSubItem(this.currentEntity);
 
         this.listProductColorType = this.serviceProductColorTypeResolve.list;
         this.listProduct =  this.serviceProductResolve.list;
 
         // Subscribe to update on selected todo change
-        this._todoService.onSelectedTodosChanged
+        this.saleOpportunityService.onSampleBoxProductSelected
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(selectedTodos => {
+            .subscribe(product => {
                 this.selected = false;
 
-                if ( selectedTodos.length > 0 )
+                if ( product.sampleBoxProductSubItems.length > 0 )
                 {
-                    for ( const todo of selectedTodos )
+                    for ( const todo of product.sampleBoxProductSubItems )
                     {
                         if ( todo.id === this.currentEntity.id )
                         {
@@ -97,13 +95,6 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
                         }
                     }
                 }
-            });
-
-        // Subscribe to update on tag change
-        this._todoService.onTagsChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(tags => {
-                this.tags = tags;
             });
     }
 
@@ -127,7 +118,6 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     onSelectedChange(): void
     {
         console.log(`Selected changed`, this.currentEntity, this.formGroup.value);
-        //this._todoService.toggleSelectedTodo(this.currentEntity.id);
     }
 
     /**
@@ -136,9 +126,6 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     toggleStar(event): void
     {
         event.stopPropagation();
-
-        //this.todo.toggleStar();
-        //this._todoService.updateTodo(this.todo);
     }
 
     /**
@@ -147,9 +134,6 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     toggleImportant(event): void
     {
         event.stopPropagation();
-
-        //this.todo.toggleImportant();
-        //this._todoService.updateTodo(this.todo);
     }
 
     /**
@@ -158,25 +142,21 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     toggleCompleted(event): void
     {
         event.stopPropagation();
-
-        //this.todo.toggleCompleted();
-        //this._todoService.updateTodo(this.todo);
     }
 
-    isAllowedColorType(productColorTypeId: string) {
-        let productItem = this.listProduct.find(productItem => productItem.key == this.currentEntity.productId);
+    isAllowedColorType(productColorTypeId: string): boolean {
+        const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
 
         if (productItem) {
-            return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) != -1
+            return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) !== -1;
         }
 
         return false;
     }
 
-    updateItem() {
-        let data = <SaleOpportunityItem>this.formGroup.value;
-        this.service.updateSaleOpportunityProductItem(data).then(response => {
-            //debugger;
+    updateItem(): void {
+        const data = <SampleBoxProductSubItem>this.formGroup.value;
+        this.saleOpportunityService.updateSaleOpportunityProductItem(data).then(response => {
         }, error => {
 
         });

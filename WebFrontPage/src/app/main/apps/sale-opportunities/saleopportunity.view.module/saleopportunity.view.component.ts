@@ -1,19 +1,20 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { Todo } from './saleopportunity.view.model';
-import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxGrid, SampleBoxProductItem } from '../saleopportunity.model';
+import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxGrid, SampleBoxProductItem, SampleBoxItemNewDialogResult } from '../saleopportunity.model';
 import { SaleOpportunityViewService } from './saleopportunity.view.service';
 import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
 import { SaleOpportunityService } from '../saleopportunity.core.module';
 import { CustomValidators } from 'ng4-validators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { OperationResponseValued } from '../../@hipalanetCommons/messages/messages.model';
 
 @Component({
     selector: 'saleopportunity-view',
@@ -31,6 +32,25 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
     get showProductsSidebar(): boolean {
     return this.currentEntity && !this.showCustomerSidebar;
+    }
+
+    _currentSampleBox: SampleBoxItem;
+    onSampleBoxSelected: Subscription;
+    get currentSampleBox(): SampleBoxItem{
+        return this._currentSampleBox;
+    }
+    set currentSampleBox(value: SampleBoxItem){
+        this.saleOpportunityService.toggleSampleBox(value);
+    }
+
+    
+    _currentSampleBoxProduct: SampleBoxProductItem;
+    onSampleBoxProductSelected: Subscription;
+    get currentSampleBoxProduct(): SampleBoxProductItem{
+        return this._currentSampleBoxProduct;
+    }
+    set currentSampleBoxProduct(value: SampleBoxProductItem){
+        this.saleOpportunityService.toggleSampleBoxProduct(value);
     }
 
     showCustomerSidebar: boolean;
@@ -80,7 +100,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         , private _todoService: SaleOpportunityViewService
         , private _formBuilder: FormBuilder
         , private saleOpportunityService: SaleOpportunityService
-        , private _matSnackBar: MatSnackBar
+        , public dialog: MatDialog
+        , private matSnackBar: MatSnackBar
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -90,6 +111,14 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
         this.saleOpportunityService.onSampleBoxItemAdded.subscribe(this.onSampleBoxItemAdded.bind(this));
         this.saleOpportunityService.onSampleBoxItemUpdated.subscribe(this.onSampleBoxItemUpdated.bind(this));
+
+        this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(sampleBox => {
+            this._currentSampleBox = sampleBox;
+        });
+
+        this.onSampleBoxProductSelected = this.saleOpportunityService.onSampleBoxProductSelected.subscribe(sampleBoxProduct => {
+            this._currentSampleBoxProduct = sampleBoxProduct;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -101,7 +130,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // debugger;
-        this.currentEntity = this.saleOpportunityService.currentEntity.bag;
+        this.currentEntity = this.saleOpportunityService.currentEntity;
         this.frmSampleBoxItems = this._formBuilder.array([]);
         this.currentEntity.sampleBoxes.forEach(item => {
             this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
@@ -289,7 +318,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // debugger;
         this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
         this.currentEntity.sampleBoxes.push(item);
-            this._matSnackBar.open('Sample Box Added', 'OK', {
+            this.matSnackBar.open('Sample Box Added', 'OK', {
                 verticalPosition: 'top',
                 duration: 5000
             });
@@ -303,7 +332,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         {
             sampleBox.relatedProducts.push(item);
         }
-            this._matSnackBar.open('Product Add', 'OK', {
+            this.matSnackBar.open('Product Add', 'OK', {
                 verticalPosition: 'top',
                 duration: 5000
             });
@@ -316,7 +345,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             this.currentEntity.sampleBoxes.splice(index, 1, item);
             this.updateFormSampleBoxItem((<FormGroup>this.frmSampleBoxItems.controls[index]), item);
 
-            this._matSnackBar.open('Product Updated', 'OK', {
+            this.matSnackBar.open('Product Updated', 'OK', {
                 verticalPosition: 'top',
                 duration: 5000
             });
@@ -333,7 +362,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             sampleBox.relatedProducts.splice(index, 1, item);
             this.updateFormSampleBoxProductItem((<FormGroup>this.frmSampleBoxProductItems.controls[index]), item);
 
-            this._matSnackBar.open('Product Updated', 'OK', {
+            this.matSnackBar.open('Product Updated', 'OK', {
                 verticalPosition: 'top',
                 duration: 5000
             });
@@ -352,14 +381,105 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
 
     addSampleBox(): void{
+        // debugger;
         const sampleBox = <SampleBoxItem>{};
+        sampleBox.saleOpportunityId = this.currentEntity.id;
         this.saleOpportunityService.addSampleBoxItem(sampleBox);
     }
 
     addBouquet(): void{
+        // debugger;
+        const sampleBoxProduct = <SampleBoxProductItem>{};
+        sampleBoxProduct.sampleBoxId = this.currentSampleBox.id;
+        this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
+    }
 
+    openDialog(): void {
+        const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {
+            width: '60%',
+            data: {/* name: this.name, animal: this.animal */ }
+        });
+
+        dialogRef.afterClosed().subscribe((result: SampleBoxItemNewDialogResult) => {
+            if (result && result.goTo === 'Edit') {
+                this.saleOpportunityService.router.navigate([`apps/productcolors/${result.data.id}`]);
+            }
+            else {
+                this.saleOpportunityService.router.navigate([`../`], { relativeTo: this.route });
+                // this.dataSource.dataChanged.next('');
+            }
+        });
     }
 }
+
+
+@Component({
+    selector: 'sampleboxproductnew-dialog',
+    templateUrl: 'sampleboxproductnew.dialog.component.html',
+})
+export class SampleBoxProductNewDialogComponent {
+
+    frmMain: FormGroup;
+    constructor(
+        private saleOpportunityService: SaleOpportunityService
+        , private matSnackBar: MatSnackBar
+        , private frmBuilder: FormBuilder
+        , public dialogRef: MatDialogRef<SampleBoxProductNewDialogComponent>
+        , @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+
+        this.frmMain = frmBuilder.group({
+            'id': ['', [Validators.required]],
+            'name': ['', [Validators.required]],
+            'hexCode': ['', [Validators.required]],
+            'isBasicColor': ['', [Validators.required]],
+        });
+    }
+
+    save(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.saleOpportunityService.addSampleBoxProductItem(this.frmMain.value)
+                .then(res => {
+                    this.matSnackBar.open('Sample Box Product', 'OK', {
+                        verticalPosition: 'top',
+                        duration: 2000
+                    });
+
+                    resolve(res);
+                })
+                .catch(error => reject(error));
+        });
+    }
+
+
+    cancel(): void {
+        this.dialogRef.close();
+    }
+
+    create(): void {
+        this.save().then(res => {
+            this.dialogRef.close();
+        });
+    }
+
+    createEdit(): void {
+        this.save().then((res: OperationResponseValued<SampleBoxItem>) => {
+            // debugger;
+            const result = <SampleBoxItemNewDialogResult>{
+                goTo: 'Edit',
+                data: res.bag
+            };
+
+            this.dialogRef.close(result);
+        });
+    }
+    
+}
+
 declare type ActiveAreaType = 'settings' | 'products';
-declare type ActiveDetailAreaType = 'ItemDetails' | 'SampleBoxs';
+declare type ActiveDetailAreaType = 'ItemDetails' | 'SampleBoxes';
+
+
+
+
 

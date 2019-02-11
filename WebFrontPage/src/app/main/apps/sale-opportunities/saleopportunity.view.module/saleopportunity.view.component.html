@@ -153,8 +153,9 @@
                     </button>
 
                     <div class="toolbar-separator"></div>
-                    <div>BOUQUET</div>
-                    <button
+
+                        <span class="font-size-20 mr-16">BOUQUET</span>
+                    <button [disabled]="!currentSampleBox"
                         mat-icon-button
                         (click)="addBouquet()"
                         matTooltip="New Bouquet"
@@ -182,11 +183,11 @@
                     </button>
 
                     <div class="toolbar-separator"></div>
-                    
-                    <mat-form-field>
-                            <mat-select placeholder="BOX">
-                              <mat-option *ngFor="let box of currentEntity.sampleBoxs" [value]="box.name">
-                                {{food.viewValue}}
+                        <span class="font-size-20 mr-16">BOX</span>
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="currentSampleBox">
+                              <mat-option *ngFor="let box of currentEntity.sampleBoxes" [value]="box">
+                                {{box.name || box.order}}
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -210,10 +211,11 @@
                     </button>
 
                     <button
+                    [disabled]="!currentEntity"
                     mat-icon-button
-                    (click)="setActiveDetailArea('SampleBoxs')"
-                    matTooltip="View Sample Boxs"
-                    [attr.aria-label]="'View Sample Boxs'"
+                    (click)="setActiveDetailArea('SampleBoxes')"
+                    matTooltip="View Sample Boxes"
+                    [attr.aria-label]="'View Sample Boxes'"
                 >
                     <mat-icon>visibility</mat-icon>
                 </button>
@@ -239,23 +241,23 @@
                 <ng-container *ngIf="activeArea != 'settings'">
                     <saleopportunity-view-list
                         [entity]="currentEntity"
-                        [formItems]="frmOpportunityItems"
+                        [formItems]="frmSampleBoxProductItems"
                         fusePerfectScrollbar
                         fxFlex
                     ></saleopportunity-view-list>
-                    <ng-container *ngIf="activeDetailArea != 'SampleBoxs'">
+                    <ng-container *ngIf="activeDetailArea != 'SampleBoxes'">
                         <saleopportunity-view-details
                             [entity]="currentEntity"
                             fusePerfectScrollbar
                             fxFlex
                         ></saleopportunity-view-details>
                     </ng-container>
-                    <ng-container *ngIf="activeDetailArea == 'SampleBoxs'">
-                            <saleopportunity-view-sampleboxs
+                    <ng-container *ngIf="activeDetailArea == 'SampleBoxes'">
+                            <saleopportunity-view-sampleboxes
                                 [entity]="currentEntity"
                                 fusePerfectScrollbar
                                 fxFlex
-                            ></saleopportunity-view-sampleboxs>
+                            ></saleopportunity-view-sampleboxes>
                         </ng-container>
                 </ng-container>
 

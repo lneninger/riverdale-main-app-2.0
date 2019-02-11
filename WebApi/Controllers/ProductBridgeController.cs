@@ -17,6 +17,7 @@ using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Microsoft.AspNetCore.Authorization;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +36,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
+        /// <param name="hubContext">SignalR Context</param>
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductBridgeController(/*IHubContext<GlobalHub> hubContext, */IProductBridgePageQueryCommand pageQueryCommand, IProductBridgeGetAllCommand getAllCommand, IProductBridgeGetByIdCommand getByIdCommand, IProductBridgeInsertCommand insertCommand, IProductBridgeUpdateCommand updateCommand, IProductBridgeDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductBridgeController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductBridgePageQueryCommand pageQueryCommand, IProductBridgeGetAllCommand getAllCommand, IProductBridgeGetByIdCommand getByIdCommand, IProductBridgeInsertCommand insertCommand, IProductBridgeUpdateCommand updateCommand, IProductBridgeDeleteCommand deleteCommand):base(/*hubContext*/)
         {
+            this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -50,6 +53,11 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
 
         /// <summary>
         /// Gets the get all command.

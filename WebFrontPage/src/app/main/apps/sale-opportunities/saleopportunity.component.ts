@@ -44,16 +44,17 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param _ecommerceProductService
-     * @param _formBuilder
-     * @param _location
-     * @param _matSnackBar
+     * 
+     * @param route Current Route Service
+     * @param service SaleOpportunity Service
+     * @param _formBuilder Form Builder
+     * @param _location Location SErvice
+     * @param _matSnackBar Snackbar
+     * @param matDialog Material Dialog Service
+     * @param fileUploadService  File Upload Service
      */
     constructor(
         private route: ActivatedRoute
-        //, private serviceProductMedia: ProductService
         , private service: SaleOpportunityService
         , private _formBuilder: FormBuilder
         , private _location: Location
@@ -77,8 +78,6 @@ export class SaleOpportunityComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged

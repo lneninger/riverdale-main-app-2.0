@@ -15,12 +15,15 @@ import {
     SecureHttpClientService,
     OperationResponse
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { SampleBoxItem, SampleBoxProductItem } from './saleopportunity.model';
+import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity } from './saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
+    
     routeParams: any;
-    currentEntity: any;
+    currentEntity: SaleOpportunity;
+    currentSampleBox: SampleBoxItem;
+    currentSampleBoxProduct: SampleBoxProductItem;
     onCurrentEntityChanged: BehaviorSubject<any>;
 
     onSampleBoxItemAdded: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
@@ -28,6 +31,10 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
 
     onSampleBoxItemUpdated: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemUpdated: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
+
+    onSampleBoxSelected: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
+    onSampleBoxProductSelected: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
+
 
     /**
      * Constructor
@@ -64,18 +71,20 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
      *
      * @returns Get entity
      */
-    getEntity(): Promise<any> {
+    getEntity(): Promise<SaleOpportunity> {
         return new Promise((resolve, reject) => {
             this.http
-                .get(
-                    `${environment.appApi.apiBaseUrl}saleopportunity/${
-                        this.routeParams.id
-                    }`
+                .get<OperationResponse<SaleOpportunity>>(
+                    `${environment.appApi.apiBaseUrl}saleopportunity/${this.routeParams.id}`
                 )
                 .subscribe(response => {
-                    this.currentEntity = response;
+                    this.currentEntity = response.bag;
                     this.onCurrentEntityChanged.next(this.currentEntity);
                     resolve(this.currentEntity);
+                }, 
+                
+                errorResponse => {
+                    reject(errorResponse);
                 });
         });
     }
@@ -216,5 +225,15 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     }
                 );
         });
+    }
+
+    toggleSampleBox(sampleBox?: SampleBoxItem): any {
+        this.currentSampleBox = sampleBox;
+        this.onSampleBoxSelected.next(this.currentSampleBox);
+    }
+
+    toggleSampleBoxProduct(sampleBoxProduct?: SampleBoxProductItem): any {
+        this.currentSampleBoxProduct = sampleBoxProduct;
+        this.onSampleBoxProductSelected.next(this.currentSampleBoxProduct);
     }
 }

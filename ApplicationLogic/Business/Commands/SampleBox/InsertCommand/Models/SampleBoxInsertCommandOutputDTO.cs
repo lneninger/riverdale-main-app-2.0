@@ -10,5 +10,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand.Models
         public int Order { get; set; }
 
         public string Name { get; set; }
+
+        public int SaleOpportunityId { get; set; }
     }
 }

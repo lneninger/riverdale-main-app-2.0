@@ -18,7 +18,7 @@ export class ProductColorService implements Resolve<any>, IPageQueryService {
     /**
      * Constructor
      *
-     * @param {HttpClient} _httpClient
+     * @param _httpClient
      */
     constructor(
         public http: SecureHttpClientService

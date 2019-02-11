@@ -18,7 +18,7 @@ export class ProductColor
     /**
      * Constructor
      *
-     * @param productColor
+     * @param input Input parameter
      */
     constructor(input?)
     {
@@ -29,7 +29,6 @@ export class ProductColor
         this.images = (input || {}).images;
     }
 }
-
 
 export class ProductColorNewDialogResult {
     goTo: 'Edit';

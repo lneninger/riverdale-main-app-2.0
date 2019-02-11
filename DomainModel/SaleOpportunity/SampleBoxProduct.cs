@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DomainModel.Product;
 
 namespace DomainModel.SaleOpportunity
@@ -18,7 +19,6 @@ namespace DomainModel.SaleOpportunity
 
         public int? ProductAllowedColorTypeId { get; set; }
         public virtual ProductAllowedColorType ProductAllowedColorType { get; set; }
-
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }

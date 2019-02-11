@@ -40,6 +40,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                         {
                             Id = o.Id,
                             SaleOpportunityId = o.SaleOpportunityId,
+                            Name = o.Name,
+                            Order = o.Order,
                             SampleBoxProducts = o.SampleBoxProducts.Select(item => new SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO {
                                 Id = o.Id,
                                 ProductId = item.ProductId,

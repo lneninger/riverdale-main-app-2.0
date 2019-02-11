@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { fuseAnimations } from '@fuse/animations';
 
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
+import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxProductItem } from '../../saleopportunity.model';
 import { Form, FormArray } from '@angular/forms';
+import { SaleOpportunityService } from '../../saleopportunity.service';
 
 @Component({
     selector: 'saleopportunity-view-list',
@@ -21,19 +22,25 @@ import { Form, FormArray } from '@angular/forms';
 export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
 {
     private _currentEntity: SaleOpportunity;
-
-    get currentEntity() {
+    get currentEntity(): SaleOpportunity {
         return this._currentEntity;
     }
-
     @Input('entity')
     set currentEntity(value: SaleOpportunity) {
         this._currentEntity = value;
     }
 
+    _currentSampleBoxProduct: SampleBoxProductItem;
+    onSampleBoxProductSelected: Subscription;
+    get currentSampleBoxProduct(): SampleBoxProductItem{
+        return this._currentSampleBoxProduct;
+    }
+   
+    
+
 
     private _formItems: FormArray;
-    get formItems() {
+    get formItems(): FormArray {
         return this._formItems;
     }
     @Input('formItems')
@@ -52,18 +59,22 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ActivatedRoute} _activatedRoute
-     * @param {TodoService} _todoService
-     * @param {Location} _location
+     * @param _activatedRoute
+     * @param _todoService
+     * @param _location
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _todoService: SaleOpportunityViewService,
-        private _location: Location
+        private _activatedRoute: ActivatedRoute
+        , private _location: Location
+        , private saleOpportunityService: SaleOpportunityService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.onSampleBoxProductSelected = this.saleOpportunityService.onSampleBoxProductSelected.subscribe(sampleBoxProduct => {
+            this._currentSampleBoxProduct = sampleBoxProduct;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -75,44 +86,7 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to update todos on changes
-        this._todoService.onTodosChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(todos => {
-                this.todos = todos;
-            });
-
-        // Subscribe to update current todo on changes
-        this._todoService.onCurrentTodoChanged
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(currentTodo => {
-                if ( !currentTodo )
-                {
-                    // Set the current todo id to null to deselect the current todo
-                    this.currentTodo = null;
-
-                    // Handle the location changes
-                    const tagHandle    = this._activatedRoute.snapshot.params.tagHandle,
-                          filterHandle = this._activatedRoute.snapshot.params.filterHandle;
-
-                    if ( tagHandle )
-                    {
-                        this._location.go('apps/todo/tag/' + tagHandle);
-                    }
-                    else if ( filterHandle )
-                    {
-                        this._location.go('apps/todo/filter/' + filterHandle);
-                    }
-                    else
-                    {
-                        this._location.go('apps/todo/all');
-                    }
-                }
-                else
-                {
-                    this.currentTodo = currentTodo;
-                }
-            });
+       
     }
 
     /**
@@ -128,17 +102,6 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Read todo
-     *
-     * @param todoId
-     */
-    //readTodo(todoId): void
-    //{
-    //    // Set current todo
-    //    this._todoService.setCurrentTodo(todoId);
-    //}
 
     /**
      * On drop

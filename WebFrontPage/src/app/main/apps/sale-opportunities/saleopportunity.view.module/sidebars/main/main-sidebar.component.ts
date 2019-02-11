@@ -1,13 +1,32 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, ElementRef, ViewChild, Input } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    ElementRef,
+    ViewChild,
+    Input
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { pipe, of, fromEvent, Subject, Subscription } from 'rxjs';
-import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import {
+    takeUntil,
+    debounceTime,
+    distinctUntilChanged,
+    filter
+} from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 
-import { SaleOpportunity, SaleOpportunityItem } from '../../../saleopportunity.model';
+import {
+    SaleOpportunity,
+    SampleBoxProductItem
+} from '../../../saleopportunity.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
-import { EnumItem, ProductResolveService } from '../../../../@resolveServices/resolve.module';
+import {
+    EnumItem,
+    ProductResolveService
+} from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.service';
 
 @Component({
@@ -50,15 +69,15 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * @param _router Router
      */
     constructor(
-        private _todoService: SaleOpportunityViewService
-        , private _router: Router
-        , private productResolveService: ProductResolveService
-        , private productService: SaleOpportunityService
+        private _todoService: SaleOpportunityViewService,
+        private _router: Router,
+        private productResolveService: ProductResolveService,
+        private saleOpportunityService: SaleOpportunityService
     ) {
         // Set the defaults
         this.accounts = {
-            'creapond': 'johndoe@creapond.com',
-            'withinpixels': 'johndoe@withinpixels.com'
+            creapond: 'johndoe@creapond.com',
+            withinpixels: 'johndoe@withinpixels.com'
         };
         this.selectedAccount = 'creapond';
 
@@ -87,7 +106,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
             )
             .subscribe(() => {
                 // debugger;
-                const term = <string>this.productFilterElement.nativeElement.value;
+                const term = <string>(
+                    this.productFilterElement.nativeElement.value
+                );
                 this.filterProducts(term);
             });
 
@@ -118,9 +139,12 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     filterProducts(term: string): void {
-        this.listProduct = this.productResolveService.list.filter(o =>
-            o.key !== this.currentEntity.id
-            && o.value && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
+        this.listProduct = this.productResolveService.list.filter(
+            o =>
+                o.key !== this.currentEntity.id &&
+                o.value &&
+                (!term ||
+                    o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
         );
     }
 
@@ -135,14 +159,19 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
-
     selectedToAddItem(enumItem: EnumItem<number>): any {
-        const item = new SaleOpportunityItem(enumItem);
-        item.saleOpportunityId = this.currentEntity.id;
-        this.productService.addSaleOpportunityProductItem(item).then(response => {
-            // debugger;
-        }, error => {
-
-        });
+        const item = new SampleBoxProductItem(enumItem);
+        const sampleBoxItem = this.saleOpportunityService.currentSampleBox;
+        if (sampleBoxItem !== null) {
+            item.sampleBoxId = sampleBoxItem.id;
+            this.saleOpportunityService
+                .addSampleBoxProductItem(item)
+                .then(
+                    response => {
+                        // debugger;
+                    },
+                    error => {}
+                );
+        }
     }
 }
