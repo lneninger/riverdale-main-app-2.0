@@ -15,7 +15,7 @@ import {
     SecureHttpClientService,
     OperationResponse
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity } from './saleopportunity.model';
+import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, SampleBoxProductSubItem } from './saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
@@ -28,12 +28,15 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
 
     onSampleBoxItemAdded: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemAdded: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
+    onSampleBoxProductSubItemAdded: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
     onSampleBoxItemUpdated: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemUpdated: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
+    onSampleBoxProductSubItemUpdated: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
     onSampleBoxSelected: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductSelected: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
+    onSampleBoxProductSubItemSelected: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
 
     /**
@@ -218,6 +221,26 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     (res: OperationResponse<SampleBoxProductItem>) => {
                         const responseItem = res.bag;
                         this.onSampleBoxProductItemUpdated.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    updateSampleBoxProductSubItem(item: SampleBoxProductSubItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .put<OperationResponse<SampleBoxProductSubItem>>(
+                    `${environment.appApi.apiBaseUrl}sampleboxproductsubitem`,
+                    item
+                )
+                .subscribe(
+                    (res: OperationResponse<SampleBoxProductSubItem>) => {
+                        const responseItem = res.bag;
+                        this.onSampleBoxProductSubItemUpdated.next(responseItem);
                         resolve(res);
                     },
                     error => {

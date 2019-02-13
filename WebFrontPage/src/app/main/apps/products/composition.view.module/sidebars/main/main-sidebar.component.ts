@@ -1,35 +1,53 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, ElementRef, ViewChild, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { pipe, of, fromEvent, Subject } from "rxjs";
-import { takeUntil, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    ElementRef,
+    ViewChild,
+    Input
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { pipe, of, fromEvent, Subject, Observable } from "rxjs";
+import {
+    takeUntil,
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+    mergeMap
+} from "rxjs/operators";
 
-import { fuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from "@fuse/animations";
 
-import { Product, CompositionItem } from '../../../product.model';
-import { CompositionViewService } from '../../composition.view.service';
-import { EnumItem, ProductResolveService } from '../../../../@resolveServices/resolve.module';
-import { ProductService } from '../../../product.service';
+import { Product, CompositionItem } from "../../../product.model";
+import { CompositionViewService } from "../../composition.view.service";
+import {
+    EnumItem,
+    ProductResolveService
+} from "../../../../@resolveServices/resolve.module";
+import { ProductService } from "../../../product.service";
 
 @Component({
-    selector: 'todo-main-sidebar',
-    templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss'],
+    selector: "todo-main-sidebar",
+    templateUrl: "./main-sidebar.component.html",
+    styleUrls: ["./main-sidebar.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     private _currentEntity: Product;
+    productListAsync: any;
 
     get currentEntity() {
         return this._currentEntity;
     }
 
-    @Input('entity')
+    @Input("entity")
     set currentEntity(value: Product) {
         this._currentEntity = value;
     }
 
-    @ViewChild('productFilterElement')
+    @ViewChild("productFilterElement")
     productFilterElement: ElementRef;
 
     listProduct: EnumItem<number>[];
@@ -50,24 +68,23 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * @param {Router} _router
      */
     constructor(
-        private _todoService: CompositionViewService
-        , private _router: Router
-        , private productResolveService: ProductResolveService
-        , private productService: ProductService
+        private _todoService: CompositionViewService,
+        private _router: Router,
+        private productResolveService: ProductResolveService,
+        private productService: ProductService
     ) {
         // Set the defaults
         this.accounts = {
-            'creapond': 'johndoe@creapond.com',
-            'withinpixels': 'johndoe@withinpixels.com'
+            creapond: "johndoe@creapond.com",
+            withinpixels: "johndoe@withinpixels.com"
         };
-        this.selectedAccount = 'creapond';
+        this.selectedAccount = "creapond";
 
-        this.productResolveService.noDependencyResolve()
-            .then(originalList => {
-                this.filterProducts(null);
-            });
+        this.productListAsync = this.productResolveService.onList.pipe(
+            takeUntil(this._unsubscribeAll)
+        );
 
-
+        this.productResolveService.noDependencyResolve().subscribe();
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -81,16 +98,20 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        fromEvent(this.productFilterElement.nativeElement, 'keyup')
+        fromEvent(this.productFilterElement.nativeElement, "keyup")
             .pipe(
-                filter(e => { return (<any>e).keyCode == 13 }),
+                filter(e => {
+                    return (<any>e).keyCode == 13;
+                }),
                 takeUntil(this._unsubscribeAll),
                 debounceTime(150),
                 distinctUntilChanged()
             )
             .subscribe(() => {
                 debugger;
-                let term = <string>this.productFilterElement.nativeElement.value;
+                let term = <string>(
+                    this.productFilterElement.nativeElement.value
+                );
                 this.filterProducts(term);
             });
 
@@ -120,33 +141,38 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    filterProducts(term: string) {
-        this.listProduct = (<EnumItem<number>[]>this.productResolveService.list).filter(o =>
-            o.key != this.currentEntity.id
-            && o.value && (!term || o.value.toLowerCase().indexOf(term.toLowerCase()) != -1)
+    filterProducts(term: string): Observable<EnumItem<any>[]> {
+        return this.productResolveService.onList.pipe(
+            mergeMap(productList => {
+                const termFilter = productList.filter(
+                    o =>
+                        o.key !== this.currentEntity.id &&
+                        o.value &&
+                        (!term ||
+                            o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
+                );
+                return of(termFilter);
+            })
         );
+       
     }
 
     /**
      * New todo
      */
     newTodo(): void {
-        this._router.navigate(['/apps/todo/all']).then(() => {
+        this._router.navigate(["/apps/todo/all"]).then(() => {
             setTimeout(() => {
-                this._todoService.onNewTodoClicked.next('');
+                this._todoService.onNewTodoClicked.next("");
             });
         });
     }
 
-
     selectedToAddItem(enumItem: EnumItem<number>) {
         const item = new CompositionItem(enumItem);
         item.productId = this.currentEntity.id;
-        this.productService.addCompositionItem(item).then(response => {
-
-        }, error => {
-
-        });
-
+        this.productService
+            .addCompositionItem(item)
+            .then(response => {}, error => {});
     }
 }

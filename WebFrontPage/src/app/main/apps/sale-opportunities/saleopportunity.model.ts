@@ -93,6 +93,7 @@ export class SaleOpportunityNewDialogResult {
 
 export class SampleBoxProductItem {
     id: number;
+    name: number;
     sampleBoxId: number;
     productId: number;
     productName: string;
@@ -100,6 +101,7 @@ export class SampleBoxProductItem {
     productTypeName: string;
     productTypeDescription: string;
     productPictureId: number;
+    productColorTypeId?: string;
     sampleBoxProductSubItems: SampleBoxProductSubItem[];
 
     constructor(item?) {
@@ -110,6 +112,7 @@ export class SampleBoxProductItem {
         else {
             this.id = internal.id;
             this.sampleBoxId = internal.sampleBoxId;
+            this.productColorTypeId = internal.productColorTypeId;
             this.productId = internal.productId;
             this.productName = internal.productName;
             this.productTypeId = internal.productTypeId;

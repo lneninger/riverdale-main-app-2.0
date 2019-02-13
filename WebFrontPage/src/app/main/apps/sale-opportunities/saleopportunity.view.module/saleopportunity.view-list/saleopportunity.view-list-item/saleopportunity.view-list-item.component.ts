@@ -8,6 +8,7 @@ import { SampleBoxProductSubItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.core.module';
+import { ProductService } from '../../../../products/product.core.module';
 
 @Component({
     selector: 'saleopportunity-view-list-item',
@@ -49,6 +50,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
         private saleOpportunityService: SaleOpportunityService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private serviceProductResolve: ProductResolveService
+        , private serviceProduct: ProductService
         , private _activatedRoute: ActivatedRoute
     )
     {
@@ -156,7 +158,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
 
     updateItem(): void {
         const data = <SampleBoxProductSubItem>this.formGroup.value;
-        this.saleOpportunityService.updateSaleOpportunityProductItem(data).then(response => {
+        this.saleOpportunityService.updateSampleBoxProductSubItem(data).then(response => {
         }, error => {
 
         });

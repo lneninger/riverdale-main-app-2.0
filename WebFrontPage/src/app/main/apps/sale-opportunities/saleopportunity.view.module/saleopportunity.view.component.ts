@@ -224,9 +224,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     createFormSampleBoxProductItem(item: SampleBoxProductItem): FormGroup {
         const result = this._formBuilder.group({
             'id': [item.id, [Validators.required, CustomValidators.number]],
-            'productId': [item.productId, [Validators.required, CustomValidators.number]],
-            'productAmount': [item.productAmount, [Validators.required, CustomValidators.number]],
-            'productColorTypeId': item.productColorTypeId,
+            'name': [item.name, [Validators.required]],
             'selected': '',
         });
 
@@ -249,15 +247,13 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     updateFormSampleBoxProductItem(formGroup: FormGroup, item: SampleBoxProductItem): void {
         const value = {
             id: item.id,
-            sampleBoxId: item.sampleBoxId,
+            productColorTypeId: item.productColorTypeId,
             productId: item.productId,
             productName: item.productName,
             productPictureId: item.productPictureId,
             productTypeId: item.productTypeId,
             productTypevName: item.productTypeName,
             productTypeDescription: item.productTypeDescription,
-            productAmount: item.productAmount,
-            productColorTypeId: item.productColorTypeId,
         };
 
         formGroup.reset(value);
