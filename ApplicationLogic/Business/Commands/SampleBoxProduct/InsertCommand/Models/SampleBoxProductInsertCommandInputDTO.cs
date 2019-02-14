@@ -5,12 +5,11 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Mode
 {
     public class SampleBoxProductInsertCommandInputDTO
     {
-        public int Id { get; set; }
+        public string Name { get; set; }
 
         public int SampleBoxId { get; set; }
 
-        public int ProductId { get; set; }
-
-        public int ProductAmount { get; set; }
+        public string ColorTypeId { get; set; }
+        
     }
 }

@@ -13,7 +13,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public string ProductTypeName { get; set; }
         public int ProductPictureId { get; set; }
         public int ProductId { get; set; }
-        public string ProductTypeId { get; internal set; }
-        public string ProductColorTypeId { get; internal set; }
+        public string ProductTypeId { get; set; }
+        public string ProductColorTypeId { get; set; }
+        public string ProductColorTypeName { get; set; }
     }
 }

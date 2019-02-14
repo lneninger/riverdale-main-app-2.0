@@ -25,12 +25,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand
                 if (result.IsSucceed)
                 {
                     getByIdResult.Bag.ProductAmount = input.ProductAmount;
-
-                    var newAllowedProductColorTypeId = getByIdResult.Bag.Product.ProductAllowedColorTypes.Where(allowedColorTypeItem => allowedColorTypeItem.ProductColorTypeId == input.ProductColorTypeId).Select(allowedColorTypeItem => allowedColorTypeItem.Id).FirstOrDefault();
-                    if (newAllowedProductColorTypeId != default(int))
-                    {
-                        getByIdResult.Bag.ProductAllowedColorTypeId = newAllowedProductColorTypeId;
-                    }
+                    getByIdResult.Bag.ProductColorTypeId = input.ProductColorTypeId;
 
                     try
                     {
@@ -56,7 +51,8 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand
                             ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
                             ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
                             ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
-                            ProductColorTypeId = getByIdResult.Bag.ProductAllowedColorType?.ProductColorTypeId
+                            ProductColorTypeId = getByIdResult.Bag.ProductColorTypeId,
+                            ProductColorTypeName = getByIdResult.Bag.ProductColorType?.Name
                         };
                     }
 

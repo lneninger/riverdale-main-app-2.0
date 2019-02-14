@@ -17,8 +17,8 @@ namespace DomainModel.SaleOpportunity
         public int SampleBoxId { get; set; }
         public virtual SampleBox SampleBox { get; set; }
 
-        public int? ProductAllowedColorTypeId { get; set; }
-        public virtual ProductAllowedColorType ProductAllowedColorType { get; set; }
+        public string ProductColorTypeId { get; set; }
+        public virtual ProductColorType ProductColorType { get; set; }
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }

@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxProductItem } from '../../saleopportunity.model';
+import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxProductItem, SampleBoxProductSubItem } from '../../saleopportunity.model';
 import { Form, FormArray } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 
@@ -34,6 +34,10 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     onSampleBoxProductSelected: Subscription;
     get currentSampleBoxProduct(): SampleBoxProductItem{
         return this._currentSampleBoxProduct;
+    }
+
+    get listOfSubItems(): SampleBoxProductSubItem[]{
+        return (this._currentSampleBoxProduct && this._currentSampleBoxProduct.sampleBoxProductSubItems) || [];
     }
    
     

@@ -56,7 +56,7 @@
 
             <div class="nav-subheader">FILTERS</div>
 
-            <div class="nav-item" *ngFor="let compositionItem of listProduct">
+            <div class="nav-item" *ngFor="let compositionItem of listProduct | async">
                 <a class="nav-link" matRipple (click)="selectedToAddItem(compositionItem)"
                    [routerLinkActive]="['active', 'accent']">
                     <img class="avatar mr-0 mr-sm-16" [src]="(compositionItem.extras.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">

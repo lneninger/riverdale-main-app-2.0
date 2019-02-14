@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
-import { SaleOpportunity, SampleBoxItem, SampleBoxItemNewDialogResult } from '../../saleopportunity.model';
+import { SaleOpportunity, SampleBoxItem, SampleBoxProductItem } from '../../saleopportunity.model';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
 import { OperationResponseValued } from 'app/main/apps/@hipalanetCommons/messages/messages.model';
@@ -81,7 +81,10 @@ export class SaleOpportunityViewSampleBoxesComponent implements OnInit, OnDestro
 
     toggleSampleBox(sampleBox: SampleBoxItem): void{
         this.saleOpportunityService.toggleSampleBox(sampleBox);
+    }
 
+    toggleSampleBoxProduct(sampleBoxProduct: SampleBoxProductItem): void{
+        this.saleOpportunityService.toggleSampleBoxProduct(sampleBoxProduct);
     }
 }
 

@@ -51,7 +51,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 ProductTypeName = item.Product.ProductType.Name,
                                 ProductTypeDescription = item.Product.ProductType.Description,
                                 ProductPictureId = item.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
-                                ProductColorTypeId = item.ProductAllowedColorType?.ProductColorTypeId
+                                ProductColorTypeId = item.ProductColorTypeId,
+                                ProductColorTypeName = item.ProductColorType?.Name
                             }).ToList()
                         }).ToList()
 

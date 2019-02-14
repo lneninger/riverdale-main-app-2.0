@@ -155,9 +155,16 @@
                     <div class="toolbar-separator"></div>
 
                         <span class="font-size-20 mr-16">BOUQUET</span>
+                        <mat-form-field>
+                                <mat-select [(ngModel)]="currentSampleBoxProduct">
+                                  <mat-option *ngFor="let sampleboxProduct of currentSampleBox && currentSampleBox.sampleBoxProducts" [value]="sampleboxProduct">
+                                    {{sampleboxProduct.productName || sampleboxProduct.order}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
                     <button [disabled]="!currentSampleBox"
                         mat-icon-button
-                        (click)="addBouquet()"
+                        (click)="openSampleBoxProductDialog()"
                         matTooltip="New Bouquet"
                         [attr.aria-label]="'New Bouquet'"
                     >

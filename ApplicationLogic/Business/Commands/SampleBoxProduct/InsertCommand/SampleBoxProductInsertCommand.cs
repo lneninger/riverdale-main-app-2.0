@@ -23,9 +23,11 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
             {
                 var entity = new DomainModel.SaleOpportunity.SampleBoxProduct
                 {
+                    Product = new CompositionProduct {
+                        Name = input.Name
+                    },
                     SampleBoxId = input.SampleBoxId,
-                    ProductId = input.ProductId,
-                    ProductAmount = input.ProductAmount
+                    ProductColorTypeId = input.ColorTypeId
                 };
 
                 try

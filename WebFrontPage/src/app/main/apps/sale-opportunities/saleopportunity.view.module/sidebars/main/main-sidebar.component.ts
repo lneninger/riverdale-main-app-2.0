@@ -6,33 +6,42 @@ import {
     ElementRef,
     ViewChild,
     Input
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { pipe, of, fromEvent, Subject, Subscription } from 'rxjs';
+} from "@angular/core";
+import { Router } from "@angular/router";
+import {
+    pipe,
+    of,
+    fromEvent,
+    Subject,
+    Subscription,
+    Observable,
+    merge
+} from "rxjs";
 import {
     takeUntil,
     debounceTime,
     distinctUntilChanged,
-    filter
-} from 'rxjs/operators';
+    filter,
+    mergeMap
+} from "rxjs/operators";
 
-import { fuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from "@fuse/animations";
 
 import {
     SaleOpportunity,
     SampleBoxProductItem
-} from '../../../saleopportunity.model';
-import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
+} from "../../../saleopportunity.model";
+import { SaleOpportunityViewService } from "../../saleopportunity.view.service";
 import {
     EnumItem,
     ProductResolveService
-} from '../../../../@resolveServices/resolve.module';
-import { SaleOpportunityService } from '../../../saleopportunity.service';
+} from "../../../../@resolveServices/resolve.module";
+import { SaleOpportunityService } from "../../../saleopportunity.service";
 
 @Component({
-    selector: 'todo-main-sidebar',
-    templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss'],
+    selector: "todo-main-sidebar",
+    templateUrl: "./main-sidebar.component.html",
+    styleUrls: ["./main-sidebar.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
@@ -43,15 +52,15 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         return this._currentEntity;
     }
 
-    @Input('entity')
+    @Input("entity")
     set currentEntity(value: SaleOpportunity) {
         this._currentEntity = value;
     }
 
-    @ViewChild('productFilterElement')
+    @ViewChild("productFilterElement")
     productFilterElement: ElementRef;
 
-    listProduct: EnumItem<any>[];
+    listProduct: Observable<EnumItem<any>[]>;
 
     folders: any[];
     filters: any[];
@@ -76,14 +85,14 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     ) {
         // Set the defaults
         this.accounts = {
-            creapond: 'johndoe@creapond.com',
-            withinpixels: 'johndoe@withinpixels.com'
+            creapond: "johndoe@creapond.com",
+            withinpixels: "johndoe@withinpixels.com"
         };
-        this.selectedAccount = 'creapond';
+        this.selectedAccount = "creapond";
 
-        this.productResolveService.onList.subscribe(() => {
-            this.filterProducts(null);
-        });
+        // this.productResolveService.onList.subscribe(() => {
+        //     this.filterProducts();
+        // });
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -97,21 +106,6 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        fromEvent(this.productFilterElement.nativeElement, 'keyup')
-            .pipe(
-                filter(e => (<any>e).keyCode === 13),
-                takeUntil(this._unsubscribeAll),
-                debounceTime(150),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                // debugger;
-                const term = <string>(
-                    this.productFilterElement.nativeElement.value
-                );
-                this.filterProducts(term);
-            });
-
         this._todoService.onFiltersChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(filters => {
@@ -123,6 +117,8 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
             .subscribe(tags => {
                 this.tags = tags;
             });
+
+            this.activeFilterProducts();
     }
 
     /**
@@ -137,14 +133,43 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    activeTermFilter(): Observable<any> {
+        return fromEvent(this.productFilterElement.nativeElement, "keyup").pipe(
+            filter(e => (<any>e).keyCode === 13),
+            takeUntil(this._unsubscribeAll),
+            debounceTime(150),
+            distinctUntilChanged()
+        );
+    }
 
-    filterProducts(term: string): void {
-        this.listProduct = this.productResolveService.list.filter(
-            o =>
-                o.key !== this.currentEntity.id &&
-                o.value &&
-                (!term ||
-                    o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
+    activeFilterProducts(): void {
+        const mergeList = [
+            this.activeTermFilter(),
+            this.productResolveService.onList.asObservable()
+        ];
+
+        this.listProduct = merge(mergeList).pipe(
+            mergeMap(() => {
+                return this.productResolveService.onList.pipe(
+                    mergeMap(list => {
+                        const result = list.filter(o => {
+                            const term = <string>(
+                                this.productFilterElement.nativeElement.value
+                            );
+                            return (
+                                o.key !== this.currentEntity.id &&
+                                o.value &&
+                                (!term ||
+                                    o.value
+                                        .toLowerCase()
+                                        .indexOf(term.toLowerCase()) !== -1)
+                            );
+                        });
+
+                        return of(result);
+                    })
+                );
+            })
         );
     }
 
@@ -152,9 +177,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * New todo
      */
     newTodo(): void {
-        this._router.navigate(['/apps/todo/all']).then(() => {
+        this._router.navigate(["/apps/todo/all"]).then(() => {
             setTimeout(() => {
-                this._todoService.onNewTodoClicked.next('');
+                this._todoService.onNewTodoClicked.next("");
             });
         });
     }
@@ -164,14 +189,12 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         const sampleBoxItem = this.saleOpportunityService.currentSampleBox;
         if (sampleBoxItem !== null) {
             item.sampleBoxId = sampleBoxItem.id;
-            this.saleOpportunityService
-                .addSampleBoxProductItem(item)
-                .then(
-                    response => {
-                        // debugger;
-                    },
-                    error => {}
-                );
+            this.saleOpportunityService.addSampleBoxProductItem(item).then(
+                response => {
+                    // debugger;
+                },
+                error => {}
+            );
         }
     }
 }

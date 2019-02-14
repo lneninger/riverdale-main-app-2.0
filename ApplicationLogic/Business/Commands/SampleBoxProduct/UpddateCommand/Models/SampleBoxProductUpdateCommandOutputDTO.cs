@@ -23,5 +23,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand.Mode
         public string ProductTypeName { get; set; }
 
         public string ProductTypeDescription { get; set; }
+
+        public string ProductColorTypeName { get; set; }
     }
 }

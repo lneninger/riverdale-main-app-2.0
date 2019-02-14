@@ -9,10 +9,27 @@ import { SaleOpportunityCoreModule, SaleOpportunityService } from './saleopportu
 import { SaleOpportunityViewModule } from './saleopportunity.view.module/saleopportunity.view.module';
 
 import {
-    MatCardModule, MatListModule, MatMenuModule, MatRadioModule, MatSidenavModule, MatToolbarModule,
-    MatButtonModule, MatChipsModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatSelectModule, MatSnackBarModule,
-    MatSortModule,
-    MatTableModule, MatTabsModule, MatDialog, MatDialogModule, MatDatepickerModule, MatProgressBarModule
+    MatCardModule, MatListModule
+    , MatMenuModule
+    , MatRadioModule
+    , MatSidenavModule
+    , MatToolbarModule
+    , MatButtonModule
+    , MatChipsModule
+    , MatExpansionModule
+    , MatFormFieldModule
+    , MatIconModule
+    , MatInputModule
+    , MatPaginatorModule
+    , MatRippleModule
+    , MatSelectModule
+    , MatSnackBarModule
+    , MatSortModule
+    , MatTableModule
+    , MatTabsModule
+    , MatDialogModule
+    , MatDatepickerModule
+    , MatProgressBarModule
 } from '@angular/material';
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';

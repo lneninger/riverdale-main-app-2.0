@@ -6,6 +6,7 @@ import {
     , MatTooltipModule
     , MatDatepickerModule
     , MatFormFieldModule
+    , MatDialogModule
     , MatIconModule
     , MatInputModule
     , MatMenuModule
@@ -109,6 +110,7 @@ const routes: Routes = [
         , MatSelectModule
         , MatSnackBarModule
         , MatTooltipModule
+        , MatDialogModule
 
         , NgxDnDModule
         

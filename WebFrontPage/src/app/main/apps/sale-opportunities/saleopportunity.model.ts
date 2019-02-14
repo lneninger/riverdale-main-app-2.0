@@ -30,30 +30,32 @@ export class SaleOpportunity {
         this.customerName = internal.customerName;
         this.customerId = internal.customerId;
         this.targetPrice = internal.targetPrice;
-        this.sampleBoxes = (internal.sampleBoxes || []).map(item => new SampleBoxItem(item));
+        this.sampleBoxes = (internal.sampleBoxes || []).map(
+            item => new SampleBoxItem(item)
+        );
         this.settings = new SaleOpportunitySettings(internal.settings || {});
     }
 }
 
-export class SampleBoxItem{
+export class SampleBoxItem {
     id: number;
     name: string;
     order: number;
     saleOpportunityId: number;
     parentSampleBoxId: number;
-    relatedProducts: SampleBoxProductItem[];
+    sampleBoxProducts: SampleBoxProductItem[];
 
-    constructor(sampleBox?){
+    constructor(sampleBox?) {
         const internal = sampleBox || {};
         this.id = internal.id;
         this.name = internal.name;
         this.order = internal.order;
         this.saleOpportunityId = internal.saleOpportunityId;
         this.parentSampleBoxId = internal.parentSampleBoxId;
-        this.relatedProducts = (internal.relatedProducts || []).map(item => new SampleBoxProductItem(item));
-
+        this.sampleBoxProducts = (internal.sampleBoxProducts || []).map(
+            item => new SampleBoxProductItem(item)
+        );
     }
-
 }
 
 export class SampleBoxGrid {
@@ -89,11 +91,9 @@ export class SaleOpportunityNewDialogResult {
     data: SaleOpportunity;
 }
 
-
-
 export class SampleBoxProductItem {
     id: number;
-    name: number;
+    order: number;
     sampleBoxId: number;
     productId: number;
     productName: string;
@@ -108,9 +108,9 @@ export class SampleBoxProductItem {
         const internal = item || {};
         if (internal.key) {
             this.productId = internal.key;
-        }
-        else {
+        } else {
             this.id = internal.id;
+            this.order = internal.order;
             this.sampleBoxId = internal.sampleBoxId;
             this.productColorTypeId = internal.productColorTypeId;
             this.productId = internal.productId;
@@ -119,7 +119,9 @@ export class SampleBoxProductItem {
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
-            this.sampleBoxProductSubItems = (internal.sampleBoxProductSubItems || []).map(subItem => new SampleBoxProductSubItem(subItem));
+            this.sampleBoxProductSubItems = (
+                internal.sampleBoxProductSubItems || []
+            ).map(subItem => new SampleBoxProductSubItem(subItem));
         }
     }
 }
@@ -141,8 +143,7 @@ export class SampleBoxProductSubItem {
         if (internal.key) {
             this.productId = internal.key;
             this.productAmount = 1;
-        }
-        else {
+        } else {
             this.id = internal.id;
             this.sampleBoxId = internal.sampleBoxId;
             this.productId = internal.productId;
@@ -166,7 +167,6 @@ export class SaleOpportunitySettings {
     funzaQuote: string;
 
     constructor(settings) {
-
         const internal = settings || {};
         this.id = internal.id;
         this.delivered = internal.delivered;
@@ -176,10 +176,11 @@ export class SaleOpportunitySettings {
     }
 }
 
+export class SampleBoxItemNewDialogInput {
+    sampleBoxId: number;
+}
 
-export class SampleBoxItemNewDialogResult{
+export class SampleBoxItemNewDialogOutput {
     goTo: 'Edit';
     data: SampleBoxItem;
 }
-
-

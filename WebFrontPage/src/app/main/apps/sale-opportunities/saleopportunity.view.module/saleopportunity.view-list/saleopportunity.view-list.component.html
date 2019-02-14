@@ -1,12 +1,12 @@
-<div *ngIf="currentSampleBox.relatedProducts && currentSampleBox.relatedProducts.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<div *ngIf="listOfSubItems && listOfSubItems.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
     <span class="no-todos-text hint-text">Opportunity has no items!</span>
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <saleopportunity-view-list-item class="todo-list-item has-handle"
-                                *ngFor="let todo of currentSampleBox.relatedProducts; let i = index" [entity]="todo" [formGroup]="formItems.controls[i]"
+                                *ngFor="let subItem of listOfSubItems; let i = index" [entity]="subItem" [formGroup]="formItems.controls[i]"
                                 ngxDraggable
-                                [model]="todo"
-                                [ngClass]="{'current-todo':todo?.id == currentTodo?.id}"
+                                [model]="subItem"
+                                [ngClass]="{'current-todo':subItem?.id == currentTodo?.id}"
                                 matRipple
                                 [@animate]="{value:'*',params:{y:'100%'}}">
     </saleopportunity-view-list-item>

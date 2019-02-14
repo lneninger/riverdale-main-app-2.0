@@ -1,25 +1,41 @@
-<div *ngIf="false && !todo" fxLayout="column" fxLayoutAlign="center center" fxFlex>
-    <mat-icon class="s-120 mb-12 select-todo-icon hint-text"
-              [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">check_box
+<div
+    *ngIf="false && !todo"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxFlex
+>
+    <mat-icon
+        class="s-120 mb-12 select-todo-icon hint-text"
+        [@animate]="{ value: '*', params: { delay: '300ms', scale: '0.2' } }"
+        >check_box
     </mat-icon>
-    <span class="hint-text mat-h1 select-todo-text" [@animate]="{value:'*',params:{delay:'400ms'}}">
+    <span
+        class="hint-text mat-h1 select-todo-text"
+        [@animate]="{ value: '*', params: { delay: '400ms' } }"
+    >
         No Sample Box
     </span>
 </div>
 
 <div>
-
-    <div class="todo-header" fxLayout="row" fxLayoutAlign="space-between center">
-
-        <button mat-button class="toggle-complete-button"
-                aria-label="Toggle completed" fxFlex="0 1 auto">
+    <div
+        class="todo-header"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+    >
+        <button
+            mat-button
+            class="toggle-complete-button"
+            aria-label="Toggle completed"
+            fxFlex="0 1 auto"
+        >
             <!-- <mat-icon *ngIf="todo.completed">check_box</mat-icon>
             <mat-icon *ngIf="!todo.completed">check_box_outline_blank</mat-icon> -->
-            <span class="ml-8">Opportunity Sample Box</span>
+            <span class="ml-8">Opportunity Sample Boxs</span>
         </button>
 
         <!-- {{currentEntity | json}} -->
-<!--
+        <!--
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button (click)="toggleImportant($event)" aria-label="Toggle important">
@@ -51,14 +67,23 @@
             </button>
 
         </div>
-    -->
-    </div>
+    --></div>
 
     <div class="todo-content">
-
-            <div class="tags mb-24"  fxLayout="row" fxLayoutGap="20px">
-                <div class="samplebox" fxLayout="row" fxLayoutAlign="start center" *ngFor="let sampleBox of currentEntity.sampleBoxes" (click)="toggleSampleBox(sampleBox)">
-                    <div class="tag-color"></div>
+        <div class="tags sampleboxs mb-24">
+            <div
+                class="samplebox"
+                *ngFor="let sampleBox of currentEntity.sampleBoxes"
+                (click)="toggleSampleBox(sampleBox)"
+            >
+                <div class="samplebox-products">
+                    <div
+                        class="samplebox-product avatar "
+                        *ngFor="
+                            let sampleBoxProduct of sampleBox.sampleBoxProducts
+                        "
+                        (click)="toggleSampleBox(sampleBox)"
+                    ></div>
                     <!-- <div class="tag-label">{{sampleBox |json}}</div> -->
                 </div>
             </div>
@@ -106,6 +131,6 @@
                     [disabled]="todoForm.invalid">
                 SAVE
             </button> -->
-
+        </div>
     </div>
 </div>

@@ -1,9 +1,16 @@
 <h1 mat-dialog-title>New Sale Opportunity Product</h1>
-<div mat-dialog-content [formGroup]="frmMain">
-    <mat-form-field>
+<div mat-dialog-content [formGroup]="frmMain" fxLayoutGap="20px">
+    <mat-form-field fxFlex="calc(20%-20px)">
         <input matInput formControlName="name" placeholder="Name">
     </mat-form-field>
 
+    <mat-form-field floatLabel="never" fxFlex="calc(20%-20px)">
+            <mat-select placeholder="Color Type" name="colorypeId" formControlName="colorTypeId">
+                <mat-option *ngFor="let item of listColorType | async" [value]="item.key">
+                    {{item.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
