@@ -19,6 +19,7 @@ import { AuthenticationService, Register, Authenticate } from '../../../apps/@hi
 export class Login2Component implements OnInit
 {
     loginForm: FormGroup;
+    errorMessages: string[];
 
     /**
      * Constructor
@@ -56,9 +57,9 @@ export class Login2Component implements OnInit
     }
 
     login() {
-        //debugger;
+        // debugger;
         let loginValue = this.loginForm.value;
-        //debugger;
+        // debugger;
         let loginData = new Authenticate({ userName: loginValue.userName, password: loginValue.password });
 
         this.service.login(loginData)
@@ -67,23 +68,16 @@ export class Login2Component implements OnInit
                 this.router.navigate(['apps/dashboards/analytics']);
             })
             .catch(error => {
+                debugger;
+                if(error['error']){
 
+                    if(error['error']['login_failure']){
+                        this.errorMessages = error['error']['login_failure'] as string[];
+
+                    }
+                }
             });
-
-        //this.auth.auth.setPersistence('session')
-        //    .then(res => {
-        //        this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(loginValue.email, loginValue.password).then(
-        //            res => {
-        //                console.log('User authenticated', res);
-        //                this.router.navigate(['apps/dashboards/analytics']);
-
-        //            },
-        //            error => {
-
-        //            }
-        //        );
-        //    });
-
+       
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -68,7 +68,8 @@ export class AuthenticationService {
                 this.scheduleRefreshToken();
 
                 resolve(res);
-            });
+            },
+            error => reject(error) );
         });
     }
 

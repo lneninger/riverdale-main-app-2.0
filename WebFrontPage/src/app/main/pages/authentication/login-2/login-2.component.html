@@ -55,6 +55,13 @@
                     </mat-error>
                 </mat-form-field>
 
+                <div class="message-box error" *ngIf="errorMessages">
+                    <ng-container *ngFor="let errorMessage of errorMessages" >
+                        {{errorMessage}}
+                    </ng-container>
+                    <!-- This is an alert message box! -->
+                </div>
+
                 <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
                      fxLayoutAlign="space-between center">
                     <mat-checkbox class="remember-me" aria-label="Remember Me">
