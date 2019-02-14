@@ -10,7 +10,9 @@ namespace Framework.Autofac
         {
             //ReleaseBuffer(buffer); // release unmanaged memory  
             if (disposing)
-            { // release other disposable objects  
+            {
+                IoCGlobal.Container.Disposer.AddInstanceForDisposal(this);
+                // release other disposable objects  
               // if (resource != null) resource.Dispose();
             }
         }
