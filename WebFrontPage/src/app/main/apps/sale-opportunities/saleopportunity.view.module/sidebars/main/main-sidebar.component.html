@@ -56,13 +56,22 @@
 
             <div class="nav-subheader">FILTERS</div>
 
-            <div class="nav-item" *ngFor="let compositionItem of listProduct | async">
-                <a class="nav-link" matRipple (click)="selectedToAddItem(compositionItem)"
-                   [routerLinkActive]="['active', 'accent']">
-                    <img class="avatar mr-0 mr-sm-16" [src]="(compositionItem.extras.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
-                    <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->
-                    <span>{{compositionItem.value}}</span>
-                </a>
+            <div class="nav-item" *ngFor="let productItem of listProduct | async">
+                <ng-container [ngSwitch]="productItem.extras['productTypeId'] === 'COMP'">
+                        <a *ngSwitchCase="true" class="nav-link" matRipple [routerLink]="[]" [queryParams]="{newbouquet: productItem.key}"
+                        [routerLinkActive]="['active', 'accent']">
+                            <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras['pictureId'] | fileUrl:'assets/images/avatars/product1.png':false | async)">
+                            <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->
+                            <span>{{productItem.value}}</span>
+                        </a>
+
+                    <a *ngSwitchCase="false" class="nav-link" matRipple (click)="selectedToAddItem(productItem)"
+                    [routerLinkActive]="['active', 'accent']">
+                        <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras['pictureId'] | fileUrl:'assets/images/avatars/product1.png':false | async)">
+                        <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->
+                        <span>{{productItem.value}}</span>
+                    </a>
+                </ng-container>
             </div>
 
             <!--<div class="nav-subheader">TAGS</div>

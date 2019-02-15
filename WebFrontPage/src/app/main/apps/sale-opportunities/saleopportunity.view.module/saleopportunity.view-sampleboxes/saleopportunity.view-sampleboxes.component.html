@@ -78,12 +78,14 @@
             >
                 <div class="samplebox-products">
                     <div
-                        class="samplebox-product avatar "
+                        class="samplebox-product "
                         *ngFor="
                             let sampleBoxProduct of sampleBox.sampleBoxProducts
                         "
                         (click)="toggleSampleBox(sampleBox)"
-                    ></div>
+                    >
+                        <img class="avatar" [src]="(sampleBoxProduct.pictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">    
+                </div>
                     <!-- <div class="tag-label">{{sampleBox |json}}</div> -->
                 </div>
             </div>

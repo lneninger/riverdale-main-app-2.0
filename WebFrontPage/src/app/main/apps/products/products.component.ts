@@ -77,10 +77,10 @@ export class ProductsComponent implements OnInit {
         this.initializeQueryListeners();
     }
 
-    initializeQueryListeners() {
+    initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (this.route.snapshot.data['action'] == 'new') {
+            // debugger;
+            if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
         });
@@ -93,7 +93,7 @@ export class ProductsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result: ProductNewDialogResult) => {
-            if (result && result.goTo == 'Edit') {
+            if (result && result.goTo === 'Edit') {
                 this.service.router.navigate([`apps/products/${result.data.id}`]);
             }
             else {

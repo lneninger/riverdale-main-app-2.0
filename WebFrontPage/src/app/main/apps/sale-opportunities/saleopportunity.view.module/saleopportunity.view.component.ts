@@ -163,6 +163,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // debugger;
+        this.activeRouteListeners();
         this.currentEntity = this.saleOpportunityService.currentEntity;
         this.frmSampleBoxItems = this._formBuilder.array([]);
         this.currentEntity.sampleBoxes.forEach(item => {
@@ -439,6 +440,15 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // const sampleBoxProduct = <SampleBoxProductItem>{};
         // sampleBoxProduct.sampleBoxId = this.currentSampleBox.id;
         // this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
+    }
+
+    activeRouteListeners(): void{
+        this.route.queryParams.subscribe(params => {
+            //debugger;
+            if (params.newbouquet) {
+                this.openSampleBoxProductDialog();
+            }
+        });
     }
 
     openSampleBoxProductDialog(): void {

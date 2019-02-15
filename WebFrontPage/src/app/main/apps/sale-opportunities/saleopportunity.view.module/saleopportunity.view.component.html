@@ -154,15 +154,27 @@
 
                     <div class="toolbar-separator"></div>
 
-                        <span class="font-size-20 mr-16">BOUQUET</span>
-                        <mat-form-field>
-                                <mat-select [(ngModel)]="currentSampleBoxProduct">
-                                  <mat-option *ngFor="let sampleboxProduct of currentSampleBox && currentSampleBox.sampleBoxProducts" [value]="sampleboxProduct">
-                                    {{sampleboxProduct.productName || sampleboxProduct.order}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
-                    <button [disabled]="!currentSampleBox"
+                    <span class="font-size-20 mr-16">BOUQUET</span>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="currentSampleBoxProduct">
+                            <option label="--select something --"></option>
+                            <mat-option>None</mat-option>
+                            <mat-option
+                                *ngFor="
+                                    let sampleboxProduct of currentSampleBox &&
+                                        currentSampleBox.sampleBoxProducts
+                                "
+                                [value]="sampleboxProduct"
+                            >
+                                {{
+                                    sampleboxProduct.productName ||
+                                        sampleboxProduct.order
+                                }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button
+                        [disabled]="!currentSampleBox"
                         mat-icon-button
                         (click)="openSampleBoxProductDialog()"
                         matTooltip="New Bouquet"
@@ -190,14 +202,19 @@
                     </button>
 
                     <div class="toolbar-separator"></div>
-                        <span class="font-size-20 mr-16">BOX</span>
-                        <mat-form-field>
-                            <mat-select [(ngModel)]="currentSampleBox">
-                              <mat-option *ngFor="let box of currentEntity.sampleBoxes" [value]="box">
-                                {{box.name || box.order}}
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
+                    <span class="font-size-20 mr-16">BOX</span>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="currentSampleBox">
+                            <option label="--select something --"></option>
+                            <mat-option>None</mat-option>
+                            <mat-option
+                                *ngFor="let box of currentEntity.sampleBoxes"
+                                [value]="box"
+                            >
+                                {{ box.name || box.order }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
                     <button
                         mat-icon-button
@@ -218,14 +235,14 @@
                     </button>
 
                     <button
-                    [disabled]="!currentEntity"
-                    mat-icon-button
-                    (click)="setActiveDetailArea('SampleBoxes')"
-                    matTooltip="View Sample Boxes"
-                    [attr.aria-label]="'View Sample Boxes'"
-                >
-                    <mat-icon>visibility</mat-icon>
-                </button>
+                        [disabled]="!currentEntity"
+                        mat-icon-button
+                        (click)="setActiveDetailArea('SampleBoxes')"
+                        matTooltip="View Sample Boxes"
+                        [attr.aria-label]="'View Sample Boxes'"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
                 </div>
 
                 <div fxFlexAlign="end center">
@@ -260,12 +277,12 @@
                         ></saleopportunity-view-details>
                     </ng-container>
                     <ng-container *ngIf="activeDetailArea == 'SampleBoxes'">
-                            <saleopportunity-view-sampleboxes
-                                [entity]="currentEntity"
-                                fusePerfectScrollbar
-                                fxFlex
-                            ></saleopportunity-view-sampleboxes>
-                        </ng-container>
+                        <saleopportunity-view-sampleboxes
+                            [entity]="currentEntity"
+                            fusePerfectScrollbar
+                            fxFlex
+                        ></saleopportunity-view-sampleboxes>
+                    </ng-container>
                 </ng-container>
 
                 <saleopportunity-view-settings

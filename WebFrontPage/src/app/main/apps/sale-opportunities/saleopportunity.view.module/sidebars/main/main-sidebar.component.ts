@@ -134,7 +134,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     activeTermFilter(): Observable<any> {
-        return fromEvent(this.productFilterElement.nativeElement, "keyup").pipe(
+        return fromEvent(this.productFilterElement.nativeElement, 'keyup').pipe(
             filter(e => (<any>e).keyCode === 13),
             takeUntil(this._unsubscribeAll),
             debounceTime(150),
@@ -145,10 +145,12 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     activeFilterProducts(): void {
         const mergeList = [
             this.activeTermFilter(),
-            this.productResolveService.onList.asObservable()
+            this.productResolveService.onList.asObservable(),
+            this.saleOpportunityService.onSampleBoxSelected.asObservable(),
+            this.saleOpportunityService.onSampleBoxProductSelected.asObservable(),
         ];
 
-        this.listProduct = merge(mergeList).pipe(
+        this.listProduct = merge(...mergeList).pipe(
             mergeMap(() => {
                 return this.productResolveService.onList.pipe(
                     mergeMap(list => {
@@ -156,13 +158,30 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                             const term = <string>(
                                 this.productFilterElement.nativeElement.value
                             );
+
+                            console.log(`Bouquet selected: `, !!this.saleOpportunityService.currentSampleBoxProduct);
+                            console.log(`SampleBox selected: `, !!this.saleOpportunityService.currentSampleBox);
                             return (
+                                // Term Filter
                                 o.key !== this.currentEntity.id &&
                                 o.value &&
                                 (!term ||
                                     o.value
                                         .toLowerCase()
                                         .indexOf(term.toLowerCase()) !== -1)
+                            ) && (
+                                (
+                                // Current BoxProduct selection. Show no compositions 
+                                !!this.saleOpportunityService.currentSampleBoxProduct
+                                && (<string><unknown>o.extras['productTypeId']) !== 'COMP'
+                                )
+                                ||
+                                (
+                                   // Current Box selection. Show compositions 
+                                    !this.saleOpportunityService.currentSampleBoxProduct
+                                    && !!this.saleOpportunityService.currentSampleBox
+                                    && (<string><unknown>o.extras['productTypeId']) === 'COMP'
+                                )
                             );
                         });
 
