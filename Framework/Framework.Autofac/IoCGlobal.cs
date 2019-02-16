@@ -11,6 +11,14 @@ namespace Framework.Autofac
     {
         private static IContainer _container;
 
+        public static IContainer Container
+        {
+            get
+            {
+                return _container;
+            }
+        }
+
         public static IContainer Config(Action<ContainerBuilder> configFn)
         {
             var builder = new ContainerBuilder();
