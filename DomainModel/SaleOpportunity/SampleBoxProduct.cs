@@ -10,7 +10,7 @@ namespace DomainModel.SaleOpportunity
         public int Order { get; set; }
 
         public int SaleOpportunityProductId { get; set; }
-        public virtual SaleOpportunityProduct SaleOpportunityProduct { get; set; }
+        public virtual SaleOpportunityPriceLevelProduct SaleOpportunityProduct { get; set; }
 
         public int SampleBoxId { get; set; }
         public virtual SampleBox SampleBox { get; set; }

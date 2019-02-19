@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand.Models;
 using Framework.Core.Messages;
 using DomainModel.Product;
 using System.Linq;
 
-namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand
 {
     public class SampleBoxProductInsertCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductInsertCommand
     {
@@ -23,8 +23,11 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
             {
                 var entity = new DomainModel.SaleOpportunity.SampleBoxProduct
                 {
+                    Product = new CompositionProduct {
+                        Name = input.Name
+                    },
                     SampleBoxId = input.SampleBoxId,
-                    SaleOpportunityProductId = input.SaleOpportunityProductId
+                    SaleOpportunityProductId = input.ColorTypeId
                 };
 
                 try
@@ -55,12 +58,12 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.SaleOpportunityProductId,
                             SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                            ProductAmount = getByIdResult.Bag.SaleOpportunityProduct.ProductAmount,
-                            ProductName = getByIdResult.Bag.SaleOpportunityProduct.Product.Name,
-                            ProductTypeId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductTypeId,
-                            ProductTypeName = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Name,
-                            ProductTypeDescription = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            ProductAmount = getByIdResult.Bag.ProductAmount,
+                            ProductName = getByIdResult.Bag.Product.Name,
+                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
+                            ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
+                            ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
+                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
                         };
                     }
 

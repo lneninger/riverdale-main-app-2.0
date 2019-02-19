@@ -18,7 +18,6 @@ namespace DomainModel.SaleOpportunity
 
         public virtual ICollection<SaleOpportunityPriceLevel> SaleOpportunityPriceLevels { get; set; }
 
-        public virtual ICollection<SaleOpportunityProduct> SaleOpportunityProducts { get; set; }
 
 
         public DateTime? DeletedAt { get; set; }

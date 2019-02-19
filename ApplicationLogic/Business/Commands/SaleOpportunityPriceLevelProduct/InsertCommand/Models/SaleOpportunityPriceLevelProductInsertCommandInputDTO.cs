@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Models
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand.Models
 {
-    public class SampleBoxProductInsertCommandInputDTO
+    public class SaleOpportunityPriceLevelProductInsertCommandInputDTO
     {
         public string Name { get; set; }
 

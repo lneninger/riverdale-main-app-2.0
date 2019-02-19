@@ -1,12 +1,12 @@
 ﻿using System;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
 
-namespace ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand
 {
     public class SampleBoxProductGetByIdCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductGetByIdCommand
     {
@@ -27,9 +27,9 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand
                     result.Bag = new SampleBoxProductGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        ProductAmmount = getByIdResult.Bag.SaleOpportunityProduct.ProductAmount,
+                        ProductAmmount = getByIdResult.Bag.ProductAmount,
                         SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                        RelatedProductId = getByIdResult.Bag.SaleOpportunityProduct.ProductId,
+                        RelatedProductId = getByIdResult.Bag.ProductId,
                     };
                 }
             }
