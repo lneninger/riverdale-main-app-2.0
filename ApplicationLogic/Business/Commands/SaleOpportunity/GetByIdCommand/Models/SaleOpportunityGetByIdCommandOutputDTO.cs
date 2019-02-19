@@ -18,9 +18,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
 
         public string SaleOpportunityTypeId { get; set; }
 
-        public SaleOpportunityGetByIdCommandOutputSettingsDTO Settings { get; set; }
-
-
-        public IEnumerable<SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO> SampleBoxes { get; internal set; }
+        public IEnumerable<SaleOpportunityGetByIdCommandOutputPriceLevelItemDTO> PriceLevels { get; internal set; }
     }
 }
