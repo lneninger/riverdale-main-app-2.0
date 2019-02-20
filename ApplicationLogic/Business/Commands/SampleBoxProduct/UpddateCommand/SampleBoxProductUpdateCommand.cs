@@ -24,8 +24,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    getByIdResult.Bag.ProductAmount = input.ProductAmount;
-                    getByIdResult.Bag.ProductColorTypeId = input.ProductColorTypeId;
+                    getByIdResult.Bag.Order = input.Order;
 
                     try
                     {
@@ -44,15 +43,15 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand
                         {
                             Id = getByIdResult.Bag.Id,
                             SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                            ProductId = getByIdResult.Bag.ProductId,
-                            ProductAmount = getByIdResult.Bag.ProductAmount,
-                            ProductName = getByIdResult.Bag.Product.Name,
-                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
-                            ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
-                            ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
-                            ProductColorTypeId = getByIdResult.Bag.ProductColorTypeId,
-                            ProductColorTypeName = getByIdResult.Bag.ProductColorType?.Name
+                            ProductId = getByIdResult.Bag.SaleOpportunityProduct.ProductId,
+                            ProductAmount = getByIdResult.Bag.SaleOpportunityProduct.ProductAmount,
+                            ProductName = getByIdResult.Bag.SaleOpportunityProduct.Product.Name,
+                            ProductTypeId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductTypeId,
+                            ProductTypeName = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Name,
+                            ProductTypeDescription = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Description,
+                            ProductPictureId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            ProductColorTypeId = getByIdResult.Bag.SaleOpportunityProduct.ProductColorTypeId,
+                            ProductColorTypeName = getByIdResult.Bag.SaleOpportunityProduct.ProductColorType?.Name
                         };
                     }
 

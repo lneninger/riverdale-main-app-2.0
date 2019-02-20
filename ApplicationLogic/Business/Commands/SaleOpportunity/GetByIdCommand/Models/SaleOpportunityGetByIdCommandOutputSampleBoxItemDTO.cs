@@ -8,13 +8,13 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
     {
         public int Id { get; set; }
 
-        public int SaleOpportunityId { get; set; }
+        public int SaleOpportunityPriceLevelId { get; set; }
 
         public string Name { get; set; }
 
         public int Order { get; set; }
 
-        public List<SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO> SampleBoxProducts { get; set; }
+        public List<SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO> SampleBoxSaleOpportunityProductIds { get; set; }
 
         //public int ProductAmount { get; set; }
 

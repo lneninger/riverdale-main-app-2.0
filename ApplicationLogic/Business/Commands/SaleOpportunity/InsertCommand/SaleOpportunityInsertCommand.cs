@@ -23,9 +23,9 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.InsertCommand
                 var entity = new DomainModel.SaleOpportunity.SaleOpportunity
                 {
                     Name = input.Name,
-                    SaleSeasonTypeId = input.SaleSeasonTypeId,
+                    //SaleSeasonTypeId = input.SaleSeasonTypeId,
                     CustomerId = input.CustomerId,
-                    TargetPrice = input.TargetPrice
+                    //TargetPrice = input.TargetPrice
                 };
 
                 try

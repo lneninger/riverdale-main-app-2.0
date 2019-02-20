@@ -23,11 +23,8 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
             {
                 var entity = new DomainModel.SaleOpportunity.SampleBoxProduct
                 {
-                    Product = new CompositionProduct {
-                        Name = input.Name
-                    },
                     SampleBoxId = input.SampleBoxId,
-                    ProductColorTypeId = input.ColorTypeId
+                    SaleOpportunityProductId = input.SaleOpportunityProductId
                 };
 
                 try
@@ -56,14 +53,14 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
                         result.Bag = new SampleBoxProductInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.ProductId,
+                            ProductId = getByIdResult.Bag.SaleOpportunityProductId,
                             SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                            ProductAmount = getByIdResult.Bag.ProductAmount,
-                            ProductName = getByIdResult.Bag.Product.Name,
-                            ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,
-                            ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
-                            ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
-                            ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            ProductAmount = getByIdResult.Bag.SaleOpportunityProduct.ProductAmount,
+                            ProductName = getByIdResult.Bag.SaleOpportunityProduct.Product.Name,
+                            ProductTypeId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductTypeId,
+                            ProductTypeName = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Name,
+                            ProductTypeDescription = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductType.Description,
+                            ProductPictureId = getByIdResult.Bag.SaleOpportunityProduct.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
                         };
                     }
 

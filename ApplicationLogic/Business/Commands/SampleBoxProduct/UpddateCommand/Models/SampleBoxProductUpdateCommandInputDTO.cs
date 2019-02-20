@@ -12,8 +12,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.UpdateCommand.Mode
 
         public int ProductId { get; set; }
 
-        public int ProductAmount { get; set; }
+        public int Order { get; set; }
 
-        public string ProductColorTypeId { get; set; }
     }
 }

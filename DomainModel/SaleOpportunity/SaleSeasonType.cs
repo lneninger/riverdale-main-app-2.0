@@ -10,12 +10,13 @@ namespace DomainModel.SaleOpportunity
 
         public string SaleSeasonCategoryTypeId { get; set; }
 
-        public virtual SaleSeasonCategoryType SaleSeasonCategoryType { get; set; }
 
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public virtual IEnumerable<SaleOpportunity> SaleOpportunities { get; set; }
+        public virtual SaleSeasonCategoryType SaleSeasonCategoryType { get; set; }
+
+        public virtual IEnumerable<SaleOpportunityPriceLevel> SaleOpportunityPriceLevels { get; set; }
     }
 }

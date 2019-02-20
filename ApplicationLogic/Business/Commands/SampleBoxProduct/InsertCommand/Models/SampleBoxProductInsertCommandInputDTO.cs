@@ -9,7 +9,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand.Mode
 
         public int SampleBoxId { get; set; }
 
-        public string ColorTypeId { get; set; }
+        public int SaleOpportunityProductId { get; set; }
         
     }
 }

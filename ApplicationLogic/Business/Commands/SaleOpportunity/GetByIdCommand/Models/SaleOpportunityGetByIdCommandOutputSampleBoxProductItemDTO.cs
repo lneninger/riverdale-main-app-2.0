@@ -7,14 +7,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
     public class SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO
     {
         public int Id { get; set; }
-        public int ProductAmount { get; set; }
-        public string ProductTypeDescription { get; set; }
-        public string ProductName { get; set; }
-        public string ProductTypeName { get; set; }
-        public int ProductPictureId { get; set; }
-        public int ProductId { get; set; }
-        public string ProductTypeId { get; set; }
-        public string ProductColorTypeId { get; set; }
-        public string ProductColorTypeName { get; set; }
+        public int SaleOpportunityProductId { get; set; }
     }
 }

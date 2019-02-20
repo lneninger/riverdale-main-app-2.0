@@ -24,23 +24,27 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
                .IsRequired(true);
 
             // Relationships
-            builder.HasOne(t => t.SaleOpportunitySettings)
+
+             builder.HasMany(t => t.SaleOpportunityPriceLevels)
             .WithOne(t => t.SaleOpportunity)
-            .HasForeignKey<SaleOpportunitySettings>(t => t.SaleOpportunityId);
+            .HasForeignKey(t => t.SaleOpportunityId);
 
             builder.HasOne(t => t.Customer)
                .WithMany(t => t.SaleOpportunities)
                .HasForeignKey(t => t.CustomerId);
 
+            // builder.HasOne(t => t.SaleOpportunitySettings)
+            //.WithOne(t => t.SaleOpportunity)
+            //.HasForeignKey<SaleOpportunitySettings>(t => t.SaleOpportunityId);
 
-            builder.HasOne(t => t.SaleSeasonType)
-               .WithMany(p => p.SaleOpportunities)
-               .HasForeignKey(t => t.SaleSeasonTypeId);
+            //builder.HasOne(t => t.SaleSeasonType)
+            //   .WithMany(p => p.SaleOpportunities)
+            //   .HasForeignKey(t => t.SaleSeasonTypeId);
 
 
-            builder.HasMany(t => t.SampleBoxes)
-               .WithOne(c => c.SaleOpportunity)
-               .HasForeignKey(c => c.SaleOpportunityId);
+            //builder.HasMany(t => t.SampleBoxes)
+            //   .WithOne(c => c.SaleOpportunity)
+            //   .HasForeignKey(c => c.SaleOpportunityId);
         }
     }
 }
