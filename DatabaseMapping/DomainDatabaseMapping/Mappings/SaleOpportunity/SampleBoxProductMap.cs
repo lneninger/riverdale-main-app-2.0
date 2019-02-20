@@ -23,21 +23,17 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(t => t.ProductColorTypeId)
+            builder.Property(t => t.SaleOpportunityPriceLevelProductId)
                 .IsRequired(false);
 
-            builder.HasOne(t => t.ProductColorType)
+            builder.HasOne(t => t.SaleOpportunityPriceLevelProduct)
                .WithMany()
-               .HasForeignKey(t => t.ProductColorTypeId)
+               .HasForeignKey(t => t.SaleOpportunityPriceLevelProductId)
                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(t => t.Product)
-                .WithMany()
-                .HasForeignKey(t => t.ProductId);
 
             builder.HasOne(t => t.SampleBox)
                 .WithMany(t => t.SampleBoxProducts)
                 .HasForeignKey(t => t.SampleBoxId);
         }
-        }
+    }
 }

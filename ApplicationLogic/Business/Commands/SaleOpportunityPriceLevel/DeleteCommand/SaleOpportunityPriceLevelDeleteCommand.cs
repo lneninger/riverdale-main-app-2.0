@@ -3,33 +3,33 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.DeleteCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
 using DomainModel.Product;
 
-namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.DeleteCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.DeleteCommand
 {
-    public class SaleOpportunityPriceLevelProductDeleteCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevel, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductDeleteCommand
+    public class SaleOpportunityPriceLevelDeleteCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevel, ISaleOpportunityPriceLevelDBRepository>, ISaleOpportunityPriceLevelDeleteCommand
     {
-        public SaleOpportunityPriceLevelProductDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<SaleOpportunityPriceLevelProductDeleteCommandOutputDTO> Execute(int id)
+        public OperationResponse<SaleOpportunityPriceLevelDeleteCommandOutputDTO> Execute(int id)
         {
-            var result = new OperationResponse<SampleBoxProductDeleteCommandOutputDTO>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelDeleteCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetById(id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = new SampleBoxProductDeleteCommandOutputDTO
+                    result.Bag = new SaleOpportunityPriceLevelDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                        ProductId = getByIdResult.Bag.ProductId
+                        Name = getByIdResult.Bag.Name,
+                        Order = getByIdResult.Bag.Order
                     };
                 }
 

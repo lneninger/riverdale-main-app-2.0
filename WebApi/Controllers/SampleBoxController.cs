@@ -147,7 +147,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="model">The model.</param>
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(SampleBoxInsertCommandOutputDTO))]
-        //[Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunity_Manage)]
         public IActionResult Post([FromBody]SampleBoxInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
@@ -155,7 +154,6 @@ namespace RiverdaleMainApp2_0.Controllers
             {
                 var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "SaleOpportunity", appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
-
             }
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }

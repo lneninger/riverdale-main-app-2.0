@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand
 {
-    public interface ISampleBoxProductUpdateCommand : ICommandFunc<SampleBoxProductUpdateCommandInputDTO, OperationResponse<SampleBoxProductUpdateCommandOutputDTO>>
+    public interface ISaleOpportunityPriceLevelProductUpdateCommand : ICommandFunc<SaleOpportunityPriceLevelProductUpdateCommandInputDTO, OperationResponse<SaleOpportunityPriceLevelProductUpdateCommandOutputDTO>>
     {
     }
 }

@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand
 {
-    public class SampleBoxProductUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISampleBoxProductDBRepository>, ISampleBoxProductUpdateCommand
+    public class SampleBoxProductUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISampleBoxProductDBRepository>, ISaleOpportunityPriceLevelProductUpdateCommand
     {
         public SampleBoxProductUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<SaleOpportunityPriceLevelProductUpdateCommandOutputDTO> Execute(SampleBoxProductUpdateCommandInputDTO input)
+        public OperationResponse<SaleOpportunityPriceLevelProductUpdateCommandOutputDTO> Execute(SaleOpportunityPriceLevelProductUpdateCommandInputDTO input)
         {
             var result = new OperationResponse<SaleOpportunityPriceLevelProductUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
