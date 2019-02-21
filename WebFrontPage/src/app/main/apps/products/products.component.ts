@@ -53,7 +53,6 @@ export class ProductsComponent implements OnInit {
     constructor(
         private route: ActivatedRoute
         , private service: ProductService
-        //, private database: AngularFireDatabase
         , public dialog: MatDialog
     ) {
 
@@ -143,7 +142,7 @@ export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
     templateUrl: 'productnew.dialog.component.html',
 })
 export class ProductNewDialogComponent {
-    listProductType: any[];
+    listProductType$ = this.productTypeResolveService.onList;
     
     frmMain: FormGroup;
     constructor(
@@ -151,6 +150,7 @@ export class ProductNewDialogComponent {
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<ProductNewDialogComponent>
+        , public productTypeResolveService: ProductTypeResolveService
         , @Inject(MAT_DIALOG_DATA) public data: any
         , private route: ActivatedRoute
     ) {

@@ -21,6 +21,12 @@ import { ProductTypeResolveService, EnumItem } from '../@resolveServices/resolve
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'ng4-validators';
+import { 
+    SaleSeasonCategoryTypeResolveService
+    , ProductColorTypeResolveService
+    , CustomerResolveService, ProductResolveService
+    , GrowerTypeResolveService 
+} from '../@resolveServices/resolve.module';
 
 @Component({
     selector: 'sale-opportunities',
@@ -140,8 +146,8 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
     templateUrl: 'saleopportunitynew.dialog.component.html',
 })
 export class SaleOpportunityNewDialogComponent {
-    listSeasonCategoryType: EnumItem<string>[];
-    listCustomer: EnumItem<number>[];
+    listSeasonCategoryType = this.saleSeasonCategoryTypeResolveService.onList;
+    listCustomer = this.saleSeasonCategoryTypeResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
 
     get selectedCategorySeasons(): Object {
@@ -159,6 +165,9 @@ export class SaleOpportunityNewDialogComponent {
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<SaleOpportunityNewDialogComponent>
+        , private  saleSeasonCategoryTypeResolveService: SaleSeasonCategoryTypeResolveService
+        , private customerResolveService: CustomerResolveService
+        , private growerTypeResolveService: GrowerTypeResolveService
         , @Inject(MAT_DIALOG_DATA) public data: any
         , private route: ActivatedRoute
     ) {

@@ -5,10 +5,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
 import { Subject, Observable, of } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
+
+import { ThirdPartyAppTypeResolveService, CustomerFreightoutRateTypeResolveService } from '../@resolveServices/resolve.module';
 
 import { Customer } from './customer.model';
 import { ThirdPartyGrid } from '../customerthirdpartyappsetting/customerthirdpartyappsetting.model';
@@ -30,14 +32,15 @@ import { OperationResponse } from '../@hipalanetCommons/authentication/securehtt
 })
 export class CustomerComponent implements OnInit, OnDestroy {
     // Resolve
-    listCustomerFreightoutRateType: EnumItem<string>[];
-    listThirdParty: EnumItem<string>[];
+    listThirdParty$ = this.thirdPartyAppTypeResolveService.onList;
+    listCustomerFreightoutRateType$ = this.customerFreightoutRateTypeResolveService.onList;
 
     id: string;
     currentEntity: Customer;
     thirdPartySettings: ThirdPartyGrid[];
     freightout: CustomerFreightout;
 
+    selectedItem: ThirdPartyGrid;
     pageType: string;
     displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyCustomerId'];
 
@@ -51,12 +54,17 @@ export class CustomerComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param {EcommerceProductService} _ecommerceProductService
-     * @param {FormBuilder} _formBuilder
-     * @param {Location} _location
-     * @param {MatSnackBar} _matSnackBar
+     * 
+     * @param route 
+     * @param service 
+     * @param serviceFreightout 
+     * @param serviceThirdParty 
+     * @param _formBuilder 
+     * @param _location 
+     * @param thirdPartyAppTypeResolveService 
+     * @param customerFreightoutRateTypeResolveService 
+     * @param _matSnackBar 
+     * @param matDialog 
      */
     constructor(
         private route: ActivatedRoute
@@ -65,6 +73,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
         , private serviceThirdParty: CustomerThirdPartyAppSettingService
         , private _formBuilder: FormBuilder
         , private _location: Location
+        , private thirdPartyAppTypeResolveService: ThirdPartyAppTypeResolveService
+        , private customerFreightoutRateTypeResolveService: CustomerFreightoutRateTypeResolveService
         , private _matSnackBar: MatSnackBar
         , private matDialog: MatDialog
     ) {
@@ -84,16 +94,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Resolve
-        this.listCustomerFreightoutRateType = this.route.snapshot.data['listCustomerFreightoutRateType'];
-        this.listThirdParty = this.route.snapshot.data['listThirdParty'];
 
         // Subscribe to update product on changes
         this.service.onCurrentEntityChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(dataResponse => {
 
-                //debugger;
-                let currentEntity = dataResponse.bag;
+                // debugger;
+                const currentEntity = dataResponse.bag;
                 this.id = currentEntity.id;
                 if (currentEntity) {
                     this.currentEntity = new Customer(currentEntity);
@@ -127,7 +135,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     /**
      * Create product form
      *
-     * @returns {FormGroup}
+     * @returns Form Group for Reactive Form
      */
     createFormBasicInfo(): FormGroup {
         return this._formBuilder.group({
@@ -136,9 +144,9 @@ export class CustomerComponent implements OnInit, OnDestroy {
         });
     }
 
-    createFormFreightout() {
-        //debugger;
-        let freightout = this.freightout || <CustomerFreightout>{};
+    createFormFreightout(): FormGroup {
+        // debugger;
+        const freightout = this.freightout || <CustomerFreightout>{};
         return this._formBuilder.group({
             id: [freightout.id],
             customerFreightoutRateTypeId: [freightout.customerFreightoutRateTypeId],
@@ -159,7 +167,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
      */
     save(): void {
         const basicInfoData = this.frmMain.getRawValue();
-        //debugger;
+        // debugger;
         Observable.create(observer => {
             if (this.disableSaveFrmMain()) {
                 observer.next(null);
@@ -174,7 +182,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         })
             .toPromise()
             .then((response: OperationResponse<Customer>) => {
-                //debugger;
+                // debugger;
                 // Trigger the subscription with new data
                 this.service.onCurrentEntityChanged.next(basicInfoData);
 
@@ -185,24 +193,24 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 });
 
                 // Change the location with new one
-                //this.service.router.navigate([`../`], { relativeTo: this.route });
+                // this.service.router.navigate([`../`], { relativeTo: this.route });
             });
     }
 
-    delete() {
+    delete(): void {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
             data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
         });
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
-            if (result == 'YES') {
+            if (result === 'YES') {
                 this.deleteExecution();
             }
         });
     }
 
-    deleteExecution() {
+    deleteExecution(): void {
         this.service.delete(this.currentEntity.id)
             .then(() => {
 
@@ -221,30 +229,29 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
 
 
-    getThirdPartyAppType(id: string) {
-        return this.listThirdParty.find(o => o.key == id);
+    getThirdPartyAppType(id: string): Observable<EnumItem<string>> {
+        return this.listThirdParty$.asObservable().pipe<EnumItem<string>>(map(listThirdParty => listThirdParty.find(o => o.key === id)));
 
     }
 
-    selectedItem: ThirdPartyGrid;
-    selectItem(item: ThirdPartyGrid) {
+    selectItem(item: ThirdPartyGrid): void {
         this.selectedItem = item;
     }
 
-    newThirdPartyItem() {
-        let item = new ThirdPartyGrid({ customerId: this.currentEntity.id });
+    newThirdPartyItem(): void {
+        const item = new ThirdPartyGrid({ customerId: this.currentEntity.id });
         this.thirdPartySettings.push(item);
         this.selectItem(item);
         this.tableThirdParty.renderRows();
     }
 
-    saveThirdPartyItem() {
-        //debugger;
+    saveThirdPartyItem(): void {
+        // debugger;
         (this.selectedItem && this.selectedItem.id) ? this.updateThirdPartyItem(this.selectedItem) : this.addThirdPartyItem(this.selectedItem);
     }
 
-    addThirdPartyItem(item) {
-        debugger;
+    addThirdPartyItem(item): void {
+        // debugger;
         this.serviceThirdParty.add(item).then(res => {
             this.thirdPartySettings.push(<ThirdPartyGrid>res);
 
@@ -258,12 +265,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
     }
 
-    updateThirdPartyItem(item: ThirdPartyGrid) {
+    updateThirdPartyItem(item: ThirdPartyGrid): void {
         this.serviceThirdParty.update(item).then(res => {
 
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
-            if (index != -1) {
+            const newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
+            const index = this.thirdPartySettings.findIndex(listItem => listItem.id === newItem.id);
+            if (index !== -1) {
                 this.thirdPartySettings.splice(index, 1, newItem);
             }
 
@@ -277,26 +284,28 @@ export class CustomerComponent implements OnInit, OnDestroy {
         });
     }
 
-    deleteThirdPartyItemEdition(item: ThirdPartyGrid) {
+    deleteThirdPartyItemEdition(item: ThirdPartyGrid): void {
+        this.getThirdPartyAppType(item.thirdPartyAppTypeId).subscribe(thirdParty => {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
-            data: <DeletePopupData>{ elementDescription: `${this.getThirdPartyAppType(item.thirdPartyAppTypeId).value} ${item.thirdPartyCustomerId}` }
+            data: <DeletePopupData>{ elementDescription: `${thirdParty.value} ${item.thirdPartyCustomerId}` }
         });
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
-            if (result == 'YES') {
+            if (result === 'YES') {
                 this.deleteThirdPartyItemEditionExecution(item);
             }
         });
+    });
     }
 
 
-    deleteThirdPartyItemEditionExecution(item: ThirdPartyGrid) {
+    deleteThirdPartyItemEditionExecution(item: ThirdPartyGrid): void {
         this.serviceThirdParty.update(item).then(res => {
 
-            let newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
-            let index = this.thirdPartySettings.findIndex(listItem => listItem.id == newItem.id);
-            if (index != -1) {
+            const newItem = new ThirdPartyGrid(<ThirdPartyGrid>res);
+            const index = this.thirdPartySettings.findIndex(listItem => listItem.id === newItem.id);
+            if (index !== -1) {
                 this.thirdPartySettings.splice(index, 1, newItem);
             }
 
@@ -310,12 +319,12 @@ export class CustomerComponent implements OnInit, OnDestroy {
         });
     }
 
-    cancelThirdPartyItemEdition() {
+    cancelThirdPartyItemEdition(): void {
         this.selectedItem = null;
     }
 
 
-    saveCustomerFreightout() {
+    saveCustomerFreightout(): void {
         const freightoutData = this.frmFreightout.getRawValue();
         Observable.create(observer => {
             if (!this.disableSaveFrmFreightout()) {
@@ -341,7 +350,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         })
             .toPromise()
             .then(() => {
-                //debugger;
+                // debugger;
 
                 // Show the success message
                 this._matSnackBar.open('Customer freighout saved', 'OK', {
@@ -353,15 +362,15 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
 
 
-    disableSaveFrmMain() {
+    disableSaveFrmMain(): boolean {
         return (this.frmMain.invalid || this.frmMain.pristine);
     }
 
-    disableSaveFrmFreightout() {
+    disableSaveFrmFreightout(): boolean {
         return (this.frmFreightout.invalid || this.frmFreightout.pristine);
     }
 
-    disableSave() {
+    disableSave(): boolean {
         return this.disableSaveFrmMain() && this.disableSaveFrmFreightout();
     }
 }

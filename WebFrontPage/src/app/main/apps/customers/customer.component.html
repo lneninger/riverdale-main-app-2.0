@@ -152,7 +152,7 @@
                                                             <ng-container *ngSwitchCase="true">
                                                                 <mat-form-field floatLabel="never">
                                                                     <mat-select placeholder="Third Party" name="thirdPartyAppTypeId" [(value)]="item.thirdPartyAppTypeId" [(ngModel)]="item.thirdPartyAppTypeId">
-                                                                        <mat-option *ngFor="let item of listThirdParty" [value]="item.key">
+                                                                        <mat-option *ngFor="let item of listThirdParty$ | async" [value]="item.key">
                                                                             {{item.value}}
                                                                         </mat-option>
                                                                     </mat-select>
@@ -214,7 +214,7 @@
                                                 <mat-form-field appearance="outline" fxFlex="0 0 calc(20%-20px)" floatLabel="always" class="w-100-p">
                                                     <mat-label>Rate Type</mat-label>
                                                     <mat-select placeholder="Rate Type" formControlName="customerFreightoutRateTypeId">
-                                                        <mat-option *ngFor="let rateTypeItem of listCustomerFreightoutRateType" [value]="rateTypeItem.key">
+                                                        <mat-option *ngFor="let rateTypeItem of listCustomerFreightoutRateType$ | async" [value]="rateTypeItem.key">
                                                             {{rateTypeItem.value}}
                                                         </mat-option>
                                                     </mat-select>

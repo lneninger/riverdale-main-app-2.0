@@ -43,7 +43,7 @@ const routes: Routes = [
         path: '**',
         component: ProductsComponent,
         resolve: {
-            //data: ProductsService
+            // data: ProductsService
         }
     }
 ];

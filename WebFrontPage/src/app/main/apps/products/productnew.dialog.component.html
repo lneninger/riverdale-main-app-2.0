@@ -6,7 +6,7 @@
         </mat-form-field>
         <mat-form-field floatLabel="never">
             <mat-select placeholder="Product Type" name="productTypeId" formControlName="productTypeId">
-                <mat-option *ngFor="let item of listProductType" [value]="item.key">
+                <mat-option *ngFor="let item of listProductType$ | async" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>

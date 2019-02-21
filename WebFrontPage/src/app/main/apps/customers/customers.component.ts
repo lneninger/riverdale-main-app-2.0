@@ -70,15 +70,15 @@ export class CustomersComponent implements OnInit {
      */
     ngOnInit(): void {
         // debugger;
-        this.dataSource = new CustomersDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
+        this.dataSource = new CustomersDataSource(this.service, this.filter, this.paginator, this.sort);
 
         this.initializeQueryListeners();
     }
 
-    initializeQueryListeners() {
+    initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (this.route.snapshot.data['action'] == 'new') {
+            // debugger;
+            if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
         });
@@ -121,12 +121,12 @@ export class CustomersDataSource extends DataSourceAbstract<CustomerGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}customer/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}customer/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
 
 
-        let result = {};
+        const result = {};
 
 
         return result;
@@ -146,7 +146,7 @@ export class CustomerNewDialogComponent {
         private service: CustomerService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        ,public dialogRef: MatDialogRef<CustomerNewDialogComponent>
+        , public dialogRef: MatDialogRef<CustomerNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -155,7 +155,7 @@ export class CustomerNewDialogComponent {
         });
     }
 
-    save() {
+    save(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
@@ -183,8 +183,8 @@ export class CustomerNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<Customer>) => {
-            debugger;
-            let result = <CustomerNewDialogResult> {
+            // debugger;
+            const result = <CustomerNewDialogResult> {
                 goTo: 'Edit',
                 data: res.bag
             }
