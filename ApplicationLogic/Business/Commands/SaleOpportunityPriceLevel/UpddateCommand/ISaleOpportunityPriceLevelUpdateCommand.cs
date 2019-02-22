@@ -1,11 +1,11 @@
-﻿using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.UpdateCommand.Models;
 
 using Framework.Core.Messages;
 using System.Collections.Generic;
 
-namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.UpdateCommand
 {
-    public interface ISampleBoxUpdateCommand : ICommandFunc<SampleBoxUpdateCommandInputDTO, OperationResponse<SampleBoxUpdateCommandOutputDTO>>
+    public interface ISaleOpportunityPriceLevelUpdateCommand : ICommandFunc<SaleOpportunityPriceLevelUpdateCommandInputDTO, OperationResponse<SaleOpportunityPriceLevelUpdateCommandOutputDTO>>
     {
     }
 }

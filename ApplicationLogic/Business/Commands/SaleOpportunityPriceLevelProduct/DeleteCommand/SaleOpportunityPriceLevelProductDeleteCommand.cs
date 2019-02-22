@@ -18,17 +18,17 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.De
 
         public OperationResponse<SaleOpportunityPriceLevelProductDeleteCommandOutputDTO> Execute(int id)
         {
-            var result = new OperationResponse<SampleBoxProductDeleteCommandOutputDTO>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelProductDeleteCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetById(id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = new SampleBoxProductDeleteCommandOutputDTO
+                    result.Bag = new SaleOpportunityPriceLevelProductDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        SampleBoxId = getByIdResult.Bag.SampleBoxId,
+                        SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId,
                         ProductId = getByIdResult.Bag.ProductId
                     };
                 }

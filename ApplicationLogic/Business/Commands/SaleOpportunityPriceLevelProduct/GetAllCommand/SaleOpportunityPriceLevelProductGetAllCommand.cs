@@ -9,22 +9,22 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetAllCommand
 {
-    public class SampleBoxProductGetAllCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductGetAllCommand
+    public class SaleOpportunityPriceLevelProductGetAllCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductGetAllCommand
     {
-        public SampleBoxProductGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelProductGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<IEnumerable<SampleBoxProductGetAllCommandOutputDTO>> Execute()
+        public OperationResponse<IEnumerable<SaleOpportunityPriceLevelProductGetAllCommandOutputDTO>> Execute()
         {
-            var result = new OperationResponse<IEnumerable<SampleBoxProductGetAllCommandOutputDTO>>();
+            var result = new OperationResponse<IEnumerable<SaleOpportunityPriceLevelProductGetAllCommandOutputDTO>>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getAllResult = this.Repository.GetAll();
                 result.AddResponse(getAllResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = getAllResult.Bag.Select(entityItem => new SampleBoxProductGetAllCommandOutputDTO
+                    result.Bag = getAllResult.Bag.Select(entityItem => new SaleOpportunityPriceLevelProductGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
                         ProductAmount = entityItem.ProductAmount,

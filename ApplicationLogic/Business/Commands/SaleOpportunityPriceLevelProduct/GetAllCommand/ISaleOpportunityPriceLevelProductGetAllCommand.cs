@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetAllCommand
 {
-    public interface ISampleBoxProductGetAllCommand : ICommandAction<OperationResponse<IEnumerable<SampleBoxProductGetAllCommandOutputDTO>>>
+    public interface ISaleOpportunityPriceLevelProductGetAllCommand : ICommandAction<OperationResponse<IEnumerable<SaleOpportunityPriceLevelProductGetAllCommandOutputDTO>>>
     {
     }
 }

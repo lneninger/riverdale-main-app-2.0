@@ -10,7 +10,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public decimal? TargetPrice { get; set; }
         public SaleOpportunityGetByIdCommandOutputSettingsDTO Settings { get; set; }
         public IEnumerable<SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO> SampleBoxes { get; set; }
-        public IEnumerable<SaleOpportunityGetByIdCommandOutputProductItemDTO> SaleOpportunityProducts { get; set; }
+        public IEnumerable<SaleOpportunityGetByIdCommandOutputPriceLevelProductItemDTO> SaleOpportunityPriceLevelProducts { get; set; }
 
         
 

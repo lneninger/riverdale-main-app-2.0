@@ -50,11 +50,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 SampleBoxSaleOpportunityProductIds = o.SampleBoxProducts.Select(item => new SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO
                                 {
                                     Id = o.Id,
-                                    SaleOpportunityProductId = item.SaleOpportunityProductId,
+                                    SaleOpportunityPriceLevelProductId = item.SaleOpportunityPriceLevelProductId,
                                 }).ToList()
                             }).ToList(),
 
-                            SaleOpportunityProducts = getByIdResult.Bag.SaleOpportunityProducts.Select(item => new SaleOpportunityGetByIdCommandOutputProductItemDTO
+                            SaleOpportunityPriceLevelProducts = getByIdResult.Bag.SaleOpportunityPriceLevels.Select(item => new SaleOpportunityGetByIdCommandOutputProductItemDTO
                             {
                                 Id = item.Id,
                                 ProductId = item.ProductId,

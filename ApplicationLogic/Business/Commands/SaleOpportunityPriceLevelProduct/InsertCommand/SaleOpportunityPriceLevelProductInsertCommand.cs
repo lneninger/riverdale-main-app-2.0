@@ -10,24 +10,24 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand
 {
-    public class SampleBoxProductInsertCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductInsertCommand
+    public class SaleOpportunityPriceLevelProductInsertCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductInsertCommand
     {
-        public SampleBoxProductInsertCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelProductInsertCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<SampleBoxProductInsertCommandOutputDTO> Execute(SampleBoxProductInsertCommandInputDTO input)
+        public OperationResponse<SaleOpportunityPriceLevelProductInsertCommandOutputDTO> Execute(SaleOpportunityPriceLevelProductInsertCommandInputDTO input)
         {
-            var result = new OperationResponse<SampleBoxProductInsertCommandOutputDTO>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelProductInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var entity = new DomainModel.SaleOpportunity.SampleBoxProduct
+                var entity = new DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct
                 {
                     Product = new CompositionProduct {
                         Name = input.Name
                     },
-                    SampleBoxId = input.SampleBoxId,
-                    SaleOpportunityProductId = input.ColorTypeId
+                    SaleOpportunityPriceLevelId = input.SaleOpportunityPriceLevelId,
+                    ProductColorTypeId = input.ProductColorTypeId
                 };
 
                 try
@@ -53,11 +53,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.In
                     if (result.IsSucceed)
                     {
 
-                        result.Bag = new SampleBoxProductInsertCommandOutputDTO
+                        result.Bag = new SaleOpportunityPriceLevelProductInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.SaleOpportunityProductId,
-                            SampleBoxId = getByIdResult.Bag.SampleBoxId,
+                            ProductId = getByIdResult.Bag.ProductId,
+                            SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId,
                             ProductAmount = getByIdResult.Bag.ProductAmount,
                             ProductName = getByIdResult.Bag.Product.Name,
                             ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,

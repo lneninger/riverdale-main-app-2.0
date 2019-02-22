@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand.Models
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetByIdCommand.Models
 {
     public class SampleBoxGetByIdCommandOutputThirdPartySettingsDTO
     {

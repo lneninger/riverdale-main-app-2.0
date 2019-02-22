@@ -4,7 +4,7 @@ using System;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand
 {
-    public interface ISampleBoxProductGetByIdCommand : ICommandFunc<int, OperationResponse<SampleBoxProductGetByIdCommandOutputDTO>>
+    public interface ISaleOpportunityPriceLevelProductGetByIdCommand : ICommandFunc<int, OperationResponse<SaleOpportunityPriceLevelProductGetByIdCommandOutputDTO>>
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand
 {
-    public interface ISampleBoxProductInsertCommand : ICommandFunc<SampleBoxProductInsertCommandInputDTO, OperationResponse<SampleBoxProductInsertCommandOutputDTO>>
+    public interface ISaleOpportunityPriceLevelProductInsertCommand : ICommandFunc<SaleOpportunityPriceLevelProductInsertCommandInputDTO, OperationResponse<SaleOpportunityPriceLevelProductInsertCommandOutputDTO>>
     {
     }
 }

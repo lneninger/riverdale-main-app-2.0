@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.UpdateCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
 
-namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.UpdateCommand
 {
-    public class SampleBoxUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISampleBoxDBRepository>, ISampleBoxUpdateCommand
+    public class SaleOpportunityPriceLevelUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISaleOpportunityPriceLevelDBRepository>, ISaleOpportunityPriceLevelUpdateCommand
     {
-        public SampleBoxUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<SampleBoxUpdateCommandOutputDTO> Execute(SampleBoxUpdateCommandInputDTO input)
+        public OperationResponse<SaleOpportunityPriceLevelUpdateCommandOutputDTO> Execute(SaleOpportunityPriceLevelUpdateCommandInputDTO input)
         {
-            var result = new OperationResponse<SampleBoxUpdateCommandOutputDTO>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetById(input.Id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    getByIdResult.Bag.Name = input.Name;
+                    getByIdResult.Bag.TargetPrice = input.TargetPrice;
+                    getByIdResult.Bag.SaleSeasonTypeId = input.SaleSeasonTypeId;
+                    getByIdResult.Bag.IsDeleted = input.IsDeleted;
 
                     try
                     {
@@ -39,11 +41,15 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
-                        result.Bag = new SampleBoxUpdateCommandOutputDTO
+                        result.Bag = new SaleOpportunityPriceLevelUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            Name = getByIdResult.Bag.Name,
-                            Order = getByIdResult.Bag.Order,
+                            TargetPrice = getByIdResult.Bag.TargetPrice,
+                            SaleSeasonTypeId = getByIdResult.Bag.SaleSeasonTypeId,
+
+                            SampleBoxes = getByIdResult.Bag.SampleBoxes.Select(o => o.Id),
+                            SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
+                            SaleOpportunityPriceLevelProducts = getByIdResult.Bag.SaleOpportunityPriceLevelProducts.Select(o => o.Id),
                         };
                     }
 

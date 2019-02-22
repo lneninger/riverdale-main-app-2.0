@@ -9,13 +9,13 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand
 {
-    public class SampleBoxProductPageQueryCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductPageQueryCommand
+    public class SaleOpportunityPriceLevelProductPageQueryCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductPageQueryCommand
     {
-        public SampleBoxProductPageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelProductPageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<PageResult<SampleBoxProductPageQueryCommandOutputDTO>> Execute(PageQuery<SampleBoxProductPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>> Execute(PageQuery<SaleOpportunityPriceLevelProductPageQueryCommandInputDTO> input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

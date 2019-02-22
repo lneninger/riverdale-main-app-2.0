@@ -7,15 +7,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetByIdCo
     public class SaleOpportunityPriceLevelGetByIdCommandOutputDTO
     {
         public int Id { get; set; }
+        public decimal? TargetPrice { get; set; }
+        public int SaleSeasonTypeId { get; set; }
 
-        public int ProductId { get; set; }
-
-        public int RelatedProductId { get; set; }
-
-        public string Name { get; set; }
-
-        public int Order { get; set; }
-
-        public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
+        public int SaleOpportunityId { get; set; }
+        public IEnumerable<int> SampleBoxes { get; set; }
+        public IEnumerable<int> SaleOpportunityPriceLevelProducts { get; set; }
     }
 }

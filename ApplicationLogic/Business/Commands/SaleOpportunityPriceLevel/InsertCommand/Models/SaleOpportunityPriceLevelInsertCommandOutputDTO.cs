@@ -7,10 +7,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.InsertCom
     {
         public int Id { get; set; }
 
-        public int Order { get; set; }
+        public decimal? TargetPrice { get; set; }
+        public int SaleSeasonTypeId { get; set; }
 
-        public string Name { get; set; }
-
-        public int SaleOpportunityPriceLevelId { get; set; }
+        public IEnumerable<int> SampleBoxes { get; set; }
+        public int SaleOpportunityId { get; internal set; }
+        public IEnumerable<int> SaleOpportunityPriceLevelProducts { get; set; }
     }
 }

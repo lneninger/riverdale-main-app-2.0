@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.PageQueryCommand.Models
 {
-    public class SampleBoxPageQueryCommandInputDTO : BaseFilter
+    public class SaleOpportunityPriceLevelPageQueryCommandInputDTO : BaseFilter
     {
     }
 }

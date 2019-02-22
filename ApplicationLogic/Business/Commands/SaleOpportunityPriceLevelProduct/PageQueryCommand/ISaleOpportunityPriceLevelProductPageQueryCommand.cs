@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand
 {
-    public interface ISampleBoxProductPageQueryCommand : ICommandFunc<PageQuery<SampleBoxProductPageQueryCommandInputDTO>, OperationResponse<PageResult<SampleBoxProductPageQueryCommandOutputDTO>>>
+    public interface ISaleOpportunityPriceLevelProductPageQueryCommand : ICommandFunc<PageQuery<SaleOpportunityPriceLevelProductPageQueryCommandInputDTO>, OperationResponse<PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>>>
     {
     }
 }

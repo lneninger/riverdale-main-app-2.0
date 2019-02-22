@@ -19,7 +19,7 @@ namespace DomainModel.SaleOpportunity
 
         public virtual SaleOpportunitySettings SaleOpportunitySettings { get; set; }
 
-        public virtual ICollection<SaleOpportunityPriceLevelProduct> SaleOpportunityProducts { get; set; }
+        public virtual ICollection<SaleOpportunityPriceLevelProduct> SaleOpportunityPriceLevelProducts { get; set; }
 
 
         public virtual ICollection<SampleBox> SampleBoxes { get; set; }

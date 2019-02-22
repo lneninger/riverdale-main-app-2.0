@@ -1,10 +1,10 @@
-﻿using ApplicationLogic.Business.Commands.SampleBox.GetAllCommand.Models;
+﻿using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetAllCommand.Models;
 using Framework.Core.Messages;
 using System.Collections.Generic;
 
-namespace ApplicationLogic.Business.Commands.SampleBox.GetAllCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetAllCommand
 {
-    public interface ISampleBoxGetAllCommand : ICommandAction<OperationResponse<IEnumerable<SampleBoxGetAllCommandOutputDTO>>>
+    public interface ISaleOpportunityPriceLevelGetAllCommand : ICommandAction<OperationResponse<IEnumerable<SaleOpportunityPriceLevelGetAllCommandOutputDTO>>>
     {
     }
 }

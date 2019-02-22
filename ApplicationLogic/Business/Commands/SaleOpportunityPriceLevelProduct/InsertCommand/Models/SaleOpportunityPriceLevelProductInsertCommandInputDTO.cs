@@ -7,9 +7,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.In
     {
         public string Name { get; set; }
 
-        public int SampleBoxId { get; set; }
-
-        public int SaleOpportunityProductId { get; set; }
+        public int SaleOpportunityPriceLevelId { get; set; }
         
+        public int SaleOpportunityPriceLevelProductId { get; set; }
+
+        public string ProductColorTypeId { get; set; }
+
     }
 }

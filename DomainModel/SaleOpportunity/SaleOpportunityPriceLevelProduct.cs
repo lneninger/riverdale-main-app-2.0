@@ -15,8 +15,8 @@ namespace DomainModel.SaleOpportunity
         public int ProductId { get; set; }
         public virtual AbstractProduct Product { get; set; }
 
-        public int? SampleBoxId { get; set; }
-        public virtual SampleBox SampleBox { get; set; }
+        public int SaleOpportunityPriceLevelId { get; set; }
+        public virtual SaleOpportunityPriceLevel SaleOpportunityPriceLevel { get; set; }
 
         public string ProductColorTypeId { get; set; }
         public virtual ProductColorType ProductColorType { get; set; }

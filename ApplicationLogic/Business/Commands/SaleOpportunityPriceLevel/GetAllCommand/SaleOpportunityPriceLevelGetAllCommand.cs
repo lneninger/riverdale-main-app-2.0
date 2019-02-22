@@ -27,8 +27,10 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetAllCom
                     result.Bag = getAllResult.Bag.Select(entityItem => new SaleOpportunityPriceLevelGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
-                        Name = entityItem.Name,
-                        Order = entityItem.Order,
+                        TargetPrice = entityItem.TargetPrice,
+                        SaleSeasonTypeId = entityItem.SaleSeasonTypeId,
+
+                        SaleOpportunityId = entityItem.SaleOpportunityId,
                         CreatedAt = entityItem.CreatedAt
 
                     }).ToList();

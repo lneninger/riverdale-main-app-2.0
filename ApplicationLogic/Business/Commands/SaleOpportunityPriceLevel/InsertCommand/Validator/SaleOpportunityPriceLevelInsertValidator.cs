@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
-using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.InsertCommand.Models;
 using Framework.Core.Crypto;
 using Framework.Core.Messages;
 using FluentValidation;
 
-namespace ApplicationLogic.Business.Commands.Product.InsertCommand
+namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.InsertCommand
 {
-    public class SaleOpportunityPriceLevelInsertValidator : FluentValidation.AbstractValidator<ProductInsertCommandInputDTO>
+    public class SaleOpportunityPriceLevelInsertValidator : FluentValidation.AbstractValidator<SaleOpportunityPriceLevelInsertCommandInputDTO>
     {
         public SaleOpportunityPriceLevelInsertValidator()
         {

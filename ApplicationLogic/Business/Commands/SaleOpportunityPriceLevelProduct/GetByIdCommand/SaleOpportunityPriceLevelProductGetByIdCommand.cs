@@ -8,27 +8,27 @@ using ApplicationLogic.Business.Commons.DTOs;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand
 {
-    public class SampleBoxProductGetByIdCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SampleBoxProduct, ISampleBoxProductDBRepository>, ISampleBoxProductGetByIdCommand
+    public class SaleOpportunityPriceLevelProductGetByIdCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductGetByIdCommand
     {
 
-        public SampleBoxProductGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelProductGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
-        public OperationResponse<SampleBoxProductGetByIdCommandOutputDTO> Execute(int id)
+        public OperationResponse<SaleOpportunityPriceLevelProductGetByIdCommandOutputDTO> Execute(int id)
         {
-            var result = new OperationResponse<SampleBoxProductGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelProductGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetByIdWithMedias(id);
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    result.Bag = new SampleBoxProductGetByIdCommandOutputDTO
+                    result.Bag = new SaleOpportunityPriceLevelProductGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
                         ProductAmmount = getByIdResult.Bag.ProductAmount,
-                        SampleBoxId = getByIdResult.Bag.SampleBoxId,
+                        SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId,
                         RelatedProductId = getByIdResult.Bag.ProductId,
                     };
                 }

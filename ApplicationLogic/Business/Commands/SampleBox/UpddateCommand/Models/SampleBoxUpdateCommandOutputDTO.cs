@@ -8,6 +8,6 @@ namespace ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models
 
         public string Name { get; set; }
 
-        public int Order { get; internal set; }
+        public int Order { get; set; }
     }
 }

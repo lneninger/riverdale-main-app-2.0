@@ -45,16 +45,19 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.InsertCom
                 if (result.IsSucceed)
                 {
                     //this.Repository.Detach(entity.Id);
-                    var getByIdResult = this.Repository.GetById(entity.Id, true);
+                    var getByIdResult = this.Repository.GetById(entity.Id);
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
                         result.Bag = new SaleOpportunityPriceLevelInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            Order = getByIdResult.Bag.Order,
-                            Name = getByIdResult.Bag.Name,
-                            SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId
+                            TargetPrice = getByIdResult.Bag.TargetPrice,
+                            SaleSeasonTypeId = getByIdResult.Bag.SaleSeasonTypeId,
+
+                            SampleBoxes = getByIdResult.Bag.SampleBoxes.Select(o => o.Id),
+                            SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
+                            SaleOpportunityPriceLevelProducts = getByIdResult.Bag.SaleOpportunityPriceLevelProducts.Select(o => o.Id),
                         };
                     }
 
