@@ -120,6 +120,42 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string SaleOpportunity_Manage = nameof(Enum.SaleOpportunity_Manage);
 
+        // Sale Opportunity Price Level
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevel_Read = nameof(Enum.SaleOpportunityPriceLevel_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevel_Modify = nameof(Enum.SaleOpportunityPriceLevel_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevel_Manage = nameof(Enum.SaleOpportunityPriceLevel_Manage);
+
+
+         // Sale Opportunity Price Level Product
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevelProduct_Read = nameof(Enum.SaleOpportunityPriceLevelProduct_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevelProduct_Modify = nameof(Enum.SaleOpportunityPriceLevelProduct_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityPriceLevelProduct_Manage = nameof(Enum.SaleOpportunityPriceLevelProduct_Manage);
+
+
+        
+
         // Quote
         /// <summary>
         /// 
@@ -302,6 +338,36 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             SaleOpportunity_Manage,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevel_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevel_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevel_Manage,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevelProduct_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevelProduct_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            SaleOpportunityPriceLevelProduct_Manage,
 
             // Funza
             /// <summary>

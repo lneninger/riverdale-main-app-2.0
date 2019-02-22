@@ -1,15 +1,15 @@
-﻿using ApplicationLogic.Business.Commands.SaleOpportunity.DeleteCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunity.GetAllCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunity.InsertCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunity.PageQueryCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunity.UpdateCommand;
-using ApplicationLogic.Business.Commands.SaleOpportunity.UpdateCommand.Models;
+﻿using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.DeleteCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetAllCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand;
+using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
@@ -27,15 +27,15 @@ using Authorization = Microsoft.AspNetCore.Authorization;
 namespace RiverdaleMainApp2_0.Controllers
 {
     /// <summary>
-    /// SaleOpportunity API interface
+    /// SaleOpportunityPriceLevelProduct API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/saleopportunitypricelevel")]
-    public class SaleOpportunityController : BaseController
+    [Route("api/saleopportunitypricelevelproduct")]
+    public class SaleOpportunityPriceLevelProductController : BaseController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SaleOpportunityController"/> class.
+        /// Initializes a new instance of the <see cref="SaleOpportunityPriceLevelProductController"/> class.
         /// </summary>
         /// <param name="hubContext"></param>
         /// <param name="pageQueryCommand">The page query command</param>
@@ -44,7 +44,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public SaleOpportunityController(IHubContext<GlobalHub, IGlobalHub> hubContext, ISaleOpportunityPageQueryCommand pageQueryCommand, ISaleOpportunityGetAllCommand getAllCommand, ISaleOpportunityGetByIdCommand getByIdCommand, ISaleOpportunityInsertCommand insertCommand, ISaleOpportunityUpdateCommand updateCommand, ISaleOpportunityDeleteCommand deleteCommand):base(/*hubContext*/)
+        public SaleOpportunityPriceLevelProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, ISaleOpportunityPriceLevelProductPageQueryCommand pageQueryCommand, ISaleOpportunityPriceLevelProductGetAllCommand getAllCommand, ISaleOpportunityPriceLevelProductGetByIdCommand getByIdCommand, ISaleOpportunityPriceLevelProductInsertCommand insertCommand, ISaleOpportunityPriceLevelProductUpdateCommand updateCommand, ISaleOpportunityPriceLevelProductDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
@@ -61,7 +61,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get all command.
         /// </value>
-        public ISaleOpportunityGetAllCommand GetAllCommand { get; }
+        public ISaleOpportunityPriceLevelProductGetAllCommand GetAllCommand { get; }
 
         /// <summary>
         /// 
@@ -71,7 +71,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// 
         /// </summary>
-        public ISaleOpportunityPageQueryCommand PageQueryCommand { get; }
+        public ISaleOpportunityPriceLevelProductPageQueryCommand PageQueryCommand { get; }
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The get by identifier command.
         /// </value>
-        public ISaleOpportunityGetByIdCommand GetByIdCommand { get; }
+        public ISaleOpportunityPriceLevelProductGetByIdCommand GetByIdCommand { get; }
 
         /// <summary>
         /// Gets the insert command.
@@ -88,7 +88,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The insert command.
         /// </value>
-        public ISaleOpportunityInsertCommand InsertCommand { get; }
+        public ISaleOpportunityPriceLevelProductInsertCommand InsertCommand { get; }
 
         /// <summary>
         /// Gets the update command.
@@ -96,7 +96,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The update command.
         /// </value>
-        public ISaleOpportunityUpdateCommand UpdateCommand { get; }
+        public ISaleOpportunityPriceLevelProductUpdateCommand UpdateCommand { get; }
 
         /// <summary>
         /// Gets the delete command.
@@ -104,16 +104,16 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public ISaleOpportunityDeleteCommand DeleteCommand { get; }
+        public ISaleOpportunityPriceLevelProductDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<SaleOpportunityPageQueryCommandOutputDTO>))]
+        [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<SaleOpportunityPageQueryCommandInputDTO> input)
+        public IActionResult PageQuery([FromBody]PageQuery<SaleOpportunityPriceLevelProductPageQueryCommandInputDTO> input)
         {
             var result = this.PageQueryCommand.Execute(input);
 
@@ -124,7 +124,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Gets this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<SaleOpportunityGetAllCommandOutputDTO>))]
+        [HttpGet(""), ProducesResponseType(200, Type = typeof(IEnumerable<SaleOpportunityPriceLevelProductGetAllCommandOutputDTO>))]
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
@@ -137,7 +137,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(SaleOpportunityGetByIdCommandOutputDTO))]
+        [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(SaleOpportunityPriceLevelProductGetByIdCommandOutputDTO))]
         public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
@@ -150,14 +150,14 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPost, ProducesResponseType(200, Type = typeof(SaleOpportunityInsertCommandOutputDTO))]
-        [Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunity_Manage)]
-        public IActionResult Post([FromBody]SaleOpportunityInsertCommandInputDTO model)
+        [HttpPost, ProducesResponseType(200, Type = typeof(SaleOpportunityPriceLevelProductInsertCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunityPriceLevelProduct_Manage)]
+        public IActionResult Post([FromBody]SaleOpportunityPriceLevelProductInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
             if (appResult.IsSucceed)
             {
-                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "SaleOpportunity", appResult.Bag);
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "SaleOpportunityPriceLevelProduct", appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
 
             }
@@ -168,9 +168,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// Puts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPut(), ProducesResponseType(200, Type = typeof(SaleOpportunityUpdateCommandOutputDTO))]
-        [Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunity_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
-        public IActionResult Put([FromBody]SaleOpportunityUpdateCommandInputDTO model)
+        [HttpPut(), ProducesResponseType(200, Type = typeof(SaleOpportunityPriceLevelProductUpdateCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.SaleOpportunityPriceLevelProduct_Modify, Roles = Constants.Strings.JwtClaims.Administrator)]
+        public IActionResult Put([FromBody]SaleOpportunityPriceLevelProductUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
@@ -181,7 +181,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(SaleOpportunityDeleteCommandOutputDTO))]
+        [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(SaleOpportunityPriceLevelProductDeleteCommandOutputDTO))]
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
