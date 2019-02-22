@@ -54,7 +54,7 @@ namespace DatabaseRepositories.DB
                     var filter = input.CustomFilter;
                     if (!string.IsNullOrWhiteSpace(filter.Term))
                     {
-                        predicate = predicate.And(o => o.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                        predicate = predicate.And(o => o.SaleOpportunityPriceLevelProduct.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
                     }
                 }
 
@@ -76,8 +76,8 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         SampleBoxId = o.SampleBoxId,
-                        ProductId = o.ProductId,
-                        ProductAmount = o.ProductAmount
+                        SaleOpportunityPriceLevelProductId = o.SaleOpportunityPriceLevelProductId,
+                        Order = o.Order
                     });
                 }
             }

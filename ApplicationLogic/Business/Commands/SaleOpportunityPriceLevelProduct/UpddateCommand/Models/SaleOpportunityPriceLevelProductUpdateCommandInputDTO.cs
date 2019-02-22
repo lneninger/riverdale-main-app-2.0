@@ -10,10 +10,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.Up
 
         //public int SaleOpportunityId { get; set; }
 
-        public int ProductId { get; set; }
+        public int SaleProductId { get; set; }
 
         public int ProductAmount { get; set; }
 
         public string ProductColorTypeId { get; set; }
+        public int Order { get; internal set; }
     }
 }

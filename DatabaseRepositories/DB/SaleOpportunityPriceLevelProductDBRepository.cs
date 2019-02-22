@@ -1,4 +1,4 @@
-﻿using ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.Models;
+﻿using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand.Models;
 using ApplicationLogic.Repositories.DB;
 using DomainDatabaseMapping;
 using DomainModel.Product;
@@ -18,20 +18,20 @@ using System.Linq.Expressions;
 
 namespace DatabaseRepositories.DB
 {
-    public class SampleBoxProductDBRepository : AbstractDBRepository, ISampleBoxProductDBRepository
+    public class SaleOpportunityPriceLevelProductDBRepository : AbstractDBRepository, ISaleOpportunityPriceLevelProductDBRepository
     {
-        public SampleBoxProductDBRepository(IAmbientDbContextLocator ambientDbContextLocator) : base(ambientDbContextLocator)
+        public SaleOpportunityPriceLevelProductDBRepository(IAmbientDbContextLocator ambientDbContextLocator) : base(ambientDbContextLocator)
         {
         }
 
-        public OperationResponse<IEnumerable<SampleBoxProduct>> GetAll()
+        public OperationResponse<IEnumerable<SaleOpportunityPriceLevelProduct>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<SampleBoxProduct>>();
+            var result = new OperationResponse<IEnumerable<SaleOpportunityPriceLevelProduct>>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<SampleBoxProduct>().AsEnumerable();
+                    result.Bag = dbLocator.Set<SaleOpportunityPriceLevelProduct>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -42,13 +42,13 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<PageResult<SampleBoxProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<SampleBoxProductPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityPriceLevelProductPageQueryCommandInputDTO> input)
         {
-            var result = new OperationResponse<PageResult<SampleBoxProductPageQueryCommandOutputDTO>>();
+            var result = new OperationResponse<PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>>();
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<SampleBoxProduct>();
+                var predicate = PredicateBuilderExtension.True<SaleOpportunityPriceLevelProduct>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -60,22 +60,22 @@ namespace DatabaseRepositories.DB
 
                 using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    var query = dbLocator.Set<SampleBoxProduct>().AsQueryable();
+                    var query = dbLocator.Set<SaleOpportunityPriceLevelProduct>().AsQueryable();
 
-                    var advancedSorting = new List<SortItem<SampleBoxProduct>>();
+                    var advancedSorting = new List<SortItem<SaleOpportunityPriceLevelProduct>>();
                     Expression<Func<AbstractProduct, object>> expression;
                     if (input.Sort.ContainsKey("productType"))
                     {
                         expression = o => o.ProductType.Name;
-                        advancedSorting.Add(new SortItem<SampleBoxProduct> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
+                        advancedSorting.Add(new SortItem<SaleOpportunityPriceLevelProduct> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
                     }
 
-                    var sorting = new SortingDTO<SampleBoxProduct>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<SaleOpportunityPriceLevelProduct>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<SampleBoxProduct, SampleBoxProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new SampleBoxProductPageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<SaleOpportunityPriceLevelProduct, SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO
                     {
                         Id = o.Id,
-                        SampleBoxId = o.SampleBoxId,
+                        SaleOpportunityPriceLevelId = o.SaleOpportunityPriceLevelId,
                         ProductId = o.ProductId,
                         ProductAmount = o.ProductAmount
                     });
@@ -89,18 +89,18 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<SampleBoxProduct> GetById(int id, bool forceRefresh = false)
+        public OperationResponse<SaleOpportunityPriceLevelProduct> GetById(int id, bool forceRefresh = false)
         {
-            var result = new OperationResponse<SampleBoxProduct>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelProduct>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<SampleBoxProduct>().Find(id);//.FirstOrDefault();
+                    result.Bag = dbLocator.Set<SaleOpportunityPriceLevelProduct>().Find(id);//.FirstOrDefault();
                     if (forceRefresh && result.Bag != null)
                     {
                         this.Detach(result.Bag);
-                        result.Bag = dbLocator.Set<SampleBoxProduct>().Find(id);//.FirstOrDefault();
+                        result.Bag = dbLocator.Set<SaleOpportunityPriceLevelProduct>().Find(id);//.FirstOrDefault();
 
                     }
                 }
@@ -113,13 +113,13 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<SampleBoxProduct> GetByIdWithMedias(int id)
+        public OperationResponse<SaleOpportunityPriceLevelProduct> GetByIdWithMedias(int id)
         {
-            var result = new OperationResponse<SampleBoxProduct>();
+            var result = new OperationResponse<SaleOpportunityPriceLevelProduct>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                result.Bag = dbLocator.Set<SampleBoxProduct>()/*.Include(t => t.ProductMedias)*/.Where(o => o.Id == id).FirstOrDefault();
+                result.Bag = dbLocator.Set<SaleOpportunityPriceLevelProduct>()/*.Include(t => t.ProductMedias)*/.Where(o => o.Id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace DatabaseRepositories.DB
 
 
 
-        public OperationResponse Insert(SampleBoxProduct entity)
+        public OperationResponse Insert(SaleOpportunityPriceLevelProduct entity)
         {
             var result = new OperationResponse();
             try
@@ -147,14 +147,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse Delete(SampleBoxProduct entity)
+        public OperationResponse Delete(SaleOpportunityPriceLevelProduct entity)
         {
             var result = new OperationResponse();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             try
             {
-                dbLocator.Set<SampleBoxProduct>().Remove(entity);
+                dbLocator.Set<SaleOpportunityPriceLevelProduct>().Remove(entity);
             }
             catch (Exception ex)
             {
@@ -164,7 +164,7 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
-        public OperationResponse LogicalDelete(SampleBoxProduct entity)
+        public OperationResponse LogicalDelete(SaleOpportunityPriceLevelProduct entity)
         {
             var result = new OperationResponse();
 
@@ -194,16 +194,16 @@ namespace DatabaseRepositories.DB
             {
                 try
                 {
-                    var trackedEntity = dbLocator.ChangeTracker.Entries<SampleBoxProduct>().FirstOrDefault(trackedItem => trackedItem.Entity.Id == id);
+                    var trackedEntity = dbLocator.ChangeTracker.Entries<SaleOpportunityPriceLevelProduct>().FirstOrDefault(trackedItem => trackedItem.Entity.Id == id);
                     if (trackedEntity != null)
                     {
-                        dbLocator.Entry<SampleBoxProduct>(trackedEntity.Entity).State = EntityState.Detached;
+                        dbLocator.Entry<SaleOpportunityPriceLevelProduct>(trackedEntity.Entity).State = EntityState.Detached;
                     }
 
-                    //var entity = dbLocator.Find<SampleBoxProduct>(id);
+                    //var entity = dbLocator.Find<SaleOpportunityPriceLevelProduct>(id);
                     //if (entity != null)
                     //{
-                    //    dbLocator.Entry<SampleBoxProduct>(entity).State = EntityState.Detached;
+                    //    dbLocator.Entry<SaleOpportunityPriceLevelProduct>(entity).State = EntityState.Detached;
                     //}
                 }
                 catch (Exception ex)

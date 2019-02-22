@@ -28,8 +28,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.DeleteCom
                     result.Bag = new SaleOpportunityPriceLevelDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        Name = getByIdResult.Bag.Name,
-                        Order = getByIdResult.Bag.Order
+                        SaleSeasonTypeId = getByIdResult.Bag.SaleSeasonTypeId,
+                        TargetPrice = getByIdResult.Bag.TargetPrice
                     };
                 }
 

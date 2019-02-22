@@ -7,7 +7,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.Pa
     {
         public int Id { get; set; }
 
-        public int SampleBoxId { get; set; }
+        public int SaleOpportunityPriceLevelId { get; set; }
 
         public int ProductId { get; set; }
 

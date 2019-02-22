@@ -54,7 +54,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 }).ToList()
                             }).ToList(),
 
-                            SaleOpportunityPriceLevelProducts = getByIdResult.Bag.SaleOpportunityPriceLevels.Select(item => new SaleOpportunityGetByIdCommandOutputProductItemDTO
+                            SaleOpportunityPriceLevelProducts = priceLevel.SaleOpportunityPriceLevelProducts.Select(item => new SaleOpportunityGetByIdCommandOutputPriceLevelProductItemDTO
                             {
                                 Id = item.Id,
                                 ProductId = item.ProductId,

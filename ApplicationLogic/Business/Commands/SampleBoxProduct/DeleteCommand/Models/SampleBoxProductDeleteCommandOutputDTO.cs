@@ -14,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.DeleteCommand.Mode
 
         public int SampleBoxId { get; set; }
 
-        public int ProductId { get; set; }
+        public int SaleOpportunityPriceLevelProductId { get; set; }
 
         public int ProductAmmount { get; set; }
     }

@@ -7,8 +7,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.PageQuery
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public int SaleSeasonTypeId { get; set; }
 
-        public int Order { get; set; }
+        public decimal? TargetPrice { get; set; }
     }
 }

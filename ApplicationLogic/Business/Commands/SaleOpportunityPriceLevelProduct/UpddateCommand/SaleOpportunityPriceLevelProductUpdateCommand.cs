@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand
 {
-    public class SampleBoxProductUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISampleBoxProductDBRepository>, ISaleOpportunityPriceLevelProductUpdateCommand
+    public class SaleOpportunityPriceLevelProductUpdateCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, ISaleOpportunityPriceLevelProductDBRepository>, ISaleOpportunityPriceLevelProductUpdateCommand
     {
-        public SampleBoxProductUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ISampleBoxProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityPriceLevelProductUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityPriceLevelProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
         }
 
@@ -24,8 +24,9 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.Up
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
-                    getByIdResult.Bag.ProductAmount = input.Order;
+                    getByIdResult.Bag.ProductAmount = input.ProductAmount;
                     getByIdResult.Bag.ProductColorTypeId = input.ProductColorTypeId;
+                    getByIdResult.Bag.Order = input.Order;
 
                     try
                     {
@@ -43,7 +44,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.Up
                         result.Bag = new SaleOpportunityPriceLevelProductUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            SampleBoxId = getByIdResult.Bag.SampleBoxId,
+                            SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId,
                             ProductId = getByIdResult.Bag.ProductId,
                             ProductAmount = getByIdResult.Bag.ProductAmount,
                             ProductName = getByIdResult.Bag.Product.Name,

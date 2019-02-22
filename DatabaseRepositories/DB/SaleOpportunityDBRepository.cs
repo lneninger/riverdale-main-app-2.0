@@ -72,10 +72,10 @@ namespace DatabaseRepositories.DB
                     var query = dbLocator.Set<SaleOpportunity>().AsQueryable();
 
                     var advancedSorting = new List<SortItem<SaleOpportunity>>();
-                    Expression<Func<SaleOpportunity, object>> expression;
+                    Expression<Func<SaleOpportunity, object>> expression = null;
                     if (input.Sort.ContainsKey("SaleSeasonType"))
                     {
-                        expression = o => o.SaleSeasonType.Name;
+                        expression = o => o.SaleOpportunityPriceLevels.FirstOrDefault().SaleSeasonType.Name;
                         advancedSorting.Add(new SortItem<SaleOpportunity> { PropertyName = "SaleOpportunityType", SortExpression = expression, SortOrder = "desc" });
                     }
 
@@ -85,11 +85,11 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         Name = o.Name,
-                        SaleSeasonTypeId = o.SaleSeasonTypeId,
-                        SaleSeasonTypeName = o.SaleSeasonType.Name,
+                        //SaleSeasonTypeId = o.SaleSeasonTypeId,
+                        //SaleSeasonTypeName = o.SaleSeasonType.Name,
                         CustomerId = o.CustomerId,
                         CustomerName = o.Customer.Name,
-                        TargetPrice = o.TargetPrice,
+                        //TargetPrice = o.TargetPrice,
                         CreatedAt = o.CreatedAt,
                     });
                 }

@@ -24,7 +24,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
                 var entity = new DomainModel.SaleOpportunity.SampleBoxProduct
                 {
                     SampleBoxId = input.SampleBoxId,
-                    SaleOpportunityProductId = input.SaleOpportunityProductId
+                    SaleOpportunityPriceLevelProductId = input.SaleOpportunityPriceLevelProductId
                 };
 
                 try
@@ -53,7 +53,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.InsertCommand
                         result.Bag = new SampleBoxProductInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.SaleOpportunityProductId,
+                            SaleOpportunityPriceLevelProductId = getByIdResult.Bag.SaleOpportunityPriceLevelProductId,
                             SampleBoxId = getByIdResult.Bag.SampleBoxId,
                             ProductAmount = getByIdResult.Bag.SaleOpportunityPriceLevelProduct.ProductAmount,
                             ProductName = getByIdResult.Bag.SaleOpportunityPriceLevelProduct.Product.Name,

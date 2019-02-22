@@ -16,8 +16,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.De
 
         public int ProductId { get; set; }
 
-        public int SaleOpportunityPriceLevelId { get; set; }
-
         public int ProductAmmount { get; set; }
     }
 }
