@@ -1,5 +1,7 @@
-﻿using Framework.Logging.Log4Net;
+﻿using ApplicationLogic.SignalR;
+using Framework.Logging.Log4Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -18,7 +20,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseController"/> class.
         /// </summary>
-        public BaseController(/*IHubContext<GlobalHub> hubContext*/): base()
+        public BaseController(IHubContext<GlobalHub> hubContext = null): base()
         {
             //this.HubContext = hubContext;
         }
