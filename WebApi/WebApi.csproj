@@ -83,7 +83,7 @@
     <Content Update="filestorage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="log4net1.config">
+    <Content Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -3,19 +3,13 @@ using ApplicationLogic.Business.Commands.AppUser.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.AppUser.GetAllCommand;
 using ApplicationLogic.Business.Commands.AppUser.GetByIdCommand;
 using ApplicationLogic.Business.Commands.AppUser.PageQueryCommand;
-//using ApplicationLogic.Business.Commands.AppUser.RegisterCommand;
-//using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.Security;
-using ApplicationLogic.SignalR;
 using DomainModel.Identity;
 using Framework.Core.Messages;
 using Framework.Web.Helpers;
-//using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
-//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
 {

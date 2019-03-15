@@ -13,16 +13,12 @@ using ApplicationLogic.Business.Commands.Grower.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-//using Microsoft.AspNet.SignalR;
 using Authorization = Microsoft.AspNetCore.Authorization;
-//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Framework.SignalR;
-//using Microsoft.AspNet.SignalR.Infrastructure;
 
 namespace RiverdaleMainApp2_0.Controllers
 {

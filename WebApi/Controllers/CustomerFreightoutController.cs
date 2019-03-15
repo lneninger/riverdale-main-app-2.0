@@ -9,15 +9,12 @@ using ApplicationLogic.Business.Commands.CustomerFreightout.PageQueryCommand;
 using ApplicationLogic.Business.Commands.CustomerFreightout.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand;
 using ApplicationLogic.Business.Commands.CustomerFreightout.UpdateCommand.Models;
+using ApplicationLogic.SignalR;
 using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
-using Authorization = Microsoft.AspNetCore.Authorization;
-using System.Linq;
-using ApplicationLogic.SignalR;
-//using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -39,7 +36,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public CustomerFreightoutController(/*IHubContext<GlobalHub> hubContext,*/ ICustomerFreightoutPageQueryCommand pageQueryCommand, ICustomerFreightoutGetAllCommand getAllCommand, ICustomerFreightoutGetByIdCommand getByIdCommand, ICustomerFreightoutInsertCommand insertCommand, ICustomerFreightoutUpdateCommand updateCommand, ICustomerFreightoutDeleteCommand deleteCommand):base(/*hubContext*/)
+        public CustomerFreightoutController(IHubContext<GlobalHub> hubContext, ICustomerFreightoutPageQueryCommand pageQueryCommand, ICustomerFreightoutGetAllCommand getAllCommand, ICustomerFreightoutGetByIdCommand getByIdCommand, ICustomerFreightoutInsertCommand insertCommand, ICustomerFreightoutUpdateCommand updateCommand, ICustomerFreightoutDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
