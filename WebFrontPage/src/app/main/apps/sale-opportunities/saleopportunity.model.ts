@@ -58,6 +58,23 @@ export class SampleBoxItem {
     }
 }
 
+export class TargetPriceItem {
+    id: number;
+    targetPrice: number;
+    saleSeasonTypeId: number;
+
+    sampleBoxes: SampleBoxItem[];
+    saleOpportunityId: number;
+    saleOpportunityPriceLevelProducts: any[];
+
+    constructor(targetPrice?) {
+        const internal = targetPrice || {};
+        this.id = internal.id;
+        this.targetPrice = internal.targetPrice;
+        this.saleOpportunityId = internal.saleOpportunityId;
+    }
+}
+
 export class SampleBoxGrid {
     id?: number;
     order?: number;
@@ -183,4 +200,15 @@ export class SampleBoxItemNewDialogInput {
 export class SampleBoxItemNewDialogOutput {
     goTo: 'Edit';
     data: SampleBoxItem;
+}
+
+
+export class SaleOpportunityTargetPriceNewDialogInput{
+
+}
+
+export class SaleOpportunityTargetPriceNewDialogOutput{
+    goTo: string;
+    data: TargetPriceItem;
+    
 }

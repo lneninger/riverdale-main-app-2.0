@@ -83,6 +83,7 @@ export class SaleOpportunitiesComponent implements OnInit {
 
     initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
+            debugger;
             if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
@@ -147,7 +148,7 @@ export class SaleOpportunitiesDataSource extends DataSourceAbstract<SaleOpportun
 })
 export class SaleOpportunityNewDialogComponent {
     listSeasonCategoryType = this.saleSeasonCategoryTypeResolveService.onList;
-    listCustomer = this.saleSeasonCategoryTypeResolveService.onList;
+    listCustomer = this.customerResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
 
     get selectedCategorySeasons(): Object {
@@ -171,13 +172,12 @@ export class SaleOpportunityNewDialogComponent {
         , @Inject(MAT_DIALOG_DATA) public data: any
         , private route: ActivatedRoute
     ) {
-        this.listSeasonCategoryType = this.data.listSeasonCategoryType;
-        this.listCustomer = this.data.listCustomer;
+        
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'saleSeasonTypeId': ['', [Validators.required]],
+            // 'saleSeasonTypeId': ['', [Validators.required]],
             'customerId': ['', [Validators.required]],
-            'targetPrice': ['', CustomValidators.number]
+            // 'targetPrice': ['', CustomValidators.number]
         });
     }
 

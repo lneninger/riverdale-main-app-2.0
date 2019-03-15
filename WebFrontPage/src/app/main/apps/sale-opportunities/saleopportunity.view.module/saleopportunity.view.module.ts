@@ -26,6 +26,7 @@ import { SaleOpportunityViewListItemComponent } from './saleopportunity.view-lis
 import { SaleOpportunityViewListComponent } from './saleopportunity.view-list/saleopportunity.view-list.component';
 import { SaleOpportunityViewDetailsComponent } from './saleopportunity.view-details/saleopportunity.view-details.component';
 import { SaleOpportunityViewSampleBoxesComponent } from './saleopportunity.view-sampleboxes/saleopportunity.view-sampleboxes.component';
+import {SaleOpportunityTargetPriceNewDialogComponent} from './saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component';
 
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { SaleOpportunityCoreModule } from '../saleopportunity.core.module';
@@ -95,6 +96,7 @@ const routes: Routes = [
         , SaleOpportunityViewSampleBoxesComponent
         , SaleOpportunityViewSettingsComponent
         , SampleBoxProductNewDialogComponent
+        , SaleOpportunityTargetPriceNewDialogComponent
     ],
     imports     : [
         RouterModule// .forChild(routes),
@@ -126,9 +128,11 @@ const routes: Routes = [
     ],
     exports: [
         SaleOpportunityViewComponent
+        , SaleOpportunityTargetPriceNewDialogComponent
     ],
     entryComponents: [
         SampleBoxProductNewDialogComponent
+        , SaleOpportunityTargetPriceNewDialogComponent
     ]
 })
 export class SaleOpportunityViewModule

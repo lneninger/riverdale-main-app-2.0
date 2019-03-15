@@ -11,12 +11,17 @@ namespace DomainDatabaseMapping
 {
     public class IdentityDBContext : BaseIdentityDbContext<AppUser>
     {
+        // Flag: Has Dispose already been called?
+        bool disposed = false;
+
         public IdentityDBContext(DbContextOptions options) : base(options)
         {
+            System.Diagnostics.Debug.WriteLine("DbContext: Instanciating IdentityDBContext");
         }
 
         public IdentityDBContext() : base()
         {
+            System.Diagnostics.Debug.WriteLine("DbContext: Instanciating IdentityDBContext");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -43,6 +48,38 @@ namespace DomainDatabaseMapping
             new AbstractBaseEntityMap(modelBuilder).Configure();
 
             modelBuilder.ApplyConfiguration(new AppUserMap(modelBuilder));
+        }
+
+
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            base.Dispose();
+            if (disposing)
+            {
+                // Free any other managed objects here.
+                //
+            }
+
+            // Free any unmanaged objects here.
+            //
+            disposed = true;
+            System.Diagnostics.Debug.WriteLine("DbContext: Disposing IdentityDBContext");
+        }
+
+        ~IdentityDBContext()
+        {
+            Dispose(false);
         }
     }
 }

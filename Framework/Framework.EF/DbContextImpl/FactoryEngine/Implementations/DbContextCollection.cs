@@ -207,33 +207,55 @@ namespace EntityFrameworkCore.DbContextScope {
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Dispose(bool disposing) {
             if (_disposed)
                 return;
 
             // Do our best here to dispose as much as we can even if we get errors along the way.
             // Now is not the time to throw. Correctly implemented applications will have called
             // either Commit() or Rollback() first and would have got the error there.
-
-            if (!_completed) {
-                try {
-                    if (_readOnly) Commit();
-                    else Rollback();
-                } catch (Exception e) {
-                    System.Diagnostics.Debug.WriteLine(e);
+            if (disposing)
+            {
+                if (!_completed)
+                {
+                    try
+                    {
+                        if (_readOnly) Commit();
+                        else Rollback();
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e);
+                    }
                 }
+
+                foreach (var dbContext in _initializedDbContexts.Values)
+                {
+                    try
+                    {
+                        dbContext.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e);
+                    }
+                }
+
+                _initializedDbContexts.Clear();
             }
 
-            foreach (var dbContext in _initializedDbContexts.Values) {
-                try {
-                    dbContext.Dispose();
-                } catch (Exception e) {
-                    System.Diagnostics.Debug.WriteLine(e);
-                }
-            }
-
-            _initializedDbContexts.Clear();
             _disposed = true;
+        }
+
+        ~DbContextCollection()
+        {
+            Dispose(false);
         }
 
         /// <summary>

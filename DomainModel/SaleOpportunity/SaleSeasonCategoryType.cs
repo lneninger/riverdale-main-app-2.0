@@ -12,6 +12,7 @@ namespace DomainModel.SaleOpportunity
 
         public string Description { get; set; }
 
+        //public IEnumerable<SaleSeasonType> SaleSeasons { get; set; }
         public virtual IEnumerable<SaleSeasonType> SaleSeasons { get; set; }
     }
 }

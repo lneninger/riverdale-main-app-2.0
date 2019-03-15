@@ -36,6 +36,9 @@ using Framework.EF.DbContextImpl;
 using Framework.Logging.Log4Net;
 using RiverdaleMainApp2_0.AppSettings;
 using RiverdaleMainApp2_0.ErrorHandling;
+using Autofac.Extensions.DependencyInjection;
+using RiverdaleMainApp2_0.Controllers;
+using System.Reflection;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0
@@ -103,6 +106,8 @@ namespace RiverdaleMainApp2_0
 
                 services.AddCors();
 
+                services.AddAutofac();
+
                 //services.AddCors(options => {
                 //    options.AddPolicy("Development", builder => builder
                 //    .WithOrigins(customSettings.AllowedOrigins)
@@ -114,18 +119,20 @@ namespace RiverdaleMainApp2_0
                 this.ConfigureAuthenticationServices(services);
 
 
-                services.AddElmah(options =>
-                {
-                    //services.AddElmah(options => option.Path = "you_path_here")
-                    //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
-                });
+                //services.AddElmah(options =>
+                //{
+                //    //services.AddElmah(options => option.Path = "you_path_here")
+                //    //options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
+                //});
 
                 services.AddSignalR(config => {
                     config.EnableDetailedErrors = true;
                 });
 
                 services.AddDbContext<IdentityDBContext>(options => options.UseSqlServer(this.ConnectionString));
-                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                services.AddMvc()
+                    //.AddControllersAsServices()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
 
@@ -166,7 +173,7 @@ namespace RiverdaleMainApp2_0
 
                 app.ConfigureExceptionHandler();
 
-                app.UseElmah();
+                //app.UseElmah();
 
                 // Shows UseCors with CorsPolicyBuilder.
                 //app.UseCors("Development");

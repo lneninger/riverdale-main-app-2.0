@@ -27,6 +27,7 @@
     <Compile Remove="Migrations\20190208055014_Remove Identity Customer Settings 1.cs" />
     <Compile Remove="Migrations\20190208055222_Remove Identity Customer Settings 1.cs" />
     <Compile Remove="Migrations\20190209123739_Add table SampleBox.cs" />
+    <Compile Remove="Migrations\20190314013706_PriceLevel change.cs" />
   </ItemGroup>
 
   <ItemGroup>

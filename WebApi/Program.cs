@@ -54,10 +54,10 @@ namespace RiverdaleMainApp2_0
                 var logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
                 logger.Info("Initializing application logging");
 
-                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                logging.AddConsole();
-                logging.AddDebug();
-                logging.AddEventSourceLogger();
+                //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                //logging.AddConsole();
+                //logging.AddDebug();
+                //logging.AddEventSourceLogger();
             })
             .UseStartup<Startup>();
 
@@ -66,10 +66,10 @@ namespace RiverdaleMainApp2_0
         /// </summary>
         public static void ConfigureLog4Net()
         {
-             var logRepository = log4net.LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
-            //Load configuration from log4net.config file
-            log4net.Config.XmlConfigurator.Configure(logRepository,
-                                                     new System.IO.FileInfo("log4net.config"));
+            // var logRepository = log4net.LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
+            ////Load configuration from log4net.config file
+            //log4net.Config.XmlConfigurator.Configure(logRepository,
+            //                                         new System.IO.FileInfo("log4net.config"));
         }
     }
 

@@ -154,7 +154,7 @@ export class ProductNewDialogComponent {
         , @Inject(MAT_DIALOG_DATA) public data: any
         , private route: ActivatedRoute
     ) {
-        this.listProductType = this.data.listProductType;
+        this.listProductType$ = this.data.listProductType;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
             'productTypeId': [''],

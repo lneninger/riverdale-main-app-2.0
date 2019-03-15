@@ -1,30 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CommunicationModel;
-using FizzWare.NBuilder;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Interfaces;
-//using FizzWare.NBuilder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
 using RiverdaleMainApp2_0.Auth;
-using Authorization = Microsoft.AspNetCore.Authorization;
-using ApplicationLogic.SignalR;
-//using Microsoft.AspNet.SignalR;
 using Framework.Core.Messages;
 
 namespace RiverdaleMainApp2_0.Controllers

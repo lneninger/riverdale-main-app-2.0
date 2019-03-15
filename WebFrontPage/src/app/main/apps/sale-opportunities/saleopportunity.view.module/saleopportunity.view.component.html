@@ -35,8 +35,8 @@
                     appearance="outline"
                     fxFlex="30%"
                 >
-                    <mat-label>Season</mat-label>
-                    <input matInput [value]="currentEntity.seasonName" />
+                    <mat-label>Opportunity</mat-label>
+                    <input matInput [value]="currentEntity.name" />
                 </mat-form-field>
 
                 <mat-form-field
@@ -48,14 +48,14 @@
                     <input matInput [value]="currentEntity.customerName" />
                 </mat-form-field>
 
-                <mat-form-field
+                <!-- <mat-form-field
                     floatLabel="always"
                     appearance="outline"
                     fxFlex="10%"
                 >
                     <mat-label>Target Price</mat-label>
                     <input matInput [value]="currentEntity.targetPrice" />
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
 
             <div
@@ -154,6 +154,38 @@
 
                     <div class="toolbar-separator"></div>
 
+                    <span class="font-size-20 mr-16">TARGET PRICE</span>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="currentSampleBoxProduct">
+                            <option label="--select something --"></option>
+                            <mat-option>None</mat-option>
+                            <mat-option
+                                *ngFor="
+                                    let sampleboxProduct of currentSampleBox &&
+                                        currentSampleBox.sampleBoxProducts
+                                "
+                                [value]="sampleboxProduct"
+                            >
+                                {{
+                                    sampleboxProduct.productName ||
+                                        sampleboxProduct.order
+                                }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button
+                        mat-icon-button
+                        (click)="openSampleBoxProductDialog()"
+                        matTooltip="New Target Price"
+                        [attr.aria-label]="'New Target Price'"
+                    >
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                   
+
+                    <div class="toolbar-separator"></div>
+
                     <span class="font-size-20 mr-16">BOUQUET</span>
                     <mat-form-field>
                         <mat-select [(ngModel)]="currentSampleBoxProduct">
@@ -245,13 +277,13 @@
                     </button>
                 </div>
 
-                <div fxFlexAlign="end center">
+                <!-- <div fxFlexAlign="end center">
                     <button mat-icon-button (click)="setActiveArea('products')">
                         <mat-icon class="font-size-40"
                             >power_settings_new</mat-icon
                         >
                     </button>
-                </div>
+                </div> -->
 
                 <div *ngIf="currentTodo" fxHide.gt-lg>
                     <button mat-icon-button (click)="deselectCurrentTodo()">

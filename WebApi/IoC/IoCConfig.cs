@@ -74,10 +74,12 @@ namespace RiverdaleMainApp2_0.IoC
                 .SingleInstance();
 
                 builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>()
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                ;
 
                 builder.RegisterType<AmbientDbContextLocator>().As<IAmbientDbContextLocator>()
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                ;
 
 
                 builder.RegisterType<IdentityDBContext>().AsSelf()
@@ -89,7 +91,7 @@ namespace RiverdaleMainApp2_0.IoC
                 builder.RegisterType<CurrentUserService>().As<ICurrentUserService>()
                 .InstancePerLifetimeScope()
                 //.InstancePerMatchingLifetimeScope("CurrentUserService")
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 // SignalR Context
                 //builder.Register(ctx => ctx.GetHubContext<GlobalHub>());
@@ -109,41 +111,42 @@ namespace RiverdaleMainApp2_0.IoC
 
                 var targetAssembly = Assembly.GetExecutingAssembly();
 
-                var controllerTypes = targetAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase));
-                builder.RegisterTypes(controllerTypes.ToArray())
-               .AsSelf()
-               .EnableInterfaceInterceptors()
-               .InterceptedBy(typeof(ExceptionInterceptor));
+               // var controllerTypes = targetAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase));
+               // builder.RegisterTypes(controllerTypes.ToArray())
+               //.AsSelf()
+               //.EnableInterfaceInterceptors()
+               //.InterceptedBy(typeof(ExceptionInterceptor));
 
                 var serviceAssembly = typeof(CustomerGetAllCommand).Assembly;
                 var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(serviceTypes.ToArray())
                 .AsImplementedInterfaces()
-                .TrackInstanceEvents();
+                .InstancePerDependency()
+                /*.TrackInstanceEvents()*/;
 
                 var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
                 var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) || type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)) );
                 builder.RegisterTypes(dataGenericDataRetrieverTypes.ToArray())
                 .AsImplementedInterfaces()
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 var validatorAssembly = typeof(CustomerInsertValidator).Assembly;
                 var validatorTypes = validatorAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Validator", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(validatorTypes.ToArray())
                 .AsImplementedInterfaces()
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 var repositoryAssembly = typeof(CustomerDBRepository).Assembly;
                 var repositoryTypes = repositoryAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(repositoryTypes.ToArray())
                 .AsImplementedInterfaces()
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 var funzaRepositoriesAssembly = typeof(FunzaRepositories.SecurityRepository).Assembly;
                 var funzaRepositoryTypes = funzaRepositoriesAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
                 builder.RegisterTypes(funzaRepositoryTypes.ToArray())
                 .AsImplementedInterfaces()
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 // File Storage implementations injections
                 var FileSystemStorageNamespace = typeof(FileSystemStorage).Namespace;
@@ -155,14 +158,15 @@ namespace RiverdaleMainApp2_0.IoC
                     builder.RegisterType(storageType).Keyed<IFileStorageService>(fileSourceEnum)
                        .AsImplementedInterfaces()
                        .WithAttributeFiltering()
-                        .TrackInstanceEvents();
+                        .InstancePerDependency()
+                        /*.TrackInstanceEvents()*/;
                 }
 
                 // Authentication
                 builder
                 .RegisterType<JwtFactory>()
                 .As<IJwtFactory>()
-                .TrackInstanceEvents();
+                /*.TrackInstanceEvents()*/;
 
                 //var firebaseAssembly = typeof(BaseRepository).Assembly;
                 //var firebaseRepositoryTypes = firebaseAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));

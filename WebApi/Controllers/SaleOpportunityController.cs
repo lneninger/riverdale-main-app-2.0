@@ -31,7 +31,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Produces("application/json")]
-    [Route("api/saleopportunitypricelevel")]
+    [Route("api/saleopportunity")]
     public class SaleOpportunityController : BaseController
     {
         /// <summary>

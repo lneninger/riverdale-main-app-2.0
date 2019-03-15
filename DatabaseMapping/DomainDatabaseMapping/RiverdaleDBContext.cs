@@ -74,6 +74,7 @@ namespace DomainDatabaseMapping
         //Opportunity
         public DbSet<SaleOpportunity> SaleOpportunities { get; set; }
         public DbSet<SaleOpportunitySettings> SaleOpportunitySettings { get; set; }
+        public DbSet<SaleOpportunityPriceLevel> SaleOpportunityPriceLevels { get; set; }
         public DbSet<SampleBox> SampleBoxes { get; set; }
         public DbSet<SampleBoxProduct> SampleBoxProducts { get; set; }
         public DbSet<SaleSeasonType> SaleSeasonTypes { get; set; }
@@ -134,6 +135,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new SampleBoxMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SampleBoxProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleOpportunitySettingsMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SaleOpportunityPriceLevelMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonTypeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SaleSeasonCategoryTypeMap(modelBuilder));
 

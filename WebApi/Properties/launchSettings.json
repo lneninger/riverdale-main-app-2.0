@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://locahost/riverdaleapi",
+      "applicationUrl": "http://localhost/riverdaleapi",
       "sslPort": 0
     },
     "iisExpress": {
@@ -15,6 +15,14 @@
     "IIS Express": {
       "commandName": "Project",
       "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost/riverdaleapi",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

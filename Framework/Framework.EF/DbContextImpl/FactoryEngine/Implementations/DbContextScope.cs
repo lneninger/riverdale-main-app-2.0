@@ -215,79 +215,98 @@ namespace EntityFrameworkCore.DbContextScope {
             }
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Dispose(bool disposing) {
             if (_disposed)
                 return;
 
-            // Commit / Rollback and dispose all of our DbContext instances
-            if (!_nested) {
-                if (!_completed) {
-                    // Do our best to clean up as much as we can but don't throw here as it's too late anyway.
-                    try {
-                        if (_readOnly) {
-                            // Disposing a read-only scope before having called its SaveChanges() method
-                            // is the normal and expected behavior. Read-only scopes get committed automatically.
-                            CommitInternal();
-                        } else {
-                            // Disposing a read/write scope before having called its SaveChanges() method
-                            // indicates that something went wrong and that all changes should be rolled-back.
-                            RollbackInternal();
+            if (disposing)
+            {
+                // Commit / Rollback and dispose all of our DbContext instances
+                if (!_nested)
+                {
+                    if (!_completed)
+                    {
+                        // Do our best to clean up as much as we can but don't throw here as it's too late anyway.
+                        try
+                        {
+                            if (_readOnly)
+                            {
+                                // Disposing a read-only scope before having called its SaveChanges() method
+                                // is the normal and expected behavior. Read-only scopes get committed automatically.
+                                CommitInternal();
+                            }
+                            else
+                            {
+                                // Disposing a read/write scope before having called its SaveChanges() method
+                                // indicates that something went wrong and that all changes should be rolled-back.
+                                RollbackInternal();
+                            }
                         }
-                    } catch (Exception e) {
-                        System.Diagnostics.Debug.WriteLine(e);
-                    }
+                        catch (Exception e)
+                        {
+                            System.Diagnostics.Debug.WriteLine(e);
+                        }
 
-                    _completed = true;
+                        _completed = true;
+
+
+                        _dbContexts.Dispose();
+                    }
                 }
 
-                _dbContexts.Dispose();
-            }
+                // Pop ourself from the ambient scope stack
+                var currentAmbientScope = GetAmbientScope();
+                if (currentAmbientScope != this) // This is a serious programming error. Worth throwing here.
+                    throw new InvalidOperationException("DbContextScope instances must be disposed of in the order in which they were created!");
 
-            // Pop ourself from the ambient scope stack
-            var currentAmbientScope = GetAmbientScope();
-            if (currentAmbientScope != this) // This is a serious programming error. Worth throwing here.
-                throw new InvalidOperationException("DbContextScope instances must be disposed of in the order in which they were created!");
+                RemoveAmbientScope();
 
-            RemoveAmbientScope();
+                if (_parentScope != null)
+                {
+                    if (_parentScope._disposed)
+                    {
+                        /*
+                         * If our parent scope has been disposed before us, it can only mean one thing:
+                         * someone started a parallel flow of execution and forgot to suppress the
+                         * ambient context before doing so. And we've been created in that parallel flow.
+                         * 
+                         * Since the CallContext flows through all async points, the ambient scope in the 
+                         * main flow of execution ended up becoming the ambient scope in this parallel flow
+                         * of execution as well. So when we were created, we captured it as our "parent scope". 
+                         * 
+                         * The main flow of execution then completed while our flow was still ongoing. When 
+                         * the main flow of execution completed, the ambient scope there (which we think is our 
+                         * parent scope) got disposed of as it should.
+                         * 
+                         * So here we are: our parent scope isn't actually our parent scope. It was the ambient
+                         * scope in the main flow of execution from which we branched off. We should never have seen 
+                         * it. Whoever wrote the code that created this parallel task should have suppressed
+                         * the ambient context before creating the task - that way we wouldn't have captured
+                         * this bogus parent scope.
+                         * 
+                         * While this is definitely a programming error, it's not worth throwing here. We can only 
+                         * be in one of two scenario:
+                         * 
+                         * - If the developer who created the parallel task was mindful to force the creation of 
+                         * a new scope in the parallel task (with IDbContextScopeFactory.CreateNew() instead of 
+                         * JoinOrCreate()) then no harm has been done. We haven't tried to access the same DbContext
+                         * instance from multiple threads.
+                         * 
+                         * - If this was not the case, they probably already got an exception complaining about the same
+                         * DbContext or ObjectContext being accessed from multiple threads simultaneously (or a related
+                         * error like multiple active result sets on a DataReader, which is caused by attempting to execute
+                         * several queries in parallel on the same DbContext instance). So the code has already blow up.
+                         * 
+                         * So just record a warning here. Hopefully someone will see it and will fix the code.
+                         */
 
-            if (_parentScope != null) {
-                if (_parentScope._disposed) {
-                    /*
-                     * If our parent scope has been disposed before us, it can only mean one thing:
-                     * someone started a parallel flow of execution and forgot to suppress the
-                     * ambient context before doing so. And we've been created in that parallel flow.
-                     * 
-                     * Since the CallContext flows through all async points, the ambient scope in the 
-                     * main flow of execution ended up becoming the ambient scope in this parallel flow
-                     * of execution as well. So when we were created, we captured it as our "parent scope". 
-                     * 
-                     * The main flow of execution then completed while our flow was still ongoing. When 
-                     * the main flow of execution completed, the ambient scope there (which we think is our 
-                     * parent scope) got disposed of as it should.
-                     * 
-                     * So here we are: our parent scope isn't actually our parent scope. It was the ambient
-                     * scope in the main flow of execution from which we branched off. We should never have seen 
-                     * it. Whoever wrote the code that created this parallel task should have suppressed
-                     * the ambient context before creating the task - that way we wouldn't have captured
-                     * this bogus parent scope.
-                     * 
-                     * While this is definitely a programming error, it's not worth throwing here. We can only 
-                     * be in one of two scenario:
-                     * 
-                     * - If the developer who created the parallel task was mindful to force the creation of 
-                     * a new scope in the parallel task (with IDbContextScopeFactory.CreateNew() instead of 
-                     * JoinOrCreate()) then no harm has been done. We haven't tried to access the same DbContext
-                     * instance from multiple threads.
-                     * 
-                     * - If this was not the case, they probably already got an exception complaining about the same
-                     * DbContext or ObjectContext being accessed from multiple threads simultaneously (or a related
-                     * error like multiple active result sets on a DataReader, which is caused by attempting to execute
-                     * several queries in parallel on the same DbContext instance). So the code has already blow up.
-                     * 
-                     * So just record a warning here. Hopefully someone will see it and will fix the code.
-                     */
-
-                    var message = @"PROGRAMMING ERROR - When attempting to dispose a DbContextScope, we found that our parent DbContextScope has already been disposed! This means that someone started a parallel flow of execution (e.g. created a TPL task, created a thread or enqueued a work item on the ThreadPool) within the context of a DbContextScope without suppressing the ambient context first. 
+                        var message = @"PROGRAMMING ERROR - When attempting to dispose a DbContextScope, we found that our parent DbContextScope has already been disposed! This means that someone started a parallel flow of execution (e.g. created a TPL task, created a thread or enqueued a work item on the ThreadPool) within the context of a DbContextScope without suppressing the ambient context first. 
 
 In order to fix this:
 1) Look at the stack trace below - this is the stack trace of the parallel task in question.
@@ -297,14 +316,22 @@ In order to fix this:
 Stack Trace:
 " + Environment.StackTrace;
 
-                    System.Diagnostics.Debug.WriteLine(message);
-                } else {
-                    SetAmbientScope(_parentScope);
+                        System.Diagnostics.Debug.WriteLine(message);
+                    }
+                    else
+                    {
+                        SetAmbientScope(_parentScope);
+                    }
                 }
             }
 
             _disposed = true;
 
+        }
+
+        ~DbContextScope()
+        {
+            Dispose(false);
         }
 
         #region Ambient Context Logic

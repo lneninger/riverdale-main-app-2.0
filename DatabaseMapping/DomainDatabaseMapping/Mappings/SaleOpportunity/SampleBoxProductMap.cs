@@ -24,7 +24,7 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
                 .ValueGeneratedOnAdd();
 
             builder.Property(t => t.SaleOpportunityPriceLevelProductId)
-                .IsRequired(false);
+                .IsRequired(true);
 
             builder.HasOne(t => t.SaleOpportunityPriceLevelProduct)
                .WithMany()

@@ -16,6 +16,7 @@ using Framework.Logging.Log4Net;
 //using Microsoft.AspNet.SignalR;
 //using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
