@@ -11,7 +11,11 @@ import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
+import {
+    FuseProgressBarModule,
+    FuseSidebarModule,
+    FuseThemeOptionsModule
+} from '@fuse/components';
 
 import { fuseConfig } from 'app/fuse-config';
 
@@ -22,12 +26,7 @@ import { LayoutModule } from 'app/layout/layout.module';
 
 /******************************Custom************************************/
 import { environment } from '../environments/environment';
-//import { AngularFireModule } from '@angular/fire';
-//import { AngularFirestoreModule } from '@angular/fire/firestore';
-//import { AngularFireStorageModule } from '@angular/fire/storage';
-//import { AngularFireAuthModule } from '@angular/fire/auth';
-//import { AngularFireDatabaseModule } from '@angular/fire/database';
-
+import { EnvironmentInfoModule } from 'app/main/apps/environmentinfo/environmentinfo.module';
 
 /******************************Authentication************************************/
 import { AuthenticationCoreModule } from 'app/main/apps/@hipalanetCommons/authentication/authentication.core.module';
@@ -35,83 +34,76 @@ import { CustomSignalRModule } from './main/apps/@hipalanetCommons/signalr/signa
 import { SignalRConfiguration } from 'ng2-signalr';
 import { HiPalanetResolveModule } from './main/apps/@resolveServices//resolve.module';
 
-
-
-
 const appRoutes: Routes = [
     {
-        path        : 'apps',
+        path: 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
     },
     {
-        path        : 'pages',
+        path: 'pages',
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
-        path        : 'ui',
+        path: 'ui',
         loadChildren: './main/ui/ui.module#UIModule'
     },
     {
-        path        : 'documentation',
-        loadChildren: './main/documentation/documentation.module#DocumentationModule'
+        path: 'documentation',
+        loadChildren:
+            './main/documentation/documentation.module#DocumentationModule'
     },
     {
-        path        : 'angular-material-elements',
-        loadChildren: './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
+        path: 'angular-material-elements',
+        loadChildren:
+            './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
     },
     {
-        path      : '**',
+        path: '**',
         redirectTo: 'apps/dashboards/analytics'
     }
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports     : [
-        BrowserModule
-        ,BrowserAnimationsModule
-        ,HttpClientModule
-        ,RouterModule.forRoot(appRoutes)
-       
-        ,TranslateModule.forRoot()
-        ,InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay             : 0,
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes),
+
+        TranslateModule.forRoot(),
+        InMemoryWebApiModule.forRoot(FakeDbService, {
+            delay: 0,
             passThruUnknownUrl: true
-        })
-        
+        }),
+
         // Material moment date module
-        ,MatMomentDateModule
-        
+        MatMomentDateModule,
+
         // Material
-        ,MatButtonModule
-        ,MatIconModule
-        
+        MatButtonModule,
+        MatIconModule,
+
         // Fuse modules
-        ,FuseModule.forRoot(fuseConfig)
-        ,FuseProgressBarModule
-        ,FuseSharedModule
-        ,FuseSidebarModule
-        ,FuseThemeOptionsModule
-        
+        FuseModule.forRoot(fuseConfig),
+        FuseProgressBarModule,
+        FuseSharedModule,
+        FuseSidebarModule,
+        FuseThemeOptionsModule,
+
         // App modules
-        ,LayoutModule
-        , AppStoreModule
+        LayoutModule,
+        AppStoreModule,
 
         // Authentication
-        , AuthenticationCoreModule
-        , HiPalanetResolveModule
-        , CustomSignalRModule
+        AuthenticationCoreModule,
+        HiPalanetResolveModule,
+        CustomSignalRModule,
 
+        // Generic
+        EnvironmentInfoModule
     ],
-    exports: [
-        AuthenticationCoreModule
-    ],
-    bootstrap   : [
-        AppComponent
-    ]
+    exports: [AuthenticationCoreModule, EnvironmentInfoModule],
+    bootstrap: [AppComponent]
 })
-export class AppModule
-{
-}
+export class AppModule {}

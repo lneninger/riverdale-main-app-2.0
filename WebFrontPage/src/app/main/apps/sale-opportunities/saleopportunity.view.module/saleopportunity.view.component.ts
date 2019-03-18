@@ -5,22 +5,27 @@ import {
     ViewEncapsulation,
     Input,
     Inject
-} from '@angular/core';
+} from "@angular/core";
 import {
     FormControl,
     FormGroup,
     FormBuilder,
     FormArray,
     Validators
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Subject, Subscription, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil, mergeMap } from 'rxjs/operators';
+} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { Subject, Subscription, Observable, of } from "rxjs";
+import {
+    debounceTime,
+    distinctUntilChanged,
+    takeUntil,
+    mergeMap
+} from "rxjs/operators";
 
-import { fuseAnimations } from '@fuse/animations';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { fuseAnimations } from "@fuse/animations";
+import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 
-import { Todo } from './saleopportunity.view.model';
+import { Todo } from "./saleopportunity.view.model";
 import {
     SaleOpportunity,
     ProductGrid,
@@ -28,25 +33,31 @@ import {
     SampleBoxGrid,
     SampleBoxProductItem,
     SampleBoxItemNewDialogOutput,
-    SampleBoxItemNewDialogInput
-} from '../saleopportunity.model';
-import { SaleOpportunityViewService } from './saleopportunity.view.service';
-import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
-import { SaleOpportunityService } from '../saleopportunity.core.module';
-import { CustomValidators } from 'ng4-validators';
+    SampleBoxItemNewDialogInput,
+    SaleOpportunityTargetPriceNewDialogInput,
+    SaleOpportunityTargetPriceNewDialogOutput
+} from "../saleopportunity.model";
+import { SaleOpportunityViewService } from "./saleopportunity.view.service";
+import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
+import { SaleOpportunityService } from "../saleopportunity.core.module";
+import { CustomValidators } from "ng4-validators";
 import {
     MatSnackBar,
     MatDialogRef,
     MAT_DIALOG_DATA,
     MatDialog
-} from '@angular/material';
-import { OperationResponseValued } from '../../@hipalanetCommons/messages/messages.model';
-import { ProductColorTypeResolveService, EnumItem } from '../../@resolveServices/resolve.module';
+} from "@angular/material";
+import { OperationResponseValued } from "../../@hipalanetCommons/messages/messages.model";
+import {
+    ProductColorTypeResolveService,
+    EnumItem
+} from "../../@resolveServices/resolve.module";
+import { SaleOpportunityTargetPriceNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component";
 
 @Component({
-    selector: 'saleopportunity-view',
-    templateUrl: './saleopportunity.view.component.html',
-    styleUrls: ['./saleopportunity.view.component.scss'],
+    selector: "saleopportunity-view",
+    templateUrl: "./saleopportunity.view.component.html",
+    styleUrls: ["./saleopportunity.view.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
@@ -83,7 +94,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     activeArea: ActiveAreaType;
     activeDetailArea: ActiveDetailAreaType;
 
-    @Input('entity')
+    @Input("entity")
     set currentEntity(value: SaleOpportunity) {
         if (this._currentEntity !== value) {
             this._currentEntity = new SaleOpportunity(value);
@@ -129,7 +140,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         private matSnackBar: MatSnackBar
     ) {
         // Set the defaults
-        this.searchInput = new FormControl('');
+        this.searchInput = new FormControl("");
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -163,8 +174,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // debugger;
-        this.activeRouteListeners();
         this.currentEntity = this.saleOpportunityService.currentEntity;
+        this.activeRouteListeners();
         this.frmSampleBoxItems = this._formBuilder.array([]);
         this.currentEntity.sampleBoxes.forEach(item => {
             this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
@@ -253,10 +264,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 item.parentSampleBoxId,
                 [CustomValidators.number]
             ],
-            selected: 'selected'
+            selected: "selected"
         });
 
-        result.controls['selected'].valueChanges.subscribe(value => {});
+        result.controls["selected"].valueChanges.subscribe(value => {});
 
         return result;
     }
@@ -265,10 +276,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
             name: [item.productName, [Validators.required]],
-            selected: ''
+            selected: ""
         });
 
-        result.controls['selected'].valueChanges.subscribe(value => {});
+        result.controls["selected"].valueChanges.subscribe(value => {});
 
         return result;
     }
@@ -354,8 +365,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // debugger;
         this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
         this.currentEntity.sampleBoxes.push(item);
-        this.matSnackBar.open('Sample Box Added', 'OK', {
-            verticalPosition: 'top',
+        this.matSnackBar.open("Sample Box Added", "OK", {
+            verticalPosition: "top",
             duration: 5000
         });
     }
@@ -371,8 +382,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         if (sampleBox !== null) {
             sampleBox.sampleBoxProducts.push(item);
         }
-        this.matSnackBar.open('Product Add', 'OK', {
-            verticalPosition: 'top',
+        this.matSnackBar.open("Product Add", "OK", {
+            verticalPosition: "top",
             duration: 5000
         });
     }
@@ -389,8 +400,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 item
             );
 
-            this.matSnackBar.open('Product Updated', 'OK', {
-                verticalPosition: 'top',
+            this.matSnackBar.open("Product Updated", "OK", {
+                verticalPosition: "top",
                 duration: 5000
             });
         }
@@ -412,8 +423,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                     item
                 );
 
-                this.matSnackBar.open('Product Updated', 'OK', {
-                    verticalPosition: 'top',
+                this.matSnackBar.open("Product Updated", "OK", {
+                    verticalPosition: "top",
                     duration: 5000
                 });
             }
@@ -442,18 +453,20 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
     }
 
-    activeRouteListeners(): void{
+    activeRouteListeners(): void {
         this.route.queryParams.subscribe(params => {
             //debugger;
             if (params.newbouquet) {
                 this.openSampleBoxProductDialog();
+            } else if (params.newTargetPrice) {
+                this.openTargetPriceDialog();
             }
         });
     }
 
     openSampleBoxProductDialog(): void {
         const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {
-            width: '60%',
+            width: "60%",
             data: <SampleBoxItemNewDialogInput>{
                 sampleBoxId: this.currentSampleBox.id
                 /* name: this.name, animal: this.animal */
@@ -463,7 +476,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         dialogRef
             .afterClosed()
             .subscribe((result: SampleBoxItemNewDialogOutput) => {
-                if (result && result.goTo === 'Edit') {
+                if (result && result.goTo === "Edit") {
                     this.saleOpportunityService.router.navigate([
                         `apps/productcolors/${result.data.id}`
                     ]);
@@ -475,11 +488,41 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 }
             });
     }
+
+    openTargetPriceDialog(): void {
+        // debugger;
+        const dialogRef = this.dialog.open(
+            SaleOpportunityTargetPriceNewDialogComponent,
+            {
+                width: "60%",
+                data: <SaleOpportunityTargetPriceNewDialogInput>{
+                    saleOpportunityId: this.currentEntity.id
+                    /* name: this.name, animal: this.animal */
+                }
+            }
+        );
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: SaleOpportunityTargetPriceNewDialogOutput) => {
+                //if (result && result.goTo === 'Edit') {
+                this.saleOpportunityService.router.navigate([], {
+                    queryParams: { newTargetPrice: null },
+                    queryParamsHandling: "merge"
+                });
+                // } else {
+                //     this.saleOpportunityService.router.navigate([`../`], {
+                //         relativeTo: this.route
+                //     });
+                //     // this.dataSource.dataChanged.next('');
+                // }
+            });
+    }
 }
 
 @Component({
-    selector: 'sampleboxproductnew-dialog',
-    templateUrl: 'sampleboxproductnew.dialog.component.html'
+    selector: "sampleboxproductnew-dialog",
+    templateUrl: "sampleboxproductnew.dialog.component.html"
 })
 export class SampleBoxProductNewDialogComponent {
     frmMain: FormGroup;
@@ -495,8 +538,8 @@ export class SampleBoxProductNewDialogComponent {
         this.listColorType = productColorTypeResolveService.onList.asObservable();
 
         this.frmMain = frmBuilder.group({
-            name: ['', [Validators.required]],
-            colorTypeId: ['', [Validators.required]],
+            name: ["", [Validators.required]],
+            colorTypeId: ["", [Validators.required]]
         });
     }
 
@@ -507,8 +550,8 @@ export class SampleBoxProductNewDialogComponent {
             this.saleOpportunityService
                 .addSampleBoxProductItem(data)
                 .then(res => {
-                    this.matSnackBar.open('Sample Box Product', 'OK', {
-                        verticalPosition: 'top',
+                    this.matSnackBar.open("Sample Box Product", "OK", {
+                        verticalPosition: "top",
                         duration: 2000
                     });
 
@@ -532,7 +575,7 @@ export class SampleBoxProductNewDialogComponent {
         this.save().then((res: OperationResponseValued<SampleBoxItem>) => {
             // debugger;
             const result = <SampleBoxItemNewDialogOutput>{
-                goTo: 'Edit',
+                goTo: "Edit",
                 data: res.bag
             };
 
@@ -541,5 +584,5 @@ export class SampleBoxProductNewDialogComponent {
     }
 }
 
-declare type ActiveAreaType = 'settings' | 'products';
-declare type ActiveDetailAreaType = 'ItemDetails' | 'SampleBoxes';
+declare type ActiveAreaType = "settings" | "products";
+declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes";

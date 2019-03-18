@@ -173,14 +173,14 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button
+                    <a
                         mat-icon-button
-                        (click)="openSampleBoxProductDialog()"
+                        [routerLink]="[]" [queryParams]="{newTargetPrice: true}" queryParamsHandling ="merge"
                         matTooltip="New Target Price"
                         [attr.aria-label]="'New Target Price'"
                     >
                         <mat-icon>add</mat-icon>
-                    </button>
+                </a>
 
                    
 

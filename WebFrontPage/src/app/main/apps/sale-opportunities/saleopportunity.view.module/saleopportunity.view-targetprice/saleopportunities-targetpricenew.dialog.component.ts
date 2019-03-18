@@ -33,7 +33,7 @@ import {
     templateUrl: 'saleopportunities-targetpricenew.dialog.component.html',
 })
 export class SaleOpportunityTargetPriceNewDialogComponent {
-    listSeasonCategoryType = this.saleSeasonCategoryTypeResolveService.onList;
+    listSeasonCategoryType$ = this.saleSeasonCategoryTypeResolveService.onList;
     listCustomer = this.customerResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
 
@@ -62,7 +62,7 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
             'saleSeasonTypeId': ['', [Validators.required]],
-            'customerId': ['', [Validators.required]],
+            // 'customerId': ['', [Validators.required]],
             'targetPrice': ['', CustomValidators.number]
         });
     }
@@ -92,14 +92,14 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
         });
     }
 
-    createEdit(): void {
-        this.save().then((res: OperationResponseValued<SaleOpportunity>) => {
-            const result = <SaleOpportunityNewDialogResult>{
-                goTo: 'Edit',
-                data: res.bag
-            };
+    // createEdit(): void {
+    //     this.save().then((res: OperationResponseValued<SaleOpportunity>) => {
+    //         const result = <SaleOpportunityNewDialogResult>{
+    //             goTo: 'Edit',
+    //             data: res.bag
+    //         };
 
-            this.dialogRef.close(result);
-        });
-    }
+    //         this.dialogRef.close(result);
+    //     });
+    // }
 }

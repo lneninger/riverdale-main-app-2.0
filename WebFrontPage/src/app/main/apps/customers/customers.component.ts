@@ -11,8 +11,6 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-//import { AngularFireAuth } from '@angular/fire/auth';
-//import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { CustomerGrid, Customer, CustomerNewDialogResult } from './customer.model';
 import { HttpClient } from '@angular/common/http';

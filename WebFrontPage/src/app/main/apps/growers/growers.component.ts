@@ -75,10 +75,10 @@ export class GrowersComponent implements OnInit {
         this.initializeQueryListeners();
     }
 
-    initializeQueryListeners() {
+    initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (this.route.snapshot.data['action'] == 'new') {
+            // debugger;
+            if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }
         });
@@ -92,7 +92,7 @@ export class GrowersComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result: GrowerNewDialogResult) => {
-            if (result && result.goTo == 'Edit') {
+            if (result && result.goTo === 'Edit') {
                 this.service.router.navigate([`apps/growers/${result.data.id}`]);
             }
             else {
@@ -121,14 +121,10 @@ export class GrowersDataSource extends DataSourceAbstract<GrowerGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}grower/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}grower/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
-
-
-        let result = {};
-
-
+        const result = {};
         return result;
     }
 }
@@ -146,7 +142,7 @@ export class GrowerNewDialogComponent {
         private service: GrowerService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        ,public dialogRef: MatDialogRef<GrowerNewDialogComponent>
+        , public dialogRef: MatDialogRef<GrowerNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
 
@@ -155,7 +151,7 @@ export class GrowerNewDialogComponent {
         });
     }
 
-    save() {
+    save(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
@@ -183,8 +179,8 @@ export class GrowerNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<Grower>) => {
-            debugger;
-            let result = <GrowerNewDialogResult> {
+            // debugger;
+            const result = <GrowerNewDialogResult> {
                 goTo: 'Edit',
                 data: res.bag
             }

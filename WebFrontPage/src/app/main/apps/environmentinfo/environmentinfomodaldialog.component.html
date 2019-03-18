@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Environment Info</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <!-- <h3 matSubheader>
+                    <span>Events</span>
+                </h3> -->
+
+        <mat-list-item>
+            <h3 matLine>Environment</h3>
+            <p matLine class="secondary-text">
+                {{ (environment$ | async).environment }}
+            </p>
+        </mat-list-item>
+        <mat-list-item>
+            <h3 matLine>Database</h3>
+            <p matLine class="secondary-text">
+                {{ (environment$ | async).connectionString }}
+            </p>
+        </mat-list-item>
+    </mat-list>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="close" cdkFocusInitial>Close</button>
+</div>

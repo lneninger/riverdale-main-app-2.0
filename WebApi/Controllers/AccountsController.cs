@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RiverdaleMainApp2_0.Auth;
 using RiverdaleMainApp2_0.Auth.Helpers;
 using System;
@@ -121,7 +122,11 @@ namespace RiverdaleMainApp2_0.Controllers
                 return await this.GenerateAuthenticationInfo(id);
             }
 
-            return BadRequest("No authentication data");
+            var jsonSerrings = new JsonSerializerSettings {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            var serialized = JsonConvert.SerializeObject(claimsIdentity, jsonSerrings);
+            return BadRequest($"No authentication data{Environment.NewLine} {serialized}");
         }
 
         private async Task<IActionResult> GenerateAuthenticationInfo(string id)

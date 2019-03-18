@@ -1,21 +1,21 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
     Resolve,
     ActivatedRouteSnapshot,
     RouterStateSnapshot
-} from "@angular/router";
-import { environment } from "environments/environment";
+} from '@angular/router';
+import { environment } from 'environments/environment';
 import {
     SecureHttpClientService,
     OperationResponse
-} from "../@hipalanetCommons/authentication/securehttpclient.service";
-import { EnumItem } from "./resolve.model";
-import { Subject, Observable, of, merge, BehaviorSubject } from "rxjs";
-import { mergeMap } from "rxjs/operators";
+} from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { EnumItem } from './resolve.model';
+import { Subject, Observable, of, merge, BehaviorSubject } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
-export abstract class BaseResolveService implements Resolve<any> {
-    list: EnumItem<any>[];
-    onList: BehaviorSubject<EnumItem<any>[]> = new BehaviorSubject<EnumItem<any>[]>([]);
+export abstract class BaseResolveService<T = EnumItem<any>[]> implements Resolve<any> {
+    list: T;
+    onList: BehaviorSubject<T> = new BehaviorSubject<T>((<T><unknown>[] || <T>{} ));
 
     endpoint = `${environment.appApi.apiBaseUrl}masters/`;
 
@@ -40,7 +40,7 @@ export abstract class BaseResolveService implements Resolve<any> {
             return Observable.create(observer => {
                 this.http.get(this.endpoint).subscribe(res => {
                     // debugger;
-                    this.list = (<OperationResponse<EnumItem<any>[]>>res).bag;
+                    this.list = (<OperationResponse<T>>res).bag;
                     this.onList.next(this.list);
                     observer.next(true);
                     observer.complete();

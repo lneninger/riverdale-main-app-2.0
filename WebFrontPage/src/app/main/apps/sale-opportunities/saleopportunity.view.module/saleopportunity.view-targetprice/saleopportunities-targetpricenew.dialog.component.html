@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>New Opportunity</h1>
+<h1 mat-dialog-title>New Target Price</h1>
 <div mat-dialog-content [formGroup]="frmMain">
     <section fxLayout="row wrap" fxLayoutGap="20px">
         <mat-form-field fxFlex="30%"> 
@@ -6,7 +6,7 @@
         </mat-form-field>
         <mat-form-field  fxFlex="30%" floatLabel="never">
             <mat-select placeholder="Season Category Type" name="seasonCategoryTypeId" [(ngModel)]="selectedSeasonCategory" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let item of listSeasonCategoryType | async" [value]="item">
+                <mat-option *ngFor="let item of listSeasonCategoryType$ | async" [value]="item">
                     {{item.value}}
                 </mat-option>
             </mat-select>
@@ -18,13 +18,13 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field  fxFlex="50%" floatLabel="never">
+        <!-- <mat-form-field  fxFlex="50%" floatLabel="never">
             <mat-select placeholder="Customer" name="customerId" formControlName="customerId">
                 <mat-option *ngFor="let item of listCustomer | async" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field>
             <input matInput cdkFocusInitial formControlName="targetPrice" placeholder="Target Price">
         </mat-form-field>
@@ -33,5 +33,5 @@
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
     <button mat-button (click)="create()" [disabled]="frmMain.invalid">Create</button>
-    <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button>
+    <!-- <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button> -->
 </div>

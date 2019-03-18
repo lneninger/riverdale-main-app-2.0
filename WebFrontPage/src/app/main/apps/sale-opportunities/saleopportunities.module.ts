@@ -64,6 +64,15 @@ const routes: Routes = [
             listProductColorType: ProductColorTypeResolveService
         }
     },
+    {
+        path: ':id/newtargetprice',
+        component: SaleOpportunityViewComponent,
+        resolve: {
+            data: SaleOpportunityService,
+            listSaleSeasonCategoryType: SaleSeasonCategoryTypeResolveService
+
+        }
+    },
 
     {
         path: '**',

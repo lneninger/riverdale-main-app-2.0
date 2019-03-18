@@ -24,9 +24,11 @@ namespace RiverdaleMainApp2_0.Controllers
     public class EnvironmentController : BaseController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MastersController"/> class.
+        /// Initializes a new instance of the <see cref="EnvironmentController"/> class.
         /// </summary>
-        /// <param name="masterDataProvider"></param>
+        /// <param name="hubContext"></param>
+        /// <param name="funzaSettings"></param>
+        /// <param name="appConfig"></param>
         public EnvironmentController(IHubContext<GlobalHub> hubContext, FunzaSettings funzaSettings, AppConfig appConfig) : base(hubContext)
         {
             this.AppConfig = appConfig;
@@ -47,7 +49,8 @@ namespace RiverdaleMainApp2_0.Controllers
         [HttpGet, ProducesResponseType(200, Type = typeof(EnvironmentConfigDTO))]
         public IActionResult Get()
         {
-            var result = new EnvironmentConfigDTO
+            var result = new OperationResponse<EnvironmentConfigDTO>();
+            result.Bag = new EnvironmentConfigDTO
             {
                 Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
                 ConnectionString = this.AppConfig.Configuration.GetConnectionString("RiverdaleModel"),
