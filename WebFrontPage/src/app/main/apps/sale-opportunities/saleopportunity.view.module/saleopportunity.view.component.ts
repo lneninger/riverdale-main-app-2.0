@@ -591,4 +591,4 @@ export class SampleBoxProductNewDialogComponent {
 }
 
 declare type ActiveAreaType = "settings" | "products";
-declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes";
+declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes | TargetPrices";

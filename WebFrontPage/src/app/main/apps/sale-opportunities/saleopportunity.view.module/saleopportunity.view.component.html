@@ -87,68 +87,60 @@
         >
             <!-- CONTENT TOOLBAR -->
             <div class="toolbar px-24 py-8">
-                <div
-                    class="todo-selection"
-                    fxFlex="row"
-                    fxLayoutAlign="start center"
-                >
+                <div class="todo-selection"
+                     fxFlex="row"
+                     fxLayoutAlign="start center">
                     <!--<mat-checkbox (click)="toggleSelectAll()" [checked]="hasSelectedTodos"
-                      [indeterminate]="isIndeterminate"></mat-checkbox>
+                  [indeterminate]="isIndeterminate"></mat-checkbox>
 
-        <button mat-icon-button [matMenuTriggerFor]="selectMenu">
-            <mat-icon>arrow_drop_down</mat-icon>
+    <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+        <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #selectMenu="matMenu">
+        <button mat-menu-item (click)="selectTodos()">All</button>
+        <button mat-menu-item (click)="deselectTodos()">None</button>
+        <button mat-menu-item (click)="selectTodos('read', true)">Read</button>
+        <button mat-menu-item (click)="selectTodos('read', false)">Unread</button>
+        <button mat-menu-item (click)="selectTodos('starred', true)">Starred</button>
+        <button mat-menu-item (click)="selectTodos('starred', false)">Unstarred</button>
+        <button mat-menu-item (click)="selectTodos('important', true)">Important</button>
+        <button mat-menu-item (click)="selectTodos('important', false)">Unimportant</button>
+    </mat-menu>
+
+    <div class="toolbar-separator" *ngIf="hasSelectedTodos"></div>
+
+    <button mat-icon-button [matMenuTriggerFor]="labelMenu" *ngIf="hasSelectedTodos">
+        <mat-icon class="secondary-text">label</mat-icon>
+    </button>
+    <mat-menu #labelMenu="matMenu">
+        <button mat-menu-item *ngFor="let tag of tags" (click)="toggleTagOnSelectedTodos(tag.id)">
+            {{tag.title}}
         </button>
-        <mat-menu #selectMenu="matMenu">
-            <button mat-menu-item (click)="selectTodos()">All</button>
-            <button mat-menu-item (click)="deselectTodos()">None</button>
-            <button mat-menu-item (click)="selectTodos('read', true)">Read</button>
-            <button mat-menu-item (click)="selectTodos('read', false)">Unread</button>
-            <button mat-menu-item (click)="selectTodos('starred', true)">Starred</button>
-            <button mat-menu-item (click)="selectTodos('starred', false)">Unstarred</button>
-            <button mat-menu-item (click)="selectTodos('important', true)">Important</button>
-            <button mat-menu-item (click)="selectTodos('important', false)">Unimportant</button>
-        </mat-menu>
+    </mat-menu>-->
 
-        <div class="toolbar-separator" *ngIf="hasSelectedTodos"></div>
-
-        <button mat-icon-button [matMenuTriggerFor]="labelMenu" *ngIf="hasSelectedTodos">
-            <mat-icon class="secondary-text">label</mat-icon>
-        </button>
-        <mat-menu #labelMenu="matMenu">
-            <button mat-menu-item *ngFor="let tag of tags" (click)="toggleTagOnSelectedTodos(tag.id)">
-                {{tag.title}}
-            </button>
-        </mat-menu>-->
-
-                    <button
-                        *ngIf="activeArea == 'settings'"
-                        mat-icon-button
-                        (click)="setActiveArea('products')"
-                    >
+                    <button *ngIf="activeArea == 'settings'"
+                            mat-icon-button
+                            (click)="setActiveArea('products')">
                         <mat-icon>format_list_numbered</mat-icon>
                     </button>
-                    <button
-                        *ngIf="activeArea != 'settings'"
-                        mat-icon-button
-                        (click)="setActiveArea('settings')"
-                        matTooltip="Products quote info"
-                        [attr.aria-label]="'Products quote info'"
-                    >
+                    <button *ngIf="activeArea != 'settings'"
+                            mat-icon-button
+                            (click)="setActiveArea('settings')"
+                            matTooltip="Products quote info"
+                            [attr.aria-label]="'Products quote info'">
                         <mat-icon>settings</mat-icon>
                     </button>
 
                     <div class="toolbar-separator"></div>
 
-                    <button
-                        mat-icon-button
-                        (click)="showCustomerSidebar = !showCustomerSidebar"
-                        matTooltip="Customer Info"
-                        [attr.aria-label]="
+                    <button mat-icon-button
+                            (click)="showCustomerSidebar = !showCustomerSidebar"
+                            matTooltip="Customer Info"
+                            [attr.aria-label]="
                             'Display Customer Info (' +
                             currentEntity.customerName +
                             ')'
-                        "
-                    >
+                        ">
                         <mat-icon>person</mat-icon>
                     </button>
 
@@ -159,13 +151,11 @@
                         <mat-select [(ngModel)]="currentSampleBoxProduct">
                             <option label="--select something --"></option>
                             <mat-option>None</mat-option>
-                            <mat-option
-                                *ngFor="
+                            <mat-option *ngFor="
                                     let sampleboxProduct of currentSampleBox &&
                                         currentSampleBox.sampleBoxProducts
                                 "
-                                [value]="sampleboxProduct"
-                            >
+                                        [value]="sampleboxProduct">
                                 {{
                                     sampleboxProduct.productName ||
                                         sampleboxProduct.order
@@ -173,16 +163,21 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <a
-                        mat-icon-button
-                        [routerLink]="[]" [queryParams]="{newtargetprice: true}" queryParamsHandling ="merge"
-                        matTooltip="New Target Price"
-                        [attr.aria-label]="'New Target Price'"
-                    >
+                    <a mat-icon-button
+                       [routerLink]="[]" [queryParams]="{newtargetprice: true}" queryParamsHandling="merge"
+                       matTooltip="New Target Price"
+                       [attr.aria-label]="'New Target Price'">
                         <mat-icon>add</mat-icon>
-                </a>
+                    </a>
 
-                   
+                    <button [disabled]="!currentEntity"
+                            mat-icon-button
+                            (click)="setActiveDetailArea('TargetPrices')"
+                            matTooltip="Target Prices"
+                            [attr.aria-label]="'View Target Prices'">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+
 
                     <div class="toolbar-separator"></div>
 
@@ -191,13 +186,11 @@
                         <mat-select [(ngModel)]="currentSampleBoxProduct">
                             <option label="--select something --"></option>
                             <mat-option>None</mat-option>
-                            <mat-option
-                                *ngFor="
+                            <mat-option *ngFor="
                                     let sampleboxProduct of currentSampleBox &&
                                         currentSampleBox.sampleBoxProducts
                                 "
-                                [value]="sampleboxProduct"
-                            >
+                                        [value]="sampleboxProduct">
                                 {{
                                     sampleboxProduct.productName ||
                                         sampleboxProduct.order
@@ -205,31 +198,25 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button
-                        [disabled]="!currentSampleBox"
-                        mat-icon-button
-                        (click)="openSampleBoxProductDialog()"
-                        matTooltip="New Bouquet"
-                        [attr.aria-label]="'New Bouquet'"
-                    >
+                    <button [disabled]="!currentSampleBox"
+                            mat-icon-button
+                            (click)="openSampleBoxProductDialog()"
+                            matTooltip="New Bouquet"
+                            [attr.aria-label]="'New Bouquet'">
                         <mat-icon>add</mat-icon>
                     </button>
 
-                    <button
-                        mat-icon-button
-                        (click)="showCustomerSidebar = !showCustomerSidebar"
-                        matTooltip="Copy Bouquet"
-                        [attr.aria-label]="'Copy Bouquet'"
-                    >
+                    <button mat-icon-button
+                            (click)="showCustomerSidebar = !showCustomerSidebar"
+                            matTooltip="Copy Bouquet"
+                            [attr.aria-label]="'Copy Bouquet'">
                         <mat-icon>file_copy</mat-icon>
                     </button>
 
-                    <button
-                        mat-icon-button
-                        (click)="showCustomerSidebar = !showCustomerSidebar"
-                        matTooltip="Move to Another Sample Box"
-                        [attr.aria-label]="'Move to Another Sample Box'"
-                    >
+                    <button mat-icon-button
+                            (click)="showCustomerSidebar = !showCustomerSidebar"
+                            matTooltip="Move to Another Sample Box"
+                            [attr.aria-label]="'Move to Another Sample Box'">
                         <mat-icon>arrow_forward</mat-icon>
                     </button>
 
@@ -239,40 +226,32 @@
                         <mat-select [(ngModel)]="currentSampleBox">
                             <option label="--select something --"></option>
                             <mat-option>None</mat-option>
-                            <mat-option
-                                *ngFor="let box of currentEntity.sampleBoxes"
-                                [value]="box"
-                            >
+                            <mat-option *ngFor="let box of currentEntity.sampleBoxes"
+                                        [value]="box">
                                 {{ box.name || box.order }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
 
-                    <button
-                        mat-icon-button
-                        (click)="addSampleBox()"
-                        matTooltip="New Sample Box"
-                        [attr.aria-label]="'New Sample Box'"
-                    >
+                    <button mat-icon-button
+                            (click)="addSampleBox()"
+                            matTooltip="New Sample Box"
+                            [attr.aria-label]="'New Sample Box'">
                         <mat-icon>add</mat-icon>
                     </button>
 
-                    <button
-                        mat-icon-button
-                        (click)="showCustomerSidebar = !showCustomerSidebar"
-                        matTooltip="Copy Sample Box"
-                        [attr.aria-label]="'Copy Sample Box'"
-                    >
+                    <button mat-icon-button
+                            (click)="showCustomerSidebar = !showCustomerSidebar"
+                            matTooltip="Copy Sample Box"
+                            [attr.aria-label]="'Copy Sample Box'">
                         <mat-icon>file_copy</mat-icon>
                     </button>
 
-                    <button
-                        [disabled]="!currentEntity"
-                        mat-icon-button
-                        (click)="setActiveDetailArea('SampleBoxes')"
-                        matTooltip="View Sample Boxes"
-                        [attr.aria-label]="'View Sample Boxes'"
-                    >
+                    <button [disabled]="!currentEntity"
+                            mat-icon-button
+                            (click)="setActiveDetailArea('SampleBoxes')"
+                            matTooltip="View Sample Boxes"
+                            [attr.aria-label]="'View Sample Boxes'">
                         <mat-icon>visibility</mat-icon>
                     </button>
                 </div>
@@ -295,25 +274,24 @@
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
                 <ng-container *ngIf="activeArea != 'settings'">
-                    <saleopportunity-view-list
-                        [entity]="currentEntity"
-                        [formItems]="frmSampleBoxProductItems"
-                        fusePerfectScrollbar
-                        fxFlex
-                    ></saleopportunity-view-list>
-                    <ng-container *ngIf="activeDetailArea != 'SampleBoxes'">
-                        <saleopportunity-view-details
-                            [entity]="currentEntity"
-                            fusePerfectScrollbar
-                            fxFlex
-                        ></saleopportunity-view-details>
+                    <saleopportunity-view-list [entity]="currentEntity"
+                                               [formItems]="frmSampleBoxProductItems"
+                                               fusePerfectScrollbar
+                                               fxFlex></saleopportunity-view-list>
+                    <ng-container *ngIf="activeDetailArea == 'ItemDetails'">
+                        <saleopportunity-view-details [entity]="currentEntity"
+                                                      fusePerfectScrollbar
+                                                      fxFlex></saleopportunity-view-details>
                     </ng-container>
                     <ng-container *ngIf="activeDetailArea == 'SampleBoxes'">
-                        <saleopportunity-view-sampleboxes
-                            [entity]="currentEntity"
-                            fusePerfectScrollbar
-                            fxFlex
-                        ></saleopportunity-view-sampleboxes>
+                        <saleopportunity-view-sampleboxes [entity]="currentEntity"
+                                                          fusePerfectScrollbar
+                                                          fxFlex></saleopportunity-view-sampleboxes>
+                    </ng-container>
+                    <ng-container *ngIf="activeDetailArea == 'TargetPrices'">
+                        <saleopportunity-view-targetprices [entity]="currentEntity"
+                                                           fusePerfectScrollbar
+                                                           fxFlex></saleopportunity-view-targetprices>
                     </ng-container>
                 </ng-container>
 
