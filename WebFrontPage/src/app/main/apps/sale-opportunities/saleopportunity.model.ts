@@ -75,6 +75,20 @@ export class TargetPriceItem {
     }
 }
 
+export class TargetPriceProductItem {
+    id: number;
+    order: number;
+    sampleBoxId: number;
+
+    constructor(item?) {
+        const internal = item || {};
+
+        this.id = internal.id;
+        this.order = internal.order;
+        this.sampleBoxId = internal.sampleBoxId;
+    }
+}
+
 export class SampleBoxGrid {
     id?: number;
     order?: number;
@@ -202,13 +216,11 @@ export class SampleBoxItemNewDialogOutput {
     data: SampleBoxItem;
 }
 
-
-export class SaleOpportunityTargetPriceNewDialogInput{
-
+export class SaleOpportunityTargetPriceNewDialogInput {
+    saleOpportunityId: number;
 }
 
-export class SaleOpportunityTargetPriceNewDialogOutput{
+export class SaleOpportunityTargetPriceNewDialogOutput {
     goTo: string;
     data: TargetPriceItem;
-    
 }

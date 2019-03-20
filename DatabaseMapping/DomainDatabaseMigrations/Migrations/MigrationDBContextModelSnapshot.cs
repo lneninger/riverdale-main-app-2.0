@@ -109,8 +109,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CompanyType","CRM");
 
                     b.HasData(
-                        new { Id = "GWR", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 570, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Grower/Supplier of Riverdale", Name = "Grower" },
-                        new { Id = "CUS", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 570, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Customer of Riverdale", Name = "Customer" }
+                        new { Id = "GWR", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 505, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Grower/Supplier of Riverdale", Name = "Grower" },
+                        new { Id = "CUS", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 505, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Customer of Riverdale", Name = "Customer" }
                     );
                 });
 
@@ -211,8 +211,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 590, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 590, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 552, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 552, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -398,9 +398,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("GrowerType","CRM");
 
                     b.HasData(
-                        new { Id = "THIRD", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 600, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Third Party Grower", Name = "Third Party" },
-                        new { Id = "FUNZAMIA", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 600, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Miami", Name = "Funza Miami" },
-                        new { Id = "FUNZABTA", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 600, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Bogota", Name = "Funza Bogota" }
+                        new { Id = "THIRD", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 566, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Third Party Grower", Name = "Third Party" },
+                        new { Id = "FUNZAMIA", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 566, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Miami", Name = "Funza Miami" },
+                        new { Id = "FUNZABTA", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 566, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Bogota", Name = "Funza Bogota" }
                     );
                 });
 
@@ -576,10 +576,10 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "SYS", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 617, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
-                        new { Id = "DB", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 617, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 617, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "AZU", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 617, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
+                        new { Id = "SYS", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 594, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
+                        new { Id = "DB", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 595, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 595, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "AZU", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 595, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
                     );
                 });
 
@@ -1269,9 +1269,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 682, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 682, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 682, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 707, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 707, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 707, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -1365,11 +1365,32 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("SaleOpportunity","OPP");
                 });
 
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityPriceLevel", b =>
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunitySettings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Delivered")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("SaleOpportunityId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SaleOpportunityId");
+
+                    b.ToTable("SaleOpportunitySettings","OPP");
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityTargetPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlterenativesAmount");
 
                     b.Property<DateTime?>("CreatedAt")
                         .IsRequired()
@@ -1411,10 +1432,10 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.HasIndex("SaleSeasonTypeId");
 
-                    b.ToTable("SaleOpportunityPriceLevel","OPP");
+                    b.ToTable("SaleOpportunityTargetPrice","OPP");
                 });
 
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct", b =>
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1445,7 +1466,7 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<int>("ProductId");
 
-                    b.Property<int>("SaleOpportunityPriceLevelId");
+                    b.Property<int>("SaleOpportunityTargetPriceId");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasAnnotation("ColumnOrder", 102);
@@ -1460,28 +1481,9 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SaleOpportunityPriceLevelId");
+                    b.HasIndex("SaleOpportunityTargetPriceId");
 
-                    b.ToTable("SaleOpportunityPriceLevelProduct");
-                });
-
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunitySettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Delivered")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("SaleOpportunityId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SaleOpportunityId");
-
-                    b.ToTable("SaleOpportunitySettings","OPP");
+                    b.ToTable("SaleOpportunityTargetPriceProduct");
                 });
 
             modelBuilder.Entity("DomainModel.SaleOpportunity.SaleSeasonCategoryType", b =>
@@ -1523,9 +1525,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("SaleSeasonCategoryType","OPP");
 
                     b.HasData(
-                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 634, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
-                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 634, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
-                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 634, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
+                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 630, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
+                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 630, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
+                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 630, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
                     );
                 });
 
@@ -1601,7 +1603,7 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int>("SaleOpportunityPriceLevelId");
+                    b.Property<int>("SaleOpportunityTargetPriceId");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasAnnotation("ColumnOrder", 102);
@@ -1612,7 +1614,7 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SaleOpportunityPriceLevelId");
+                    b.HasIndex("SaleOpportunityTargetPriceId");
 
                     b.ToTable("SampleBox","OPP");
                 });
@@ -1642,7 +1644,7 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<int>("Order");
 
-                    b.Property<int>("SaleOpportunityPriceLevelProductId");
+                    b.Property<int>("SaleOpportunityTargetPriceProductId");
 
                     b.Property<int>("SampleBoxId");
 
@@ -1655,7 +1657,7 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SaleOpportunityPriceLevelProductId");
+                    b.HasIndex("SaleOpportunityTargetPriceProductId");
 
                     b.HasIndex("SampleBoxId");
 
@@ -1697,8 +1699,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 525, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 3, 14, 1, 58, 55, 527, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 420, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 3, 20, 9, 37, 31, 424, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 
@@ -2009,10 +2011,18 @@ namespace DomainDatabaseMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityPriceLevel", b =>
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunitySettings", b =>
                 {
                     b.HasOne("DomainModel.SaleOpportunity.SaleOpportunity", "SaleOpportunity")
-                        .WithMany("SaleOpportunityPriceLevels")
+                        .WithMany()
+                        .HasForeignKey("SaleOpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityTargetPrice", b =>
+                {
+                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunity", "SaleOpportunity")
+                        .WithMany("SaleOpportunityTargetPrices")
                         .HasForeignKey("SaleOpportunityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -2021,12 +2031,12 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasForeignKey("SaleOpportunitySettingsId");
 
                     b.HasOne("DomainModel.SaleOpportunity.SaleSeasonType", "SaleSeasonType")
-                        .WithMany("SaleOpportunityPriceLevels")
+                        .WithMany("SaleOpportunityTargetPrices")
                         .HasForeignKey("SaleSeasonTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct", b =>
+            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct", b =>
                 {
                     b.HasOne("DomainModel.ProductColorType", "ProductColorType")
                         .WithMany()
@@ -2037,17 +2047,9 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityPriceLevel", "SaleOpportunityPriceLevel")
-                        .WithMany("SaleOpportunityPriceLevelProducts")
-                        .HasForeignKey("SaleOpportunityPriceLevelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DomainModel.SaleOpportunity.SaleOpportunitySettings", b =>
-                {
-                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunity", "SaleOpportunity")
-                        .WithMany()
-                        .HasForeignKey("SaleOpportunityId")
+                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityTargetPrice", "SaleOpportunityTargetPrice")
+                        .WithMany("SaleOpportunityTargetPriceProducts")
+                        .HasForeignKey("SaleOpportunityTargetPriceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2061,17 +2063,17 @@ namespace DomainDatabaseMigrations.Migrations
 
             modelBuilder.Entity("DomainModel.SaleOpportunity.SampleBox", b =>
                 {
-                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityPriceLevel", "SaleOpportunityPriceLevel")
+                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityTargetPrice", "SaleOpportunityTargetPrice")
                         .WithMany("SampleBoxes")
-                        .HasForeignKey("SaleOpportunityPriceLevelId")
+                        .HasForeignKey("SaleOpportunityTargetPriceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DomainModel.SaleOpportunity.SampleBoxProduct", b =>
                 {
-                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityPriceLevelProduct", "SaleOpportunityPriceLevelProduct")
+                    b.HasOne("DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct", "SaleOpportunityTargetPriceProduct")
                         .WithMany()
-                        .HasForeignKey("SaleOpportunityPriceLevelProductId")
+                        .HasForeignKey("SaleOpportunityTargetPriceProductId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DomainModel.SaleOpportunity.SampleBox", "SampleBox")

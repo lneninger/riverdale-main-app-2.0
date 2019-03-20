@@ -17,6 +17,6 @@ namespace DomainModel.SaleOpportunity
 
         public virtual SaleSeasonCategoryType SaleSeasonCategoryType { get; set; }
 
-        public virtual IEnumerable<SaleOpportunityPriceLevel> SaleOpportunityPriceLevels { get; set; }
+        public virtual IEnumerable<SaleOpportunityTargetPrice> SaleOpportunityTargetPrices { get; set; }
     }
 }

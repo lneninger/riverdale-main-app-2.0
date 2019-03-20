@@ -1,10 +1,10 @@
 ﻿using DomainModel;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevel.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.UpdateCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
@@ -15,21 +15,21 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ApplicationLogic.Repositories.DB
 {
-    public interface ISaleOpportunityPriceLevelDBRepository: IDBRepository
+    public interface ISaleOpportunityTargetPriceDBRepository: IDBRepository
     {
-        OperationResponse<IEnumerable<SaleOpportunityPriceLevel>> GetAll();
+        OperationResponse<IEnumerable<SaleOpportunityTargetPrice>> GetAll();
 
-        OperationResponse<PageResult<SaleOpportunityPriceLevelPageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityPriceLevelPageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<SaleOpportunityTargetPricePageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityTargetPricePageQueryCommandInputDTO> input);
 
-        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityPriceLevel> GetById(int id);
+        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityTargetPrice> GetById(int id);
 
-        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityPriceLevel> GetByIdWithProducts(int id);
+        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityTargetPrice> GetByIdWithProducts(int id);
 
-        OperationResponse Insert(SaleOpportunityPriceLevel entity);
+        OperationResponse Insert(SaleOpportunityTargetPrice entity);
 
-        OperationResponse Delete(SaleOpportunityPriceLevel entity);
+        OperationResponse Delete(SaleOpportunityTargetPrice entity);
 
-        OperationResponse LogicalDelete(SaleOpportunityPriceLevel entity);
+        OperationResponse LogicalDelete(SaleOpportunityTargetPrice entity);
 
     }
 }

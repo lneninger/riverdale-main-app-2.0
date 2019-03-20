@@ -50,7 +50,8 @@ import {
 import { OperationResponseValued } from "../../@hipalanetCommons/messages/messages.model";
 import {
     ProductColorTypeResolveService,
-    EnumItem
+    EnumItem,
+    SaleSeasonCategoryTypeResolveService
 } from "../../@resolveServices/resolve.module";
 import { SaleOpportunityTargetPriceNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component";
 
@@ -137,7 +138,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private saleOpportunityService: SaleOpportunityService,
         public dialog: MatDialog,
-        private matSnackBar: MatSnackBar
+        private matSnackBar: MatSnackBar,
+        private saleSeasonTypeResolveService: SaleSeasonCategoryTypeResolveService
     ) {
         // Set the defaults
         this.searchInput = new FormControl("");
@@ -238,6 +240,19 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    activeRouteListeners(): void {
+        this.route.queryParams.subscribe(params => {
+            // debugger;
+            if (params.newbouquet) {
+                this.openSampleBoxProductDialog();
+            } else if (params.newtargetprice) {
+                // debugger;
+                this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
+                this.openTargetPriceDialog();
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -453,16 +468,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
     }
 
-    activeRouteListeners(): void {
-        this.route.queryParams.subscribe(params => {
-            //debugger;
-            if (params.newbouquet) {
-                this.openSampleBoxProductDialog();
-            } else if (params.newTargetPrice) {
-                this.openTargetPriceDialog();
-            }
-        });
-    }
+   
 
     openSampleBoxProductDialog(): void {
         const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {

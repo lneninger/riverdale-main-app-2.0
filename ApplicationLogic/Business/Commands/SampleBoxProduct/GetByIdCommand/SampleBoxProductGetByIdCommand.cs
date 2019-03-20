@@ -27,9 +27,9 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.GetByIdCommand
                     result.Bag = new SampleBoxProductGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        ProductAmmount = getByIdResult.Bag.SaleOpportunityPriceLevelProduct.ProductAmount,
+                        ProductAmmount = getByIdResult.Bag.SaleOpportunityTargetPriceProduct.ProductAmount,
                         SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                        RelatedProductId = getByIdResult.Bag.SaleOpportunityPriceLevelProduct.ProductId,
+                        RelatedProductId = getByIdResult.Bag.SaleOpportunityTargetPriceProduct.ProductId,
                     };
                 }
             }

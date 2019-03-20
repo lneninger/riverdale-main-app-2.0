@@ -53,7 +53,7 @@ namespace DatabaseRepositories.DB
                     var filter = input.CustomFilter;
                     if (!string.IsNullOrWhiteSpace(filter.Term))
                     {
-                        predicate = predicate.And(o => o.SampleBoxProducts.Any(sampleProductItem => sampleProductItem.SaleOpportunityPriceLevelProduct.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase)));
+                        predicate = predicate.And(o => o.SampleBoxProducts.Any(sampleProductItem => sampleProductItem.SaleOpportunityTargetPriceProduct.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase)));
                     }
                 }
 
@@ -65,7 +65,7 @@ namespace DatabaseRepositories.DB
                     Expression<Func<SampleBox, object>> expression;
                     if (input.Sort.ContainsKey("productType"))
                     {
-                        expression = o => o.SampleBoxProducts.FirstOrDefault().SaleOpportunityPriceLevelProduct.Product.ProductType.Name;
+                        expression = o => o.SampleBoxProducts.FirstOrDefault().SaleOpportunityTargetPriceProduct.Product.ProductType.Name;
                         advancedSorting.Add(new SortItem<SampleBox> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
                     }
 

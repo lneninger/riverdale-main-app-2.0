@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult } from '../../saleopportunity.model';
+import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult, TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput, SaleOpportunityTargetPriceNewDialogInput } from '../../saleopportunity.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -55,7 +55,7 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
         , private  saleSeasonCategoryTypeResolveService: SaleSeasonCategoryTypeResolveService
         , private customerResolveService: CustomerResolveService
         , private growerTypeResolveService: GrowerTypeResolveService
-        , @Inject(MAT_DIALOG_DATA) public data: any
+        , @Inject(MAT_DIALOG_DATA) public data: SaleOpportunityTargetPriceNewDialogInput
         , private route: ActivatedRoute
     ) {
         
@@ -63,15 +63,18 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
             'name': ['', [Validators.required]],
             'saleSeasonTypeId': ['', [Validators.required]],
             // 'customerId': ['', [Validators.required]],
-            'targetPrice': ['', CustomValidators.number]
+            'targetPrice': ['', CustomValidators.number],
+            'alterenativesAmount': ['', CustomValidators.number]
         });
     }
 
     save(): Promise<{}> {
         return new Promise((resolve, reject) => {
-            this.service.add(this.frmMain.value)
+            const value = <TargetPriceItem>this.frmMain.value;
+            value.saleOpportunityId = this.data.saleOpportunityId;
+            this.service.addTargetPriceItem(value)
                 .then(res => {
-                    this.matSnackBar.open('Price Level created', 'OK', {
+                    this.matSnackBar.open('Target Price created', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });

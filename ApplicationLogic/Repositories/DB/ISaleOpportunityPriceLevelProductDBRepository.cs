@@ -1,10 +1,10 @@
 ﻿using DomainModel;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.SaleOpportunityPriceLevelProduct.UpdateCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.DeleteCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.GetAllCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.GetByIdCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.InsertCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.PageQueryCommand.Models;
+using ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.UpdateCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System;
 using System.Collections.Generic;
@@ -16,21 +16,21 @@ using DomainModel.SaleOpportunity;
 
 namespace ApplicationLogic.Repositories.DB
 {
-    public interface ISaleOpportunityPriceLevelProductDBRepository : IDBRepository
+    public interface ISaleOpportunityTargetPriceProductDBRepository : IDBRepository
     {
-        OperationResponse<IEnumerable<SaleOpportunityPriceLevelProduct>> GetAll();
+        OperationResponse<IEnumerable<SaleOpportunityTargetPriceProduct>> GetAll();
 
-        OperationResponse<PageResult<SaleOpportunityPriceLevelProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityPriceLevelProductPageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<SaleOpportunityTargetPriceProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityTargetPriceProductPageQueryCommandInputDTO> input);
 
-        OperationResponse<SaleOpportunityPriceLevelProduct> GetById(int id, bool forceRefresh = false);
+        OperationResponse<SaleOpportunityTargetPriceProduct> GetById(int id, bool forceRefresh = false);
 
-        OperationResponse<SaleOpportunityPriceLevelProduct> GetByIdWithMedias(int id);
+        OperationResponse<SaleOpportunityTargetPriceProduct> GetByIdWithMedias(int id);
 
-        OperationResponse Insert(SaleOpportunityPriceLevelProduct entity);
+        OperationResponse Insert(SaleOpportunityTargetPriceProduct entity);
 
-        OperationResponse Delete(SaleOpportunityPriceLevelProduct entity);
+        OperationResponse Delete(SaleOpportunityTargetPriceProduct entity);
 
-        OperationResponse LogicalDelete(SaleOpportunityPriceLevelProduct entity);
+        OperationResponse LogicalDelete(SaleOpportunityTargetPriceProduct entity);
 
         void Detach(int id);
 

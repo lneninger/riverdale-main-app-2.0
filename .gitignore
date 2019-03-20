@@ -118,3 +118,4 @@ Framework/Framework.FileStorage.AspNetCore/obj/
 [B|b]in/
 [O|o]bj/
 .vs/
+*.xlsx#

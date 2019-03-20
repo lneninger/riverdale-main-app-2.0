@@ -15,7 +15,7 @@ import {
     SecureHttpClientService,
     OperationResponse
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, SampleBoxProductSubItem } from './saleopportunity.model';
+import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, SampleBoxProductSubItem, TargetPriceItem, TargetPriceProductItem } from './saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
@@ -25,6 +25,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     currentSampleBox: SampleBoxItem;
     currentSampleBoxProduct: SampleBoxProductItem;
     onCurrentEntityChanged: BehaviorSubject<any>;
+    currentTargetPrice: TargetPriceItem;
+    currentTargetPriceProduct: TargetPriceProductItem;
 
     onSampleBoxItemAdded: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemAdded: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
@@ -37,6 +39,17 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onSampleBoxSelected: BehaviorSubject<SampleBoxItem> = new BehaviorSubject<SampleBoxItem>(null);
     onSampleBoxProductSelected: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
     onSampleBoxProductSubItemSelected: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
+
+
+
+    onTargetPriceItemAdded: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
+    onTargetPriceProductItemAdded: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+
+    onTargetPriceItemUpdated: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
+    onTargetPriceProductItemUpdated: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+
+    onTargetPriceSelected: BehaviorSubject<TargetPriceItem> = new BehaviorSubject<TargetPriceItem>(null);
+    onTargetPriceProductSelected: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
 
 
     /**
@@ -258,5 +271,77 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     toggleSampleBoxProduct(sampleBoxProduct?: SampleBoxProductItem): any {
         this.currentSampleBoxProduct = sampleBoxProduct;
         this.onSampleBoxProductSelected.next(this.currentSampleBoxProduct);
+    }
+
+
+
+    addTargetPriceItem(item: TargetPriceItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .post<OperationResponse<TargetPriceItem>>(
+                    `${environment.appApi.apiBaseUrl}saleopportunitytargetprice`,
+                    item
+                )
+                .subscribe(
+                    (res: OperationResponse<TargetPriceItem>) => {
+                        const responseItem = res.bag;
+                        this.onTargetPriceItemAdded.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    addTargetPriceProductItem(item: TargetPriceProductItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .post<OperationResponse<TargetPriceProductItem>>(
+                    `${environment.appApi.apiBaseUrl}saleopportunitytargetpriceproduct`,
+                    item
+                )
+                .subscribe(
+                    (res: OperationResponse<TargetPriceProductItem>) => {
+                        const responseItem = res.bag;
+                        this.onTargetPriceProductItemAdded.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    updateTargetPriceItem(item: TargetPriceItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .put<OperationResponse<TargetPriceItem>>(
+                    `${environment.appApi.apiBaseUrl}saleopportunitytargetprice`,
+                    item
+                )
+                .subscribe(
+                    (res: OperationResponse<TargetPriceItem>) => {
+                        const responseItem = res.bag;
+                        this.onTargetPriceItemUpdated.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    toggleTargetPrice(targetPrice?: TargetPriceItem): any {
+        this.currentTargetPrice = targetPrice;
+        this.onTargetPriceSelected.next(this.currentTargetPrice);
+    }
+
+    toggleTargetPriceProduct(targetPriceProduct?: TargetPriceProductItem): any {
+        this.currentTargetPriceProduct = targetPriceProduct;
+        this.onTargetPriceProductSelected.next(this.currentTargetPriceProduct);
     }
 }

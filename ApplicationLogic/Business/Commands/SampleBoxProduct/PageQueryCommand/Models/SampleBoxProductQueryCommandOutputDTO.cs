@@ -9,7 +9,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.PageQueryCommand.M
 
         public int SampleBoxId { get; set; }
 
-        public int SaleOpportunityPriceLevelProductId { get; set; }
+        public int SaleOpportunityTargetPriceProductId { get; set; }
 
         public int Order { get; set; }
 

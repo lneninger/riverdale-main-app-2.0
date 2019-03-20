@@ -33,28 +33,28 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                         Name = getByIdResult.Bag.Name,
                         CustomerId = getByIdResult.Bag.CustomerId,
                         CustomerName = getByIdResult.Bag.Customer.Name,
-                        PriceLevels = getByIdResult.Bag.SaleOpportunityPriceLevels.Select(priceLevel => new SaleOpportunityGetByIdCommandOutputPriceLevelItemDTO
+                        TargetPrices = getByIdResult.Bag.SaleOpportunityTargetPrices.Select(TargetPrice => new SaleOpportunityGetByIdCommandOutputTargetPriceItemDTO
                         {
 
-                            SeasonName = priceLevel.SaleSeasonType.Name,
-                            TargetPrice = priceLevel.TargetPrice,
+                            SeasonName = TargetPrice.SaleSeasonType.Name,
+                            TargetPrice = TargetPrice.TargetPrice,
 
                             
 
-                            SampleBoxes = priceLevel.SampleBoxes.Select(o => new SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO
+                            SampleBoxes = TargetPrice.SampleBoxes.Select(o => new SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO
                             {
                                 Id = o.Id,
-                                SaleOpportunityPriceLevelId = o.SaleOpportunityPriceLevelId,
+                                SaleOpportunityTargetPriceId = o.SaleOpportunityTargetPriceId,
                                 Name = o.Name,
                                 Order = o.Order,
                                 SampleBoxSaleOpportunityProductIds = o.SampleBoxProducts.Select(item => new SaleOpportunityGetByIdCommandOutputSampleBoxProductItemDTO
                                 {
                                     Id = o.Id,
-                                    SaleOpportunityPriceLevelProductId = item.SaleOpportunityPriceLevelProductId,
+                                    SaleOpportunityTargetPriceProductId = item.SaleOpportunityTargetPriceProductId,
                                 }).ToList()
                             }).ToList(),
 
-                            SaleOpportunityPriceLevelProducts = priceLevel.SaleOpportunityPriceLevelProducts.Select(item => new SaleOpportunityGetByIdCommandOutputPriceLevelProductItemDTO
+                            SaleOpportunityTargetPriceProducts = TargetPrice.SaleOpportunityTargetPriceProducts.Select(item => new SaleOpportunityGetByIdCommandOutputTargetPriceProductItemDTO
                             {
                                 Id = item.Id,
                                 ProductId = item.ProductId,
@@ -79,15 +79,15 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                     //    result.Bag.ProductColorTypeId = getByIdResult.Bag.ProductAllowedColorType.ProductColorTypeId;
                     //}
 
-                    foreach(var priceLevel in getByIdResult.Bag.SaleOpportunityPriceLevels)
+                    foreach(var TargetPrice in getByIdResult.Bag.SaleOpportunityTargetPrices)
                     {
-                        var resultPriceLevel = result.Bag.PriceLevels.FirstOrDefault(resultPriceLevelItem => resultPriceLevelItem.Settings != null);
-                        if (resultPriceLevel != null)
+                        var resultTargetPrice = result.Bag.TargetPrices.FirstOrDefault(resultTargetPriceItem => resultTargetPriceItem.Settings != null);
+                        if (resultTargetPrice != null)
                         {
-                            resultPriceLevel.Settings = new SaleOpportunityGetByIdCommandOutputSettingsDTO
+                            resultTargetPrice.Settings = new SaleOpportunityGetByIdCommandOutputSettingsDTO
                             {
-                                Id = priceLevel.SaleOpportunitySettings.Id,
-                                Delivered = priceLevel.SaleOpportunitySettings.Delivered,
+                                Id = TargetPrice.SaleOpportunitySettings.Id,
+                                Delivered = TargetPrice.SaleOpportunitySettings.Delivered,
                             };
                         }
                     }

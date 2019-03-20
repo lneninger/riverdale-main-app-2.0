@@ -16,7 +16,7 @@ namespace DomainModel.SaleOpportunity
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<SaleOpportunityPriceLevel> SaleOpportunityPriceLevels { get; set; }
+        public virtual ICollection<SaleOpportunityTargetPrice> SaleOpportunityTargetPrices { get; set; }
 
 
 

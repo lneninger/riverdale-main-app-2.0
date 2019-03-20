@@ -97,10 +97,10 @@ namespace ApplicationLogic.Business.Commons
 
         public OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons()
         {
-            //using (var dbContextScope = this.DbContextScopeFactory.Create())
-            //{
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
                 return this.Repository.GetToEnumSeasonCategoriesWithSeasons();
-            //}
+            }
         }
 
         public OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower()

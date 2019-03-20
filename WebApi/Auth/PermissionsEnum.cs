@@ -124,34 +124,34 @@ namespace RiverdaleMainApp2_0.Auth
         /// <summary>
         /// 
         /// </summary>
-        public const string SaleOpportunityPriceLevel_Read = nameof(Enum.SaleOpportunityPriceLevel_Read);
+        public const string SaleOpportunityTargetPrice_Read = nameof(Enum.SaleOpportunityTargetPrice_Read);
 
         /// <summary>
         /// 
         /// </summary>
-        public const string SaleOpportunityPriceLevel_Modify = nameof(Enum.SaleOpportunityPriceLevel_Modify);
+        public const string SaleOpportunityTargetPrice_Modify = nameof(Enum.SaleOpportunityTargetPrice_Modify);
 
         /// <summary>
         /// 
         /// </summary>
-        public const string SaleOpportunityPriceLevel_Manage = nameof(Enum.SaleOpportunityPriceLevel_Manage);
+        public const string SaleOpportunityTargetPrice_Manage = nameof(Enum.SaleOpportunityTargetPrice_Manage);
 
 
-         // Sale Opportunity Price Level Product
+         // Sale Opportunity Target Price Product
         /// <summary>
         /// 
         /// </summary>
-        public const string SaleOpportunityPriceLevelProduct_Read = nameof(Enum.SaleOpportunityPriceLevelProduct_Read);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string SaleOpportunityPriceLevelProduct_Modify = nameof(Enum.SaleOpportunityPriceLevelProduct_Modify);
+        public const string SaleOpportunityTargetPriceProduct_Read = nameof(Enum.SaleOpportunityTargetPriceProduct_Read);
 
         /// <summary>
         /// 
         /// </summary>
-        public const string SaleOpportunityPriceLevelProduct_Manage = nameof(Enum.SaleOpportunityPriceLevelProduct_Manage);
+        public const string SaleOpportunityTargetPriceProduct_Modify = nameof(Enum.SaleOpportunityTargetPriceProduct_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string SaleOpportunityTargetPriceProduct_Manage = nameof(Enum.SaleOpportunityTargetPriceProduct_Manage);
 
 
         
@@ -342,32 +342,32 @@ namespace RiverdaleMainApp2_0.Auth
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevel_Read,
+            SaleOpportunityTargetPrice_Read,
 
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevel_Modify,
+            SaleOpportunityTargetPrice_Modify,
 
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevel_Manage,
+            SaleOpportunityTargetPrice_Manage,
 
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevelProduct_Read,
+            SaleOpportunityTargetPriceProduct_Read,
 
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevelProduct_Modify,
+            SaleOpportunityTargetPriceProduct_Modify,
 
             /// <summary>
             /// 
             /// </summary>
-            SaleOpportunityPriceLevelProduct_Manage,
+            SaleOpportunityTargetPriceProduct_Manage,
 
             // Funza
             /// <summary>

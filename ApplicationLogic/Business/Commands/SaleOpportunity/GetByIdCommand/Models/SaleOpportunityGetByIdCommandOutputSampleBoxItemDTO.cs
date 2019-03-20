@@ -8,7 +8,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
     {
         public int Id { get; set; }
 
-        public int SaleOpportunityPriceLevelId { get; set; }
+        public int SaleOpportunityTargetPriceId { get; set; }
 
         public string Name { get; set; }
 

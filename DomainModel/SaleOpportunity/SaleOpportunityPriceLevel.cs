@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DomainModel.SaleOpportunity
 {
-    public class SaleOpportunityPriceLevel : AbstractBaseEntity, ILogicalDeleteEntity
+    public class SaleOpportunityTargetPrice : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
 
@@ -15,17 +15,19 @@ namespace DomainModel.SaleOpportunity
         public decimal? TargetPrice { get; set; }
 
         public int SaleSeasonTypeId { get; set; }
+
         public virtual SaleSeasonType SaleSeasonType { get; set; }
+
+        public int AlterenativesAmount { get; set; }
 
         public virtual SaleOpportunitySettings SaleOpportunitySettings { get; set; }
 
-        public virtual ICollection<SaleOpportunityPriceLevelProduct> SaleOpportunityPriceLevelProducts { get; set; }
+        public virtual ICollection<SaleOpportunityTargetPriceProduct> SaleOpportunityTargetPriceProducts { get; set; }
 
 
         public virtual ICollection<SampleBox> SampleBoxes { get; set; }
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }
-
     }
 }

@@ -25,7 +25,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                 {
                     Order = input.Order,
                     Name = input.Name,
-                    SaleOpportunityPriceLevelId = input.SaleOpportunityPriceLevelId
+                    SaleOpportunityTargetPriceId = input.SaleOpportunityTargetPriceId
                 };
 
                 try
@@ -56,7 +56,7 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand
                             Id = getByIdResult.Bag.Id,
                             Order = getByIdResult.Bag.Order,
                             Name = getByIdResult.Bag.Name,
-                            SaleOpportunityPriceLevelId = getByIdResult.Bag.SaleOpportunityPriceLevelId
+                            SaleOpportunityTargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId
                         };
                     }
 

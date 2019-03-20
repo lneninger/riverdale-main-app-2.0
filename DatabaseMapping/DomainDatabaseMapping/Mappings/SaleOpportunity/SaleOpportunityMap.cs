@@ -25,7 +25,7 @@ namespace DomainDatabaseMapping.Mappings.SaleOpportunity
 
             // Relationships
 
-             builder.HasMany(t => t.SaleOpportunityPriceLevels)
+             builder.HasMany(t => t.SaleOpportunityTargetPrices)
             .WithOne(t => t.SaleOpportunity)
             .HasForeignKey(t => t.SaleOpportunityId);
 

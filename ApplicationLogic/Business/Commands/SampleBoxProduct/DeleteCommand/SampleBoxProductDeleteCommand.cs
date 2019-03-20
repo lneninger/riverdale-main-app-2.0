@@ -29,7 +29,7 @@ namespace ApplicationLogic.Business.Commands.SampleBoxProduct.DeleteCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         SampleBoxId = getByIdResult.Bag.SampleBoxId,
-                        SaleOpportunityPriceLevelProductId = getByIdResult.Bag.SaleOpportunityPriceLevelProductId
+                        SaleOpportunityTargetPriceProductId = getByIdResult.Bag.SaleOpportunityTargetPriceProductId
                     };
                 }
 

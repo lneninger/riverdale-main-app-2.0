@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Models
 {
-    public class SaleOpportunityGetByIdCommandOutputPriceLevelProductItemDTO
+    public class SaleOpportunityGetByIdCommandOutputTargetPriceProductItemDTO
     {
         public int Id { get; internal set; }
         public int ProductId { get; internal set; }

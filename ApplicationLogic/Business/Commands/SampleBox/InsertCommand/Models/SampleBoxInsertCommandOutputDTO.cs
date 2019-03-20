@@ -11,6 +11,6 @@ namespace ApplicationLogic.Business.Commands.SampleBox.InsertCommand.Models
 
         public string Name { get; set; }
 
-        public int SaleOpportunityPriceLevelId { get; set; }
+        public int SaleOpportunityTargetPriceId { get; set; }
     }
 }

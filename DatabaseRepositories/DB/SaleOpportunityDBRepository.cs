@@ -75,7 +75,7 @@ namespace DatabaseRepositories.DB
                     Expression<Func<SaleOpportunity, object>> expression = null;
                     if (input.Sort.ContainsKey("SaleSeasonType"))
                     {
-                        expression = o => o.SaleOpportunityPriceLevels.FirstOrDefault().SaleSeasonType.Name;
+                        expression = o => o.SaleOpportunityTargetPrices.FirstOrDefault().SaleSeasonType.Name;
                         advancedSorting.Add(new SortItem<SaleOpportunity> { PropertyName = "SaleOpportunityType", SortExpression = expression, SortOrder = "desc" });
                     }
 
