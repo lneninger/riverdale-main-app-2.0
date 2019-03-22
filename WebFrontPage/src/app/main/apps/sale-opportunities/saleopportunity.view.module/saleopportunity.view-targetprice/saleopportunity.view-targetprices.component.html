@@ -13,7 +13,7 @@
         class="hint-text mat-h1 select-todo-text"
         [@animate]="{ value: '*', params: { delay: '400ms' } }"
     >
-        No Sample Box
+        No Target Price
     </span>
 </div>
 
@@ -35,47 +35,58 @@
         </button>
 
         <!-- {{currentEntity | json}} -->
-        <!--
+        
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="toggleImportant($event)" aria-label="Toggle important">
-                <mat-icon class="red-fg" *ngIf="todo.important">error</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!todo.important">error_outline</mat-icon>
-            </button>
+            <a mat-icon-button
+                    class="secondary-text"
+               [routerLink]="[]" [queryParams]="{newtargetprice: true}" queryParamsHandling="merge"
+               matTooltip="New Target Price"
+               [attr.aria-label]="'New Target Price'">
+                <mat-icon>add</mat-icon>
+            </a>
 
-            <button mat-icon-button (click)="toggleStar($event)" aria-label="Toggle star">
-                <mat-icon class="amber-fg" *ngIf="todo.starred">star</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!todo.starred">star_border</mat-icon>
-            </button>
+            <!--<button mat-icon-button (click)="toggleStar($event)" aria-label="Toggle star">
+        <mat-icon class="amber-fg" *ngIf="todo.starred">star</mat-icon>
+        <mat-icon class="secondary-text" *ngIf="!todo.starred">star_border</mat-icon>
+    </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="labelMenu" fxFlex="0 1 auto">
-                <mat-icon class="secondary-text">label</mat-icon>
-            </button>
+    <button mat-icon-button [matMenuTriggerFor]="labelMenu" fxFlex="0 1 auto">
+        <mat-icon class="secondary-text">label</mat-icon>
+    </button>
 
-            <mat-menu #labelMenu="matMenu">
-                <button mat-menu-item *ngFor="let tag of tags"
-                        (click)="toggleTagOnTodo(tag.id)">
-                    <mat-icon *ngIf="hasTag(tag.id)">check</mat-icon>
-                    <mat-icon *ngIf="!hasTag(tag.id)"></mat-icon>
-                    <span>{{tag.title}}</span>
-                </button>
-            </mat-menu>
+    <mat-menu #labelMenu="matMenu">
+        <button mat-menu-item *ngFor="let tag of tags"
+                (click)="toggleTagOnTodo(tag.id)">
+            <mat-icon *ngIf="hasTag(tag.id)">check</mat-icon>
+            <mat-icon *ngIf="!hasTag(tag.id)"></mat-icon>
+            <span>{{tag.title}}</span>
+        </button>
+    </mat-menu>
 
-            <button mat-icon-button (click)="toggleDeleted($event)" aria-label="Toggle delete">
-                <mat-icon class="secondary-text" *ngIf="todo.deleted">delete_forever</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!todo.deleted">delete</mat-icon>
-            </button>
+    <button mat-icon-button (click)="toggleDeleted($event)" aria-label="Toggle delete">
+        <mat-icon class="secondary-text" *ngIf="todo.deleted">delete_forever</mat-icon>
+        <mat-icon class="secondary-text" *ngIf="!todo.deleted">delete</mat-icon>
+    </button>-->
 
         </div>
-    --></div>
+    </div>
 
     <div class="todo-content">
-        <div class="tags sampleboxs mb-24">
-            <mat-list>
+        <!--<pre>{{currentEntity | json}}</pre>-->
+        <div class="tags targetprices mb-24">
+            <mat-list fxLayout="column" fxLayoutAlign="stretch">
                 <mat-list-item *ngFor="let targetPrice of currentEntity.targetPrices">
                     <mat-icon mat-list-icon>folder</mat-icon>
-                    <h4 mat-line>{{targetPrice.name}}</h4>
-                    <p mat-line> {{targetPrice.updated | date}} </p>
+                    <h4 mat-line>{{targetPrice.name || 'No Name'}} ({{targetPrice.seasonName}})</h4>
+                    <section mat-line>
+                        <span fxFlex="30%">
+                            {{targetPrice.targetPrice}}
+                        </span>
+                        <span fxFlex="30%">
+                            {{targetPrice.alterenativesAmount}}
+                        </span>
+                    </section>
                 </mat-list-item>
                 <mat-divider></mat-divider>
             </mat-list>

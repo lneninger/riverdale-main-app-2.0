@@ -36,8 +36,12 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                         TargetPrices = getByIdResult.Bag.SaleOpportunityTargetPrices.Select(TargetPrice => new SaleOpportunityGetByIdCommandOutputTargetPriceItemDTO
                         {
 
+                            Id = TargetPrice.Id,
+                            Name = TargetPrice.Name,
                             SeasonName = TargetPrice.SaleSeasonType.Name,
                             TargetPrice = TargetPrice.TargetPrice,
+                            SaleSeasonTypeId = TargetPrice.SaleSeasonTypeId,
+                            AlternativesAmount = TargetPrice.AlternativesAmount,
 
                             
 

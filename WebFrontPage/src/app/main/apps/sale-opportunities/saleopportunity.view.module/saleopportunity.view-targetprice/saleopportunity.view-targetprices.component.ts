@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
-import { SaleOpportunity, TargetPriceItem } from '../../saleopportunity.model';
+import { SaleOpportunity, TargetPriceItem, TargetPriceProductItem } from '../../saleopportunity.model';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
 import { OperationResponseValued } from 'app/main/apps/@hipalanetCommons/messages/messages.model';
@@ -83,8 +83,8 @@ export class SaleOpportunityViewTargetPricesComponent implements OnInit, OnDestr
         this.saleOpportunityService.toggleTargetPrice(targetPrice);
     }
 
-    toggleSampleBoxProduct(sampleBoxProduct: SampleBoxProductItem): void{
-        this.saleOpportunityService.toggleSampleBoxProduct(sampleBoxProduct);
+    toggleSampleBoxProduct(targetPriceProduct: TargetPriceProductItem): void{
+        this.saleOpportunityService.toggleTargetPriceProduct(targetPriceProduct);
     }
 }
 

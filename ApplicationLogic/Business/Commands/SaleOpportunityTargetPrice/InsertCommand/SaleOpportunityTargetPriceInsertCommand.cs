@@ -23,8 +23,9 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
             {
                 var entity = new DomainModel.SaleOpportunity.SaleOpportunityTargetPrice
                 {
+                    Name = input.Name,
                     SaleOpportunityId = input.SaleOpportunityId,
-                    AlterenativesAmount = input.AlterenativesAmount,
+                    AlternativesAmount = input.AlterenativesAmount,
                     TargetPrice = input.TargetPrice,
                     SaleSeasonTypeId = input.SaleSeasonTypeId,
                 };
@@ -54,9 +55,10 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
                         result.Bag = new SaleOpportunityTargetPriceInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
+                            Name = getByIdResult.Bag.Name,
                             TargetPrice = getByIdResult.Bag.TargetPrice,
                             SaleSeasonTypeId = getByIdResult.Bag.SaleSeasonTypeId,
-                            AlterenativesAmount = getByIdResult.Bag.AlterenativesAmount,
+                            AlternativesAmount = getByIdResult.Bag.AlternativesAmount,
                             SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
                         };
                     }

@@ -12,7 +12,8 @@ import {
     , MatMenuModule
     , MatRippleModule
     , MatSelectModule
-    , MatSnackBarModule
+    , MatSnackBarModule,
+    MatListModule
 } from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
@@ -104,6 +105,7 @@ const routes: Routes = [
         RouterModule// .forChild(routes),
         , FormsModule
         , MatButtonModule
+        , MatListModule
         , MatCheckboxModule
         , MatDatepickerModule
         , MatFormFieldModule

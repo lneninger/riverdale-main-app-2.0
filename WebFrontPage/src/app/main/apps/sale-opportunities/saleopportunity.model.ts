@@ -13,7 +13,7 @@ export class SaleOpportunity {
     customerId: number;
     customerName: string;
     seasonName: string;
-    targetPrice: number;
+    targetPrices: TargetPriceItem[];
     sampleBoxes: SampleBoxItem[];
     settings: SaleOpportunitySettings;
 
@@ -29,7 +29,9 @@ export class SaleOpportunity {
         this.seasonName = internal.seasonName;
         this.customerName = internal.customerName;
         this.customerId = internal.customerId;
-        this.targetPrice = internal.targetPrice;
+        this.targetPrices = (internal.targetPrices || []).map(
+            item => new TargetPriceItem(item)
+        );
         this.sampleBoxes = (internal.sampleBoxes || []).map(
             item => new SampleBoxItem(item)
         );
@@ -60,18 +62,31 @@ export class SampleBoxItem {
 
 export class TargetPriceItem {
     id: number;
+    name: string;
     targetPrice: number;
+    seasonName: string;
     saleSeasonTypeId: number;
-
+    alternativesAmount: number;
+    get displayName() {
+        let result = this.name || 'No name';
+        result = `${result} (${this.seasonName})`;
+        return result;
+    }
     sampleBoxes: SampleBoxItem[];
     saleOpportunityId: number;
-    saleOpportunityPriceLevelProducts: any[];
+    saleOpportunityTargetPriceProducts: TargetPriceProductItem[];
 
     constructor(targetPrice?) {
         const internal = targetPrice || {};
         this.id = internal.id;
+        this.name = internal.name;
         this.targetPrice = internal.targetPrice;
+        this.seasonName = internal.seasonName;
+        this.alternativesAmount = internal.alternativesAmount;
         this.saleOpportunityId = internal.saleOpportunityId;
+        this.saleOpportunityTargetPriceProducts = (internal.saleOpportunityTargetPriceProducts || []).map(
+            item => new TargetPriceProductItem(item)
+        );
     }
 }
 
@@ -79,13 +94,34 @@ export class TargetPriceProductItem {
     id: number;
     order: number;
     sampleBoxId: number;
+    productId: number;
+    productName: string;
+    productTypeId: string;
+    productTypeName: string;
+    productTypeDescription: string;
+    productPictureId: number;
+    productColorTypeId?: string;
+    sampleBoxProductSubItems: SampleBoxProductSubItem[];
 
     constructor(item?) {
         const internal = item || {};
-
-        this.id = internal.id;
-        this.order = internal.order;
-        this.sampleBoxId = internal.sampleBoxId;
+        if (internal.key) {
+            this.productId = internal.key;
+        } else {
+            this.id = internal.id;
+            this.order = internal.order;
+            this.sampleBoxId = internal.sampleBoxId;
+            this.productColorTypeId = internal.productColorTypeId;
+            this.productId = internal.productId;
+            this.productName = internal.productName;
+            this.productTypeId = internal.productTypeId;
+            this.productTypeName = internal.productTypeName;
+            this.productTypeDescription = internal.productTypeDescription;
+            this.productPictureId = internal.productPictureId;
+            this.sampleBoxProductSubItems = (
+                internal.sampleBoxProductSubItems || []
+            ).map(subItem => new SampleBoxProductSubItem(subItem));
+        }
     }
 }
 

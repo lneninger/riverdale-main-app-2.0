@@ -83,7 +83,7 @@ export class SaleOpportunitiesComponent implements OnInit {
 
     initializeQueryListeners(): void {
         this.route.queryParams.subscribe(params => {
-            debugger;
+            // debugger;
             if (this.route.snapshot.data['action'] === 'new') {
                 this.openDialog();
             }

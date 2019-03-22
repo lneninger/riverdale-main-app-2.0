@@ -7,12 +7,14 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public decimal? TargetPrice { get; set; }
 
         public int SaleSeasonTypeId { get; set; }
 
-        public int AlterenativesAmount { get; set; }
+        public int AlternativesAmount { get; set; }
 
-        public int SaleOpportunityId { get; internal set; }
+        public int SaleOpportunityId { get; set; }
     }
 }

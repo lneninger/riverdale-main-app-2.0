@@ -35,7 +35,9 @@ import {
     SampleBoxItemNewDialogOutput,
     SampleBoxItemNewDialogInput,
     SaleOpportunityTargetPriceNewDialogInput,
-    SaleOpportunityTargetPriceNewDialogOutput
+    SaleOpportunityTargetPriceNewDialogOutput,
+    TargetPriceProductItem,
+    TargetPriceItem
 } from "../saleopportunity.model";
 import { SaleOpportunityViewService } from "./saleopportunity.view.service";
 import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
@@ -112,6 +114,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     frmSampleBoxItems: FormArray;
     frmSampleBoxProductItems: FormArray;
 
+    frmTargetPriceItems: FormArray;
+    frmTargetPriceProductItems: FormArray;
+
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
     filters: any[];
@@ -153,6 +158,12 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.saleOpportunityService.onSampleBoxItemUpdated.subscribe(
             this.onSampleBoxItemUpdated.bind(this)
         );
+        this.saleOpportunityService.onTargetPriceItemAdded.subscribe(
+            this.onTargetPriceItemAdded.bind(this)
+        );
+        this.saleOpportunityService.onTargetPriceItemUpdated.subscribe(
+            this.onTargetPriceItemUpdated.bind(this)
+        );
 
         this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(
             sampleBox => {
@@ -181,6 +192,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.frmSampleBoxItems = this._formBuilder.array([]);
         this.currentEntity.sampleBoxes.forEach(item => {
             this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
+        });
+
+        this.currentEntity.targetPrices.forEach(item => {
+            this.frmSampleBoxItems.push(this.createFormTargetPriceItem(item));
         });
 
         this._todoService.onSelectedTodosChanged
@@ -287,6 +302,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         return result;
     }
 
+    
+
     createFormSampleBoxProductItem(item: SampleBoxProductItem): FormGroup {
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
@@ -295,6 +312,32 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         });
 
         result.controls["selected"].valueChanges.subscribe(value => {});
+
+        return result;
+    }
+
+    createFormTargetPriceItem(item: TargetPriceItem): FormGroup {
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            name: [item.name, [Validators.required, Validators.maxLength(6)]],
+            alternativesAmount: [item.alternativesAmount, [Validators.required, CustomValidators.number]],
+            saleSeasonTypeId: [item.saleSeasonTypeId, [Validators.required, CustomValidators.number]],
+            selected: "selected"
+        });
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
+
+        return result;
+    }
+
+    createFormTargetPriceProductItem(item: TargetPriceProductItem): FormGroup {
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            name: [item.productName, [Validators.required]],
+            selected: ""
+        });
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
 
         return result;
     }
@@ -312,6 +355,37 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     updateFormSampleBoxProductItem(
         formGroup: FormGroup,
         item: SampleBoxProductItem
+    ): void {
+        const value = {
+            id: item.id,
+            productColorTypeId: item.productColorTypeId,
+            productId: item.productId,
+            productName: item.productName,
+            productPictureId: item.productPictureId,
+            productTypeId: item.productTypeId,
+            productTypevName: item.productTypeName,
+            productTypeDescription: item.productTypeDescription
+        };
+
+        formGroup.reset(value);
+    }
+
+
+    updateFormTargetPriceItem(formGroup: FormGroup, item: TargetPriceItem): void {
+        const value = {
+            id: item.id,
+            name: item.name,
+            alternativesAmount: item.alternativesAmount,
+            seasonName: item.seasonName,
+            targetPrice: item.targetPrice,
+        };
+
+        formGroup.reset(value);
+    }
+
+    updateFormTargetPriceProductItem(
+        formGroup: FormGroup,
+        item: TargetPriceProductItem
     ): void {
         const value = {
             id: item.id,
@@ -445,6 +519,60 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             }
         }
     }
+
+    onTargetPriceItemAdded(item: TargetPriceItem): void {
+        // debugger;
+        this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
+        this.currentEntity.targetPrices.push(item);
+        this.matSnackBar.open("Target Price Added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
+
+    onTargetPriceItemUpdated(item: TargetPriceItem): void {
+        // debugger;
+        const index = this.currentEntity.targetPrices.findIndex(
+            targetPriceItem => targetPriceItem.id === item.id
+        );
+        if (index >= 0) {
+            this.currentEntity.targetPrices.splice(index, 1, item);
+            this.updateFormTargetPriceItem(
+                <FormGroup>this.frmTargetPriceItems.controls[index],
+                item
+            );
+
+            this.matSnackBar.open("Product Updated", "OK", {
+                verticalPosition: "top",
+                duration: 5000
+            });
+        }
+    }
+
+    onTargetPriceProductItemUpdated(item: TargetPriceProductItem): void {
+        // debugger;
+        const targetPrice = this.currentEntity.targetPrices.find(
+            relatedPorductItem => relatedPorductItem.id === item.id
+        );
+        if (targetPrice !== null) {
+            const index = targetPrice.saleOpportunityTargetPriceProducts.findIndex(
+                productItem => productItem.id === item.id
+            );
+            if (index >= 0) {
+                targetPrice.saleOpportunityTargetPriceProducts.splice(index, 1, item);
+                this.updateFormTargetPriceProductItem(
+                    <FormGroup>this.frmTargetPriceProductItems.controls[index],
+                    item
+                );
+
+                this.matSnackBar.open("Target Price Updated", "OK", {
+                    verticalPosition: "top",
+                    duration: 5000
+                });
+            }
+        }
+    }
+
 
     setActiveArea(area: ActiveAreaType): void {
         this.activeArea = area;

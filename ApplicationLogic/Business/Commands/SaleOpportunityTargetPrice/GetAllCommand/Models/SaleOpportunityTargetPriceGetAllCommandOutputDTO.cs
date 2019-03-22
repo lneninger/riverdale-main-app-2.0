@@ -6,6 +6,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.GetAllCo
     public class SaleOpportunityTargetPriceGetAllCommandOutputDTO
     {
         public int Id { get; set; }
+        public string Name { get; set; }
 
         public decimal? TargetPrice { get; set; }
         public int SaleSeasonTypeId { get; set; }

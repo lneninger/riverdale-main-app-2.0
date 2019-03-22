@@ -148,17 +148,13 @@
 
                     <span class="font-size-20 mr-16">TARGET PRICE</span>
                     <mat-form-field>
-                        <mat-select [(ngModel)]="currentSampleBoxProduct">
+                        <mat-select [(ngModel)]="currentTargetPrice">
                             <option label="--select something --"></option>
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="
-                                    let sampleboxProduct of currentSampleBox &&
-                                        currentSampleBox.sampleBoxProducts
-                                "
-                                        [value]="sampleboxProduct">
+                            <mat-option *ngFor="let targetPrice of currentEntity.targetPrices"
+                                        [value]="targetPrice">
                                 {{
-                                    sampleboxProduct.productName ||
-                                        sampleboxProduct.order
+                                    targetPrice.displayName
                                 }}
                             </mat-option>
                         </mat-select>

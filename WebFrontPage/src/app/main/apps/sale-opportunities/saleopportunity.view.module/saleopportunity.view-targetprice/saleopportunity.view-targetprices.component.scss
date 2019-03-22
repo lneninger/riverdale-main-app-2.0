@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-saleopportunity-view-sampleboxes {
+saleopportunity-view-targetprices {
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
@@ -24,7 +24,7 @@ saleopportunity-view-sampleboxes {
             font-weight: 600;
         }
 
-        .sampleboxs {
+        .targetprices {
             display: flex;
             flex-flow: row wrap;
             justify-content: space-evenly;
@@ -33,7 +33,7 @@ saleopportunity-view-sampleboxes {
                 display: flex;
             }
 
-            .samplebox {
+            .targetprice {
                 border: 1px solid gray;
                 border-radius: 10px;
                 overflow: hidden;
@@ -43,7 +43,6 @@ saleopportunity-view-sampleboxes {
                 min-height: 130px;
                 align-content: stretch;
                 // align-items: center;
-
                 &:hover {
                     background-color: gray;
                 }
@@ -54,6 +53,7 @@ saleopportunity-view-sampleboxes {
                     justify-content: space-between;
                     align-content: flex-start;
                     align-items: center;
+
                     .samplebox-product {
                         flex-flow: row wrap;
                         flex-basis: calc(30% - 20px);

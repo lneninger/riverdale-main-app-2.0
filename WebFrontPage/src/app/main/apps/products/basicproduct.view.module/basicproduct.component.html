@@ -92,7 +92,7 @@
 
                                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
                                         <mat-select placeholder="Product Color" name="productTypeId" formControlName="productColorTypeId">
-                                            <mat-option *ngFor="let item of listProductColorType" [value]="item.key">
+                                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
                                                 {{item.value}}
                                             </mat-option>
                                         </mat-select>
@@ -119,7 +119,7 @@
                                                                   [selectable]="true"
                                                                   [removable]="true"
                                                                   (removed)="removeProductAllowedColorType(productAllowedColorType)">
-                                                            {{(getProductColorType(productAllowedColorType.productColorTypeId) || {}).value}}
+                                                            {{(getProductColorType(productAllowedColorType.productColorTypeId) | async).value}}
                                                             <mat-icon matChipRemove>cancel</mat-icon>
                                                         </mat-chip>
                                                         <input placeholder="New Allowed Color..."

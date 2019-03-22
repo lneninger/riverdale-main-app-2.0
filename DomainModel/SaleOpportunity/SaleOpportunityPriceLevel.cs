@@ -9,6 +9,8 @@ namespace DomainModel.SaleOpportunity
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public int SaleOpportunityId { get; set; }
         public virtual SaleOpportunity SaleOpportunity { get; set; }
 
@@ -18,7 +20,7 @@ namespace DomainModel.SaleOpportunity
 
         public virtual SaleSeasonType SaleSeasonType { get; set; }
 
-        public int AlterenativesAmount { get; set; }
+        public int AlternativesAmount { get; set; }
 
         public virtual SaleOpportunitySettings SaleOpportunitySettings { get; set; }
 
