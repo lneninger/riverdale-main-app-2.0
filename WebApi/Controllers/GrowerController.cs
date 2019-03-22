@@ -155,8 +155,8 @@ namespace RiverdaleMainApp2_0.Controllers
             {
                 var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(DomainModel.Company.Grower.Grower), appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
-
             }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 

@@ -253,5 +253,23 @@ namespace DatabaseRepositories.DB
 
             return result;
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumAddressTypes()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<SaleSeasonCategoryType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting season categories", ex);
+            }
+
+            return result;
+        }
     }
 }

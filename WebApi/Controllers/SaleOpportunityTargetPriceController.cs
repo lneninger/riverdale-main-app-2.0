@@ -12,6 +12,7 @@ using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.UpdateComman
 using ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
 using CommunicationModel;
+using DomainModel.SaleOpportunity;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
 //using Microsoft.AspNet.SignalR;
@@ -157,10 +158,10 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.InsertCommand.Execute(model);
             if (appResult.IsSucceed)
             {
-                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "SaleOpportunityTargetPrice", appResult.Bag);
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(SaleOpportunityTargetPrice), appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
-
             }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
