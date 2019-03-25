@@ -31,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class GrowersComponent implements OnInit {
     dataSource: GrowersDataSource | null;
-    displayedColumns = ['name'/*, 'erpId', 'salesforceId'*/, 'createdAt', 'options'];
+    displayedColumns = ['name'/*, 'erpId', 'salesforceId'*/, 'createdAt'/*, 'options'*/];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

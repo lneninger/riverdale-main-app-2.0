@@ -13,8 +13,11 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
 
         public int SaleSeasonTypeId { get; set; }
 
+        public string SeasonName { get; set; }
+
         public int AlternativesAmount { get; set; }
 
         public int SaleOpportunityId { get; set; }
+
     }
 }

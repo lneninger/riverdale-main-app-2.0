@@ -88,7 +88,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<SaleOpportunityTargetPrice> GetById(int id)
+        public OperationResponse<SaleOpportunityTargetPrice> GetById(int id, bool forceRefresh = false)
         {
             var result = new OperationResponse<SaleOpportunityTargetPrice>();
             try
@@ -96,12 +96,12 @@ namespace DatabaseRepositories.DB
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);//.FirstOrDefault();
-                    //if (forceRefresh && result.Bag != null)
-                    //{
-                    //    this.Detach(result.Bag);
-                    //    result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);//.FirstOrDefault();
+                    if (forceRefresh && result.Bag != null)
+                    {
+                        this.Detach(result.Bag);
+                        result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);//.FirstOrDefault();
 
-                    //}
+                    }
                 }
             }
             catch (Exception ex)

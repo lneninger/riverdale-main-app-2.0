@@ -21,7 +21,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
 
 import { SaleOpportunityViewService } from './saleopportunity.view.service';
-import { SaleOpportunityViewComponent, SampleBoxProductNewDialogComponent } from './saleopportunity.view.component';
+import { SaleOpportunityViewComponent } from './saleopportunity.view.component';
 import { TodoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { SaleOpportunityViewListItemComponent } from './saleopportunity.view-list/saleopportunity.view-list-item/saleopportunity.view-list-item.component';
 import { SaleOpportunityViewListComponent } from './saleopportunity.view-list/saleopportunity.view-list.component';
@@ -37,6 +37,8 @@ import { FunzaCoreModule } from '../../funza/funza.core.module';
 import { SaleOpportunityViewSettingsComponent } from './saleopportunity.view-settings/saleopportunity.view-settings.component';
 import { FormsModule } from '@angular/forms';
 import { CustomerSidebarComponent } from './sidebars/customer/customer-sidebar.component';
+import { SampleBoxProductNewDialogComponent } from './saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component';
+import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
 
 const routes: Routes = [
     {
@@ -100,6 +102,8 @@ const routes: Routes = [
         , SampleBoxProductNewDialogComponent
         , SaleOpportunityTargetPriceNewDialogComponent
         , SaleOpportunityViewTargetPricesComponent
+        , SaleOpportunityTargetPriceProductNewDialogComponent
+        
     ],
     imports     : [
         RouterModule// .forChild(routes),
@@ -133,10 +137,12 @@ const routes: Routes = [
     exports: [
         SaleOpportunityViewComponent
         , SaleOpportunityTargetPriceNewDialogComponent
+        , SaleOpportunityTargetPriceProductNewDialogComponent
     ],
     entryComponents: [
         SampleBoxProductNewDialogComponent
         , SaleOpportunityTargetPriceNewDialogComponent
+        , SaleOpportunityTargetPriceProductNewDialogComponent
     ]
 })
 export class SaleOpportunityViewModule

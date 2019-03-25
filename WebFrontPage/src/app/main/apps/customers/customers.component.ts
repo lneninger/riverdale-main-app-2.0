@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CustomersComponent implements OnInit {
     dataSource: CustomersDataSource | null;
-    displayedColumns = ['name', 'erpId', 'salesforceId', 'createdAt', 'options'];
+    displayedColumns = ['name', 'erpId', 'salesforceId', 'createdAt'/*, 'options'*/];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

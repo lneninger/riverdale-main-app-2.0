@@ -56,7 +56,7 @@
 
             <div class="nav-subheader">FILTERS</div>
 
-            <div class="nav-item" *ngFor="let productItem of listProduct | async">
+            <div class="nav-item" *ngFor="let productItem of listProduct | async as products">
                 <ng-container [ngSwitch]="productItem.extras['productTypeId'] === 'COMP'">
                         <a *ngSwitchCase="true" class="nav-link" matRipple [routerLink]="[]" [queryParams]="{newbouquet: productItem.key}"
                         [routerLinkActive]="['active', 'accent']">

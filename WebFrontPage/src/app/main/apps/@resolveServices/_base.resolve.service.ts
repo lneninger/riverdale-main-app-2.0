@@ -41,6 +41,7 @@ export abstract class BaseResolveService<T = EnumItem<any>[]> implements Resolve
                 this.http.get(this.endpoint).subscribe(res => {
                     // debugger;
                     this.list = (<OperationResponse<T>>res).bag;
+                    console.log(`List Resolved`, this.list);
                     this.onList.next(this.list);
                     observer.next(true);
                     observer.complete();

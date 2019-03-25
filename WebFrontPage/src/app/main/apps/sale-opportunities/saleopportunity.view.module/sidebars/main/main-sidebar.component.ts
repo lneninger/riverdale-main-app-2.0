@@ -146,8 +146,8 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         const mergeList = [
             this.activeTermFilter(),
             this.productResolveService.onList.asObservable(),
-            this.saleOpportunityService.onSampleBoxSelected.asObservable(),
-            this.saleOpportunityService.onSampleBoxProductSelected.asObservable(),
+            this.saleOpportunityService.onTargetPriceSelected.asObservable(),
+            this.saleOpportunityService.onTargetPriceProductSelected.asObservable(),
         ];
 
         this.listProduct = merge(...mergeList).pipe(
@@ -163,7 +163,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                             console.log(`SampleBox selected: `, !!this.saleOpportunityService.currentSampleBox);
                             return (
                                 // Term Filter
-                                o.key !== this.currentEntity.id &&
+                                //o.key !== this.currentEntity.id &&
                                 o.value &&
                                 (!term ||
                                     o.value
@@ -171,15 +171,15 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                                         .indexOf(term.toLowerCase()) !== -1)
                             ) && (
                                 (
-                                // Current BoxProduct selection. Show no compositions 
-                                !!this.saleOpportunityService.currentSampleBoxProduct
+                                    // If TargetPriceProduct selected, Show no compositions 
+                                    !!this.saleOpportunityService.currentTargetPriceProduct
                                 && (<string><unknown>o.extras['productTypeId']) !== 'COMP'
                                 )
                                 ||
                                 (
-                                   // Current Box selection. Show compositions 
-                                    !this.saleOpportunityService.currentSampleBoxProduct
-                                    && !!this.saleOpportunityService.currentSampleBox
+                                   // TargetPrice selected. Show compositions 
+                                    !this.saleOpportunityService.currentTargetPriceProduct
+                                    && !!this.saleOpportunityService.currentTargetPrice
                                     && (<string><unknown>o.extras['productTypeId']) === 'COMP'
                                 )
                             );

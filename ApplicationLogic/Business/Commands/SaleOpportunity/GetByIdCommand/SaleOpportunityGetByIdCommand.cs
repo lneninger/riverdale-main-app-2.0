@@ -33,19 +33,19 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                         Name = getByIdResult.Bag.Name,
                         CustomerId = getByIdResult.Bag.CustomerId,
                         CustomerName = getByIdResult.Bag.Customer.Name,
-                        TargetPrices = getByIdResult.Bag.SaleOpportunityTargetPrices.Select(TargetPrice => new SaleOpportunityGetByIdCommandOutputTargetPriceItemDTO
+                        TargetPrices = getByIdResult.Bag.SaleOpportunityTargetPrices.Select(targetPrice => new SaleOpportunityGetByIdCommandOutputTargetPriceItemDTO
                         {
 
-                            Id = TargetPrice.Id,
-                            Name = TargetPrice.Name,
-                            SeasonName = TargetPrice.SaleSeasonType.Name,
-                            TargetPrice = TargetPrice.TargetPrice,
-                            SaleSeasonTypeId = TargetPrice.SaleSeasonTypeId,
-                            AlternativesAmount = TargetPrice.AlternativesAmount,
+                            Id = targetPrice.Id,
+                            Name = targetPrice.Name,
+                            SeasonName = targetPrice.SaleSeasonType.Name,
+                            TargetPrice = targetPrice.TargetPrice,
+                            SaleSeasonTypeId = targetPrice.SaleSeasonTypeId,
+                            AlternativesAmount = targetPrice.AlternativesAmount,
 
-                            
 
-                            SampleBoxes = TargetPrice.SampleBoxes.Select(o => new SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO
+
+                            SampleBoxes = targetPrice.SampleBoxes.Select(o => new SaleOpportunityGetByIdCommandOutputSampleBoxItemDTO
                             {
                                 Id = o.Id,
                                 SaleOpportunityTargetPriceId = o.SaleOpportunityTargetPriceId,
@@ -58,7 +58,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 }).ToList()
                             }).ToList(),
 
-                            SaleOpportunityTargetPriceProducts = TargetPrice.SaleOpportunityTargetPriceProducts.Select(item => new SaleOpportunityGetByIdCommandOutputTargetPriceProductItemDTO
+                            SaleOpportunityTargetPriceProducts = targetPrice.SaleOpportunityTargetPriceProducts.Select(item => new SaleOpportunityGetByIdCommandOutputTargetPriceProductItemDTO
                             {
                                 Id = item.Id,
                                 ProductId = item.ProductId,

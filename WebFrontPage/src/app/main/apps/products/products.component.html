@@ -109,7 +109,7 @@
                 </ng-container>
                 <!-- Active Column -->
 
-                <ng-container matColumnDef="options">
+                <!--<ng-container matColumnDef="options">
                     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
                     <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
                         <mat-menu #cellMenu="matMenu">
@@ -121,7 +121,7 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                     </mat-cell>
-                </ng-container>
+                </ng-container>-->
 
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
                 <mat-row *matRowDef="let item; columns: displayedColumns;"

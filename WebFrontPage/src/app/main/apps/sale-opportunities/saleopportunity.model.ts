@@ -67,6 +67,7 @@ export class TargetPriceItem {
     seasonName: string;
     saleSeasonTypeId: number;
     alternativesAmount: number;
+    //servedAlternativesAmount: number;
     get displayName() {
         let result = this.name || 'No name';
         result = `${result} (${this.seasonName})`;
@@ -83,6 +84,7 @@ export class TargetPriceItem {
         this.targetPrice = internal.targetPrice;
         this.seasonName = internal.seasonName;
         this.alternativesAmount = internal.alternativesAmount;
+        //this.servedAlternativesAmount = internal.servedAlternativesAmount;
         this.saleOpportunityId = internal.saleOpportunityId;
         this.saleOpportunityTargetPriceProducts = (internal.saleOpportunityTargetPriceProducts || []).map(
             item => new TargetPriceProductItem(item)
@@ -92,6 +94,7 @@ export class TargetPriceItem {
 
 export class TargetPriceProductItem {
     id: number;
+    targetPriceId: number;
     order: number;
     sampleBoxId: number;
     productId: number;
@@ -257,6 +260,16 @@ export class SaleOpportunityTargetPriceNewDialogInput {
 }
 
 export class SaleOpportunityTargetPriceNewDialogOutput {
+    goTo: string;
+    data: TargetPriceItem;
+}
+
+
+export class SaleOpportunityTargetPriceProductNewDialogInput {
+    targetPriceId: number;
+}
+
+export class SaleOpportunityTargetPriceProductNewDialogOutput {
     goTo: string;
     data: TargetPriceItem;
 }

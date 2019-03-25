@@ -48,7 +48,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
                 if (result.IsSucceed)
                 {
                     //this.Repository.Detach(entity.Id);
-                    var getByIdResult = this.Repository.GetById(entity.Id);
+                    var getByIdResult = this.Repository.GetById(entity.Id, forceRefresh: true);
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
@@ -58,6 +58,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPrice.InsertCo
                             Name = getByIdResult.Bag.Name,
                             TargetPrice = getByIdResult.Bag.TargetPrice,
                             SaleSeasonTypeId = getByIdResult.Bag.SaleSeasonTypeId,
+                            SeasonName = getByIdResult.Bag.SaleSeasonType.Name,
                             AlternativesAmount = getByIdResult.Bag.AlternativesAmount,
                             SaleOpportunityId = getByIdResult.Bag.SaleOpportunityId,
                         };

@@ -37,7 +37,8 @@ import {
     SaleOpportunityTargetPriceNewDialogInput,
     SaleOpportunityTargetPriceNewDialogOutput,
     TargetPriceProductItem,
-    TargetPriceItem
+    TargetPriceItem,
+    SaleOpportunityTargetPriceProductNewDialogInput
 } from "../saleopportunity.model";
 import { SaleOpportunityViewService } from "./saleopportunity.view.service";
 import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
@@ -56,6 +57,8 @@ import {
     SaleSeasonCategoryTypeResolveService
 } from "../../@resolveServices/resolve.module";
 import { SaleOpportunityTargetPriceNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component";
+import { SampleBoxProductNewDialogComponent } from "./saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component";
+import { SaleOpportunityTargetPriceProductNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component";
 
 @Component({
     selector: "saleopportunity-view",
@@ -91,6 +94,24 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
     set currentSampleBoxProduct(value: SampleBoxProductItem) {
         this.saleOpportunityService.toggleSampleBoxProduct(value);
+    }
+
+    _currentTargetPrice: TargetPriceItem;
+    onTargetPriceSelected: Subscription;
+    get currentTargetPrice(): TargetPriceItem {
+        return this._currentTargetPrice;
+    }
+    set currentTargetPrice(value: TargetPriceItem) {
+        this.saleOpportunityService.toggleTargetPrice(value);
+    }
+
+    _currentTargetPriceProduct: TargetPriceProductItem;
+    onTargetPriceProductSelected: Subscription;
+    get currentTargetPriceProduct(): TargetPriceProductItem {
+        return this._currentTargetPriceProduct;
+    }
+    set currentTargetPriceProduct(value: TargetPriceProductItem) {
+        this.saleOpportunityService.toggleTargetPriceProduct(value);
     }
 
     showCustomerSidebar: boolean;
@@ -194,8 +215,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
         });
 
+        this.frmTargetPriceItems = this._formBuilder.array([]);
         this.currentEntity.targetPrices.forEach(item => {
-            this.frmSampleBoxItems.push(this.createFormTargetPriceItem(item));
+            this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
         });
 
         this._todoService.onSelectedTodosChanged
@@ -261,7 +283,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             // debugger;
             if (params.newbouquet) {
-                this.openSampleBoxProductDialog();
+                debugger;
+                this.openTargetPriceProductDialog();
             } else if (params.newtargetprice) {
                 // debugger;
                 this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
@@ -521,7 +544,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceItemAdded(item: TargetPriceItem): void {
-        // debugger;
+         debugger;
         this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
         this.currentEntity.targetPrices.push(item);
         this.matSnackBar.open("Target Price Added", "OK", {
@@ -639,84 +662,41 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         dialogRef
             .afterClosed()
             .subscribe((result: SaleOpportunityTargetPriceNewDialogOutput) => {
-                //if (result && result.goTo === 'Edit') {
-                this.saleOpportunityService.router.navigate([], {
-                    queryParams: { newTargetPrice: null },
-                    queryParamsHandling: "merge"
+                debugger;
+                const queryParams = this.route.snapshot.queryParams;
+                const newQueryParams = { ...queryParams }
+                delete newQueryParams['newtargetprice'];
+                this.saleOpportunityService.router.navigate(['.'], {
+                    relativeTo: this.route,
+                    queryParams: newQueryParams
                 });
-                // } else {
-                //     this.saleOpportunityService.router.navigate([`../`], {
-                //         relativeTo: this.route
-                //     });
-                //     // this.dataSource.dataChanged.next('');
-                // }
+                 
+            });
+    }
+
+
+    openTargetPriceProductDialog(): void {
+        const dialogRef = this.dialog.open(SaleOpportunityTargetPriceProductNewDialogComponent, {
+            width: "60%",
+            data: <SaleOpportunityTargetPriceProductNewDialogInput>{
+                targetPriceId: this.currentTargetPrice.id
+                /* name: this.name, animal: this.animal */
+            }
+        });
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: SampleBoxItemNewDialogOutput) => {
+                const queryParams = this.route.snapshot.queryParams;
+                const newQueryParams = { ...queryParams }
+                delete newQueryParams['newbouquet'];
+                this.saleOpportunityService.router.navigate(['.'], {
+                    relativeTo: this.route,
+                    queryParams: newQueryParams
+                });
             });
     }
 }
 
-@Component({
-    selector: "sampleboxproductnew-dialog",
-    templateUrl: "sampleboxproductnew.dialog.component.html"
-})
-export class SampleBoxProductNewDialogComponent {
-    frmMain: FormGroup;
-    listColorType: Observable<EnumItem<any>[]>;
-    constructor(
-        private saleOpportunityService: SaleOpportunityService,
-        private productColorTypeResolveService: ProductColorTypeResolveService,
-        private matSnackBar: MatSnackBar,
-        private frmBuilder: FormBuilder,
-        public dialogRef: MatDialogRef<SampleBoxProductNewDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: SampleBoxItemNewDialogInput
-    ) {
-        this.listColorType = productColorTypeResolveService.onList.asObservable();
-
-        this.frmMain = frmBuilder.group({
-            name: ["", [Validators.required]],
-            colorTypeId: ["", [Validators.required]]
-        });
-    }
-
-    save(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const data = this.frmMain.value;
-            data.sampleBoxId = this.data.sampleBoxId;
-            this.saleOpportunityService
-                .addSampleBoxProductItem(data)
-                .then(res => {
-                    this.matSnackBar.open("Sample Box Product", "OK", {
-                        verticalPosition: "top",
-                        duration: 2000
-                    });
-
-                    resolve(res);
-                })
-                .catch(error => reject(error));
-        });
-    }
-
-    cancel(): void {
-        this.dialogRef.close();
-    }
-
-    create(): void {
-        this.save().then(res => {
-            this.dialogRef.close();
-        });
-    }
-
-    createEdit(): void {
-        this.save().then((res: OperationResponseValued<SampleBoxItem>) => {
-            // debugger;
-            const result = <SampleBoxItemNewDialogOutput>{
-                goTo: "Edit",
-                data: res.bag
-            };
-
-            this.dialogRef.close(result);
-        });
-    }
-}
-
 declare type ActiveAreaType = "settings" | "products";
-declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes | TargetPrices";
+declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes" | "TargetPrices";

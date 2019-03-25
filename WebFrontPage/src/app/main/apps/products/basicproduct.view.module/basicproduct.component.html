@@ -132,7 +132,7 @@
                                                                (matChipInputTokenEnd)="addTypedColorType($event)">
                                                     </mat-chip-list>
                                                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProductAllowedColorType($event)">
-                                                        <mat-option *ngFor="let item of listProductColorType" [value]="item.key">
+                                                        <mat-option *ngFor="let item of (listProductColorType$ | async)" [value]="item.key">
                                                             {{item.value}}
                                                         </mat-option>
                                                     </mat-autocomplete>

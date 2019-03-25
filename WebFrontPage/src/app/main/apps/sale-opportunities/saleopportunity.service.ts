@@ -37,8 +37,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onSampleBoxProductSubItemUpdated: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
     onSampleBoxSelected: BehaviorSubject<SampleBoxItem> = new BehaviorSubject<SampleBoxItem>(null);
-    onSampleBoxProductSelected: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
-    onSampleBoxProductSubItemSelected: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
+    onSampleBoxProductSelected: BehaviorSubject<SampleBoxProductItem> = new BehaviorSubject<SampleBoxProductItem>(null);
+    onSampleBoxProductSubItemSelected: BehaviorSubject<SampleBoxProductSubItem> = new BehaviorSubject<SampleBoxProductSubItem>(null);
 
 
 

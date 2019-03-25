@@ -50,6 +50,7 @@ import {
     GrowerTypeResolveService
 } from '../@resolveServices/resolve.module';
 import { SaleOpportunityViewComponent } from './saleopportunity.view.module/saleopportunity.view.component';
+import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view.module/saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
 
 const routes: Routes = [
     {
@@ -96,7 +97,7 @@ const routes: Routes = [
     declarations: [
         SaleOpportunitiesComponent,
         SaleOpportunityComponent,
-        SaleOpportunityNewDialogComponent
+        SaleOpportunityNewDialogComponent,
     ],
     entryComponents: [SaleOpportunityNewDialogComponent],
     imports: [

@@ -21,7 +21,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<SaleOpportunityTargetPricePageQueryCommandOutputDTO>> PageQuery(PageQuery<SaleOpportunityTargetPricePageQueryCommandInputDTO> input);
 
-        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityTargetPrice> GetById(int id);
+        OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityTargetPrice> GetById(int id, bool forceRefresh = false);
 
         OperationResponse<DomainModel.SaleOpportunity.SaleOpportunityTargetPrice> GetByIdWithProducts(int id);
 
