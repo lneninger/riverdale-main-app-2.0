@@ -75,7 +75,7 @@
     <div class="todo-content">
         <!--<pre>{{currentEntity | json}}</pre>-->
         <div class="tags targetprices mb-24">
-            <mat-list fxLayout="column" fxLayoutAlign="stretch">
+            <mat-list fxFlex="100" fxLayout="column" fxLayoutAlign="stretch">
                 <mat-list-item *ngFor="let targetPrice of currentEntity.targetPrices">
                     <mat-icon mat-list-icon>folder</mat-icon>
                     <h4 mat-line>{{targetPrice.name || 'No Name'}} ({{targetPrice.seasonName}})</h4>
