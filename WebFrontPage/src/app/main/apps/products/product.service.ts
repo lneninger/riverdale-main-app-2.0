@@ -10,7 +10,7 @@ import { environment } from 'environments/environment';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { CompositionItem } from './product.model';
+import { CompositionItem, Product } from './product.model';
 
 @Injectable()
 export class ProductService implements Resolve<any>, IPageQueryService {
@@ -65,12 +65,17 @@ export class ProductService implements Resolve<any>, IPageQueryService {
      */
     getEntity(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${environment.appApi.apiBaseUrl}product/${this.routeParams.id}`).subscribe(response => {
+            this.getById().subscribe(response => {
                 this.currentEntity = response;
                 this.onCurrentEntityChanged.next(this.currentEntity);
                 resolve(this.currentEntity);
             });
         });
+    }
+
+    getById(id?: number): Observable<Product> {
+        const internalId = id || this.routeParams.id;
+        return this.http.get<Product>(`${environment.appApi.apiBaseUrl}product/${internalId}`);
     }
 
     /**
@@ -117,9 +122,9 @@ export class ProductService implements Resolve<any>, IPageQueryService {
             this.http.delete(`${environment.appApi.apiBaseUrl}product/{id}`).subscribe((res: any) => {
                 resolve(res);
             },
-            error => {
-                reject(error);
-            });
+                error => {
+                    reject(error);
+                });
 
         });
     }
@@ -127,7 +132,7 @@ export class ProductService implements Resolve<any>, IPageQueryService {
     addCompositionItem(item: CompositionItem): any {
         return new Promise((resolve, reject) => {
             this.http.post<OperationResponse<CompositionItem>>(`${environment.appApi.apiBaseUrl}productbridge`, item).subscribe((res: OperationResponse<CompositionItem>) => {
-                const responseItem = res.bag; 
+                const responseItem = res.bag;
                 this.onCompositionItemAdded.next(responseItem);
                 resolve(res);
             },

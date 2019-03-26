@@ -35,7 +35,8 @@ import {
     SampleBoxItemNewDialogOutput,
     SampleBoxItemNewDialogInput,
     SaleOpportunityTargetPriceNewDialogInput,
-    SaleOpportunityTargetPriceNewDialogOutput,
+    SaleOpportunityTargetPriceNewDialogOutput,
+
     TargetPriceProductItem,
     TargetPriceItem,
     SaleOpportunityTargetPriceProductNewDialogInput
@@ -197,6 +198,19 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 this._currentSampleBoxProduct = sampleBoxProduct;
             }
         );
+
+
+        this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
+            targetPrice => {
+                this._currentTargetPrice = targetPrice;
+            }
+        );
+
+        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(
+            targetPriceProduct => {
+                this._currentTargetPriceProduct = targetPriceProduct;
+            }
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -283,8 +297,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             // debugger;
             if (params.newbouquet) {
-                debugger;
-                this.openTargetPriceProductDialog();
+                // debugger;
+                this.openTargetPriceProductDialog(params.newbouquet);
             } else if (params.newtargetprice) {
                 // debugger;
                 this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
@@ -675,11 +689,12 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
 
-    openTargetPriceProductDialog(): void {
+    openTargetPriceProductDialog(productId?: number): void {
         const dialogRef = this.dialog.open(SaleOpportunityTargetPriceProductNewDialogComponent, {
             width: "60%",
             data: <SaleOpportunityTargetPriceProductNewDialogInput>{
-                targetPriceId: this.currentTargetPrice.id
+                targetPriceId: this.currentTargetPrice.id,
+                productId: productId
                 /* name: this.name, animal: this.animal */
             }
         });

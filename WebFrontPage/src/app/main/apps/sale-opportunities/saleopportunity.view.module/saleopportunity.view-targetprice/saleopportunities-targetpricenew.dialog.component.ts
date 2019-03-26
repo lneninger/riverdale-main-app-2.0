@@ -34,7 +34,6 @@ import {
 })
 export class SaleOpportunityTargetPriceNewDialogComponent {
     listSeasonCategoryType$ = this.saleSeasonCategoryTypeResolveService.onList;
-    listCustomer = this.customerResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
 
     get selectedCategorySeasons(): Object {
@@ -53,8 +52,6 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<SaleOpportunityTargetPriceNewDialogComponent>
         , private  saleSeasonCategoryTypeResolveService: SaleSeasonCategoryTypeResolveService
-        , private customerResolveService: CustomerResolveService
-        , private growerTypeResolveService: GrowerTypeResolveService
         , @Inject(MAT_DIALOG_DATA) public data: SaleOpportunityTargetPriceNewDialogInput
         , private route: ActivatedRoute
     ) {

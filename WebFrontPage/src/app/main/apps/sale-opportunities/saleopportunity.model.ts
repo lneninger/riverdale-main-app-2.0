@@ -267,6 +267,7 @@ export class SaleOpportunityTargetPriceNewDialogOutput {
 
 export class SaleOpportunityTargetPriceProductNewDialogInput {
     targetPriceId: number;
+    productId: number;
 }
 
 export class SaleOpportunityTargetPriceProductNewDialogOutput {

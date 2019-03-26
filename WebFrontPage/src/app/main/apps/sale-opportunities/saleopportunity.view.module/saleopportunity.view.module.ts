@@ -12,9 +12,9 @@ import {
     , MatMenuModule
     , MatRippleModule
     , MatSelectModule
-    , MatSnackBarModule,
-    MatListModule
-} from '@angular/material';
+    , MatSnackBarModule
+    , MatCardModule
+    , MatListModule} from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -39,6 +39,7 @@ import { FormsModule } from '@angular/forms';
 import { CustomerSidebarComponent } from './sidebars/customer/customer-sidebar.component';
 import { SampleBoxProductNewDialogComponent } from './saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component';
 import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
+import { ProductCoreModule } from '../../products/product.core.module';
 
 const routes: Routes = [
     {
@@ -121,6 +122,7 @@ const routes: Routes = [
         , MatSnackBarModule
         , MatTooltipModule
         , MatDialogModule
+        , MatCardModule
 
         , NgxDnDModule
         
@@ -130,6 +132,7 @@ const routes: Routes = [
         , HipalanetUtils
         , SaleOpportunityCoreModule
         , FunzaCoreModule
+        , ProductCoreModule
     ],
     providers   : [
         SaleOpportunityViewService

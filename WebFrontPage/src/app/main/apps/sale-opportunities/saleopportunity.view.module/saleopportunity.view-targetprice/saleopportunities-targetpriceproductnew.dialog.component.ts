@@ -26,6 +26,7 @@ import {
     , CustomerResolveService, ProductResolveService
     , GrowerTypeResolveService 
 } from '../../../@resolveServices/resolve.module';
+import { ProductService, Product } from '../../../products/product.core.module';
 
 
 @Component({
@@ -34,8 +35,8 @@ import {
 })
 export class SaleOpportunityTargetPriceProductNewDialogComponent {
     listSeasonCategoryType$ = this.saleSeasonCategoryTypeResolveService.onList;
-    listCustomer = this.customerResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
+    product$: Observable<Product>;
 
     get selectedCategorySeasons(): Object {
         if (this.selectedSeasonCategory != null) {
@@ -49,29 +50,33 @@ export class SaleOpportunityTargetPriceProductNewDialogComponent {
     frmMain: FormGroup;
     constructor(
         private service: SaleOpportunityService
+        , private productService: ProductService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<SaleOpportunityTargetPriceProductNewDialogComponent>
         , private  saleSeasonCategoryTypeResolveService: SaleSeasonCategoryTypeResolveService
-        , private customerResolveService: CustomerResolveService
-        , private growerTypeResolveService: GrowerTypeResolveService
         , @Inject(MAT_DIALOG_DATA) public data: SaleOpportunityTargetPriceProductNewDialogInput
         , private route: ActivatedRoute
     ) {
+
+        this.product$ = this.productService.getById(data.productId)
+            //.pipe(map(res => res.bag))
+            ;
         
         this.frmMain = frmBuilder.group({
-            'name': ['', [Validators.required]],
-            'saleSeasonTypeId': ['', [Validators.required]],
-            // 'customerId': ['', [Validators.required]],
-            'targetPrice': ['', CustomValidators.number],
-            'alterenativesAmount': ['', CustomValidators.number]
+            //'name': ['', [Validators.required]],
+            //'saleSeasonTypeId': ['', [Validators.required]],
+            //// 'customerId': ['', [Validators.required]],
+            //'targetPrice': ['', CustomValidators.number],
+            //'alterenativesAmount': ['', CustomValidators.number]
         });
     }
 
     save(): Promise<{}> {
         return new Promise((resolve, reject) => {
-            const value = <TargetPriceProductItem>this.frmMain.value;
+            const value = this.frmMain.value;
             value.targetPriceId = this.data.targetPriceId;
+            value.productId = this.data.productId;
             this.service.addTargetPriceProductItem(value)
                 .then(res => {
                     this.matSnackBar.open('Target Price Product created', 'OK', {
@@ -89,7 +94,7 @@ export class SaleOpportunityTargetPriceProductNewDialogComponent {
         this.dialogRef.close();
     }
 
-    create(): void {
+    add(): void {
         this.save().then(res => {
             this.dialogRef.close();
         });

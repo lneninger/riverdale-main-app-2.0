@@ -23,12 +23,12 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
             {
                 var entity = new DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct
                 {
-                    Product = new CompositionProduct {
-                        Name = input.Name
-                    },
-                    SaleOpportunityTargetPriceId = input.SaleOpportunityTargetPriceId,
-                    ProductColorTypeId = input.ProductColorTypeId
+                    
+                    SaleOpportunityTargetPriceId = input.TargetPriceId,
+                    ProductColorTypeId = input.ProductColorTypeId,
+                    ProductId = input.ProductId
                 };
+                
 
                 try
                 {
