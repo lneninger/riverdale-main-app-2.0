@@ -1,5 +1,7 @@
 // Import Fuse core library
 @import "@fuse/scss/core";
 
+@import "app/main/apps/@hipalanetCommons/customs";
+
 // Import app.theme.scss
 @import "app/app.theme";

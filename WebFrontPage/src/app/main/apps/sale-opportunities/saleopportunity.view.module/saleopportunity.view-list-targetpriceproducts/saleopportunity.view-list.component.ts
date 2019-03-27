@@ -37,7 +37,7 @@ export class SaleOpportunityViewListTargetPriceProductComponent implements OnIni
     }
 
     get listOfSubItems(): TargetPriceProductItem[]{
-        return (this._currentTargetPrice && this._currentTargetPrice.targetPriceProducts) || [];
+        return (this._currentTargetPrice && this._currentTargetPrice.saleOpportunityTargetPriceProducts) || [];
     }
    
     
@@ -76,8 +76,8 @@ export class SaleOpportunityViewListTargetPriceProductComponent implements OnIni
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(targetPriceProduct => {
-            this._currentTargetPriceProduct = targetPriceProduct;
+        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(targetPrice => {
+            this._currentTargetPrice = targetPrice;
         });
     }
 
