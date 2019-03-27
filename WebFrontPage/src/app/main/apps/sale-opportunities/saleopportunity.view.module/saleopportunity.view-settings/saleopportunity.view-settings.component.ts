@@ -12,7 +12,7 @@ import { SaleOpportunity, ProductGrid } from '../../saleopportunity.model';
 import { FunzaService } from '../../../funza/funza.core.module';
 import { EnumItem } from 'app/main/apps/@resolveServices/resolve.model';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { CustomValidators } from 'ng4-validators';
+import { CustomValidators } from 'ngx-custom-validators';
 
 @Component({
     selector: 'saleopportunity-view-settings',

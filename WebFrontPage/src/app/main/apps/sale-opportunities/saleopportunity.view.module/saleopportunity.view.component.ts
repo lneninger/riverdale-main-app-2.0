@@ -44,7 +44,7 @@ import {
 import { SaleOpportunityViewService } from "./saleopportunity.view.service";
 import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
 import { SaleOpportunityService } from "../saleopportunity.core.module";
-import { CustomValidators } from "ng4-validators";
+import { CustomValidators } from "ngx-custom-validators";
 import {
     MatSnackBar,
     MatDialogRef,

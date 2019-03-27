@@ -7,7 +7,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 /*************************Custom***********************************/
 import { AuthenticationService, Register } from '../../../apps/@hipalanetCommons/authentication/authentication.core.module';
-import { CustomValidators } from 'ng4-validators';
+import { CustomValidators } from 'ngx-custom-validators';
 import { Router } from '@angular/router';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -36,7 +36,7 @@ export class ChatChatsSidenavComponent implements OnInit, OnDestroy
     constructor(
         private _chatService: ChatService,
         private _fuseMatSidenavHelperService: FuseMatSidenavHelperService,
-        public _observableMedia: ObservableMedia
+        public _observableMedia: MediaObserver
     )
     {
         // Set the defaults

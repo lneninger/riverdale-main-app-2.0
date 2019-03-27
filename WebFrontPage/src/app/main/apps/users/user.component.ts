@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog } from '@angular/material';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CustomValidators } from 'ng4-validators';
+import { CustomValidators } from 'ngx-custom-validators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';

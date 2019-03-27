@@ -20,7 +20,6 @@ import { SaleOpportunityService } from './saleopportunity.core.module';
 import { ProductTypeResolveService, EnumItem } from '../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
-import { CustomValidators } from 'ng4-validators';
 import { 
     SaleSeasonCategoryTypeResolveService
     , ProductColorTypeResolveService

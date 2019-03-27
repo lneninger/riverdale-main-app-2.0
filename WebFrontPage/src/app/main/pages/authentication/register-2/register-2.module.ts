@@ -7,7 +7,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { Register2Component } from 'app/main/pages/authentication/register-2/register-2.component';
 
 /*************************Custom***********************************/
-import { CustomFormsModule } from 'ng4-validators';
+import { CustomFormsModule } from 'ngx-custom-validators';
 
 
 
