@@ -141,7 +141,7 @@
                             currentEntity.customerName +
                             ')'
                         ">
-                        <mat-icon>person</mat-icon>
+                        <mat-icon [ngClass]="{'material-icons-outlined': showCustomerSidebar}">person</mat-icon>
                     </button>
 
                     <div class="toolbar-separator"></div>
@@ -194,7 +194,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    {{currentTargetPrice}}
+                    <!--{{currentTargetPrice}}-->
                     <button [disabled]="!currentTargetPrice"
                             mat-icon-button
                             (click)="openSampleBoxProductDialog()"
@@ -270,10 +270,21 @@
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
                 <ng-container *ngIf="activeArea != 'settings'">
-                    <saleopportunity-view-list [entity]="currentEntity"
-                                               [formItems]="frmSampleBoxProductItems"
-                                               fusePerfectScrollbar
-                                               fxFlex></saleopportunity-view-list>
+                    <ng-container [ngSwitch]="activeArea">
+                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="TargetPrices" [entity]="currentEntity"
+                                                   [formItems]="frmTargetPriceProductItems"
+                                                   fusePerfectScrollbar
+                                                   fxFlex></saleopportunity-view-list-targetpriceproducts>
+
+                        <saleopportunity-view-list *ngSwitchDefault [entity]="currentEntity"
+                                                   [formItems]="frmSampleBoxProductItems"
+                                                   fusePerfectScrollbar
+                                                   fxFlex></saleopportunity-view-list>
+                    </ng-container>
+                    
+
+
+
                     <ng-container *ngIf="activeDetailArea == 'ItemDetails'">
                         <saleopportunity-view-details [entity]="currentEntity"
                                                       fusePerfectScrollbar

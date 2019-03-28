@@ -40,6 +40,8 @@ import { CustomerSidebarComponent } from './sidebars/customer/customer-sidebar.c
 import { SampleBoxProductNewDialogComponent } from './saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component';
 import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
 import { ProductCoreModule } from '../../products/product.core.module';
+import { SaleOpportunityViewListTargetPriceProductComponent } from './saleopportunity.view-list-targetpriceproducts/saleopportunity.view-list.component';
+import { SaleOpportunityViewListItemTargetPriceProductComponent } from './saleopportunity.view-list-targetpriceproducts/saleopportunity.view-list-item/saleopportunity.view-list-item.component';
 
 const routes: Routes = [
     {
@@ -97,6 +99,8 @@ const routes: Routes = [
         , CustomerSidebarComponent
         , SaleOpportunityViewListItemComponent
         , SaleOpportunityViewListComponent
+        , SaleOpportunityViewListItemTargetPriceProductComponent
+        , SaleOpportunityViewListTargetPriceProductComponent
         , SaleOpportunityViewDetailsComponent
         , SaleOpportunityViewSampleBoxesComponent
         , SaleOpportunityViewSettingsComponent

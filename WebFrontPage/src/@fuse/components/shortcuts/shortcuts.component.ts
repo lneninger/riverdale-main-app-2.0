@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -45,7 +45,7 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
         private _cookieService: CookieService,
         private _fuseMatchMediaService: FuseMatchMediaService,
         private _fuseNavigationService: FuseNavigationService,
-        private _observableMedia: ObservableMedia,
+        private _observableMedia: MediaObserver,
         private _renderer: Renderer2
     )
     {

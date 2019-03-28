@@ -44,7 +44,7 @@ import {
 import { SaleOpportunityViewService } from "./saleopportunity.view.service";
 import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
 import { SaleOpportunityService } from "../saleopportunity.core.module";
-import { CustomValidators } from "ng4-validators";
+import { CustomValidators } from "ngx-custom-validators";
 import {
     MatSnackBar,
     MatDialogRef,
@@ -187,8 +187,16 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             this.onTargetPriceItemUpdated.bind(this)
         );
 
+        this.saleOpportunityService.onTargetPriceProductItemAdded.subscribe(
+            this.onTargetPriceProductItemAdded.bind(this)
+        );
+        this.saleOpportunityService.onTargetPriceProductItemUpdated.subscribe(
+            this.onTargetPriceProductItemUpdated.bind(this)
+        );
+
         this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(
             sampleBox => {
+                debugger;
                 this._currentSampleBox = sampleBox;
             }
         );
@@ -202,12 +210,14 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
         this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
             targetPrice => {
+                debugger;
                 this._currentTargetPrice = targetPrice;
             }
         );
 
         this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(
             targetPriceProduct => {
+                debugger;
                 this._currentTargetPriceProduct = targetPriceProduct;
             }
         );
@@ -245,7 +255,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                         this.hasSelectedTodos = selectedTodos.length > 0;
                         this.isIndeterminate =
                             selectedTodos.length !==
-                                this._todoService.todos.length &&
+                            this._todoService.todos.length &&
                             selectedTodos.length > 0;
                     }, 0);
                 }
@@ -297,10 +307,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             // debugger;
             if (params.newbouquet) {
-                // debugger;
+                debugger;
                 this.openTargetPriceProductDialog(params.newbouquet);
             } else if (params.newtargetprice) {
-                // debugger;
+                debugger;
                 this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
                 this.openTargetPriceDialog();
             }
@@ -334,12 +344,12 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             selected: "selected"
         });
 
-        result.controls["selected"].valueChanges.subscribe(value => {});
+        result.controls["selected"].valueChanges.subscribe(value => { });
 
         return result;
     }
 
-    
+
 
     createFormSampleBoxProductItem(item: SampleBoxProductItem): FormGroup {
         const result = this._formBuilder.group({
@@ -348,7 +358,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             selected: ""
         });
 
-        result.controls["selected"].valueChanges.subscribe(value => {});
+        result.controls["selected"].valueChanges.subscribe(value => { });
 
         return result;
     }
@@ -558,7 +568,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceItemAdded(item: TargetPriceItem): void {
-         debugger;
+        debugger;
         this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
         this.currentEntity.targetPrices.push(item);
         this.matSnackBar.open("Target Price Added", "OK", {
@@ -586,6 +596,16 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         }
     }
 
+    onTargetPriceProductItemAdded(item: TargetPriceProductItem): void {
+
+        this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
+        this.frmTargetPriceProductItems.push(this.createFormTargetPriceProductItem(item));
+
+        this.matSnackBar.open("Target Price Product added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
     onTargetPriceProductItemUpdated(item: TargetPriceProductItem): void {
         // debugger;
         const targetPrice = this.currentEntity.targetPrices.find(
@@ -633,7 +653,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
     }
 
-   
+
 
     openSampleBoxProductDialog(): void {
         const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {
@@ -684,7 +704,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                     relativeTo: this.route,
                     queryParams: newQueryParams
                 });
-                 
+
             });
     }
 
