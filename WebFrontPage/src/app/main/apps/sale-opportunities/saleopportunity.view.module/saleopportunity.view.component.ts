@@ -341,8 +341,13 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 item.parentSampleBoxId,
                 [CustomValidators.number]
             ],
-            selected: "selected"
+            selected: "selected",
         });
+
+        this.frmSampleBoxProductItems = this.frmSampleBoxProductItems || this._formBuilder.array([]);
+        item.sampleBoxProducts.forEach(productItem => this.frmSampleBoxProductItems.push(this.createFormSampleBoxProductItem(productItem)));
+        result.addControl('products', this.frmSampleBoxProductItems);
+
 
         result.controls["selected"].valueChanges.subscribe(value => { });
 
@@ -371,6 +376,11 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             saleSeasonTypeId: [item.saleSeasonTypeId, [Validators.required, CustomValidators.number]],
             selected: "selected"
         });
+
+        this.frmTargetPriceProductItems = this.frmTargetPriceProductItems || this._formBuilder.array([]);
+        item.saleOpportunityTargetPriceProducts.forEach(productItem => this.frmTargetPriceProductItems.push(this.createFormTargetPriceProductItem(productItem)));
+        result.addControl('products', this.frmTargetPriceProductItems);
+
 
         result.controls["selected"].valueChanges.subscribe(value => { });
 

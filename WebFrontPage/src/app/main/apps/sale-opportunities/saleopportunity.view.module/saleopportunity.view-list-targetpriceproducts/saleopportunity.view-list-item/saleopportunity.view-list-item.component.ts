@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
@@ -19,8 +19,8 @@ import { ProductService } from '../../../../products/product.core.module';
 export class SaleOpportunityViewListItemTargetPriceProductComponent implements OnInit, OnDestroy
 {
     tags: any[];
-    listProductColorType: EnumItem<string>[];
-    listProduct: EnumItem<number>[];
+    listProductColorType$: Observable<EnumItem<string>[]>;
+    listProduct$: Observable<EnumItem<number>[]>;
 
     @Input('entity')
     currentEntity: SampleBoxProductSubItem;
@@ -54,6 +54,8 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         , private _activatedRoute: ActivatedRoute
     )
     {
+        this.listProductColorType$ = this.serviceProductColorTypeResolve.onList;
+        this.listProduct$ = this.serviceProductResolve.onList;
 
         // Disable move if path is not /all
         if ( _activatedRoute.snapshot.url[0].path !== 'all' )
@@ -77,27 +79,7 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         // Set the initial values
         this.currentEntity = new SampleBoxProductSubItem(this.currentEntity);
 
-        this.listProductColorType = this.serviceProductColorTypeResolve.list;
-        this.listProduct =  this.serviceProductResolve.list;
-
-        // Subscribe to update on selected todo change
-        this.saleOpportunityService.onSampleBoxProductSelected
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(product => {
-                this.selected = false;
-
-                if ( product.sampleBoxProductSubItems.length > 0 )
-                {
-                    for ( const todo of product.sampleBoxProductSubItems )
-                    {
-                        if ( todo.id === this.currentEntity.id )
-                        {
-                            this.selected = true;
-                            break;
-                        }
-                    }
-                }
-            });
+        
     }
 
     /**
@@ -147,13 +129,14 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
     }
 
     isAllowedColorType(productColorTypeId: string): boolean {
-        const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
+        return true;
+        //const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
 
-        if (productItem) {
-            return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) !== -1;
-        }
+        //if (productItem) {
+        //    return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) !== -1;
+        //}
 
-        return false;
+        //return false;
     }
 
     updateItem(): void {

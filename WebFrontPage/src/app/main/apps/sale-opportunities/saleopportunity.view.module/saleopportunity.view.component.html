@@ -270,8 +270,8 @@
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
                 <ng-container *ngIf="activeArea != 'settings'">
-                    <ng-container [ngSwitch]="activeArea">
-                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="TargetPrices" [entity]="currentEntity"
+                    <ng-container [ngSwitch]="activeDetailArea">
+                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPrices'" [entity]="currentEntity"
                                                    [formItems]="frmTargetPriceProductItems"
                                                    fusePerfectScrollbar
                                                    fxFlex></saleopportunity-view-list-targetpriceproducts>

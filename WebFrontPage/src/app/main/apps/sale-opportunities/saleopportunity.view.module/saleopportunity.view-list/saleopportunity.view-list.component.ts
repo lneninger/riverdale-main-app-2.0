@@ -9,7 +9,7 @@ import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { SaleOpportunity, ProductGrid, SampleBoxItem, SampleBoxProductItem, SampleBoxProductSubItem } from '../../saleopportunity.model';
-import { Form, FormArray } from '@angular/forms';
+import { Form, FormArray, FormBuilder } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     
 
 
-    private _formItems: FormArray;
+    private _formItems = this.fmBuilder.array([]);
     get formItems(): FormArray {
         return this._formItems;
     }
@@ -69,6 +69,7 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
      */
     constructor(
         private _activatedRoute: ActivatedRoute
+        , private fmBuilder: FormBuilder
         , private _location: Location
         , private saleOpportunityService: SaleOpportunityService
     )
@@ -92,6 +93,7 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     {
        
     }
+
 
     /**
      * On destroy

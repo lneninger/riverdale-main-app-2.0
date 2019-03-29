@@ -39,19 +39,19 @@
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex>
                     <mat-label>Color</mat-label>
                     <mat-select name="colorTypeId" formControlName="productColorTypeId">
-                        <mat-option *ngFor="let item of listProductColorType" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
+                        <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
                             {{item.value}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
-            <div class="option">
+            <!--<div class="option">
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
                     <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
                     <input matInput formControlName="productAmount">
                 </mat-form-field>
-            </div>
+            </div>-->
 
             <button mat-mini-fab (click)="updateItem()" [disabled]="formGroup.invalid || formGroup.pristine"
                     aria-label="Save amount">
