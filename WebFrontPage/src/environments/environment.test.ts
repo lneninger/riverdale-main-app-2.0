@@ -12,7 +12,7 @@ export const environment = {
     appApi: {
         withCredentials: false,
         apiProjectUrl: "https://riverdaleapitest.hipalanet.com/",
-        apiBaseUrl: "https://riverdaleapitest.hipalanet.com/api/",
+        apiBaseUrl: "https://riverdaleapitest.hipalanet.com/api/v1/",
         apiUploadFileUrl: "https://riverdaleapitest.hipalanet.com/upload.axd"
     }
 };
