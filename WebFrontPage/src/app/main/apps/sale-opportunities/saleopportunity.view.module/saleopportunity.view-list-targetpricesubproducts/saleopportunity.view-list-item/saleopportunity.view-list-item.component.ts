@@ -11,12 +11,12 @@ import { SaleOpportunityService } from '../../../saleopportunity.core.module';
 import { ProductService } from '../../../../products/product.core.module';
 
 @Component({
-    selector: 'saleopportunity-view-list-item-targetpriceproduct',
+    selector: 'saleopportunity-view-list-item-targetpricesubproduct',
     templateUrl: './saleopportunity.view-list-item.component.html',
     styleUrls: ['./saleopportunity.view-list-item.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class SaleOpportunityViewListItemTargetPriceProductComponent implements OnInit, OnDestroy
+export class SaleOpportunityViewListItemTargetPriceSubProductComponent implements OnInit, OnDestroy
 {
     tags: any[];
     listProductColorType$: Observable<EnumItem<string>[]>;

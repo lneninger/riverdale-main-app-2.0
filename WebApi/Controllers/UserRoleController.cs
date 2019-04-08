@@ -31,8 +31,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// UserRole API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/userrole")]
+    [Route("api/v{version:apiVersion}/userrole")]
     public class UserRoleController : BaseController
     {
         /// <summary>

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SampleBoxProductSubItem } from '../../../saleopportunity.model';
+import { TargetPriceProductSubItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.core.module';
@@ -23,7 +23,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     listProduct: EnumItem<number>[];
 
     @Input('entity')
-    currentEntity: SampleBoxProductSubItem;
+    currentEntity: TargetPriceProductSubItem;
 
     @Input('formGroup')
     formGroup: FormGroup;
@@ -75,22 +75,22 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Set the initial values
-        this.currentEntity = new SampleBoxProductSubItem(this.currentEntity);
+        this.currentEntity = new TargetPriceProductSubItem(this.currentEntity);
 
         this.listProductColorType = this.serviceProductColorTypeResolve.list;
         this.listProduct =  this.serviceProductResolve.list;
 
         // Subscribe to update on selected todo change
-        this.saleOpportunityService.onSampleBoxProductSelected
+        this.saleOpportunityService.onTargetPriceProductSelected
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(product => {
                 this.selected = false;
 
-                if ( product.sampleBoxProductSubItems.length > 0 )
+                if ( product.targetPriceProductSubItems.length > 0 )
                 {
-                    for ( const todo of product.sampleBoxProductSubItems )
+                    for ( const basicProduct of product.targetPriceProductSubItems)
                     {
-                        if ( todo.id === this.currentEntity.id )
+                        if (basicProduct.id === this.currentEntity.id )
                         {
                             this.selected = true;
                             break;
@@ -157,8 +157,8 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     }
 
     updateItem(): void {
-        const data = <SampleBoxProductSubItem>this.formGroup.value;
-        this.saleOpportunityService.updateSampleBoxProductSubItem(data).then(response => {
+        const data = <TargetPriceProductSubItem>this.formGroup.value;
+        this.saleOpportunityService.updateTargetPriceProductSubItem(data).then(response => {
         }, error => {
 
         });

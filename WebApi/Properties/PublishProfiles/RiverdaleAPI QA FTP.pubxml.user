@@ -11,10 +11,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationLogic.dll">
-      <publishTime>03/24/2019 10:41:43</publishTime>
+      <publishTime>03/29/2019 07:02:28</publishTime>
     </File>
     <File Include="ApplicationLogic.pdb">
-      <publishTime>03/24/2019 10:41:43</publishTime>
+      <publishTime>03/29/2019 07:02:28</publishTime>
     </File>
     <File Include="appsettings.Development.json">
       <publishTime>07/10/2018 05:14:01</publishTime>
@@ -47,31 +47,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/20/2018 15:07:48</publishTime>
     </File>
     <File Include="CommunicationModel.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="CommunicationModel.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="compilerconfig.json">
       <publishTime>10/06/2018 23:00:50</publishTime>
     </File>
     <File Include="DatabaseRepositories.dll">
-      <publishTime>03/24/2019 10:41:47</publishTime>
+      <publishTime>03/29/2019 07:02:30</publishTime>
     </File>
     <File Include="DatabaseRepositories.pdb">
-      <publishTime>03/24/2019 10:41:47</publishTime>
+      <publishTime>03/29/2019 07:02:30</publishTime>
     </File>
     <File Include="DomainDatabaseMapping.dll">
-      <publishTime>03/22/2019 06:54:30</publishTime>
+      <publishTime>03/29/2019 07:02:24</publishTime>
     </File>
     <File Include="DomainDatabaseMapping.pdb">
-      <publishTime>03/22/2019 06:54:30</publishTime>
+      <publishTime>03/29/2019 07:02:24</publishTime>
     </File>
     <File Include="DomainModel.dll">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:23</publishTime>
     </File>
     <File Include="DomainModel.pdb">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:23</publishTime>
     </File>
     <File Include="dotnet-aspnet-codegenerator-design.dll">
       <publishTime>08/14/2018 07:56:08</publishTime>
@@ -98,64 +98,64 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/24/2018 11:46:26</publishTime>
     </File>
     <File Include="Framework.Autofac.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.Autofac.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.Commons.Standard.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:20</publishTime>
     </File>
     <File Include="Framework.Commons.Standard.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:20</publishTime>
     </File>
     <File Include="Framework.Core.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.Core.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.EF.dll">
-      <publishTime>03/22/2019 06:54:27</publishTime>
+      <publishTime>03/29/2019 07:02:22</publishTime>
     </File>
     <File Include="Framework.EF.pdb">
-      <publishTime>03/22/2019 06:54:27</publishTime>
+      <publishTime>03/29/2019 07:02:22</publishTime>
     </File>
     <File Include="Framework.FileStorage.AspNetCore.dll">
-      <publishTime>03/22/2019 06:54:30</publishTime>
+      <publishTime>03/29/2019 07:02:23</publishTime>
     </File>
     <File Include="Framework.FileStorage.AspNetCore.pdb">
-      <publishTime>03/22/2019 06:54:30</publishTime>
+      <publishTime>03/29/2019 07:02:23</publishTime>
     </File>
     <File Include="Framework.FluentValidation.dll">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:20</publishTime>
     </File>
     <File Include="Framework.FluentValidation.pdb">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:20</publishTime>
     </File>
     <File Include="Framework.Logging.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.Logging.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.SignalR.dll">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.SignalR.pdb">
-      <publishTime>03/22/2019 06:54:25</publishTime>
+      <publishTime>03/29/2019 07:02:19</publishTime>
     </File>
     <File Include="Framework.Web.dll">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:21</publishTime>
     </File>
     <File Include="Framework.Web.pdb">
-      <publishTime>03/22/2019 06:54:28</publishTime>
+      <publishTime>03/29/2019 07:02:21</publishTime>
     </File>
     <File Include="FunzaRepositories.dll">
-      <publishTime>03/24/2019 10:41:45</publishTime>
+      <publishTime>03/29/2019 07:02:30</publishTime>
     </File>
     <File Include="FunzaRepositories.pdb">
-      <publishTime>03/24/2019 10:41:45</publishTime>
+      <publishTime>03/29/2019 07:02:30</publishTime>
     </File>
     <File Include="Ghostscript.NET.dll">
       <publishTime>12/13/2016 15:31:26</publishTime>
@@ -239,13 +239,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/20/2018 15:08:24</publishTime>
     </File>
     <File Include="Microsoft.CodeAnalysis.CSharp.Workspaces.dll">
-      <publishTime>04/30/2018 16:29:02</publishTime>
+      <publishTime>03/27/2019 08:08:57</publishTime>
     </File>
     <File Include="Microsoft.CodeAnalysis.Workspaces.dll">
-      <publishTime>04/30/2018 16:29:04</publishTime>
+      <publishTime>03/27/2019 08:09:05</publishTime>
     </File>
     <File Include="Microsoft.DotNet.PlatformAbstractions.dll">
-      <publishTime>03/12/2019 01:23:47</publishTime>
+      <publishTime>03/28/2019 19:51:36</publishTime>
     </File>
     <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
       <publishTime>09/20/2018 15:08:26</publishTime>
@@ -263,7 +263,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/20/2018 15:08:26</publishTime>
     </File>
     <File Include="Microsoft.Extensions.DependencyModel.dll">
-      <publishTime>03/12/2019 01:23:47</publishTime>
+      <publishTime>03/28/2019 19:51:37</publishTime>
     </File>
     <File Include="Microsoft.Extensions.Identity.Core.dll">
       <publishTime>10/25/2018 18:31:16</publishTime>
@@ -272,7 +272,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/25/2018 18:31:00</publishTime>
     </File>
     <File Include="Microsoft.Extensions.PlatformAbstractions.dll">
-      <publishTime>03/12/2019 01:23:44</publishTime>
+      <publishTime>03/28/2019 19:51:34</publishTime>
     </File>
     <File Include="Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll">
       <publishTime>08/14/2018 07:56:10</publishTime>
@@ -305,13 +305,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 18:07:34</publishTime>
     </File>
     <File Include="NuGet.Frameworks.dll">
-      <publishTime>04/24/2018 21:27:10</publishTime>
+      <publishTime>03/27/2019 08:08:59</publishTime>
     </File>
     <File Include="Remotion.Linq.dll">
-      <publishTime>03/12/2019 01:23:47</publishTime>
+      <publishTime>03/28/2019 19:51:36</publishTime>
     </File>
     <File Include="RestSharp.dll">
-      <publishTime>01/07/2019 19:40:20</publishTime>
+      <publishTime>02/27/2019 20:13:32</publishTime>
     </File>
     <File Include="runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll">
       <publishTime>09/18/2018 19:38:14</publishTime>
@@ -325,20 +325,32 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
       <publishTime>05/15/2018 13:29:44</publishTime>
     </File>
+    <File Include="Swashbuckle.AspNetCore.dll">
+      <publishTime>11/07/2018 10:25:10</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>11/07/2018 10:25:06</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>11/07/2018 10:25:08</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>11/07/2018 10:25:06</publishTime>
+    </File>
     <File Include="System.Composition.AttributedModel.dll">
-      <publishTime>12/20/2018 05:01:56</publishTime>
+      <publishTime>03/27/2019 08:09:10</publishTime>
     </File>
     <File Include="System.Composition.Convention.dll">
-      <publishTime>12/20/2018 05:01:56</publishTime>
+      <publishTime>03/27/2019 08:09:10</publishTime>
     </File>
     <File Include="System.Composition.Hosting.dll">
-      <publishTime>12/20/2018 05:01:56</publishTime>
+      <publishTime>03/27/2019 08:09:10</publishTime>
     </File>
     <File Include="System.Composition.Runtime.dll">
-      <publishTime>12/20/2018 05:01:56</publishTime>
+      <publishTime>03/27/2019 08:09:10</publishTime>
     </File>
     <File Include="System.Composition.TypedParts.dll">
-      <publishTime>12/20/2018 05:01:56</publishTime>
+      <publishTime>03/27/2019 08:09:10</publishTime>
     </File>
     <File Include="System.Configuration.ConfigurationManager.dll">
       <publishTime>05/15/2018 13:29:38</publishTime>
@@ -350,34 +362,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/18/2018 19:38:14</publishTime>
     </File>
     <File Include="System.Interactive.Async.dll">
-      <publishTime>12/20/2018 05:01:58</publishTime>
+      <publishTime>03/27/2019 08:08:53</publishTime>
     </File>
     <File Include="System.Security.Cryptography.ProtectedData.dll">
       <publishTime>05/15/2018 13:29:44</publishTime>
     </File>
     <File Include="System.Threading.Channels.dll">
-      <publishTime>03/12/2019 01:23:52</publishTime>
+      <publishTime>03/28/2019 19:51:42</publishTime>
     </File>
     <File Include="tsconfig.json">
       <publishTime>02/08/2019 23:50:45</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>03/24/2019 10:42:01</publishTime>
+      <publishTime>03/29/2019 07:02:46</publishTime>
     </File>
     <File Include="web.QA.config">
       <publishTime>12/22/2018 05:47:46</publishTime>
     </File>
     <File Include="WebApi.deps.json">
-      <publishTime>03/24/2019 10:41:58</publishTime>
+      <publishTime>03/29/2019 07:02:42</publishTime>
     </File>
     <File Include="WebApi.dll">
-      <publishTime>03/24/2019 10:41:50</publishTime>
+      <publishTime>03/29/2019 07:02:34</publishTime>
     </File>
     <File Include="WebApi.pdb">
-      <publishTime>03/24/2019 10:41:50</publishTime>
+      <publishTime>03/29/2019 07:02:34</publishTime>
     </File>
     <File Include="WebApi.runtimeconfig.json">
-      <publishTime>03/24/2019 10:41:58</publishTime>
+      <publishTime>03/29/2019 07:02:42</publishTime>
     </File>
     <File Include="wwwroot/css/site.css">
       <publishTime>11/30/2018 22:44:40</publishTime>

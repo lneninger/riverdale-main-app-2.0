@@ -26,8 +26,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// SaleOpportunity API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/samplebox")]
+    [Route("api/v{version:apiVersion}/samplebox")]
     public class SampleBoxController : BaseController
     {
         /// <summary>

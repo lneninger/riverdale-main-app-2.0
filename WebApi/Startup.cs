@@ -137,14 +137,15 @@ namespace RiverdaleMainApp2_0
                     .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
+                services.AddApiVersioning(o =>
+                    {
+                        o.AssumeDefaultVersionWhenUnspecified = true;
+                        o.DefaultApiVersion = new ApiVersion(new DateTime(2016, 7, 1));
+                    });
+
+                SwaggerConfig.EnableServiceSwaggerMiddleware(services);
 
                 services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
-
-                // Register the Swagger generator, defining 1 or more Swagger documents
-                services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                });
 
                 var autofacServiceProvider = IoCConfig.Init(Configuration, services);
 
@@ -181,6 +182,8 @@ namespace RiverdaleMainApp2_0
 
                 app.ConfigureExceptionHandler();
 
+                SwaggerConfig.ConfigureApplicationSwaggerMiddleware(app);
+
                 //app.UseElmah();
 
                 // Shows UseCors with CorsPolicyBuilder.
@@ -216,8 +219,6 @@ namespace RiverdaleMainApp2_0
 
                 var securitySeedAsync = this.SecuritySeed().ConfigureAwait(false);
                 securitySeedAsync.GetAwaiter().GetResult();
-
-                EnableSwaggerMiddleware(app);
             }
             catch (Exception ex)
             {
@@ -230,18 +231,8 @@ namespace RiverdaleMainApp2_0
             }
         }
 
-        private void EnableSwaggerMiddleware(IApplicationBuilder app)
-        {
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-        }
+
 
         private void ConfigureAuthenticationServices(IServiceCollection services)
         {

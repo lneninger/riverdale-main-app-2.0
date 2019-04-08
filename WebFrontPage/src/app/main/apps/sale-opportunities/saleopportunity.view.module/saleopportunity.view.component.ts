@@ -39,7 +39,8 @@ import {
 
     TargetPriceProductItem,
     TargetPriceItem,
-    SaleOpportunityTargetPriceProductNewDialogInput
+    SaleOpportunityTargetPriceProductNewDialogInput,
+    TargetPriceProductSubItem
 } from "../saleopportunity.model";
 import { SaleOpportunityViewService } from "./saleopportunity.view.service";
 import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
@@ -105,6 +106,23 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     set currentTargetPrice(value: TargetPriceItem) {
         this.saleOpportunityService.toggleTargetPrice(value);
     }
+    get currentTargetPriceIndex() {
+        if (this.currentTargetPrice) {
+            return this.currentEntity.targetPrices.findIndex(targetPrice => targetPrice.id == this.currentTargetPrice.id);
+        }
+
+        return -1;
+    }
+
+    get frmCurrentTargetPrice() {
+        //debugger;
+        if (this.currentTargetPriceIndex != -1) {
+            return this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+        }
+
+        return null;
+    }
+
 
     _currentTargetPriceProduct: TargetPriceProductItem;
     onTargetPriceProductSelected: Subscription;
@@ -113,6 +131,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
     set currentTargetPriceProduct(value: TargetPriceProductItem) {
         this.saleOpportunityService.toggleTargetPriceProduct(value);
+    }
+    get currentTargetPriceProductIndex() {
+        return this.currentTargetPrice.saleOpportunityTargetPriceProducts.findIndex(product => product == this.currentTargetPriceProduct);
     }
 
     showCustomerSidebar: boolean;
@@ -137,7 +158,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     frmSampleBoxProductItems: FormArray;
 
     frmTargetPriceItems: FormArray;
-    frmTargetPriceProductItems: FormArray;
+    //frmTargetPriceProductItems: FormArray;
+    frmTargetPriceSubProductItems: FormArray;
 
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
@@ -196,7 +218,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
         this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(
             sampleBox => {
-                debugger;
+                //debugger;
                 this._currentSampleBox = sampleBox;
             }
         );
@@ -210,7 +232,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
         this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
             targetPrice => {
-                debugger;
+                //debugger;
                 this._currentTargetPrice = targetPrice;
             }
         );
@@ -377,9 +399,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             selected: "selected"
         });
 
-        this.frmTargetPriceProductItems = this.frmTargetPriceProductItems || this._formBuilder.array([]);
-        item.saleOpportunityTargetPriceProducts.forEach(productItem => this.frmTargetPriceProductItems.push(this.createFormTargetPriceProductItem(productItem)));
-        result.addControl('products', this.frmTargetPriceProductItems);
+        let frmProducts = /*this.frmTargetPriceProductItems = this.frmTargetPriceProductItems || */this._formBuilder.array([]);
+        item.saleOpportunityTargetPriceProducts.forEach(productItem => frmProducts.push(this.createFormTargetPriceProductItem(productItem)));
+        result.addControl('products', frmProducts);
 
 
         result.controls["selected"].valueChanges.subscribe(value => { });
@@ -388,6 +410,25 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     createFormTargetPriceProductItem(item: TargetPriceProductItem): FormGroup {
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            name: [item.productName, [Validators.required]],
+            productColorTypeId: [item.productColorTypeId],
+            selected: ""
+        });
+
+        let frmSubProducts = this.frmTargetPriceSubProductItems || this._formBuilder.array([]);
+        item.targetPriceProductSubItems.forEach(productItem => frmSubProducts.push(this.createFormTargetPriceSubProductItem(productItem)));
+        result.addControl('products', frmSubProducts);
+
+        
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
+
+        return result;
+    }
+
+    createFormTargetPriceSubProductItem(item: TargetPriceProductSubItem): FormGroup {
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
             name: [item.productName, [Validators.required]],
@@ -609,7 +650,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     onTargetPriceProductItemAdded(item: TargetPriceProductItem): void {
 
         this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
-        this.frmTargetPriceProductItems.push(this.createFormTargetPriceProductItem(item));
+        let frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+        (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceProductItem(item));
 
         this.matSnackBar.open("Target Price Product added", "OK", {
             verticalPosition: "top",
@@ -618,17 +660,19 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
     onTargetPriceProductItemUpdated(item: TargetPriceProductItem): void {
         // debugger;
-        const targetPrice = this.currentEntity.targetPrices.find(
-            relatedPorductItem => relatedPorductItem.id === item.id
+        const targetPriceIndex = this.currentEntity.targetPrices.findIndex(
+            relatedProductItem => relatedProductItem.id === item.id
         );
-        if (targetPrice !== null) {
-            const index = targetPrice.saleOpportunityTargetPriceProducts.findIndex(
+        if (targetPriceIndex != -1) {
+            const targetPrice = this.currentEntity.targetPrices[targetPriceIndex];
+
+            const productIndex = targetPrice.saleOpportunityTargetPriceProducts.findIndex(
                 productItem => productItem.id === item.id
             );
-            if (index >= 0) {
-                targetPrice.saleOpportunityTargetPriceProducts.splice(index, 1, item);
+            if (productIndex >= 0) {
+                targetPrice.saleOpportunityTargetPriceProducts.splice(productIndex, 1, item);
                 this.updateFormTargetPriceProductItem(
-                    <FormGroup>this.frmTargetPriceProductItems.controls[index],
+                    (((<FormGroup>this.frmTargetPriceItems.at(targetPriceIndex) as FormGroup).controls['products'] as FormArray).controls[productIndex] as FormGroup),
                     item
                 );
 

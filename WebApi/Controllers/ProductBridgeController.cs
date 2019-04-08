@@ -29,8 +29,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Product API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/productBridge")]
+    [Route("api/v{version:apiVersion}/productBridge")]
     public class ProductBridgeController : BaseController
     {
         /// <summary>

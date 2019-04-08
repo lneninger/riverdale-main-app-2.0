@@ -13,9 +13,15 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
     public class SaleOpportunityGetByIdCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunity, ISaleOpportunityDBRepository>, ISaleOpportunityGetByIdCommand
     {
 
-        public SaleOpportunityGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityGetByIdCommand(
+            IDbContextScopeFactory dbContextScopeFactory
+            , ISaleOpportunityDBRepository repository
+            , ISaleOpportunityTargetPriceProductDBRepository saleOpportunityTargetPriceProductRepository) : base(dbContextScopeFactory, repository)
         {
+            this.SaleOpportunityTargetPriceProductRepository = saleOpportunityTargetPriceProductRepository;
         }
+
+        public ISaleOpportunityTargetPriceProductDBRepository SaleOpportunityTargetPriceProductRepository { get; }
 
         public OperationResponse<SaleOpportunityGetByIdCommandOutputDTO> Execute(int id)
         {
@@ -23,6 +29,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetByIdWithProducts(id);
+                var allOpportunityTargetPriceProducts = this.SaleOpportunityTargetPriceProductRepository.GetAll().Bag;
                 result.AddResponse(getByIdResult);
                 if (result.IsSucceed)
                 {
@@ -69,7 +76,9 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 ProductTypeDescription = item.Product.ProductType.Description,
                                 ProductPictureId = item.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
                                 ProductColorTypeId = item.ProductColorTypeId,
-                                ProductColorTypeName = item.ProductColorType?.Name
+                                ProductColorTypeName = item.ProductColorType?.Name,
+                                OpportunityCount = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).Distinct().Count(),
+                                FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault()
                             }).ToList()
                         }).ToList(),
 

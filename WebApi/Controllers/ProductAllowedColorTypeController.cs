@@ -31,8 +31,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Product API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/productallowedcolortype")]
+    [Route("api/v{version:apiVersion}/productallowedcolortype")]
     public class ProductAllowedColorTypeController : BaseController
     {
         /// <summary>

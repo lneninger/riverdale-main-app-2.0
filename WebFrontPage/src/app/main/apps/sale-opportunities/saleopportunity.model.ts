@@ -104,7 +104,7 @@ export class TargetPriceProductItem {
     productTypeDescription: string;
     productPictureId: number;
     productColorTypeId?: string;
-    sampleBoxProductSubItems: SampleBoxProductSubItem[];
+    targetPriceProductSubItems: TargetPriceProductSubItem[];
 
     constructor(item?) {
         const internal = item || {};
@@ -121,9 +121,9 @@ export class TargetPriceProductItem {
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
-            this.sampleBoxProductSubItems = (
+            this.targetPriceProductSubItems = (
                 internal.sampleBoxProductSubItems || []
-            ).map(subItem => new SampleBoxProductSubItem(subItem));
+            ).map(subItem => new TargetPriceProductSubItem(subItem));
         }
     }
 }
@@ -172,7 +172,7 @@ export class SampleBoxProductItem {
     productTypeDescription: string;
     productPictureId: number;
     productColorTypeId?: string;
-    sampleBoxProductSubItems: SampleBoxProductSubItem[];
+    //sampleBoxProductSubItems: SampleBoxProductSubItem[];
 
     constructor(item?) {
         const internal = item || {};
@@ -189,16 +189,16 @@ export class SampleBoxProductItem {
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
-            this.sampleBoxProductSubItems = (
-                internal.sampleBoxProductSubItems || []
-            ).map(subItem => new SampleBoxProductSubItem(subItem));
+            //this.sampleBoxProductSubItems = (
+            //    internal.sampleBoxProductSubItems || []
+            //).map(subItem => new SampleBoxProductSubItem(subItem));
         }
     }
 }
 
-export class SampleBoxProductSubItem {
+export class TargetPriceProductSubItem {
     id: number;
-    sampleBoxId: number;
+    targetPriceProductId: number;
     productId: number;
     productName: string;
     productTypeId: string;
@@ -215,7 +215,7 @@ export class SampleBoxProductSubItem {
             this.productAmount = 1;
         } else {
             this.id = internal.id;
-            this.sampleBoxId = internal.sampleBoxId;
+            this.targetPriceProductId = internal.targetPriceProductId;
             this.productId = internal.productId;
             this.productName = internal.productName;
             this.productTypeId = internal.productTypeId;

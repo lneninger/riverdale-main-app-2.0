@@ -19,20 +19,17 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Product API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/funza")]
+    [Route("api/v{version:apiVersion}/funza")]
     public class FunzaController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
         /// <param name="hubContext"></param>
-        /// <param name="pageQueryCommand">The page query command</param>
-        /// <param name="getAllCommand">The get all command.</param>
-        /// <param name="getByIdCommand">The get by identifier command.</param>
-        /// <param name="insertCommand">The insert command.</param>
-        /// <param name="updateCommand">The update command.</param>
-        /// <param name="deleteCommand">The delete command.</param>
+        /// <param name="quoteGetItemsCommand"></param>
+        /// <param name="syncCommand"></param>
         public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand quoteGetItemsCommand, IFunzaSyncCommand syncCommand) :base()
         {
             this.SignalRHubContext = hubContext;

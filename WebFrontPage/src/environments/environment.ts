@@ -8,7 +8,7 @@ export const environment = {
     appApi: {
         withCredentials: false,
         apiProjectUrl: "https://localhost:5001/",
-        apiBaseUrl: "https://localhost:5001/api/",
+        apiBaseUrl: "https://localhost:5001/api/v1/",
         apiUploadFileUrl: "https://localhost:5001/upload.axd"
     }
 };

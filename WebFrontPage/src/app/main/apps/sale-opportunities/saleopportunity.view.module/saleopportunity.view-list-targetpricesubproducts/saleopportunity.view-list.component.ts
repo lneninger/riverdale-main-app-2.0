@@ -8,18 +8,18 @@ import { fuseAnimations } from '@fuse/animations';
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SaleOpportunity, ProductGrid, SampleBoxItem, TargetPriceProductItem, TargetPriceProductSubItem } from '../../saleopportunity.model';
-import { Form, FormArray, FormBuilder } from '@angular/forms';
+import { SaleOpportunity, ProductGrid, TargetPriceItem, TargetPriceProductItem } from '../../saleopportunity.model';
+import { Form, FormArray } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 
 @Component({
-    selector: 'saleopportunity-view-list',
+    selector: 'saleopportunity-view-list-targetpricesubproducts',
     templateUrl: './saleopportunity.view-list.component.html',
     styleUrls: ['./saleopportunity.view-list.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
+export class SaleOpportunityViewListTargetPriceSubProductComponent implements OnInit, OnDestroy
 {
     private _currentEntity: SaleOpportunity;
     get currentEntity(): SaleOpportunity {
@@ -30,20 +30,20 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
         this._currentEntity = value;
     }
 
-    _currentTargetPriceProduct: TargetPriceProductItem;
+    _currentTargetPrice: TargetPriceItem;
     onTargetPriceProductSelected: Subscription;
-    get currentTargetPriceProduct(): TargetPriceProductItem{
-        return this._currentTargetPriceProduct;
+    get currentTargetPrice(): TargetPriceItem{
+        return this._currentTargetPrice;
     }
 
-    get listOfSubItems(): TargetPriceProductSubItem[]{
-        return (this._currentTargetPriceProduct && this._currentTargetPriceProduct.targetPriceProductSubItems) || [];
+    get listOfSubItems(): TargetPriceProductItem[]{
+        return (this._currentTargetPrice && this._currentTargetPrice.saleOpportunityTargetPriceProducts) || [];
     }
    
     
 
 
-    private _formItems = this.fmBuilder.array([]);
+    private _formItems: FormArray;
     get formItems(): FormArray {
         return this._formItems;
     }
@@ -69,7 +69,6 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
      */
     constructor(
         private _activatedRoute: ActivatedRoute
-        , private fmBuilder: FormBuilder
         , private _location: Location
         , private saleOpportunityService: SaleOpportunityService
     )
@@ -77,8 +76,8 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(targetPriceProduct => {
-            this._currentTargetPriceProduct = targetPriceProduct;
+        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(targetPrice => {
+            this._currentTargetPrice = targetPrice;
         });
     }
 
@@ -93,7 +92,6 @@ export class SaleOpportunityViewListComponent implements OnInit, OnDestroy
     {
        
     }
-
 
     /**
      * On destroy

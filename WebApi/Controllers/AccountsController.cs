@@ -1,8 +1,10 @@
 ﻿using ApplicationLogic.Business.Commands.Security;
+using ApplicationLogic.SignalR;
 using DomainModel.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RiverdaleMainApp2_0.Auth;
@@ -20,8 +22,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Customer API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/accounts")]
+    [Route("api/v{version:apiVersion}/accounts")]
     public class AccountsController : BaseController
     {
         /// <summary>
@@ -32,7 +35,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="roleManager"></param>
         /// <param name="jwtFactory"></param>
         /// <param name="jwtOptions"></param>
-        public AccountsController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/):base(/*hubContext*/)
+        public AccountsController(IHubContext<GlobalHub> hubContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions/*, IAppUserRegisterCommand appUserRegisterCommand, IAppUserAuthenticateCommand appUserAuthenticateCommand, IAppUserGetByIdCommand appUserGetByIdCommand*/):base(/*hubContext*/)
         {
             this.RoleManager = roleManager;
             this.UserManager = userManager;

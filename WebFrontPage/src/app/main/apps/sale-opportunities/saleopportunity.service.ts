@@ -15,7 +15,7 @@ import {
     SecureHttpClientService,
     OperationResponse
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
-import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, SampleBoxProductSubItem, TargetPriceItem, TargetPriceProductItem } from './saleopportunity.model';
+import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, TargetPriceItem, TargetPriceProductItem, TargetPriceProductSubItem } from './saleopportunity.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
@@ -30,26 +30,26 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
 
     onSampleBoxItemAdded: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemAdded: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
-    onSampleBoxProductSubItemAdded: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
     onSampleBoxItemUpdated: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemUpdated: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
-    onSampleBoxProductSubItemUpdated: Subject<SampleBoxProductSubItem> = new Subject<SampleBoxProductSubItem>();
 
     onSampleBoxSelected: BehaviorSubject<SampleBoxItem> = new BehaviorSubject<SampleBoxItem>(null);
     onSampleBoxProductSelected: BehaviorSubject<SampleBoxProductItem> = new BehaviorSubject<SampleBoxProductItem>(null);
-    onSampleBoxProductSubItemSelected: BehaviorSubject<SampleBoxProductSubItem> = new BehaviorSubject<SampleBoxProductSubItem>(null);
 
 
 
     onTargetPriceItemAdded: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
     onTargetPriceProductItemAdded: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+    onTargetPriceProductSubItemAdded: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
 
     onTargetPriceItemUpdated: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
     onTargetPriceProductItemUpdated: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+    onTargetPriceProductSubItemUpdated: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
 
     onTargetPriceSelected: BehaviorSubject<TargetPriceItem> = new BehaviorSubject<TargetPriceItem>(null);
     onTargetPriceProductSelected: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+    onTargetPriceProductSubItemSelected: BehaviorSubject<TargetPriceProductSubItem> = new BehaviorSubject<TargetPriceProductSubItem>(null);
 
 
     /**
@@ -243,25 +243,25 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    updateSampleBoxProductSubItem(item: SampleBoxProductSubItem): any {
-        return new Promise((resolve, reject) => {
-            this.http
-                .put<OperationResponse<SampleBoxProductSubItem>>(
-                    `${environment.appApi.apiBaseUrl}sampleboxproductsubitem`,
-                    item
-                )
-                .subscribe(
-                    (res: OperationResponse<SampleBoxProductSubItem>) => {
-                        const responseItem = res.bag;
-                        this.onSampleBoxProductSubItemUpdated.next(responseItem);
-                        resolve(res);
-                    },
-                    error => {
-                        reject(error);
-                    }
-                );
-        });
-    }
+    //updateSampleBoxProductSubItem(item: SampleBoxProductSubItem): any {
+    //    return new Promise((resolve, reject) => {
+    //        this.http
+    //            .put<OperationResponse<SampleBoxProductSubItem>>(
+    //                `${environment.appApi.apiBaseUrl}sampleboxproductsubitem`,
+    //                item
+    //            )
+    //            .subscribe(
+    //                (res: OperationResponse<SampleBoxProductSubItem>) => {
+    //                    const responseItem = res.bag;
+    //                    this.onSampleBoxProductSubItemUpdated.next(responseItem);
+    //                    resolve(res);
+    //                },
+    //                error => {
+    //                    reject(error);
+    //                }
+    //            );
+    //    });
+    //}
 
     toggleSampleBox(sampleBox?: SampleBoxItem): any {
         this.currentSampleBox = sampleBox;
@@ -334,6 +334,47 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                 );
         });
     }
+
+    updateTargetPriceProductItem(item: TargetPriceProductItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .put<OperationResponse<TargetPriceProductItem>>(
+                    `${environment.appApi.apiBaseUrl}targetpriceproduct`,
+                    item
+                )
+                .subscribe(
+                    (res: OperationResponse<TargetPriceProductItem>) => {
+                        const responseItem = res.bag;
+                        this.onTargetPriceProductItemUpdated.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    updateTargetPriceProductSubItem(item: TargetPriceProductSubItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .put<OperationResponse<TargetPriceProductSubItem>>(
+                    `${environment.appApi.apiBaseUrl}targetpriceproductsubitem`,
+                    item
+                )
+                .subscribe(
+                (res: OperationResponse<TargetPriceProductSubItem>) => {
+                        const responseItem = res.bag;
+                    this.onTargetPriceProductSubItemUpdated.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
 
     toggleTargetPrice(targetPrice?: TargetPriceItem): any {
         this.currentTargetPrice = targetPrice;

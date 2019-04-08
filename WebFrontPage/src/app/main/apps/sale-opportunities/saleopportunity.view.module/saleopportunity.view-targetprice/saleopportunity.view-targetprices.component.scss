@@ -34,20 +34,21 @@ saleopportunity-view-targetprices {
             }
 
             .targetprice {
-                border: 1px solid gray;
-                border-radius: 10px;
-                overflow: hidden;
+                //border: 1px solid gray;
+                //border-radius: 10px;
+                /*overflow: hidden;
                 flex-basis: calc(30% - 20px);
                 margin-top: 20px;
-                flex-flow: row wrap;
-                min-height: 130px;
+                flex-flow: row wrap;*/
+                //min-height: 130px;
                 align-content: stretch;
                 // align-items: center;
                 &:hover {
                     background-color: gray;
+                    cursor: pointer;
                 }
 
-                .samplebox-products {
+                /*.samplebox-products {
                     flex-flow: row wrap;
                     flex: 100%;
                     justify-content: space-between;
@@ -64,7 +65,7 @@ saleopportunity-view-targetprices {
                         // margin-bottom: 20px;
                         // background-color: aqua;
                     }
-                }
+                }*/
             }
         }
 

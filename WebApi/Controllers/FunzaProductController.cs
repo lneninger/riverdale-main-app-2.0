@@ -16,8 +16,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Customer API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/funzaproduct")]
+    [Route("api/v{version:apiVersion}/funzaproduct")]
     public class FunzaProductController : BaseController
     {
         /// <summary>

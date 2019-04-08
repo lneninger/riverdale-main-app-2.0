@@ -11,17 +11,12 @@ using ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models;
 using ApplicationLogic.Business.Commands.Product.UpdateCommand;
 using ApplicationLogic.Business.Commands.Product.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
-using CommunicationModel;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
-//using Microsoft.AspNet.SignalR;
-using Microsoft.AspNetCore.Authorization;
-//using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
-using System.Linq;
 using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
@@ -30,8 +25,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Product API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/product")]
+    [Route("api/v{version:apiVersion}/product")]
     public class ProductController : BaseController
     {
         /// <summary>

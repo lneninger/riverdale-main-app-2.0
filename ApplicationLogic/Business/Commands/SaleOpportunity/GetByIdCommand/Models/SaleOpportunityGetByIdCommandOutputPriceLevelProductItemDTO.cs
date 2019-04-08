@@ -16,5 +16,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public int ProductPictureId { get; internal set; }
         public string ProductColorTypeId { get; internal set; }
         public string ProductColorTypeName { get; internal set; }
+        public int OpportunityCount { get; internal set; }
+        public int FirstOpportunityId { get; internal set; }
     }
 }

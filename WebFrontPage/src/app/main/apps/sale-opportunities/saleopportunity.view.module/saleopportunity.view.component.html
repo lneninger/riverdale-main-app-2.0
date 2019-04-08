@@ -70,7 +70,7 @@
                     fxHide.gt-md
                     (click)="toggleSidebar('todo-main-sidebar')"
                 >
-                    <mat-icon>menu</mat-icon>
+                    <mat-icon class="material-icons-outlined">menu</mat-icon>
                 </button>
 
                 <!--<div class="search" fxLayout="row" fxLayoutAlign="start center">
@@ -121,14 +121,14 @@
                     <button *ngIf="activeArea == 'settings'"
                             mat-icon-button
                             (click)="setActiveArea('products')">
-                        <mat-icon>format_list_numbered</mat-icon>
+                        <mat-icon class="material-icons-outlined">format_list_numbered</mat-icon>
                     </button>
                     <button *ngIf="activeArea != 'settings'"
                             mat-icon-button
                             (click)="setActiveArea('settings')"
                             matTooltip="Products quote info"
                             [attr.aria-label]="'Products quote info'">
-                        <mat-icon>settings</mat-icon>
+                        <mat-icon class="material-icons-outlined">settings</mat-icon>
                     </button>
 
                     <div class="toolbar-separator"></div>
@@ -141,7 +141,7 @@
                             currentEntity.customerName +
                             ')'
                         ">
-                        <mat-icon [ngClass]="{'material-icons-outlined': showCustomerSidebar}">person</mat-icon>
+                        <mat-icon [ngClass]="{'material-icons-outlined': !showCustomerSidebar}">person</mat-icon>
                     </button>
 
                     <div class="toolbar-separator"></div>
@@ -171,7 +171,7 @@
                             (click)="setActiveDetailArea('TargetPrices')"
                             matTooltip="Target Prices"
                             [attr.aria-label]="'View Target Prices'">
-                        <mat-icon>visibility</mat-icon>
+                        <mat-icon class="material-icons-outlined">visibility</mat-icon>
                     </button>
 
 
@@ -179,17 +179,17 @@
 
                     <span class="font-size-20 mr-16">BOUQUET</span>
                     <mat-form-field>
-                        <mat-select [(ngModel)]="currentSampleBoxProduct">
+                        <mat-select [(ngModel)]="currentTargetPriceProduct">
                             <option label="--select something --"></option>
                             <mat-option>None</mat-option>
                             <mat-option *ngFor="
-                                    let sampleboxProduct of currentSampleBox &&
-                                        currentSampleBox.sampleBoxProducts
+                                    let targetPriceProduct of currentTargetPrice &&
+                                        currentTargetPrice.saleOpportunityTargetPriceProducts
                                 "
-                                        [value]="sampleboxProduct">
+                                        [value]="targetPriceProduct">
                                 {{
-                                    sampleboxProduct.productName ||
-                                        sampleboxProduct.order
+                                    targetPriceProduct.productName ||
+                                        targetPriceProduct.order
                                 }}
                             </mat-option>
                         </mat-select>
@@ -200,7 +200,7 @@
                             (click)="openSampleBoxProductDialog()"
                             matTooltip="New Bouquet"
                             [attr.aria-label]="'New Bouquet'">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon class="material-icons-outlined">add</mat-icon>
                     </button>
 
                     <!--<button mat-icon-button
@@ -216,7 +216,7 @@
         <mat-icon>arrow_forward</mat-icon>
     </button>-->
 
-                    <div class="toolbar-separator"></div>
+                    <!--<div class="toolbar-separator"></div>
                     <span class="font-size-20 mr-16">BOX</span>
                     <mat-form-field>
                         <mat-select [(ngModel)]="currentSampleBox">
@@ -233,14 +233,14 @@
                             (click)="addSampleBox()"
                             matTooltip="New Sample Box"
                             [attr.aria-label]="'New Sample Box'">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon class="material-icons-outlined">add</mat-icon>
                     </button>
 
                     <button mat-icon-button
                             (click)="showCustomerSidebar = !showCustomerSidebar"
                             matTooltip="Copy Sample Box"
                             [attr.aria-label]="'Copy Sample Box'">
-                        <mat-icon>file_copy</mat-icon>
+                        <mat-icon class="material-icons-outlined">file_copy</mat-icon>
                     </button>
 
                     <button [disabled]="!currentEntity"
@@ -248,8 +248,8 @@
                             (click)="setActiveDetailArea('SampleBoxes')"
                             matTooltip="View Sample Boxes"
                             [attr.aria-label]="'View Sample Boxes'">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
+                        <mat-icon class="material-icons-outlined">visibility</mat-icon>
+                    </button>-->
                 </div>
 
                 <!-- <div fxFlexAlign="end center">
@@ -272,14 +272,21 @@
                 <ng-container *ngIf="activeArea != 'settings'">
                     <ng-container [ngSwitch]="activeDetailArea">
                         <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPrices'" [entity]="currentEntity"
-                                                   [formItems]="frmTargetPriceProductItems"
-                                                   fusePerfectScrollbar
-                                                   fxFlex></saleopportunity-view-list-targetpriceproducts>
+                                                                       [formItems]="frmCurrentTargetPrice && frmCurrentTargetPrice.controls['products']"
+                                                                       fusePerfectScrollbar
+                                                                       fxFlex></saleopportunity-view-list-targetpriceproducts>
+
+                        <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'BuquetSubProduct'" [entity]="currentEntity"
+                                                                    [formItems]="frmTargetPriceItems.controls[currentTargetPriceIndex].getControl('products')"
+                                                                    fusePerfectScrollbar
+                                                                    fxFlex></saleopportunity-view-list-targetpricesubproducts>
 
                         <saleopportunity-view-list *ngSwitchDefault [entity]="currentEntity"
                                                    [formItems]="frmSampleBoxProductItems"
                                                    fusePerfectScrollbar
                                                    fxFlex></saleopportunity-view-list>
+
+
                     </ng-container>
                     
 

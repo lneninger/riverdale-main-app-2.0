@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Input, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { FuseUtils } from '@fuse/utils';
@@ -34,6 +34,15 @@ export class SaleOpportunityViewTargetPricesComponent implements OnInit, OnDestr
     @Input('entity')
     currentEntity: SaleOpportunity;
 
+    _currentTargetPrice: TargetPriceItem;
+    onTargetPriceSelected: Subscription;
+    get currentTargetPrice(): TargetPriceItem {
+        return this._currentTargetPrice;
+    }
+    set currentTargetPrice(value: TargetPriceItem) {
+        this.saleOpportunityService.toggleTargetPrice(value);
+    }
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -50,6 +59,13 @@ export class SaleOpportunityViewTargetPricesComponent implements OnInit, OnDestr
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
+            targetPrice => {
+                //debugger;
+                this._currentTargetPrice = targetPrice;
+            }
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------

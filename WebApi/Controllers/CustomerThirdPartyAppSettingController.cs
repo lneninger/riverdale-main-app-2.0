@@ -21,8 +21,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// CustomerThirdPartyAppSetting API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/CustomerThirdPartyAppSetting")]
+    [Route("api/v{version:apiVersion}/CustomerThirdPartyAppSetting")]
     public class CustomerThirdPartyAppSettingController : BaseController
     {
         /// <summary>

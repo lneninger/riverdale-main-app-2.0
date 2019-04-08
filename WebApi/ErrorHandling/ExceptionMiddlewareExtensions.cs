@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace RiverdaleMainApp2_0.ErrorHandling
 {
+    /// <summary>
+    /// Exception Middleware 
+    /// </summary>
     public static class ExceptionMiddlewareExtensions
     {
         /// <summary>

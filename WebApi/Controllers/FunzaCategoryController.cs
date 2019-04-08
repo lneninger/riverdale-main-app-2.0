@@ -16,8 +16,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Customer API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/funzacategory")]
+    [Route("api/v{version:apiVersion}/funzacategory")]
     public class FunzaCategoryController : BaseController
     {
         /// <summary>
@@ -25,11 +26,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <param name="hubContext"></param>
         /// <param name="pageQueryCommand">The page query command</param>
-        /// <param name="getAllCommand">The get all command.</param>
-        /// <param name="getByIdCommand">The get by identifier command.</param>
-        /// <param name="insertCommand">The insert command.</param>
-        /// <param name="updateCommand">The update command.</param>
-        /// <param name="deleteCommand">The delete command.</param>
         public FunzaCategoryController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaCategoryPageQueryCommand pageQueryCommand): base()
         {
             this.SignalRHubContext = hubContext;

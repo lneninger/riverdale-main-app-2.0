@@ -26,8 +26,9 @@ namespace RiverdaleMainApp2_0.Controllers
     /// Grower API interface
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/grower")]
+    [Route("api/v{version:apiVersion}/grower")]
     public class GrowerController : BaseController
     {
         /// <summary>

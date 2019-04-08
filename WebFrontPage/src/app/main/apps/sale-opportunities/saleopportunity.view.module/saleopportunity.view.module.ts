@@ -14,7 +14,8 @@ import {
     , MatSelectModule
     , MatSnackBarModule
     , MatCardModule
-    , MatListModule} from '@angular/material';
+    , MatListModule
+} from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -42,6 +43,9 @@ import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleoppor
 import { ProductCoreModule } from '../../products/product.core.module';
 import { SaleOpportunityViewListTargetPriceProductComponent } from './saleopportunity.view-list-targetpriceproducts/saleopportunity.view-list.component';
 import { SaleOpportunityViewListItemTargetPriceProductComponent } from './saleopportunity.view-list-targetpriceproducts/saleopportunity.view-list-item/saleopportunity.view-list-item.component';
+import { SaleOpportunityTargetPriceSubProductNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpricesubproductnew.dialog.component';
+import { SaleOpportunityViewListTargetPriceSubProductComponent } from './saleopportunity.view-list-targetpricesubproducts/saleopportunity.view-list.component';
+import { SaleOpportunityViewListItemTargetPriceSubProductComponent } from './saleopportunity.view-list-targetpricesubproducts/saleopportunity.view-list-item/saleopportunity.view-list-item.component';
 
 const routes: Routes = [
     {
@@ -108,6 +112,10 @@ const routes: Routes = [
         , SaleOpportunityTargetPriceNewDialogComponent
         , SaleOpportunityViewTargetPricesComponent
         , SaleOpportunityTargetPriceProductNewDialogComponent
+
+        , SaleOpportunityViewListTargetPriceSubProductComponent
+        , SaleOpportunityViewListItemTargetPriceSubProductComponent
+        , SaleOpportunityTargetPriceSubProductNewDialogComponent
         
     ],
     imports     : [
@@ -145,6 +153,7 @@ const routes: Routes = [
         SaleOpportunityViewComponent
         , SaleOpportunityTargetPriceNewDialogComponent
         , SaleOpportunityTargetPriceProductNewDialogComponent
+        , SaleOpportunityTargetPriceSubProductNewDialogComponent
     ],
     entryComponents: [
         SampleBoxProductNewDialogComponent
