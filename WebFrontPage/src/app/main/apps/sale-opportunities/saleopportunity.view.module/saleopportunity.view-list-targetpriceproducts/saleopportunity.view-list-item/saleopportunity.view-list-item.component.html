@@ -67,7 +67,7 @@
             </button>
             <mat-menu #moreMenu="matMenu">
 
-                <button mat-menu-item aria-label="toggle important" (click)="selectTargetPriceProduct($event)" (click)="updateItem()" [disabled]="currentEntity.opportunityCount == 1 && currentEntity.firstApportunityId == currentOpportunity?.id">
+                <button mat-menu-item aria-label="toggle important" (click)="selectTargetPriceProduct($event)" (click)="updateItem()" [disabled]="currentEntity.editable">
                     <mat-icon>edit</mat-icon>
                     <span>Edit</span>
                 </button>

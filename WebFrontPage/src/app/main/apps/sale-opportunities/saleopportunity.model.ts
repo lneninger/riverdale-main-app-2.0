@@ -108,6 +108,10 @@ export class TargetPriceProductItem {
     firstOpportunityId: number;
     targetPriceProductSubItems: TargetPriceProductSubItem[];
 
+    get editable() {
+        return this.opportunityCount == 1 && this.firstOpportunityId == this.targetPriceId;
+    }
+
     constructor(item?) {
         const internal = item || {};
         if (internal.key) {
