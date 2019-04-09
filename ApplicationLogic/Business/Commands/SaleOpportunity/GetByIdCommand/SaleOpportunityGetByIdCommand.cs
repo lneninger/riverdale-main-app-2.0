@@ -78,7 +78,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 ProductColorTypeId = item.ProductColorTypeId,
                                 ProductColorTypeName = item.ProductColorType?.Name,
                                 OpportunityCount = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).Distinct().Count(),
-                                FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault()
+                                FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault(),
+                                
                             }).ToList()
                         }).ToList(),
 

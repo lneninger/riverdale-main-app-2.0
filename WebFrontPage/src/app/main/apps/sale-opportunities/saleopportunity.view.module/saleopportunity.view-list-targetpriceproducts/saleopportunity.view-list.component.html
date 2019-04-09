@@ -1,5 +1,5 @@
 <div *ngIf="listOfSubItems && listOfSubItems.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-    <span class="no-todos-text hint-text">Target price has no items!</span>
+    <span class="no-todos-text hint-text">Target Price's Product has no items!</span>
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <saleopportunity-view-list-item-targetpriceproduct class="todo-list-item has-handle"

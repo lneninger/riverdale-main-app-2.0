@@ -104,6 +104,8 @@ export class TargetPriceProductItem {
     productTypeDescription: string;
     productPictureId: number;
     productColorTypeId?: string;
+    opportunityCount: number;
+    firstOpportunityId: number;
     targetPriceProductSubItems: TargetPriceProductSubItem[];
 
     constructor(item?) {
@@ -121,6 +123,10 @@ export class TargetPriceProductItem {
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
+
+            this.firstOpportunityId = internal.firstOpportunityId;
+            this.opportunityCount = internal.opportunityCount;
+
             this.targetPriceProductSubItems = (
                 internal.sampleBoxProductSubItems || []
             ).map(subItem => new TargetPriceProductSubItem(subItem));
@@ -189,6 +195,8 @@ export class SampleBoxProductItem {
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
+
+            //debugger;
             //this.sampleBoxProductSubItems = (
             //    internal.sampleBoxProductSubItems || []
             //).map(subItem => new SampleBoxProductSubItem(subItem));
@@ -224,6 +232,7 @@ export class TargetPriceProductSubItem {
             this.productPictureId = internal.productPictureId;
             this.productAmount = internal.productAmount;
             this.productColorTypeId = internal.productColorTypeId;
+            //debugger;
         }
     }
 }

@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Todo } from '../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { SaleOpportunity, ProductGrid, TargetPriceItem, TargetPriceProductItem } from '../../saleopportunity.model';
+import { SaleOpportunity, ProductGrid, TargetPriceItem, TargetPriceProductItem, TargetPriceProductSubItem } from '../../saleopportunity.model';
 import { Form, FormArray } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.service';
 
@@ -30,14 +30,14 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
         this._currentEntity = value;
     }
 
-    _currentTargetPrice: TargetPriceItem;
+    _currentTargetPriceProduct: TargetPriceProductItem;
     onTargetPriceProductSelected: Subscription;
-    get currentTargetPrice(): TargetPriceItem{
-        return this._currentTargetPrice;
+    get currentTargetPriceProduct(): TargetPriceProductItem{
+        return this._currentTargetPriceProduct;
     }
 
-    get listOfSubItems(): TargetPriceProductItem[]{
-        return (this._currentTargetPrice && this._currentTargetPrice.saleOpportunityTargetPriceProducts) || [];
+    get listOfSubItems(): TargetPriceProductSubItem[]{
+        return (this._currentTargetPriceProduct && this._currentTargetPriceProduct.targetPriceProductSubItems) || [];
     }
    
     
@@ -49,6 +49,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     }
     @Input('formItems')
     set formItems(value: FormArray) {
+        debugger;
         this._formItems = value;
     }
 
@@ -76,8 +77,8 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(targetPrice => {
-            this._currentTargetPrice = targetPrice;
+        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(targetPriceProduct => {
+            this._currentTargetPriceProduct = targetPriceProduct;
         });
     }
 

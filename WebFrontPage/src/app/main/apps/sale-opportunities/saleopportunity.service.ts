@@ -47,6 +47,10 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onTargetPriceProductItemUpdated: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
     onTargetPriceProductSubItemUpdated: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
 
+    onTargetPriceItemDeleted: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
+    onTargetPriceProductItemDeleted: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+    onTargetPriceProductSubItemDeleted: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
+
     onTargetPriceSelected: BehaviorSubject<TargetPriceItem> = new BehaviorSubject<TargetPriceItem>(null);
     onTargetPriceProductSelected: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
     onTargetPriceProductSubItemSelected: BehaviorSubject<TargetPriceProductSubItem> = new BehaviorSubject<TargetPriceProductSubItem>(null);
@@ -303,8 +307,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     item
                 )
                 .subscribe(
-                    (res: OperationResponse<TargetPriceProductItem>) => {
-                        const responseItem = res.bag;
+                (res: OperationResponse<TargetPriceProductItem>) => {
+                    const responseItem = new TargetPriceProductItem(res.bag);
                         this.onTargetPriceProductItemAdded.next(responseItem);
                         resolve(res);
                     },
@@ -324,7 +328,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                 )
                 .subscribe(
                     (res: OperationResponse<TargetPriceItem>) => {
-                        const responseItem = res.bag;
+                        const responseItem = new TargetPriceItem(res.bag);
                         this.onTargetPriceItemUpdated.next(responseItem);
                         resolve(res);
                     },
@@ -339,12 +343,12 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http
                 .put<OperationResponse<TargetPriceProductItem>>(
-                    `${environment.appApi.apiBaseUrl}targetpriceproduct`,
+                `${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct`,
                     item
                 )
                 .subscribe(
                     (res: OperationResponse<TargetPriceProductItem>) => {
-                        const responseItem = res.bag;
+                        const responseItem = new TargetPriceProductItem( res.bag);
                         this.onTargetPriceProductItemUpdated.next(responseItem);
                         resolve(res);
                     },
@@ -354,6 +358,25 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                 );
         });
     }
+
+    deleteTargetPriceProductItem(itemId: number) {
+        return new Promise((resolve, reject) => {
+            this.http
+                .delete(`${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct/${itemId}`)
+                .subscribe(
+                    (res: any) => {
+                        resolve(res);
+                        const responseItem = res.bag;
+                        debugger;
+                        this.onTargetPriceProductItemDeleted.next(responseItem);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
 
     updateTargetPriceProductSubItem(item: TargetPriceProductSubItem): any {
         return new Promise((resolve, reject) => {

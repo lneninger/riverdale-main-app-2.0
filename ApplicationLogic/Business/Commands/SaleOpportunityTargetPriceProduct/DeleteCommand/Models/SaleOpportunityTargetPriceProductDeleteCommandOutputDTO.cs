@@ -12,7 +12,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.D
 
         public int Id { get; set; }
 
-        public int SaleOpportunityTargetPriceId { get; set; }
+        public int TargetPriceId { get; set; }
 
         public int ProductId { get; set; }
 

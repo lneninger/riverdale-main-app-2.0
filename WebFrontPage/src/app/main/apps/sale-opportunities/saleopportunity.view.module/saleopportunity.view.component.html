@@ -149,8 +149,6 @@
                     <span class="font-size-20 mr-16">TARGET PRICE</span>
                     <mat-form-field>
                         <mat-select [(ngModel)]="currentTargetPrice">
-                            <option label="--select something --"></option>
-                            <mat-option>None</mat-option>
                             <mat-option *ngFor="let targetPrice of currentEntity.targetPrices"
                                         [value]="targetPrice">
                                 {{
@@ -178,10 +176,11 @@
                     <div class="toolbar-separator"></div>
 
                     <span class="font-size-20 mr-16">BOUQUET</span>
+                    <!--<pre>
+{{currentTargetPriceProduct | json}}
+</pre>-->
                     <mat-form-field>
                         <mat-select [(ngModel)]="currentTargetPriceProduct">
-                            <option label="--select something --"></option>
-                            <mat-option>None</mat-option>
                             <mat-option *ngFor="
                                     let targetPriceProduct of currentTargetPrice &&
                                         currentTargetPrice.saleOpportunityTargetPriceProducts
@@ -276,8 +275,8 @@
                                                                        fusePerfectScrollbar
                                                                        fxFlex></saleopportunity-view-list-targetpriceproducts>
 
-                        <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'BuquetSubProduct'" [entity]="currentEntity"
-                                                                    [formItems]="frmTargetPriceItems.controls[currentTargetPriceIndex].getControl('products')"
+                        <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'TargetPriceProduct'" [entity]="currentEntity"
+                                                                    [formItems]="frmCurrentTargetPriceProduct && frmCurrentTargetPriceProduct.controls['products']"
                                                                     fusePerfectScrollbar
                                                                     fxFlex></saleopportunity-view-list-targetpricesubproducts>
 

@@ -57,7 +57,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
                         {
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.ProductId,
-                            SaleOpportunityTargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
+                            TargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
                             ProductAmount = getByIdResult.Bag.ProductAmount,
                             ProductName = getByIdResult.Bag.Product.Name,
                             ProductTypeId = getByIdResult.Bag.Product.ProductTypeId,

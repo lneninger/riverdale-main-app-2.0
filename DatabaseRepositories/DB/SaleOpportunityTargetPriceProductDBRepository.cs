@@ -75,7 +75,7 @@ namespace DatabaseRepositories.DB
                     result.Bag = query.ProcessPagingSort<SaleOpportunityTargetPriceProduct, SaleOpportunityTargetPriceProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new SaleOpportunityTargetPriceProductPageQueryCommandOutputDTO
                     {
                         Id = o.Id,
-                        SaleOpportunityTargetPriceId = o.SaleOpportunityTargetPriceId,
+                        TargetPriceId = o.SaleOpportunityTargetPriceId,
                         ProductId = o.ProductId,
                         ProductAmount = o.ProductAmount
                     });

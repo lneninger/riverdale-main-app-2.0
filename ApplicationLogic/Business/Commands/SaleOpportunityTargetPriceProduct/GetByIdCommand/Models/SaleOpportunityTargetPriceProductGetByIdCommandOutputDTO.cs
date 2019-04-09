@@ -14,7 +14,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.G
 
         public int ProductAmmount { get; set; }
 
-        public int SaleOpportunityTargetPriceId { get; set; }
+        public int TargetPriceId { get; set; }
 
         public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
     }

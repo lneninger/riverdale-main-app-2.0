@@ -44,7 +44,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.U
                         result.Bag = new SaleOpportunityTargetPriceProductUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            SaleOpportunityTargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
+                            TargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
                             ProductId = getByIdResult.Bag.ProductId,
                             ProductAmount = getByIdResult.Bag.ProductAmount,
                             ProductName = getByIdResult.Bag.Product.Name,

@@ -4,11 +4,19 @@ import { Subject, Observable } from 'rxjs';
 import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
-import { TargetPriceProductSubItem } from '../../../saleopportunity.model';
+import { TargetPriceProductSubItem, TargetPriceProductItem, SaleOpportunity } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.core.module';
 import { ProductService } from '../../../../products/product.core.module';
+import {
+    DeletePopupComponent,
+    DeletePopupData,
+    DeletePopupResult
+} from '../../../../@hipalanetCommons/popups/delete/delete.popup.module';
+import { MatDialog, MatSnackBar } from '@angular/material';
+
+
 
 @Component({
     selector: 'saleopportunity-view-list-item-targetpriceproduct',
@@ -22,8 +30,10 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
     listProductColorType$: Observable<EnumItem<string>[]>;
     listProduct$: Observable<EnumItem<number>[]>;
 
+    currentOpportunity: SaleOpportunity;
+
     @Input('entity')
-    currentEntity: TargetPriceProductSubItem;
+    currentEntity: TargetPriceProductItem;
 
     @Input('formGroup')
     formGroup: FormGroup;
@@ -52,6 +62,8 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         , private serviceProductResolve: ProductResolveService
         , private serviceProduct: ProductService
         , private _activatedRoute: ActivatedRoute
+        , private matDialog: MatDialog
+        , private _matSnackBar: MatSnackBar
     )
     {
         this.listProductColorType$ = this.serviceProductColorTypeResolve.onList;
@@ -62,6 +74,8 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         {
             this.moveDisabled = true;
         }
+
+        this.saleOpportunityService.onCurrentEntityChanged.subscribe(currentOpportunity => this.currentOpportunity = currentOpportunity)
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -76,10 +90,6 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
      */
     ngOnInit(): void
     {
-        // Set the initial values
-        this.currentEntity = new TargetPriceProductSubItem(this.currentEntity);
-
-        
     }
 
     /**
@@ -112,20 +122,35 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         event.stopPropagation();
     }
 
-    /**
-     * Toggle Important
-     */
-    toggleImportant(event): void
-    {
-        event.stopPropagation();
+    selectTargetPriceProduct($event: Event) {
+        debugger;
+        this.saleOpportunityService.toggleTargetPriceProduct(this.currentEntity);
     }
 
-    /**
-     * Toggle Completed
-     */
-    toggleCompleted(event): void
-    {
-        event.stopPropagation();
+
+    deleteTargetPriceProduct($event: Event) {
+        const dialogRef = this.matDialog.open(DeletePopupComponent, {
+            width: '250px',
+            data: <DeletePopupData>{ elementDescription: this.currentEntity.productName }
+        });
+
+        dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
+            if (result == 'YES') {
+                this.deleteTargetPriceProductExecution();
+            }
+        });
+    }
+
+    deleteTargetPriceProductExecution() {
+        this.saleOpportunityService.deleteTargetPriceProductItem(this.currentEntity.id)
+            .then(() => {
+
+                //// Show the success message
+                //this._matSnackBar.open('target price\'s product deleted', 'OK', {
+                //    verticalPosition: 'top',
+                //    duration: 2000
+                //});
+            });
     }
 
     isAllowedColorType(productColorTypeId: string): boolean {
@@ -140,8 +165,8 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
     }
 
     updateItem(): void {
-        const data = <TargetPriceProductSubItem>this.formGroup.value;
-        this.saleOpportunityService.updateTargetPriceProductSubItem(data).then(response => {
+        const data = <TargetPriceProductItem>this.formGroup.value;
+        this.saleOpportunityService.updateTargetPriceProductItem(data).then(response => {
         }, error => {
 
         });

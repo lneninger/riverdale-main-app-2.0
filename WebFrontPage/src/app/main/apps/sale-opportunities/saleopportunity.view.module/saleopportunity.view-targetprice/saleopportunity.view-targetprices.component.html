@@ -77,7 +77,7 @@
         <div class="tags targetprices mb-24">
             <mat-list fxFlex="100" fxLayout="column" fxLayoutAlign="stretch">
                 <mat-list-item class="targetprice" (click)="currentTargetPrice = targetPrice" [attr.color]="currentTargetPrice == targetPrice ? 'primary' : ''" *ngFor="let targetPrice of currentEntity.targetPrices">
-                    <mat-icon mat-list-icon>folder</mat-icon>
+                    <mat-icon mat-list-icon>folder_outlined</mat-icon>
                     <h4 mat-line>{{targetPrice.name || 'No Name'}} ({{targetPrice.seasonName}})</h4>
                     <section mat-line>
                         <span fxFlex="30%">

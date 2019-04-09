@@ -28,7 +28,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.D
                     result.Bag = new SaleOpportunityTargetPriceProductDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        SaleOpportunityTargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
+                        TargetPriceId = getByIdResult.Bag.SaleOpportunityTargetPriceId,
                         ProductId = getByIdResult.Bag.ProductId
                     };
                 }
