@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule
+    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule, MatDialogModule
 } from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
@@ -17,6 +17,7 @@ import { CompositionViewDetailsComponent } from './composition.view-details/comp
 
 import { HipalanetUtils } from '../../@hipalanetCommons/ngx-utils/main';
 import { ProductCoreModule } from '../product.core.module';
+import { CompositionViewBridgeNewDialogComponent } from './composition.view.bridgenew.dialog.component';
 
 const routes: Routes = [
     {
@@ -74,6 +75,7 @@ const routes: Routes = [
         , CompositionViewListItemComponent
         , CompositionViewListComponent
         , CompositionViewDetailsComponent
+        , CompositionViewBridgeNewDialogComponent
     ],
     imports     : [
         RouterModule//.forChild(routes),
@@ -87,6 +89,7 @@ const routes: Routes = [
         , MatMenuModule
         , MatRippleModule
         , MatSelectModule
+        , MatDialogModule
         
         , NgxDnDModule
         
@@ -101,6 +104,9 @@ const routes: Routes = [
     ],
     exports: [
         CompositionViewComponent
+    ],
+    entryComponents: [
+        CompositionViewBridgeNewDialogComponent
     ]
 })
 export class CompositionViewModule

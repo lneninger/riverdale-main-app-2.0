@@ -16,6 +16,7 @@ import {
     OperationResponse
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
 import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, TargetPriceItem, TargetPriceProductItem, TargetPriceProductSubItem } from './saleopportunity.model';
+import { CompositionItem } from '../products/product.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
@@ -41,11 +42,11 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
 
     onTargetPriceItemAdded: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
     onTargetPriceProductItemAdded: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
-    onTargetPriceProductSubItemAdded: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
+    onTargetPriceProductSubItemAdded: Subject<CompositionItem> = new Subject<CompositionItem>();
 
     onTargetPriceItemUpdated: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
     onTargetPriceProductItemUpdated: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
-    onTargetPriceProductSubItemUpdated: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
+    onTargetPriceProductSubItemUpdated: Subject<CompositionItem> = new Subject<CompositionItem>();
 
     onTargetPriceItemDeleted: Subject<TargetPriceItem> = new Subject<TargetPriceItem>();
     onTargetPriceProductItemDeleted: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
@@ -378,15 +379,35 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     }
 
 
-    updateTargetPriceProductSubItem(item: TargetPriceProductSubItem): any {
+    addTargetPriceProductSubItem(item: CompositionItem): any {
         return new Promise((resolve, reject) => {
             this.http
-                .put<OperationResponse<TargetPriceProductSubItem>>(
-                    `${environment.appApi.apiBaseUrl}targetpriceproductsubitem`,
+                .post<OperationResponse<CompositionItem>>(
+                `${environment.appApi.apiBaseUrl}productBridge`,
                     item
                 )
                 .subscribe(
-                (res: OperationResponse<TargetPriceProductSubItem>) => {
+                (res: OperationResponse<CompositionItem>) => {
+                    const responseItem = new CompositionItem(res.bag);
+                        this.onTargetPriceProductSubItemAdded.next(responseItem);
+                        resolve(res);
+                    },
+                    error => {
+                        reject(error);
+                    }
+                );
+        });
+    }
+
+    updateTargetPriceProductSubItem(item: TargetPriceProductSubItem): any {
+        return new Promise((resolve, reject) => {
+            this.http
+                .put<OperationResponse<CompositionItem>>(
+                `${environment.appApi.apiBaseUrl}productBridge`,
+                    item
+                )
+                .subscribe(
+                (res: OperationResponse<CompositionItem>) => {
                         const responseItem = res.bag;
                     this.onTargetPriceProductSubItemUpdated.next(responseItem);
                         resolve(res);

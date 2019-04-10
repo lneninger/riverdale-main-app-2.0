@@ -107,3 +107,13 @@ export class CompositionItem {
         }
     }
 }
+
+
+export class CompositionItemNewDialogInput {
+    listProductType: EnumItem<string>[];
+    productRef: CompositionItem;
+}
+
+export class CompositionItemNewDialogResult {
+    result: 'Saved' | 'Closed'
+}

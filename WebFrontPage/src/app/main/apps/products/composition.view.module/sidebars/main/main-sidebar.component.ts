@@ -7,25 +7,30 @@ import {
     ViewChild,
     Input
 } from "@angular/core";
-import { Router } from "@angular/router";
-import { pipe, of, fromEvent, Subject, Observable } from "rxjs";
+import { Router, ActivatedRoute } from "@angular/router";
+import { pipe, of, fromEvent, Subject, Observable, combineLatest } from "rxjs";
 import {
     takeUntil,
     debounceTime,
     distinctUntilChanged,
     filter,
-    mergeMap
+    mergeMap,
+    map,
+    startWith
+
 } from "rxjs/operators";
 
 import { fuseAnimations } from "@fuse/animations";
 
-import { Product, CompositionItem } from "../../../product.model";
+import { Product, CompositionItem, CompositionItemNewDialogResult, CompositionItemNewDialogInput } from "../../../product.model";
 import { CompositionViewService } from "../../composition.view.service";
 import {
     EnumItem,
     ProductResolveService
 } from "../../../../@resolveServices/resolve.module";
 import { ProductService } from "../../../product.service";
+import { CompositionViewBridgeNewDialogComponent } from "../../composition.view.bridgenew.dialog.component";
+import { MatDialog } from "@angular/material";
 
 @Component({
     selector: "todo-main-sidebar",
@@ -50,7 +55,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     @ViewChild("productFilterElement")
     productFilterElement: ElementRef;
 
-    listProduct: EnumItem<number>[];
+    listProduct: Observable<EnumItem<number>[]>;
 
     folders: any[];
     filters: any[];
@@ -71,7 +76,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         private _todoService: CompositionViewService,
         private _router: Router,
         private productResolveService: ProductResolveService,
-        private productService: ProductService
+        private service: ProductService,
+        private matDialog: MatDialog,
+        private route: ActivatedRoute
     ) {
         // Set the defaults
         this.accounts = {
@@ -98,22 +105,10 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        fromEvent(this.productFilterElement.nativeElement, "keyup")
-            .pipe(
-                filter(e => {
-                    return (<any>e).keyCode == 13;
-                }),
-                takeUntil(this._unsubscribeAll),
-                debounceTime(150),
-                distinctUntilChanged()
-            )
-            .subscribe(() => {
-                debugger;
-                let term = <string>(
-                    this.productFilterElement.nativeElement.value
-                );
-                this.filterProducts(term);
-            });
+
+        this.initProductFilteredObservable();
+
+
 
         this._todoService.onFiltersChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -128,6 +123,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
             });
     }
 
+
     /**
      * On destroy
      */
@@ -140,21 +136,42 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    initProductFilteredObservable() {
+        const filterTyping$ = fromEvent(this.productFilterElement.nativeElement, "keyup")
+            .pipe(
+                startWith({ keyCode: 13 }),
 
-    filterProducts(term: string): Observable<EnumItem<any>[]> {
-        return this.productResolveService.onList.pipe(
-            mergeMap(productList => {
-                const termFilter = productList.filter(
-                    o =>
-                        o.key !== this.currentEntity.id &&
-                        o.value &&
-                        (!term ||
-                            o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
-                );
-                return of(termFilter);
-            })
+                filter(e => {
+                    return (<any>e).keyCode == 13;
+                })
+            );
+
+        this.listProduct = combineLatest(
+            filterTyping$
+            , this.productResolveService.onList
+        )
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(150),
+                distinctUntilChanged()
+            )
+            .pipe(map(res => { return { term: <string>this.productFilterElement.nativeElement.value, listProduct: res[1] }; }))
+            .pipe(mergeMap((filterValues) => {
+                return this.filterProducts(filterValues.term, filterValues.listProduct);
+            }));
+    }
+
+
+    filterProducts(term: string, list: EnumItem<number>[]): Observable<EnumItem<any>[]> {
+        const termFilter = list.filter(
+            o =>
+                o.key !== this.currentEntity.id &&
+                o.value &&
+                (!term ||
+                    o.value.toLowerCase().indexOf(term.toLowerCase()) !== -1)
         );
-       
+
+        return of(termFilter);
     }
 
     /**
@@ -168,11 +185,34 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
+    openDialog(enumItem: CompositionItem): void {
+        const dialogRef = this.matDialog.open(CompositionViewBridgeNewDialogComponent, {
+            width: '60%',
+            data: <CompositionItemNewDialogInput>{
+                listProductType: this.route.snapshot.data.listProductType,
+                productRef: enumItem
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result: CompositionItemNewDialogResult) => {
+            //if (result && result.result === 'Edit') {
+            //    this.service.router.navigate([`apps/products/${result.data.id}`]);
+            //}
+            //else {
+            //    this.service.router.navigate([`../`], { relativeTo: this.route });
+            //    this.dataSource.dataChanged.next('');
+            //}
+        });
+    }
+
     selectedToAddItem(enumItem: EnumItem<number>) {
         const item = new CompositionItem(enumItem);
         item.productId = this.currentEntity.id;
-        this.productService
-            .addCompositionItem(item)
-            .then(response => {}, error => {});
+
+        this.openDialog(item);
+
+        //this.service
+        //    .addCompositionItem(item)
+        //    .then(response => { }, error => { });
     }
 }

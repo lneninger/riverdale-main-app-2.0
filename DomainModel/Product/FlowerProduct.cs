@@ -6,7 +6,7 @@ namespace DomainModel.Product
 {
     public class FlowerProduct : AbstractProduct
     {
-        public string ProductColorTypeId { get; set; }
-        public virtual ProductColorType ProductColorType { get; set; }
+        public string FlowerProductCategoryId { get; set; }
+        public virtual FlowerProductCategory FlowerProductCategory { get; set; }
     }
 }

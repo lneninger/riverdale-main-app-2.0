@@ -29,7 +29,8 @@ import { fuseAnimations } from "@fuse/animations";
 
 import {
     SaleOpportunity,
-    SampleBoxProductItem
+    SampleBoxProductItem,
+    TargetPriceProductSubItem
 } from "../../../saleopportunity.model";
 import { SaleOpportunityViewService } from "../../saleopportunity.view.service";
 import {
@@ -37,6 +38,7 @@ import {
     ProductResolveService
 } from "../../../../@resolveServices/resolve.module";
 import { SaleOpportunityService } from "../../../saleopportunity.service";
+import { CompositionItem } from "app/main/apps/products/product.model";
 
 @Component({
     selector: "todo-main-sidebar",
@@ -204,11 +206,11 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     selectedToAddItem(enumItem: EnumItem<number>): any {
-        const item = new SampleBoxProductItem(enumItem);
-        const sampleBoxItem = this.saleOpportunityService.currentSampleBox;
-        if (sampleBoxItem !== null) {
-            item.sampleBoxId = sampleBoxItem.id;
-            this.saleOpportunityService.addSampleBoxProductItem(item).then(
+        const item = new CompositionItem(enumItem);
+        const currentTargetPriceProduct = this.saleOpportunityService.currentTargetPriceProduct;
+        if (currentTargetPriceProduct !== null) {
+            item.productId = currentTargetPriceProduct.productId;
+            this.saleOpportunityService.addTargetPriceProductSubItem(item).then(
                 response => {
                     // debugger;
                 },
