@@ -8,5 +8,7 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ProductTypeId { get; set; }
+        public string FlowerProductCategoryId { get; set; }
+
     }
 }

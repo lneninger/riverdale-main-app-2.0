@@ -85,7 +85,7 @@ namespace DatabaseRepositories.DB
                     {
                         Id = o.Id,
                         Name = o.Name,
-                        ColorName = o.ProductTypeId == "FLW" && ((FlowerProduct)o).ProductColorType != null ? ((FlowerProduct)o).ProductColorType.Name : null,
+                        FlowerProductCategoryName = o.ProductTypeId == "FLW" && ((FlowerProduct)o).FlowerProductCategory != null ? ((FlowerProduct)o).FlowerProductCategory.Name : null,
                         CreatedAt = o.CreatedAt,
                         MainPicture = o.ProductMedias.Select(m => new FileItemRefOutputDTO
                         {

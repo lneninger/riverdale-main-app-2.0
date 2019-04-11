@@ -40,7 +40,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IFunzaIntegrationAuthenticateCommand deleteCommand):base(/*hubContext*/)
+        public ProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductPageQueryCommand pageQueryCommand, IProductGetAllCommand getAllCommand, IProductGetByIdCommand getByIdCommand, IProductInsertCommand insertCommand, IProductUpdateCommand updateCommand, IProductDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
@@ -100,7 +100,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <value>
         /// The delete command.
         /// </value>
-        public IFunzaIntegrationAuthenticateCommand DeleteCommand { get; }
+        public IProductDeleteCommand DeleteCommand { get; }
 
         /// <summary>
         /// 

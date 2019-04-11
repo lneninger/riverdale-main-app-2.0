@@ -1,15 +1,9 @@
-﻿using DomainModel.Company.Customer;
-using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Customer.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Customer.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.Customer.UpdateCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using DomainModel.Company.Customer;
 using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using System.Collections.Generic;
 
 namespace ApplicationLogic.Repositories.DB
 {

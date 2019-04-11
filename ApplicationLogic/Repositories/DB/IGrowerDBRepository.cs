@@ -1,15 +1,9 @@
-﻿using DomainModel.Company.Grower;
-using ApplicationLogic.Business.Commands.Grower.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Grower.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.Grower.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.Grower.InsertCommand.Models;
+﻿using ApplicationLogic.Business.Commands.Grower.DeleteCommand.Models;
 using ApplicationLogic.Business.Commands.Grower.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.Grower.UpdateCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using DomainModel.Company.Grower;
 using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using System.Collections.Generic;
 
 namespace ApplicationLogic.Repositories.DB
 {

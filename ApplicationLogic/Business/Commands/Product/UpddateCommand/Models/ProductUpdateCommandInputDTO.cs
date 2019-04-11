@@ -10,6 +10,6 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand.Models
 
         public string Name { get; set; }
 
-        public string ProductColorTypeId { get; set; }
+        public string FlowerProductCategoryId { get; set; }
     }
 }

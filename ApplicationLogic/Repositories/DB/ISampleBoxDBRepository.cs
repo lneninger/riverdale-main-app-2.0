@@ -1,18 +1,8 @@
-﻿using DomainModel;
-using ApplicationLogic.Business.Commands.SampleBox.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.SampleBox.UpdateCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Framework.Core.Messages;
-using DomainModel.Product;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using ApplicationLogic.Business.Commands.SampleBox.PageQueryCommand.Models;
 using DomainModel.SaleOpportunity;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using System.Collections.Generic;
 
 namespace ApplicationLogic.Repositories.DB
 {

@@ -109,8 +109,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CompanyType","CRM");
 
                     b.HasData(
-                        new { Id = "GWR", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 585, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Grower/Supplier of Riverdale", Name = "Grower" },
-                        new { Id = "CUS", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 585, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Customer of Riverdale", Name = "Customer" }
+                        new { Id = "GWR", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 877, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Grower/Supplier of Riverdale", Name = "Grower" },
+                        new { Id = "CUS", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 877, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Customer of Riverdale", Name = "Customer" }
                     );
                 });
 
@@ -211,8 +211,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("CustomerFreightoutRateType","QUOTE");
 
                     b.HasData(
-                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 607, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
-                        new { Id = "BOX", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 607, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
+                        new { Id = "CUBE", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 898, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by volume(cubic meters)", Name = "Cube" },
+                        new { Id = "BOX", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 898, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Rate by box(amount of containers)", Name = "Box" }
                     );
                 });
 
@@ -398,9 +398,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("GrowerType","CRM");
 
                     b.HasData(
-                        new { Id = "THIRD", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 615, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Third Party Grower", Name = "Third Party" },
-                        new { Id = "FUNZAMIA", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 616, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Miami", Name = "Funza Miami" },
-                        new { Id = "FUNZABTA", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 616, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Bogota", Name = "Funza Bogota" }
+                        new { Id = "THIRD", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 909, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Third Party Grower", Name = "Third Party" },
+                        new { Id = "FUNZAMIA", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 909, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Miami", Name = "Funza Miami" },
+                        new { Id = "FUNZABTA", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 909, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Branch Bogota", Name = "Funza Bogota" }
                     );
                 });
 
@@ -576,10 +576,10 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("FileSystemType","FILE");
 
                     b.HasData(
-                        new { Id = "SYS", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 632, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
-                        new { Id = "DB", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 632, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
-                        new { Id = "AWS", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 632, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
-                        new { Id = "AZU", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 632, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
+                        new { Id = "SYS", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 925, DateTimeKind.Utc), CreatedBy = "Seed", Description = "File System Repository", Name = "File System" },
+                        new { Id = "DB", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 925, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Internal Database Repository", Name = "Database" },
+                        new { Id = "AWS", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 925, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Amazon S3 File Repository", Name = "AWS S3" },
+                        new { Id = "AZU", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 925, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Azure Storage File Repository", Name = "Azure Storage" }
                     );
                 });
 
@@ -1126,6 +1126,8 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<DateTime?>("DeletedAt");
 
+                    b.Property<int?>("FlowerProductCategoryGradeId");
+
                     b.Property<bool?>("IsDeleted");
 
                     b.Property<int>("Stems");
@@ -1140,7 +1142,81 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.HasIndex("CompositionProductId");
 
+                    b.HasIndex("FlowerProductCategoryGradeId");
+
                     b.ToTable("CompositionProductBridgeProduct","PROD");
+                });
+
+            modelBuilder.Entity("DomainModel.Product.FlowerProductCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(30);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowerProductCategory","PROD");
+                });
+
+            modelBuilder.Entity("DomainModel.Product.FlowerProductCategoryGrade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(4)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()")
+                        .HasAnnotation("ColumnOrder", 100);
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("SYSTEM_USER")
+                        .HasAnnotation("ColumnOrder", 101);
+
+                    b.Property<string>("FlowerProductCategoryId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasAnnotation("ColumnOrder", 102);
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(100)")
+                        .HasAnnotation("ColumnOrder", 103);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowerProductCategoryId");
+
+                    b.ToTable("FlowerProductCategoryGrade","PROD");
                 });
 
             modelBuilder.Entity("DomainModel.Product.ProductAllowedColorType", b =>
@@ -1164,6 +1240,8 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<DateTime?>("DeletedAt");
 
+                    b.Property<string>("FlowerProductCategoryId");
+
                     b.Property<bool?>("IsDeleted");
 
                     b.Property<string>("ProductColorTypeId");
@@ -1178,6 +1256,8 @@ namespace DomainDatabaseMigrations.Migrations
                         .HasAnnotation("ColumnOrder", 103);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FlowerProductCategoryId");
 
                     b.HasIndex("ProductColorTypeId");
 
@@ -1269,9 +1349,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ProductType","PROD");
 
                     b.HasData(
-                        new { Id = "FLW", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 690, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
-                        new { Id = "COMP", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 690, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
-                        new { Id = "HARD", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 690, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
+                        new { Id = "FLW", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 981, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Raw Flower", Name = "Flower" },
+                        new { Id = "COMP", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 981, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Multiple Product Composition. Kit", Name = "Composition" },
+                        new { Id = "HARD", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 981, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Hardgood", Name = "Hardgood" }
                     );
                 });
 
@@ -1527,9 +1607,9 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("SaleSeasonCategoryType","OPP");
 
                     b.HasData(
-                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 651, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
-                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 651, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
-                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 651, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
+                        new { Id = "EVERYDAY", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 945, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Available at any moment", Name = "Every day" },
+                        new { Id = "HOLIDAY", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 945, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Holiday", Name = "Holiday" },
+                        new { Id = "YEARROUND", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 945, DateTimeKind.Utc), CreatedBy = "Seed", Description = "Sale around the year", Name = "Year round" }
                     );
                 });
 
@@ -1701,8 +1781,8 @@ namespace DomainDatabaseMigrations.Migrations
                     b.ToTable("ThirdPartyAppType","CNF");
 
                     b.HasData(
-                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 547, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
-                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 3, 22, 9, 0, 52, 548, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
+                        new { Id = "BISERP", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 828, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Business ERP" },
+                        new { Id = "SFORCE", CreatedAt = new DateTime(2019, 4, 11, 10, 45, 30, 830, DateTimeKind.Utc), CreatedBy = "Seed", Name = "Salesforce" }
                     );
                 });
 
@@ -1857,9 +1937,10 @@ namespace DomainDatabaseMigrations.Migrations
                 {
                     b.HasBaseType("DomainModel.Product.AbstractProduct");
 
-                    b.Property<string>("ProductColorTypeId");
+                    b.Property<string>("FlowerProductCategoryId")
+                        .HasMaxLength(20);
 
-                    b.HasIndex("ProductColorTypeId");
+                    b.HasIndex("FlowerProductCategoryId");
 
                     b.ToTable("FlowerProduct");
 
@@ -1978,10 +2059,25 @@ namespace DomainDatabaseMigrations.Migrations
                         .WithMany("Items")
                         .HasForeignKey("CompositionProductId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DomainModel.Product.FlowerProductCategoryGrade", "FlowerProductCategoryGrade")
+                        .WithMany()
+                        .HasForeignKey("FlowerProductCategoryGradeId");
+                });
+
+            modelBuilder.Entity("DomainModel.Product.FlowerProductCategoryGrade", b =>
+                {
+                    b.HasOne("DomainModel.Product.FlowerProductCategory", "FlowerProductCategory")
+                        .WithMany("Grades")
+                        .HasForeignKey("FlowerProductCategoryId");
                 });
 
             modelBuilder.Entity("DomainModel.Product.ProductAllowedColorType", b =>
                 {
+                    b.HasOne("DomainModel.Product.FlowerProductCategory")
+                        .WithMany("AllowedColorTypes")
+                        .HasForeignKey("FlowerProductCategoryId");
+
                     b.HasOne("DomainModel.ProductColorType", "ProductColorType")
                         .WithMany()
                         .HasForeignKey("ProductColorTypeId");
@@ -2138,9 +2234,9 @@ namespace DomainDatabaseMigrations.Migrations
 
             modelBuilder.Entity("DomainModel.Product.FlowerProduct", b =>
                 {
-                    b.HasOne("DomainModel.ProductColorType", "ProductColorType")
-                        .WithMany()
-                        .HasForeignKey("ProductColorTypeId");
+                    b.HasOne("DomainModel.Product.FlowerProductCategory", "FlowerProductCategory")
+                        .WithMany("Flowers")
+                        .HasForeignKey("FlowerProductCategoryId");
                 });
 #pragma warning restore 612, 618
         }

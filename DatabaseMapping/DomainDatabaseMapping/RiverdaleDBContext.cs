@@ -69,6 +69,8 @@ namespace DomainDatabaseMapping
         // Products
         public DbSet<AbstractProduct> Products { get; set; }
         public DbSet<ProductAllowedColorType> ProductAllowedColorTypes { get; set; }
+        public DbSet<FlowerProductCategory> FlowerProductCategories { get; set; }
+        public DbSet<FlowerProductCategoryGrade> FlowerProductCategoryGrades { get; set; }
 
 
         //Opportunity
@@ -158,6 +160,8 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new CompositionProductBridgeProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new FlowerProductMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new HardgoodProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new FlowerProductCategoryMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new FlowerProductCategoryGradeMap(modelBuilder));
         }
 
 

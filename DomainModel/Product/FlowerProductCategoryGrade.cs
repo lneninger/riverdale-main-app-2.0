@@ -11,6 +11,6 @@
         public string Name { get; set; }
 
         public string FlowerProductCategoryId { get; set; }
-        public FlowerProductCategory FlowerProductCategory { get; set; }
+        public virtual FlowerProductCategory FlowerProductCategory { get; set; }
     }
 }

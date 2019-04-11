@@ -62,7 +62,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                     }
                     else if (result.Bag.ProductTypeEnum == ProductTypeEnum.FLW)
                     {
-                        result.Bag.ProductColorTypeId = ((FlowerProduct)getByIdResult.Bag).ProductColorTypeId;
+                        result.Bag.FlowerProductCategoryId = ((FlowerProduct)getByIdResult.Bag).FlowerProductCategoryId;
 
                     }
                 }

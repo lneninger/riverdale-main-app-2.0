@@ -13,6 +13,6 @@ namespace ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models
        
         public FileItemRefOutputDTO MainPicture { get; set; }
 
-        public string ColorName { get; set; }
+        public string FlowerProductCategoryName { get; set; }
     }
 }

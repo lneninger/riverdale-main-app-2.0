@@ -1,18 +1,8 @@
-﻿using DomainModel;
-using ApplicationLogic.Business.Commands.Product.DeleteCommand.Models;
-using ApplicationLogic.Business.Commands.Product.GetAllCommand.Models;
-using ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models;
-using ApplicationLogic.Business.Commands.Product.InsertCommand.Models;
-using ApplicationLogic.Business.Commands.Product.PageQueryCommand.Models;
-using ApplicationLogic.Business.Commands.ProductAllowedColorType.UpdateCommand.Models;
-using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Framework.Core.Messages;
+﻿using ApplicationLogic.Business.Commands.ProductAllowedColorType.PageQueryCommand.Models;
 using DomainModel.Product;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using ApplicationLogic.Business.Commands.ProductAllowedColorType.PageQueryCommand.Models;
+using Framework.Core.Messages;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using System.Collections.Generic;
 
 namespace ApplicationLogic.Repositories.DB
 {

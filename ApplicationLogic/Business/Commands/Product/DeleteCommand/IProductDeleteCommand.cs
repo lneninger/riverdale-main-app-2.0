@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.Product.DeleteCommand
 {
-    public interface IFunzaIntegrationAuthenticateCommand: ICommandFunc<int, OperationResponse<ProductDeleteCommandOutputDTO>>
+    public interface IProductDeleteCommand : ICommandFunc<int, OperationResponse<ProductDeleteCommandOutputDTO>>
     {
     }
 }

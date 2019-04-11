@@ -6,19 +6,27 @@ using System;
 
 namespace DomainDatabaseMapping.Mappings.Product
 {
-    public class FlowerProductMap : BaseAbstractMap, IEntityTypeConfiguration<FlowerProduct>
+    public class FlowerProductCategoryGradeMap : BaseAbstractMap, IEntityTypeConfiguration<FlowerProductCategoryGrade>
     {
 
-        public FlowerProductMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        public FlowerProductCategoryGradeMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
-        public void Configure(EntityTypeBuilder<FlowerProduct> builder)
+        public void Configure(EntityTypeBuilder<FlowerProductCategoryGrade> builder)
         {
-            builder.HasOne(t => t.ProductColorType)
-                .WithMany()
-                .HasForeignKey(t => t.ProductColorTypeId)
+            builder.ToTable("FlowerProductCategoryGrade", SCHEMAS.PRODUCT);
+            builder.HasKey(t => t.Id);
+
+            builder.Property(t => t.Id)
+                .HasMaxLength(4);
+
+            builder.HasOne(t => t.FlowerProductCategory)
+                .WithMany(t => t.Grades)
+                .HasForeignKey(t => t.FlowerProductCategoryId)
                 ;
+
+            
         }
     }
 }
