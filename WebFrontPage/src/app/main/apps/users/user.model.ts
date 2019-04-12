@@ -37,6 +37,10 @@ export class User {
     }
 }
 
+export class UserProfilePicture {
+    constructor(public userId?: string, public pictureUrl?: string) { }
+    
+}
 
 
 export class UserNewDialogResult {

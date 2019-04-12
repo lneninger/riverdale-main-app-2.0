@@ -1,0 +1,11 @@
+<h1 mat-dialog-title class="red--fg">Prompt{{data.name}}</h1>
+<div mat-dialog-content fxLayout="row wrap">
+    <mat-form-field appearance="outline" floatLabel="always" fxFlex>
+        <mat-label>{{data.promptText}}</mat-label>
+        <input matInput [(ngModel)]="result.value" />
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial mat-dialog-close="NO">No</button>
+    <button mat-button (click)="onYesClick()">Yes</button>
+</div>

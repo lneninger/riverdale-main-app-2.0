@@ -11,7 +11,7 @@ import { environment } from 'environments/environment';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService } from '../@hipalanetCommons/authentication/securehttpclient.service';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
-import { User } from './user.model';
+import { User, UserProfilePicture } from './user.model';
 
 @Injectable()
 export class UserService implements Resolve<any>, IPageQueryService {
@@ -134,6 +134,19 @@ export class UserService implements Resolve<any>, IPageQueryService {
             error => {
                 reject(error);
             });
+
+        });
+    }
+
+    updateUserProfilePicture(input: UserProfilePicture): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${environment.appApi.apiBaseUrl}user/updateprofilepicture`, input).subscribe(
+                (res: any) => {
+                    resolve(res);
+                },
+                error => {
+                    reject(error);
+                });
 
         });
     }

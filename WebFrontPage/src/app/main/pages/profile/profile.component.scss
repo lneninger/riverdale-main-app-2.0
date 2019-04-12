@@ -9,7 +9,13 @@
         background: url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat 0 45%;
         background-size: cover;
 
-        .profile-image {
+        .edit-profile-picture{
+           position: relative;
+           right: -100px;
+           top: -45px;
+        }
+            
+            .profile-image {
             margin-right: 24px;
 
             @include media-breakpoint('sm') {

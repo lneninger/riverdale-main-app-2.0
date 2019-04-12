@@ -28,6 +28,7 @@ using Authorization = Microsoft.AspNetCore.Authorization;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand;
 using ApplicationLogic.Business.Commands.AppUser.UpdateCommand.Models;
 using System;
+using System.Security.Claims;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -49,7 +50,6 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="pageQueryCommand">The page query command</param>
         /// <param name="getAllCommand">The get all command.</param>
         /// <param name="getByIdCommand">The get by identifier command.</param>
-        /// <param name="registerCommand">The register command</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
         public UserController(/*IHubContext<GlobalHub> hubContext, */UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IAppUserPageQueryCommand pageQueryCommand, IAppUserGetAllCommand getAllCommand, IAppUserGetByIdCommand getByIdCommand/*, IAppUserRegisterCommand registerCommand*/, IAppUserUpdateCommand updateCommand, IAppUserDeleteCommand deleteCommand):base(/*hubContext*/)
@@ -196,6 +196,38 @@ namespace RiverdaleMainApp2_0.Controllers
                 catch (Exception ex)
                 {
                     result.AddException($"Error reseting password", ex);
+                }
+            }
+            else
+            {
+                result.AddError("User not found");
+            }
+
+            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
+        }
+
+        /// <summary>
+        /// Updates the profile picture.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [HttpPut("updateprofilepicture"), ProducesResponseType(200, Type = typeof(AppUserUpdateCommandOutputDTO))]
+        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Modify), Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
+        public async Task<IActionResult> UpdateProfilePicture([FromBody]AppUserProfilePictureInputDTO model)
+        {
+            var result = new OperationResponse();
+            var userId = this.User.FindFirstValue("id");
+            var user = await this.UserManager.FindByIdAsync(model.UserId ?? userId);
+            if (user != null)
+            {
+                user.PictureUrl = model.PictureUrl;
+                try
+                {
+                    await this.UserManager.UpdateAsync(user);
+                }
+                catch (Exception ex)
+                {
+                    result.AddException($"Error updation user's picture", ex);
                 }
             }
             else
