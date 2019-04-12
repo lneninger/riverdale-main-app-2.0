@@ -46,7 +46,7 @@ export class ProfileComponent
     promptNewProfilePicture() {
         const dialogRef = this.matDialog.open(PromptPopupComponent, {
             width: '500px',
-            data: <PromptPopupData>{ promptText: 'New Profile Picture', defaultValue: this.userPhoto }
+            data: <PromptPopupData>{ dialogDisplayName: 'Update Picture', promptText: 'New Profile Picture', defaultValue: this.userPhoto }
         });
 
         dialogRef.afterClosed().subscribe((result: PromptPopupResult) => {

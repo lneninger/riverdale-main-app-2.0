@@ -1,4 +1,5 @@
 export class PromptPopupData {
+    dialogDisplayName: string;
     promptText: string;
     defaultValue: string;
 }
