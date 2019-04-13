@@ -9,7 +9,7 @@ using Framework.Core.Messages;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.PageQueryCommand
 {
-    public class ProductAllowedColorTypePageQueryCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypePageQueryCommand
+    public class ProductAllowedColorTypePageQueryCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypePageQueryCommand
     {
         public ProductAllowedColorTypePageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {

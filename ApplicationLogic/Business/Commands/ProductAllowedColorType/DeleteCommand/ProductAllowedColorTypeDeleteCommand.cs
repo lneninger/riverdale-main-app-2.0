@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.DeleteCommand
 {
-    public class ProductAllowedColorTypeDeleteCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeDeleteCommand
+    public class ProductAllowedColorTypeDeleteCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeDeleteCommand
     {
         public ProductAllowedColorTypeDeleteCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {

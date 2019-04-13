@@ -107,7 +107,7 @@ namespace ApplicationLogic.Business.Commons
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetToEnumFlowerProductCategory();
+                return this.Repository.GetToEnumProductCategory();
             }
         }
 

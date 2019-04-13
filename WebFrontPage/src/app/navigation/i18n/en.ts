@@ -10,6 +10,7 @@ export const locale = {
             'SETTINGS': 'Settings',
             'USERS': 'Users',
             'COLORS': 'Product Colors',
+            'PRODUCTCATEGORIES': 'Product Categories',
             'PRODUCTS': 'Products',
             'ROLES': 'Roles',
             'DASHBOARDS': 'Dashboards',

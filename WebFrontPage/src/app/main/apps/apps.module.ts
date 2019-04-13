@@ -86,6 +86,10 @@ const routes = [
         loadChildren: './products/products.module#ProductsModule'
     },
     {
+        path: 'productcategories',
+        loadChildren: './productcategories/productcategories.module#ProductCategoriesModule'
+    },
+    {
         path: 'saleopportunities',
         loadChildren: './sale-opportunities/saleopportunities.module#SaleOpportunitiesModule'
     }

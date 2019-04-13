@@ -10,7 +10,7 @@ using DomainModel._Commons.Enums;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.GetByIdCommand
 {
-    public class ProductAllowedColorTypeGetByIdCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeGetByIdCommand
+    public class ProductAllowedColorTypeGetByIdCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeGetByIdCommand
     {
 
         public ProductAllowedColorTypeGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)

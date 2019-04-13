@@ -145,7 +145,7 @@ namespace DatabaseRepositories.DB
             try
             {
                 var dbContext = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                result.Bag = dbContext.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "ProductTypeId", masterItem.ProductTypeId }, { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault() }, { "AllowedColorTypes", masterItem.ProductAllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
+                result.Bag = dbContext.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "ProductTypeId", masterItem.ProductTypeId }, { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault() } } }).ToList();
             }
             catch (Exception ex)
             {
@@ -272,14 +272,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumFlowerProductCategory()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductCategory()
         {
             var result = new OperationResponse<List<EnumItemDTO<string>>>();
             try
             {
                 using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    result.Bag = dbLocator.Set<FlowerProductCategory>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Grades", masterItem.Grades.Select(grade => new EnumItemDTO<int> { Key = grade.Id, Value = grade.Name}) } } }).ToList();
+                    result.Bag = dbLocator.Set<ProductCategory>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Sizes", masterItem.Sizes.Select(size => new EnumItemDTO<int> { Key = size.Id, Value = size.Name}) }, { "AllowedColorTypes", masterItem.AllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
                 }
             }
             catch (Exception ex)

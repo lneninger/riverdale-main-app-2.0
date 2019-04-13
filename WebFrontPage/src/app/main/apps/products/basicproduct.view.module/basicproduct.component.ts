@@ -18,7 +18,7 @@ import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../../@hipalanetCommons/popups/delete/delete.popup.module';
 import { FilePopupComponent, FilePopupResult } from '../../@hipalanetCommons/popups/file/file.popup.module';
 import { FileUploadService, CustomFileUploader, ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.module';
-import { ProductMediaService, ProductAllowedColorTypeService } from '../product.core.module';
+import { ProductMediaService } from '../product.core.module';
 import { ProductColorTypeResolveService, FlowerProductCategoryResolveService } from '../../@resolveServices/resolve.module';
 
 @Component({
@@ -89,7 +89,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute
         , private serviceProductMedia: ProductMediaService
-        , private serviceProductAllowedColorType: ProductAllowedColorTypeService
+        //, private serviceProductAllowedColorType: ProductAllowedColorTypeService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private service: ProductService
         , private _formBuilder: FormBuilder
@@ -313,45 +313,45 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         const filterValue = value.toLowerCase();
         return this.listProductColorType$.pipe(map(list => list.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0)));
     }
-    selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
-        //debugger;
-        const productColortTypeId = event.option.value;
-        this.listProductColorType$.pipe(map(list => list.find(item => item.key == <string>event.option.value)))
-            .pipe(filter(item => !!item))
-            .subscribe(item => {
-                this.addProductAllowedColorType(item);
-            });
-    }
-    addTypedColorType(event: MatChipInputEvent): void {
-        // Add fruit only when MatAutocomplete is not open
-        // To make sure this does not conflict with OptionSelected Event
-        if (!this.matAutocomplete.isOpen) {
-            const value = event.value;
-            const selectedItem = this.listProductColorType$.pipe(map(list => list.find(item => item.key == value)))
-                .pipe(filter(item => !!item))
-                .subscribe(item => {
-                    this.addProductAllowedColorType(item);
-                });
-        }
-    }
+    //selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
+    //    //debugger;
+    //    const productColortTypeId = event.option.value;
+    //    this.listProductColorType$.pipe(map(list => list.find(item => item.key == <string>event.option.value)))
+    //        .pipe(filter(item => !!item))
+    //        .subscribe(item => {
+    //            this.addProductAllowedColorType(item);
+    //        });
+    //}
+    //addTypedColorType(event: MatChipInputEvent): void {
+    //    // Add fruit only when MatAutocomplete is not open
+    //    // To make sure this does not conflict with OptionSelected Event
+    //    if (!this.matAutocomplete.isOpen) {
+    //        const value = event.value;
+    //        const selectedItem = this.listProductColorType$.pipe(map(list => list.find(item => item.key == value)))
+    //            .pipe(filter(item => !!item))
+    //            .subscribe(item => {
+    //                this.addProductAllowedColorType(item);
+    //            });
+    //    }
+    //}
 
-    removeProductAllowedColorType(item: ProductAllowedColorTypeGrid): void {
-        const index = this.productAllowedColorTypes.indexOf(item);
-        if (index >= 0) {
-            this.serviceProductAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
-                //debugger;
-            });
-        }
-    }
+    //removeProductAllowedColorType(item: ProductAllowedColorTypeGrid): void {
+    //    const index = this.productAllowedColorTypes.indexOf(item);
+    //    if (index >= 0) {
+    //        this.serviceProductAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
+    //            //debugger;
+    //        });
+    //    }
+    //}
 
-    addProductAllowedColorType(item: EnumItem<string>) {
-        let allowedColorType = <ProductAllowedColorTypeGrid>{ productId: this.currentEntity.id, productColorTypeId: item.key };
-        this.serviceProductAllowedColorType.add(allowedColorType).then(response => {
-            // debugger;
-            this.productAllowedColorTypes.push(response.bag);
-            this.productAllowedColorTypeCtrl.setValue(null);
+    //addProductAllowedColorType(item: EnumItem<string>) {
+    //    let allowedColorType = <ProductAllowedColorTypeGrid>{ productId: this.currentEntity.id, productColorTypeId: item.key };
+    //    this.serviceProductAllowedColorType.add(allowedColorType).then(response => {
+    //        // debugger;
+    //        this.productAllowedColorTypes.push(response.bag);
+    //        this.productAllowedColorTypeCtrl.setValue(null);
 
-        });
-    }
+    //    });
+    //}
 }
 

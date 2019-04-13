@@ -9,7 +9,7 @@ using DomainModel.Product;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.UpdateCommand
 {
-    public class ProductAllowedColorTypeUpdateCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeUpdateCommand
+    public class ProductAllowedColorTypeUpdateCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeUpdateCommand
     {
         public ProductAllowedColorTypeUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {

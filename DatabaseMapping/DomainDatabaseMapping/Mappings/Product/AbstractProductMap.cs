@@ -34,6 +34,11 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .WithMany(t => t.Products)
                 .HasForeignKey(t => t.ProductTypeId)
                 ;
+
+            builder.HasOne(c => c.ProductCategory)
+     .WithMany(p => p.Flowers)
+     .HasForeignKey(c => c.ProductCategoryId)
+     ;
         }
     }
 }

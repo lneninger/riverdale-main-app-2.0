@@ -6,14 +6,14 @@ using System;
 
 namespace DomainDatabaseMapping.Mappings.Product
 {
-    public class ProductAllowedColorTypeMap : BaseAbstractMap, IEntityTypeConfiguration<ProductAllowedColorType>
+    public class ProductAllowedColorTypeMap : BaseAbstractMap, IEntityTypeConfiguration<ProductCategoryAllowedColorType>
     {
 
         public ProductAllowedColorTypeMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
-        public void Configure(EntityTypeBuilder<ProductAllowedColorType> builder)
+        public void Configure(EntityTypeBuilder<ProductCategoryAllowedColorType> builder)
         {
             builder.ToTable("ProductAllowedColorType", SCHEMAS.PRODUCT);
             builder.HasKey(t => t.Id);
@@ -28,7 +28,7 @@ namespace DomainDatabaseMapping.Mappings.Product
                 ;
 
             builder.HasOne(t => t.Product)
-                .WithMany(t => t.ProductAllowedColorTypes)
+                .WithMany(t => t.ProductCategoryAllowedColorTypes)
                 .HasForeignKey(t => t.ProductId)
                 ;
         }

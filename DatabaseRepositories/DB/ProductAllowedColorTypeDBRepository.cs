@@ -34,14 +34,14 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ProductAllowedColorType>> GetAll()
+        public OperationResponse<IEnumerable<ProductCategoryAllowedColorType>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<ProductAllowedColorType>>();
+            var result = new OperationResponse<IEnumerable<ProductCategoryAllowedColorType>>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductAllowedColorType>().AsEnumerable();
+                    result.Bag = dbLocator.Set<ProductCategoryAllowedColorType>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace DatabaseRepositories.DB
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<ProductAllowedColorType>();
+                var predicate = PredicateBuilderExtension.True<ProductCategoryAllowedColorType>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -70,19 +70,19 @@ namespace DatabaseRepositories.DB
 
                 using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    var query = dbLocator.Set<ProductAllowedColorType>().AsQueryable();
+                    var query = dbLocator.Set<ProductCategoryAllowedColorType>().AsQueryable();
 
-                    var advancedSorting = new List<SortItem<ProductAllowedColorType>>();
-                    Expression<Func<ProductAllowedColorType, object>> expression;
+                    var advancedSorting = new List<SortItem<ProductCategoryAllowedColorType>>();
+                    Expression<Func<ProductCategoryAllowedColorType, object>> expression;
                     if (input.Sort.ContainsKey("product"))
                     {
                         expression = o => o.Product.Name;
-                        advancedSorting.Add(new SortItem<ProductAllowedColorType> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
+                        advancedSorting.Add(new SortItem<ProductCategoryAllowedColorType> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
                     }
 
-                    var sorting = new SortingDTO<ProductAllowedColorType>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<ProductCategoryAllowedColorType>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<ProductAllowedColorType, ProductAllowedColorTypePageQueryCommandOutputDTO>(predicate, input, sorting, o => new ProductAllowedColorTypePageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<ProductCategoryAllowedColorType, ProductAllowedColorTypePageQueryCommandOutputDTO>(predicate, input, sorting, o => new ProductAllowedColorTypePageQueryCommandOutputDTO
                     {
                         Id = o.Id,
                         ProductName = o.Product.Name,
@@ -100,14 +100,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<DomainModel.Product.ProductAllowedColorType> GetById(int id)
+        public OperationResponse<DomainModel.Product.ProductCategoryAllowedColorType> GetById(int id)
         {
-            var result = new OperationResponse<DomainModel.Product.ProductAllowedColorType>();
+            var result = new OperationResponse<DomainModel.Product.ProductCategoryAllowedColorType>();
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductAllowedColorType>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<ProductCategoryAllowedColorType>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace DatabaseRepositories.DB
         }
 
        
-        public OperationResponse Insert(ProductAllowedColorType entity)
+        public OperationResponse Insert(ProductCategoryAllowedColorType entity)
         {
             var result = new OperationResponse();
             try
@@ -135,14 +135,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse Delete(DomainModel.Product.ProductAllowedColorType entity)
+        public OperationResponse Delete(DomainModel.Product.ProductCategoryAllowedColorType entity)
         {
             var result = new OperationResponse();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             try
             {
-                dbLocator.Set<ProductAllowedColorType>().Remove(entity);
+                dbLocator.Set<ProductCategoryAllowedColorType>().Remove(entity);
             }
             catch (Exception ex)
             {
@@ -152,7 +152,7 @@ namespace DatabaseRepositories.DB
             return null;
         }
 
-        public OperationResponse LogicalDelete(ProductAllowedColorType entity)
+        public OperationResponse LogicalDelete(ProductCategoryAllowedColorType entity)
         {
             var result = new OperationResponse();
 

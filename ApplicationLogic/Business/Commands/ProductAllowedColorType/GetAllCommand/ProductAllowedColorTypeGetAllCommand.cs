@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.GetAllCommand
 {
-    public class ProductAllowedColorTypeGetAllCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeGetAllCommand
+    public class ProductAllowedColorTypeGetAllCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeGetAllCommand
     {
         public ProductAllowedColorTypeGetAllCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {

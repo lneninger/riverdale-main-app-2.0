@@ -159,7 +159,7 @@ namespace RiverdaleMainApp2_0.Controllers
             var appResult = this.InsertCommand.Execute(model);
             if (appResult.IsSucceed)
             {
-                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(ProductAllowedColorType), appResult.Bag);
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(ProductCategoryAllowedColorType), appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
             }
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);

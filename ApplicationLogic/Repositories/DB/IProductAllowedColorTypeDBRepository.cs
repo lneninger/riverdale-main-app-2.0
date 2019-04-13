@@ -8,17 +8,17 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface IProductAllowedColorTypeDBRepository: IDBRepository
     {
-        OperationResponse<IEnumerable<ProductAllowedColorType>> GetAll();
+        OperationResponse<IEnumerable<ProductCategoryAllowedColorType>> GetAll();
 
         OperationResponse<PageResult<ProductAllowedColorTypePageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductAllowedColorTypePageQueryCommandInputDTO> input);
 
-        OperationResponse<DomainModel.Product.ProductAllowedColorType> GetById(int id);
+        OperationResponse<DomainModel.Product.ProductCategoryAllowedColorType> GetById(int id);
 
-        OperationResponse Insert(ProductAllowedColorType entity);
+        OperationResponse Insert(ProductCategoryAllowedColorType entity);
 
-        OperationResponse Delete(ProductAllowedColorType entity);
+        OperationResponse Delete(ProductCategoryAllowedColorType entity);
 
-        OperationResponse LogicalDelete(ProductAllowedColorType entity);
+        OperationResponse LogicalDelete(ProductCategoryAllowedColorType entity);
 
     }
 }

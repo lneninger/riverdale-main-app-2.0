@@ -27,7 +27,7 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand
                     getByIdResult.Bag.Name = input.Name;
                     if (getByIdResult.Bag is FlowerProduct)
                     {
-                        (getByIdResult.Bag as FlowerProduct).FlowerProductCategoryId = input.FlowerProductCategoryId;
+                        (getByIdResult.Bag as FlowerProduct).ProductCategoryId = input.FlowerProductCategoryId;
                     }
 
                     try

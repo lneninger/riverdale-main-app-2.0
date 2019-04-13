@@ -43,17 +43,17 @@ namespace RiverdaleMainApp2_0.Auth
         /// <summary>
         /// 
         /// </summary>
-        public const string FlowerProductCategory_Read = nameof(Enum.FlowerProductCategory_Read);
+        public const string ProductCategory_Read = nameof(Enum.FlowerProductCategory_Read);
 
         /// <summary>
         /// 
         /// </summary>
-        public const string FlowerProductCategory_Modify = nameof(Enum.FlowerProductCategory_Modify);
+        public const string ProductCategory_Modify = nameof(Enum.FlowerProductCategory_Modify);
 
         /// <summary>
         /// 
         /// </summary>
-        public const string FlowerProductCategory_Manage = nameof(Enum.FlowerProductCategory_Manage);
+        public const string ProductCategory_Manage = nameof(Enum.ProductCategory_Manage);
 
 
         // Product
@@ -274,7 +274,7 @@ namespace RiverdaleMainApp2_0.Auth
             /// <summary>
             /// 
             /// </summary>
-            FlowerProductCategory_Manage,
+            ProductCategory_Manage,
 
             // Product
 

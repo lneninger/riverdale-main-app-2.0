@@ -10,7 +10,7 @@ using DomainModel._Commons.Enums;
 
 namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.InsertCommand
 {
-    public class ProductAllowedColorTypeInsertCommand : AbstractDBCommand<DomainModel.Product.ProductAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeInsertCommand
+    public class ProductAllowedColorTypeInsertCommand : AbstractDBCommand<DomainModel.Product.ProductCategoryAllowedColorType, IProductAllowedColorTypeDBRepository>, IProductAllowedColorTypeInsertCommand
     {
         public ProductAllowedColorTypeInsertCommand(IDbContextScopeFactory dbContextScopeFactory, IProductAllowedColorTypeDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -21,7 +21,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.InsertComma
             var result = new OperationResponse<ProductAllowedColorTypeInsertCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var entity = new DomainModel.Product.ProductAllowedColorType
+                var entity = new DomainModel.Product.ProductCategoryAllowedColorType
                     {
                         ProductId = input.ProductId,
                         ProductColorTypeId = input.ProductColorTypeId,
