@@ -103,12 +103,14 @@ namespace ApplicationLogic.Business.Commons
             }
         }
 
-        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower()
+        public OperationResponse<List<EnumItemDTO<string>>> GetToFlowerProductCategory()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                return this.Repository.GetToEnumGrowerTypesWithGrower();
+                return this.Repository.GetToEnumFlowerProductCategory();
             }
         }
+
+      
     }
 }

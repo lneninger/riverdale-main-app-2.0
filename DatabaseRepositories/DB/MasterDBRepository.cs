@@ -271,5 +271,23 @@ namespace DatabaseRepositories.DB
 
             return result;
         }
+
+        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumFlowerProductCategory()
+        {
+            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            try
+            {
+                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                {
+                    result.Bag = dbLocator.Set<FlowerProductCategory>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Grades", masterItem.Grades.Select(grade => new EnumItemDTO<int> { Key = grade.Id, Value = grade.Name}) } } }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error getting flower categories", ex);
+            }
+
+            return result;
+        }
     }
 }

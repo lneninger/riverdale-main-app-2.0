@@ -10,25 +10,23 @@ import { takeUntil, startWith, map, filter } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductMediaGrid, IProductMedia, ProductAllowedColorTypeGrid } from '../product.model';
-import { ProductService } from '../product.service';
-import { EnumItem } from '../../@resolveServices/resolve.model';
-import { DataSourceAbstract } from '../../@hipalanetCommons/datatable/datasource.abstract.class';
+import { FlowerProductCategory, FlowerProductCategoryGradeGrid } from './flowerproductcategory.model';
+import { FlowerProductCategoryService } from './flowerproductcategory.service';
+import { EnumItem } from '../@resolveServices/resolve.model';
+import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
 import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../../@hipalanetCommons/popups/delete/delete.popup.module';
-import { FilePopupComponent, FilePopupResult } from '../../@hipalanetCommons/popups/file/file.popup.module';
-import { FileUploadService, CustomFileUploader, ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.module';
-import { ProductMediaService, ProductAllowedColorTypeService } from '../product.core.module';
-import { ProductColorTypeResolveService, FlowerProductCategoryResolveService } from '../../@resolveServices/resolve.module';
+import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups/file/file.popup.module';
+import { FileUploadService, CustomFileUploader, ISelectedFile } from '../@hipalanetCommons/fileupload/fileupload.module';
 
 @Component({
-    selector: 'basic-product',
-    templateUrl: './basicproduct.component.html',
-    styleUrls: ['./basicproduct.component.scss'],
+    selector: 'flower-product-category',
+    templateUrl: './flowerproductcategory.component.html',
+    styleUrls: ['./flowerproductcategory.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class BasicProductComponent implements OnInit, OnDestroy {
+export class FlowerProductCategoryComponent implements OnInit, OnDestroy {
     // Resolve
     listProductColorType$: Observable<EnumItem<string>[]>;
 
@@ -53,8 +51,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         if (value) {
             this._currentEntity = new Product(value);
             //debugger;
-            this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
-            this.productAllowedColorTypes = (this._currentEntity.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));
+            this.productAllowedColorTypes = (this._currentEntity.grades || []).map(item => new FlowerProductCategroyGradeGrid(item));
             this.frmMain = this.createFormBasicInfo();
         }
         else {

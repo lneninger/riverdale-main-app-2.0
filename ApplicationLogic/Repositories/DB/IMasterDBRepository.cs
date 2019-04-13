@@ -29,5 +29,6 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons();
 
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower();
+        OperationResponse<List<EnumItemDTO<string>>> GetToEnumFlowerProductCategory();
     }
 }

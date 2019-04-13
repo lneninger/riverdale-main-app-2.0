@@ -178,9 +178,20 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("growerTypeWithGrowers")]
         public IActionResult GetToEnumGrowerTypeWithGrowers()
         {
-            var result = this.MasterDataProvider.GetToEnumGrowerTypesWithGrower();
+            var result = this.MasterDataProvider.GetToFlowerProductCategory();
             return this.Ok(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
+        [Route("flowerproductcategories")]
+        public IActionResult GetToFlowerProductCategory()
+        {
+            var result = this.MasterDataProvider.GetToFlowerProductCategory();
+            return this.Ok(result);
+        }
     }
 }

@@ -39,6 +39,23 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string Grower_Manage = nameof(Enum.Grower_Manage);
 
+        // Flower Product Category
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FlowerProductCategory_Read = nameof(Enum.FlowerProductCategory_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FlowerProductCategory_Modify = nameof(Enum.FlowerProductCategory_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FlowerProductCategory_Manage = nameof(Enum.FlowerProductCategory_Manage);
+
+
         // Product
         /// <summary>
         /// 
@@ -241,6 +258,23 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             Grower_Manage,
+
+            // Flower Product Category
+
+            /// <summary>
+            /// 
+            /// </summary>
+            FlowerProductCategory_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            FlowerProductCategory_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            FlowerProductCategory_Manage,
 
             // Product
 

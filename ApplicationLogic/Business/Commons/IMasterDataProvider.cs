@@ -28,6 +28,6 @@ namespace ApplicationLogic.Business.Commons
 
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumSeasonCategoriesWithSeasons();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower();
+        OperationResponse<List<EnumItemDTO<string>>> GetToFlowerProductCategory();
     }
 }
