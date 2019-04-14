@@ -33,8 +33,8 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/productallowedcolortype")]
-    public class ProductAllowedColorTypeController : BaseController
+    [Route("api/v{version:apiVersion}/productcategoryallowedcolortype")]
+    public class ProductCategoryAllowedColorTypeController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
@@ -46,7 +46,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductAllowedColorTypeController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductAllowedColorTypePageQueryCommand pageQueryCommand, IProductAllowedColorTypeGetAllCommand getAllCommand, IProductAllowedColorTypeGetByIdCommand getByIdCommand, IProductAllowedColorTypeInsertCommand insertCommand, IProductAllowedColorTypeUpdateCommand updateCommand, IProductAllowedColorTypeDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductCategoryAllowedColorTypeController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductAllowedColorTypePageQueryCommand pageQueryCommand, IProductAllowedColorTypeGetAllCommand getAllCommand, IProductAllowedColorTypeGetByIdCommand getByIdCommand, IProductAllowedColorTypeInsertCommand insertCommand, IProductAllowedColorTypeUpdateCommand updateCommand, IProductAllowedColorTypeDeleteCommand deleteCommand):base(/*hubContext*/)
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;

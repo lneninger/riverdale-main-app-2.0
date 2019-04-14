@@ -10,7 +10,7 @@ namespace DomainModel.Product
 
         public string Name { get; set; }
 
-        public virtual ICollection<FlowerProduct> Flowers { get; set; }
+        public virtual ICollection<AbstractProduct> Products { get; set; }
 
         public virtual ICollection<ProductCategorySize> Sizes { get; set; }
 

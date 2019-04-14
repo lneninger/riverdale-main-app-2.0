@@ -42,7 +42,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.UpdateComma
                         result.Bag = new ProductAllowedColorTypeUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.ProductId,
+                            ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
                             ProductColorTypeId = getByIdResult.Bag.ProductColorTypeId,
                         };
                     }

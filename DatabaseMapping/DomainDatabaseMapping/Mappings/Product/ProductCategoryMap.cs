@@ -27,7 +27,7 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .HasMaxLength(30)
                 ;
 
-            builder.HasMany(t => t.Flowers)
+            builder.HasMany(t => t.Products)
                 .WithOne(t => t.ProductCategory)
                 .HasForeignKey(c => c.ProductCategoryId)
                 ;

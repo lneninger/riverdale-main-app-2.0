@@ -97,7 +97,7 @@ export class ProductCategoryAllowedColorTypeService implements Resolve<any>, IPa
      */
     add(entity): Promise<OperationResponse<ProductCategoryAllowedColorTypeGrid>> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}productallowedcolortype`, entity).subscribe(
+            this.http.post(`${environment.appApi.apiBaseUrl}productcategoryallowedcolortype`, entity).subscribe(
                 (res: OperationResponse<ProductCategoryAllowedColorTypeGrid>) => {
                     resolve(res);
                 },
@@ -111,7 +111,7 @@ export class ProductCategoryAllowedColorTypeService implements Resolve<any>, IPa
 
     delete(id: number): Promise<OperationResponse<ProductCategoryAllowedColorTypeGrid>> {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}productallowedcolortype/{id}`).subscribe((res: OperationResponse<ProductCategoryAllowedColorTypeGrid>) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}productcategoryallowedcolortype/${id}`).subscribe((res: OperationResponse<ProductCategoryAllowedColorTypeGrid>) => {
                 resolve(res);
             },
                 error => {

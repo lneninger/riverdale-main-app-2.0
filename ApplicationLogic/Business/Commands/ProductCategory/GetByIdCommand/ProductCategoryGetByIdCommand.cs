@@ -37,10 +37,10 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand
                         //    FileId = m.FileRepositoryId,
                         //    FullUrl = m.FileRepository.FullFilePath
                         //}).ToList(),
-                        ProductCategoryAllowedColorTypes = getByIdResult.Bag.AllowedColorTypes.Select(m => new ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO
+                        AllowedColors = getByIdResult.Bag.AllowedColorTypes.Select(m => new ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO
                         {
                             Id = m.Id,
-                            ProductCategoryColorTypeId = m.ProductColorTypeId,
+                            ProductColorTypeId = m.ProductColorTypeId,
                         }).ToList()
                     };
 

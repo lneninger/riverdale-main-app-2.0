@@ -16,14 +16,15 @@ import {
 import { PopupsModule } from '../@hipalanetCommons/popups/popups.module';
 import { CustomFileUploadModule } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { HipalanetUtils } from '../@hipalanetCommons/ngx-utils/main';
-import { ProductCategoriesComponent } from "./productcategories.component";
+import { ProductCategoriesComponent, ProductCategoryNewDialogComponent } from "./productcategories.component";
 import { ProductTypeResolveService, ProductColorTypeResolveService } from "../@resolveServices/resolve.module";
+import { ProductCategoryAllowedColorTypeService } from "./productcategoryallowedcolortype.service";
 
 
 const routes: Routes = [
     {
         path: 'new',
-        component: ProductCategoryComponent,
+        component: ProductCategoriesComponent,
         data: { action: 'new' },
         resolve: {
             listProductType: ProductTypeResolveService,
@@ -81,12 +82,16 @@ const routes: Routes = [
     , declarations: [
         ProductCategoryComponent
         , ProductCategoriesComponent
+        , ProductCategoryNewDialogComponent
     ]
     ,providers: [
     ],
     exports: [
         ProductCategoryComponent
         , ProductCategoriesComponent
+    ],
+    entryComponents: [
+        ProductCategoryNewDialogComponent
     ]
 })
 export class ProductCategoriesModule {

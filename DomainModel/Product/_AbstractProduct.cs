@@ -37,6 +37,8 @@ namespace DomainModel.Product
 
         public string ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
-        public IEnumerable<ProductCategoryAllowedColorType> ProductCategoryAllowedColorTypes { get; set; }
+
+        
+
     }
 }

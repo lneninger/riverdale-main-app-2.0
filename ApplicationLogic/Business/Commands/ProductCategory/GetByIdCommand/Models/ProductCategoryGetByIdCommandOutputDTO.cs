@@ -13,6 +13,6 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand.Mode
         //public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
         
         
-        public IEnumerable<ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO> ProductCategoryAllowedColorTypes { get; internal set; }
+        public IEnumerable<ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO> AllowedColors { get; internal set; }
     }
 }

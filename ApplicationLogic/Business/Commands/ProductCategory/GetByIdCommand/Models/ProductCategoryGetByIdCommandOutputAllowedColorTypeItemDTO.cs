@@ -7,6 +7,6 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand.Mode
     public class ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO
     {
         public int Id { get; set; }
-        public object ProductCategoryColorTypeId { get; internal set; }
+        public object ProductColorTypeId { get; internal set; }
     }
 }

@@ -36,7 +36,7 @@ namespace DomainDatabaseMapping.Mappings.Product
                 ;
 
             builder.HasOne(c => c.ProductCategory)
-     .WithMany(p => p.Flowers)
+     .WithMany(p => p.Products)
      .HasForeignKey(c => c.ProductCategoryId)
      ;
         }

@@ -58,8 +58,6 @@ export class ProductsComponent implements OnInit {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------

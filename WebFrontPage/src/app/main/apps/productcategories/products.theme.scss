@@ -1,9 +1,9 @@
-@mixin productcategories-theme($theme) {
+@mixin products-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    product-categories {
+    products {
 
         .header {
 

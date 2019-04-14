@@ -4,12 +4,12 @@ export class ProductCategoryGrid {
     name: string;
 }
 
-export class ProductCategoryGradeGrid {
+export class ProductCategorySizeGrid {
     id: number;
     name: string;
 
     constructor(item) {
-        const internal = <ProductCategoryGradeGrid>item;
+        const internal = <ProductCategorySizeGrid>item;
         this.id = internal.id;
         this.name = internal.name;
     }
@@ -20,7 +20,7 @@ export class ProductCategory
 {
     id: string;
     name: string;
-    grades: ProductCategoryGradeGrid[];
+    sizes: ProductCategorySizeGrid[];
     allowedColors: ProductCategoryAllowedColorTypeGrid[];
 
     /**
@@ -32,12 +32,12 @@ export class ProductCategory
     {
         this.id = (input || {}).id;
         this.name = (input || {}).name;
-        this.grades = ((input || {}).grades || []).map(subItem => new ProductCategoryGrade(subItem));;
+        this.sizes = ((input || {}).sizes || []).map(subItem => new ProductCategorySize(subItem));;
         this.allowedColors = ((input || {}).allowedColors || []).map(subItem => new ProductCategoryAllowedColorTypeGrid(subItem));;
     }
 }
 
-export class ProductCategoryGrade {
+export class ProductCategorySize {
     id: string;
     name: string;
 
@@ -62,13 +62,13 @@ export class ProductCategoryNewDialogResult {
 export class ProductCategoryAllowedColorTypeGrid {
     id?: number;
     productCategoryId?: string;
-    productCategoryColorTypeId?: string;
+    productColorTypeId?: string;
 
     constructor(item?) {
         let internal = item || <ProductCategoryAllowedColorTypeGrid>{};
         this.id = internal.id;
         this.productCategoryId = internal.productCategoryId;
-        this.productCategoryColorTypeId = internal.productColorTypeId;
+        this.productColorTypeId = internal.productColorTypeId;
     }
 }
 

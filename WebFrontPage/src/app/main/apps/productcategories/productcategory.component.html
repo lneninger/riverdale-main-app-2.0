@@ -1,4 +1,4 @@
-<div id="product" class="page-layout carded fullwidth">
+<div id="productCategory" class="page-layout carded fullwidth">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -73,128 +73,125 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <form name="frmMain" class="product w-100-p" fxLayout="column" fxFlex>
-
-                    <mat-tab-group>
-
-                        <mat-tab label="Basic Info">
-
-                            <div class="tab-content p-24" fusePerfectScrollbar>
-
-                                <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
-                                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
-                                        <mat-label>Name</mat-label>
-                                        <input matInput placeholder="Name"
-                                               name="name"
-                                               formControlName="name"
-                                               required>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
-                                        <mat-select placeholder="Product Color" name="productTypeId" formControlName="productColorTypeId">
-                                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
-                                                {{item.value}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-
-                                    <div fxFlex="100">
-                                        <button mat-raised-button fxFlex="100" [disabled]="disableSave()" (click)="save()">
-                                            <mat-icon>save</mat-icon>
-                                        </button>
-                                    </div>
-
-                                    <div class="fuse-card mt-12" fxFlex="100%">
-                                        <div class="position-relative p-24"
-                                             fxLayout="column" fxLayoutAlign="start stretch">
-                                            <div class="p-16 pt-0">
-                                                <div class="h1">Allowed Colors</div>
-                                                <div class="h4 secondary-text">Colors whom the product can be tied</div>
-                                            </div>
-                                            <div fxLayout="row" fxLayoutAlign="start stretch">
-                                                <!--{{productAllowedColorTypes | json}}-->
-                                                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="example-chip-list">
-                                                    <mat-chip-list #chipList>
-                                                        <mat-chip *ngFor="let productAllowedColorType of productAllowedColorTypes"
-                                                                  [selectable]="true"
-                                                                  [removable]="true"
-                                                                  (removed)="removeProductAllowedColorType(productAllowedColorType)">
-                                                            {{(getProductColorType(productAllowedColorType.productColorTypeId) | async).value}}
-                                                            <mat-icon matChipRemove>cancel</mat-icon>
-                                                        </mat-chip>
-                                                        <input placeholder="New Allowed Color..."
-                                                               #fruitInput
-                                                               [formControl]="productAllowedColorTypeCtrl"
-                                                               [matAutocomplete]="auto"
-                                                               [matChipInputFor]="chipList"
-                                                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                               [matChipInputAddOnBlur]="false"
-                                                               (matChipInputTokenEnd)="addTypedColorType($event)">
-                                                    </mat-chip-list>
-                                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProductAllowedColorType($event)">
-                                                        <mat-option *ngFor="let item of (listProductColorType$ | async)" [value]="item.key">
-                                                            {{item.value}}
-                                                        </mat-option>
-                                                    </mat-autocomplete>
-                                                </mat-form-field>
+                <form name="frmMain" class="productCategory w-100-p" fxLayout="column" fxFlex>
 
 
+                    <div class="p-24" fusePerfectScrollbar>
 
-                                            </div>
+                        <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
+                            <mat-form-field fxFlex="calc(20%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                                <mat-label>Id</mat-label>
+                                <input matInput placeholder="Id"
+                                       name="name"
+                                       formControlName="id"
+                                       required>
+                            </mat-form-field>
 
-                                        </div>
-                                    </div>
-                                </div>
+                            <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name"
+                                       name="name"
+                                       formControlName="name"
+                                       required>
+                            </mat-form-field>
+
+                            <!--<mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                                <mat-select placeholder="Product Color" name="productTypeId" formControlName="productColorTypeId">
+                                    <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
+                                        {{item.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>-->
+
+                            <div fxFlex="100">
+                                <button mat-raised-button fxFlex="100" [disabled]="disableSave()" (click)="save()">
+                                    <mat-icon>save</mat-icon>
+                                </button>
                             </div>
 
-                        </mat-tab>
+                            <div class="fuse-card mt-12" fxFlex="100%">
+                                <div class="position-relative p-24"
+                                     fxLayout="column" fxLayoutAlign="start stretch">
+                                    <div class="p-16 pt-0">
+                                        <div class="h1">Allowed Colors</div>
+                                        <div class="h4 secondary-text">Colors whom the product can be tied</div>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start stretch">
+                                        <!--{{allowedColors | json}}-->
+                                        <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="example-chip-list">
+                                            <mat-chip-list #chipList>
+                                                <mat-chip *ngFor="let allowedColor of allowedColors"
+                                                          [selectable]="true"
+                                                          [removable]="true"
+                                                          (removed)="removeProductAllowedColorType(allowedColor)">
+                                                    {{(getProductColorType(allowedColor.productColorTypeId) | async).value}}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+                                                <input placeholder="New Allowed Color..."
+                                                       #fruitInput
+                                                       [formControl]="productAllowedColorTypeCtrl"
+                                                       [matAutocomplete]="auto"
+                                                       [matChipInputFor]="chipList"
+                                                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                       [matChipInputAddOnBlur]="false"
+                                                       (matChipInputTokenEnd)="addTypedColorType($event)">
+                                            </mat-chip-list>
+                                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProductAllowedColorType($event)">
+                                                <mat-option *ngFor="let item of (listProductColorType$ | async)" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
 
-                        <mat-tab label="Product Images">
 
-                            <!--<button mat-fab class="add-media-button mat-accent" (click)="openFileDialog()" aria-label="Add event"
-                                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
-                                <mat-icon>add</mat-icon>
-                            </button>-->
 
-                            <button mat-fab class="add-media-button mat-accent" (click)="fileUpload.click()" aria-label="Add event"
-                                    [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                            <span style="visibility:hidden;width:0;height:0;">
-                                <input type="file" #fileUpload ng2FileSelect [uploader]="customUploader.uploader" multiple />
-                            </span>
-
-                            <div class="tab-content p-24" fusePerfectScrollbar fxLayoutAlign="end start">
-                                <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="90%">
-
-                                    <div *ngIf="medias.length === 0"
-                                         class="product-image" fxlayout="row" fxLayoutAlign="center center">
-                                        <img class="media"
-                                             [src]="'assets/images/ecommerce/product-image-placeholder.png'">
                                     </div>
 
-                                    <div *ngFor="let media of medias">
-                                        <div *ngIf="medias.length > 0"
-                                             class="product-image" fxlayout="row" fxLayoutAlign="center center">
-                                            <ng-container [ngSwitch]="customUploader.isUploaded(media)">
-                                                <ng-container *ngSwitchCase="true">
-                                                    <div>
-                                                        <img class="media" [src]="(media.url || media.base64)">
-                                                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-                                                    </div>
-                                                </ng-container>
-                                                <ng-container *ngSwitchCase="false">
-                                                    <img class="media" [src]="(media.fileId | fileUrl : 'assets/images/ecommerce/product-image-placeholder.png': false) | async">
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
+                            <div class="fuse-card mt-12" fxFlex="100%">
+                                <div class="position-relative p-24"
+                                     fxLayout="column" fxLayoutAlign="start stretch">
+                                    <div class="p-16 pt-0">
+                                        <div class="h1">Allowed Sizes</div>
+                                        <div class="h4 secondary-text">Sizes whom the product can be tied</div>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutAlign="start stretch">
+                                        <!--{{productAllowedColorTypes | json}}-->
+                                        <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="example-chip-list">
+                                            <mat-chip-list #chipList>
+                                                <mat-chip *ngFor="let productAllowedColorType of productAllowedColorTypes"
+                                                          [selectable]="true"
+                                                          [removable]="true"
+                                                          (removed)="removeProductAllowedColorType(productAllowedColorType)">
+                                                    {{(getProductColorType(productAllowedColorType.productColorTypeId) | async).value}}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+                                                <input placeholder="New Allowed Size..."
+                                                       #fruitInput
+                                                       [formControl]="productAllowedColorTypeCtrl"
+                                                       [matAutocomplete]="auto"
+                                                       [matChipInputFor]="chipList"
+                                                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                       [matChipInputAddOnBlur]="false"
+                                                       (matChipInputTokenEnd)="addTypedColorType($event)">
+                                            </mat-chip-list>
+                                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProductCategoryAllowedColorType($event)">
+                                                <mat-option *ngFor="let item of (listProductColorType$ | async)" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
 
-                        </mat-tab>
 
-                    </mat-tab-group>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </form>
 

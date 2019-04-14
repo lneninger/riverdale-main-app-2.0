@@ -64,7 +64,7 @@ namespace DatabaseRepositories.DB
                     var filter = input.CustomFilter;
                     if (!string.IsNullOrWhiteSpace(filter.Term))
                     {
-                        predicate = predicate.And(o => o.Product.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
+                        predicate = predicate.And(o => o.ProductCategory.Name.Contains(filter.Term, StringComparison.InvariantCultureIgnoreCase));
                     }
                 }
 
@@ -76,7 +76,7 @@ namespace DatabaseRepositories.DB
                     Expression<Func<ProductCategoryAllowedColorType, object>> expression;
                     if (input.Sort.ContainsKey("product"))
                     {
-                        expression = o => o.Product.Name;
+                        expression = o => o.ProductCategory.Name;
                         advancedSorting.Add(new SortItem<ProductCategoryAllowedColorType> { PropertyName = "productType", SortExpression = expression, SortOrder = "desc" });
                     }
 
@@ -85,7 +85,7 @@ namespace DatabaseRepositories.DB
                     result.Bag = query.ProcessPagingSort<ProductCategoryAllowedColorType, ProductAllowedColorTypePageQueryCommandOutputDTO>(predicate, input, sorting, o => new ProductAllowedColorTypePageQueryCommandOutputDTO
                     {
                         Id = o.Id,
-                        ProductName = o.Product.Name,
+                        ProductName = o.ProductCategory.Name,
                         ProductColorTypeName = o.ProductColorType.Name,
                         CreatedAt = o.CreatedAt,
                        

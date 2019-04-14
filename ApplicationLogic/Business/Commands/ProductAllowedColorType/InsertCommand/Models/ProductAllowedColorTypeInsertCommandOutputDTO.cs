@@ -6,7 +6,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.InsertComma
     public class ProductAllowedColorTypeInsertCommandOutputDTO
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
+        public string ProductCategoryId { get; set; }
         public string ProductColorTypeId { get; set; }
     }
 }

@@ -1,16 +1,12 @@
-<h1 mat-dialog-title>New Product Color</h1>
+<h1 mat-dialog-title>New Product Category</h1>
 <div mat-dialog-content [formGroup]="frmMain">
     <mat-form-field>
-        <input matInput cdkFocusInitial formControlName="id" placeholder="Code">
+        <input matInput formControlName="id" placeholder="Id">
     </mat-form-field>
     <mat-form-field>
         <input matInput formControlName="name" placeholder="Name">
     </mat-form-field>
-    <mat-form-field>
-        <input matInput formControlName="hexCode" placeholder="Hex">
-    </mat-form-field>
-
-    <mat-checkbox formControlName="isBasicColor">Is basic color</mat-checkbox>
+    
 </div>
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>

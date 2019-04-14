@@ -1,4 +1,4 @@
-<div id="productColors" class="page-layout carded fullwidth inner-scroll">
+<div id="productCategories" class="page-layout carded fullwidth inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -18,7 +18,7 @@
                     color_lens
                 </mat-icon>
                 <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    Product Colors
+                    Product Categories
                 </span>
             </div>
             <!-- / APP TITLE -->
@@ -26,14 +26,14 @@
             <div class="search-wrapper mx-32 mx-md-0">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
-                    <input #filter placeholder="Search for a product color">
+                    <input #filter placeholder="Search for a product category">
                 </div>
             </div>
             <!-- / SEARCH -->
             <!-- ADD BUTTON -->
-            <a [routerLink]="['/apps/product-colors/new']" mat-raised-button
+            <a [routerLink]="['/apps/productcategories/new']" mat-raised-button
                     class="add-product-color-button fuse-white mt-24 mt-md-0">
-                <span>ADD NEW PRODUCT COLOR</span>
+                <span>ADD NEW PRODUCT CATEGORY</span>
             </a>
             <!-- / ADD BUTTON -->
 
@@ -48,27 +48,6 @@
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
 
-                <ng-container matColumnDef="options">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let item" (click)="$event.stopPropagation()">
-                        <ng-container [ngSwitch]="selectedItem == item">
-                            <ng-container *ngSwitchCase="true">
-                                <button mat-icon-button color="primary" (click)="save()">
-                                    <mat-icon>save</mat-icon>
-                                </button>
-                                <button mat-icon-button>
-                                    <mat-icon>cancel</mat-icon>
-                                </button>
-                            </ng-container>
-                            <ng-container *ngSwitchDefault>
-                                <button mat-icon-button (click)="selectItem(item)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                            </ng-container>
-                        </ng-container>
-                    </mat-cell>
-                </ng-container>
-
                 <!-- Name Column -->
                 <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
@@ -79,18 +58,7 @@
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
                     <mat-cell *matCellDef="let item">
-                        <ng-container [ngSwitch]="selectedItem == item">
-
-                            <ng-container *ngSwitchCase="true">
-                                <mat-form-field floatLabel="never">
-                                    <input matInput placeholder="Name" [value]="item.name" [(ngModel)]="item.name">
-                                </mat-form-field>
-                            </ng-container>
-                            <ng-container *ngSwitchDefault>
-                                <p class="text-truncate">{{item.name}}</p>
-                            </ng-container>
-                        </ng-container>
-
+                        <p class="text-truncate">{{item.name}}</p>
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="hex">
@@ -128,7 +96,8 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
                 <mat-row *matRowDef="let item; columns: displayedColumns;"
                          class="product-color"
-                         matRipple>
+                         matRipple
+                         [routerLink]="'/apps/productcategories/'+item.id">
                 </mat-row>
             </mat-table>
 

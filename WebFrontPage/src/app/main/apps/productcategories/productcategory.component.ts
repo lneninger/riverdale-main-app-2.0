@@ -10,7 +10,7 @@ import { takeUntil, startWith, map, filter } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { ProductCategory, ProductCategoryGradeGrid, ProductCategoryAllowedColorTypeGrid } from './productcategory.model';
+import { ProductCategory, ProductCategorySizeGrid, ProductCategoryAllowedColorTypeGrid } from './productcategory.model';
 import { ProductCategoryService } from './productcategory.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
@@ -37,8 +37,9 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     productAllowedColorTypeCtrl = new FormControl();
     separatorKeysCodes: number[] = [ENTER, COMMA];
     filteredProductAllowedColorTypes$: Observable<EnumItem<string>[]>;
-    productCategoryGrades: ProductCategoryGradeGrid[];
-    productCategoryAllowedColorTypes: ProductCategoryAllowedColorTypeGrid[];
+
+    allowedSizes: ProductCategorySizeGrid[];
+    allowedColors: ProductCategoryAllowedColorTypeGrid[];
 
     id: string;
 
@@ -53,8 +54,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         if (value) {
             this._currentEntity = new ProductCategory(value);
             //debugger;
-            this.productCategoryGrades = (this._currentEntity.grades || []).map(item => new ProductCategoryGradeGrid(item));
-            this.productCategoryAllowedColorTypes = (this._currentEntity.allowedColors || []).map(item => new ProductCategoryAllowedColorTypeGrid(item));
+            this.allowedSizes = (this._currentEntity.sizes || []).map(item => new ProductCategorySizeGrid(item));
+            this.allowedColors = (this._currentEntity.allowedColors || []).map(item => new ProductCategoryAllowedColorTypeGrid(item));
             this.frmMain = this.createFormBasicInfo();
         }
         
@@ -125,25 +126,24 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         this.listProductColorType$ = this.serviceProductColorTypeResolve.onList;
 
         // Subscribe to update product on changes
-        //this.service.onCurrentEntityChanged
-        //    .pipe(takeUntil(this._unsubscribeAll))
-        //    .subscribe(dataResponse => {
+        this.service.onCurrentEntityChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(dataResponse => {
 
-        //        //debugger;
-        //        let currentEntity = dataResponse.bag;
-        //        this.id = currentEntity.id;
-        //        if (currentEntity) {
-        //            this.currentEntity = new Product(currentEntity);
-        //            this.medias = (currentEntity.medias || []).map(item => new ProductMediaGrid(item));
-        //            this.pageType = 'edit';
-        //        }
-        //        else {
-        //            this.pageType = 'new';
-        //            this.currentEntity = new Product();
-        //        }
+                //debugger;
+                let currentEntity = dataResponse.bag;
+                this.id = currentEntity.id;
+                if (currentEntity) {
+                    this.currentEntity = new ProductCategory(currentEntity);
+                    this.pageType = 'edit';
+                }
+                else {
+                    this.pageType = 'new';
+                    this.currentEntity = new ProductCategory();
+                }
 
-        //        this.frmMain = this.createFormBasicInfo();
-        //    });
+                this.frmMain = this.createFormBasicInfo();
+            });
     }
 
     /**
@@ -282,7 +282,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         const filterValue = value.toLowerCase();
         return this.listProductColorType$.pipe(map(list => list.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0)));
     }
-    selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
+    selectedProductCategoryAllowedColorType(event: MatAutocompleteSelectedEvent): void {
         //debugger;
         const productColortTypeId = event.option.value;
         this.listProductColorType$.pipe(map(list => list.find(item => item.key == <string>event.option.value)))
@@ -305,19 +305,19 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     }
 
     removeProductAllowedColorType(item: ProductCategoryAllowedColorTypeGrid): void {
-        const index = this.productAllowedColorTypes.indexOf(item);
+        const index = this.allowedColors.indexOf(item);
         if (index >= 0) {
-            this.serviceProductCategoryAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
+            this.serviceProductCategoryAllowedColorType.delete(this.allowedColors[index].id).then(response => {
                 //debugger;
             });
         }
     }
 
     addProductCategoryAllowedColorType(item: EnumItem<string>) {
-        let allowedColorType = <ProductCategoryAllowedColorTypeGrid>{ productCategoryId: this.currentEntity.id, productCategoryColorTypeId: item.key };
+        let allowedColorType = <ProductCategoryAllowedColorTypeGrid>{ productCategoryId: this.currentEntity.id, productColorTypeId: item.key };
         this.serviceProductCategoryAllowedColorType.add(allowedColorType).then(response => {
-            // debugger;
-            this.productAllowedColorTypes.push(response.bag);
+             debugger;
+            this.allowedColors.push(response.bag);
             this.productAllowedColorTypeCtrl.setValue(null);
 
         });

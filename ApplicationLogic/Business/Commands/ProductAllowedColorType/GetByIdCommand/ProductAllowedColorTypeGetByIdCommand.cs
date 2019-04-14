@@ -31,7 +31,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.GetByIdComm
                     {
                         Id = getByIdResult.Bag.Id,
                         ProductColorTypeId = getByIdResult.Bag.ProductColorTypeId,
-                        ProductId = getByIdResult.Bag.ProductId,
+                        ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
                     };
                 }
             }

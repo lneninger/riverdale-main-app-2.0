@@ -23,7 +23,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.InsertComma
             {
                 var entity = new DomainModel.Product.ProductCategoryAllowedColorType
                     {
-                        ProductId = input.ProductId,
+                        ProductCategoryId = input.ProductCategoryId,
                         ProductColorTypeId = input.ProductColorTypeId,
                     };
 
@@ -51,7 +51,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.InsertComma
                         result.Bag = new ProductAllowedColorTypeInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            ProductId = getByIdResult.Bag.ProductId,
+                            ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
                             ProductColorTypeId = getByIdResult.Bag.ProductColorTypeId,
                         };
                     }

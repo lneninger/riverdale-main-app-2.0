@@ -27,9 +27,9 @@ namespace DomainDatabaseMapping.Mappings.Product
                 .HasForeignKey(t => t.ProductColorTypeId)
                 ;
 
-            builder.HasOne(t => t.Product)
-                .WithMany(t => t.ProductCategoryAllowedColorTypes)
-                .HasForeignKey(t => t.ProductId)
+            builder.HasOne(t => t.ProductCategory)
+                .WithMany(t => t.AllowedColorTypes)
+                .HasForeignKey(t => t.ProductCategoryId)
                 ;
         }
     }

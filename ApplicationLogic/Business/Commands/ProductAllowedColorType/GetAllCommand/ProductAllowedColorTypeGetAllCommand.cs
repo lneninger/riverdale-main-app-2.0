@@ -27,7 +27,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.GetAllComma
                     result.Bag = getAllResult.Bag.Select(entityItem => new ProductAllowedColorTypeGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
-                        ProductName = entityItem.Product.Name,
+                        ProductName = entityItem.ProductCategory.Name,
                         ProductColortTypeName = entityItem.ProductColorType.Name,
                         CreatedAt = entityItem.CreatedAt
 

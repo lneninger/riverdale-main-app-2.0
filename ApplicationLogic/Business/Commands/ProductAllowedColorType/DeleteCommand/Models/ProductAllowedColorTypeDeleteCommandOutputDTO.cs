@@ -12,6 +12,6 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.DeleteComma
 
         public int Id { get; set; }
         public string ProductName { get; set; }
-        public string ProductColortTypeName { get; set; }
+        public string ProductColorTypeName { get; set; }
     }
 }

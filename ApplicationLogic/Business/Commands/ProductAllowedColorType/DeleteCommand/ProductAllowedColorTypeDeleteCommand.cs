@@ -27,8 +27,8 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.DeleteComma
                     result.Bag = new ProductAllowedColorTypeDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        ProductName = getByIdResult.Bag.Product.Name,
-                        ProductColortTypeName = getByIdResult.Bag.ProductColorType.Name
+                        ProductName = getByIdResult.Bag.ProductCategory?.Name,
+                        ProductColorTypeName = getByIdResult.Bag.ProductColorType?.Name
                     };
                 }
 

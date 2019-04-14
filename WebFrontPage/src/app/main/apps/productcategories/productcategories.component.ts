@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 /*************************Custom***********************************/
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { ProductCategory, ProductCategoryGrid, ProductCategoryGrade, ProductCategoryNewDialogResult, ProductCategoryGradeGrid } from './productcategory.model';
+import { ProductCategory, ProductCategoryGrid, ProductCategorySize, ProductCategoryNewDialogResult, ProductCategorySizeGrid } from './productcategory.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductCategoriesComponent implements OnInit {
     dataSource: ProductCategoriesDataSource | null;
-    displayedColumns = ['options', 'id', 'name'];
+    displayedColumns = ['id', 'name'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -102,14 +102,14 @@ export class ProductCategoriesComponent implements OnInit {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(ProductColorNewDialogComponent, {
+        const dialogRef = this.dialog.open(ProductCategoryNewDialogComponent, {
             width: '60%',
             data: {/* name: this.name, animal: this.animal */ }
         });
 
         dialogRef.afterClosed().subscribe((result: ProductCategoryNewDialogResult) => {
             if (result && result.goTo === 'Edit') {
-                this.service.router.navigate([`apps/productcategory/${result.data.id}`]);
+                this.service.router.navigate([`apps/productcategories/${result.data.id}`]);
             }
             else {
                 this.service.router.navigate([`../`], { relativeTo: this.route });
@@ -153,23 +153,21 @@ export class ProductCategoriesDataSource extends DataSourceAbstract<ProductCateg
     selector: 'productcategorynew-dialog',
     templateUrl: 'productcategorynew.dialog.component.html',
 })
-export class ProductColorNewDialogComponent {
+export class ProductCategoryNewDialogComponent {
 
     frmMain: FormGroup;
     constructor(
         private service: ProductCategoryService
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
-        , public dialogRef: MatDialogRef<ProductColorNewDialogComponent>
+        , public dialogRef: MatDialogRef<ProductCategoryNewDialogComponent>
         , @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        debugger;
+        // debugger;
 
         this.frmMain = frmBuilder.group({
             'id': ['', [Validators.required]],
             'name': ['', [Validators.required]],
-            'hexCode': ['', [Validators.required]],
-            'isBasicColor': ['', [Validators.required]],
         });
     }
 
@@ -177,7 +175,7 @@ export class ProductColorNewDialogComponent {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
-                    this.matSnackBar.open('Product Color created', 'OK', {
+                    this.matSnackBar.open('Product Category created', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });
