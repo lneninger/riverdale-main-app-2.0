@@ -9,6 +9,6 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.GetByIdComm
     {
         public int Id { get; set; }
         public string ProductColorTypeId { get; set; }
-        public string ProductCategoryId { get; set; }
+        public int ProductCategoryId { get; set; }
     }
 }

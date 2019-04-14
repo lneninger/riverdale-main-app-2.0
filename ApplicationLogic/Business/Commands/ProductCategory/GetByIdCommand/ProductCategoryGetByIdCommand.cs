@@ -17,7 +17,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand
         {
         }
 
-        public OperationResponse<ProductCategoryGetByIdCommandOutputDTO> Execute(string id)
+        public OperationResponse<ProductCategoryGetByIdCommandOutputDTO> Execute(int id)
         {
             var result = new OperationResponse<ProductCategoryGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
@@ -30,6 +30,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand
                     result.Bag = new ProductCategoryGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
+                        Identifier = getByIdResult.Bag.Identifier,
                         Name = getByIdResult.Bag.Name,
                         //Medias = getByIdResult.Bag.ProductCategoryMedias.Select(m => new FileItemRefOutputDTO
                         //{
@@ -41,6 +42,11 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand
                         {
                             Id = m.Id,
                             ProductColorTypeId = m.ProductColorTypeId,
+                        }).ToList(),
+                        AllowedSizes = getByIdResult.Bag.Sizes.Select(m => new ProductCategoryGetByIdCommandOutputAllowedSizeItemDTO
+                        {
+                            Id = m.Id,
+                            Size = m.Size,
                         }).ToList()
                     };
 

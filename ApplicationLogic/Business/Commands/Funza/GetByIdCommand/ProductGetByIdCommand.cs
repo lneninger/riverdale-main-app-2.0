@@ -38,7 +38,7 @@ namespace ApplicationLogic.Business.Commands.Funza.GetByIdCommand
                             FileId = m.FileRepositoryId,
                             FullUrl = m.FileRepository.FullFilePath
                         }).ToList(),
-                        FlowerProductCategoryId = getByIdResult.Bag.ProductCategoryId
+                        ProductCategoryId = getByIdResult.Bag.ProductCategoryId
                         //ProductAllowedColorTypes = getByIdResult.Bag.ProductAllowedColorTypes.Select(m => new ProductGetByIdCommandOutputAllowedColorTypeItemDTO
                         //{
                         //    Id = m.Id,
@@ -63,7 +63,7 @@ namespace ApplicationLogic.Business.Commands.Funza.GetByIdCommand
                     }
                     else if (result.Bag.ProductTypeEnum == ProductTypeEnum.FLW)
                     {
-                        result.Bag.FlowerProductCategoryId = ((FlowerProduct)getByIdResult.Bag).ProductCategoryId;
+                        result.Bag.ProductCategoryId = ((FlowerProduct)getByIdResult.Bag).ProductCategoryId;
 
                     }
                 }

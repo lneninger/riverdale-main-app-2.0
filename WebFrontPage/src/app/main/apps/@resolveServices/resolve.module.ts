@@ -13,7 +13,7 @@ import { ResolveUpdateManagerService } from './resolve.updatemanager.service';
 import { SaleSeasonCategoryTypeResolveService } from './saleseasoncategorytype.resolve.service';
 import { GrowerTypeResolveService } from './growertype.resolve.service';
 import {EnvironmentResolveService} from './environment.resolve.service';
-import {FlowerProductCategoryResolveService} from './flowerproductcategory.resolve.service';
+import {ProductCategoryResolveService} from './productcategory.resolve.service';
 
 export * from './resolve.model';
 export { CustomerResolveService } from './customer.resolve.service';
@@ -28,7 +28,7 @@ export { ProductResolveService } from './product.resolve.service';
 export { SaleSeasonCategoryTypeResolveService } from './saleseasoncategorytype.resolve.service';
 export { GrowerTypeResolveService } from './growertype.resolve.service';
 export {EnvironmentResolveService} from './environment.resolve.service';
-export { FlowerProductCategoryResolveService } from './flowerproductcategory.resolve.service';
+export { ProductCategoryResolveService } from './productcategory.resolve.service';
 
 export { ResolveUpdateManagerService } from './resolve.updatemanager.service';
 
@@ -51,7 +51,7 @@ export { ResolveUpdateManagerService } from './resolve.updatemanager.service';
         , ProductResolveService
         , SaleSeasonCategoryTypeResolveService
         , GrowerTypeResolveService
-        , FlowerProductCategoryResolveService
+        , ProductCategoryResolveService
 
 
         , ResolveUpdateManagerService

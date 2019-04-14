@@ -6,14 +6,14 @@ using System;
 
 namespace DomainDatabaseMapping.Mappings.Product
 {
-    public class ProductCategorySizeMap : BaseAbstractMap, IEntityTypeConfiguration<ProductCategorySize>
+    public class ProductCategorySizeMap : BaseAbstractMap, IEntityTypeConfiguration<ProductCategoryAllowedSize>
     {
 
         public ProductCategorySizeMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
-        public void Configure(EntityTypeBuilder<ProductCategorySize> builder)
+        public void Configure(EntityTypeBuilder<ProductCategoryAllowedSize> builder)
         {
             builder.ToTable("FlowerProductCategoryGrade", SCHEMAS.PRODUCT);
             builder.HasKey(t => t.Id);

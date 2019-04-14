@@ -1,16 +1,23 @@
-﻿namespace DomainModel.Product
+﻿using System;
+
+namespace DomainModel.Product
 {
-    public class ProductCategorySize : AbstractBaseEntity
+    public class ProductCategoryAllowedSize : AbstractBaseEntity, ILogicalDeleteEntity
     {
-        public ProductCategorySize(): base()
+
+        public ProductCategoryAllowedSize(): base()
         {
         }
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Size { get; set; }
 
-        public string ProductCategoryId { get; set; }
+        public int ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
+
+
+        public DateTime? DeletedAt { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -5,7 +5,8 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.PageQueryCommand.Mo
 {
     public class ProductCategoryPageQueryCommandOutputDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string Identifier { get; set; }
         public string Name { get; set; }
         public string ERPId { get; set; }
         public string SalesforceId { get; set; }

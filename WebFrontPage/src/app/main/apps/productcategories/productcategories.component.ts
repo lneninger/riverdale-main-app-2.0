@@ -12,13 +12,14 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 /*************************Custom***********************************/
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { ProductCategory, ProductCategoryGrid, ProductCategorySize, ProductCategoryNewDialogResult, ProductCategorySizeGrid } from './productcategory.model';
+import { ProductCategory, ProductCategoryGrid/*, ProductCategorySize*/, ProductCategoryNewDialogResult } from './productcategory.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductCategoryService } from './productcategory.core.module';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
+import { CustomValidators } from 'ngx-custom-validators';
 
 @Component({
     selector: 'product-categories',
@@ -166,7 +167,7 @@ export class ProductCategoryNewDialogComponent {
         // debugger;
 
         this.frmMain = frmBuilder.group({
-            'id': ['', [Validators.required]],
+            'identifier': ['', [Validators.required]],
             'name': ['', [Validators.required]],
         });
     }

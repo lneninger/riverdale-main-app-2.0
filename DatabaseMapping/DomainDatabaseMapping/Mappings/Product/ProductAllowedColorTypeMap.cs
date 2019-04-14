@@ -16,7 +16,7 @@ namespace DomainDatabaseMapping.Mappings.Product
         public void Configure(EntityTypeBuilder<ProductCategoryAllowedColorType> builder)
         {
             builder.ToTable("ProductAllowedColorType", SCHEMAS.PRODUCT);
-            builder.HasKey(t => t.Id);
+            builder.HasKey(t => t.TempId);
 
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd()

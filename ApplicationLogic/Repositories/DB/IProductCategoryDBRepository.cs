@@ -13,7 +13,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<ProductCategoryPageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductCategoryPageQueryCommandInputDTO> input);
 
-        OperationResponse<DomainModel.Product.ProductCategory> GetById(string id);
+        OperationResponse<DomainModel.Product.ProductCategory> GetById(int id);
 
         
         OperationResponse Insert(ProductCategory entity);

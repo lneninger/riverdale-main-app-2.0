@@ -1,12 +1,21 @@
 <h1 mat-dialog-title>New Product</h1>
 <div mat-dialog-content [formGroup]="frmMain">
     <section fxLayoutGap="20px">
-        <mat-form-field>
+        <mat-form-field fxFlex="calc(30%-20px)">
             <input matInput cdkFocusInitial formControlName="name" placeholder="Name">
         </mat-form-field>
-        <mat-form-field floatLabel="never">
+
+        <mat-form-field fxFlex="calc(30%-20px)" floatLabel="never">
             <mat-select placeholder="Product Type" name="productTypeId" formControlName="productTypeId">
                 <mat-option *ngFor="let item of listProductType$ | async" [value]="item.key">
+                    {{item.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="calc(30%-20px)" floatLabel="never">
+            <mat-select placeholder="Product Category" name="productCategoryId" formControlName="productCategoryId">
+                <mat-option *ngFor="let item of listProductCategory$ | async" [value]="item.key">
                     {{item.value}}
                 </mat-option>
             </mat-select>

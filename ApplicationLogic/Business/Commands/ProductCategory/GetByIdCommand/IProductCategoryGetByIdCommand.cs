@@ -4,7 +4,7 @@ using System;
 
 namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand
 {
-    public interface IProductCategoryGetByIdCommand: ICommandFunc<string, OperationResponse<ProductCategoryGetByIdCommandOutputDTO>>
+    public interface IProductCategoryGetByIdCommand: ICommandFunc<int, OperationResponse<ProductCategoryGetByIdCommandOutputDTO>>
     {
     }
 }

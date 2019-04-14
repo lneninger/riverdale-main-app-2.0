@@ -187,7 +187,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, ProducesResponseType(200, Type = typeof(List<EnumItemDTO<string>>))]
-        [Route("flowerproductcategories")]
+        [Route("productcategories")]
         public IActionResult GetToFlowerProductCategory()
         {
             var result = this.MasterDataProvider.GetToFlowerProductCategory();

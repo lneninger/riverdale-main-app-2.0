@@ -10,7 +10,7 @@ import { takeUntil, startWith, map, filter } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { ProductCategory, ProductCategorySizeGrid, ProductCategoryAllowedColorTypeGrid } from './productcategory.model';
+import { ProductCategory, /*ProductCategorySizeGrid, */ProductCategoryAllowedColorTypeGrid, ProductCategoryAllowedSizeGrid } from './productcategory.model';
 import { ProductCategoryService } from './productcategory.service';
 import { EnumItem } from '../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
@@ -20,6 +20,7 @@ import { FilePopupComponent, FilePopupResult } from '../@hipalanetCommons/popups
 import { FileUploadService, CustomFileUploader, ISelectedFile } from '../@hipalanetCommons/fileupload/fileupload.module';
 import { ProductColorTypeResolveService } from '../@resolveServices/resolve.module';
 import { ProductCategoryAllowedColorTypeService } from './productcategoryallowedcolortype.service';
+import { ProductCategoryAllowedSizeService } from './productcategoryallowedsize.service';
 
 @Component({
     selector: 'flower-product-category',
@@ -35,10 +36,12 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     // Settings
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
     productAllowedColorTypeCtrl = new FormControl();
+    allowSizeCtrl = new FormControl();
+
     separatorKeysCodes: number[] = [ENTER, COMMA];
     filteredProductAllowedColorTypes$: Observable<EnumItem<string>[]>;
 
-    allowedSizes: ProductCategorySizeGrid[];
+    allowedSizes: ProductCategoryAllowedSizeGrid[];
     allowedColors: ProductCategoryAllowedColorTypeGrid[];
 
     id: string;
@@ -54,11 +57,11 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         if (value) {
             this._currentEntity = new ProductCategory(value);
             //debugger;
-            this.allowedSizes = (this._currentEntity.sizes || []).map(item => new ProductCategorySizeGrid(item));
+            this.allowedSizes = (this._currentEntity.allowedSizes || []).map(item => new ProductCategoryAllowedSizeGrid(item));
             this.allowedColors = (this._currentEntity.allowedColors || []).map(item => new ProductCategoryAllowedColorTypeGrid(item));
             this.frmMain = this.createFormBasicInfo();
         }
-        
+
     }
 
     productAllowedColorTypes: ProductCategoryAllowedColorTypeGrid[];
@@ -87,6 +90,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute
         , private serviceProductCategoryAllowedColorType: ProductCategoryAllowedColorTypeService
+        , private serviceProductCategoryAllowedSize: ProductCategoryAllowedSizeService
+
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private service: ProductCategoryService
         , private _formBuilder: FormBuilder
@@ -98,8 +103,8 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         // Settings
         this.filteredProductAllowedColorTypes$ =
             combineLatest([
-            this.productAllowedColorTypeCtrl.valueChanges.pipe(startWith(null)),
-            this.listProductColorType$
+                this.productAllowedColorTypeCtrl.valueChanges.pipe(startWith(null)),
+                this.listProductColorType$
             ], (productId: string | null, listProductColorType: EnumItem<string>[]) => productId != null
                 ? listProductColorType.filter(item => item.value.toLowerCase().indexOf(productId) === 0)
                 : listProductColorType);
@@ -168,6 +173,7 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
         //debugger;
         return this._formBuilder.group({
             id: [this.currentEntity.id],
+            identifier: [this.currentEntity.identifier],
             name: [this.currentEntity.name],
             //productColorTypeId: [this.currentEntity.productColorTypeId],
         });
@@ -305,10 +311,15 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     }
 
     removeProductAllowedColorType(item: ProductCategoryAllowedColorTypeGrid): void {
+        //debugger;
         const index = this.allowedColors.indexOf(item);
         if (index >= 0) {
             this.serviceProductCategoryAllowedColorType.delete(this.allowedColors[index].id).then(response => {
                 //debugger;
+                const afterDeleteIndex = this.allowedColors.findIndex(colorItem => colorItem.id == response.bag.id);
+                if (afterDeleteIndex != -1) {
+                    this.allowedColors.splice(afterDeleteIndex, 1);
+                }
             });
         }
     }
@@ -316,9 +327,41 @@ export class ProductCategoryComponent implements OnInit, OnDestroy {
     addProductCategoryAllowedColorType(item: EnumItem<string>) {
         let allowedColorType = <ProductCategoryAllowedColorTypeGrid>{ productCategoryId: this.currentEntity.id, productColorTypeId: item.key };
         this.serviceProductCategoryAllowedColorType.add(allowedColorType).then(response => {
-             debugger;
+            //debugger;
             this.allowedColors.push(response.bag);
             this.productAllowedColorTypeCtrl.setValue(null);
+
+        });
+    }
+
+
+
+    addTypedSize(event: MatChipInputEvent): void {
+        //debugger;
+        const value = event.value;
+        this.addAllowedSize(value);
+    }
+
+    removeAllowedSize(item: ProductCategoryAllowedSizeGrid): void {
+        //debugger;
+        const index = this.allowedSizes.indexOf(item);
+        if (index >= 0) {
+            this.serviceProductCategoryAllowedSize.delete(this.allowedSizes[index].id).then(response => {
+                debugger;
+                const afterDeleteIndex = this.allowedSizes.findIndex(sizeItem => sizeItem.id == response.bag.id);
+                if (afterDeleteIndex != -1) {
+                    this.allowedSizes.splice(afterDeleteIndex, 1);
+                }
+            });
+        }
+    }
+
+    addAllowedSize(size: string) {
+        let allowedSize = <ProductCategoryAllowedSizeGrid>{ productCategoryId: this.currentEntity.id, size: size };
+        this.serviceProductCategoryAllowedSize.add(allowedSize).then(response => {
+            //debugger;
+            this.allowedSizes.push(response.bag);
+            this.allowSizeCtrl.setValue(null);
 
         });
     }

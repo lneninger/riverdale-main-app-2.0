@@ -134,7 +134,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(ProductCategoryGetByIdCommandOutputDTO))]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             var result = this.GetByIdCommand.Execute(id);
 
@@ -178,7 +178,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpDelete("{id}"), ProducesResponseType(200, Type = typeof(ProductCategoryDeleteCommandOutputDTO))]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);

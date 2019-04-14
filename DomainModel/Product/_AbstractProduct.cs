@@ -35,7 +35,7 @@ namespace DomainModel.Product
         public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
 
 
-        public string ProductCategoryId { get; set; }
+        public int? ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
         

@@ -10,9 +10,9 @@ import { BaseResolveService } from "./_base.resolve.service";
 @Injectable({
     providedIn: 'root'
 })
-export class FlowerProductCategoryResolveService extends BaseResolveService implements Resolve<any> {
+export class ProductCategoryResolveService extends BaseResolveService implements Resolve<any> {
 
-    endpoint = `${this.endpoint}flowerproductcategory`;
+    endpoint = `${this.endpoint}productcategories`;
 
     constructor(http: SecureHttpClientService) {
         super(http);

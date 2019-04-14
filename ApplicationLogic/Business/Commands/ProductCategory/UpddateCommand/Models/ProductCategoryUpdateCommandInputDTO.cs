@@ -6,9 +6,10 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.UpdateCommand.Model
 {
     public class ProductCategoryUpdateCommandInputDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        public string Identifier { get; set; }
 
         public string Name { get; set; }
-
     }
 }

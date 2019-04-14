@@ -70,7 +70,7 @@ namespace DomainDatabaseMapping
         public DbSet<AbstractProduct> Products { get; set; }
         public DbSet<ProductCategoryAllowedColorType> ProductAllowedColorTypes { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<ProductCategorySize> ProductCategoryGrades { get; set; }
+        public DbSet<ProductCategoryAllowedSize> ProductCategoryGrades { get; set; }
 
 
         //Opportunity

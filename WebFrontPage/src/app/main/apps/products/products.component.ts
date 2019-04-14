@@ -14,12 +14,12 @@ import { takeUntil } from 'rxjs/internal/operators';
 //import { AngularFireAuth } from '@angular/fire/auth';
 //import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
-import { ProductGrid, Product, ProductNewDialogResult } from './product.model';
+import { ProductGrid, Product, ProductNewDialogResult, ProductNewDialogInput } from './product.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ProductService } from './product.service';
-import { ProductTypeResolveService } from '../@resolveServices/resolve.module';
+import { ProductTypeResolveService, ProductCategoryResolveService, EnumItem } from '../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 
@@ -86,7 +86,7 @@ export class ProductsComponent implements OnInit {
     openDialog(): void {
         const dialogRef = this.dialog.open(ProductNewDialogComponent, {
             width: '60%',
-            data: { listProductType: this.route.snapshot.data.listProductType }
+            data: <ProductNewDialogInput>{ listProductType$: this.route.snapshot.data.listProductType }
         });
 
         dialogRef.afterClosed().subscribe((result: ProductNewDialogResult) => {
@@ -141,6 +141,7 @@ export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
 })
 export class ProductNewDialogComponent {
     listProductType$ = this.productTypeResolveService.onList;
+    listProductCategory$: BehaviorSubject<EnumItem<number>[]>;
     
     frmMain: FormGroup;
     constructor(
@@ -149,14 +150,16 @@ export class ProductNewDialogComponent {
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<ProductNewDialogComponent>
         , public productTypeResolveService: ProductTypeResolveService
-        , @Inject(MAT_DIALOG_DATA) public data: any
+        , public productCategoryResolveService: ProductCategoryResolveService
+        , @Inject(MAT_DIALOG_DATA) public data: ProductNewDialogInput
         , private route: ActivatedRoute
     ) {
-        this.listProductType$ = this.data.listProductType;
+        this.listProductType$ = this.productTypeResolveService.onList;
+        this.listProductCategory$ = this.productCategoryResolveService.onList;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'productTypeId': [''],
-            'colorTypeId': [''],
+            'productTypeId': ['', [Validators.required]],
+            'productCategoryId': ['', [Validators.required]],
         });
     }
 

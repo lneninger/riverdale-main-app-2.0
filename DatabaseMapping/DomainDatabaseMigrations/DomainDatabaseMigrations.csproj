@@ -30,6 +30,12 @@
     <Compile Remove="Migrations\20190314013706_PriceLevel change.cs" />
     <Compile Remove="Migrations\20190411091359_Add FlowerCategory And Grades.cs" />
     <Compile Remove="Migrations\20190414005015_Improve PRoductCategory Relations.cs" />
+    <Compile Remove="Migrations\20190414143802_ProductCategory Id as Identity.cs" />
+    <Compile Remove="Migrations\20190414145320_ProductCategory Id as Identity.cs" />
+    <Compile Remove="Migrations\20190414150545_ProductCategory Id as Identity 1.cs" />
+    <Compile Remove="Migrations\20190414150946_ProductCategory Id as Identity 1.cs" />
+    <Compile Remove="Migrations\20190414152234_ProductCategory Id as Identity 1.cs" />
+    <Compile Remove="Migrations\20190414152343_ProductCategory Id as Identity 1.cs" />
   </ItemGroup>
 
   <ItemGroup>

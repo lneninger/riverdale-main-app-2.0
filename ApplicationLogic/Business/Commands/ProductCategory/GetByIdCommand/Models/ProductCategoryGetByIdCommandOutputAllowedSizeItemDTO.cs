@@ -4,10 +4,9 @@ using System.Text;
 
 namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand.Models
 {
-    public class ProductCategoryGetByIdCommandOutputThirdPartySettingsDTO
+    public class ProductCategoryGetByIdCommandOutputAllowedSizeItemDTO
     {
         public int Id { get; set; }
-        public string ThirdPartyAppTypeId { get; set; }
-        public string ThirdPartyProductCategoryId { get; set; }
+        public string Size { get; internal set; }
     }
 }

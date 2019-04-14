@@ -5,7 +5,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.InsertCommand.Model
 {
     public class ProductCategoryInsertCommandInputDTO
     {
-        public string Id { get; set; }
+        public string Identifier { get; set; }
         public string Name { get; set; }
     }
 }

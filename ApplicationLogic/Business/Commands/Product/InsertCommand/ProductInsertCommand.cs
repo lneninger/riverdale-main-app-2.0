@@ -28,7 +28,7 @@ namespace ApplicationLogic.Business.Commands.Product.InsertCommand
                     entity = new DomainModel.Product.FlowerProduct
                     {
                         Name = input.Name,
-                        ProductCategoryId = input.FlowerProductCategoryId
+                        ProductCategoryId = input.ProductCategoryId
                     };
                 }
                 else if (input.ProductTypeId == nameof(ProductTypeEnum.COMP))

@@ -21,6 +21,9 @@ namespace DomainDatabaseMapping.Mappings.Product
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Property(t => t.Identifier)
                 .HasMaxLength(20);
 
             builder.Property(t => t.Name)

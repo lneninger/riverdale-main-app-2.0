@@ -12,7 +12,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.DeleteCommand
         {
         }
 
-        public OperationResponse<ProductCategoryDeleteCommandOutputDTO> Execute(string id)
+        public OperationResponse<ProductCategoryDeleteCommandOutputDTO> Execute(int id)
         {
             var result = new OperationResponse<ProductCategoryDeleteCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
@@ -24,6 +24,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.DeleteCommand
                     result.Bag = new ProductCategoryDeleteCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
+                        Identifier = getByIdResult.Bag.Identifier,
                         Name = getByIdResult.Bag.Name
                     };
                 }

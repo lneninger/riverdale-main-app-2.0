@@ -272,14 +272,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductCategory()
+        public OperationResponse<List<EnumItemDTO<int>>> GetToEnumProductCategory()
         {
-            var result = new OperationResponse<List<EnumItemDTO<string>>>();
+            var result = new OperationResponse<List<EnumItemDTO<int>>>();
             try
             {
                 using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
                 {
-                    result.Bag = dbLocator.Set<ProductCategory>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Sizes", masterItem.Sizes.Select(size => new EnumItemDTO<int> { Key = size.Id, Value = size.Name}) }, { "AllowedColorTypes", masterItem.AllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
+                    result.Bag = dbLocator.Set<ProductCategory>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { {"Identifier", masterItem.Identifier },  { "Sizes", masterItem.Sizes.Select(size => new EnumItemDTO<int> { Key = size.Id, Value = size.Size}) }, { "AllowedColorTypes", masterItem.AllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
                 }
             }
             catch (Exception ex)

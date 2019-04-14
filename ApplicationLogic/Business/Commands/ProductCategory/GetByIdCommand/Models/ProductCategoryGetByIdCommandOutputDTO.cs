@@ -7,12 +7,17 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand.Mode
 {
     public class ProductCategoryGetByIdCommandOutputDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        public string Identifier { get; set; }
+
         public string Name { get; set; }
 
         //public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
         
         
-        public IEnumerable<ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO> AllowedColors { get; internal set; }
+        public IEnumerable<ProductCategoryGetByIdCommandOutputAllowedColorTypeItemDTO> AllowedColors { get; set; }
+
+        public IEnumerable<ProductCategoryGetByIdCommandOutputAllowedSizeItemDTO> AllowedSizes { get; set; }
     }
 }

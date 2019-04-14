@@ -101,9 +101,9 @@ export class ProductCategoryService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    delete(id: string): any {
+    delete(id: number): any {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}productcategory/{id}`).subscribe((res: any) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}productcategory/${id}`).subscribe((res: any) => {
                 resolve(res);
             },
                 error => {

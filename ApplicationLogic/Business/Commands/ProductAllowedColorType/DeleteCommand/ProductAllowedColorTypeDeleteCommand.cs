@@ -22,7 +22,7 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.DeleteComma
             {
                 var getByIdResult = this.Repository.GetById(id);
                 result.AddResponse(getByIdResult);
-                if (result.IsSucceed)
+                if (result.IsSucceed && getByIdResult.Bag != null)
                 {
                     result.Bag = new ProductAllowedColorTypeDeleteCommandOutputDTO
                     {
@@ -30,10 +30,11 @@ namespace ApplicationLogic.Business.Commands.ProductAllowedColorType.DeleteComma
                         ProductName = getByIdResult.Bag.ProductCategory?.Name,
                         ProductColorTypeName = getByIdResult.Bag.ProductColorType?.Name
                     };
+
+                    var deleteResult = this.Repository.Delete(getByIdResult.Bag);
+                    result.AddResponse(deleteResult);
                 }
 
-                var deleteResult = this.Repository.Delete(getByIdResult.Bag);
-                result.AddResponse(deleteResult);
                 if (result.IsSucceed)
                 {
                     try

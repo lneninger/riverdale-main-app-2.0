@@ -27,6 +27,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetAllCommand
                     result.Bag = getAllResult.Bag.Select(entityItem => new ProductCategoryGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
+                        Identifier = entityItem.Identifier,
                         Name = entityItem.Name,
                         CreatedAt = entityItem.CreatedAt
 

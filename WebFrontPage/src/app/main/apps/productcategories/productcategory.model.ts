@@ -4,23 +4,24 @@ export class ProductCategoryGrid {
     name: string;
 }
 
-export class ProductCategorySizeGrid {
-    id: number;
-    name: string;
+//export class ProductCategorySizeGrid {
+//    id: number;
+//    name: string;
 
-    constructor(item) {
-        const internal = <ProductCategorySizeGrid>item;
-        this.id = internal.id;
-        this.name = internal.name;
-    }
-}
+//    constructor(item) {
+//        const internal = <ProductCategorySizeGrid>item;
+//        this.id = internal.id;
+//        this.name = internal.name;
+//    }
+//}
 
 
 export class ProductCategory
 {
-    id: string;
+    id: number;
+    identifier: string;
     name: string;
-    sizes: ProductCategorySizeGrid[];
+    allowedSizes: ProductCategoryAllowedSizeGrid[];
     allowedColors: ProductCategoryAllowedColorTypeGrid[];
 
     /**
@@ -30,27 +31,29 @@ export class ProductCategory
      */
     constructor(input?)
     {
-        this.id = (input || {}).id;
-        this.name = (input || {}).name;
-        this.sizes = ((input || {}).sizes || []).map(subItem => new ProductCategorySize(subItem));;
-        this.allowedColors = ((input || {}).allowedColors || []).map(subItem => new ProductCategoryAllowedColorTypeGrid(subItem));;
+        const internal = (<ProductCategory>(input || {}));
+        this.identifier = internal.identifier;
+        this.id = internal.id;
+        this.name = internal.name;
+        this.allowedSizes = (internal.allowedSizes || []).map(subItem => new ProductCategoryAllowedSizeGrid(subItem));;
+        this.allowedColors = (internal.allowedColors || []).map(subItem => new ProductCategoryAllowedColorTypeGrid(subItem));;
     }
 }
 
-export class ProductCategorySize {
-    id: string;
-    name: string;
+//export class ProductCategorySize {
+//    id: string;
+//    name: string;
 
-    /**
-     * Constructor
-     *
-     * @param input Input parameter
-     */
-    constructor(input?) {
-        this.id = (input || {}).id;
-        this.name = (input || {}).name;
-    }
-}
+//    /**
+//     * Constructor
+//     *
+//     * @param input Input parameter
+//     */
+//    constructor(input?) {
+//        this.id = (input || {}).id;
+//        this.name = (input || {}).name;
+//    }
+//}
 
 
 
@@ -61,7 +64,7 @@ export class ProductCategoryNewDialogResult {
 
 export class ProductCategoryAllowedColorTypeGrid {
     id?: number;
-    productCategoryId?: string;
+    productCategoryId?: number;
     productColorTypeId?: string;
 
     constructor(item?) {
@@ -69,6 +72,19 @@ export class ProductCategoryAllowedColorTypeGrid {
         this.id = internal.id;
         this.productCategoryId = internal.productCategoryId;
         this.productColorTypeId = internal.productColorTypeId;
+    }
+}
+
+export class ProductCategoryAllowedSizeGrid {
+    id?: number;
+    productCategoryId?: number;
+    size?: string;
+
+    constructor(item?) {
+        let internal = item || <ProductCategoryAllowedSizeGrid>{};
+        this.id = internal.id;
+        this.productCategoryId = internal.productCategoryId;
+        this.size = internal.size;
     }
 }
 

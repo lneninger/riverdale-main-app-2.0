@@ -11,10 +11,11 @@ namespace DomainModel.Product
         public string ProductColorTypeId { get; set; }
         public virtual ProductColorType ProductColorType { get; set; }
 
-        public string ProductCategoryId { get; set; }
+        public int ProductCategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
 
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }
+        public string TempId { get; set; }
     }
 }

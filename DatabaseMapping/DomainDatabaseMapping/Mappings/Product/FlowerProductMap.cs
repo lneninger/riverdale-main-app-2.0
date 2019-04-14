@@ -15,10 +15,6 @@ namespace DomainDatabaseMapping.Mappings.Product
 
         public void Configure(EntityTypeBuilder<FlowerProduct> builder)
         {
-            builder.Property(t => t.ProductCategoryId)
-                .HasMaxLength(20)
-                .IsRequired(false);
-
  
         }
     }

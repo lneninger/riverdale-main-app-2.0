@@ -29,16 +29,20 @@ namespace DomainDatabaseMapping.Mappings.Product
                 ;
 
             builder.Ignore(t => t.ProductTypeEnum);
+            builder.Ignore(t => t.ProductCategoryId);
+
+            builder.Property(t => t.ProductCategoryId)
+                .IsRequired(false);
 
             builder.HasOne(t => t.ProductType)
                 .WithMany(t => t.Products)
                 .HasForeignKey(t => t.ProductTypeId)
                 ;
 
-            builder.HasOne(c => c.ProductCategory)
-     .WithMany(p => p.Products)
-     .HasForeignKey(c => c.ProductCategoryId)
-     ;
+     //       builder.HasOne(c => c.ProductCategory)
+     //.WithMany(p => p.Products)
+     //.HasForeignKey(c => c.ProductCategoryId)
+     //;
         }
     }
 }

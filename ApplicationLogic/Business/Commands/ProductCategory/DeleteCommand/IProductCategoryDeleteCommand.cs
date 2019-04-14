@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApplicationLogic.Business.Commands.ProductCategory.DeleteCommand
 {
-    public interface IProductCategoryDeleteCommand : ICommandFunc<string, OperationResponse<ProductCategoryDeleteCommandOutputDTO>>
+    public interface IProductCategoryDeleteCommand : ICommandFunc<int, OperationResponse<ProductCategoryDeleteCommandOutputDTO>>
     {
     }
 }

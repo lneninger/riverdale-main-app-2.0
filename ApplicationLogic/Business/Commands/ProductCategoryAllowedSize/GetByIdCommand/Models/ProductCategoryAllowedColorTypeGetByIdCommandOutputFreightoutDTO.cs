@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApplicationLogic.Business.Commands.ProductCategory.GetByIdCommand.Models
+namespace ApplicationLogic.Business.Commands.ProductCategoryAllowedSize.GetByIdCommand.Models
 {
-    public class ProductCategoryGetByIdCommandOutputFreightoutDTO
+    public class ProductCategoryAllowedSizeGetByIdCommandOutputFreightoutDTO
     {
         public int Id { get; set; }
 

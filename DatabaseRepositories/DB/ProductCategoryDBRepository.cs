@@ -78,6 +78,7 @@ namespace DatabaseRepositories.DB
                     result.Bag = query.ProcessPagingSort<ProductCategory, ProductCategoryPageQueryCommandOutputDTO>(predicate, input, sorting, o => new ProductCategoryPageQueryCommandOutputDTO
                     {
                         Id = o.Id,
+                        Identifier = o.Identifier,
                         Name = o.Name,
                     });
                 }
@@ -90,7 +91,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductCategory> GetById(string id)
+        public OperationResponse<ProductCategory> GetById(int id)
         {
             var result = new OperationResponse<ProductCategory>();
             try

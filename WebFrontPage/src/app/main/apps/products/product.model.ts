@@ -1,5 +1,6 @@
 import { IUploadedFile } from "../@hipalanetCommons/fileupload/fileupload.model";
 import { EnumItem } from "../@resolveServices/resolve.model";
+import { Observable } from "rxjs";
 
 export class ProductGrid {
     id: number;
@@ -71,6 +72,11 @@ export interface IProductMedia extends IUploadedFile {
    
 }
 
+
+export class ProductNewDialogInput {
+    listProductType$: Observable<EnumItem<number>>;
+    listProductCategory$: Observable<EnumItem<number>>;
+}
 
 export class ProductNewDialogResult {
     goTo: 'Edit';

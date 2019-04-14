@@ -19,7 +19,7 @@ import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../../
 import { FilePopupComponent, FilePopupResult } from '../../@hipalanetCommons/popups/file/file.popup.module';
 import { FileUploadService, CustomFileUploader, ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.module';
 import { ProductMediaService } from '../product.core.module';
-import { ProductColorTypeResolveService, FlowerProductCategoryResolveService } from '../../@resolveServices/resolve.module';
+import { ProductColorTypeResolveService, ProductCategoryResolveService } from '../../@resolveServices/resolve.module';
 
 @Component({
     selector: 'basic-product',

@@ -5,7 +5,8 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.GetAllCommand.Model
 {
     public class ProductCategoryGetAllCommandOutputDTO
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string Identifier { get; set; }
         public string Name { get; set; }
         public DateTime? CreatedAt { get; set; }
 

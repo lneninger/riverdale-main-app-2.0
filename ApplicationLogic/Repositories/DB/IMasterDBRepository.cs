@@ -30,6 +30,6 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<List<EnumItemDTO<string>>> GetToEnumGrowerTypesWithGrower();
 
-        OperationResponse<List<EnumItemDTO<string>>> GetToEnumProductCategory();
+        OperationResponse<List<EnumItemDTO<int>>> GetToEnumProductCategory();
     }
 }

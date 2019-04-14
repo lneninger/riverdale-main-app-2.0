@@ -19,8 +19,8 @@ namespace DomainModel.Product
 
         public int Stems { get; set; }
 
-        public int? FlowerProductCategoryGradeId { get; set; }
-        public virtual ProductCategorySize FlowerProductCategoryGrade { get; set; }
+        public int? ProductCategoryGradeId { get; set; }
+        public virtual ProductCategoryAllowedSize ProductCategorySize { get; set; }
 
 
         public DateTime? DeletedAt { get; set; }

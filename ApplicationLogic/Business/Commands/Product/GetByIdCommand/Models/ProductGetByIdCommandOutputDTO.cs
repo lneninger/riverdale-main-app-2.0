@@ -9,7 +9,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ProductCategoryId { get; set; }
+        public int? ProductCategoryId { get; set; }
 
         public IEnumerable<FileItemRefOutputDTO> Medias { get; set; }
         public string ProductTypeId { get; set; }

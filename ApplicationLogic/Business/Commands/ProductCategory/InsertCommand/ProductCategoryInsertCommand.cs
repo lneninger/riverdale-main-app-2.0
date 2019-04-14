@@ -24,7 +24,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.InsertCommand
 
                 var entity = new DomainModel.Product.ProductCategory
                     {
-                        Id = input.Id,
+                        Identifier = input.Identifier,
                         Name = input.Name,
                     };
                 
@@ -53,6 +53,7 @@ namespace ApplicationLogic.Business.Commands.ProductCategory.InsertCommand
                         result.Bag = new ProductCategoryInsertCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
+                            Identifier = getByIdResult.Bag.Identifier,
                             Name = getByIdResult.Bag.Name
                         };
                     }

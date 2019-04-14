@@ -103,7 +103,7 @@ namespace ApplicationLogic.Business.Commons
             }
         }
 
-        public OperationResponse<List<EnumItemDTO<string>>> GetToFlowerProductCategory()
+        public OperationResponse<List<EnumItemDTO<int>>> GetToFlowerProductCategory()
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
