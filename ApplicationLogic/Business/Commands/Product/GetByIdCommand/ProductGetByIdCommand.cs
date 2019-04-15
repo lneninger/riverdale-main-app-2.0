@@ -32,13 +32,13 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                         Id = getByIdResult.Bag.Id,
                         Name = getByIdResult.Bag.Name,
                         ProductTypeId = getByIdResult.Bag.ProductTypeId,
+                        ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
                         Medias = getByIdResult.Bag.ProductMedias.Select(m => new FileItemRefOutputDTO
                         {
                             Id = m.Id,
                             FileId = m.FileRepositoryId,
                             FullUrl = m.FileRepository.FullFilePath
                         }).ToList(),
-                        ProductCategoryId = getByIdResult.Bag.ProductCategoryId
                         //ProductAllowedColorTypes = getByIdResult.Bag.ProductAllowedColorTypes.Select(m => new ProductGetByIdCommandOutputAllowedColorTypeItemDTO
                         //{
                         //    Id = m.Id,

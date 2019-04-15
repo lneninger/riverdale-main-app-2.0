@@ -287,3 +287,14 @@ export class SaleOpportunityTargetPriceProductNewDialogOutput {
     goTo: string;
     data: TargetPriceItem;
 }
+
+
+export class SaleOpportunityTargetPriceSubProductNewDialogInput {
+    productId: number;
+    subProductId: number;
+}
+
+export class SaleOpportunityTargetPriceSubProductNewDialogOutput {
+    goTo: string;
+    data: TargetPriceItem;
+}

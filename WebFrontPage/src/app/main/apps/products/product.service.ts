@@ -73,9 +73,9 @@ export class ProductService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    getById(id?: number): Observable<Product> {
+    getById(id?: number): Observable<OperationResponse<Product>> {
         const internalId = id || this.routeParams.id;
-        return this.http.get<Product>(`${environment.appApi.apiBaseUrl}product/${internalId}`);
+        return this.http.get<OperationResponse<Product>>(`${environment.appApi.apiBaseUrl}product/${internalId}`);
     }
 
     /**

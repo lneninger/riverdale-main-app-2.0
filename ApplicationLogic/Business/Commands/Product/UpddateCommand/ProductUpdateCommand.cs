@@ -25,9 +25,10 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand
                 if (result.IsSucceed)
                 {
                     getByIdResult.Bag.Name = input.Name;
+                    getByIdResult.Bag.ProductCategoryId = input.ProductCategoryId;
+
                     if (getByIdResult.Bag is FlowerProduct)
                     {
-                        (getByIdResult.Bag as FlowerProduct).ProductCategoryId = input.ProductCategoryId;
                     }
 
                     try
@@ -46,7 +47,8 @@ namespace ApplicationLogic.Business.Commands.Product.UpdateCommand
                         result.Bag = new ProductUpdateCommandOutputDTO
                         {
                             Id = getByIdResult.Bag.Id,
-                            Name = getByIdResult.Bag.Name
+                            Name = getByIdResult.Bag.Name,
+                            ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
                         };
                     }
 

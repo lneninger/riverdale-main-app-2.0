@@ -11,12 +11,12 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult, TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput, SaleOpportunityTargetPriceNewDialogInput, SaleOpportunityTargetPriceProductNewDialogInput, TargetPriceProductItem } from '../../saleopportunity.model';
+import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult, TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput, SaleOpportunityTargetPriceNewDialogInput, SaleOpportunityTargetPriceProductNewDialogInput, TargetPriceProductItem, SaleOpportunityTargetPriceSubProductNewDialogInput } from '../../saleopportunity.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.core.module';
-import { ProductTypeResolveService, EnumItem } from '../../../@resolveServices/resolve.module';
+import { ProductTypeResolveService, EnumItem, ProductCategoryResolveService } from '../../../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../../../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'ngx-custom-validators';
@@ -34,19 +34,11 @@ import { ProductService, Product } from '../../../products/product.core.module';
     templateUrl: 'saleopportunities-targetpricesubproductnew.dialog.component.html',
 })
 export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
-    listSeasonCategoryType$ = this.saleSeasonCategoryTypeResolveService.onList;
-    selectedSeasonCategory: EnumItem<string>;
-    product$: Observable<Product>;
-
-    get selectedCategorySeasons(): Object {
-        if (this.selectedSeasonCategory != null) {
-            return this.selectedSeasonCategory.extras['saleSeasonTypes'];
-        }
-        else {
-            return null;
-        }
-    }
-
+    listProductCategory$ = this.productCategoryResolveService.onList;
+    listProductColorType$ = this.productColorTypeResolveService.onList;
+    listProduct$ = this.productResolveService.onList;
+    private product$ = new Subject<Product>();
+    
     frmMain: FormGroup;
     constructor(
         private service: SaleOpportunityService
@@ -54,32 +46,42 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
         , private matSnackBar: MatSnackBar
         , private frmBuilder: FormBuilder
         , public dialogRef: MatDialogRef<SaleOpportunityTargetPriceSubProductNewDialogComponent>
-        , private  saleSeasonCategoryTypeResolveService: SaleSeasonCategoryTypeResolveService
-        , @Inject(MAT_DIALOG_DATA) public data: SaleOpportunityTargetPriceProductNewDialogInput
+        , private productResolveService: ProductResolveService
+        , private productColorTypeResolveService: ProductColorTypeResolveService
+        , private  productCategoryResolveService: ProductCategoryResolveService
+        , @Inject(MAT_DIALOG_DATA) public data: SaleOpportunityTargetPriceSubProductNewDialogInput
         , private route: ActivatedRoute
     ) {
+        this.productResolveService.noDependencyResolve().subscribe();
+        this.productCategoryResolveService.noDependencyResolve().subscribe();
+        this.productColorTypeResolveService.noDependencyResolve().subscribe();
 
-        this.product$ = this.productService.getById(data.productId)
-            //.pipe(map(res => res.bag))
-            ;
+
+
+        this.productService.getById(data.subProductId)
+            .subscribe(response => {
+                const product = response.bag;
+                debugger;
+                this.frmMain = frmBuilder.group({
+                    'productId': [this.data.productId, [Validators.required]],
+                    'subProductId': [product.id, [Validators.required]],
+                    'colorTypeId': ['', [Validators.required]],
+                    'amount': [1, [Validators.required, CustomValidators.number]],
+                    'size': ['', [Validators.required, CustomValidators.number]],
+                });
+
+                this.product$.next(product);
+            });
+
         
-        this.frmMain = frmBuilder.group({
-            //'name': ['', [Validators.required]],
-            //'saleSeasonTypeId': ['', [Validators.required]],
-            //// 'customerId': ['', [Validators.required]],
-            //'targetPrice': ['', CustomValidators.number],
-            //'alterenativesAmount': ['', CustomValidators.number]
-        });
     }
 
     save(): Promise<{}> {
         return new Promise((resolve, reject) => {
             const value = this.frmMain.value;
-            value.targetPriceId = this.data.targetPriceId;
-            value.productId = this.data.productId;
             this.service.addTargetPriceProductItem(value)
                 .then(res => {
-                    this.matSnackBar.open('Target Price Product created', 'OK', {
+                    this.matSnackBar.open('Item add to compoisiton', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });

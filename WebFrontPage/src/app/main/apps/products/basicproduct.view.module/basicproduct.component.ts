@@ -30,7 +30,7 @@ import { ProductColorTypeResolveService, ProductCategoryResolveService } from '.
 })
 export class BasicProductComponent implements OnInit, OnDestroy {
     // Resolve
-    listProductColorType$: Observable<EnumItem<string>[]>;
+    listProductCategory$: Observable<EnumItem<number>[]>;
 
     // Settings
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -90,7 +90,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute
         , private serviceProductMedia: ProductMediaService
         //, private serviceProductAllowedColorType: ProductAllowedColorTypeService
-        , private serviceProductColorTypeResolve: ProductColorTypeResolveService
+        , private serviceProductCategoryResolve: ProductCategoryResolveService
         , private service: ProductService
         , private _formBuilder: FormBuilder
         , private _location: Location
@@ -98,14 +98,11 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         , private matDialog: MatDialog
         , private fileUploadService: FileUploadService
     ) {
-        // Settings
-        this.filteredProductAllowedColorTypes$ =
-            combineLatest([
-            this.productAllowedColorTypeCtrl.valueChanges.pipe(startWith(null)),
-            this.listProductColorType$
-            ], (productId: string | null, listProductColorType: EnumItem<string>[]) => productId != null
-                ? listProductColorType.filter(item => item.value.toLowerCase().indexOf(productId) === 0)
-                : listProductColorType);
+        // Resolve
+        // debugger;
+        this.serviceProductCategoryResolve.noDependencyResolve().subscribe();
+
+        this.listProductCategory$ = this.serviceProductCategoryResolve.onList;
 
         //debugger;
         this.customUploader = this.fileUploadService.create();
@@ -152,9 +149,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        // Resolve
-        this.listProductColorType$ = this.serviceProductColorTypeResolve.onList;
-
+        
         // Subscribe to update product on changes
         //this.service.onCurrentEntityChanged
         //    .pipe(takeUntil(this._unsubscribeAll))
@@ -200,7 +195,7 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         return this._formBuilder.group({
             id: [this.currentEntity.id],
             name: [this.currentEntity.name],
-            productColorTypeId: [this.currentEntity.productColorTypeId],
+            productCategoryId: [this.currentEntity.productCategoryId],
         });
     }
 
@@ -305,14 +300,14 @@ export class BasicProductComponent implements OnInit, OnDestroy {
 
 
     /**********************************ProductAllowedColorType************************************/
-    getProductColorType(productColorTypeId: string) {
-        return this.listProductColorType$.pipe(map(list => list.find(item => item.key == productColorTypeId) || {}));
-    }
+    //getProductColorType(productColorTypeId: string) {
+    //    return this.listProductColorType$.pipe(map(list => list.find(item => item.key == productColorTypeId) || {}));
+    //}
 
-    private _filterProductAllowedColorTypes(value: string): Observable<EnumItem<string>[]> {
-        const filterValue = value.toLowerCase();
-        return this.listProductColorType$.pipe(map(list => list.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0)));
-    }
+    //private _filterProductAllowedColorTypes(value: string): Observable<EnumItem<string>[]> {
+    //    const filterValue = value.toLowerCase();
+    //    return this.listProductColorType$.pipe(map(list => list.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0)));
+    //}
     //selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
     //    //debugger;
     //    const productColortTypeId = event.option.value;

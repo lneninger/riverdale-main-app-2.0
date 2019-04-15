@@ -14,7 +14,8 @@ import {
     , MatSelectModule
     , MatSnackBarModule
     , MatCardModule
-    , MatListModule
+    , MatListModule,
+    MatProgressSpinnerModule
 } from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
@@ -135,6 +136,7 @@ const routes: Routes = [
         , MatTooltipModule
         , MatDialogModule
         , MatCardModule
+        , MatProgressSpinnerModule
 
         , NgxDnDModule
         
@@ -159,6 +161,7 @@ const routes: Routes = [
         SampleBoxProductNewDialogComponent
         , SaleOpportunityTargetPriceNewDialogComponent
         , SaleOpportunityTargetPriceProductNewDialogComponent
+        , SaleOpportunityTargetPriceSubProductNewDialogComponent
     ]
 })
 export class SaleOpportunityViewModule

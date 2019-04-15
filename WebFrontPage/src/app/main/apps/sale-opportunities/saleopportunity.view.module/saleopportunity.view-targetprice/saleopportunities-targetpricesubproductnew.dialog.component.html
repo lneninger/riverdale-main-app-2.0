@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>New Target Price Product</h1>
+<h1 mat-dialog-title>Composition Item</h1>
 <!--<pre>
 {{product$ | async | json}}
 </pre>-->
@@ -6,16 +6,41 @@
     <mat-card *ngIf="product$ | async; let product; else loading" class="example-card">
         <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{product.bag.name}}</mat-card-title>
-            <mat-card-subtitle>{{product.bag.productTypeId}}</mat-card-subtitle>
+            <mat-card-title>{{product.name}}</mat-card-title>
+            <mat-card-subtitle>{{product.productTypeId}}</mat-card-subtitle>
         </mat-card-header>
         <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
         <mat-card-content>
-            <!--<p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-            </p>-->
+            <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                    <mat-select placeholder="Product" name="subProductId" formControlName="subProductId">
+                        <mat-option *ngFor="let item of listProduct$ | async" [value]="item.key">
+                            {{item.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                    <mat-select placeholder="Color" name="colorTypeId" formControlName="colorTypeId">
+                        <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
+                            {{item.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                    <mat-label>Stems</mat-label>
+                    <input matInput placeholder="Stems"
+                           name="amount"
+                           formControlName="amount"
+                           required>
+                </mat-form-field>
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                    <mat-label>Grade</mat-label>
+                    <input matInput placeholder="Grade"
+                           name="size"
+                           formControlName="size"
+                           required>
+                </mat-form-field>
+            </div>
         </mat-card-content>
         <!--<mat-card-actions>
             <button mat-button>LIKE</button>
@@ -24,7 +49,15 @@
     </mat-card>
 
     <ng-template #loading>
-        Loading
+        <div fxLayout="row wrap" fxFlex>
+            <div fxFlex="50">
+                <mat-progress-spinner class="example-margin"
+                                      color="primary"
+                                      mode="indeterminate"
+                                      value="50">
+                </mat-progress-spinner>
+            </div>
+        </div>
     </ng-template>
 </div>
 <div mat-dialog-actions>

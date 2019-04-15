@@ -12,7 +12,7 @@ export class Product {
     id: number;
     name: string;
     productTypeId: string;
-    productColorTypeId: string;
+    productCategoryId: number;
     medias: ProductMediaGrid[];
     productAllowedColorTypes: ProductAllowedColorTypeGrid[];
 
@@ -26,7 +26,7 @@ export class Product {
         this.id = internal.id;
         this.name = internal.name;
         this.productTypeId = internal.productTypeId
-        this.productColorTypeId = internal.productColorTypeId;
+        this.productCategoryId = internal.productCategoryId;
         this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
         //debugger;
         this.productAllowedColorTypes = (internal.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));

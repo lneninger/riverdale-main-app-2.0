@@ -7,7 +7,7 @@ import {
     ViewChild,
     Input
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import {
     pipe,
     of,
@@ -30,7 +30,8 @@ import { fuseAnimations } from "@fuse/animations";
 import {
     SaleOpportunity,
     SampleBoxProductItem,
-    TargetPriceProductSubItem
+    TargetPriceProductSubItem,
+    SaleOpportunityTargetPriceSubProductNewDialogInput
 } from "../../../saleopportunity.model";
 import { SaleOpportunityViewService } from "../../saleopportunity.view.service";
 import {
@@ -39,6 +40,8 @@ import {
 } from "../../../../@resolveServices/resolve.module";
 import { SaleOpportunityService } from "../../../saleopportunity.service";
 import { CompositionItem } from "app/main/apps/products/product.model";
+import { MatDialog } from "@angular/material";
+import { SaleOpportunityTargetPriceSubProductNewDialogComponent } from "../../saleopportunity.view-targetprice/saleopportunities-targetpricesubproductnew.dialog.component";
 
 @Component({
     selector: "todo-main-sidebar",
@@ -82,15 +85,17 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _todoService: SaleOpportunityViewService,
         private _router: Router,
+        private route: ActivatedRoute,
         private productResolveService: ProductResolveService,
-        private saleOpportunityService: SaleOpportunityService
+        private saleOpportunityService: SaleOpportunityService,
+        public dialog: MatDialog
     ) {
-        // Set the defaults
-        this.accounts = {
-            creapond: "johndoe@creapond.com",
-            withinpixels: "johndoe@withinpixels.com"
-        };
-        this.selectedAccount = "creapond";
+        //// Set the defaults
+        //this.accounts = {
+        //    creapond: "johndoe@creapond.com",
+        //    withinpixels: "johndoe@withinpixels.com"
+        //};
+        //this.selectedAccount = "creapond";
 
         // this.productResolveService.onList.subscribe(() => {
         //     this.filterProducts();
@@ -205,17 +210,53 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
+    //selectedToAddItem(enumItem: EnumItem<number>): any {
+    //    const item = new CompositionItem(enumItem);
+    //    const currentTargetPriceProduct = this.saleOpportunityService.currentTargetPriceProduct;
+    //    if (currentTargetPriceProduct !== null) {
+    //        item.productId = currentTargetPriceProduct.productId;
+    //        this.saleOpportunityService.addTargetPriceProductSubItem(item).then(
+    //            response => {
+    //                // debugger;
+    //            },
+    //            error => {}
+    //        );
+    //    }
+    //}
+
     selectedToAddItem(enumItem: EnumItem<number>): any {
-        const item = new CompositionItem(enumItem);
-        const currentTargetPriceProduct = this.saleOpportunityService.currentTargetPriceProduct;
-        if (currentTargetPriceProduct !== null) {
-            item.productId = currentTargetPriceProduct.productId;
-            this.saleOpportunityService.addTargetPriceProductSubItem(item).then(
-                response => {
-                    // debugger;
-                },
-                error => {}
-            );
-        }
+        this.openSubProductDialog(enumItem);
+    }
+
+
+    openSubProductDialog(enumItem: EnumItem<number>): void {
+        // debugger;
+
+        const input = <SaleOpportunityTargetPriceSubProductNewDialogInput>{
+            productId: this.saleOpportunityService.currentTargetPriceProduct.id,
+            subProductId: enumItem.key
+        };
+
+        const dialogRef = this.dialog.open(
+            SaleOpportunityTargetPriceSubProductNewDialogComponent,
+            {
+                width: "60%",
+                data: input
+            }
+        );
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: SaleOpportunityTargetPriceSubProductNewDialogComponent) => {
+                debugger;
+                const queryParams = this.route.snapshot.queryParams;
+                const newQueryParams = { ...queryParams }
+                delete newQueryParams['newtargetprice'];
+                this.saleOpportunityService.router.navigate(['.'], {
+                    relativeTo: this.route,
+                    queryParams: newQueryParams
+                });
+
+            });
     }
 }
