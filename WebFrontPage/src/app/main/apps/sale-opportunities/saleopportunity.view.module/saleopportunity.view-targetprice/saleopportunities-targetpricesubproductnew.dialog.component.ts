@@ -37,7 +37,7 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
     listProductCategory$ = this.productCategoryResolveService.onList;
     listProductColorType$ = this.productColorTypeResolveService.onList;
     listProduct$ = this.productResolveService.onList;
-    private product$ = new Subject<Product>();
+    product$ = new Subject<Product>();
     
     frmMain: FormGroup;
     constructor(

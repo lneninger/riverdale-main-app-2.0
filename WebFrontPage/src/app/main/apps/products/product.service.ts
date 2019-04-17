@@ -11,6 +11,7 @@ import { environment } from 'environments/environment';
 import { IPageQueryService } from '../@hipalanetCommons/datatable/model';
 import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
 import { CompositionItem, Product } from './product.model';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 
 @Injectable()
 export class ProductService implements Resolve<any>, IPageQueryService {
@@ -73,9 +74,9 @@ export class ProductService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    getById(id?: number): Observable<OperationResponse<Product>> {
+    getById(id?: number): Observable<OperationResponseValued<Product>> {
         const internalId = id || this.routeParams.id;
-        return this.http.get<OperationResponse<Product>>(`${environment.appApi.apiBaseUrl}product/${internalId}`);
+        return this.http.get<OperationResponseValued<Product>>(`${environment.appApi.apiBaseUrl}product/${internalId}`);
     }
 
     /**

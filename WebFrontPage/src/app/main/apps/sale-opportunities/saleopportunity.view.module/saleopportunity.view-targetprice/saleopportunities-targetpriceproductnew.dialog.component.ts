@@ -17,7 +17,7 @@ import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.core.module';
 import { ProductTypeResolveService, EnumItem } from '../../../@resolveServices/resolve.module';
-import { OperationResponseValued } from '../../../@hipalanetCommons/messages/messages.model';
+import { OperationResponseValued, OperationResponse } from '../../../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'ngx-custom-validators';
 import { 
@@ -36,7 +36,7 @@ import { ProductService, Product } from '../../../products/product.core.module';
 export class SaleOpportunityTargetPriceProductNewDialogComponent {
     listSeasonCategoryType$ = this.saleSeasonCategoryTypeResolveService.onList;
     selectedSeasonCategory: EnumItem<string>;
-    product$: Observable<Product>;
+    product$: Observable<OperationResponseValued<Product>>;
 
     get selectedCategorySeasons(): Object {
         if (this.selectedSeasonCategory != null) {

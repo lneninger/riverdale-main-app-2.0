@@ -106,6 +106,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
     set currentTargetPrice(value: TargetPriceItem) {
         this.saleOpportunityService.toggleTargetPrice(value);
+        
     }
     get currentTargetPriceIndex() {
         if (this.currentTargetPrice) {
@@ -148,7 +149,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
     showCustomerSidebar: boolean;
     activeArea: ActiveAreaType;
-    activeDetailArea: ActiveDetailAreaType;
+    activeDetailRightArea: ActiveDetailRightAreaType;
+    activeDetailLeftArea: ActiveDetailLeftAreaType;
 
     @Input("entity")
     set currentEntity(value: SaleOpportunity) {
@@ -247,15 +249,19 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             targetPrice => {
                 //debugger;
                 this._currentTargetPrice = targetPrice;
+                //debugger;
+                if (this._currentTargetPrice != null) {
+                    this.activeDetailLeftArea = 'TargetPriceCompositions'
+                }
             }
         );
 
         this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(
             targetPriceProduct => {
-                debugger;
+                //debugger;
                 this._currentTargetPriceProduct = targetPriceProduct;
                 if (this._currentTargetPriceProduct !== null) {
-                    this.activeDetailArea = 'TargetPriceProduct';
+                    this.activeDetailLeftArea = 'TargetPriceCompositions';
                 }
             }
         );
@@ -345,10 +351,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             // debugger;
             if (params.newbouquet) {
-                debugger;
+                //debugger;
                 this.openTargetPriceProductDialog(params.newbouquet);
             } else if (params.newtargetprice) {
-                debugger;
+                //debugger;
                 this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
                 this.openTargetPriceDialog();
             }
@@ -635,7 +641,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceItemAdded(item: TargetPriceItem): void {
-        debugger;
+        //debugger;
         this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
         this.currentEntity.targetPrices.push(item);
         this.matSnackBar.open("Target Price Added", "OK", {
@@ -665,7 +671,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
     onTargetPriceProductItemAdded(item: TargetPriceProductItem): void {
 
-        debugger;
+        //debugger;
         this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
         let frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
         (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceProductItem(item));
@@ -729,8 +735,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.activeArea = area;
     }
 
-    setActiveDetailArea(area: ActiveDetailAreaType): void {
-        this.activeDetailArea = area;
+    setActiveDetailArea(area: ActiveDetailRightAreaType): void {
+        //debugger;
+        //debugger;
+        this.activeDetailRightArea = area;
     }
 
     addSampleBox(): void {
@@ -803,6 +811,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
 
+
     openTargetPriceProductDialog(productId?: number): void {
         const dialogRef = this.dialog.open(SaleOpportunityTargetPriceProductNewDialogComponent, {
             width: "60%",
@@ -828,4 +837,5 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 }
 
 declare type ActiveAreaType = "settings" | "products";
-declare type ActiveDetailAreaType = "ItemDetails" | "SampleBoxes" | "TargetPrices" | "TargetPriceProduct";
+declare type ActiveDetailLeftAreaType = "TargetPriceCompositions";
+declare type ActiveDetailRightAreaType = "TargetPrices" | "ItemDetails" | "TargetPriceProduct";

@@ -196,9 +196,9 @@
                     <!--{{currentTargetPrice}}-->
                     <button [disabled]="!currentTargetPrice"
                             mat-icon-button
-                            (click)="openSampleBoxProductDialog()"
-                            matTooltip="New Bouquet"
-                            [attr.aria-label]="'New Bouquet'">
+                            (click)="openTargetPriceProductDialog()"
+                            matTooltip="New Composition"
+                            [attr.aria-label]="'New Composition'">
                         <mat-icon class="material-icons-outlined">add</mat-icon>
                     </button>
 
@@ -268,52 +268,88 @@
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
+                
+
                 <ng-container *ngIf="activeArea != 'settings'">
                     <ng-container [ngSwitch]="activeDetailArea">
-                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPrices'" [entity]="currentEntity"
+                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPriceProducts'" [entity]="currentEntity"
                                                                        [formItems]="frmCurrentTargetPrice && frmCurrentTargetPrice.controls['products']"
                                                                        fusePerfectScrollbar
                                                                        fxFlex></saleopportunity-view-list-targetpriceproducts>
 
                         <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'TargetPriceProduct'" [entity]="currentEntity"
-                                                                    [formItems]="frmCurrentTargetPriceProduct && frmCurrentTargetPriceProduct.controls['products']"
-                                                                    fusePerfectScrollbar
-                                                                    fxFlex></saleopportunity-view-list-targetpricesubproducts>
+                                                                          [formItems]="frmCurrentTargetPriceProduct && frmCurrentTargetPriceProduct.controls['products']"
+                                                                          fusePerfectScrollbar
+                                                                          fxFlex></saleopportunity-view-list-targetpricesubproducts>
 
-                        <saleopportunity-view-list *ngSwitchDefault [entity]="currentEntity"
+                        <saleopportunity-view-list *ngSwitchCase="'TargetPriceSubProduct'" [entity]="currentEntity"
                                                    [formItems]="frmSampleBoxProductItems"
                                                    fusePerfectScrollbar
                                                    fxFlex></saleopportunity-view-list>
+                        <!--{{activeDetailArea}}-->
+                        <!--Default option -->
+                        <div *ngSwitchDefault fxLayout="column" fxLayoutAlign="center center" fxFlex>
+                            <!--{{'default ' + activeDetailLeftArea}}-->
+                            <ng-container [ngSwitch]="activeDetailLeftArea">
+                                <ng-container *ngSwitchCase="'TargetPriceCompositions'">
+                                    <ng-container [ngSwitch]="currentTargetPrice.saleOpportunityTargetPriceProducts.length == 0">
+                                        <ng-container *ngSwitchCase="true">
+                                            <button (click)="openTargetPriceProductDialog()" mat-raised-button color="primary">Create Composition</button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="false">
+                                            <button mat-raised-button color="primary" (click)="setActiveDetailArea('TargetPrices')">Select Composition</button>
+                                        </ng-container>
 
+                                    </ng-container>
+                                </ng-container>
 
+                                <ng-container *ngSwitchDefault>
+                                    <ng-container [ngSwitch]="currentEntity.targetPrices.length == 0">
+                                        <ng-container *ngSwitchCase="true">
+                                            <a [routerLink]="[]" [queryParams]="{newtargetprice: true}" queryParamsHandling="merge" mat-raised-button color="primary">Create Target Price</a>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="false">
+                                            <button mat-raised-button color="primary" (click)="setActiveDetailArea('TargetPrices')">Select Target Price</button>
+                                        </ng-container>
+
+                                    </ng-container>
+
+                                    
+                                </ng-container>
+                            </ng-container>
+                            
+
+                        </div>
                     </ng-container>
-                    
 
 
 
-                    <ng-container *ngIf="activeDetailArea == 'ItemDetails'">
-                        <saleopportunity-view-details [entity]="currentEntity"
-                                                      fusePerfectScrollbar
-                                                      fxFlex></saleopportunity-view-details>
-                    </ng-container>
-                    <ng-container *ngIf="activeDetailArea == 'SampleBoxes'">
-                        <saleopportunity-view-sampleboxes [entity]="currentEntity"
+                    <ng-container [ngSwitch]="activeDetailRightArea">
+                        <ng-container *ngIf="'ItemDetails'">
+                            <saleopportunity-view-details [entity]="currentEntity"
                                                           fusePerfectScrollbar
-                                                          fxFlex></saleopportunity-view-sampleboxes>
-                    </ng-container>
-                    <ng-container *ngIf="activeDetailArea == 'TargetPrices'">
-                        <saleopportunity-view-targetprices [entity]="currentEntity"
-                                                           fusePerfectScrollbar
-                                                           fxFlex></saleopportunity-view-targetprices>
+                                                          fxFlex></saleopportunity-view-details>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'SampleBoxes'">
+                            <saleopportunity-view-sampleboxes [entity]="currentEntity"
+                                                              fusePerfectScrollbar
+                                                              fxFlex></saleopportunity-view-sampleboxes>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'TargetPrices'">
+                            <!--example-->
+                            <saleopportunity-view-targetprices [entity]="currentEntity"
+                                                               fusePerfectScrollbar
+                                                               fxFlex></saleopportunity-view-targetprices>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
 
-                <saleopportunity-view-settings
-                    *ngIf="activeArea == 'settings'"
-                    [entity]="currentEntity"
-                    fusePerfectScrollbar
-                    fxFlex
-                ></saleopportunity-view-settings>
+                <saleopportunity-view-settings *ngIf="activeArea == 'settings'"
+                                               [entity]="currentEntity"
+                                               fusePerfectScrollbar
+                                               fxFlex></saleopportunity-view-settings>
             </div>
             <!-- / CONTENT -->
         </div>
