@@ -1,0 +1,32 @@
+
+Firebase
+----------------------------------------------------
+
+Credentials
+usr:  webmaster@belzona.com
+pwd: Belzona3412!
+
+Install firebase tools       
+$ npm install -g firebase-tools
+
+
+$ firebase login
+Note: user credentials above
+
+Set aliases
+$ firebase use --add
+Note:
+This command allow to set an alias to the selected project
+For ***qa, set alias qa
+For ***staging, set alias staging
+For ***prod, set alias prod
+
+Deploy 
+QA
+$ npm run publish-qa
+
+Staging
+$ npm run publish-staging
+
+Production
+$ npm run publish
