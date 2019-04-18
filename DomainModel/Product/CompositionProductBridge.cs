@@ -12,20 +12,19 @@ namespace DomainModel.Product
 
         public virtual CompositionProduct CompositionProduct { get; set; }
 
+        public string ColorTypeId { get; set; }
+        public virtual ProductColorType ColorType { get; set; }
 
         public int CompositionItemId { get; set; }
-
         public virtual AbstractProduct CompositionItem { get; set; }
 
         public int Stems { get; set; }
 
-        public int? ProductCategoryGradeId { get; set; }
+        public int? ProductCategorySizeId { get; set; }
         public virtual ProductCategoryAllowedSize ProductCategorySize { get; set; }
-
 
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
-
     }
 }

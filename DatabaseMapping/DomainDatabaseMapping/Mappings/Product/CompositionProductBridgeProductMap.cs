@@ -18,10 +18,9 @@ namespace DomainDatabaseMapping.Mappings.File
             builder.ToTable("CompositionProductBridgeProduct", SCHEMAS.PRODUCT);
             builder.HasKey(t => t.Id);
 
-            builder.Property(t => t.ProductCategoryGradeId)
+            builder.Property(t => t.ProductCategorySizeId)
                 .IsRequired(false)
                 ;
-
 
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd()
@@ -39,10 +38,9 @@ namespace DomainDatabaseMapping.Mappings.File
                 .OnDelete(DeleteBehavior.Restrict)
                 ;
 
-
             builder.HasOne(t => t.ProductCategorySize)
                 .WithMany()
-                .HasForeignKey(t => t.ProductCategoryGradeId)
+                .HasForeignKey(t => t.ProductCategorySizeId)
                 ;
         }
     }

@@ -87,6 +87,7 @@ export class ProductNewDialogResult {
 
 export class CompositionItem {
     id: number;
+    colorTypeId: string;
     productId: number;
     relatedProductId: number;
     relatedProductName: string;

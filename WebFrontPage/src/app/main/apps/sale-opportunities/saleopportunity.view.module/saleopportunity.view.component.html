@@ -147,7 +147,7 @@
                     <div class="toolbar-separator"></div>
 
                     <span class="font-size-20 mr-16">TARGET PRICE</span>
-                    <mat-form-field>
+                    <mat-form-field fxFlex="200px">
                         <mat-select [(ngModel)]="currentTargetPrice">
                             <mat-option *ngFor="let targetPrice of currentEntity.targetPrices"
                                         [value]="targetPrice">
@@ -175,11 +175,11 @@
 
                     <div class="toolbar-separator"></div>
 
-                    <span class="font-size-20 mr-16">BOUQUET</span>
+                    <span class="font-size-20 mr-16">COMPOSITION</span>
                     <!--<pre>
 {{currentTargetPriceProduct | json}}
 </pre>-->
-                    <mat-form-field>
+                    <mat-form-field fxFlex="200px">
                         <mat-select [(ngModel)]="currentTargetPriceProduct">
                             <mat-option *ngFor="
                                     let targetPriceProduct of currentTargetPrice &&
@@ -268,24 +268,25 @@
             <!-- / CONTENT TOOLBAR -->
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">
-                
 
+                <!--{{activeDetailLeftArea}}-->
+                <!--{{activeDetailRightArea}}-->
                 <ng-container *ngIf="activeArea != 'settings'">
-                    <ng-container [ngSwitch]="activeDetailArea">
-                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPriceProducts'" [entity]="currentEntity"
+                    <ng-container [ngSwitch]="activeDetailLeftArea">
+                        <saleopportunity-view-list-targetpriceproducts *ngSwitchCase="'TargetPriceCompositions'" [entity]="currentEntity"
                                                                        [formItems]="frmCurrentTargetPrice && frmCurrentTargetPrice.controls['products']"
                                                                        fusePerfectScrollbar
                                                                        fxFlex></saleopportunity-view-list-targetpriceproducts>
 
-                        <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'TargetPriceProduct'" [entity]="currentEntity"
+                        <saleopportunity-view-list-targetpricesubproducts *ngSwitchCase="'TargetPriceSubProduct'" [entity]="currentEntity"
                                                                           [formItems]="frmCurrentTargetPriceProduct && frmCurrentTargetPriceProduct.controls['products']"
                                                                           fusePerfectScrollbar
                                                                           fxFlex></saleopportunity-view-list-targetpricesubproducts>
 
-                        <saleopportunity-view-list *ngSwitchCase="'TargetPriceSubProduct'" [entity]="currentEntity"
+                        <!--<saleopportunity-view-list *ngSwitchCase="'TargetPriceSubProduct'" [entity]="currentEntity"
                                                    [formItems]="frmSampleBoxProductItems"
                                                    fusePerfectScrollbar
-                                                   fxFlex></saleopportunity-view-list>
+                                                   fxFlex></saleopportunity-view-list>-->
                         <!--{{activeDetailArea}}-->
                         <!--Default option -->
                         <div *ngSwitchDefault fxLayout="column" fxLayoutAlign="center center" fxFlex>
@@ -314,10 +315,10 @@
 
                                     </ng-container>
 
-                                    
+
                                 </ng-container>
                             </ng-container>
-                            
+
 
                         </div>
                     </ng-container>

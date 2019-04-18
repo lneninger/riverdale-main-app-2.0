@@ -26,7 +26,7 @@ import {
     , CustomerResolveService, ProductResolveService
     , GrowerTypeResolveService 
 } from '../../../@resolveServices/resolve.module';
-import { ProductService, Product } from '../../../products/product.core.module';
+import { ProductService, Product, CompositionItem } from '../../../products/product.core.module';
 
 
 @Component({
@@ -78,10 +78,18 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
 
     save(): Promise<{}> {
         return new Promise((resolve, reject) => {
-            const value = this.frmMain.value;
-            this.service.addTargetPriceProductItem(value)
+            const original = this.frmMain.value;
+            const value = new CompositionItem(original);
+            debugger;
+            value.productId = original.productId;
+            value.relatedProductId = original.subProductId;
+            value.colorTypeId = original.colorTypeId;
+            value.stems = original.amount;
+
+
+            this.service.addTargetPriceProductSubItem(value)
                 .then(res => {
-                    this.matSnackBar.open('Item add to compoisiton', 'OK', {
+                    this.matSnackBar.open('Item add to composition', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });

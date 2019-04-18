@@ -30,7 +30,8 @@ import { fuseAnimations } from "@fuse/animations";
 import {
     SaleOpportunity,
     SampleBoxProductItem,
-    TargetPriceProductSubItem,
+    TargetPriceProductSubItem,
+
     SaleOpportunityTargetPriceSubProductNewDialogInput
 } from "../../../saleopportunity.model";
 import { SaleOpportunityViewService } from "../../saleopportunity.view.service";
@@ -230,10 +231,10 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
 
 
     openSubProductDialog(enumItem: EnumItem<number>): void {
-        // debugger;
+         debugger;
 
         const input = <SaleOpportunityTargetPriceSubProductNewDialogInput>{
-            productId: this.saleOpportunityService.currentTargetPriceProduct.id,
+            productId: this.saleOpportunityService.currentTargetPriceProduct.productId,
             subProductId: enumItem.key
         };
 

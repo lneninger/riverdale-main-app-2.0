@@ -18,5 +18,6 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand.Mode
         public string ProductColorTypeName { get; internal set; }
         public int OpportunityCount { get; internal set; }
         public int FirstOpportunityId { get; internal set; }
+        public List<SaleOpportunityGetByIdCommandOutputRelatedProductItemDTO> RelatedProducts { get; set; }
     }
 }

@@ -7,6 +7,8 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand.Models
     {
         public int Id { get; set; }
 
+        public string ColorTypeId { get; set; }
+
         public int ProductId { get; set; }
 
         public int RelatedProductId { get; set; }

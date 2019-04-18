@@ -261,7 +261,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 //debugger;
                 this._currentTargetPriceProduct = targetPriceProduct;
                 if (this._currentTargetPriceProduct !== null) {
-                    this.activeDetailLeftArea = 'TargetPriceCompositions';
+                    debugger;
+                    this.activeDetailLeftArea = 'TargetPriceSubProduct';
                 }
             }
         );
@@ -440,7 +441,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         });
 
         let frmSubProducts = this.frmTargetPriceSubProductItems || this._formBuilder.array([]);
-        item.targetPriceProductSubItems.forEach(productItem => frmSubProducts.push(this.createFormTargetPriceSubProductItem(productItem)));
+        item.relatedProducts.forEach(productItem => frmSubProducts.push(this.createFormTargetPriceSubProductItem(productItem)));
         result.addControl('products', frmSubProducts);
 
         
@@ -837,5 +838,5 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 }
 
 declare type ActiveAreaType = "settings" | "products";
-declare type ActiveDetailLeftAreaType = "TargetPriceCompositions";
+declare type ActiveDetailLeftAreaType = "TargetPriceCompositions" | "TargetPriceSubProduct";
 declare type ActiveDetailRightAreaType = "TargetPrices" | "ItemDetails" | "TargetPriceProduct";

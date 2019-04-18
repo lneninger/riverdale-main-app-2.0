@@ -106,7 +106,7 @@ export class TargetPriceProductItem {
     productColorTypeId?: string;
     opportunityCount: number;
     firstOpportunityId: number;
-    targetPriceProductSubItems: TargetPriceProductSubItem[];
+    relatedProducts: TargetPriceProductSubItem[];
 
     get editable() {
         return this.opportunityCount == 1 && this.firstOpportunityId == this.targetPriceId;
@@ -131,7 +131,7 @@ export class TargetPriceProductItem {
             this.firstOpportunityId = internal.firstOpportunityId;
             this.opportunityCount = internal.opportunityCount;
 
-            this.targetPriceProductSubItems = (
+            this.relatedProducts = (
                 internal.sampleBoxProductSubItems || []
             ).map(subItem => new TargetPriceProductSubItem(subItem));
         }

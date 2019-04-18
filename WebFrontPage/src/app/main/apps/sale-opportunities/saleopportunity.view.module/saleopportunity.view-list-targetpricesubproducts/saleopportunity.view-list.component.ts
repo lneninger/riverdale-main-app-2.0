@@ -37,7 +37,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     }
 
     get listOfSubItems(): TargetPriceProductSubItem[]{
-        return (this._currentTargetPriceProduct && this._currentTargetPriceProduct.targetPriceProductSubItems) || [];
+        return (this._currentTargetPriceProduct && this._currentTargetPriceProduct.relatedProducts) || [];
     }
    
     

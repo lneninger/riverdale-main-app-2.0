@@ -86,9 +86,9 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
             .subscribe(product => {
                 this.selected = false;
 
-                if ( product.targetPriceProductSubItems.length > 0 )
+                if (product.relatedProducts.length > 0 )
                 {
-                    for ( const basicProduct of product.targetPriceProductSubItems)
+                    for (const basicProduct of product.relatedProducts)
                     {
                         if (basicProduct.id === this.currentEntity.id )
                         {

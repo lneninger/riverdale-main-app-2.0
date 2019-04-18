@@ -25,6 +25,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
                 {
                     CompositionProductId = input.ProductId,
                     CompositionItemId = input.RelatedProductId,
+                    ColorTypeId = input.ColorTypeId,
                     Stems = input.Stems
                 };
 

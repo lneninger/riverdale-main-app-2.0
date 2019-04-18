@@ -7,6 +7,7 @@ using System.Linq;
 using ApplicationLogic.Business.Commons.DTOs;
 using DomainModel.SaleOpportunity;
 using System.Collections.Generic;
+using DomainModel.Product;
 
 namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
 {
@@ -79,8 +80,21 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 ProductColorTypeName = item.ProductColorType?.Name,
                                 OpportunityCount = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).Distinct().Count(),
                                 FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault(),
-                                
-                            }).ToList()
+
+                                RelatedProducts = ((CompositionProduct)item.Product).Items.Select(o => new SaleOpportunityGetByIdCommandOutputRelatedProductItemDTO
+                                {
+                                    Id = o.Id,
+                                    ProductId = o.CompositionProductId,
+                                    RelatedProductId = o.CompositionItemId,
+                                    Stems = o.Stems,
+                                    RelatedProductName = o.CompositionItem.Name,
+                                    RelatedProductTypeName = o.CompositionItem.ProductType.Name,
+                                    RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,
+                                    RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+
+                                }).ToList()
+
+                }).ToList()
                         }).ToList(),
 
 
