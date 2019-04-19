@@ -2,55 +2,69 @@
 <!--<pre>
 {{product$ | async | json}}
 </pre>-->
-<div mat-dialog-content [formGroup]="frmMain">
-    <mat-card *ngIf="product$ | async; let product; else loading" class="example-card">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <!--<mat-card-title>{{product.name}}</mat-card-title>
-            <mat-card-subtitle>{{product.productTypeId}}</mat-card-subtitle>-->
-        </mat-card-header>
-        <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-        <mat-card-content>
-            <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
-                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
-                    <mat-select placeholder="Product" name="subProductId" formControlName="subProductId">
-                        <mat-option *ngFor="let item of listProduct$ | async" [value]="item.key">
-                            {{item.value}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
-                    <mat-select placeholder="Color" name="colorTypeId" formControlName="colorTypeId">
-                        <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
-                            {{item.value}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
-                    <mat-label>Stems</mat-label>
-                    <input matInput placeholder="Stems"
-                           name="amount"
-                           formControlName="amount"
-                           required>
-                </mat-form-field>
-                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
-                    <mat-label>Grade</mat-label>
-                    <input matInput placeholder="Grade"
-                           name="size"
-                           formControlName="size"
-                           required>
-                </mat-form-field>
-            </div>
-        </mat-card-content>
-        <!--<mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions>-->
-    </mat-card>
 
-    <ng-template #loading>
-        <div fxLayout="row wrap" fxFlex>
-            <div fxFlex="50">
+<ng-container *ngIf="product$ | async; let product; else loading">
+    <div mat-dialog-content class="example-card" [formGroup]="frmMain">
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <!--<mat-card-title>{{product.name}}</mat-card-title>
+                <mat-card-subtitle>{{product.productTypeId}}</mat-card-subtitle>-->
+            </mat-card-header>
+            <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+            <mat-card-content>
+                <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
+                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                        <mat-select placeholder="Product" name="subProductId" formControlName="subProductId">
+                            <mat-option *ngFor="let item of listProduct$ | async" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                        <mat-select placeholder="Color" name="colorTypeId" formControlName="colorTypeId">
+                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Stems</mat-label>
+                        <input matInput placeholder="Stems"
+                               name="amount"
+                               formControlName="amount"
+                               required>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Grade</mat-label>
+                        <input matInput placeholder="Grade"
+                               name="size"
+                               formControlName="size"
+                               required>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <!--<mat-card-actions>
+                <button mat-button>LIKE</button>
+                <button mat-button>SHARE</button>
+            </mat-card-actions>-->
+        </mat-card>
+
+
+    </div>
+    
+
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
+        <button mat-button (click)="add()" [disabled]="frmMain.invalid">Add</button>
+        <!-- <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button> -->
+    </div>
+</ng-container>
+
+<ng-template #loading>
+    <div mat-dialog-content>
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <div>
                 <mat-progress-spinner class="example-margin"
                                       color="primary"
                                       mode="indeterminate"
@@ -58,10 +72,5 @@
                 </mat-progress-spinner>
             </div>
         </div>
-    </ng-template>
-</div>
-<div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
-    <button mat-button (click)="add()" [disabled]="frmMain.invalid">Add</button>
-    <!-- <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button> -->
-</div>
+    </div>
+</ng-template>

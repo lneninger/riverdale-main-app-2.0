@@ -14,15 +14,12 @@
         </div>
         <div class="info" fxFlex fxFlexLayout="column">
 
-
             <div class="title">
-                {{currentEntity.productName}}
+                {{currentEntity.relatedProductName}}
             </div>
-
             <div class="notes">
                 {{currentEntity.productTypeName}}
             </div>
-
             <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
 
             <div class="tag" fxLayout="row" fxLayoutAlign="start center" *ngFor="let tagId of currentEntity.tags">
@@ -31,87 +28,80 @@
             </div>
 
         </div>-->
-
         </div>
-
+        <!--{{formGroup.value | json}}-->
         <div class="actions" fxLayout="row" fxLayoutAlign="start center" fxFlex="60%" fxFlex.lt-xl="50%" fxLayoutGap="20px">
             <div class="option" [style.visibility]="currentEntity.productTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="65%">
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex>
                     <mat-label>Color</mat-label>
-                    <mat-select name="colorTypeId" formControlName="productColorTypeId">
+                    <mat-select name="colorTypeId" formControlName="colorTypeId">
                         <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
                             {{item.value}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-
             <!--<div class="option">
-                <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
-                    <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
-                    <input matInput formControlName="productAmount">
-                </mat-form-field>
-            </div>-->
-
+            <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
+                <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
+                <input matInput formControlName="productAmount">
+            </mat-form-field>
+        </div>-->
             <button mat-mini-fab (click)="updateItem()" [disabled]="formGroup.invalid || formGroup.pristine"
                     aria-label="Save amount">
                 <mat-icon>check</mat-icon>
             </button>
-
             <!--<button mat-icon-button (click)="toggleImportant($event)"
-            aria-label="Toggle important" fxHide.xs>
-        <mat-icon class="red-fg" *ngIf="currentEntity.important">error</mat-icon>
-        <mat-icon class="secondary-text" *ngIf="!currentEntity.important">error_outline</mat-icon>
-    </button>
+                aria-label="Toggle important" fxHide.xs>
+            <mat-icon class="red-fg" *ngIf="currentEntity.important">error</mat-icon>
+            <mat-icon class="secondary-text" *ngIf="!currentEntity.important">error_outline</mat-icon>
+        </button>
 
-    <button mat-icon-button (click)="toggleStar($event)"
-            aria-label="Toggle star" fxHide.xs>
-        <mat-icon class="amber-fg" *ngIf="currentEntity.starred">star</mat-icon>
-        <mat-icon class="secondary-text" *ngIf="!currentEntity.starred">star_border</mat-icon>
-    </button>
+        <button mat-icon-button (click)="toggleStar($event)"
+                aria-label="Toggle star" fxHide.xs>
+            <mat-icon class="amber-fg" *ngIf="currentEntity.starred">star</mat-icon>
+            <mat-icon class="secondary-text" *ngIf="!currentEntity.starred">star_border</mat-icon>
+        </button>
 
-    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation()"
-            fxHide.xs>
-        <mat-icon class="secondary-text">more_vert</mat-icon>
-    </button>-->
-
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation()"
+                fxHide.xs>
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>-->
             <mat-menu #moreMenu="matMenu">
                 <!--<button mat-menu-item aria-label="toggle done" (click)="toggleCompleted($event)">
-            <ng-container *ngIf="currentEntity.completed">
-                <mat-icon>check_box</mat-icon>
-                <span>Mark as undone</span>
-            </ng-container>
-            <ng-container *ngIf="!currentEntity.completed">
-                <mat-icon>check_box_outline_blank</mat-icon>
-                <span>Mark as done</span>
-            </ng-container>
-        </button>
+                <ng-container *ngIf="currentEntity.completed">
+                    <mat-icon>check_box</mat-icon>
+                    <span>Mark as undone</span>
+                </ng-container>
+                <ng-container *ngIf="!currentEntity.completed">
+                    <mat-icon>check_box_outline_blank</mat-icon>
+                    <span>Mark as done</span>
+                </ng-container>
+            </button>
 
-        <button mat-menu-item aria-label="toggle important" (click)="toggleImportant($event)">
-            <ng-container *ngIf="currentEntity.important">
-                <mat-icon>error</mat-icon>
-                <span>Remove important</span>
-            </ng-container>
-            <ng-container *ngIf="!currentEntity.important">
-                <mat-icon>error_outline</mat-icon>
-                <span>Mark as important</span>
-            </ng-container>
-        </button>
+            <button mat-menu-item aria-label="toggle important" (click)="toggleImportant($event)">
+                <ng-container *ngIf="currentEntity.important">
+                    <mat-icon>error</mat-icon>
+                    <span>Remove important</span>
+                </ng-container>
+                <ng-container *ngIf="!currentEntity.important">
+                    <mat-icon>error_outline</mat-icon>
+                    <span>Mark as important</span>
+                </ng-container>
+            </button>
 
-        <button mat-menu-item aria-label="toggle star" (click)="toggleStar($event)">
-            <ng-container *ngIf="currentEntity.starred">
-                <mat-icon>star</mat-icon>
-                <span>Remove star</span>
-            </ng-container>
-            <ng-container *ngIf="!currentEntity.starred">
-                <mat-icon>star_border</mat-icon>
-                <span>Add star</span>
-            </ng-container>
-        </button>-->
+            <button mat-menu-item aria-label="toggle star" (click)="toggleStar($event)">
+                <ng-container *ngIf="currentEntity.starred">
+                    <mat-icon>star</mat-icon>
+                    <span>Remove star</span>
+                </ng-container>
+                <ng-container *ngIf="!currentEntity.starred">
+                    <mat-icon>star_border</mat-icon>
+                    <span>Add star</span>
+                </ng-container>
+            </button>-->
             </mat-menu>
-
         </div>
-
     </div>
 
 </div>

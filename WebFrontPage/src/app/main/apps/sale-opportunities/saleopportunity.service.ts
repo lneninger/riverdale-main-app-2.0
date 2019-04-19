@@ -53,7 +53,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onTargetPriceProductSubItemDeleted: Subject<TargetPriceProductSubItem> = new Subject<TargetPriceProductSubItem>();
 
     onTargetPriceSelected: BehaviorSubject<TargetPriceItem> = new BehaviorSubject<TargetPriceItem>(null);
-    onTargetPriceProductSelected: Subject<TargetPriceProductItem> = new Subject<TargetPriceProductItem>();
+    onTargetPriceProductSelected: BehaviorSubject<TargetPriceProductItem> = new BehaviorSubject<TargetPriceProductItem>(null);
     onTargetPriceProductSubItemSelected: BehaviorSubject<TargetPriceProductSubItem> = new BehaviorSubject<TargetPriceProductSubItem>(null);
 
 
@@ -288,8 +288,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     item
                 )
                 .subscribe(
-                    (res: OperationResponse<TargetPriceItem>) => {
-                        const responseItem = res.bag;
+                (res: OperationResponse<TargetPriceItem>) => {
+                    const responseItem = new TargetPriceItem(res.bag);
                         this.onTargetPriceItemAdded.next(responseItem);
                         resolve(res);
                     },

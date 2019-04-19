@@ -32,6 +32,7 @@ import { ProductService, Product, CompositionItem } from '../../../products/prod
 @Component({
     selector: 'saleopportunitytargetpricesubproductnew-dialog',
     templateUrl: 'saleopportunities-targetpricesubproductnew.dialog.component.html',
+    styleUrls: ['./saleopportunities-targetpricesubproductnew.dialog.component.scss'],
 })
 export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
     listProductCategory$ = this.productCategoryResolveService.onList;

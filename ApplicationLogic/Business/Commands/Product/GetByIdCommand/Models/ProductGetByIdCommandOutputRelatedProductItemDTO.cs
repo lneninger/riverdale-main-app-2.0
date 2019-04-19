@@ -12,6 +12,8 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand.Models
 
         public int RelatedProductId { get; set; }
 
+        public string ColorTypeId { get; set; }
+
         public int Stems { get; set; }
 
         public string RelatedProductName { get; set; }

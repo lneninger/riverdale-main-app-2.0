@@ -452,9 +452,11 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     createFormTargetPriceSubProductItem(item: TargetPriceProductSubItem): FormGroup {
+        // debugger;
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
-            name: [item.productName, [Validators.required]],
+            relatedProductName: [item.relatedProductName, [Validators.required]],
+            colorTypeId: [item.colorTypeId, [Validators.required]],
             selected: ""
         });
 
@@ -642,7 +644,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceItemAdded(item: TargetPriceItem): void {
-        //debugger;
+        debugger;
         this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
         this.currentEntity.targetPrices.push(item);
         this.matSnackBar.open("Target Price Added", "OK", {

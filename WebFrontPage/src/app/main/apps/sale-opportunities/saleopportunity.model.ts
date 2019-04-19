@@ -132,7 +132,7 @@ export class TargetPriceProductItem {
             this.opportunityCount = internal.opportunityCount;
 
             this.relatedProducts = (
-                internal.sampleBoxProductSubItems || []
+                internal.relatedProducts || []
             ).map(subItem => new TargetPriceProductSubItem(subItem));
         }
     }
@@ -212,13 +212,13 @@ export class TargetPriceProductSubItem {
     id: number;
     targetPriceProductId: number;
     productId: number;
-    productName: string;
+    relatedProductName: string;
     productTypeId: string;
     productTypeName: string;
     productTypeDescription: string;
     productPictureId: number;
     productAmount: number;
-    productColorTypeId?: string;
+    colorTypeId?: string;
 
     constructor(item?) {
         const internal = item || {};
@@ -229,13 +229,13 @@ export class TargetPriceProductSubItem {
             this.id = internal.id;
             this.targetPriceProductId = internal.targetPriceProductId;
             this.productId = internal.productId;
-            this.productName = internal.productName;
+            this.relatedProductName = internal.relatedProductName;
             this.productTypeId = internal.productTypeId;
             this.productTypeName = internal.productTypeName;
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
             this.productAmount = internal.productAmount;
-            this.productColorTypeId = internal.productColorTypeId;
+            this.colorTypeId = internal.colorTypeId;
             //debugger;
         }
     }
