@@ -27,7 +27,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.GetByIdCommand
                     result.Bag = new ProductBridgeGetByIdCommandOutputDTO
                     {
                         Id = getByIdResult.Bag.Id,
-                        Stems = getByIdResult.Bag.Stems,
+                        Stems = getByIdResult.Bag.CompositionItemAmount,
                         ProductId = getByIdResult.Bag.CompositionProductId,
                         RelatedProductId = getByIdResult.Bag.CompositionItemId,
                     };

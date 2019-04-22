@@ -12,6 +12,10 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.UpdateCommand.Models
 
         public int RelatedProductId { get; set; }
 
-        public int Stems { get; set; }
+        public string ColorTypeId { get; set; }
+
+        public int? RelatedProductSizeId { get; set; }
+
+        public int RelatedProductAmount { get; set; }
     }
 }

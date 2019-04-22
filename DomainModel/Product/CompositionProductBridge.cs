@@ -18,7 +18,7 @@ namespace DomainModel.Product
         public int CompositionItemId { get; set; }
         public virtual AbstractProduct CompositionItem { get; set; }
 
-        public int Stems { get; set; }
+        public int CompositionItemAmount { get; set; }
 
         public int? ProductCategorySizeId { get; set; }
         public virtual ProductCategoryAllowedSize ProductCategorySize { get; set; }

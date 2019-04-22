@@ -27,7 +27,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.GetAllCommand
                     result.Bag = getAllResult.Bag.Select(entityItem => new ProductBridgeGetAllCommandOutputDTO
                     {
                         Id = entityItem.Id,
-                        Stems = entityItem.Stems,
+                        Stems = entityItem.CompositionItemAmount,
                         CreatedAt = entityItem.CreatedAt
 
                     }).ToList();

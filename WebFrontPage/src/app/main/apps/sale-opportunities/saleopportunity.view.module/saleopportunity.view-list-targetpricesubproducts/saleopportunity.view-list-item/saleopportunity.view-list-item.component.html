@@ -1,26 +1,25 @@
 <div fxLayout="row" fxLayoutAlign="start center" [formGroup]="formGroup">
-
     <mat-icon class="handle mr-16" ngxDragHandle fxFlex="0 1 auto" fxHide.xs>
         drag_handle
     </mat-icon>
-
     <mat-checkbox formControlName="selected" (ngModelChange)="onSelectedChange()"
                   class="mr-16" fxFlex="0 1 auto" (click)="$event.stopPropagation()">
     </mat-checkbox>
-
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
         <div class="avatar">
-            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.productPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
+            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.relatedProductPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
         </div>
-        <div class="info" fxFlex fxFlexLayout="column">
+        <!--{{currentEntity | json}}-->
+        <session fxLayout="column" fxLayout-gt-lg="row">
+            <div class="info" fxFlex fxFlexLayout="column">
 
-            <div class="title">
-                {{currentEntity.relatedProductName}}
-            </div>
-            <div class="notes">
-                {{currentEntity.productTypeName}}
-            </div>
-            <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
+                <div class="title">
+                    {{currentEntity.relatedProductName}}
+                </div>
+                <div class="notes">
+                    {{currentEntity.relatedProductTypeName}}
+                </div>
+                <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
 
             <div class="tag" fxLayout="row" fxLayoutAlign="start center" *ngFor="let tagId of currentEntity.tags">
                 <div class="tag-color" [ngStyle]="{'background-color': tags | getById:tagId:'color'}"></div>
@@ -28,30 +27,47 @@
             </div>
 
         </div>-->
-        </div>
-        <!--{{formGroup.value | json}}-->
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center" fxFlex="60%" fxFlex.lt-xl="50%" fxLayoutGap="20px">
-            <div class="option" [style.visibility]="currentEntity.productTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="65%">
-                <mat-form-field floatLabel="always" appearance="outline" fxFlex>
-                    <mat-label>Color</mat-label>
-                    <mat-select name="colorTypeId" formControlName="colorTypeId">
-                        <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
-                            {{item.value}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
-            <!--<div class="option">
-            <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
-                <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
-                <input matInput formControlName="productAmount">
-            </mat-form-field>
-        </div>-->
-            <button mat-mini-fab (click)="updateItem()" [disabled]="formGroup.invalid || formGroup.pristine"
-                    aria-label="Save amount">
-                <mat-icon>check</mat-icon>
-            </button>
-            <!--<button mat-icon-button (click)="toggleImportant($event)"
+            <!--{{formGroup.value | json}}-->
+            <div class="actions" fxLayout="row" fxFlexAlign="end center" fxLayoutAlign="start center" fxFlex fxLayoutGap="3px">
+                <div class="option">
+                    <mat-form-field floatLabel="always" appearance="outline" fxFlex="60px">
+                        <mat-label>{{(currentEntity.relatedProductTypeId == 'FLW' ? 'Stems' : ((currentEntity.relatedProductTypeId == 'COMP') ? 'Amount' : ((currentEntity.relatedProductTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
+                        <input matInput formControlName="relatedProductAmount">
+                    </mat-form-field>
+                </div>
+
+                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="0 0 140px">
+                    <mat-form-field floatLabel="always" appearance="outline" fxFlex="0 0 100%">
+                        <mat-label>Color</mat-label>
+                        <mat-select name="colorTypeId" formControlName="colorTypeId" fxFlex="0 0 100%">
+                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="0 0 140px">
+
+                    <mat-form-field floatLabel="always" appearance="outline" fxFlex="0 0 100%">
+                        <mat-label>Grade</mat-label>
+                        <mat-select name="relatedProductSizeId" formControlName="relatedProductSizeId" fxFlex="0 0 100%">
+                            <mat-option *ngFor="let item of allowedRelatedProductSizes$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="option" fxFlex="40px">
+                    <button mat-mini-fab (click)="updateItem()" [disabled]="formGroup.invalid || formGroup.pristine"
+                            aria-label="Save amount">
+                        <mat-icon>check</mat-icon>
+                    </button>
+                </div>
+                <!--<button mat-icon-button (click)="toggleImportant($event)"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="currentEntity.important">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!currentEntity.important">error_outline</mat-icon>
@@ -67,8 +83,8 @@
                 fxHide.xs>
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>-->
-            <mat-menu #moreMenu="matMenu">
-                <!--<button mat-menu-item aria-label="toggle done" (click)="toggleCompleted($event)">
+                <mat-menu #moreMenu="matMenu">
+                    <!--<button mat-menu-item aria-label="toggle done" (click)="toggleCompleted($event)">
                 <ng-container *ngIf="currentEntity.completed">
                     <mat-icon>check_box</mat-icon>
                     <span>Mark as undone</span>
@@ -100,8 +116,8 @@
                     <span>Add star</span>
                 </ng-container>
             </button>-->
-            </mat-menu>
-        </div>
+                </mat-menu>
+            </div>
+        </session>
     </div>
-
 </div>

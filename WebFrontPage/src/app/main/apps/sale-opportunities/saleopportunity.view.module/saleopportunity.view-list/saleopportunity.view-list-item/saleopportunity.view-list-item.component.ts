@@ -1,12 +1,12 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Todo } from '../../saleopportunity.view.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import { takeUntil } from 'rxjs/operators';
 import { TargetPriceProductSubItem } from '../../../saleopportunity.model';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ProductColorTypeResolveService, ProductResolveService, EnumItem } from '../../../../@resolveServices/resolve.module';
+import { ProductColorTypeResolveService, ProductResolveService, EnumItem, ProductCategoryResolveService } from '../../../../@resolveServices/resolve.module';
 import { SaleOpportunityService } from '../../../saleopportunity.core.module';
 import { ProductService } from '../../../../products/product.core.module';
 
@@ -21,6 +21,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
     tags: any[];
     listProductColorType: EnumItem<string>[];
     listProduct: EnumItem<number>[];
+    listProductCategory: Observable<EnumItem<number>[]>
 
     @Input('entity')
     currentEntity: TargetPriceProductSubItem;
@@ -50,6 +51,7 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
         private saleOpportunityService: SaleOpportunityService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
         , private serviceProductResolve: ProductResolveService
+        , private serviceProductCategoryResolve: ProductCategoryResolveService
         , private serviceProduct: ProductService
         , private _activatedRoute: ActivatedRoute
     )
@@ -79,6 +81,9 @@ export class SaleOpportunityViewListItemComponent implements OnInit, OnDestroy
 
         this.listProductColorType = this.serviceProductColorTypeResolve.list;
         this.listProduct =  this.serviceProductResolve.list;
+        this.listProductCategory =  this.serviceProductCategoryResolve.onList;
+
+
 
         // Subscribe to update on selected todo change
         this.saleOpportunityService.onTargetPriceProductSelected

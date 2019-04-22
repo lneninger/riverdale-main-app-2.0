@@ -16,6 +16,11 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.DeleteCommand.Models
 
         public int RelatedProductId { get; set; }
 
+        public string ColorTypeId { get; set; }
+
+        public int? RelatedProductSizeId { get; set; }
+
         public int Stems { get; set; }
+        
     }
 }

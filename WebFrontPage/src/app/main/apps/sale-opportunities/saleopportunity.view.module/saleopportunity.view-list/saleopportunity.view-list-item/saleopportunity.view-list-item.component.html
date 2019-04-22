@@ -10,17 +10,17 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
         <div class="avatar">
-            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.productPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
+            <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.relatedProductPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
         </div>
         <div class="info" fxFlex fxFlexLayout="column">
 
 
             <div class="title">
-                {{currentEntity.productName}}
+                {{currentEntity.relatedProductName}}
             </div>
 
             <div class="notes">
-                {{currentEntity.productTypeName}}
+                {{currentEntity.relatedProductTypeName}}
             </div>
 
             <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center" fxFlex="60%" fxFlex.lt-xl="50%" fxLayoutGap="20px">
-            <div class="option" [style.visibility]="currentEntity.productTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="65%">
+            <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="65%">
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex>
                     <mat-label>Color</mat-label>
                     <mat-select name="colorTypeId" formControlName="productColorTypeId">
@@ -48,7 +48,7 @@
 
             <div class="option">
                 <mat-form-field floatLabel="always" appearance="outline" fxFlex="100px">
-                    <mat-label>{{(currentEntity.productTypeId == 'FLW' ? 'Stems' : ((currentEntity.productTypeId == 'COMP') ? 'Amount' : ((currentEntity.productTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
+                    <mat-label>{{(currentEntity.relatedProductTypeId == 'FLW' ? 'Stems' : ((currentEntity.relatedProductTypeId == 'COMP') ? 'Amount' : ((currentEntity.relatedProductTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
                     <input matInput formControlName="productAmount">
                 </mat-form-field>
             </div>

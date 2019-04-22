@@ -49,7 +49,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     }
     @Input('formItems')
     set formItems(value: FormArray) {
-        debugger;
+        //debugger;
         this._formItems = value;
     }
 

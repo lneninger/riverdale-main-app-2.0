@@ -41,11 +41,11 @@
         }
     }
     // Todo list
-    saleopportunity-view-list {
+    saleopportunity-view-list, saleopportunity-view-list-targetpricesubproducts {
         border-right-color: map-get($foreground, divider);
     }
     // Todo list item
-    saleopportunity-view-list-item {
+    saleopportunity-view-list-item, saleopportunity-view-list-item-targetpricesubproduct {
         border-bottom-color: map-get($foreground, divider);
 
         .tags {

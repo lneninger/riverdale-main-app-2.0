@@ -81,6 +81,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         return this.currentEntity && !this.showCustomerSidebar;
     }
 
+    editingName: boolean = false;
+
     _currentSampleBox: SampleBoxItem;
     onSampleBoxSelected: Subscription;
     get currentSampleBox(): SampleBoxItem {
@@ -202,6 +204,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         private matSnackBar: MatSnackBar,
         private saleSeasonTypeResolveService: SaleSeasonCategoryTypeResolveService
     ) {
+        this.saleOpportunityService.resetCache();
+
         // Set the defaults
         this.searchInput = new FormControl("");
 
@@ -230,6 +234,15 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.saleOpportunityService.onTargetPriceProductItemDeleted.subscribe(
             this.onTargetPriceProductItemDeleted.bind(this)
         );
+
+        this.saleOpportunityService.onTargetPriceProductSubItemAdded.subscribe(
+            this.onTargetPriceProductSubItemAdded.bind(this)
+        );
+
+        this.saleOpportunityService.onTargetPriceProductSubItemUpdated.subscribe(
+            this.onTargetPriceProductSubItemUpdated.bind(this)
+        );
+
 
         this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(
             sampleBox => {
@@ -261,7 +274,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 //debugger;
                 this._currentTargetPriceProduct = targetPriceProduct;
                 if (this._currentTargetPriceProduct !== null) {
-                    debugger;
+                    //debugger;
                     this.activeDetailLeftArea = 'TargetPriceSubProduct';
                 }
             }
@@ -456,7 +469,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
             relatedProductName: [item.relatedProductName, [Validators.required]],
+            relatedProductSizeId: [item.relatedProductSizeId, [Validators.required]],
             colorTypeId: [item.colorTypeId, [Validators.required]],
+            relatedProductAmount: [item.relatedProductAmount, [Validators.required]],
             selected: ""
         });
 
@@ -475,6 +490,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         formGroup.reset(value);
     }
 
+
+    
     updateFormSampleBoxProductItem(
         formGroup: FormGroup,
         item: SampleBoxProductItem
@@ -675,9 +692,9 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     onTargetPriceProductItemAdded(item: TargetPriceProductItem): void {
 
         //debugger;
-        this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
         let frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
         (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceProductItem(item));
+        this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
 
         this.matSnackBar.open("Target Price Product added", "OK", {
             verticalPosition: "top",
@@ -731,6 +748,50 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 });
             }
         }
+    }
+
+    onTargetPriceProductSubItemAdded(item: TargetPriceProductSubItem): void {
+        //debugger;
+        const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(relatedItem => relatedItem.id == item.id);
+        this.currentTargetPriceProduct.relatedProducts.push(item);
+        (this.frmCurrentTargetPriceProduct.controls['products'] as FormArray).push(this.createFormTargetPriceSubProductItem(item));
+
+        this.matSnackBar.open("Composition item added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
+
+
+    onTargetPriceProductSubItemUpdated(item: TargetPriceProductSubItem): void {
+        //debugger;
+        const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(relatedItem => relatedItem.id == item.id);
+        if (relatedIndex != -1) {
+            // replace element at entity;
+            this.currentTargetPriceProduct.relatedProducts[relatedIndex] = item;
+
+            // get related formgroup
+            const frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+            const frmCurrentTargetPriceSubItem = (((frmCurrentTargetPrice.controls['products'] as FormArray).at(this.currentTargetPriceProductIndex) as FormGroup).controls['products'] as FormArray).at(relatedIndex);
+
+            // reset form group
+            frmCurrentTargetPriceSubItem.reset(item);
+
+
+            (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceSubProductItem(item));
+
+            this.matSnackBar.open("Composition item updated", "OK", {
+                verticalPosition: "top",
+                duration: 5000
+            });
+        }
+    }
+
+    updateSaleOpportunity() {
+        debugger;
+        this.saleOpportunityService.save(this.currentEntity).then(res => {
+            this.editingName = false;
+        });
     }
 
 
@@ -801,7 +862,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         dialogRef
             .afterClosed()
             .subscribe((result: SaleOpportunityTargetPriceNewDialogOutput) => {
-                debugger;
+                //debugger;
                 const queryParams = this.route.snapshot.queryParams;
                 const newQueryParams = { ...queryParams }
                 delete newQueryParams['newtargetprice'];

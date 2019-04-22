@@ -86,11 +86,15 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                     Id = o.Id,
                                     ProductId = o.CompositionProductId,
                                     RelatedProductId = o.CompositionItemId,
-                                    Stems = o.Stems,
+                                    RelatedProductAmount = o.CompositionItemAmount,
+                                    RelatedProductSizeId = o.ProductCategorySizeId,
+                                    ColorTypeId = o.ColorTypeId,
                                     RelatedProductName = o.CompositionItem.Name,
                                     RelatedProductTypeName = o.CompositionItem.ProductType.Name,
                                     RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,
-                                    RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+                                    RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                                    RelatedProductTypeId = o.CompositionItem.ProductTypeId,
+                                    RelatedProductCategoryId = o.CompositionItem.ProductCategoryId
 
                                 }).ToList()
 

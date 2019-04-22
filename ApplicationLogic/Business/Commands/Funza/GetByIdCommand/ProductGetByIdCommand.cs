@@ -53,7 +53,7 @@ namespace ApplicationLogic.Business.Commands.Funza.GetByIdCommand
                             Id = o.Id,
                             ProductId = o.CompositionProductId,
                             RelatedProductId = o.CompositionItemId,
-                            Stems = o.Stems,
+                            Stems = o.CompositionItemAmount,
                             RelatedProductName = o.CompositionItem.Name,
                             RelatedProductTypeName = o.CompositionItem.ProductType.Name,
                             RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,

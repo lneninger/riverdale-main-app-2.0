@@ -17,10 +17,12 @@ import {
 } from '../@hipalanetCommons/authentication/securehttpclient.service';
 import { SampleBoxItem, SampleBoxProductItem, SaleOpportunity, TargetPriceItem, TargetPriceProductItem, TargetPriceProductSubItem } from './saleopportunity.model';
 import { CompositionItem } from '../products/product.model';
+import { OperationResponseValued } from '../@hipalanetCommons/messages/messages.model';
 
 @Injectable()
 export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
-    
+
+
     routeParams: any;
     currentEntity: SaleOpportunity;
     currentSampleBox: SampleBoxItem;
@@ -28,6 +30,9 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     onCurrentEntityChanged: BehaviorSubject<any>;
     currentTargetPrice: TargetPriceItem;
     currentTargetPriceProduct: TargetPriceProductItem;
+
+    onSaleOpportunityUpdated: Subject<SaleOpportunity> = new Subject<SaleOpportunity>();
+
 
     onSampleBoxItemAdded: Subject<SampleBoxItem> = new Subject<SampleBoxItem>();
     onSampleBoxProductItemAdded: Subject<SampleBoxProductItem> = new Subject<SampleBoxProductItem>();
@@ -102,11 +107,11 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     this.currentEntity = response.bag;
                     this.onCurrentEntityChanged.next(this.currentEntity);
                     resolve(this.currentEntity);
-                }, 
-                
-                errorResponse => {
-                    reject(errorResponse);
-                });
+                },
+
+                    errorResponse => {
+                        reject(errorResponse);
+                    });
         });
     }
 
@@ -116,12 +121,14 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
      * @param entity Item to save
      * @returns Save result
      */
-    save(entity): Promise<any> {
+    save(entity: SaleOpportunity): Promise<any> {
+        const data = <SaleOpportunity>{ id: entity.id, name: entity.name, customerId: entity.customerId };
         return new Promise((resolve, reject) => {
             this.http
-                .put(`${environment.appApi.apiBaseUrl}saleopportunity`, entity)
+                .put(`${environment.appApi.apiBaseUrl}saleopportunity`, data)
                 .subscribe(
-                    (res: any) => {
+                (res: OperationResponseValued<SaleOpportunity>) => {
+                    this.onSaleOpportunityUpdated.next(res.bag);
                         resolve(res);
                     },
                     error => {
@@ -288,8 +295,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     item
                 )
                 .subscribe(
-                (res: OperationResponse<TargetPriceItem>) => {
-                    const responseItem = new TargetPriceItem(res.bag);
+                    (res: OperationResponse<TargetPriceItem>) => {
+                        const responseItem = new TargetPriceItem(res.bag);
                         this.onTargetPriceItemAdded.next(responseItem);
                         resolve(res);
                     },
@@ -308,8 +315,8 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     item
                 )
                 .subscribe(
-                (res: OperationResponse<TargetPriceProductItem>) => {
-                    const responseItem = new TargetPriceProductItem(res.bag);
+                    (res: OperationResponse<TargetPriceProductItem>) => {
+                        const responseItem = new TargetPriceProductItem(res.bag);
                         this.onTargetPriceProductItemAdded.next(responseItem);
                         resolve(res);
                     },
@@ -344,12 +351,12 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http
                 .put<OperationResponse<TargetPriceProductItem>>(
-                `${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct`,
+                    `${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct`,
                     item
                 )
                 .subscribe(
                     (res: OperationResponse<TargetPriceProductItem>) => {
-                        const responseItem = new TargetPriceProductItem( res.bag);
+                        const responseItem = new TargetPriceProductItem(res.bag);
                         this.onTargetPriceProductItemUpdated.next(responseItem);
                         resolve(res);
                     },
@@ -383,12 +390,12 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         return new Promise((resolve, reject) => {
             this.http
                 .post<OperationResponse<CompositionItem>>(
-                `${environment.appApi.apiBaseUrl}productBridge`,
+                    `${environment.appApi.apiBaseUrl}productBridge`,
                     item
                 )
                 .subscribe(
-                (res: OperationResponse<CompositionItem>) => {
-                    const responseItem = new CompositionItem(res.bag);
+                    (res: OperationResponse<CompositionItem>) => {
+                        const responseItem = new CompositionItem(res.bag);
                         this.onTargetPriceProductSubItemAdded.next(responseItem);
                         resolve(res);
                     },
@@ -399,17 +406,25 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
+    resetCache() {
+        this.currentTargetPrice = null;
+        this.currentTargetPriceProduct = null;
+
+        this.onTargetPriceSelected.next(null);
+        this.onTargetPriceProductSelected.next(null);
+    }
+
     updateTargetPriceProductSubItem(item: TargetPriceProductSubItem): any {
         return new Promise((resolve, reject) => {
             this.http
                 .put<OperationResponse<CompositionItem>>(
-                `${environment.appApi.apiBaseUrl}productBridge`,
+                    `${environment.appApi.apiBaseUrl}productBridge`,
                     item
                 )
                 .subscribe(
-                (res: OperationResponse<CompositionItem>) => {
+                    (res: OperationResponse<CompositionItem>) => {
                         const responseItem = res.bag;
-                    this.onTargetPriceProductSubItemUpdated.next(responseItem);
+                        this.onTargetPriceProductSubItemUpdated.next(responseItem);
                         resolve(res);
                     },
                     error => {

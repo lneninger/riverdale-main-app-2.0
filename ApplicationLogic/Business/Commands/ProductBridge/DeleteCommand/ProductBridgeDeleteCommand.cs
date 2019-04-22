@@ -29,7 +29,9 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.DeleteCommand
                     {
                         Id = getByIdResult.Bag.Id,
                         ProductId = getByIdResult.Bag.CompositionProductId,
-                        RelatedProductId = getByIdResult.Bag.CompositionItemId
+                        RelatedProductId = getByIdResult.Bag.CompositionItemId,
+                        ColorTypeId = getByIdResult.Bag.ColorTypeId,
+                        RelatedProductSizeId = getByIdResult.Bag.ProductCategorySizeId,
                     };
                 }
 

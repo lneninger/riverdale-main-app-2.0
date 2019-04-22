@@ -47,7 +47,8 @@ import {
     ProductColorTypeResolveService,
     CustomerResolveService,
     ProductResolveService,
-    GrowerTypeResolveService
+    GrowerTypeResolveService,
+    ProductCategoryResolveService
 } from '../@resolveServices/resolve.module';
 import { SaleOpportunityViewComponent } from './saleopportunity.view.module/saleopportunity.view.component';
 import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view.module/saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
@@ -70,7 +71,8 @@ const routes: Routes = [
             data: SaleOpportunityService,
             listProduct: ProductResolveService,
             listGrowerType: GrowerTypeResolveService,
-            listProductColorType: ProductColorTypeResolveService
+            listProductColorType: ProductColorTypeResolveService,
+            listProductCategory: ProductCategoryResolveService,
         }
        
     },

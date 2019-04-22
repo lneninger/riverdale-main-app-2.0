@@ -86,7 +86,7 @@ namespace DatabaseRepositories.DB
                         Id = o.Id,
                         ProductId = o.CompositionProductId,
                         RelatedProductId = o.CompositionItemId,
-                        Stems = o.Stems
+                        Stems = o.CompositionItemAmount
                     });
                 }
             }

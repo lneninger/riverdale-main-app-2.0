@@ -11,11 +11,11 @@ export class SaleOpportunity {
     id: number;
     name: string;
     customerId: number;
-    customerName: string;
-    seasonName: string;
-    targetPrices: TargetPriceItem[];
-    sampleBoxes: SampleBoxItem[];
-    settings: SaleOpportunitySettings;
+    customerName?: string;
+    seasonName?: string;
+    targetPrices?: TargetPriceItem[];
+    sampleBoxes?: SampleBoxItem[];
+    settings?: SaleOpportunitySettings;
 
     /**
      * Constructor
@@ -210,34 +210,34 @@ export class SampleBoxProductItem {
 
 export class TargetPriceProductSubItem {
     id: number;
-    targetPriceProductId: number;
     productId: number;
+    relatedProductId: number;
     relatedProductName: string;
-    productTypeId: string;
-    productTypeName: string;
+    relatedProductSizeId: number;
+    relatedProductTypeId: string;
+    relatedProductTypeName: string;
     productTypeDescription: string;
-    productPictureId: number;
-    productAmount: number;
+    relatedProductPictureId: number;
+    relatedProductCategoryId: number;
+    relatedProductAmount: number;
     colorTypeId?: string;
 
     constructor(item?) {
         const internal = item || {};
-        if (internal.key) {
-            this.productId = internal.key;
-            this.productAmount = 1;
-        } else {
-            this.id = internal.id;
-            this.targetPriceProductId = internal.targetPriceProductId;
-            this.productId = internal.productId;
-            this.relatedProductName = internal.relatedProductName;
-            this.productTypeId = internal.productTypeId;
-            this.productTypeName = internal.productTypeName;
-            this.productTypeDescription = internal.productTypeDescription;
-            this.productPictureId = internal.productPictureId;
-            this.productAmount = internal.productAmount;
-            this.colorTypeId = internal.colorTypeId;
-            //debugger;
-        }
+
+        this.id = internal.id;
+        this.productId = internal.productId;
+        this.relatedProductId = internal.relatedProductId;
+        this.relatedProductName = internal.relatedProductName;
+        this.relatedProductSizeId = internal.relatedProductSizeId;
+        this.relatedProductTypeId = internal.relatedProductTypeId;
+        this.relatedProductTypeName = internal.relatedProductTypeName;
+        this.productTypeDescription = internal.productTypeDescription;
+        this.relatedProductPictureId = internal.relatedProductPictureId;
+        this.relatedProductCategoryId = internal.relatedProductCategoryId;
+        this.relatedProductAmount = internal.relatedProductAmount;
+        this.colorTypeId = internal.colorTypeId;
+        //debugger;
     }
 }
 

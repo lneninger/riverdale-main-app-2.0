@@ -34,9 +34,9 @@
                                 appearance="outline"
                                 fxFlex="30%">
                     <mat-label>Opportunity</mat-label>
-                    <input matInput [value]="currentEntity.name" />
-                    <mat-icon matSuffix class="secondary-text">edit</mat-icon>
-
+                    <input matInput [(ngModel)]="currentEntity.name" [disabled]="!editingName" />
+                    <mat-icon *ngIf="editingName" matSuffix class="secondary-text edition-button" (click)="updateSaleOpportunity()">save</mat-icon>
+                    <mat-icon *ngIf="!editingName" matSuffix class="secondary-text edition-button" (click)="editingName = true">edit</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field

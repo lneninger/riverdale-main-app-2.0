@@ -3,7 +3,9 @@
 </div>
 <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
     <saleopportunity-view-list-item-targetpricesubproduct class="todo-list-item has-handle"
-                                *ngFor="let subItem of listOfSubItems; let i = index" [entity]="subItem" [formGroup]="formItems.controls[i]"
+                                *ngFor="let subItem of listOfSubItems; let i = index" 
+                                [entity]="subItem" 
+                                [formGroup]="formItems.controls[i]"
                                 ngxDraggable
                                 [model]="subItem"
                                 [ngClass]="{'current-todo':subItem?.id == currentTodo?.id}"

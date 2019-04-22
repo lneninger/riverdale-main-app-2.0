@@ -26,7 +26,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
                     CompositionProductId = input.ProductId,
                     CompositionItemId = input.RelatedProductId,
                     ColorTypeId = input.ColorTypeId,
-                    Stems = input.Stems
+                    CompositionItemAmount = input.RelatedProductAmount
                 };
 
                 try
@@ -57,7 +57,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.CompositionProductId,
                             RelatedProductId = getByIdResult.Bag.CompositionItemId,
-                            Stems = getByIdResult.Bag.Stems,
+                            Stems = getByIdResult.Bag.CompositionItemAmount,
                             RelatedProductName = getByIdResult.Bag.CompositionItem.Name,
                             RelatedProductTypeName = getByIdResult.Bag.CompositionItem.ProductType.Name,
                             RelatedProductTypeDescription = getByIdResult.Bag.CompositionItem.ProductType.Description,
