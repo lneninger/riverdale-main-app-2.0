@@ -45,7 +45,7 @@ import { NewsletterComponent } from './newsletter/newsletter.component';
     PriceComponent,
     TestimonialComponent,
     ContactUsComponent,
-    NewsletterComponent
+    NewsletterComponent,
   ],
   providers: []
 })

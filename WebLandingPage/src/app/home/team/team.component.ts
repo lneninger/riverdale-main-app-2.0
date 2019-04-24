@@ -69,8 +69,8 @@ export class TeamComponent {
 	    loop:true,
         margin:30,
         nav:false,
-        dots:true,
-        responsive:{
+      dots: true,
+                responsive:{
             0:{
                 items:1,
                 margin:5,
@@ -80,15 +80,34 @@ export class TeamComponent {
                 margin:5,
             },
             768:{
-                items:2,
+                items:1,
             },
             992:{
-                items:3,
+                items:1,
             },
             1000:{
-                items:3,
+                items:1,
             }
         }
+        //responsive:{
+        //    0:{
+        //        items:1,
+        //        margin:5,
+        //    },
+        //    600:{
+        //        items:1,
+        //        margin:5,
+        //    },
+        //    768:{
+        //        items:2,
+        //    },
+        //    992:{
+        //        items:3,
+        //    },
+        //    1000:{
+        //        items:3,
+        //    }
+        //}
 	}
 
 }

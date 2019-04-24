@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="logoType">
+  <span *ngSwitchCase="'text'" [style.font-family]="font" [style.font-size]="size" [style.color]="color">
+    HIPALANET
+  </span>
+  <span *ngSwitchCase="'initial'" [style.font-family]="font" [style.font-size]="size" [style.color]="color">
+    H
+  </span>
+</ng-container>

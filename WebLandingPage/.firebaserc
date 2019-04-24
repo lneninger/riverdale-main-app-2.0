@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "hipalanet-test",
+    "test": "hipalanet-test"
+  }
+}

@@ -9,21 +9,26 @@ import { FooterComponent } from './footer/footer.component';
 // Services
 import { WINDOW_PROVIDERS } from "./services/windows.service";
 import { LandingFixService } from '../shared/services/landing-fix.service';
+import { LogoDirective } from './logo-directive/logo-directive.component';
 
 @NgModule({
   exports: [
     CommonModule,
     HeaderComponent,
     FooterComponent,
+    LogoDirective
   ],
   imports: [
     CommonModule,
     RouterModule,
     NgxPageScrollModule
+
   ],
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LogoDirective
+
   ],
   providers: [
     WINDOW_PROVIDERS,
