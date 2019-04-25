@@ -37,7 +37,9 @@
     "rxjs": "^6.3.3",
     "save": "^2.3.2",
     "web-animations-js": "^2.3.1",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "firebase": "5.10.0",
+    "@angular/fire": "5.1.2"
   },
   "devDependencies": {
     "@angular/compiler-cli": "^7.0.0",

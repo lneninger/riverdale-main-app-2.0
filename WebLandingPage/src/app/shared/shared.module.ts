@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { WINDOW_PROVIDERS } from "./services/windows.service";
 import { LandingFixService } from '../shared/services/landing-fix.service';
 import { LogoDirective } from './logo-directive/logo-directive.component';
+import { FirebaseService } from './services/firebase.service';
 
 @NgModule({
   exports: [
@@ -32,7 +33,8 @@ import { LogoDirective } from './logo-directive/logo-directive.component';
   ],
   providers: [
     WINDOW_PROVIDERS,
-    LandingFixService
+    LandingFixService,
+    FirebaseService
   ]
 })
 export class SharedModule { }

@@ -15,14 +15,14 @@ export class IntroThreeComponent implements AfterViewInit {
 
   // Magnific Popup
   ngAfterViewInit(): void {
-  	$(this.videoElement.nativeElement).magnificPopup({ 
-		    disableOn: 700,
-        type: 'iframe',
-        mainClass: 'mfp-fade',
-        removalDelay: 160,
-        preloader: false,
-        fixedContentPos: false 
-    });
+  	//$(this.videoElement.nativeElement).magnificPopup({ 
+		 //   disableOn: 700,
+   //     type: 'iframe',
+   //     mainClass: 'mfp-fade',
+   //     removalDelay: 160,
+   //     preloader: false,
+   //     fixedContentPos: false 
+   // });
   }
 
 }

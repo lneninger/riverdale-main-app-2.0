@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FirebaseService } from 'src/app/shared/services/firebase.service';
 
 @Component({
   selector: 'app-newsletter',
@@ -10,32 +11,42 @@ export class NewsletterComponent implements OnInit {
 
   subscribeForm: FormGroup;
   
-  constructor(private sf: FormBuilder) { }
+  constructor(private sf: FormBuilder, private firebaseService: FirebaseService) {
+  }
 
   // Email Validator
   ngOnInit() {
-  	this.subscribeForm = this.sf.group({
-      email: ['', Validators.email],
+    this.subscribeForm = this.sf.group({
+      email: ['', [Validators.required, Validators.email]],
     })
   }
 
-  onSubmit(name) {
-    if(!name) return false
-    const form = document.createElement('form');
-    const element1 = document.createElement('input');
+  onSubmit($event: Event) {
+    $event.preventDefault();
+    debugger;
+    if (this.subscribeForm.invalid) return false
 
-    form.method = 'POST';
-    form.target = '_blank';
-    form.action = 'https://pixelstrap.us19.list-manage.com/subscribe/post?u=5a128856334b598b395f1fc9b&amp;id=082f74cbda';
+    this.firebaseService.subscribeToNewsletter(this.subscribeForm.value.email)
+      .then(res => {
+        debugger;
+        this.subscribeForm.reset({});
+      });
 
-    element1.value = name;
-    element1.name = 'EMAIL';
-    element1.id = 'mce-EMAIL';
-    form.appendChild(element1);
+    //const form = document.createElement('form');
+    //const element1 = document.createElement('input');
 
-    document.body.appendChild(form);
+    //form.method = 'POST';
+    //form.target = '_blank';
+    //form.action = 'https://pixelstrap.us19.list-manage.com/subscribe/post?u=5a128856334b598b395f1fc9b&amp;id=082f74cbda';
 
-    form.submit();
+    //element1.value = name;
+    //element1.name = 'EMAIL';
+    //element1.id = 'mce-EMAIL';
+    //form.appendChild(element1);
+
+    //document.body.appendChild(form);
+
+    //form.submit();
   }
 
 }
