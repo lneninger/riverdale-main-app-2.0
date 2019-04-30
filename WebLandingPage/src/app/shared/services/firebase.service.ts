@@ -15,8 +15,10 @@ export class FirebaseService {
   // Landing page
   public subscribeToNewsletter(email: string) {
     return this.db.database.ref('newsletters_subscriptions').push({ email: email.toLowerCase() });
+  }
 
-    //return this.dbStore..database.ref('newsletters_subscriptions').push({ email: email.toLowerCase() });
+  public sendContactMessage(contactData: any) {
+    return this.db.database.ref('contactus').push(contactData);
   }
 
 }

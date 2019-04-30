@@ -10,7 +10,7 @@
         <div class="contact-us">
           <div class="w-100">
             <h2 class="title"><span>contact </span>information</h2>
-            <form class="theme-form" [formGroup]="contactForm">
+            <form class="theme-form" [formGroup]="contactForm" (ngSubmit)="onSubmit($event)" novalidate>
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-12 col-md-6 md-fgrup-margin">
