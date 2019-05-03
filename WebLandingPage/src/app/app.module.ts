@@ -15,6 +15,7 @@ import { DemoComponent } from './demo/demo.component';
 import { BlogComponent } from './blog/blog.component';
 import * as $ from 'jquery';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    NgxStripeModule.forRoot('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'),
   ],
   providers: [],
   bootstrap: [AppComponent]

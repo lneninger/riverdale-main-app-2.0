@@ -20,6 +20,7 @@ import { PriceComponent } from './price/price.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { NewsletterComponent } from './newsletter/newsletter.component';
+import { DonationComponent } from './donation/donation.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { NewsletterComponent } from './newsletter/newsletter.component';
     TestimonialComponent,
     ContactUsComponent,
     NewsletterComponent,
+    DonationComponent,
   ],
   providers: []
 })

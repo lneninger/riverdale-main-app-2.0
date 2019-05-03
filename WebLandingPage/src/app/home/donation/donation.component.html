@@ -1,0 +1,32 @@
+<!-- Contact Section start -->
+<section id="donation" class="donation">
+  <div class="contact-decor">
+    <div class="contact-circle1"><img src="assets/images/main-banner12.png" alt=""></div>
+    <div class="contact-circle2"><img src="assets/images/main-banner1.png" alt=""></div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-8 col-sm-12">
+        <div class="contact-us">
+          <div class="w-100">
+            <h2 class="title"><span>Donation </span>information</h2>
+            <form novalidate (ngSubmit)="buy()" [formGroup]="stripeTest">
+              <input type="text" name="name" formControlName="name" placeholder="Jane Doe" class="form-control" autocomplete="off" required="required">
+              <div id="card-element" class="field"></div>
+              <button type="button" (click)="buy()" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">BUY</button>
+              <!--<button type="submit">
+                BUY
+              </button>-->
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 d-medium-none-lg">
+        <div class="contact-right">
+          <img src="assets/images/Contact-info.png" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Contact Section End -->

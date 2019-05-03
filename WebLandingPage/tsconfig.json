@@ -9,9 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "types": [ "node" ],
     "paths": {
-      "@angular/*": ["node_modules/@angular/*"]
+      "@angular/*": [ "node_modules/@angular/*" ]
     },
+
     "typeRoots": [
       "node_modules/@types"
     ],
