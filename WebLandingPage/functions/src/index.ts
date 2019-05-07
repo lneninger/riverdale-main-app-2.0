@@ -1,4 +1,14 @@
 import * as functions from 'firebase-functions';
+//import { request } from 'http';
+import * as Cors from 'cors';
+
+import * as Stripe from 'stripe';
+
+const cors = Cors({ origin: true });
+
+const stripe = new Stripe(functions.config().stripe.token);
+const currency = functions.config().stripe.currency || 'USD';
+
 
 
 const nodemailer = require('nodemailer');
@@ -73,3 +83,41 @@ export const onContactus = functions.database.ref('/contactus/{contactId}').onCr
 
 });
 
+
+
+export const onDonation = functions.https.onRequest(async (req: functions.https.Request, res: functions.Response) => {
+
+  return cors(req, res, async () => {
+
+    const data = <IDonationModel>req.body.data;
+
+    console.log(`Mapped to model`, data, `original body`, req.body);
+
+    const token = data.source;
+
+    const intent: Stripe.paymentIntents.IPaymentIntentCreationOptions = {
+      amount: data.amount,
+      currency: currency,
+      payment_method_types: ['card']
+    };
+
+
+    console.log('Sending donation:', intent);
+
+    const response = await stripe.paymentIntents.create(intent);
+
+    console.log('Donation Response:', response);
+
+    res.status(200).send(response);
+  })
+
+  
+
+});
+
+
+export interface IDonationModel {
+  source: string;
+  amount: number;
+  currency: string;
+}

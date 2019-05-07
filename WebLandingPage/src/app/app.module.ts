@@ -15,6 +15,7 @@ import { DemoComponent } from './demo/demo.component';
 import { BlogComponent } from './blog/blog.component';
 import * as $ from 'jquery';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
@@ -32,7 +33,9 @@ import { NgxStripeModule } from 'ngx-stripe';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
-    NgxStripeModule.forRoot('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O'),
+    AngularFireFunctionsModule,
+    NgxStripeModule.forRoot('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O', { stripeAccount:  'acct_1EVpl1IXdvKBbL5a'})
+
   ],
   providers: [],
   bootstrap: [AppComponent]

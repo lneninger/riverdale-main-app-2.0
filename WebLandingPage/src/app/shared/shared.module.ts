@@ -17,12 +17,12 @@ import { FirebaseService } from './services/firebase.service';
     CommonModule,
     HeaderComponent,
     FooterComponent,
-    LogoDirective
+    LogoDirective,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    NgxPageScrollModule
+    NgxPageScrollModule, 
 
   ],
   declarations: [

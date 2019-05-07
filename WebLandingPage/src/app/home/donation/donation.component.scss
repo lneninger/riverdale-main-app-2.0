@@ -1,0 +1,11 @@
+:host {
+  & .donation-content {
+
+
+    & .values-wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+    }
+  }
+}

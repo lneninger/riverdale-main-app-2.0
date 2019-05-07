@@ -7,13 +7,21 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 col-lg-8 col-sm-12">
-        <div class="contact-us">
+        <div class="donation-content">
           <div class="w-100">
             <h2 class="title"><span>Donation </span>information</h2>
             <form novalidate (ngSubmit)="buy()" [formGroup]="stripeTest">
-              <input type="text" name="name" formControlName="name" placeholder="Jane Doe" class="form-control" autocomplete="off" required="required">
+              <input type="text" name="name" formControlName="name" placeholder="Name on card" class="form-control" autocomplete="off" required="required">
               <div id="card-element" class="field"></div>
-              <button type="button" (click)="buy()" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">BUY</button>
+
+              <div class="values-wrapper">
+                <button type="button" (click)="buy(1)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 1</button>
+                <button type="button" (click)="buy(5)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 5</button>
+                <button type="button" (click)="buy(10)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 10</button>
+                <button type="button" (click)="buy(15)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 15</button>
+                <button type="button" (click)="buy(20)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 20</button>
+                <button type="button" (click)="buy(25)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 25</button>
+              </div>
               <!--<button type="submit">
                 BUY
               </button>-->

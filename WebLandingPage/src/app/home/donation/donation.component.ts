@@ -2,6 +2,8 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/shared/services/firebase.service';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions } from "ngx-stripe";
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { Observable } from 'rxjs';
 
 //const stripe = require('stripe')('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O');
 //const stripe = Stripe('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O');
@@ -16,6 +18,7 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
   elements: Elements;
   card: StripeElement;
+  donation$: Observable<any>;
 
   // optional parameters
   elementsOptions: ElementsOptions = {
@@ -24,7 +27,11 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
   stripeTest: FormGroup;
   
-  constructor(private fb: FormBuilder, private firebaseService: FirebaseService, private stripeService: StripeService) {
+  constructor(
+    private fb: FormBuilder
+    , private firebaseService: FirebaseService
+    , private stripeService: StripeService
+    , private fns: AngularFireFunctions) {
 
 
   }
@@ -65,7 +72,7 @@ export class DonationComponent implements OnInit, AfterViewInit {
   }
 
 
-  buy() {
+  buy(amount: number) {
     const name = this.stripeTest.get('name').value;
     this.stripeService
       .createToken(this.card, { name })
@@ -73,12 +80,28 @@ export class DonationComponent implements OnInit, AfterViewInit {
         if (result.token) {
           // Use the token to create a charge or a customer
           // https://stripe.com/docs/charges
-          console.log(result.token);
+          console.log(result.token, result.token);
+
+          this.sendOrder(result.token, amount);
+
         } else if (result.error) {
           // Error creating the token
           console.log(result.error.message);
         }
       });
+  }
+
+  sendOrder(token: any, amount: number) {
+    const order = {
+      source: token.id,
+      amount: amount * 100,
+      currency: 'usd'
+    }
+
+    const callable = this.fns.httpsCallable('onDonation');
+    this.donation$ = callable(order);
+
+    this.donation$.subscribe();
   }
 
 }
