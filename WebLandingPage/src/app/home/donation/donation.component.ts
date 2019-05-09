@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/app/shared/services/firebase.service';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions } from "ngx-stripe";
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 //const stripe = require('stripe')('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O');
 //const stripe = Stripe('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O');
@@ -19,6 +20,7 @@ export class DonationComponent implements OnInit, AfterViewInit {
   elements: Elements;
   card: StripeElement;
   donation$: Observable<any>;
+  status: DonationProcessStatusType = null;
 
   // optional parameters
   elementsOptions: ElementsOptions = {
@@ -26,7 +28,7 @@ export class DonationComponent implements OnInit, AfterViewInit {
   };
 
   stripeTest: FormGroup;
-  
+
   constructor(
     private fb: FormBuilder
     , private firebaseService: FirebaseService
@@ -73,25 +75,43 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
 
   buy(amount: number) {
+
+    this.status = 'sending';
+
+    let centAmount = amount * 100;
+
     const name = this.stripeTest.get('name').value;
     this.stripeService
-      .createToken(this.card, { name })
-      .subscribe(result => {
-        if (result.token) {
-          // Use the token to create a charge or a customer
-          // https://stripe.com/docs/charges
-          console.log(result.token, result.token);
+      .createSource(this.card, {
+        type: 'card', amount: centAmount, currency: 'usd', owner: {
+          name: 'Jenny Rosen',
+        } })
+      .subscribe(async result => {
+        if (result.error) {
+          console.log(result.error);
+          this.status = 'error';
+          alert(JSON.stringify(result.error));
 
-          this.sendOrder(result.token, amount);
+        }
+        else {
+          const source = result.source;
+          if (source.id) {
+            // Use the token to create a charge or a customer
+            // https://stripe.com/docs/charges
+            console.log(source);
 
-        } else if (result.error) {
-          // Error creating the token
-          console.log(result.error.message);
+            await this.sendOrder(source, amount);
+            this.status = 'success';
+
+          } else if (result.error) {
+            // Error creating the token
+            console.log(result.error.message);
+          }
         }
       });
   }
 
-  sendOrder(token: any, amount: number) {
+  async sendOrder(token: any, amount: number) {
     const order = {
       source: token.id,
       amount: amount * 100,
@@ -99,9 +119,20 @@ export class DonationComponent implements OnInit, AfterViewInit {
     }
 
     const callable = this.fns.httpsCallable('onDonation');
-    this.donation$ = callable(order);
+    const result = await callable(order).pipe(catchError(error => {
+      console.error(`Donation error: `, error);
+      this.status = 'error';
+      return of(error);
+    }));
 
-    this.donation$.subscribe();
+    //this.donation$.subscribe(res => {
+    //  console.log(`Donation response: `, res);
+    //}, error => {
+
+    //  });
   }
 
 }
+
+
+export type DonationProcessStatusType = 'sending' | 'success' | 'error';

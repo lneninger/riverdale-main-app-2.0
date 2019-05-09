@@ -12,9 +12,9 @@
             <h2 class="title">
               <span>contact </span>information
               <ng-container [ngSwitch]="status">
-                <span *ngSwitchCase="'sending'"> -Sending</span>
-                <span *ngSwitchCase="'success'"> -Success</span>
-                <span *ngSwitchCase="'error'"> -Error</span>
+                <span *ngSwitchCase="'sending'"> - Sending</span>
+                <span *ngSwitchCase="'success'"> - Success</span>
+                <span *ngSwitchCase="'error'"> - Error</span>
               </ng-container>
             </h2>
             <form class="theme-form" [formGroup]="contactForm" (ngSubmit)="onSubmit($event)" novalidate>

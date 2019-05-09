@@ -14,7 +14,7 @@ export class TestimonialComponent {
       image: 'https://scienceoxford.com/wp-content/uploads/2018/03/avatar-male.jpg',
         name: 'anicia pardo',
         designation: 'Enterpreneur',
-      description: 'HIPALANET helped me to tunning up my business process, bringing new ideas up which I ever thinked about, enhancing the quality of deliveries to my customer. The HIPALANET\'s team explained must of the development process envolved in my requirements which enhanced my expactations and my understanding of software solution integrations. I really appreciate the transformation the HIPALANET Solutions bringed to my company. ',
+      description: 'HIPALANET helped me to tunning up my business process, bringing new ideas up which I ever thinked about, enhancing the quality of deliveries to my customer. The HIPALANET\'s team explained most of the development process envolved in my requirements which enhanced my expactations and my understanding of software solution integrations. I really appreciate the transformation the HIPALANET Solutions bringed to my company. ',
     }
       //, {
       //  image: 'assets/images/avtar/22.jpg',

@@ -9,8 +9,15 @@
       <div class="col-md-12 col-lg-8 col-sm-12">
         <div class="donation-content">
           <div class="w-100">
-            <h2 class="title"><span>Donation </span>information</h2>
-            <form novalidate (ngSubmit)="buy()" [formGroup]="stripeTest">
+            <h2 class="title">
+              <span>Donation </span>information
+              <ng-container [ngSwitch]="status">
+                <span *ngSwitchCase="'sending'"> - Sending</span>
+                <span *ngSwitchCase="'success'"> - Success. We appreciate your support</span>
+                <span *ngSwitchCase="'error'"> - Error</span>
+              </ng-container>
+            </h2>
+            <form novalidate [formGroup]="stripeTest">
               <input type="text" name="name" formControlName="name" placeholder="Name on card" class="form-control" autocomplete="off" required="required">
               <div id="card-element" class="field"></div>
 

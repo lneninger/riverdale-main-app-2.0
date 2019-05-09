@@ -1,6 +1,8 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 //import { request } from 'http';
 import * as Cors from 'cors';
+import { Observable } from 'rxjs';
 
 import * as Stripe from 'stripe';
 
@@ -93,25 +95,38 @@ export const onDonation = functions.https.onRequest(async (req: functions.https.
 
     console.log(`Mapped to model`, data, `original body`, req.body);
 
-    const token = data.source;
+    //const token = data.source;
 
     const intent: Stripe.paymentIntents.IPaymentIntentCreationOptions = {
+      source: data.source, // paymentintent token
       amount: data.amount,
       currency: currency,
-      payment_method_types: ['card']
+      payment_method_types: ['card'],
     };
 
 
     console.log('Sending donation:', intent);
 
     const response = await stripe.paymentIntents.create(intent);
-
     console.log('Donation Response:', response);
 
-    res.status(200).send(response);
-  })
+    await Observable.create(observer => {
+      admin.database().ref('/donations').push(intent).then(() => {
+          console.info(`donation saved successfully`);
+        observer.next();
+        observer.complete();
+      },
+        error => {
+          console.error(error);
+        });
+    })
 
-  
+    res.status(200).jsonp({ data: response });
+
+
+  });
+
+
 
 });
 
