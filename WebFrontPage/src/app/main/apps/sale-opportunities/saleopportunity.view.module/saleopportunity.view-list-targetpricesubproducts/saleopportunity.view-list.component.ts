@@ -49,7 +49,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     }
     @Input('formItems')
     set formItems(value: FormArray) {
-        //debugger;
+        // debugger;
         this._formItems = value;
     }
 
@@ -62,11 +62,10 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param _activatedRoute
-     * @param _todoService
-     * @param _location
+     * 
+     * @param _activatedRoute Active route
+     * @param _location Location service
+     * @param saleOpportunityService Sale opportunity service
      */
     constructor(
         private _activatedRoute: ActivatedRoute
@@ -111,9 +110,9 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent implements On
     /**
      * On drop
      *
-     * @param ev
+     * @param ev Event
      */
-    onDrop(ev): void
+    onDrop(ev: any): void
     {
 
     }

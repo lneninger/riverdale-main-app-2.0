@@ -23,6 +23,9 @@ using ApplicationLogic.Business.Commands.ProductColorType.GetByIdCommand.Models;
 using ApplicationLogic.Business.Commands.ProductColorType.GetAllCommand.Models;
 using Authorization = Microsoft.AspNetCore.Authorization;
 using ApplicationLogic.SignalR;
+using Microsoft.AspNetCore.SignalR;
+using Framework.SignalR;
+using DomainModel;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0.Controllers
@@ -46,8 +49,9 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public ProductColorTypeController(/*IHubContext<GlobalHub> hubContext, */IProductColorTypePageQueryCommand pageQueryCommand, IProductColorTypeGetAllCommand getAllCommand, IProductColorTypeGetByIdCommand getByIdCommand, IProductColorTypeInsertCommand insertCommand, IProductColorTypeUpdateCommand updateCommand, IProductColorTypeDeleteCommand deleteCommand):base(/*hubContext*/)
+        public ProductColorTypeController(IHubContext<GlobalHub, IGlobalHub> hubContext, IProductColorTypePageQueryCommand pageQueryCommand, IProductColorTypeGetAllCommand getAllCommand, IProductColorTypeGetByIdCommand getByIdCommand, IProductColorTypeInsertCommand insertCommand, IProductColorTypeUpdateCommand updateCommand, IProductColorTypeDeleteCommand deleteCommand):base()
         {
+            this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
             this.GetAllCommand = getAllCommand;
             this.GetByIdCommand = getByIdCommand;
@@ -55,6 +59,14 @@ namespace RiverdaleMainApp2_0.Controllers
             this.UpdateCommand = updateCommand;
             this.DeleteCommand = deleteCommand;
         }
+
+        /// <summary>
+        /// Gets the signal r hub context.
+        /// </summary>
+        /// <value>
+        /// The signal r hub context.
+        /// </value>
+        public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
 
         /// <summary>
         /// Gets the get all command.
@@ -65,8 +77,11 @@ namespace RiverdaleMainApp2_0.Controllers
         public IProductColorTypeGetAllCommand GetAllCommand { get; }
 
         /// <summary>
-        /// 
+        /// Gets the page query command.
         /// </summary>
+        /// <value>
+        /// The page query command.
+        /// </value>
         public IProductColorTypePageQueryCommand PageQueryCommand { get; }
 
 
@@ -148,6 +163,13 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Post([FromBody]ProductColorTypeInsertCommandInputDTO model)
         {
             var appResult = this.InsertCommand.Execute(model);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(ProductColorType), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
@@ -159,6 +181,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Put([FromBody]ProductColorTypeUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.UPDATED_ITEM), nameof(ProductColorType), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
@@ -171,6 +199,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Delete(string id)
         {
             var appResult = this.DeleteCommand.Execute(id);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.DELETED_ITEM), nameof(ProductColorType), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
     }

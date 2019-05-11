@@ -37,9 +37,8 @@ export abstract class BaseResolveService<T = EnumItem<any>[]> implements Resolve
             // this.onList.next(this.list);
             return of(true);
         } else {
-            return Observable.create(observer => {
-                this.http.get(this.endpoint).subscribe(res => {
-                    // debugger;
+            return Observable.create(async observer => {
+                await this.http.get(this.endpoint).subscribe(res => {
                     this.list = (<OperationResponse<T>>res).bag;
                     console.log(`List Resolved`, this.list);
                     this.onList.next(this.list);
@@ -53,7 +52,7 @@ export abstract class BaseResolveService<T = EnumItem<any>[]> implements Resolve
     reloadCache(): void {
         // this.list = [];
         if (this.list !== null) {
-            this.noDependencyResolve(true);
+            this.noDependencyResolve(true).subscribe();
         }
     }
 }

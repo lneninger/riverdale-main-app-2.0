@@ -11,7 +11,16 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult, TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput, SaleOpportunityTargetPriceNewDialogInput, SaleOpportunityTargetPriceProductNewDialogInput, TargetPriceProductItem, SaleOpportunityTargetPriceSubProductNewDialogInput } from '../../saleopportunity.model';
+import { SaleOpportunityGrid, SaleOpportunity
+    , SaleOpportunityNewDialogResult
+    , TargetPriceItem
+    , SaleOpportunityTargetPriceNewDialogOutput
+    , SaleOpportunityTargetPriceNewDialogInput
+    , SaleOpportunityTargetPriceProductNewDialogInput
+    , TargetPriceProductItem
+    , SaleOpportunityTargetPriceSubProductNewDialogInput
+ } from '../../saleopportunity.model';
+
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -62,7 +71,7 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
         this.productService.getById(data.subProductId)
             .subscribe(response => {
                 const product = response.bag;
-                debugger;
+                // debugger;
                 this.frmMain = frmBuilder.group({
                     'productId': [this.data.productId, [Validators.required]],
                     'subProductId': [product.id, [Validators.required]],
@@ -81,7 +90,7 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
         return new Promise((resolve, reject) => {
             const original = this.frmMain.value;
             const value = new CompositionItem(original);
-            debugger;
+            // debugger;
             value.productId = original.productId;
             value.relatedProductId = original.subProductId;
             value.colorTypeId = original.colorTypeId;

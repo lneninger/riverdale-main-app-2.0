@@ -19,6 +19,7 @@ using RiverdaleMainApp2_0.Auth;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR;
 using Framework.SignalR;
+using DomainModel.Company.Grower;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -112,9 +113,14 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("pagequery")]
         public IActionResult PageQuery([FromBody]PageQuery<GrowerPageQueryCommandInputDTO> input)
         {
-            var result = this.PageQueryCommand.Execute(input);
+            var appResult = this.PageQueryCommand.Execute(input);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(Grower), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
 
-            return this.Ok(result);
+            return this.Ok(appResult);
         }
 
         /// <summary>
@@ -170,6 +176,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Put([FromBody]GrowerUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.UPDATED_ITEM), nameof(DomainModel.Company.Grower.Grower), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
@@ -182,6 +194,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.DELETED_ITEM), nameof(DomainModel.Company.Grower.Grower), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
     }

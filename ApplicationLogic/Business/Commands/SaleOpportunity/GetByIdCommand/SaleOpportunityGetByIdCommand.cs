@@ -80,6 +80,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunity.GetByIdCommand
                                 ProductColorTypeName = item.ProductColorType?.Name,
                                 OpportunityCount = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).Distinct().Count(),
                                 FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault(),
+                                FirstOpportunityName = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == item.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.Name).FirstOrDefault(),
 
                                 RelatedProducts = ((CompositionProduct)item.Product).Items.Select(o => new SaleOpportunityGetByIdCommandOutputRelatedProductItemDTO
                                 {

@@ -51,10 +51,14 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param _todoService
-     * @param _activatedRoute
+     * 
+     * @param saleOpportunityService Sale opportunity service
+     * @param serviceProductColorTypeResolve Product color type resolve service
+     * @param serviceProductResolve Product resolve service
+     * @param serviceProduct Product service
+     * @param _activatedRoute Active route
+     * @param matDialog Mat dialog service
+     * @param _matSnackBar snackbar service
      */
     constructor(
         private saleOpportunityService: SaleOpportunityService
@@ -75,7 +79,7 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
             this.moveDisabled = true;
         }
 
-        this.saleOpportunityService.onCurrentEntityChanged.subscribe(currentOpportunity => this.currentOpportunity = currentOpportunity)
+        this.saleOpportunityService.onCurrentEntityChanged.subscribe(currentOpportunity => this.currentOpportunity = currentOpportunity);
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -122,46 +126,46 @@ export class SaleOpportunityViewListItemTargetPriceProductComponent implements O
         event.stopPropagation();
     }
 
-    selectTargetPriceProduct($event: Event) {
-        debugger;
+    selectTargetPriceProduct($event: Event): void {
+        // debugger;
         this.saleOpportunityService.toggleTargetPriceProduct(this.currentEntity);
     }
 
 
-    deleteTargetPriceProduct($event: Event) {
+    deleteTargetPriceProduct($event: Event): void {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
             data: <DeletePopupData>{ elementDescription: this.currentEntity.productName }
         });
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
-            if (result == 'YES') {
+            if (result === 'YES') {
                 this.deleteTargetPriceProductExecution();
             }
         });
     }
 
-    deleteTargetPriceProductExecution() {
+    deleteTargetPriceProductExecution(): void {
         this.saleOpportunityService.deleteTargetPriceProductItem(this.currentEntity.id)
             .then(() => {
 
                 //// Show the success message
-                //this._matSnackBar.open('target price\'s product deleted', 'OK', {
+                // this._matSnackBar.open('target price\'s product deleted', 'OK', {
                 //    verticalPosition: 'top',
                 //    duration: 2000
-                //});
+                // });
             });
     }
 
     isAllowedColorType(productColorTypeId: string): boolean {
         return true;
-        //const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
+        // const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
 
-        //if (productItem) {
+        // if (productItem) {
         //    return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) !== -1;
-        //}
+        // }
 
-        //return false;
+        // return false;
     }
 
     updateItem(): void {

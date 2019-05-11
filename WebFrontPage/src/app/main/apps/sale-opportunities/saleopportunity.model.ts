@@ -106,6 +106,7 @@ export class TargetPriceProductItem {
     productColorTypeId?: string;
     opportunityCount: number;
     firstOpportunityId: number;
+    firstOpportunityName: string;
     relatedProducts: TargetPriceProductSubItem[];
 
     get editable(): boolean {
@@ -129,6 +130,7 @@ export class TargetPriceProductItem {
             this.productPictureId = internal.productPictureId;
 
             this.firstOpportunityId = internal.firstOpportunityId;
+            this.firstOpportunityName = internal.firstOpportunityName;
             this.opportunityCount = internal.opportunityCount;
 
             this.relatedProducts = (

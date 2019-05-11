@@ -11,6 +11,7 @@ using ApplicationLogic.Business.Commands.ProductCategory.PageQueryCommand.Models
 using ApplicationLogic.Business.Commands.ProductCategory.UpdateCommand;
 using ApplicationLogic.Business.Commands.ProductCategory.UpdateCommand.Models;
 using ApplicationLogic.SignalR;
+using DomainModel.Product;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
 using Microsoft.AspNetCore.Mvc;
@@ -111,9 +112,14 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("pagequery")]
         public IActionResult PageQuery([FromBody]PageQuery<ProductCategoryPageQueryCommandInputDTO> input)
         {
-            var result = this.PageQueryCommand.Execute(input);
+            var appResult = this.PageQueryCommand.Execute(input);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(ProductCategory), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
 
-            return this.Ok(result);
+            return this.Ok(appResult);
         }
 
         /// <summary>
@@ -124,6 +130,11 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Get()
         {
             var appResult = this.GetAllCommand.Execute();
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.UPDATED_ITEM), nameof(ProductCategory), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
 
             return this.Ok(appResult);
         }
@@ -136,9 +147,14 @@ namespace RiverdaleMainApp2_0.Controllers
         [HttpGet("{id}"), ProducesResponseType(200, Type = typeof(ProductCategoryGetByIdCommandOutputDTO))]
         public IActionResult Get(int id)
         {
-            var result = this.GetByIdCommand.Execute(id);
+            var appResult = this.GetByIdCommand.Execute(id);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.DELETED_ITEM), nameof(ProductCategory), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
 
-            return this.Ok(result);
+            return this.Ok(appResult);
         }
 
         /// <summary>

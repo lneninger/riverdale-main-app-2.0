@@ -9,8 +9,7 @@
         <div class="avatar">
             <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.relatedProductPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
         </div>
-        <!--{{currentEntity | json}}-->
-        <section fxLayout="column" fxLayout-gt-lg="row">
+        <section fxFlex fxLayout="column" fxLayout-gt-lg="row">
             <div class="info" fxFlex fxFlexLayout="column">
 
                 <div class="title">
@@ -19,16 +18,7 @@
                 <div class="notes">
                     {{currentEntity.relatedProductTypeName}}
                 </div>
-                <!--<div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
-
-            <div class="tag" fxLayout="row" fxLayoutAlign="start center" *ngFor="let tagId of currentEntity.tags">
-                <div class="tag-color" [ngStyle]="{'background-color': tags | getById:tagId:'color'}"></div>
-                <div class="tag-label">{{tags | getById:tagId:'title'}}</div>
             </div>
-
-        </div>-->
-            </div>
-            <!--{{formGroup.value | json}}-->
             <div class="actions" fxLayout="row wrap" fxFlexAlign="end center" fxLayoutAlign="start center" fxFlex fxLayoutGap="3px">
                 <div class="option">
                     <mat-form-field floatLabel="always" appearance="outline" fxFlex="60px">

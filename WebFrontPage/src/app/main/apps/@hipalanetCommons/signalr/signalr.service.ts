@@ -55,13 +55,14 @@ export class SignalRService extends BaseSignalRService {
     }
 
     processDataChanged(eventData: ISignalREventArgs): void {
+        debugger;
         switch (eventData.entityName) {
             case 'Customer':
                 // debugger;
                 this.onCustomerDataChanged.next(eventData);
                 break;
             case 'Product':
-             // debugger;
+             debugger;
              this.onProductDataChanged.next(eventData);
              break;
             case 'ProductMedia':

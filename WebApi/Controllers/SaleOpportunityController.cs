@@ -175,6 +175,13 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Put([FromBody]SaleOpportunityUpdateCommandInputDTO model)
         {
             var appResult = this.UpdateCommand.Execute(model);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.UPDATED_ITEM), nameof(SaleOpportunity), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
 
@@ -187,6 +194,12 @@ namespace RiverdaleMainApp2_0.Controllers
         public IActionResult Delete(int id)
         {
             var appResult = this.DeleteCommand.Execute(id);
+            if (appResult.IsSucceed)
+            {
+                var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.DELETED_ITEM), nameof(SaleOpportunity), appResult.Bag);
+                this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+            }
+
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
         }
     }
