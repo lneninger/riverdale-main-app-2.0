@@ -62,7 +62,7 @@ export class SaleOpportunityViewTargetPricesComponent implements OnInit, OnDestr
 
         this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
             targetPrice => {
-                //debugger;
+                // debugger;
                 this._currentTargetPrice = targetPrice;
             }
         );

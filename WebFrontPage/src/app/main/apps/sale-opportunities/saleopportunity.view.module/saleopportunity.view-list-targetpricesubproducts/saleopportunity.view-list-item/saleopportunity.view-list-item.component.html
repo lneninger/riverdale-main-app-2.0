@@ -29,7 +29,7 @@
         </div>-->
             </div>
             <!--{{formGroup.value | json}}-->
-            <div class="actions" fxLayout="row" fxFlexAlign="end center" fxLayoutAlign="start center" fxFlex fxLayoutGap="3px">
+            <div class="actions" fxLayout="row wrap" fxFlexAlign="end center" fxLayoutAlign="start center" fxFlex fxLayoutGap="3px">
                 <div class="option">
                     <mat-form-field floatLabel="always" appearance="outline" fxFlex="60px">
                         <mat-label>{{(currentEntity.relatedProductTypeId == 'FLW' ? 'Stems' : ((currentEntity.relatedProductTypeId == 'COMP') ? 'Amount' : ((currentEntity.relatedProductTypeId == 'HARD') ? 'Amount' : 'N/A')))}}</mat-label>
@@ -37,7 +37,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="0 0 140px">
+                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="1 0 40%">
                     <mat-form-field floatLabel="always" appearance="outline" fxFlex="0 0 100%">
                         <mat-label>Color</mat-label>
                         <mat-select name="colorTypeId" formControlName="colorTypeId" fxFlex="0 0 100%">
@@ -48,7 +48,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="0 0 140px">
+                <div class="option" [style.visibility]="currentEntity.relatedProductTypeId == 'COMP' ? 'hidden' : 'visible'" fxFlex="1 0 40%">
 
                     <mat-form-field floatLabel="always" appearance="outline" fxFlex="0 0 100%">
                         <mat-label>Grade</mat-label>

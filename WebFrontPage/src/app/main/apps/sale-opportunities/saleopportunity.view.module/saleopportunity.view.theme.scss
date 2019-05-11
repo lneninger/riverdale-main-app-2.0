@@ -41,11 +41,11 @@
         }
     }
     // Todo list
-    saleopportunity-view-list, saleopportunity-view-list-targetpricesubproducts {
+    saleopportunity-view-list, saleopportunity-view-list-targetpriceproducts, saleopportunity-view-list-targetpricesubproducts {
         border-right-color: map-get($foreground, divider);
     }
     // Todo list item
-    saleopportunity-view-list-item, saleopportunity-view-list-item-targetpricesubproduct {
+    saleopportunity-view-list-item, saleopportunity-view-list-item-targetpriceproduct, saleopportunity-view-list-item-targetpricesubproduct {
         border-bottom-color: map-get($foreground, divider);
 
         .tags {
@@ -79,7 +79,7 @@
         }
     }
     // Todo details
-    saleopportunity-view-details {
+    saleopportunity-view-details, saleopportunity-view-targetprices {
 
         .todo-header {
             background: map-get($background, background);

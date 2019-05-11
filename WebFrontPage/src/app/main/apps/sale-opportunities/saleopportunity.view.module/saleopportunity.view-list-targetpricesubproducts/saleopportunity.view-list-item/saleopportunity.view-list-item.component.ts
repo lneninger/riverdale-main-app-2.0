@@ -53,12 +53,15 @@ export class SaleOpportunityViewListItemTargetPriceSubProductComponent implement
     // Private
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param _todoService
-     * @param _activatedRoute
-     */
+   /**
+    * 
+    * @param saleOpportunityService  Sale opportunity service
+    * @param serviceProductColorTypeResolve Product color resolve service
+    * @param serviceProductCategoryResolve Product category resolve service
+    * @param serviceProductResolve Product resolve service
+    * @param serviceProduct Product service
+    * @param _activatedRoute Current route
+    */
     constructor(
         private saleOpportunityService: SaleOpportunityService
         , private serviceProductColorTypeResolve: ProductColorTypeResolveService
@@ -95,14 +98,18 @@ export class SaleOpportunityViewListItemTargetPriceSubProductComponent implement
         this.currentEntity = new TargetPriceProductSubItem(this.currentEntity);
 
         const productItem$ = combineLatest([this.relatedProductId$, this.listProduct$])
-            .pipe(map(combined => (<EnumItem<number>[]>combined[1]).find(productItem => productItem.key == combined[0])))
+            .pipe(map(combined => (<EnumItem<number>[]>combined[1]).find(productItem => productItem.key === combined[0])));
 
         this.allowedRelatedProductSizes$ =
             combineLatest([productItem$, this.listProductCategory$])
-            .pipe(map(combined => { return { productItem: (<EnumItem<number>>combined[0]), productCategories: (<EnumItem<number>[]>combined[1]) }; }))
+            .pipe(map(combined => { 
+                return { 
+                    productItem: (<EnumItem<number>>combined[0]), 
+                    productCategories: (<EnumItem<number>[]>combined[1]) };
+                 }))
             .pipe(switchMap(source => {
                 const targetCategoryId = <number><unknown>source.productItem.extras['productCategoryId'];
-                const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key == targetCategoryId);
+                const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key === targetCategoryId);
 
                 if (targetCategory != null) {
                     return of(<EnumItem<number>[]>targetCategory.extras['sizes']);
@@ -110,7 +117,7 @@ export class SaleOpportunityViewListItemTargetPriceSubProductComponent implement
                 else {
                     return of(<EnumItem<number>[]>[]);
                 }
-            }))
+            }));
     }
 
     /**
@@ -161,20 +168,20 @@ export class SaleOpportunityViewListItemTargetPriceSubProductComponent implement
 
     isAllowedColorType(productColorTypeId: string): boolean {
         return true;
-        //const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
+        // const productItem = this.listProduct.find(item => item.key === this.currentEntity.productId);
 
-        //if (productItem) {
+        // if (productItem) {
         //    return (<string[]>productItem.extras['allowedColorTypes']).indexOf(productColorTypeId) !== -1;
-        //}
+        // }
 
-        //return false;
+        // return false;
     }
 
     updateItem(): void {
-        //debugger;
+        // debugger;
         const data = <TargetPriceProductSubItem>this.formGroup.value;
         this.saleOpportunityService.updateTargetPriceProductSubItem(data).then(response => {
-            //debugger;
+            // debugger;
             const updatedItem = new TargetPriceProductSubItem(response);
         }, error => {
 

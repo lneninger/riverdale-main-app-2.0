@@ -61,11 +61,10 @@ export class SaleOpportunityViewListTargetPriceProductComponent implements OnIni
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param _activatedRoute
-     * @param _todoService
-     * @param _location
+     * 
+     * @param _activatedRoute Active route service
+     * @param _location Location service
+     * @param saleOpportunityService Sale opportunity service
      */
     constructor(
         private _activatedRoute: ActivatedRoute
@@ -108,11 +107,9 @@ export class SaleOpportunityViewListTargetPriceProductComponent implements OnIni
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * On drop
-     *
-     * @param ev
+     * 
      */
-    onDrop(ev): void
+    onDrop(ev: any): void
     {
 
     }

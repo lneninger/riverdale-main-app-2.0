@@ -169,7 +169,7 @@
                             (click)="setActiveDetailArea('TargetPrices')"
                             matTooltip="Target Prices"
                             [attr.aria-label]="'View Target Prices'">
-                        <mat-icon class="material-icons-outlined">visibility</mat-icon>
+                        <mat-icon class="material-icons-outlined">{{activeDetailRightArea === 'TargetPrices' ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
 
 
@@ -283,11 +283,7 @@
                                                                           fusePerfectScrollbar
                                                                           fxFlex></saleopportunity-view-list-targetpricesubproducts>
 
-                        <!--<saleopportunity-view-list *ngSwitchCase="'TargetPriceSubProduct'" [entity]="currentEntity"
-                                                   [formItems]="frmSampleBoxProductItems"
-                                                   fusePerfectScrollbar
-                                                   fxFlex></saleopportunity-view-list>-->
-                        <!--{{activeDetailArea}}-->
+                        
                         <!--Default option -->
                         <div *ngSwitchDefault fxLayout="column" fxLayoutAlign="center center" fxFlex>
                             <!--{{'default ' + activeDetailLeftArea}}-->

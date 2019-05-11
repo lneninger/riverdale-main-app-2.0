@@ -805,7 +805,14 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     setActiveDetailArea(area: ActiveDetailRightAreaType): void {
         // debugger;
         // debugger;
-        this.activeDetailRightArea = area;
+        if(this.activeDetailRightArea === area)
+        {
+            this.activeDetailRightArea = null;
+        }
+        else
+        {
+            this.activeDetailRightArea = area;
+        }
     }
 
     addSampleBox(): void {
