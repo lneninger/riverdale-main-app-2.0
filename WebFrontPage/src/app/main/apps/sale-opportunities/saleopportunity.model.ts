@@ -67,8 +67,8 @@ export class TargetPriceItem {
     seasonName: string;
     saleSeasonTypeId: number;
     alternativesAmount: number;
-    //servedAlternativesAmount: number;
-    get displayName() {
+    // servedAlternativesAmount: number;
+    get displayName(): string {
         let result = this.name || 'No name';
         result = `${result} (${this.seasonName})`;
         return result;
@@ -84,7 +84,7 @@ export class TargetPriceItem {
         this.targetPrice = internal.targetPrice;
         this.seasonName = internal.seasonName;
         this.alternativesAmount = internal.alternativesAmount;
-        //this.servedAlternativesAmount = internal.servedAlternativesAmount;
+        // this.servedAlternativesAmount = internal.servedAlternativesAmount;
         this.saleOpportunityId = internal.saleOpportunityId;
         this.saleOpportunityTargetPriceProducts = (internal.saleOpportunityTargetPriceProducts || []).map(
             item => new TargetPriceProductItem(item)
@@ -108,8 +108,8 @@ export class TargetPriceProductItem {
     firstOpportunityId: number;
     relatedProducts: TargetPriceProductSubItem[];
 
-    get editable() {
-        return this.opportunityCount == 1 && this.firstOpportunityId == this.targetPriceId;
+    get editable(): boolean {
+        return this.opportunityCount === 1 && this.firstOpportunityId === this.targetPriceId;
     }
 
     constructor(item?) {
@@ -182,7 +182,7 @@ export class SampleBoxProductItem {
     productTypeDescription: string;
     productPictureId: number;
     productColorTypeId?: string;
-    //sampleBoxProductSubItems: SampleBoxProductSubItem[];
+    // sampleBoxProductSubItems: SampleBoxProductSubItem[];
 
     constructor(item?) {
         const internal = item || {};
@@ -200,10 +200,10 @@ export class SampleBoxProductItem {
             this.productTypeDescription = internal.productTypeDescription;
             this.productPictureId = internal.productPictureId;
 
-            //debugger;
-            //this.sampleBoxProductSubItems = (
+            // debugger;
+            // this.sampleBoxProductSubItems = (
             //    internal.sampleBoxProductSubItems || []
-            //).map(subItem => new SampleBoxProductSubItem(subItem));
+            // ).map(subItem => new SampleBoxProductSubItem(subItem));
         }
     }
 }
@@ -237,7 +237,7 @@ export class TargetPriceProductSubItem {
         this.relatedProductCategoryId = internal.relatedProductCategoryId;
         this.relatedProductAmount = internal.relatedProductAmount;
         this.colorTypeId = internal.colorTypeId;
-        //debugger;
+        // debugger;
     }
 }
 

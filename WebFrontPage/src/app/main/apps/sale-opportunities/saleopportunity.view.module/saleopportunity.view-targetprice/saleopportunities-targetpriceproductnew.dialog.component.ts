@@ -11,7 +11,15 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-import { SaleOpportunityGrid, SaleOpportunity, SaleOpportunityNewDialogResult, TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput, SaleOpportunityTargetPriceNewDialogInput, SaleOpportunityTargetPriceProductNewDialogInput, TargetPriceProductItem } from '../../saleopportunity.model';
+import { SaleOpportunityGrid
+    , SaleOpportunity
+    , SaleOpportunityNewDialogResult
+    , TargetPriceItem, SaleOpportunityTargetPriceNewDialogOutput
+    , SaleOpportunityTargetPriceNewDialogInput
+    , SaleOpportunityTargetPriceProductNewDialogInput
+    , TargetPriceProductItem 
+} from '../../saleopportunity.model';
+
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -60,15 +68,15 @@ export class SaleOpportunityTargetPriceProductNewDialogComponent {
     ) {
 
         this.product$ = this.productService.getById(data.productId)
-            //.pipe(map(res => res.bag))
+            // .pipe(map(res => res.bag))
             ;
         
         this.frmMain = frmBuilder.group({
-            //'name': ['', [Validators.required]],
-            //'saleSeasonTypeId': ['', [Validators.required]],
+            // 'name': ['', [Validators.required]],
+            // 'saleSeasonTypeId': ['', [Validators.required]],
             //// 'customerId': ['', [Validators.required]],
-            //'targetPrice': ['', CustomValidators.number],
-            //'alterenativesAmount': ['', CustomValidators.number]
+            // 'targetPrice': ['', CustomValidators.number],
+            // 'alterenativesAmount': ['', CustomValidators.number]
         });
     }
 

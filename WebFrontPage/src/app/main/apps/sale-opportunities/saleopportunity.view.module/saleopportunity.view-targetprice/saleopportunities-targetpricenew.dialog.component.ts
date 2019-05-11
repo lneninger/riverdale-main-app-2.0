@@ -103,14 +103,4 @@ export class SaleOpportunityTargetPriceNewDialogComponent {
         });
     }
 
-    // createEdit(): void {
-    //     this.save().then((res: OperationResponseValued<SaleOpportunity>) => {
-    //         const result = <SaleOpportunityNewDialogResult>{
-    //             goTo: 'Edit',
-    //             data: res.bag
-    //         };
-
-    //         this.dialogRef.close(result);
-    //     });
-    // }
 }
