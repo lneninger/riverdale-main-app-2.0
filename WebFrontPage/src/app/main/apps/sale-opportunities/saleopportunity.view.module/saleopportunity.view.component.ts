@@ -5,27 +5,27 @@ import {
     ViewEncapsulation,
     Input,
     Inject
-} from '@angular/core';
+} from "@angular/core";
 import {
     FormControl,
     FormGroup,
     FormBuilder,
     FormArray,
     Validators
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Subject, Subscription, Observable, of } from 'rxjs';
+} from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { Subject, Subscription, Observable, of } from "rxjs";
 import {
     debounceTime,
     distinctUntilChanged,
     takeUntil,
     mergeMap
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { fuseAnimations } from '@fuse/animations';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { fuseAnimations } from "@fuse/animations";
+import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 
-import { Todo } from './saleopportunity.view.model';
+import { Todo } from "./saleopportunity.view.model";
 import {
     SaleOpportunity,
     ProductGrid,
@@ -35,30 +35,38 @@ import {
     SampleBoxItemNewDialogOutput,
     SampleBoxItemNewDialogInput,
     SaleOpportunityTargetPriceNewDialogInput,
-    SaleOpportunityTargetPriceNewDialogOutput
-} from '../saleopportunity.model';
-import { SaleOpportunityViewService } from './saleopportunity.view.service';
-import { ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.model';
-import { SaleOpportunityService } from '../saleopportunity.core.module';
-import { CustomValidators } from 'ngx-custom-validators';
+    SaleOpportunityTargetPriceNewDialogOutput,
+
+    TargetPriceProductItem,
+    TargetPriceItem,
+    SaleOpportunityTargetPriceProductNewDialogInput,
+
+    TargetPriceProductSubItem
+} from "../saleopportunity.model";
+import { SaleOpportunityViewService } from "./saleopportunity.view.service";
+import { ISelectedFile } from "../../@hipalanetCommons/fileupload/fileupload.model";
+import { SaleOpportunityService } from "../saleopportunity.core.module";
+import { CustomValidators } from "ngx-custom-validators";
 import {
     MatSnackBar,
     MatDialogRef,
     MAT_DIALOG_DATA,
     MatDialog
-} from '@angular/material';
-import { OperationResponseValued } from '../../@hipalanetCommons/messages/messages.model';
+} from "@angular/material";
+import { OperationResponseValued } from "../../@hipalanetCommons/messages/messages.model";
 import {
     ProductColorTypeResolveService,
     EnumItem,
     SaleSeasonCategoryTypeResolveService
-} from '../../@resolveServices/resolve.module';
-import { SaleOpportunityTargetPriceNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component';
+} from "../../@resolveServices/resolve.module";
+import { SaleOpportunityTargetPriceNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component";
+import { SampleBoxProductNewDialogComponent } from "./saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component";
+import { SaleOpportunityTargetPriceProductNewDialogComponent } from "./saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component";
 
 @Component({
-    selector: 'saleopportunity-view',
-    templateUrl: './saleopportunity.view.component.html',
-    styleUrls: ['./saleopportunity.view.component.scss'],
+    selector: "saleopportunity-view",
+    templateUrl: "./saleopportunity.view.component.html",
+    styleUrls: ["./saleopportunity.view.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
@@ -72,6 +80,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     get showProductsSidebar(): boolean {
         return this.currentEntity && !this.showCustomerSidebar;
     }
+
+    editingName: boolean = false;
 
     _currentSampleBox: SampleBoxItem;
     onSampleBoxSelected: Subscription;
@@ -91,11 +101,60 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.saleOpportunityService.toggleSampleBoxProduct(value);
     }
 
+    _currentTargetPrice: TargetPriceItem;
+    onTargetPriceSelected: Subscription;
+    get currentTargetPrice(): TargetPriceItem {
+        return this._currentTargetPrice;
+    }
+    set currentTargetPrice(value: TargetPriceItem) {
+        this.saleOpportunityService.toggleTargetPrice(value);
+        
+    }
+    get currentTargetPriceIndex() {
+        if (this.currentTargetPrice) {
+            return this.currentEntity.targetPrices.findIndex(targetPrice => targetPrice.id == this.currentTargetPrice.id);
+        }
+
+        return -1;
+    }
+
+    get frmCurrentTargetPrice() {
+        //debugger;
+        if (this.currentTargetPriceIndex != -1) {
+            return this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+        }
+
+        return null;
+    }
+
+
+    _currentTargetPriceProduct: TargetPriceProductItem;
+    onTargetPriceProductSelected: Subscription;
+    get currentTargetPriceProduct(): TargetPriceProductItem {
+        return this._currentTargetPriceProduct;
+    }
+    set currentTargetPriceProduct(value: TargetPriceProductItem) {
+        this.saleOpportunityService.toggleTargetPriceProduct(value);
+    }
+    get currentTargetPriceProductIndex() {
+        return this.currentTargetPrice.saleOpportunityTargetPriceProducts.findIndex(product => product == this.currentTargetPriceProduct);
+    }
+
+    get frmCurrentTargetPriceProduct() {
+        //debugger;
+        if (this.currentTargetPriceIndex !== -1 && this.currentTargetPriceProductIndex !== -1) {
+            return (<FormGroup>(<FormArray>(<FormGroup>this.frmTargetPriceItems.at(this.currentTargetPriceIndex)).controls['products']).controls[this.currentTargetPriceProductIndex]);
+        }
+
+        return null;
+    }
+
     showCustomerSidebar: boolean;
     activeArea: ActiveAreaType;
-    activeDetailArea: ActiveDetailAreaType;
+    activeDetailRightArea: ActiveDetailRightAreaType;
+    activeDetailLeftArea: ActiveDetailLeftAreaType;
 
-    @Input('entity')
+    @Input("entity")
     set currentEntity(value: SaleOpportunity) {
         if (this._currentEntity !== value) {
             this._currentEntity = new SaleOpportunity(value);
@@ -111,6 +170,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     frmMain: FormGroup;
     frmSampleBoxItems: FormArray;
     frmSampleBoxProductItems: FormArray;
+
+    frmTargetPriceItems: FormArray;
+    //frmTargetPriceProductItems: FormArray;
+    frmTargetPriceSubProductItems: FormArray;
 
     hasSelectedTodos: boolean;
     isIndeterminate: boolean;
@@ -141,8 +204,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         private matSnackBar: MatSnackBar,
         private saleSeasonTypeResolveService: SaleSeasonCategoryTypeResolveService
     ) {
+        this.saleOpportunityService.resetCache();
+
         // Set the defaults
-        this.searchInput = new FormControl('');
+        this.searchInput = new FormControl("");
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -153,9 +218,35 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.saleOpportunityService.onSampleBoxItemUpdated.subscribe(
             this.onSampleBoxItemUpdated.bind(this)
         );
+        this.saleOpportunityService.onTargetPriceItemAdded.subscribe(
+            this.onTargetPriceItemAdded.bind(this)
+        );
+        this.saleOpportunityService.onTargetPriceItemUpdated.subscribe(
+            this.onTargetPriceItemUpdated.bind(this)
+        );
+
+        this.saleOpportunityService.onTargetPriceProductItemAdded.subscribe(
+            this.onTargetPriceProductItemAdded.bind(this)
+        );
+        this.saleOpportunityService.onTargetPriceProductItemUpdated.subscribe(
+            this.onTargetPriceProductItemUpdated.bind(this)
+        );
+        this.saleOpportunityService.onTargetPriceProductItemDeleted.subscribe(
+            this.onTargetPriceProductItemDeleted.bind(this)
+        );
+
+        this.saleOpportunityService.onTargetPriceProductSubItemAdded.subscribe(
+            this.onTargetPriceProductSubItemAdded.bind(this)
+        );
+
+        this.saleOpportunityService.onTargetPriceProductSubItemUpdated.subscribe(
+            this.onTargetPriceProductSubItemUpdated.bind(this)
+        );
+
 
         this.onSampleBoxSelected = this.saleOpportunityService.onSampleBoxSelected.subscribe(
             sampleBox => {
+                //debugger;
                 this._currentSampleBox = sampleBox;
             }
         );
@@ -163,6 +254,29 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.onSampleBoxProductSelected = this.saleOpportunityService.onSampleBoxProductSelected.subscribe(
             sampleBoxProduct => {
                 this._currentSampleBoxProduct = sampleBoxProduct;
+            }
+        );
+
+
+        this.onTargetPriceSelected = this.saleOpportunityService.onTargetPriceSelected.subscribe(
+            targetPrice => {
+                //debugger;
+                this._currentTargetPrice = targetPrice;
+                //debugger;
+                if (this._currentTargetPrice != null) {
+                    this.activeDetailLeftArea = 'TargetPriceCompositions'
+                }
+            }
+        );
+
+        this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(
+            targetPriceProduct => {
+                //debugger;
+                this._currentTargetPriceProduct = targetPriceProduct;
+                if (this._currentTargetPriceProduct !== null) {
+                    //debugger;
+                    this.activeDetailLeftArea = 'TargetPriceSubProduct';
+                }
             }
         );
     }
@@ -183,6 +297,11 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
             this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
         });
 
+        this.frmTargetPriceItems = this._formBuilder.array([]);
+        this.currentEntity.targetPrices.forEach(item => {
+            this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
+        });
+
         this._todoService.onSelectedTodosChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedTodos => {
@@ -194,7 +313,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                         this.hasSelectedTodos = selectedTodos.length > 0;
                         this.isIndeterminate =
                             selectedTodos.length !==
-                                this._todoService.todos.length &&
+                            this._todoService.todos.length &&
                             selectedTodos.length > 0;
                     }, 0);
                 }
@@ -246,9 +365,10 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         this.route.queryParams.subscribe(params => {
             // debugger;
             if (params.newbouquet) {
-                // this.openSampleBoxProductDialog();
+                //debugger;
+                this.openTargetPriceProductDialog(params.newbouquet);
             } else if (params.newtargetprice) {
-                // debugger;
+                //debugger;
                 this.saleSeasonTypeResolveService.noDependencyResolve(false).subscribe();
                 this.openTargetPriceDialog();
             }
@@ -279,22 +399,83 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 item.parentSampleBoxId,
                 [CustomValidators.number]
             ],
-            selected: 'selected'
+            selected: "selected",
         });
 
-        result.controls['selected'].valueChanges.subscribe(value => {});
+        this.frmSampleBoxProductItems = this.frmSampleBoxProductItems || this._formBuilder.array([]);
+        item.sampleBoxProducts.forEach(productItem => this.frmSampleBoxProductItems.push(this.createFormSampleBoxProductItem(productItem)));
+        result.addControl('products', this.frmSampleBoxProductItems);
+
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
 
         return result;
     }
+
+
 
     createFormSampleBoxProductItem(item: SampleBoxProductItem): FormGroup {
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
             name: [item.productName, [Validators.required]],
-            selected: ''
+            selected: ""
         });
 
-        result.controls['selected'].valueChanges.subscribe(value => {});
+        result.controls["selected"].valueChanges.subscribe(value => { });
+
+        return result;
+    }
+
+    createFormTargetPriceItem(item: TargetPriceItem): FormGroup {
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            name: [item.name, [Validators.required, Validators.maxLength(6)]],
+            alternativesAmount: [item.alternativesAmount, [Validators.required, CustomValidators.number]],
+            saleSeasonTypeId: [item.saleSeasonTypeId, [Validators.required, CustomValidators.number]],
+            selected: "selected"
+        });
+
+        let frmProducts = /*this.frmTargetPriceProductItems = this.frmTargetPriceProductItems || */this._formBuilder.array([]);
+        item.saleOpportunityTargetPriceProducts.forEach(productItem => frmProducts.push(this.createFormTargetPriceProductItem(productItem)));
+        result.addControl('products', frmProducts);
+
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
+
+        return result;
+    }
+
+    createFormTargetPriceProductItem(item: TargetPriceProductItem): FormGroup {
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            name: [item.productName, [Validators.required]],
+            productColorTypeId: [item.productColorTypeId],
+            selected: ""
+        });
+
+        let frmSubProducts = this.frmTargetPriceSubProductItems || this._formBuilder.array([]);
+        item.relatedProducts.forEach(productItem => frmSubProducts.push(this.createFormTargetPriceSubProductItem(productItem)));
+        result.addControl('products', frmSubProducts);
+
+        
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
+
+        return result;
+    }
+
+    createFormTargetPriceSubProductItem(item: TargetPriceProductSubItem): FormGroup {
+        // debugger;
+        const result = this._formBuilder.group({
+            id: [item.id, [Validators.required, CustomValidators.number]],
+            relatedProductName: [item.relatedProductName, [Validators.required]],
+            relatedProductSizeId: [item.relatedProductSizeId, [Validators.required]],
+            colorTypeId: [item.colorTypeId, [Validators.required]],
+            relatedProductAmount: [item.relatedProductAmount, [Validators.required]],
+            selected: ""
+        });
+
+        result.controls["selected"].valueChanges.subscribe(value => { });
 
         return result;
     }
@@ -309,9 +490,42 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         formGroup.reset(value);
     }
 
+
+    
     updateFormSampleBoxProductItem(
         formGroup: FormGroup,
         item: SampleBoxProductItem
+    ): void {
+        const value = {
+            id: item.id,
+            productColorTypeId: item.productColorTypeId,
+            productId: item.productId,
+            productName: item.productName,
+            productPictureId: item.productPictureId,
+            productTypeId: item.productTypeId,
+            productTypevName: item.productTypeName,
+            productTypeDescription: item.productTypeDescription
+        };
+
+        formGroup.reset(value);
+    }
+
+
+    updateFormTargetPriceItem(formGroup: FormGroup, item: TargetPriceItem): void {
+        const value = {
+            id: item.id,
+            name: item.name,
+            alternativesAmount: item.alternativesAmount,
+            seasonName: item.seasonName,
+            targetPrice: item.targetPrice,
+        };
+
+        formGroup.reset(value);
+    }
+
+    updateFormTargetPriceProductItem(
+        formGroup: FormGroup,
+        item: TargetPriceProductItem
     ): void {
         const value = {
             id: item.id,
@@ -380,8 +594,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // debugger;
         this.frmSampleBoxItems.push(this.createFormSampleBoxItem(item));
         this.currentEntity.sampleBoxes.push(item);
-        this.matSnackBar.open('Sample Box Added', 'OK', {
-            verticalPosition: 'top',
+        this.matSnackBar.open("Sample Box Added", "OK", {
+            verticalPosition: "top",
             duration: 5000
         });
     }
@@ -397,8 +611,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         if (sampleBox !== null) {
             sampleBox.sampleBoxProducts.push(item);
         }
-        this.matSnackBar.open('Product Add', 'OK', {
-            verticalPosition: 'top',
+        this.matSnackBar.open("Product Add", "OK", {
+            verticalPosition: "top",
             duration: 5000
         });
     }
@@ -415,8 +629,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 item
             );
 
-            this.matSnackBar.open('Product Updated', 'OK', {
-                verticalPosition: 'top',
+            this.matSnackBar.open("Product Updated", "OK", {
+                verticalPosition: "top",
                 duration: 5000
             });
         }
@@ -438,20 +652,157 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                     item
                 );
 
-                this.matSnackBar.open('Product Updated', 'OK', {
-                    verticalPosition: 'top',
+                this.matSnackBar.open("Product Updated", "OK", {
+                    verticalPosition: "top",
                     duration: 5000
                 });
             }
         }
     }
 
+    onTargetPriceItemAdded(item: TargetPriceItem): void {
+        debugger;
+        this.frmTargetPriceItems.push(this.createFormTargetPriceItem(item));
+        this.currentEntity.targetPrices.push(item);
+        this.matSnackBar.open("Target Price Added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
+
+    onTargetPriceItemUpdated(item: TargetPriceItem): void {
+        // debugger;
+        const index = this.currentEntity.targetPrices.findIndex(
+            targetPriceItem => targetPriceItem.id === item.id
+        );
+        if (index >= 0) {
+            this.currentEntity.targetPrices.splice(index, 1, item);
+            this.updateFormTargetPriceItem(
+                <FormGroup>this.frmTargetPriceItems.controls[index],
+                item
+            );
+
+            this.matSnackBar.open("Product Updated", "OK", {
+                verticalPosition: "top",
+                duration: 5000
+            });
+        }
+    }
+
+    onTargetPriceProductItemAdded(item: TargetPriceProductItem): void {
+
+        //debugger;
+        let frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+        (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceProductItem(item));
+        this.currentTargetPrice.saleOpportunityTargetPriceProducts.push(item);
+
+        this.matSnackBar.open("Target Price Product added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
+    onTargetPriceProductItemUpdated(item: TargetPriceProductItem): void {
+        // debugger;
+        const targetPriceIndex = this.currentEntity.targetPrices.findIndex(
+            targetPriceItem => targetPriceItem.id === item.targetPriceId
+        );
+        if (targetPriceIndex != -1) {
+            const targetPrice = this.currentEntity.targetPrices[targetPriceIndex];
+
+            const productIndex = targetPrice.saleOpportunityTargetPriceProducts.findIndex(
+                productItem => productItem.id === item.id
+            );
+            if (productIndex >= 0) {
+                targetPrice.saleOpportunityTargetPriceProducts.splice(productIndex, 1, item);
+                this.updateFormTargetPriceProductItem(
+                    (((<FormGroup>this.frmTargetPriceItems.at(targetPriceIndex) as FormGroup).controls['products'] as FormArray).controls[productIndex] as FormGroup),
+                    item
+                );
+
+                this.matSnackBar.open("Target Price Updated", "OK", {
+                    verticalPosition: "top",
+                    duration: 5000
+                });
+            }
+        }
+    }
+
+    onTargetPriceProductItemDeleted(item: TargetPriceProductItem): void {
+        // debugger;
+        const targetPriceIndex = this.currentEntity.targetPrices.findIndex(
+            targetPriceItem => targetPriceItem.id === item.targetPriceId
+        );
+        if (targetPriceIndex != -1) {
+            const targetPrice = this.currentEntity.targetPrices[targetPriceIndex];
+
+            const productIndex = targetPrice.saleOpportunityTargetPriceProducts.findIndex(
+                productItem => productItem.id === item.id
+            );
+            if (productIndex >= 0) {
+                targetPrice.saleOpportunityTargetPriceProducts.splice(productIndex, 1);
+                ((<FormGroup>this.frmTargetPriceItems.at(targetPriceIndex) as FormGroup).controls['products'] as FormArray).removeAt(productIndex);
+
+                this.matSnackBar.open("Target Price's Product Deleted", "OK", {
+                    verticalPosition: "top",
+                    duration: 5000
+                });
+            }
+        }
+    }
+
+    onTargetPriceProductSubItemAdded(item: TargetPriceProductSubItem): void {
+        //debugger;
+        const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(relatedItem => relatedItem.id == item.id);
+        this.currentTargetPriceProduct.relatedProducts.push(item);
+        (this.frmCurrentTargetPriceProduct.controls['products'] as FormArray).push(this.createFormTargetPriceSubProductItem(item));
+
+        this.matSnackBar.open("Composition item added", "OK", {
+            verticalPosition: "top",
+            duration: 5000
+        });
+    }
+
+
+    onTargetPriceProductSubItemUpdated(item: TargetPriceProductSubItem): void {
+        //debugger;
+        const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(relatedItem => relatedItem.id == item.id);
+        if (relatedIndex != -1) {
+            // replace element at entity;
+            this.currentTargetPriceProduct.relatedProducts[relatedIndex] = item;
+
+            // get related formgroup
+            const frmCurrentTargetPrice = this.frmTargetPriceItems.at(this.currentTargetPriceIndex) as FormGroup;
+            const frmCurrentTargetPriceSubItem = (((frmCurrentTargetPrice.controls['products'] as FormArray).at(this.currentTargetPriceProductIndex) as FormGroup).controls['products'] as FormArray).at(relatedIndex);
+
+            // reset form group
+            frmCurrentTargetPriceSubItem.reset(item);
+
+
+            (frmCurrentTargetPrice.controls['products'] as FormArray).push(this.createFormTargetPriceSubProductItem(item));
+
+            this.matSnackBar.open("Composition item updated", "OK", {
+                verticalPosition: "top",
+                duration: 5000
+            });
+        }
+    }
+
+    updateSaleOpportunity() {
+        debugger;
+        this.saleOpportunityService.save(this.currentEntity).then(res => {
+            this.editingName = false;
+        });
+    }
+
+
     setActiveArea(area: ActiveAreaType): void {
         this.activeArea = area;
     }
 
-    setActiveDetailArea(area: ActiveDetailAreaType): void {
-        this.activeDetailArea = area;
+    setActiveDetailArea(area: ActiveDetailRightAreaType): void {
+        //debugger;
+        //debugger;
+        this.activeDetailRightArea = area;
     }
 
     addSampleBox(): void {
@@ -468,39 +819,39 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // this.saleOpportunityService.addSampleBoxProductItem(sampleBoxProduct);
     }
 
-   
 
-    // openSampleBoxProductDialog(): void {
-    //     const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {
-    //         width: '60%',
-    //         data: <SampleBoxItemNewDialogInput>{
-    //             sampleBoxId: this.currentSampleBox.id
-    //             /* name: this.name, animal: this.animal */
-    //         }
-    //     });
 
-    //     dialogRef
-    //         .afterClosed()
-    //         .subscribe((result: SampleBoxItemNewDialogOutput) => {
-    //             if (result && result.goTo === 'Edit') {
-    //                 this.saleOpportunityService.router.navigate([
-    //                     `apps/productcolors/${result.data.id}`
-    //                 ]);
-    //             } else {
-    //                 this.saleOpportunityService.router.navigate([`../`], {
-    //                     relativeTo: this.route
-    //                 });
-    //                 // this.dataSource.dataChanged.next('');
-    //             }
-    //         });
-    // }
+    openSampleBoxProductDialog(): void {
+        const dialogRef = this.dialog.open(SampleBoxProductNewDialogComponent, {
+            width: "60%",
+            data: <SampleBoxItemNewDialogInput>{
+                sampleBoxId: this.currentSampleBox.id
+                /* name: this.name, animal: this.animal */
+            }
+        });
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: SampleBoxItemNewDialogOutput) => {
+                if (result && result.goTo === "Edit") {
+                    this.saleOpportunityService.router.navigate([
+                        `apps/productcolors/${result.data.id}`
+                    ]);
+                } else {
+                    this.saleOpportunityService.router.navigate([`../`], {
+                        relativeTo: this.route
+                    });
+                    // this.dataSource.dataChanged.next('');
+                }
+            });
+    }
 
     openTargetPriceDialog(): void {
         // debugger;
         const dialogRef = this.dialog.open(
             SaleOpportunityTargetPriceNewDialogComponent,
             {
-                width: '60%',
+                width: "60%",
                 data: <SaleOpportunityTargetPriceNewDialogInput>{
                     saleOpportunityId: this.currentEntity.id
                     /* name: this.name, animal: this.animal */
@@ -511,84 +862,44 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         dialogRef
             .afterClosed()
             .subscribe((result: SaleOpportunityTargetPriceNewDialogOutput) => {
-                // if (result && result.goTo === 'Edit') {
-                this.saleOpportunityService.router.navigate([], {
-                    queryParams: { newTargetPrice: null },
-                    queryParamsHandling: 'merge'
+                //debugger;
+                const queryParams = this.route.snapshot.queryParams;
+                const newQueryParams = { ...queryParams }
+                delete newQueryParams['newtargetprice'];
+                this.saleOpportunityService.router.navigate(['.'], {
+                    relativeTo: this.route,
+                    queryParams: newQueryParams
                 });
-                // } else {
-                //     this.saleOpportunityService.router.navigate([`../`], {
-                //         relativeTo: this.route
-                //     });
-                //     // this.dataSource.dataChanged.next('');
-                // }
+
+            });
+    }
+
+
+
+    openTargetPriceProductDialog(productId?: number): void {
+        const dialogRef = this.dialog.open(SaleOpportunityTargetPriceProductNewDialogComponent, {
+            width: "60%",
+            data: <SaleOpportunityTargetPriceProductNewDialogInput>{
+                targetPriceId: this.currentTargetPrice.id,
+                productId: productId
+                /* name: this.name, animal: this.animal */
+            }
+        });
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: SampleBoxItemNewDialogOutput) => {
+                const queryParams = this.route.snapshot.queryParams;
+                const newQueryParams = { ...queryParams }
+                delete newQueryParams['newbouquet'];
+                this.saleOpportunityService.router.navigate(['.'], {
+                    relativeTo: this.route,
+                    queryParams: newQueryParams
+                });
             });
     }
 }
 
-// @Component({
-//     selector: 'sampleboxproductnew-dialog',
-//     templateUrl: 'sampleboxproductnew.dialog.component.html'
-// })
-// export class SampleBoxProductNewDialogComponent {
-//     frmMain: FormGroup;
-//     listColorType: Observable<EnumItem<any>[]>;
-//     constructor(
-//         private saleOpportunityService: SaleOpportunityService,
-//         private productColorTypeResolveService: ProductColorTypeResolveService,
-//         private matSnackBar: MatSnackBar,
-//         private frmBuilder: FormBuilder,
-//         public dialogRef: MatDialogRef<SampleBoxProductNewDialogComponent>,
-//         @Inject(MAT_DIALOG_DATA) public data: SampleBoxItemNewDialogInput
-//     ) {
-//         this.listColorType = productColorTypeResolveService.onList.asObservable();
-
-//         this.frmMain = frmBuilder.group({
-//             name: ['', [Validators.required]],
-//             colorTypeId: ['', [Validators.required]]
-//         });
-//     }
-
-//     save(): Promise<any> {
-//         return new Promise((resolve, reject) => {
-//             const data = this.frmMain.value;
-//             data.sampleBoxId = this.data.sampleBoxId;
-//             this.saleOpportunityService
-//                 .addSampleBoxProductItem(data)
-//                 .then(res => {
-//                     this.matSnackBar.open('Sample Box Product', 'OK', {
-//                         verticalPosition: 'top',
-//                         duration: 2000
-//                     });
-
-//                     resolve(res);
-//                 })
-//                 .catch(error => reject(error));
-//         });
-//     }
-
-//     cancel(): void {
-//         this.dialogRef.close();
-//     }
-
-//     create(): void {
-//         this.save().then(res => {
-//             this.dialogRef.close();
-//         });
-//     }
-
-//     createEdit(): void {
-//         this.save().then((res: OperationResponseValued<SampleBoxItem>) => {
-//             // debugger;
-//             const result = <SampleBoxItemNewDialogOutput>{
-//                 goTo: 'Edit',
-//                 data: res.bag
-//             };
-
-//             this.dialogRef.close(result);
-//         });
-//     }
-// }
-
-declare type ActiveAreaType = 'settings' | 'products';
-declare type ActiveDetailAreaType = 'ItemDetails' | 'SampleBoxes';
+declare type ActiveAreaType = "settings" | "products";
+declare type ActiveDetailLeftAreaType = "TargetPriceCompositions" | "TargetPriceSubProduct";
+declare type ActiveDetailRightAreaType = "TargetPrices" | "ItemDetails" | "TargetPriceProduct";
