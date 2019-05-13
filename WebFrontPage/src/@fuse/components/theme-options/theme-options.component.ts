@@ -30,12 +30,12 @@ export class FuseThemeOptionsComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {DOCUMENT} document
-     * @param {FormBuilder} _formBuilder
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseNavigationService} _fuseNavigationService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {Renderer2} _renderer
+     * @param DOCUMENT document
+     * @param FormBuilder _formBuilder
+     * @param FuseConfigService _fuseConfigService
+     * @param FuseNavigationService _fuseNavigationService
+     * @param FuseSidebarService _fuseSidebarService
+     * @param Renderer2 _renderer
      */
     constructor(
         @Inject(DOCUMENT) private document: any,

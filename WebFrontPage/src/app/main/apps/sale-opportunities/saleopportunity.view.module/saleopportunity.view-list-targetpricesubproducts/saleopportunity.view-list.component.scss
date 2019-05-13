@@ -8,6 +8,21 @@ saleopportunity-view-list-targetpricesubproducts {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 
+
+    .list-header {
+        padding: 14px;
+        border-bottom: 1px solid;
+
+        .actions {
+            min-width: 88px;
+
+            .mat-form-field-wrapper{
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+
     .no-todos-text {
         font-size: 24px;
         font-weight: 300;

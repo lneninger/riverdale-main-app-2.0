@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import { Register, Authenticate, AuthenticationInfo, INavigationAccessRights } from './authentication.model';
 import { environment } from 'environments/environment';
-import { of, timer, Observable, Subject, Subscription } from 'rxjs';
+import { of, timer, Observable, Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { SecureHttpClientService } from './securehttpclient.service';
 
@@ -16,7 +16,7 @@ import { SecureHttpClientService } from './securehttpclient.service';
 export class AuthenticationService {
 
     static tokenKey = 'hipalanet|riverdale';
-    onChangedUserInfo: Subject<AuthenticationInfo>;
+    onChangedUserInfo: BehaviorSubject<AuthenticationInfo>;
     refreshTokenSubscription: Subscription;
 
     _userData: AuthenticationInfo;
@@ -49,7 +49,7 @@ export class AuthenticationService {
         private http: SecureHttpClientService
         , private localStorageService: LocalStorageService
     ) {
-        this.onChangedUserInfo = new Subject<AuthenticationInfo>();
+        this.onChangedUserInfo = new BehaviorSubject<AuthenticationInfo>(null);
     }
 
     register(model: Register): Promise<any> {

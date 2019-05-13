@@ -1,15 +1,65 @@
 <div *ngIf="listOfSubItems && listOfSubItems.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
     <span class="no-todos-text hint-text">Composition has no items!</span>
 </div>
-<div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
-    <saleopportunity-view-list-item-targetpricesubproduct class="todo-list-item has-handle"
-                                *ngFor="let subItem of listOfSubItems; let i = index" 
-                                [entity]="subItem" 
-                                [formGroup]="formItems.controls[i]"
-                                ngxDraggable
-                                [model]="subItem"
-                                [ngClass]="{'current-todo':subItem?.id == currentTodo?.id}"
-                                matRipple
-                                [@animate]="{value:'*',params:{y:'100%'}}">
-    </saleopportunity-view-list-item-targetpricesubproduct>
+
+<div fxFlex fxLayout="column">
+    <div class="list-header" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+
+        <ng-container [ngSwitch]="status">
+            <ng-container *ngSwitchCase="null">
+                <div fxFlex>
+                    <span fxFlex class="ml-8">{{currentTargetPriceProduct.productName}}</span>
+
+                    <span>{{(colorType | async)?.value || 'No color selected'}}</span>
+
+                    <div fxFlex="40px">
+                        <button mat-icon-button class="secondary-text" (click)="status = 'editing'">
+                            <mat-icon class="material-icons-outlined">create</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'editing'">
+                <div [formGroup]="frmMain" class="actions" fxFlex fxLayout="row" fxLayoutAlign="start center"
+                    fxLayoutGap="20px">
+
+                    <mat-form-field floatLabel="always" appearance="outline" fxFlex>
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="productName">
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" appearance="outline" fxFlex="1 0 150px">
+                        <mat-label>Color</mat-label>
+                        <mat-select name="colorTypeId" formControlName="productColorTypeId" fxFlex="0 0 100%">
+                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div fxFlex="40px">
+                        <button mat-mini-fab color="primary"
+                            (click)="updateTargetPriceProduct()" [disabled]="frmMain.invalid || frmMain.prestine">
+                            <mat-icon class="material-icons-outlined">check</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+
+    </div>
+
+    <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
+
+
+        <div fuseScrollBar fxFlex>
+            <saleopportunity-view-list-item-targetpricesubproduct class="todo-list-item has-handle"
+                *ngFor="let subItem of listOfSubItems; let i = index" [entity]="subItem"
+                [formGroup]="formItems.controls[i]" ngxDraggable [model]="subItem"
+                [ngClass]="{'current-todo':subItem?.id == currentTodo?.id}" matRipple
+                [@animate]="{value:'*',params:{y:'100%'}}">
+            </saleopportunity-view-list-item-targetpricesubproduct>
+        </div>
+    </div>
 </div>

@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { SecureHttpClientService, OperationResponse } from "../@hipalanetCommons/authentication/securehttpclient.service";
-import { BaseResolveService } from "./_base.resolve.service";
+import { SecureHttpClientService, OperationResponse } from '../@hipalanetCommons/authentication/securehttpclient.service';
+import { BaseResolveService } from './_base.resolve.service';
 
 
 
@@ -17,6 +17,4 @@ export class ProductCategoryResolveService extends BaseResolveService implements
     constructor(http: SecureHttpClientService) {
         super(http);
     }
-
-
 }

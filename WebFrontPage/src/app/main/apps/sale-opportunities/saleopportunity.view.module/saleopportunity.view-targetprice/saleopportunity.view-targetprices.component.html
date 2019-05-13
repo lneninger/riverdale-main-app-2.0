@@ -81,9 +81,9 @@
                     <h4 mat-line>{{targetPrice.name || 'No Name'}} ({{targetPrice.seasonName}})</h4>
                     <section mat-line>
                         <span fxFlex="30%">
-                            {{targetPrice.targetPrice}}
+                            <mark>$ {{targetPrice.targetPrice}}</mark>
                         </span>
-                        <span fxFlex="30%">
+                        <span fxFlex="30%" [ngClass]="{'green-900-fg': targetPrice.saleOpportunityTargetPriceProducts.length >= targetPrice.alternativesAmount, 'red-900-fg': targetPrice.saleOpportunityTargetPriceProducts.length < targetPrice.alternativesAmount}" >
                             {{targetPrice.saleOpportunityTargetPriceProducts.length}}/{{targetPrice.alternativesAmount}}
                         </span>
                     </section>

@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { UsersComponent, UserNewDialogComponent } from './users.component';
-import { userComponent } from './user.component';
+import { UserComponent } from './user.component';
 import { UserCoreModule, UserService } from './user.core.module';
 
 import {
@@ -28,7 +28,7 @@ const routes: Routes = [
     },
     {
         path: ':id',
-        component: userComponent,
+        component: UserComponent,
         resolve: {
             data: UserService,
             listRole: RoleResolveService,
@@ -46,7 +46,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         UsersComponent
-        , userComponent
+        , UserComponent
         , UserNewDialogComponent
         
     ],

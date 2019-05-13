@@ -6,7 +6,7 @@ export class RoleUserGrid {
     userId?: string;
 
     constructor(gridModel?: RoleUserGrid) {
-        let internal = gridModel || <RoleUserGrid>{};
+        const internal = gridModel || <RoleUserGrid>{};
         this.id = internal.id;
         this.roleId = internal.roleId;
         this.userId = internal.userId;

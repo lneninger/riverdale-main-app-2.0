@@ -46,16 +46,17 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.OPPORTUNITIES',
                 type: 'item',
                 icon: 'starts',
-                url: '/apps/saleopportunities'
+                url: '/apps/saleopportunities',
+                permissions: ['SaleOpportunity_*'],
             },
-            //{
+            // {
             //    id: '',
             //    title: 'Recepies',
             //    translate: 'NAV.RECIPIES',
             //    type: 'item',
             //    icon: 'local_florist',
             //    url: '/apps/notification-groups'
-            //},
+            // },
             {
                 id: '',
                 title: 'Quotes',
@@ -64,14 +65,14 @@ export const navigation: FuseNavigation[] = [
                 icon: 'attach_money',
                 url: '/apps/quotes'
             },
-            //{
+            // {
             //    id: '',
             //    title: 'Notification Groups',
             //    translate: 'NAV.CALENDAR',
             //    type: 'item',
             //    icon: 'today',
             //    url: '/apps/notification-groups'
-            //},
+            // },
             {
                 id: 'masters',
                 title: 'Masters',
@@ -86,7 +87,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'person',
                 url: '/apps/customers',
-                permissions: ["Customer_*"],
+                permissions: ['Customer_*'],
             },
             {
                 id: 'growers',
@@ -95,7 +96,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'business',
                 url: '/apps/growers',
-                permissions: ["Grower_*"],
+                permissions: ['Grower_*'],
             },
             {
                 id: 'product-colors',
@@ -104,7 +105,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'color_lens',
                 url: '/apps/product-colors',
-                permissions: ["ProductColor_*"],
+                permissions: ['ProductColor_*'],
             },
             {
                 id: 'productcategories',
@@ -113,7 +114,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'filter_vintage',
                 url: '/apps/productcategories',
-                permissions: ["ProductCategory_*"],
+                permissions: ['ProductCategory_*'],
             },
             {
                 id: 'products',
@@ -122,7 +123,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'filter_vintage',
                 url: '/apps/products',
-                permissions: ["Product_*"],
+                permissions: ['Product_*'],
             },
             {
                 id: 'Settings',
@@ -133,7 +134,7 @@ export const navigation: FuseNavigation[] = [
                 children: [
 
                 ],
-                permissions: ["Settings_*"],
+                permissions: ['Settings_*'],
             },
             {
                 id: 'users',
@@ -142,7 +143,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'person',
                 url: '/apps/users',
-                permissions: ["User_*"],
+                permissions: ['User_*'],
             },
             {
                 id: 'roles',
@@ -151,7 +152,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'lock',
                 url: '/apps/roles',
-                permissions: ["UserRole_*"],
+                permissions: ['UserRole_*'],
             },
             {
                 id: 'funza',
@@ -160,17 +161,17 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'business',
                 url: '/apps/funza',
-                permissions: ["Funza_*"],
+                permissions: ['Funza_*'],
             },
-            //{
+            // {
             //    id: 'calendar',
             //    title: 'Calendar',
             //    translate: 'NAV.CALENDAR',
             //    type: 'item',
             //    icon: 'today',
             //    url: '/apps/calendar'
-            //},
-            //{
+            // },
+            // {
             //    id: 'e-commerce',
             //    title: 'E-Commerce',
             //    translate: 'NAV.ECOMMERCE',
@@ -206,16 +207,16 @@ export const navigation: FuseNavigation[] = [
             //            exactMatch: true
             //        }
             //    ]
-            //},
-            //{
+            // },
+            // {
             //    id: 'academy',
             //    title: 'Academy',
             //    translate: 'NAV.ACADEMY',
             //    type: 'item',
             //    icon: 'school',
             //    url: '/apps/academy'
-            //},
-            //{
+            // },
+            // {
             //    id: 'mail',
             //    title: 'Mail',
             //    translate: 'NAV.MAIL.TITLE',
@@ -228,8 +229,8 @@ export const navigation: FuseNavigation[] = [
             //        bg: '#F44336',
             //        fg: '#FFFFFF'
             //    }
-            //},
-            //{
+            // },
+            // {
             //    id: 'mail-ngrx',
             //    title: 'Mail Ngrx',
             //    translate: 'NAV.MAIL_NGRX.TITLE',
@@ -242,8 +243,8 @@ export const navigation: FuseNavigation[] = [
             //        bg: '#EC0C8E',
             //        fg: '#FFFFFF'
             //    }
-            //},
-            //{
+            // },
+            // {
             //    id: 'chat',
             //    title: 'Chat',
             //    translate: 'NAV.CHAT',
@@ -255,24 +256,24 @@ export const navigation: FuseNavigation[] = [
             //        bg: '#09d261',
             //        fg: '#FFFFFF'
             //    }
-            //},
-            //{
+            // },
+            // {
             //    id: 'file-manager',
             //    title: 'File Manager',
             //    translate: 'NAV.FILE_MANAGER',
             //    type: 'item',
             //    icon: 'folder',
             //    url: '/apps/file-manager'
-            //},
-            //{
+            // },
+            // {
             //    id: 'contacts',
             //    title: 'Contacts',
             //    translate: 'NAV.CONTACTS',
             //    type: 'item',
             //    icon: 'account_box',
             //    url: '/apps/contacts'
-            //},
-            //{
+            // },
+            // {
             //    id: 'to-do',
             //    title: 'To-Do',
             //    translate: 'NAV.TODO',
@@ -284,15 +285,15 @@ export const navigation: FuseNavigation[] = [
             //        bg: '#FF6F00',
             //        fg: '#FFFFFF'
             //    }
-            //},
-            //{
+            // },
+            // {
             //    id: 'scrumboard',
             //    title: 'Scrumboard',
             //    translate: 'NAV.SCRUMBOARD',
             //    type: 'item',
             //    icon: 'assessment',
             //    url: '/apps/scrumboard'
-            //}
+            // }
         ]
     },
     

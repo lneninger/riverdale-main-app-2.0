@@ -79,9 +79,9 @@
         }
     }
     // Todo details
-    saleopportunity-view-details, saleopportunity-view-targetprices {
+    saleopportunity-view-details, saleopportunity-view-targetprices, saleopportunity-view-list-targetpricesubproducts {
 
-        .todo-header {
+        .todo-header, .list-header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
         }
