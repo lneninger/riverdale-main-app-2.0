@@ -79,7 +79,7 @@
                 <mat-list-item class="targetprice" (click)="currentTargetPrice = targetPrice" [attr.color]="currentTargetPrice == targetPrice ? 'primary' : ''" *ngFor="let targetPrice of currentEntity.targetPrices">
                     <mat-icon mat-list-icon class="material-icons-outlined">folder</mat-icon>
                     <h4 mat-line>{{targetPrice.name || 'No Name'}} ({{targetPrice.seasonName}})</h4>
-                    <section mat-line>
+                    <section mat-line fxLayoutGap="20px">
                         <span fxFlex="30%">
                             <mark>$ {{targetPrice.targetPrice}}</mark>
                         </span>

@@ -56,11 +56,11 @@ export class Login2Component implements OnInit
         };
     }
 
-    login() {
+    login(): void {
         // debugger;
-        let loginValue = this.loginForm.value;
+        const loginValue = this.loginForm.value;
         // debugger;
-        let loginData = new Authenticate({ userName: loginValue.userName, password: loginValue.password });
+        const loginData = new Authenticate({ userName: loginValue.userName, password: loginValue.password });
 
         this.service.login(loginData)
             .then(res => {
@@ -68,8 +68,8 @@ export class Login2Component implements OnInit
                 this.router.navigate(['apps/dashboards/analytics']);
             })
             .catch(error => {
-                debugger;
-                if(error['error']){
+                // debugger;
+                if (error['error']) {
 
                     if(error['error']['login_failure']){
                         this.errorMessages = error['error']['login_failure'] as string[];
