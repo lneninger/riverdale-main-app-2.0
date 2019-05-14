@@ -12,9 +12,16 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
 {
     public class SaleOpportunityTargetPriceProductInsertCommand : AbstractDBCommand<DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct, ISaleOpportunityTargetPriceProductDBRepository>, ISaleOpportunityTargetPriceProductInsertCommand
     {
-        public SaleOpportunityTargetPriceProductInsertCommand(IDbContextScopeFactory dbContextScopeFactory, ISaleOpportunityTargetPriceProductDBRepository repository) : base(dbContextScopeFactory, repository)
+        public SaleOpportunityTargetPriceProductInsertCommand(
+            IDbContextScopeFactory dbContextScopeFactory
+            , ISaleOpportunityTargetPriceProductDBRepository repository
+            , ISaleOpportunityTargetPriceProductDBRepository saleOpportunityTargetPriceProductRepository
+            ) : base(dbContextScopeFactory, repository)
         {
+            this.SaleOpportunityTargetPriceProductRepository = saleOpportunityTargetPriceProductRepository;
         }
+
+        public ISaleOpportunityTargetPriceProductDBRepository SaleOpportunityTargetPriceProductRepository { get; }
 
         public OperationResponse<SaleOpportunityTargetPriceProductInsertCommandOutputDTO> Execute(SaleOpportunityTargetPriceProductInsertCommandInputDTO input)
         {
@@ -26,8 +33,19 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
                     
                     SaleOpportunityTargetPriceId = input.TargetPriceId,
                     ProductColorTypeId = input.ProductColorTypeId,
-                    ProductId = input.ProductId
                 };
+
+                if (input.ProductId.HasValue)
+                {
+                    entity.ProductId = input.ProductId.Value;
+                }
+                else
+                {
+                    entity.Product = new CompositionProduct
+                    {
+                        Name = input.Name,
+                    };
+                }
                 
 
                 try
@@ -52,6 +70,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
+                        var allOpportunityTargetPriceProducts = this.SaleOpportunityTargetPriceProductRepository.GetAll().Bag;
 
                         result.Bag = new SaleOpportunityTargetPriceProductInsertCommandOutputDTO
                         {
@@ -64,6 +83,9 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
                             ProductTypeName = getByIdResult.Bag.Product.ProductType.Name,
                             ProductTypeDescription = getByIdResult.Bag.Product.ProductType.Description,
                             ProductPictureId = getByIdResult.Bag.Product.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            OpportunityCount = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == getByIdResult.Bag.ProductId).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).Distinct().Count(),
+                            FirstOpportunityId = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == getByIdResult.Bag.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunityId).FirstOrDefault(),
+                            FirstOpportunityName = allOpportunityTargetPriceProducts.Where(tpProduct => tpProduct.Product.Id == getByIdResult.Bag.ProductId).OrderBy(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.CreatedAt).Select(tpProduct => tpProduct.SaleOpportunityTargetPrice.SaleOpportunity.Name).FirstOrDefault(),
                         };
                     }
 

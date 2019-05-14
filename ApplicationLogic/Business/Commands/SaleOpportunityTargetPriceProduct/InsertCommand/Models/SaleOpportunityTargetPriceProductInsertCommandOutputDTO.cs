@@ -22,5 +22,8 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
         public string ProductTypeDescription { get; set; }
 
         public int ProductPictureId { get; set; }
+        public object OpportunityCount { get; internal set; }
+        public object FirstOpportunityId { get; internal set; }
+        public object FirstOpportunityName { get; internal set; }
     }
 }

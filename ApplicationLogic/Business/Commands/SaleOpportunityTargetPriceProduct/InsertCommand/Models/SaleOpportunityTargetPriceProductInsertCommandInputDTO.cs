@@ -9,7 +9,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
 
         public int TargetPriceId { get; set; }
         
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
 
         public string ProductColorTypeId { get; set; }
 

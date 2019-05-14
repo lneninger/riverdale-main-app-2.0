@@ -6,8 +6,8 @@ import {
     ElementRef,
     ViewChild,
     Input
-} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 import {
     pipe,
     of,
@@ -16,54 +16,54 @@ import {
     Subscription,
     Observable,
     merge
-} from 'rxjs';
+} from "rxjs";
 import {
     takeUntil,
     debounceTime,
     distinctUntilChanged,
     filter,
     mergeMap
-} from 'rxjs/operators';
+} from "rxjs/operators";
 
-import { fuseAnimations } from '@fuse/animations';
+import { fuseAnimations } from "@fuse/animations";
 
 import {
     SaleOpportunity,
     SampleBoxProductItem,
     TargetPriceProductSubItem,
-
     SaleOpportunityTargetPriceSubProductNewDialogInput
-} from '../../../saleopportunity.model';
-import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
+} from "../../../saleopportunity.model";
+import { SaleOpportunityViewService } from "../../saleopportunity.view.service";
 import {
     EnumItem,
     ProductResolveService
-} from '../../../../@resolveServices/resolve.module';
-import { SaleOpportunityService } from '../../../saleopportunity.service';
-import { CompositionItem } from 'app/main/apps/products/product.model';
-import { MatDialog } from '@angular/material';
-import { SaleOpportunityTargetPriceSubProductNewDialogComponent } from '../../saleopportunity.view-targetprice/saleopportunities-targetpricesubproductnew.dialog.component';
+} from "../../../../@resolveServices/resolve.module";
+import { SaleOpportunityService } from "../../../saleopportunity.service";
+import { CompositionItem } from "app/main/apps/products/product.model";
+import { MatDialog } from "@angular/material";
+import { SaleOpportunityTargetPriceSubProductNewDialogComponent } from "../../saleopportunity.view-targetprice/saleopportunities-targetpricesubproductnew.dialog.component";
 
 @Component({
-    selector: 'todo-main-sidebar',
-    templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss'],
+    selector: "todo-main-sidebar",
+    templateUrl: "./main-sidebar.component.html",
+    styleUrls: ["./main-sidebar.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     private _currentEntity: SaleOpportunity;
+    currentTargetPrice: import("d:/Dev/HIPALANET/riverdale-main-app-2.0/WebFrontPage/src/app/main/apps/sale-opportunities/saleopportunity.model").TargetPriceItem;
 
     get currentEntity(): SaleOpportunity {
         return this._currentEntity;
     }
 
-    @Input('entity')
+    @Input("entity")
     set currentEntity(value: SaleOpportunity) {
         this._currentEntity = value;
     }
 
-    @ViewChild('productFilterElement')
+    @ViewChild("productFilterElement")
     productFilterElement: ElementRef;
 
     listProduct: Observable<EnumItem<any>[]>;
@@ -102,7 +102,14 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         //     this.filterProducts();
         // });
 
+        this.saleOpportunityService.onTargetPriceSelected.subscribe(
+            targetPrice => {
+                this.currentTargetPrice = targetPrice;
+            }
+        );
+
         // Set the private defaults
+
         this._unsubscribeAll = new Subject();
     }
 
@@ -126,7 +133,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                 this.tags = tags;
             });
 
-            this.activeFilterProducts();
+        this.activeFilterProducts();
     }
 
     /**
@@ -142,7 +149,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     activeTermFilter(): Observable<any> {
-        return fromEvent(this.productFilterElement.nativeElement, 'keyup').pipe(
+        return fromEvent(this.productFilterElement.nativeElement, "keyup").pipe(
             filter(e => (<any>e).keyCode === 13),
             takeUntil(this._unsubscribeAll),
             debounceTime(150),
@@ -155,7 +162,7 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
             this.activeTermFilter(),
             this.productResolveService.onList.asObservable(),
             this.saleOpportunityService.onTargetPriceSelected.asObservable(),
-            this.saleOpportunityService.onTargetPriceProductSelected.asObservable(),
+            this.saleOpportunityService.onTargetPriceProductSelected.asObservable()
         ];
 
         this.listProduct = merge(...mergeList).pipe(
@@ -167,8 +174,15 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                                 this.productFilterElement.nativeElement.value
                             );
 
-                            console.log(`Bouquet selected: `, !!this.saleOpportunityService.currentSampleBoxProduct);
-                            console.log(`SampleBox selected: `, !!this.saleOpportunityService.currentSampleBox);
+                            console.log(
+                                `Bouquet selected: `,
+                                !!this.saleOpportunityService
+                                    .currentSampleBoxProduct
+                            );
+                            console.log(
+                                `SampleBox selected: `,
+                                !!this.saleOpportunityService.currentSampleBox
+                            );
                             return (
                                 // Term Filter
                                 // o.key !== this.currentEntity.id &&
@@ -176,20 +190,21 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
                                 (!term ||
                                     o.value
                                         .toLowerCase()
-                                        .indexOf(term.toLowerCase()) !== -1)
-                            ) && (
-                                (
-                                    // If TargetPriceProduct selected, Show no compositions 
-                                    !!this.saleOpportunityService.currentTargetPriceProduct
-                                && (<string><unknown>o.extras['productTypeId']) !== 'COMP'
-                                )
-                                ||
-                                (
-                                   // TargetPrice selected. Show compositions 
-                                    !this.saleOpportunityService.currentTargetPriceProduct
-                                    && !!this.saleOpportunityService.currentTargetPrice
-                                    && (<string><unknown>o.extras['productTypeId']) === 'COMP'
-                                )
+                                        .indexOf(term.toLowerCase()) !== -1) &&
+                                (// If TargetPriceProduct selected, Show no compositions
+                                (!!this.saleOpportunityService
+                                    .currentTargetPriceProduct &&
+                                    <string>(
+                                        (<unknown>o.extras["productTypeId"])
+                                    ) !== "COMP") ||
+                                    // TargetPrice selected. Show compositions
+                                    (!this.saleOpportunityService
+                                        .currentTargetPriceProduct &&
+                                        !!this.saleOpportunityService
+                                            .currentTargetPrice &&
+                                        <string>(
+                                            (<unknown>o.extras["productTypeId"])
+                                        ) === "COMP"))
                             );
                         });
 
@@ -204,9 +219,9 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
      * New todo
      */
     newTodo(): void {
-        this._router.navigate(['/apps/todo/all']).then(() => {
+        this._router.navigate(["/apps/todo/all"]).then(() => {
             setTimeout(() => {
-                this._todoService.onNewTodoClicked.next('');
+                this._todoService.onNewTodoClicked.next("");
             });
         });
     }
@@ -229,35 +244,38 @@ export class TodoMainSidebarComponent implements OnInit, OnDestroy {
         this.openSubProductDialog(enumItem);
     }
 
-
     openSubProductDialog(enumItem: EnumItem<number>): void {
-         // debugger;
+        // debugger;
 
         const input = <SaleOpportunityTargetPriceSubProductNewDialogInput>{
-            productId: this.saleOpportunityService.currentTargetPriceProduct.productId,
+            productId: this.saleOpportunityService.currentTargetPriceProduct
+                .productId,
             subProductId: enumItem.key
         };
 
         const dialogRef = this.dialog.open(
             SaleOpportunityTargetPriceSubProductNewDialogComponent,
             {
-                width: '60%',
+                width: "60%",
                 data: input
             }
         );
 
         dialogRef
             .afterClosed()
-            .subscribe((result: SaleOpportunityTargetPriceSubProductNewDialogComponent) => {
-                // debugger;
-                const queryParams = this.route.snapshot.queryParams;
-                const newQueryParams = { ...queryParams };
-                delete newQueryParams['newtargetprice'];
-                this.saleOpportunityService.router.navigate(['.'], {
-                    relativeTo: this.route,
-                    queryParams: newQueryParams
-                });
-
-            });
+            .subscribe(
+                (
+                    result: SaleOpportunityTargetPriceSubProductNewDialogComponent
+                ) => {
+                    // debugger;
+                    const queryParams = this.route.snapshot.queryParams;
+                    const newQueryParams = { ...queryParams };
+                    delete newQueryParams["newtargetprice"];
+                    this.saleOpportunityService.router.navigate(["."], {
+                        relativeTo: this.route,
+                        queryParams: newQueryParams
+                    });
+                }
+            );
     }
 }

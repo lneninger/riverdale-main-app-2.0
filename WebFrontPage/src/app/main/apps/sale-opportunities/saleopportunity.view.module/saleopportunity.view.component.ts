@@ -890,7 +890,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         const dialogRef = this.dialog.open(SaleOpportunityTargetPriceProductNewDialogComponent, {
             width: '60%',
             data: <SaleOpportunityTargetPriceProductNewDialogInput>{
-                targetPriceId: this.currentTargetPrice.id,
+                targetPriceId: this.currentTargetPrice ? this.currentTargetPrice.id : this.route.snapshot.queryParams['currentTargetPrice'],
                 productId: productId
                 /* name: this.name, animal: this.animal */
             }

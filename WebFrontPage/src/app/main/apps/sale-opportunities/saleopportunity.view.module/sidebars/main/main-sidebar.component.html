@@ -58,7 +58,7 @@
 
             <div class="nav-item" *ngFor="let productItem of listProduct | async as products">
                 <ng-container [ngSwitch]="productItem.extras['productTypeId'] === 'COMP'">
-                        <a *ngSwitchCase="true" class="nav-link" matRipple [routerLink]="[]" [queryParams]="{newbouquet: productItem.key}"
+                        <a *ngSwitchCase="true" class="nav-link" matRipple [routerLink]="[]" [queryParams]="{newbouquet: productItem.key, targetPrice: currentTargetPrice?.id}"
                         [routerLinkActive]="['active', 'accent']">
                             <img class="avatar mr-0 mr-sm-16" [src]="(productItem.extras['pictureId'] | fileUrl:'assets/images/avatars/product1.png':false | async)">
                             <!--<mat-icon class="nav-link-icon" *ngIf="productItem.pictureUrl">{{productItem.icon}}</mat-icon>-->

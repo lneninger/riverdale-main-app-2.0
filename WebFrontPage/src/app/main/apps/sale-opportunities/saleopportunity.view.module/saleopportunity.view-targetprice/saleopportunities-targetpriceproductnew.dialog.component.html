@@ -6,21 +6,37 @@
     <mat-card *ngIf="product$ | async; let product; else loading" class="example-card">
         <mat-card-header>
             <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{product.bag.name}}</mat-card-title>
-            <mat-card-subtitle>{{product.bag.productTypeId}}</mat-card-subtitle>
+            <ng-container [ngSwitch]="!!product.bag">
+                <ng-container *ngSwitchCase="true">
+                    <mat-card-title>{{product.bag?.name}}</mat-card-title>
+                    <mat-card-subtitle>{{product.bag?.productTypeId}}</mat-card-subtitle>
+                </ng-container>
+                <ng-container *ngSwitchCase="false">
+                        <mat-card-title>New Composition</mat-card-title>
+                    </ng-container>
+        </ng-container>
         </mat-card-header>
         <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-        <mat-card-content>
-            <!--<p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-            </p>-->
+        <mat-card-content *ngIf=product.bag>
+            <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Name"
+                           name="name"
+                           formControlName="name"
+                           required>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                        <mat-select placeholder="Color" name="productColorTypeId" formControlName="productColorTypeId">
+                            <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+            </div>
         </mat-card-content>
-        <!--<mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions>-->
+        
     </mat-card>
 
     <ng-template #loading>

@@ -3,7 +3,7 @@
 </div>
 
 <div fxFlex fxLayout="column">
-    <div class="list-header" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+    <div class="list-header" fxLayout="row" fxFlex fxLayoutAlign="space-between center" [ngClass]="{'editing': status == 'editing'}">
 
         <ng-container [ngSwitch]="status">
             <ng-container *ngSwitchCase="null">

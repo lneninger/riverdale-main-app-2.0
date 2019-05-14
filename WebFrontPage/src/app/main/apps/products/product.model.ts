@@ -22,10 +22,10 @@ export class Product {
      * @param product
      */
     constructor(product?) {
-        let internal = product || {};
+        const internal = product || {};
         this.id = internal.id;
         this.name = internal.name;
-        this.productTypeId = internal.productTypeId
+        this.productTypeId = internal.productTypeId;
         this.productCategoryId = internal.productCategoryId;
         this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
         //debugger;
@@ -38,7 +38,7 @@ export class CompositionProduct extends Product{
 
     constructor(product?) {
         super(product);
-        let internal = product || {};
+        const internal = product || {};
         this.relatedProducts = (internal.relatedProducts || []).map(item => new CompositionItem(item));
     }
 }
@@ -97,19 +97,19 @@ export class CompositionItem {
     stems: number;
 
     constructor(item?) {
-        let internal = item || {};
+        const internal = item || {};
         if (internal.key) {
             this.relatedProductId = internal.key;
             this.stems = 1;
         }
         else {
             this.id = internal.id;
-            this.productId = internal.productId
-            this.relatedProductId = internal.relatedProductId
-            this.relatedProductName = internal.relatedProductName
-            this.relatedProductTypeName = internal.relatedProductTypeName
-            this.relatedProductTypeDescription = internal.relatedProductTypeDescription
-            this.relatedProductPictureId = internal.relatedProductPictureId
+            this.productId = internal.productId;
+            this.relatedProductId = internal.relatedProductId;
+            this.relatedProductName = internal.relatedProductName;
+            this.relatedProductTypeName = internal.relatedProductTypeName;
+            this.relatedProductTypeDescription = internal.relatedProductTypeDescription;
+            this.relatedProductPictureId = internal.relatedProductPictureId;
             this.stems = internal.stems;
         }
     }
@@ -122,5 +122,5 @@ export class CompositionItemNewDialogInput {
 }
 
 export class CompositionItemNewDialogResult {
-    result: 'Saved' | 'Closed'
+    result: 'Saved' | 'Closed';
 }
