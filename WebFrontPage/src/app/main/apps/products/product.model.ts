@@ -1,6 +1,7 @@
-import { IUploadedFile } from "../@hipalanetCommons/fileupload/fileupload.model";
-import { EnumItem } from "../@resolveServices/resolve.model";
-import { Observable } from "rxjs";
+import { IUploadedFile } from '../@hipalanetCommons/fileupload/fileupload.model';
+import { EnumItem } from '../@resolveServices/resolve.model';
+import { Observable } from 'rxjs';
+import { constants } from 'perf_hooks';
 
 export class ProductGrid {
     id: number;
@@ -19,7 +20,7 @@ export class Product {
     /**
      * Constructor
      *
-     * @param product
+     * @param product input parameter
      */
     constructor(product?) {
         const internal = product || {};
@@ -28,7 +29,7 @@ export class Product {
         this.productTypeId = internal.productTypeId;
         this.productCategoryId = internal.productCategoryId;
         this.medias = (internal.medias || []).map(item => new ProductMediaGrid(item));
-        //debugger;
+        // debugger;
         this.productAllowedColorTypes = (internal.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));
     }
 }
@@ -48,7 +49,7 @@ export class ProductMediaGrid {
     fileId?: number;
 
     constructor(item?) {
-        let internal = item || <ProductMediaGrid>{};
+        const internal = item || <ProductMediaGrid>{};
         this.id = internal.id;
         this.fileId = internal.fileId;
     }
@@ -60,7 +61,7 @@ export class ProductAllowedColorTypeGrid {
     productColorTypeId?: string;
 
     constructor(item?) {
-        let internal = item || <ProductAllowedColorTypeGrid>{};
+        const internal = item || <ProductAllowedColorTypeGrid>{};
         this.id = internal.id;
         this.productId = internal.productId;
         this.productColorTypeId = internal.productColorTypeId;
