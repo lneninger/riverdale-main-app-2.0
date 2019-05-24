@@ -4,6 +4,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OwlModule } from 'ngx-owl-carousel';
+import { NgxPlaidLinkModule } from 'ngx-plaid-link';
 
 import { HomeOneComponent } from './versions/home-one/home-one.component';
 import { HomeTwoComponent } from './versions/home-two/home-two.component';
@@ -29,7 +30,8 @@ import { DonationComponent } from './donation/donation.component';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    OwlModule
+    OwlModule,
+    NgxPlaidLinkModule
   ],
   declarations: [
     HomeOneComponent,

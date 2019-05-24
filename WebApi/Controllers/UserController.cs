@@ -238,38 +238,38 @@ namespace RiverdaleMainApp2_0.Controllers
             return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
         }
 
-        //  /// <summary>
-        ///// Posts the user manager.
-        ///// </summary>
-        ///// <param name="input">The input.</param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[HttpPost("register")]
-        //[Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
-        //public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        /// <summary>
+        /// Posts the user manager.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [HttpPost("register")]
+        [Authorization.Authorize(Policy = PermissionsEnum.UserRole_Manage)]
+        public async Task<IActionResult> Post([FromBody]AppUserRegisterCommandInputDTO input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var userIdentity = new AppUser
-        //    {
-        //        Email = input.Email,
-        //        UserName = input.UserName,
-        //        FirstName = input.FirstName,
-        //        LastName = input.LastName,
-        //        PictureUrl = input.PictureUrl
-        //    };
+            var userIdentity = new AppUser
+            {
+                Email = input.Email,
+                UserName = input.UserName,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                PictureUrl = input.PictureUrl
+            };
 
-        //    var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
+            var result = await this.UserManager.CreateAsync(userIdentity, input.Password);
 
-        //    if (!result.Succeeded)
-        //        return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
 
-        //    return new OkObjectResult("Account created");
-        //}
+            return new OkObjectResult("Account created");
+        }
 
 
         ///// <summary>

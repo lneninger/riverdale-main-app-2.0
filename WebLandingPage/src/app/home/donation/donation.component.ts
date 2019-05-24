@@ -19,6 +19,7 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
   elements: Elements;
   card: StripeElement;
+  idealBankElements: StripeElement;
   donation$: Observable<any>;
   status: DonationProcessStatusType = null;
 
@@ -27,7 +28,8 @@ export class DonationComponent implements OnInit, AfterViewInit {
     locale: 'es'
   };
 
-  stripeTest: FormGroup;
+  frmStripeCard: FormGroup;
+  frmStripeIdealBank: FormGroup;
 
   constructor(
     private fb: FormBuilder
@@ -40,7 +42,12 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
   // Form Validator
   ngOnInit() {
-    this.stripeTest = this.fb.group({
+    this.createdElementsCard();
+    //this.createdElementsIdealBank();
+  }
+
+  private createdElementsCard() {
+    this.frmStripeCard = this.fb.group({
       name: ['', [Validators.required]]
     });
     this.stripeService.elements(this.elementsOptions)
@@ -68,6 +75,35 @@ export class DonationComponent implements OnInit, AfterViewInit {
       });
   }
 
+  private createdElementsIdealBank() {
+    this.frmStripeIdealBank = this.fb.group({
+      name: ['', [Validators.required]]
+    });
+    this.stripeService.elements(this.elementsOptions)
+      .subscribe(elements => {
+        this.elements = elements;
+        // Only mount the element the first time
+        if (!this.idealBankElements) {
+          this.idealBankElements = this.elements.create('idealBank', {
+            style: {
+              base: {
+                iconColor: '#666EE8',
+                color: '#31325F',
+                lineHeight: '40px',
+                fontWeight: 300,
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSize: '18px',
+                '::placeholder': {
+                  color: '#CFD7E0'
+                }
+              }
+            }
+          });
+          this.idealBankElements.mount('#idealbank-element');
+        }
+      });
+  }
+
   ngAfterViewInit() {
     //var elements = stripe.elements();
     //var elements = stripe.elements();
@@ -78,9 +114,9 @@ export class DonationComponent implements OnInit, AfterViewInit {
 
     this.status = 'sending';
 
-    let centAmount = amount * 100;
+    const centAmount = amount * 100;
 
-    const name = this.stripeTest.get('name').value;
+    const name = this.frmStripeCard.get('name').value;
     this.stripeService
       .createSource(this.card, {
         type: 'card', amount: centAmount, currency: 'usd', owner: {
@@ -132,6 +168,26 @@ export class DonationComponent implements OnInit, AfterViewInit {
     //  });
   }
 
+
+  onPlaidSuccess($event) {
+    console.log($event);
+  }
+
+  onPlaidExit($event) {
+    console.log($event);
+  }
+
+  onPlaidLoad($event) {
+    console.log($event);
+  }
+
+  onPlaidEvent($event) {
+    console.log($event);
+  }
+
+  onPlaidClick($event) {
+    console.log($event);
+  }
 }
 
 

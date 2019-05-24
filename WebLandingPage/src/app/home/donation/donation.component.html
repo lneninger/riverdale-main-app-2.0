@@ -17,22 +17,31 @@
                 <span *ngSwitchCase="'error'"> - Error</span>
               </ng-container>
             </h2>
-            <form novalidate [formGroup]="stripeTest">
+            <form novalidate [formGroup]="frmStripeCard">
               <input type="text" name="name" formControlName="name" placeholder="Name on card" class="form-control" autocomplete="off" required="required">
               <div id="card-element" class="field"></div>
 
               <div class="values-wrapper">
-                <button type="button" (click)="buy(1)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 1</button>
-                <button type="button" (click)="buy(5)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 5</button>
-                <button type="button" (click)="buy(10)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 10</button>
-                <button type="button" (click)="buy(15)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 15</button>
-                <button type="button" (click)="buy(20)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 20</button>
-                <button type="button" (click)="buy(25)" [disabled]="!stripeTest.valid" class="btn btn-custom theme-color">$ 25</button>
+                <button type="button" (click)="buy(1)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 1</button>
+                <button type="button" (click)="buy(5)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 5</button>
+                <button type="button" (click)="buy(10)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 10</button>
+                <button type="button" (click)="buy(15)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 15</button>
+                <button type="button" (click)="buy(20)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 20</button>
+                <button type="button" (click)="buy(25)" [disabled]="!frmStripeCard.valid" class="btn btn-custom theme-color">$ 25</button>
               </div>
               <!--<button type="submit">
                 BUY
               </button>-->
             </form>
+
+            <form novalidate [formGroup]="frmStripeIdealBank">
+              <div id="idealbank-element" class="field"></div>
+            </form>
+
+            <!-- <mr-ngx-plaid-link-button env="sandbox" publicKey="f2697b9b441211ed4ee92df3850108" institution="" (Success)="onPlaidSuccess($event)"
+  (Exit)="onPlaidExit($event)" (Load)="onPlaidLoad($event)" (Event)="onPlaidEvent($event)" className="launch-plaid-link-button"
+  buttonText="Link Your Bank Account" (Click)="onPlaidClick($event)"></mr-ngx-plaid-link-button> -->
+
           </div>
         </div>
       </div>

@@ -31,7 +31,8 @@ import {
     SaleOpportunity,
     SampleBoxProductItem,
     TargetPriceProductSubItem,
-    SaleOpportunityTargetPriceSubProductNewDialogInput
+    SaleOpportunityTargetPriceSubProductNewDialogInput,
+    TargetPriceItem
 } from '../../../saleopportunity.model';
 import { SaleOpportunityViewService } from '../../saleopportunity.view.service';
 import {
@@ -52,7 +53,7 @@ import { SaleOpportunityTargetPriceSubProductNewDialogComponent } from '../../sa
 })
 export class TodoMainSidebarComponent implements OnInit, OnDestroy {
     private _currentEntity: SaleOpportunity;
-    currentTargetPrice: import('d:/Dev/HIPALANET/riverdale-main-app-2.0/WebFrontPage/src/app/main/apps/sale-opportunities/saleopportunity.model').TargetPriceItem;
+    currentTargetPrice: TargetPriceItem;
 
     get currentEntity(): SaleOpportunity {
         return this._currentEntity;

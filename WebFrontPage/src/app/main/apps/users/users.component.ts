@@ -8,6 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
 import { takeUntil } from 'rxjs/internal/operators';
+import { CustomValidators } from 'ngx-custom-validators';
 
 
 /*************************Custom***********************************/
@@ -189,14 +190,18 @@ export class UserNewDialogComponent {
             'lastName': ['', [Validators.required]],
             'email': ['', [Validators.required]],
             'password': ['', [Validators.required]],
-            'confirmPassword': ['', [Validators.required]]
+            'confirmPassword': ''
         });
+
+        this.frmMain.controls['confirmPassword'].setValidators([Validators.required, CustomValidators.equalTo(this.frmMain.controls['password'])]);
+
+
     }
 
     save() {
         //debugger;
         let formData = this.frmMain.value;
-        let registerData = new Register(formData);
+        const registerData = new Register(formData);
 
         return new Promise((resolve, reject) => {
             this.authenticationService.register(registerData)

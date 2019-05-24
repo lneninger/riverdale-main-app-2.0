@@ -34,8 +34,7 @@ import { NgxStripeModule } from 'ngx-stripe';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireFunctionsModule,
-    NgxStripeModule.forRoot('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O', { stripeAccount:  'acct_1EVpl1IXdvKBbL5a'})
-
+    NgxStripeModule.forRoot('pk_test_iOFzxDfz6HHS7YLCWKlHrzIK005l1FQE5O', { stripeAccount:  'acct_1EVpl1IXdvKBbL5a'}),
   ],
   providers: [],
   bootstrap: [AppComponent]
