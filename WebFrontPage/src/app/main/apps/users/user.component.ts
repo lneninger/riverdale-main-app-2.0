@@ -260,8 +260,12 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     /*******************Role User*************************************************************** */
-    async getRole(id: string): Promise<EnumItem<string>> {
-        return await this.listRole$.pipe(mergeMap(listRole => of(listRole.find(o => o.key === id)))).toPromise();
+    getRole(id: string): Observable<EnumItem<string>> {
+        return this.listRole$.pipe(mergeMap(listRole => {
+            const result = listRole.find(o => o.key === id);
+            return of(result);
+        })
+            );
     }
 
     selectRoleUserItem(item: RoleUserGrid): void {
@@ -293,7 +297,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     async deleteRoleUserItemEdition(item: RoleUserGrid) {
-        const userId = (await this.getRole(item.userId)).value;
+        const userId = (await new Promise<EnumItem<string>>((resolve, reject) => this.getRole(item.userId).subscribe(role => resolve(role)))).value;
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
             data: <DeletePopupData>{
