@@ -67,7 +67,7 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     var query = dbLocator.Set<SaleOpportunity>().AsQueryable();
 
@@ -200,7 +200,7 @@ namespace DatabaseRepositories.DB
         {
             var result = new OperationResponse();
 
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 try
                 {

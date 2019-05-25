@@ -99,7 +99,7 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
 
 

@@ -72,7 +72,7 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     var query = dbLocator.Set<CustomerFreightout>().AsQueryable();
 
@@ -249,7 +249,7 @@ namespace DatabaseRepositories.DB
         public OperationResponse<CustomerFreightoutDeleteCommandOutputDTO> Delete(int id)
         {
             var result = new OperationResponse<CustomerFreightoutDeleteCommandOutputDTO>();
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<CustomerFreightout>().FirstOrDefault(o => o.Id == id);
                 if (entity != null)

@@ -58,7 +58,7 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
 
 
@@ -157,7 +157,7 @@ namespace DatabaseRepositories.DB
         {
             var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
 
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 try
                 {
@@ -176,7 +176,7 @@ namespace DatabaseRepositories.DB
         {
             var result = new OperationResponse<CustomerDeleteCommandOutputDTO>();
 
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 try
                 {

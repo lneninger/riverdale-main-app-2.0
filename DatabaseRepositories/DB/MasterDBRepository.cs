@@ -160,7 +160,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<List<EnumItemDTO<string>>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<SaleSeasonCategoryType>().Select(masterItem => new EnumItemDTO<string> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "Description", masterItem.Description } } }).ToList();
                 }

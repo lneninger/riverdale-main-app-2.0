@@ -69,7 +69,7 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     var query = dbLocator.Set<AppUser>().AsQueryable();
 
@@ -225,7 +225,7 @@ namespace DatabaseRepositories.DB
         public OperationResponse<AppUserDeleteCommandOutputDTO> Delete(string id)
         {
             var result = new OperationResponse<AppUserDeleteCommandOutputDTO>();
-            using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+            var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
             {
                 var entity = dbLocator.Set<AppUser>().FirstOrDefault(o => o.Id == id);
                 if (entity != null)
@@ -250,7 +250,7 @@ namespace DatabaseRepositories.DB
 
         //public OperationResponse<AppUserAuthenticateCommandOutputDTO> Authenticate(AppUserAuthenticateCommandInputDTO input)
         //{
-        //    using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+        //    var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
         //    {
         //        var result = new OperationResponse<AppUserAuthenticateCommandOutputDTO>();
 
@@ -288,7 +288,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<bool>();
             try
             {
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedEmail.Equals(email));
                 }
@@ -305,7 +305,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<bool>();
             try
             {
-                using (var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = 0 == dbLocator.Set<AppUser>().Count(o => o.NormalizedUserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
                 }
