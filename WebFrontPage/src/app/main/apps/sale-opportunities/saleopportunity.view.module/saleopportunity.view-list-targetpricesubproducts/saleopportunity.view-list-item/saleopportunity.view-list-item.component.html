@@ -43,7 +43,7 @@
                     <mat-form-field floatLabel="always" appearance="outline" fxFlex="0 0 100%">
                         <mat-label>Grade</mat-label>
                         <mat-select name="relatedProductSizeId" formControlName="relatedProductSizeId" fxFlex="0 0 100%">
-                            <mat-option *ngFor="let item of allowedRelatedProductSizes$ | async" [value]="item.key" [disabled]="!isAllowedColorType(item.key)">
+                            <mat-option *ngFor="let item of allowedRelatedProductSizes$ | async" [value]="item.key">
                                 {{item.value}}
                             </mat-option>
                         </mat-select>

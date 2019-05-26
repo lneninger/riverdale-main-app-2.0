@@ -1,3 +1,24 @@
+Dev IP
+73.205.64.133 
+
+RADAMIN
+
+usr: Leonardo
+psw: Brasil18!
+
+
+Remote SQL Server
+ip: 
+Intranet: 12.108.55.201,2433
+FlowersRV: 12.108.55.200,2433
+
+Product: SQLSERVER
+Provider: SQLNCLI
+usr: Leonardo
+psw: Developer2017!
+
+
+
 
 Firebase
 ----------------------------------------------------

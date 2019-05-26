@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, merge, Observable, Subject, combineLatest, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
@@ -43,11 +43,16 @@ import { ProductService, Product, CompositionItem } from '../../../products/prod
     templateUrl: 'saleopportunities-targetpricesubproductnew.dialog.component.html',
     styleUrls: ['./saleopportunities-targetpricesubproductnew.dialog.component.scss'],
 })
-export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
+export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements OnInit {
     listProductCategory$ = this.productCategoryResolveService.onList;
     listProductColorType$ = this.productColorTypeResolveService.onList;
+    //listProductColorType$ = this.productColorTypeResolveService.onList;
     listProduct$ = this.productResolveService.onList;
-    product$ = new Subject<Product>();
+    product$ = new BehaviorSubject<Product>(null);
+
+    relatedProductId$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+    allowedRelatedProductSizes$: Observable<EnumItem<number>[]>;
+
     
     frmMain: FormGroup;
     constructor(
@@ -68,22 +73,52 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent {
 
 
 
-        this.productService.getById(data.subProductId)
-            .subscribe(response => {
-                const product = response.bag;
-                // debugger;
-                this.frmMain = frmBuilder.group({
-                    'productId': [this.data.productId, [Validators.required]],
-                    'subProductId': [product.id, [Validators.required]],
-                    'colorTypeId': ['', [Validators.required]],
-                    'amount': [1, [Validators.required, CustomValidators.number]],
-                    'size': ['', [Validators.required, CustomValidators.number]],
-                });
-
-                this.product$.next(product);
+    this.productService.getById(data.subProductId)
+        .subscribe(response => {
+            const product = response.bag;
+            debugger;
+            this.frmMain = frmBuilder.group({
+                'productId': [this.data.productId, []],
+                'subProductId': [product.id, [Validators.required]],
+                'colorTypeId': ['', [Validators.required]],
+                'relatedProductSizeId': ['', [Validators.required]],
+                'amount': [1, [Validators.required, CustomValidators.number]],
             });
 
-        
+            this.product$.next(product);
+        });
+    }
+
+    ngOnInit(): void{
+        debugger;
+        const productItem$ = combineLatest([this.product$, this.listProduct$])
+            .pipe(map(combined => {
+                debugger;
+                return (<EnumItem<number>[]>combined[1]).find(productItem => productItem.key === combined[0].id);
+            }));
+
+
+        this.allowedRelatedProductSizes$ =
+        combineLatest([productItem$, this.listProductCategory$])
+        .pipe(map(combined => { 
+            debugger;
+            return { 
+                productItem: (<EnumItem<number>>combined[0]), 
+                productCategories: (<EnumItem<number>[]>combined[1]) };
+             }))
+        .pipe(switchMap(source => {
+            debugger;
+            const targetCategoryId = <number><unknown>source.productItem.extras['productCategoryId'];
+            const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key === targetCategoryId);
+
+            if (targetCategory != null) {
+                return of(<EnumItem<number>[]>targetCategory.extras['sizes']);
+            }
+            else {
+                return of(<EnumItem<number>[]>[]);
+            }
+        }));
+
     }
 
     save(): Promise<{}> {

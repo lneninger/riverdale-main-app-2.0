@@ -17,7 +17,7 @@
         </ng-container>
         </mat-card-header>
         <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-        <mat-card-content *ngIf=product.bag>
+        <mat-card-content *ngIf="!product.bag">
             <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
                 <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
                     <mat-label>Name</mat-label>

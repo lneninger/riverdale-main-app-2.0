@@ -3,7 +3,7 @@
 </div>
 
 <div fxFlex fxLayout="column">
-    <div class="list-header" fxLayout="row" fxFlex fxLayoutAlign="space-between center" [ngClass]="{'editing': status == 'editing'}">
+    <div class="list-header" fxFlex="0 1 10%" fxLayout="row" fxFlex fxLayoutAlign="space-between center" [ngClass]="{'editing': status == 'editing'}">
 
         <ng-container [ngSwitch]="status">
             <ng-container *ngSwitchCase="null">
@@ -50,7 +50,7 @@
 
     </div>
 
-    <div class="todo-list" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
+    <div class="todo-list" fxFlex="1 1 100%" ngxDroppable [model]="todos" (out)="onDrop($event)" [@animateStagger]="{value:'50'}">
 
 
         <div fuseScrollBar fxFlex>

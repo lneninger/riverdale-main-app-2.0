@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>New Product Category</h1>
-<div mat-dialog-content [formGroup]="frmMain">
-    <mat-form-field>
+<div mat-dialog-content [formGroup]="frmMain" fxLayoutGap="20px" >
+    <mat-form-field fxFlex="10%">
         <input matInput formControlName="identifier" placeholder="Identifier">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field fxFlex="90%">
         <input matInput formControlName="name" placeholder="Name">
     </mat-form-field>
     

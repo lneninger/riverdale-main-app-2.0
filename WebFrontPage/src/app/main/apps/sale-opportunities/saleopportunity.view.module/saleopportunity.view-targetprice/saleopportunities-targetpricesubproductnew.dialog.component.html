@@ -15,6 +15,7 @@
             <mat-card-content>
                 <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                        <mat-label>Product</mat-label>
                         <mat-select placeholder="Product" name="subProductId" formControlName="subProductId">
                             <mat-option *ngFor="let item of listProduct$ | async" [value]="item.key">
                                 {{item.value}}
@@ -22,6 +23,7 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
+                        <mat-label>Color</mat-label>
                         <mat-select placeholder="Color" name="colorTypeId" formControlName="colorTypeId">
                             <mat-option *ngFor="let item of listProductColorType$ | async" [value]="item.key">
                                 {{item.value}}
@@ -37,10 +39,17 @@
                     </mat-form-field>
                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always" class="w-100-p">
                         <mat-label>Grade</mat-label>
+                        <mat-select name="relatedProductSizeId" formControlName="relatedProductSizeId" fxFlex="0 0 100%">
+                            <mat-option *ngFor="let item of allowedRelatedProductSizes$ | async" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+
+                        <!-- <mat-label>Grade</mat-label>
                         <input matInput placeholder="Grade"
                                name="size"
                                formControlName="size"
-                               required>
+                               required> -->
                     </mat-form-field>
                 </div>
             </mat-card-content>
