@@ -134,6 +134,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent
 
     createFormForProduct(product: TargetPriceProductItem): FormGroup {
         return this.formBuilder.group({
+            id: [product.id, [Validators.required]],
             productName: [product.productName, [Validators.required]],
             productColorTypeId: [
                 product.productColorTypeId,
@@ -142,8 +143,12 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent
         });
     }
 
-    updateTargetPriceProduct(item: TargetPriceProductItem): void {
-        this.saleOpportunityService.updateTargetPriceProductItem(item);
+    updateTargetPriceProduct(): void {
+        const item = this.frmMain.value;
+
+        this.saleOpportunityService.updateTargetPriceProductItem(item).then(productItem => {
+            this.status = null;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

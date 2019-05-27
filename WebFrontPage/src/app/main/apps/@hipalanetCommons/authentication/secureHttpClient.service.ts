@@ -21,7 +21,7 @@ export class SecureHttpClientService {
     ) {
     }
 
-    addAuthorizationHeader(headers: HttpHeaders) {
+    addAuthorizationHeader(headers: HttpHeaders): HttpHeaders {
         let internalHeaders = headers || new HttpHeaders();
         if (this.accessToken) {
             internalHeaders = internalHeaders.set('Authorization', `Bearer ${this.accessToken}`);
@@ -30,12 +30,17 @@ export class SecureHttpClientService {
         return internalHeaders;
     }
 
-    //addPostContentTypeHeader(headers: HttpHeaders) {
-    //    let internalHeaders = headers || new HttpHeaders();
-    //    internalHeaders = internalHeaders.set('Content-Type', 'application/x-www-form-urlencoded');
+    addPostContentTypeHeaderForApplicationJson(headers: HttpHeaders): HttpHeaders {
+        
+        return this.addPostContentTypeHeader(headers, 'application/json');
+     }
 
-    //    return internalHeaders;
-    //}
+    addPostContentTypeHeader(headers: HttpHeaders, contentType: string): HttpHeaders {
+       let internalHeaders = headers || new HttpHeaders();
+       internalHeaders = internalHeaders.set('Content-Type', contentType/*'application/x-www-form-urlencoded'*/);
+
+       return internalHeaders;
+    }
 
     //addOriginHeader(headers: HttpHeaders) {
     //    let internalHeaders = headers || new HttpHeaders();
@@ -55,7 +60,7 @@ export class SecureHttpClientService {
     //}
 
     get<T = Object>(url: string, options?: CallOptions): Observable<T> {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
@@ -63,7 +68,7 @@ export class SecureHttpClientService {
     }
 
     post<T = Object>(url: string, body: any, options?: CallOptions): Observable<T> {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
@@ -73,22 +78,22 @@ export class SecureHttpClientService {
     }
 
     put<T = Object>(url: string, body: any, options?: CallOptions): Observable<T> {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
-        //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
+        internalOptions.headers = this.addPostContentTypeHeaderForApplicationJson(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.put<T>(url, body, internalOptions);
     }
 
     delete(url: string, options?: CallOptions) {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
         return this.httpClient.delete(url, internalOptions);
     }
 
     head(url: string, options?: CallOptions) {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);
@@ -96,7 +101,7 @@ export class SecureHttpClientService {
     }
 
     patch(url: string, body: any, options?: CallOptions) {
-        let internalOptions = options || <CallOptions>{};
+        const internalOptions = options || <CallOptions>{};
         //this.addWithCredentialsOption(internalOptions);
         //internalOptions.headers = this.addOriginHeader(internalOptions.headers);
         internalOptions.headers = this.addAuthorizationHeader(internalOptions.headers);

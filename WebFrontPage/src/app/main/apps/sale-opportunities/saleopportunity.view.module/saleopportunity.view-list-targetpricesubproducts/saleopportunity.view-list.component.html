@@ -37,8 +37,11 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <div fxFlex="40px">
-                        <button mat-mini-fab color="primary"
+                    <div fxFlex="100px" fxLayoutGap="20px">
+                        <button mat-icon-button (click)="status = null" aria-label="Cancel">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary"
                             (click)="updateTargetPriceProduct()" [disabled]="frmMain.invalid || frmMain.prestine">
                             <mat-icon class="material-icons-outlined">check</mat-icon>
                         </button>

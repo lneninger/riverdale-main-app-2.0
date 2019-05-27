@@ -347,8 +347,9 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    updateTargetPriceProductItem(item: TargetPriceProductItem): any {
+    updateTargetPriceProductItem(item: TargetPriceProductItem): Promise<TargetPriceProductItem> {
         return new Promise((resolve, reject) => {
+            // debugger;
             this.http
                 .put<OperationResponse<TargetPriceProductItem>>(
                     `${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct`,
@@ -358,7 +359,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     (res: OperationResponse<TargetPriceProductItem>) => {
                         const responseItem = new TargetPriceProductItem(res.bag);
                         this.onTargetPriceProductItemUpdated.next(responseItem);
-                        resolve(res);
+                        resolve(res.bag);
                     },
                     error => {
                         reject(error);
