@@ -59,7 +59,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent
         return this._currentTargetPriceProduct;
     }
 
-    get colorType(): Promise<EnumItem<string>> {
+    get colorType(): Observable<EnumItem<string>> {
         return this.listProductColorType$
             .pipe<EnumItem<string>>(
                 switchMap(list =>
@@ -72,8 +72,7 @@ export class SaleOpportunityViewListTargetPriceSubProductComponent
                         )
                     )
                 )
-            )
-            .toPromise();
+            );
     }
 
     get listOfSubItems(): TargetPriceProductSubItem[] {

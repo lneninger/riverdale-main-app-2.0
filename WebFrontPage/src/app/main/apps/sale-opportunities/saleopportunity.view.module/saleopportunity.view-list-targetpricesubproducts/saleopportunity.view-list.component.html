@@ -7,10 +7,16 @@
 
         <ng-container [ngSwitch]="status">
             <ng-container *ngSwitchCase="null">
-                <div fxFlex>
-                    <span fxFlex class="ml-8">{{currentTargetPriceProduct.productName}}</span>
+                <div fxFlex fxLayoutAlign="start center" fxLayoutGap="20px">
+                    <span  fxFlex fxLayoutGap="10px">
+                        <strong fxFlex="1 0 1%" class="font-size-16">Name:</strong>
+                        <span fxFlex="1 1 100%" class="font-size-16">{{currentTargetPriceProduct.productName}}</span>
+                    </span>
 
-                    <span>{{(colorType | async)?.value || 'No color selected'}}</span>
+                    <span  fxFlex fxLayoutGap="10px">
+                        <strong fxFlex="1 0 1%" class="font-size-16">Color:</strong>
+                        <span fxFlex="1 1 100%" class="font-size-16">{{(colorType | async)?.value || 'No color selected'}}</span>
+                    </span>
 
                     <div fxFlex="40px">
                         <button mat-icon-button class="secondary-text" (click)="status = 'editing'">

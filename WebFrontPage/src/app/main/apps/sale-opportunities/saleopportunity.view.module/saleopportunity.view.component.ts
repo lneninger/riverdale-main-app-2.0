@@ -802,7 +802,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceProductSubItemAdded(item: TargetPriceProductSubItem): void {
-        debugger;
+        // debugger;
         const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(
             relatedItem => relatedItem.id === item.id
         );

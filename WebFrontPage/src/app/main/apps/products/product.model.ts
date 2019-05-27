@@ -5,7 +5,7 @@ import { constants } from 'perf_hooks';
 
 export class ProductGrid {
     id: number;
-    erpId: string;
+    flowerProductCategoryName: string;
     name: string;
 }
 

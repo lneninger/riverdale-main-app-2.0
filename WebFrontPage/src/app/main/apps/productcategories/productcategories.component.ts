@@ -30,7 +30,7 @@ import { CustomValidators } from 'ngx-custom-validators';
 })
 export class ProductCategoriesComponent implements OnInit {
     dataSource: ProductCategoriesDataSource | null;
-    displayedColumns = ['id', 'name'];
+    displayedColumns = ['id', 'identifier', 'name'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

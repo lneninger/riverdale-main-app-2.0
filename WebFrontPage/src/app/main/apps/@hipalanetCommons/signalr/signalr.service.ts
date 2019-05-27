@@ -28,6 +28,10 @@ export class SignalRService extends BaseSignalRService {
         ISignalREventArgs
     >();
 
+    onProductCategoryDataChanged: Subject<ISignalREventArgs> = new Subject<
+    ISignalREventArgs
+>();
+
     onActiveUsers: Subject<any> = new Subject<any>();
 
     constructor() {
@@ -65,6 +69,11 @@ export class SignalRService extends BaseSignalRService {
                 // debugger;
                 this.onProductDataChanged.next(eventData);
                 break;
+
+            case 'FlowerProductCategory':
+            // debugger;
+            this.onProductCategoryDataChanged.next(eventData);
+            break;
             case 'ProductMedia':
                 // debugger;
                 this.onProductMediaDataChanged.next(eventData);

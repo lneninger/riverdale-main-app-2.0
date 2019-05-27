@@ -10,14 +10,17 @@
             <img class="avatar mr-0 mr-sm-16" [src]="(currentEntity.relatedProductPictureId | fileUrl:'assets/images/avatars/product1.png':false | async)">
         </div>
         <section fxFlex fxLayout="column" fxLayout-gt-lg="row">
-            <div class="info" fxFlex fxFlexLayout="column">
+            <div class="info" fxFlex fxFlexLayout="row" fxLayoutGap="10px">
 
-                <div class="title">
-                    {{currentEntity.relatedProductName}}
-                </div>
-                <div class="notes">
-                    {{currentEntity.relatedProductTypeName}}
-                </div>
+                    <span class="notes">
+                            {{currentEntity.relatedProductTypeName}}
+                    </span>
+
+                    <strong>></strong>
+
+                    <span class="title">
+                            {{currentEntity.relatedProductName}}
+                    </span>
             </div>
             <div class="actions" fxLayout="row wrap" fxFlexAlign="end center" fxLayoutAlign="start center" fxFlex fxLayoutGap="3px">
                 <div class="option">

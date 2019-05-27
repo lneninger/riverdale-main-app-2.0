@@ -8,6 +8,7 @@ import { ISignalREventArgs } from '../@hipalanetCommons/signalr/signalr.model';
 import { Subscription, pipe, of, merge } from 'rxjs';
 import { ProductResolveService } from './product.resolve.service';
 import {  mergeMap } from 'rxjs/operators';
+import { ProductCategoryResolveService } from './productcategory.resolve.service';
 
 
 
@@ -18,7 +19,7 @@ export class ResolveUpdateManagerService {
     constructor(
         private customerResolveService: CustomerResolveService
         , private productResolveService: ProductResolveService
-
+        , private productCategoryResolveService: ProductCategoryResolveService
         , private signalrService: SignalRService
     ) {
         this.configureListeners();
@@ -35,6 +36,16 @@ export class ResolveUpdateManagerService {
         merge(...productEvents)
         .subscribe((eventData: ISignalREventArgs) => {
             this.productResolveService.reloadCache();
+        });
+
+
+        const productCateogryEvents = [
+            this.signalrService.onProductCategoryDataChanged
+        ];
+
+        merge(...productCateogryEvents)
+        .subscribe((eventData: ISignalREventArgs) => {
+            this.productCategoryResolveService.reloadCache();
         });
 
         const customerEvents = [

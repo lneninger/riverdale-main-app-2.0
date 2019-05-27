@@ -224,7 +224,7 @@ export class TargetPriceProductSubItem {
     relatedProductAmount: number;
     colorTypeId?: string;
 
-    constructor(item?) {
+    constructor(item?: any) {
         const internal = item || {};
 
         this.id = internal.id;
