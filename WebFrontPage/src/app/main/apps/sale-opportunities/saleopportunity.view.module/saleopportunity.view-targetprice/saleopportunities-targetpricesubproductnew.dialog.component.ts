@@ -46,7 +46,7 @@ import { ProductService, Product, CompositionItem } from '../../../products/prod
 export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements OnInit {
     listProductCategory$ = this.productCategoryResolveService.onList;
     listProductColorType$ = this.productColorTypeResolveService.onList;
-    //listProductColorType$ = this.productColorTypeResolveService.onList;
+    // listProductColorType$ = this.productColorTypeResolveService.onList;
     listProduct$ = this.productResolveService.onList;
     product$ = new BehaviorSubject<Product>(null);
 
@@ -76,13 +76,13 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
     this.productService.getById(data.subProductId)
         .subscribe(response => {
             const product = response.bag;
-            debugger;
+            // debugger;
             this.frmMain = frmBuilder.group({
                 'productId': [this.data.productId, []],
                 'subProductId': [product.id, [Validators.required]],
                 'colorTypeId': ['', [Validators.required]],
                 'relatedProductSizeId': ['', [Validators.required]],
-                'amount': [1, [Validators.required, CustomValidators.number]],
+                'relatedProductAmount': [1, [Validators.required, CustomValidators.number]],
             });
 
             this.product$.next(product);
@@ -90,10 +90,10 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
     }
 
     ngOnInit(): void{
-        debugger;
+        // debugger;
         const productItem$ = combineLatest([this.product$, this.listProduct$])
             .pipe(map(combined => {
-                debugger;
+                // debugger;
                 return (<EnumItem<number>[]>combined[1]).find(productItem => productItem.key === combined[0].id);
             }));
 
@@ -101,13 +101,13 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
         this.allowedRelatedProductSizes$ =
         combineLatest([productItem$, this.listProductCategory$])
         .pipe(map(combined => { 
-            debugger;
+            // debugger;
             return { 
                 productItem: (<EnumItem<number>>combined[0]), 
                 productCategories: (<EnumItem<number>[]>combined[1]) };
              }))
         .pipe(switchMap(source => {
-            debugger;
+            // debugger;
             const targetCategoryId = <number><unknown>source.productItem.extras['productCategoryId'];
             const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key === targetCategoryId);
 
@@ -128,8 +128,9 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
             // debugger;
             value.productId = original.productId;
             value.relatedProductId = original.subProductId;
+            value.relatedProductSizeId = original.relatedProductSizeId,
             value.colorTypeId = original.colorTypeId;
-            value.stems = original.amount;
+            value.relatedProductAmount = original.relatedProductAmount;
 
 
             this.service.addTargetPriceProductSubItem(value)

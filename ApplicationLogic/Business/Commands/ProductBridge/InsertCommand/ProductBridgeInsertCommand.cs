@@ -26,7 +26,8 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
                     CompositionProductId = input.ProductId,
                     CompositionItemId = input.RelatedProductId,
                     ColorTypeId = input.ColorTypeId,
-                    CompositionItemAmount = input.RelatedProductAmount
+                    CompositionItemAmount = input.RelatedProductAmount,
+                    ProductCategorySizeId = input.RelatedProductSizeId
                 };
 
                 try
@@ -57,11 +58,14 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.InsertCommand
                             Id = getByIdResult.Bag.Id,
                             ProductId = getByIdResult.Bag.CompositionProductId,
                             RelatedProductId = getByIdResult.Bag.CompositionItemId,
-                            Stems = getByIdResult.Bag.CompositionItemAmount,
+                            ColorTypeId = getByIdResult.Bag.ColorTypeId,
+                            RelatedProductAmount = getByIdResult.Bag.CompositionItemAmount,
+                            RelatedProductSizeId = getByIdResult.Bag.ProductCategorySizeId,
                             RelatedProductName = getByIdResult.Bag.CompositionItem.Name,
                             RelatedProductTypeName = getByIdResult.Bag.CompositionItem.ProductType.Name,
                             RelatedProductTypeDescription = getByIdResult.Bag.CompositionItem.ProductType.Description,
-                            RelatedProductPictureId = getByIdResult.Bag.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+                            RelatedProductPictureId = getByIdResult.Bag.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            RelatedProductTypeId = getByIdResult.Bag.CompositionItem.ProductTypeId,
                         };
                     }
 

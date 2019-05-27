@@ -255,7 +255,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    //updateSampleBoxProductSubItem(item: SampleBoxProductSubItem): any {
+    // updateSampleBoxProductSubItem(item: SampleBoxProductSubItem): any {
     //    return new Promise((resolve, reject) => {
     //        this.http
     //            .put<OperationResponse<SampleBoxProductSubItem>>(
@@ -273,7 +273,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
     //                }
     //            );
     //    });
-    //}
+    // }
 
     toggleSampleBox(sampleBox?: SampleBoxItem): any {
         this.currentSampleBox = sampleBox;
@@ -368,7 +368,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    deleteTargetPriceProductItem(itemId: number) {
+    deleteTargetPriceProductItem(itemId: number): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http
                 .delete(`${environment.appApi.apiBaseUrl}saleopportunityTargetPriceproduct/${itemId}`)
@@ -376,7 +376,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
                     (res: any) => {
                         resolve(res);
                         const responseItem = res.bag;
-                        debugger;
+                        // debugger;
                         this.onTargetPriceProductItemDeleted.next(responseItem);
                     },
                     error => {
@@ -407,7 +407,7 @@ export class SaleOpportunityService implements Resolve<any>, IPageQueryService {
         });
     }
 
-    resetCache() {
+    resetCache(): void {
         this.currentTargetPrice = null;
         this.currentTargetPriceProduct = null;
 

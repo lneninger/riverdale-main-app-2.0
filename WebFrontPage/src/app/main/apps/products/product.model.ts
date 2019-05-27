@@ -91,27 +91,32 @@ export class CompositionItem {
     colorTypeId: string;
     productId: number;
     relatedProductId: number;
+    relatedProductTypeId: string;
     relatedProductName: string;
     relatedProductTypeName: string;
     relatedProductTypeDescription: string;
     relatedProductPictureId: number;
-    stems: number;
+    relatedProductSizeId: number;
+    relatedProductAmount: number;
 
-    constructor(item?) {
+    constructor(item?: any) {
         const internal = item || {};
         if (internal.key) {
             this.relatedProductId = internal.key;
-            this.stems = 1;
+            this.relatedProductAmount = 1;
         }
         else {
             this.id = internal.id;
             this.productId = internal.productId;
             this.relatedProductId = internal.relatedProductId;
             this.relatedProductName = internal.relatedProductName;
+            this.relatedProductTypeId = internal.relatedProductTypeId;
             this.relatedProductTypeName = internal.relatedProductTypeName;
             this.relatedProductTypeDescription = internal.relatedProductTypeDescription;
             this.relatedProductPictureId = internal.relatedProductPictureId;
-            this.stems = internal.stems;
+            this.relatedProductSizeId = internal.relatedProductSizeId;
+            this.relatedProductAmount = internal.relatedProductAmount;
+            this.colorTypeId = internal.colorTypeId;
         }
     }
 }

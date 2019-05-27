@@ -497,19 +497,11 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         // debugger;
         const result = this._formBuilder.group({
             id: [item.id, [Validators.required, CustomValidators.number]],
-            relatedProductName: [
-                item.relatedProductName,
-                [Validators.required]
-            ],
-            relatedProductSizeId: [
-                item.relatedProductSizeId,
-                [Validators.required]
-            ],
-            colorTypeId: [item.colorTypeId, [Validators.required]],
-            relatedProductAmount: [
-                item.relatedProductAmount,
-                [Validators.required]
-            ],
+            'productId': [item.productId, []],
+            'subProductId': [item.id, [Validators.required]],
+            'colorTypeId': [item.colorTypeId, [Validators.required]],
+            'relatedProductSizeId': [item.relatedProductSizeId, [Validators.required]],
+            'relatedProductAmount': [item.relatedProductAmount, [Validators.required, CustomValidators.number]],
             selected: ''
         });
 
@@ -810,14 +802,16 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
     }
 
     onTargetPriceProductSubItemAdded(item: TargetPriceProductSubItem): void {
-        // debugger;
+        debugger;
         const relatedIndex = this.currentTargetPriceProduct.relatedProducts.findIndex(
             relatedItem => relatedItem.id === item.id
         );
         this.currentTargetPriceProduct.relatedProducts.push(item);
+
+        const formItem = this.createFormTargetPriceSubProductItem(item);
         (this.frmCurrentTargetPriceProduct.controls[
             'products'
-        ] as FormArray).push(this.createFormTargetPriceSubProductItem(item));
+        ] as FormArray).push(formItem);
 
         this.matSnackBar.open('Composition item added', 'OK', {
             verticalPosition: 'top',
