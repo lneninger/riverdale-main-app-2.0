@@ -1,25 +1,60 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    ViewChild,
+    Input
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatSnackBar, MatPaginator, MatSort, MatTable, MatDialog, MatAutocompleteSelectedEvent, MatAutocomplete, MatChipInputEvent } from '@angular/material';
+import {
+    MatSnackBar,
+    MatPaginator,
+    MatSort,
+    MatTable,
+    MatDialog,
+    MatAutocompleteSelectedEvent,
+    MatAutocomplete,
+    MatChipInputEvent
+} from '@angular/material';
 import { Subject, Observable, of, combineLatest } from 'rxjs';
 import { takeUntil, startWith, map, filter } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseUtils } from '@fuse/utils';
 
-import { Product, ProductMediaGrid, IProductMedia, ProductAllowedColorTypeGrid } from '../product.model';
+import {
+    Product,
+    ProductMediaGrid,
+    IProductMedia,
+    ProductAllowedColorTypeGrid
+} from '../product.model';
 import { ProductService } from '../product.service';
 import { EnumItem } from '../../@resolveServices/resolve.model';
 import { DataSourceAbstract } from '../../@hipalanetCommons/datatable/datasource.abstract.class';
 import { DataSource } from '@angular/cdk/table';
-import { DeletePopupComponent, DeletePopupData, DeletePopupResult } from '../../@hipalanetCommons/popups/delete/delete.popup.module';
-import { FilePopupComponent, FilePopupResult } from '../../@hipalanetCommons/popups/file/file.popup.module';
-import { FileUploadService, CustomFileUploader, ISelectedFile } from '../../@hipalanetCommons/fileupload/fileupload.module';
+import {
+    DeletePopupComponent,
+    DeletePopupData,
+    DeletePopupResult
+} from '../../@hipalanetCommons/popups/delete/delete.popup.module';
+import {
+    FilePopupComponent,
+    FilePopupResult
+} from '../../@hipalanetCommons/popups/file/file.popup.module';
+import {
+    FileUploadService,
+    CustomFileUploader,
+    ISelectedFile
+} from '../../@hipalanetCommons/fileupload/fileupload.module';
 import { ProductMediaService } from '../product.core.module';
-import { ProductColorTypeResolveService, ProductCategoryResolveService } from '../../@resolveServices/resolve.module';
+import {
+    ProductColorTypeResolveService,
+    ProductCategoryResolveService
+} from '../../@resolveServices/resolve.module';
 
 @Component({
     selector: 'basic-product',
@@ -38,26 +73,27 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     separatorKeysCodes: number[] = [ENTER, COMMA];
     filteredProductAllowedColorTypes$: Observable<EnumItem<string>[]>;
 
-
-
     id: string;
 
     private _currentEntity: Product;
 
-    get currentEntity() {
+    get currentEntity(): Product {
         return this._currentEntity;
     }
 
     @Input('entity')
-    set currentEntity(value: any) {
+    set currentEntity(value: Product) {
         if (value) {
             this._currentEntity = new Product(value);
-            //debugger;
-            this.medias = (this._currentEntity.medias || []).map(item => new ProductMediaGrid(item));
-            this.productAllowedColorTypes = (this._currentEntity.productAllowedColorTypes || []).map(item => new ProductAllowedColorTypeGrid(item));
+            // debugger;
+            this.medias = (this._currentEntity.medias || []).map(
+                item => new ProductMediaGrid(item)
+            );
+            this.productAllowedColorTypes = (
+                this._currentEntity.productAllowedColorTypes || []
+            ).map(item => new ProductAllowedColorTypeGrid(item));
             this.frmMain = this.createFormBasicInfo();
-        }
-        else {
+        } else {
             this.medias = null;
         }
     }
@@ -65,38 +101,43 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     medias: (ProductMediaGrid | ISelectedFile)[];
     productAllowedColorTypes: ProductAllowedColorTypeGrid[];
 
-
     pageType: string;
-    displayedColumns = ['options', 'thirdPartyAppTypeId', 'thirdPartyProductId'];
+    displayedColumns = [
+        'options',
+        'thirdPartyAppTypeId',
+        'thirdPartyProductId'
+    ];
 
     frmMain: FormGroup;
 
-
     public customUploader: CustomFileUploader;
-
 
     // Private
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
      *
-     * @param {EcommerceProductService} _ecommerceProductService
-     * @param {FormBuilder} _formBuilder
-     * @param {Location} _location
-     * @param {MatSnackBar} _matSnackBar
+     * @param route Route
+     * @param serviceProductMedia Product media
+     * @param serviceProductCategoryResolve Product category resolve
+     * @param service Service
+     * @param _formBuilder Form builder
+     * @param _location Location
+     * @param _matSnackBar Snackbar
+     * @param matDialog Material dialog
+     * @param fileUploadService File upload service
      */
     constructor(
-        private route: ActivatedRoute
-        , private serviceProductMedia: ProductMediaService
-        //, private serviceProductAllowedColorType: ProductAllowedColorTypeService
-        , private serviceProductCategoryResolve: ProductCategoryResolveService
-        , private service: ProductService
-        , private _formBuilder: FormBuilder
-        , private _location: Location
-        , private _matSnackBar: MatSnackBar
-        , private matDialog: MatDialog
-        , private fileUploadService: FileUploadService
+        private route: ActivatedRoute,
+        private serviceProductMedia: ProductMediaService,
+        // , private serviceProductAllowedColorType: ProductAllowedColorTypeService
+        private serviceProductCategoryResolve: ProductCategoryResolveService,
+        private service: ProductService,
+        private _formBuilder: FormBuilder,
+        private _location: Location,
+        private _matSnackBar: MatSnackBar,
+        private matDialog: MatDialog,
+        private fileUploadService: FileUploadService
     ) {
         // Resolve
         // debugger;
@@ -104,29 +145,27 @@ export class BasicProductComponent implements OnInit, OnDestroy {
 
         this.listProductCategory$ = this.serviceProductCategoryResolve.onList;
 
-        //debugger;
+        // debugger;
         this.customUploader = this.fileUploadService.create();
 
         // Set the default
         this.currentEntity = new Product();
-
 
         this.customUploader.onSelectedNew.subscribe(selectedFile => {
             this.medias.push(selectedFile);
         });
 
         this.customUploader.onCompleteItem.subscribe(fileUploaded => {
-            let productMedia = {
-                ...<IProductMedia>{
-                    productId: this.currentEntity.id,
-                }
-                , ...fileUploaded
+            const productMedia = {
+                ...(<IProductMedia>{
+                    productId: this.currentEntity.id
+                }),
+                ...fileUploaded
             };
 
             this.serviceProductMedia.add(productMedia).then(result => {
-                //this.medias.push(fileUploaded);
+                // this.medias.push(fileUploaded);
             });
-
         });
 
         this.customUploader.onCompleteAll.subscribe(result => {
@@ -134,7 +173,6 @@ export class BasicProductComponent implements OnInit, OnDestroy {
                 verticalPosition: 'top',
                 duration: 5000
             });
-
         });
 
         // Set the private defaults
@@ -149,12 +187,10 @@ export class BasicProductComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        
         // Subscribe to update product on changes
-        //this.service.onCurrentEntityChanged
+        // this.service.onCurrentEntityChanged
         //    .pipe(takeUntil(this._unsubscribeAll))
         //    .subscribe(dataResponse => {
-
         //        //debugger;
         //        let currentEntity = dataResponse.bag;
         //        this.id = currentEntity.id;
@@ -167,7 +203,6 @@ export class BasicProductComponent implements OnInit, OnDestroy {
         //            this.pageType = 'new';
         //            this.currentEntity = new Product();
         //        }
-
         //        this.frmMain = this.createFormBasicInfo();
         //    });
     }
@@ -191,11 +226,11 @@ export class BasicProductComponent implements OnInit, OnDestroy {
      * @returns {FormGroup}
      */
     createFormBasicInfo(): FormGroup {
-        //debugger;
+        // debugger;
         return this._formBuilder.group({
             id: [this.currentEntity.id],
             name: [this.currentEntity.name],
-            productCategoryId: [this.currentEntity.productCategoryId],
+            productCategoryId: [this.currentEntity.productCategoryId]
         });
     }
 
@@ -209,21 +244,19 @@ export class BasicProductComponent implements OnInit, OnDestroy {
             if (this.disableSaveFrmMain()) {
                 observer.next(null);
                 observer.complete();
-            }
-            else {
-                this.service.save(basicInfoData)
-                    .then((response) => {
-                        observer.next(response);
-                        observer.complete();
-                    })
+            } else {
+                this.service.save(basicInfoData).then(response => {
+                    observer.next(response);
+                    observer.complete();
+                });
             }
         })
             .toPromise()
-            .then((response) => {
+            .then(response => {
                 if (response == null) {
                     return;
                 }
-                //debugger;
+                // debugger;
                 // Trigger the subscription with new data
                 this.service.onCurrentEntityChanged.next(basicInfoData);
 
@@ -240,113 +273,71 @@ export class BasicProductComponent implements OnInit, OnDestroy {
      */
     update(entity: Product): Observable<Product> {
         return Observable.create(observer => {
-            this.service.save(entity)
-                .then((result: Product) => {
-                    observer.next(result);
-                    observer.complete();
-                });
+            this.service.save(entity).then((result: Product) => {
+                observer.next(result);
+                observer.complete();
+            });
         });
-
     }
 
-    delete() {
+    delete(): void {
         const dialogRef = this.matDialog.open(DeletePopupComponent, {
             width: '250px',
-            data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
+            data: <DeletePopupData>{
+                elementDescription: this.currentEntity.name
+            }
         });
 
         dialogRef.afterClosed().subscribe((result: DeletePopupResult) => {
-            if (result == 'YES') {
+            if (result === 'YES') {
                 this.deleteExecution();
             }
         });
     }
 
-    deleteExecution() {
-        this.service.delete(this.currentEntity.id)
-            .then(() => {
-
-                // Show the success message
-                this._matSnackBar.open('Product deleted', 'OK', {
-                    verticalPosition: 'top',
-                    duration: 2000
-                });
-
-                // Change the location with new one
-                this._location.go('apps/products');
+    deleteExecution(): void {
+        this.service.delete(this.currentEntity.id).then(() => {
+            // Show the success message
+            this._matSnackBar.open('Product deleted', 'OK', {
+                verticalPosition: 'top',
+                duration: 2000
             });
+
+            // Change the location with new one
+            this._location.go('apps/products');
+        });
     }
 
-    openFileDialog() {
+    openFileDialog(): void {
         const dialogRef = this.matDialog.open(FilePopupComponent, {
             width: '250px',
-            data: <DeletePopupData>{ elementDescription: this.currentEntity.name }
+            data: <DeletePopupData>{
+                elementDescription: this.currentEntity.name
+            }
         });
 
         dialogRef.afterClosed().subscribe((result: FilePopupResult) => {
-            if (result == 'YES') {
+            if (result === 'YES') {
                 this.deleteExecution();
             }
         });
     }
 
-    disableSaveFrmMain() {
-        return (this.frmMain.invalid || this.frmMain.pristine);
+    disableSaveFrmMain(): boolean {
+        return this.frmMain.invalid || this.frmMain.pristine;
     }
 
-    disableSave() {
+    disableSave(): boolean {
         return this.disableSaveFrmMain();
     }
 
-
-    /**********************************ProductAllowedColorType************************************/
-    //getProductColorType(productColorTypeId: string) {
-    //    return this.listProductColorType$.pipe(map(list => list.find(item => item.key == productColorTypeId) || {}));
-    //}
-
-    //private _filterProductAllowedColorTypes(value: string): Observable<EnumItem<string>[]> {
-    //    const filterValue = value.toLowerCase();
-    //    return this.listProductColorType$.pipe(map(list => list.filter(item => item.value.toLowerCase().indexOf(filterValue) === 0)));
-    //}
-    //selectedProductAllowedColorType(event: MatAutocompleteSelectedEvent): void {
-    //    //debugger;
-    //    const productColortTypeId = event.option.value;
-    //    this.listProductColorType$.pipe(map(list => list.find(item => item.key == <string>event.option.value)))
-    //        .pipe(filter(item => !!item))
-    //        .subscribe(item => {
-    //            this.addProductAllowedColorType(item);
-    //        });
-    //}
-    //addTypedColorType(event: MatChipInputEvent): void {
-    //    // Add fruit only when MatAutocomplete is not open
-    //    // To make sure this does not conflict with OptionSelected Event
-    //    if (!this.matAutocomplete.isOpen) {
-    //        const value = event.value;
-    //        const selectedItem = this.listProductColorType$.pipe(map(list => list.find(item => item.key == value)))
-    //            .pipe(filter(item => !!item))
-    //            .subscribe(item => {
-    //                this.addProductAllowedColorType(item);
-    //            });
-    //    }
-    //}
-
-    //removeProductAllowedColorType(item: ProductAllowedColorTypeGrid): void {
-    //    const index = this.productAllowedColorTypes.indexOf(item);
-    //    if (index >= 0) {
-    //        this.serviceProductAllowedColorType.delete(this.productAllowedColorTypes[index].id).then(response => {
-    //            //debugger;
-    //        });
-    //    }
-    //}
-
-    //addProductAllowedColorType(item: EnumItem<string>) {
-    //    let allowedColorType = <ProductAllowedColorTypeGrid>{ productId: this.currentEntity.id, productColorTypeId: item.key };
-    //    this.serviceProductAllowedColorType.add(allowedColorType).then(response => {
-    //        // debugger;
-    //        this.productAllowedColorTypes.push(response.bag);
-    //        this.productAllowedColorTypeCtrl.setValue(null);
-
-    //    });
-    //}
+    async deleteMedia(media: ProductMediaGrid): Promise<any> {
+        await this.customUploader.delete(media.id).then(() => {
+            debugger;
+            const mediaIndex = this.medias.findIndex(
+                mediaItem => (<ProductMediaGrid>mediaItem).id === media.id
+            );
+            this.medias.splice(mediaIndex, 1);
+        });
+    }
 }
-

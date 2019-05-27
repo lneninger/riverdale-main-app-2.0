@@ -11,8 +11,8 @@ import { takeUntil } from 'rxjs/internal/operators';
 
 
 /*************************Custom***********************************/
-//import { AngularFireAuth } from '@angular/fire/auth';
-//import { AngularFireDatabase } from '@angular/fire/database';
+// import { AngularFireAuth } from '@angular/fire/auth';
+// import { AngularFireDatabase } from '@angular/fire/database';
 import { DataSourceAbstract } from '../@hipalanetCommons/datatable/datasource.abstract.class';
 import { ProductGrid, Product, ProductNewDialogResult, ProductNewDialogInput } from './product.model';
 import { HttpClient } from '@angular/common/http';
@@ -104,11 +104,11 @@ export class ProductsComponent implements OnInit {
 export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
 {
     /**
-     * Constructor
-     *
-     * @param {ProductsListService} _service
-     * @param {MatPaginator} _matPaginator
-     * @param {MatSort} _matSort
+     * 
+     * @param service Product service
+     * @param filterElement Filter element
+     * @param matPaginator Material paginator
+     * @param matSort Material sort
      */
     constructor(
         service: ProductService
@@ -119,21 +119,14 @@ export class ProductsDataSource extends DataSourceAbstract<ProductGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint: string = `${environment.appApi.apiBaseUrl}product/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}product/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
-
-
-        let result = {};
-
+        const result: {} = {};
 
         return result;
     }
-
-
 }
-
-
 
 @Component({
     selector: 'productnew-dialog',
@@ -163,7 +156,7 @@ export class ProductNewDialogComponent {
         });
     }
 
-    save() {
+    save(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
@@ -190,11 +183,12 @@ export class ProductNewDialogComponent {
 
     createEdit(): void {
         this.save().then((res: OperationResponseValued<Product>) => {
-            debugger;
-            let result = <ProductNewDialogResult>{
+            // debugger;
+            const result = <ProductNewDialogResult>{
                 goTo: 'Edit',
                 data: res.bag
-            }
+            };
+
             this.dialogRef.close(result);
         });
     }

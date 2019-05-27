@@ -201,6 +201,7 @@ namespace DatabaseRepositories.DB
                 if (entity != null)
                 {
                     entity.DeletedAt = DateTime.UtcNow;
+                    entity.IsDeleted = true;
                     dbLocator.SaveChanges();
 
                     var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileDeleteCommandOutputDTO

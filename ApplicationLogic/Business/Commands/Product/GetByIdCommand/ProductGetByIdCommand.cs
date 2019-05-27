@@ -33,7 +33,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                         Name = getByIdResult.Bag.Name,
                         ProductTypeId = getByIdResult.Bag.ProductTypeId,
                         ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
-                        Medias = getByIdResult.Bag.ProductMedias.Select(m => new FileItemRefOutputDTO
+                        Medias = getByIdResult.Bag.ProductMedias.Where(m => (m.IsDeleted  == null || m.IsDeleted == false) && (m.FileRepository.IsDeleted == null || m.FileRepository.IsDeleted == false)).Select(m => new FileItemRefOutputDTO
                         {
                             Id = m.Id,
                             FileId = m.FileRepositoryId,

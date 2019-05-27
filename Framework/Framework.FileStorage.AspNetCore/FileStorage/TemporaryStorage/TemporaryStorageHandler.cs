@@ -116,6 +116,11 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 RetrieveFile(context);
             }
 
+            if (context.Request.Method == "DELETE")
+            {
+                this.DeleteFile(context);
+            }
+
         }
 
         private List<TemporaryFileUpdatedResult> UploadFile(HttpContext context)
@@ -160,9 +165,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 {
                     try
                     {
-
                         var getFileDataRetriever = IoCGlobal.Resolve<IFileRetriever>(null, scope);
-
 
                         var fileInfoResult = getFileDataRetriever.GetFileData(fileRepositoryId);
                         if (!fileInfoResult.IsSucceed)
@@ -197,6 +200,59 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
                         var memStream = new MemoryStream(result);
                         memStream.CopyTo(context.Response.Body);
+                        //context.Response.ContentType = mimeType;
+                        context.Response.Body.Flush();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"File Retrieve - {fileRepositoryId}", ex);
+                        throw;
+                    }
+                    return;
+                }
+            }
+        }
+
+        private async Task DeleteFile(HttpContext context)
+        {
+            var fileRepositoryIdStr = context.Request.Query["id"];
+
+            if (int.TryParse(fileRepositoryIdStr, out int fileRepositoryId))
+            {
+                //Scope name: AutofacWebRequest is mandatory to match the WebApi scope created. 
+                //If the scope is changed some injections stop working with the message that "AutofacWebRequest" scope was not found.
+                using (var scope = IoCGlobal.NewScope("AutofacWebRequest"))
+                {
+                    try
+                    {
+                        var getFileDataRetriever = IoCGlobal.Resolve<IFileRetriever>(null, scope);
+
+                        var fileInfoResult = getFileDataRetriever.GetFileData(fileRepositoryId);
+                        var fileInfo = fileInfoResult.Bag;
+                        var fileDeleteResult = getFileDataRetriever.DeleteFile(fileRepositoryId);
+                        if (!fileInfoResult.IsSucceed)
+                        {
+                            return;
+                        }
+
+                        //string mimeType = null;
+                        //var fileStorageService = IoCGlobal.Resolve<IFileStorageService>(fileInfo.FileSystemTypeId, scope);
+                        //byte[] result = null;
+
+                        //result = await fileStorageService.RetrieveFile(fileInfo.RootPath, fileInfo.AccessPath, fileInfo.RelativePath, fileInfo.FileName);
+                        //mimeType = FileHelpers.GetMimeTypeByExtension(fileInfo.FileName);
+
+
+                        //context.Response.OnStarting(state =>
+                        //{
+                        //    var httpContext = (HttpContext)state;
+                        //    httpContext.Response.ContentType = mimeType;
+                        //    return Task.FromResult(0);
+                        //}, context);
+
+                        //var memStream = new MemoryStream(result);
+                        //memStream.CopyTo(context.Response.Body);
                         //context.Response.ContentType = mimeType;
                         context.Response.Body.Flush();
 

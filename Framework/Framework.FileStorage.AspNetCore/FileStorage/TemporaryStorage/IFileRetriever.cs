@@ -6,5 +6,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
     public interface IFileRetriever
     {
         OperationResponse<IFileData> GetFileData(object identifier);
+
+        OperationResponse<IFileData> DeleteFile(object identifier);
     }
 }

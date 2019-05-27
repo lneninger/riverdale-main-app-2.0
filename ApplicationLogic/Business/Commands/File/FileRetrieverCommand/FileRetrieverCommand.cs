@@ -15,7 +15,20 @@ namespace ApplicationLogic.Business.Commands.File.FileRetrieverCommand
         {
         }
 
-        public OperationResponse<IFileData> GetFileData(object identifier) {
+        public OperationResponse<IFileData> DeleteFile(object identifier)
+        {
+            var result = new OperationResponse<IFileData>();
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                var getByIdResult = this.Repository.Delete((int)identifier);
+                result.AddResponse(getByIdResult);
+            }
+
+            return result;
+        }
+
+        public OperationResponse<IFileData> GetFileData(object identifier)
+        {
             var result = new OperationResponse<IFileData>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
@@ -35,7 +48,7 @@ namespace ApplicationLogic.Business.Commands.File.FileRetrieverCommand
                         FileSystemTypeId = getByIdResult.Bag.FileSystemTypeId,
                         ThumbnailFullFilePath = getByIdResult.Bag.ThumbnailFullFilePath,
                         FullFilePath = getByIdResult.Bag.FullFilePath,
-                        
+
                     };
                 }
             }

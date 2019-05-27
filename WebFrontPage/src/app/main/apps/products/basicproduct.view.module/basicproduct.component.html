@@ -46,10 +46,9 @@
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
-
-          
         </div>
         <!-- / HEADER -->
+
         <!-- CONTENT CARD -->
         <div class="content-card">
 
@@ -119,16 +118,20 @@
 
                                     <div *ngFor="let media of medias">
                                         <div *ngIf="medias.length > 0"
-                                             class="product-image" fxlayout="row" fxLayoutAlign="center center">
+                                             class="product-image" fxlayout="row" fxLayoutAlign="stretch stretch">
                                             <ng-container [ngSwitch]="customUploader.isUploaded(media)">
                                                 <ng-container *ngSwitchCase="true">
-                                                    <div>
-                                                        <img class="media" [src]="(media.url || media.base64)">
-                                                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-                                                    </div>
+                                                        <img class="media" fxFlex [src]="(media.url || media.base64)">
+                                                        <button mat-icon-button class="primary-50-fg" (click)="deleteMedia(media)" matTooltip="Delete" matTooltipPosition="above">
+                                                                <mat-icon>delete</mat-icon>
+                                                            </button>
+                                                        <!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar> -->
                                                 </ng-container>
                                                 <ng-container *ngSwitchCase="false">
-                                                    <img class="media" [src]="(media.fileId | fileUrl : 'assets/images/ecommerce/product-image-placeholder.png': false) | async">
+                                                    <img class="media"  fxFlex [src]="(media.fileId | fileUrl : 'assets/images/ecommerce/product-image-placeholder.png': false) | async">
+                                                    <button mat-icon-button class="primary-50-fg" (click)="deleteMedia(media)" matTooltip="Delete" matTooltipPosition="above">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
                                                 </ng-container>
                                             </ng-container>
                                         </div>
