@@ -15,6 +15,7 @@ using ApplicationLogic.Business.Commands.File.GetByIdCommand.Models;
 using Framework.FileStorage.Standard.FileStorage.Models;
 using Framework.Core.ReflectionHelpers;
 using Framework.Commons;
+using Framework.Storage.FileStorage.TemporaryStorage;
 
 namespace ApplicationLogic.Business.Commands.File.InsertCommand
 {
@@ -30,7 +31,7 @@ namespace ApplicationLogic.Business.Commands.File.InsertCommand
         {
         }
 
-        public OperationResponse<FileInsertCommandOutputDTO> Execute<T>(T input) where T : FileArgs
+        public OperationResponse<FileInsertCommandOutputDTO> Execute<T, A>(T input) where T : FileArgs<A> where A: UploadedFile
         {
 
 

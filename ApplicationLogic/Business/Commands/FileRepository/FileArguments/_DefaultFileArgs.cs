@@ -8,12 +8,22 @@ using System.Text;
 
 namespace FocusApplication.Business.Commands.FileRepository.FileArguments
 {
-    public class DefaultFileArgs : FileArgs
+    public class DefaultFileArgs : BaseFileArgs<UploadedFile>
     {
-
-        public DefaultFileArgs()
+        public DefaultFileArgs(): base()
         {
 
+        }
+
+        public DefaultFileArgs(FileAreaEnum.Enum fileAreaId, string documentTypeId, UploadedFile file, string languageTypeId = null, string sourceLocaleLanguageId = null): base(fileAreaId, documentTypeId, file, languageTypeId, sourceLocaleLanguageId)
+        {
+        }
+    }
+
+    public abstract class BaseFileArgs<T> : FileArgs<T> where T : UploadedFile
+    {
+        public BaseFileArgs()
+        {
         }
 
         /// <summary>
@@ -23,7 +33,7 @@ namespace FocusApplication.Business.Commands.FileRepository.FileArguments
         /// <param name="documentTypeId">The document type identifier.</param>
         /// <param name="languageTypeId">The language type identifier.</param>
         /// <param name="file">The file.</param>
-        public DefaultFileArgs(FileAreaEnum.Enum fileAreaId, string documentTypeId, UploadedFile file, string languageTypeId = null, string sourceLocaleLanguageId = null) : base()
+        public BaseFileArgs(FileAreaEnum.Enum fileAreaId, string documentTypeId, T file, string languageTypeId = null, string sourceLocaleLanguageId = null) : base()
         {
             this.FileTypeId = documentTypeId;
             this.FileAreaId = fileAreaId.ToString();

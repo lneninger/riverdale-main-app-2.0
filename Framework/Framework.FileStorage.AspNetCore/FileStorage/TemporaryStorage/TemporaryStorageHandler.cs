@@ -125,6 +125,10 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
         private List<TemporaryFileUpdatedResult> UploadFile(HttpContext context)
         {
+            bool saveAsGrayscale = false;
+            
+            bool.TryParse(context.Request.Query["grayscale"], out saveAsGrayscale);
+
             var files = context.Request.Form.Files;
             var result = new List<TemporaryFileUpdatedResult>();
             try
@@ -134,7 +138,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                 {
                     file = files[i];
 
-                    var fileEntry = new TemporaryFileUploadDTO(file.FileName, file.ContentType, file.OpenReadStream());
+                    var fileEntry = new TemporaryFileUploadDTO(file.FileName, file.ContentType, file.OpenReadStream(), saveAsGrayscale);
                     var resultItem = fileEntry.SaveFile(BaseTemporaryStorage);
 
                     result.Add(resultItem);

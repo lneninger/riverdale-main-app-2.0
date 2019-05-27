@@ -2,6 +2,7 @@
 using Framework.Logging.Log4Net;
 using Framework.Storage.FileStorage.interfaces;
 using Framework.Storage.FileStorage.Models;
+using Framework.Storage.FileStorage.TemporaryStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,10 +39,10 @@ namespace Framework.Storage.FileStorage
             return result;
         }
 
-       
-        protected abstract FileStorageResultDTO InternalSave(FileArgs args);
 
-        public virtual FileStorageResultDTO Save(FileArgs args)
+        protected abstract FileStorageResultDTO InternalSave<T>(FileArgs<T> args) where T : UploadedFile;
+
+        public virtual FileStorageResultDTO Save<T>(FileArgs<T> args) where T: UploadedFile
         {
            var result = this.InternalSave(args);
             return result;

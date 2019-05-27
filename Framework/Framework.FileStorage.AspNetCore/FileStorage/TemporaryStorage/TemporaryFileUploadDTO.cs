@@ -11,10 +11,12 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 {
     public class TemporaryFileUploadDTO
     {
-        //public IFormFile File { get; set; }
         public string FileName { get; }
         public long Size { get; }
         public string ContentType { get; }
+
+        private bool saveAsGrayscale;
+
         public byte[] Content { get; }
         public Guid UniqueIdentifier { get; }
         public string TemporaryFileName
@@ -28,12 +30,14 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
 
         public bool Saved { get; private set; }
 
-        public TemporaryFileUploadDTO(string fileName, string contentType, Stream stream)
+        public TemporaryFileUploadDTO(string fileName, string contentType, Stream stream, bool saveAsGrayscale = false)
         {
             this.UniqueIdentifier = Guid.NewGuid();
             this.FileName = fileName;
             this.Size = stream.Length;
             this.ContentType = contentType;
+            this.saveAsGrayscale = true;
+
             using (var memStream = new MemoryStream())
             {
                 stream.CopyTo(memStream);

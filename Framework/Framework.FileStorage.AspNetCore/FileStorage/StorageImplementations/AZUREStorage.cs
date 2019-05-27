@@ -24,7 +24,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
             throw new NotImplementedException();
         }
 
-        protected override FileStorageResultDTO InternalSave(FileArgs args)
+        protected override FileStorageResultDTO InternalSave<T>(FileArgs<T> args)
         {
             throw new NotImplementedException();
         }

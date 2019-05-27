@@ -7,5 +7,7 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand.Models
     public class ProductMediaInsertCommandInputDTO: UploadedFile
     {
         public int ProductId { get; set; }
+
+        public bool? SaveAsGrayscale { get; set; }
     }
 }

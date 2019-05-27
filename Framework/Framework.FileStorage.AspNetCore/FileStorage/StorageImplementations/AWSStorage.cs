@@ -104,7 +104,7 @@ namespace Framework.Storage.FileStorage.StorageImplementations
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        protected override FileStorageResultDTO InternalSave(FileArgs args)
+        protected override FileStorageResultDTO InternalSave<T>(FileArgs<T> args)
         {
             string[] targetRelativePathElements = args.GetRelativePathElements();
             string[] targetFileNameElements = args.GetFileNameElements();

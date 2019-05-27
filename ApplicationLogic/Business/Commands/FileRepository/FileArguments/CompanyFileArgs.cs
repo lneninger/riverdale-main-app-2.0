@@ -1,12 +1,13 @@
 ﻿using Framework.Core.Messages;
 using Framework.Storage.FileStorage.Models;
+using Framework.Storage.FileStorage.TemporaryStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FocusApplication.Business.Commands.FileRepository.FileArguments
 {
-    public class CompanyFileArgs : FileArgs
+    public class CompanyFileArgs : FileArgs<UploadedFile>
     {
         public override string[] GetFileNameElements()
         {

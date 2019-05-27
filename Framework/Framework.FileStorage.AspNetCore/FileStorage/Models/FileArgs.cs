@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace Framework.Storage.FileStorage.Models
 {
-    public abstract class FileArgs : IDisposable
+
+    
+    public abstract class FileArgs<T> : IDisposable where T: UploadedFile
     {
         public FileArgs()
         {
@@ -17,7 +19,7 @@ namespace Framework.Storage.FileStorage.Models
 
         public Guid FileId { get; protected set; }
 
-        public UploadedFile UploadedFile
+        public T UploadedFile
         {
             get
             {
@@ -135,6 +137,6 @@ namespace Framework.Storage.FileStorage.Models
 
         public Func<string[], string> BuildFileName;
 
-        private UploadedFile _uploadedFile;
+        private T _uploadedFile;
     }
 }

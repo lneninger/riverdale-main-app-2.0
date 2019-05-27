@@ -8,6 +8,7 @@ using Framework.Core.Messages;
 using ApplicationLogic.Business.Commands.File.InsertCommand;
 using FocusApplication.Business.Commands.FileRepository.FileArguments;
 using System.Transactions;
+using Framework.Storage.FileStorage.TemporaryStorage;
 
 namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
 {
@@ -28,7 +29,7 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.InsertCommand
                 using (var transaction = new TransactionScope())
                 {
                     var createFileArgs = this.CreateFileArgs(input);
-                    var fileInsertResult = this.FileInsertCommand.Execute<DefaultFileArgs>(createFileArgs);
+                    var fileInsertResult = this.FileInsertCommand.Execute<DefaultFileArgs, UploadedFile>(createFileArgs);
                     result.AddResponse(fileInsertResult);
 
                     if (result.IsSucceed)
