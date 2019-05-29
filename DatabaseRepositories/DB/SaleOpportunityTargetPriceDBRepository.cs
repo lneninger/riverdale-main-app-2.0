@@ -95,12 +95,11 @@ namespace DatabaseRepositories.DB
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
-                    result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);//.FirstOrDefault();
+                    result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);
                     if (forceRefresh && result.Bag != null)
                     {
                         this.Detach(result.Bag);
-                        result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);//.FirstOrDefault();
-
+                        result.Bag = dbLocator.Set<SaleOpportunityTargetPrice>().Find(id);
                     }
                 }
             }

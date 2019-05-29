@@ -33,17 +33,14 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                         Name = getByIdResult.Bag.Name,
                         ProductTypeId = getByIdResult.Bag.ProductTypeId,
                         ProductCategoryId = getByIdResult.Bag.ProductCategoryId,
-                        Medias = getByIdResult.Bag.ProductMedias.Where(m => (m.IsDeleted  == null || m.IsDeleted == false) && (m.FileRepository.IsDeleted == null || m.FileRepository.IsDeleted == false)).Select(m => new FileItemRefOutputDTO
+                        Medias = getByIdResult.Bag.ProductMedias.Where(m => m.IsDeleted  == null || m.IsDeleted == false).Select(m => new FileItemRefOutputDTO
                         {
                             Id = m.Id,
                             FileId = m.FileRepositoryId,
-                            FullUrl = m.FileRepository.FullFilePath
+                            FullUrl = m.FileRepository.FullFilePath,
+                            IsDeleted = (m.IsDeleted == true || m.FileRepository.IsDeleted == true)
                         }).ToList(),
-                        //ProductAllowedColorTypes = getByIdResult.Bag.ProductAllowedColorTypes.Select(m => new ProductGetByIdCommandOutputAllowedColorTypeItemDTO
-                        //{
-                        //    Id = m.Id,
-                        //    ProductColorTypeId = m.ProductColorTypeId,
-                        //}).ToList()
+                       
                     };
 
                     if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)

@@ -332,12 +332,14 @@ export class BasicProductComponent implements OnInit, OnDestroy {
     }
 
     async deleteMedia(media: ProductMediaGrid): Promise<any> {
-        await this.customUploader.delete(media.id).then(() => {
-            debugger;
+        await this.serviceProductMedia.delete(media.id).then(result => {
+            if(result.bag.isDeleted)
+            {
             const mediaIndex = this.medias.findIndex(
                 mediaItem => (<ProductMediaGrid>mediaItem).id === media.id
             );
             this.medias.splice(mediaIndex, 1);
+            }
         });
     }
 }

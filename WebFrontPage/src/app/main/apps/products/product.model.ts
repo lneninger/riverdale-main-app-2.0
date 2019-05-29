@@ -47,11 +47,13 @@ export class CompositionProduct extends Product{
 export class ProductMediaGrid {
     id?: number;
     fileId?: number;
+    isDeleted: boolean;
 
     constructor(item?) {
         const internal = item || <ProductMediaGrid>{};
         this.id = internal.id;
         this.fileId = internal.fileId;
+        this.isDeleted = internal.isDeleted;
     }
 }
 

@@ -53,7 +53,7 @@ namespace ApplicationLogic.Business.Commands.ProductBridge.UpdateCommand
                             RelatedProductName = getByIdResult.Bag.CompositionItem.Name,
                             RelatedProductTypeName = getByIdResult.Bag.CompositionItem.ProductType.Name,
                             RelatedProductTypeDescription = getByIdResult.Bag.CompositionItem.ProductType.Description,
-                            RelatedProductPictureId = getByIdResult.Bag.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault(),
+                            RelatedProductPictureId = getByIdResult.Bag.CompositionItem.ProductMedias.Where(m => m.IsDeleted == null || m.IsDeleted == false).Select(media => media.FileRepositoryId).FirstOrDefault(),
                             RelatedProductTypeId = getByIdResult.Bag.CompositionItem.ProductTypeId,
                             RelatedProductCategoryId = getByIdResult.Bag.CompositionItem.ProductCategoryId
                         };

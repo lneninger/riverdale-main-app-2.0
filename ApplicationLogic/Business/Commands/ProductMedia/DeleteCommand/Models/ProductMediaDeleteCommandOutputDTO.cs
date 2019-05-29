@@ -12,6 +12,8 @@ namespace ApplicationLogic.Business.Commands.ProductMedia.DeleteCommand.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ERPId { get; set; }
+        public int ProductId { get; internal set; }
+        public bool? IsDeleted { get; internal set; }
+        public DateTime? DeletedAt { get; internal set; }
     }
 }

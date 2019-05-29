@@ -10,5 +10,6 @@ namespace ApplicationLogic.Business.Commons.DTOs
 
         public string FullUrl { get; set; }
         public int FileId { get; set; }
+        public bool IsDeleted { get; internal set; }
     }
 }

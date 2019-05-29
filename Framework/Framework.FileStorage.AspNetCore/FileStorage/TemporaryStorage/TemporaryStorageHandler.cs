@@ -126,7 +126,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
         private List<TemporaryFileUpdatedResult> UploadFile(HttpContext context)
         {
             bool saveAsGrayscale = false;
-            
+
             bool.TryParse(context.Request.Query["grayscale"], out saveAsGrayscale);
 
             var files = context.Request.Form.Files;
@@ -172,9 +172,9 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                         var getFileDataRetriever = IoCGlobal.Resolve<IFileRetriever>(null, scope);
 
                         var fileInfoResult = getFileDataRetriever.GetFileData(fileRepositoryId);
-                        if (!fileInfoResult.IsSucceed)
+                        if (!fileInfoResult.IsSucceed || fileInfoResult.Bag == null)
                         {
-                            return;
+                            throw new Exception();
                         }
 
                         var fileInfo = fileInfoResult.Bag;
@@ -194,6 +194,10 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                             mimeType = FileHelpers.GetMimeTypeByExtension(fileInfo.FileName);
                         }
 
+                        if (result == null || result.Length == 0)
+                        {
+                            throw new FileNotFoundException();
+                        }
 
                         context.Response.OnStarting(state =>
                         {
@@ -201,6 +205,8 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                             httpContext.Response.ContentType = mimeType;
                             return Task.FromResult(0);
                         }, context);
+
+                        
 
                         var memStream = new MemoryStream(result);
                         memStream.CopyTo(context.Response.Body);
@@ -215,6 +221,10 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                     }
                     return;
                 }
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 
@@ -263,7 +273,7 @@ namespace Framework.Storage.FileStorage.TemporaryStorage
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error($"File Retrieve - {fileRepositoryId}", ex);
+                        Logger.Error($"File Delete - {fileRepositoryId}", ex);
                         throw;
                     }
                     return;

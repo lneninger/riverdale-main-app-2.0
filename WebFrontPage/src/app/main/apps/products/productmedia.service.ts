@@ -111,7 +111,7 @@ export class ProductMediaService implements Resolve<any>, IPageQueryService {
 
     delete(id: number): Promise<OperationResponse<ProductMediaGrid>> {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}productmedia/{id}`).subscribe((res: OperationResponse<ProductMediaGrid>) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}productmedia/${id}`).subscribe((res: OperationResponse<ProductMediaGrid>) => {
                 resolve(res);
             },
             error => {

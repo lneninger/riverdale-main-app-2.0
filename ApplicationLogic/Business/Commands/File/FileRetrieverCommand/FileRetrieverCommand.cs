@@ -20,8 +20,17 @@ namespace ApplicationLogic.Business.Commands.File.FileRetrieverCommand
             var result = new OperationResponse<IFileData>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var getByIdResult = this.Repository.Delete((int)identifier);
-                result.AddResponse(getByIdResult);
+                try
+                {
+                    var getByIdResult = this.Repository.Delete((int)identifier);
+                    dbContextScope.SaveChanges();
+                    result.AddResponse(getByIdResult);
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.Error("Error Deleting file", ex);
+                    throw;
+                }
             }
 
             return result;

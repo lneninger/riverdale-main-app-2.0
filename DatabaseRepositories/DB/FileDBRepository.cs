@@ -196,13 +196,13 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<FileDeleteCommandOutputDTO>();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            try
             {
                 var entity = dbLocator.Set<File>().FirstOrDefault(o => o.Id == id);
                 if (entity != null)
                 {
                     entity.DeletedAt = DateTime.UtcNow;
                     entity.IsDeleted = true;
-                    dbLocator.SaveChanges();
 
                     var dbResult = dbLocator.Set<File>().Where(o => o.Id == entity.Id).Select(o => new FileDeleteCommandOutputDTO
                     {
@@ -212,6 +212,11 @@ namespace DatabaseRepositories.DB
                     result.Bag = dbResult;
                     return result;
                 }
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error("Error Deleting file", ex);
+                throw;
             }
 
             return null;

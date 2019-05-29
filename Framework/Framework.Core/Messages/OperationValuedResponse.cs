@@ -52,5 +52,6 @@ namespace Framework.Core.Messages
         /// The bag
         /// </summary>
         public T Bag;
+
     }
 }

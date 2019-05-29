@@ -97,9 +97,7 @@ namespace DatabaseRepositories.DB
             try
             {
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                {
-                    result.Bag = dbLocator.Set<Grower>().Where(o => o.Id == id).FirstOrDefault();
-                }
+                result.Bag = dbLocator.Set<Grower>().Where(o => o.Id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -123,7 +121,7 @@ namespace DatabaseRepositories.DB
             }
 
             return result;
-            
+
         }
 
         //public OperationResponse<GrowerUpdateCommandOutputDTO> Update(GrowerUpdateCommandInputDTO input)
@@ -156,15 +154,13 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<GrowerDeleteCommandOutputDTO>();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            try
             {
-                try
-                {
-                    dbLocator.Set<Grower>().Remove(entity);
-                }
-                catch (Exception ex)
-                {
-                    result.AddException("Error deleting Grower", ex);
-                }
+                dbLocator.Set<Grower>().Remove(entity);
+            }
+            catch (Exception ex)
+            {
+                result.AddException("Error deleting Grower", ex);
             }
 
             return null;
@@ -175,19 +171,17 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<GrowerDeleteCommandOutputDTO>();
 
             var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+            try
             {
-                try
+                if (!(entity.IsDeleted ?? false))
                 {
-                    if (!(entity.IsDeleted ?? false))
-                    {
-                        entity.DeletedAt = DateTime.UtcNow;
-                        dbLocator.SaveChanges();
-                    }
+                    entity.DeletedAt = DateTime.UtcNow;
+                    dbLocator.SaveChanges();
                 }
-                catch (Exception ex)
-                {
-                    result.AddException("Error voiding Grower", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                result.AddException("Error voiding Grower", ex);
             }
 
             return null;

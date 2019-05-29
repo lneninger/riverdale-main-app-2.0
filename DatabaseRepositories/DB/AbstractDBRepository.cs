@@ -5,11 +5,14 @@ using System;
 using System.Collections.Generic;
 using DomainModel;
 using Microsoft.EntityFrameworkCore;
+using Framework.Logging.Log4Net;
 
 namespace DatabaseRepositories
 {
     public class AbstractDBRepository : IDBRepository
     {
+        public LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public AbstractDBRepository(IAmbientDbContextLocator ambientDbContextLocator)
         {
             this.AmbientDbContextLocator = ambientDbContextLocator;

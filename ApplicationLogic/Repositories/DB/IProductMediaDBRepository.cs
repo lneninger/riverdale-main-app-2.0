@@ -15,12 +15,12 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<ProductMediaPageQueryCommandOutputDTO>> PageQuery(PageQuery<ProductMediaPageQueryCommandInputDTO> input);
 
-        OperationResponse<ProductMedia> GetById(int id);
+        OperationResponse<ProductMedia> GetById(int id, bool forceRefresh = false);
 
         OperationResponse Insert(ProductMedia input);
 
         OperationResponse<ProductMediaUpdateCommandOutputDTO> Update(ProductMediaUpdateCommandInputDTO input);
 
-        OperationResponse<ProductMediaDeleteCommandOutputDTO> Delete(int id);
+        OperationResponse Delete(int id);
     }
 }

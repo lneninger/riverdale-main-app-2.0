@@ -69,5 +69,14 @@ namespace Framework.Core.Messages
         /// </value>
         public ICollection<OperationMessage> Messages { get; set; }
 
+        public IEnumerable<OperationMessage> Warnings
+        {
+            get
+            {
+                return this.Messages.Where(message => message.MessageType == MessageTypeEnum.Warning);
+            }
+        }
+
+
     }
 }

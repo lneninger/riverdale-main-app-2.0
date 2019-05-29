@@ -99,7 +99,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductMedia> GetById(int id)
+        public OperationResponse<ProductMedia> GetById(int id, bool forceRefresh = false)
         {
             var result = new OperationResponse<ProductMedia>();
             try
@@ -107,6 +107,11 @@ namespace DatabaseRepositories.DB
                 var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<ProductMedia>().Where(o => o.Id == id).FirstOrDefault();
+                    if (forceRefresh && result.Bag != null)
+                    {
+                        this.Detach(result.Bag);
+                        result.Bag = dbLocator.Set<ProductMedia>().Where(o => o.Id == id).FirstOrDefault();
+                    }
                 }
             }
             catch (Exception ex)
@@ -151,7 +156,7 @@ namespace DatabaseRepositories.DB
             }
         }
 
-        public OperationResponse<ProductMediaDeleteCommandOutputDTO> Delete(int id)
+        public OperationResponse Delete(int id)
         {
             var result = new OperationResponse<ProductMediaDeleteCommandOutputDTO>();
 
@@ -161,19 +166,17 @@ namespace DatabaseRepositories.DB
                 if (entity != null)
                 {
                     entity.DeletedAt = DateTime.UtcNow;
-                    dbLocator.SaveChanges();
+                    entity.IsDeleted = true;
 
-                    var dbResult = dbLocator.Set<ProductMedia>().Where(o => o.Id == entity.Id).Select(o => new ProductMediaDeleteCommandOutputDTO
-                    {
-                        Id = o.Id,
-                    }).FirstOrDefault();
 
-                    result.Bag = dbResult;
-                    return result;
+                }
+                else
+                {
+                    result.AddWarning("Product Media not found");
                 }
             }
 
-            return null;
+            return result;
         }
 
 

@@ -145,7 +145,11 @@ namespace DatabaseRepositories.DB
             try
             {
                 var dbContext = AmbientDbContextLocator.Get<RiverdaleDBContext>();
-                result.Bag = dbContext.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { { "ProductTypeId", masterItem.ProductTypeId }, { "ProductCategoryId", masterItem.ProductCategoryId }, { "PictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault() } } }).ToList();
+                result.Bag = dbContext.Set<AbstractProduct>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> {
+                    { "ProductTypeId", masterItem.ProductTypeId },
+                    { "ProductCategoryId", masterItem.ProductCategoryId },
+                    { "PictureId", masterItem.ProductMedias.Where(m => m.IsDeleted == null || m.IsDeleted == false).Select(media => (int?)media.FileRepositoryId).FirstOrDefault() },
+                    { "FirstPictureId", masterItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault() } } }).ToList();
             }
             catch (Exception ex)
             {
