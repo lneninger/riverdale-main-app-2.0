@@ -99,14 +99,14 @@ export class SaleOpportunityTargetPriceProductNewDialogComponent {
         if (data.productId) {
             this.product$ = this.productService.getById(data.productId);
             // .pipe(map(res => res.bag))
-            
+        } else {
+            const response = <OperationResponseValued<Product>>{};
+            this.product$ = of(response);
+
             this.frmMain = frmBuilder.group({
                 name: ['', [Validators.required]],
                 productColorTypeId: ['', [Validators.required]]
             });
-        } else {
-            const response = <OperationResponseValued<Product>>{};
-            this.product$ = of(response);
         }
 
         this.frmMain = frmBuilder.group({

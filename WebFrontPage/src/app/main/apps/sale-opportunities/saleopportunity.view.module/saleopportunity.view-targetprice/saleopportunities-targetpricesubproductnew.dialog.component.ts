@@ -51,6 +51,9 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
     product$ = new BehaviorSubject<Product>(null);
 
     relatedProductId$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+    productItem$: Observable<EnumItem<number>>;
+    currentProductCategory$: Observable<EnumItem<number>>;
+    allowedProductColors$: Observable<EnumItem<string>[]>;
     allowedRelatedProductSizes$: Observable<EnumItem<number>[]>;
 
     
@@ -91,26 +94,40 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
 
     ngOnInit(): void{
         // debugger;
-        const productItem$ = combineLatest([this.product$, this.listProduct$])
+        this.productItem$ = combineLatest([this.product$, this.listProduct$])
             .pipe(map(combined => {
                 // debugger;
                 return (<EnumItem<number>[]>combined[1]).find(productItem => productItem.key === combined[0].id);
             }));
 
+            this.configureCurrentProductCategory();
 
-        this.allowedRelatedProductSizes$ =
-        combineLatest([productItem$, this.listProductCategory$])
-        .pipe(map(combined => { 
-            // debugger;
-            return { 
-                productItem: (<EnumItem<number>>combined[0]), 
-                productCategories: (<EnumItem<number>[]>combined[1]) };
-             }))
-        .pipe(switchMap(source => {
-            // debugger;
-            const targetCategoryId = <number><unknown>source.productItem.extras['productCategoryId'];
-            const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key === targetCategoryId);
+            this.filterAllowedProductSizes();
 
+            this.filterAllowedProductColors();
+        
+
+    }
+
+configureCurrentProductCategory(): void {
+    this.currentProductCategory$ =  combineLatest([this.productItem$, this.listProductCategory$])
+    .pipe(map(combined => { 
+        // debugger;
+        return { 
+            productItem: (<EnumItem<number>>combined[0]), 
+            productCategories: (<EnumItem<number>[]>combined[1]) };
+         }))
+    .pipe(switchMap(source => {
+        // debugger;
+        const targetCategoryId = <number><unknown>source.productItem.extras['productCategoryId'];
+        const targetCategory = targetCategoryId && source.productCategories.find(categoryItem => categoryItem.key === targetCategoryId);
+        return of(targetCategory);
+    }));
+}
+   
+
+    filterAllowedProductSizes(): void {
+        this.allowedRelatedProductSizes$ = this.currentProductCategory$.pipe(switchMap(targetCategory => {
             if (targetCategory != null) {
                 return of(<EnumItem<number>[]>targetCategory.extras['sizes']);
             }
@@ -118,7 +135,25 @@ export class SaleOpportunityTargetPriceSubProductNewDialogComponent implements O
                 return of(<EnumItem<number>[]>[]);
             }
         }));
+    }
 
+    filterAllowedProductColors(): void {
+        this.allowedProductColors$ = combineLatest([this.currentProductCategory$, this.listProductColorType$])
+        .pipe(map(combined => { 
+            // debugger;
+            return { 
+                targetCategory: (<EnumItem<number>>combined[0]), 
+                listProductColorType: (<EnumItem<string>[]>combined[1]) };
+             }))
+        .pipe(switchMap(source => {
+            if (source.targetCategory != null) {
+                const allowedColorIds = (<string[]>source.targetCategory.extras['allowedColorTypes']);
+                return of(<EnumItem<string>[]>source.listProductColorType.filter(colorType => allowedColorIds.findIndex(colorTypeId => colorTypeId === colorType.key) >= 0 ) );
+            }
+            else {
+                return of(<EnumItem<string>[]>[]);
+            }
+        }));
     }
 
     save(): Promise<{}> {

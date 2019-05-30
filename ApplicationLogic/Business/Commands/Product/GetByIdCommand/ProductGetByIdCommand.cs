@@ -56,7 +56,7 @@ namespace ApplicationLogic.Business.Commands.Product.GetByIdCommand
                             RelatedProductName = o.CompositionItem.Name,
                             RelatedProductTypeName = o.CompositionItem.ProductType.Name,
                             RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,
-                            RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
+                            RelatedProductPictureId = o.CompositionItem.ProductMedias.Where(m => m.IsDeleted == null || m.IsDeleted == false).Select(media => media.FileRepositoryId).FirstOrDefault()
 
                         }).ToList();
                     }
