@@ -377,22 +377,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2019 12:25:18</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>05/31/2019 06:18:18</publishTime>
+      <publishTime>05/31/2019 06:56:42</publishTime>
     </File>
     <File Include="web.QA.config">
       <publishTime>05/15/2019 12:25:18</publishTime>
     </File>
     <File Include="WebApi.deps.json">
-      <publishTime>05/31/2019 06:18:17</publishTime>
+      <publishTime>05/31/2019 06:56:42</publishTime>
     </File>
     <File Include="WebApi.dll">
-      <publishTime>05/31/2019 06:15:32</publishTime>
+      <publishTime>05/31/2019 06:29:46</publishTime>
     </File>
     <File Include="WebApi.pdb">
-      <publishTime>05/31/2019 06:15:32</publishTime>
+      <publishTime>05/31/2019 06:29:46</publishTime>
     </File>
     <File Include="WebApi.runtimeconfig.json">
-      <publishTime>05/31/2019 06:18:17</publishTime>
+      <publishTime>05/31/2019 06:56:42</publishTime>
     </File>
     <File Include="wwwroot/css/site.css">
       <publishTime>05/15/2019 12:25:18</publishTime>
