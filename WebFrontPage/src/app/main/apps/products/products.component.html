@@ -51,6 +51,13 @@
                        [@animateStagger]="{value:'50'}"
                        fusePerfectScrollbar>
 
+                       <ng-container matColumnDef="picture">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                        <mat-cell *matCellDef="let item">
+                            <img class="avatar mr-0 mr-sm-16" [src]="(item.mainPicture?.id | fileUrl:'assets/images/avatars/product1.png':false | async)">
+                        </mat-cell>
+                    </ng-container>
+
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>

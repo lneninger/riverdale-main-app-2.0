@@ -156,6 +156,12 @@ namespace RiverdaleMainApp2_0.Controllers
             {
                 var signalArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), nameof(SaleOpportunityTargetPriceProduct), appResult.Bag);
                 this.SignalRHubContext.Clients.All.DataChanged(signalArgs);
+
+                if (model.ProductId == null)
+                {
+                    var signalProductArgs = new SignalREventArgs(SignalREvents.DATA_CHANGED.Identifier, nameof(SignalREvents.DATA_CHANGED.ActionEnum.ADDED_ITEM), "Product", appResult.Bag);
+                    this.SignalRHubContext.Clients.All.DataChanged(signalProductArgs);
+                }
             }
 
             return appResult.IsSucceed ? (IActionResult)this.Ok(appResult) : (IActionResult)this.BadRequest(appResult);
