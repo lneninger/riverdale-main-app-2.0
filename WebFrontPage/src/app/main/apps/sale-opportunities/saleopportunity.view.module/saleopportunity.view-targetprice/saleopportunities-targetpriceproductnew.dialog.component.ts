@@ -109,17 +109,24 @@ export class SaleOpportunityTargetPriceProductNewDialogComponent {
             });
         }
 
-        this.frmMain = frmBuilder.group({
-            name: ['', [Validators.required]],
-            productColorTypeId: ['', [Validators.required]]
-        });
+        // this.frmMain = frmBuilder.group({
+        //     name: ['', [Validators.required]],
+        //     productColorTypeId: ['', [Validators.required]]
+        // });
     }
 
     save(): Promise<{}> {
         return new Promise((resolve, reject) => {
-            const value = this.frmMain.value;
+            let value: any = {};
+            if (this.frmMain)
+            {
+                value = this.frmMain.value;
+            }
+
             value.targetPriceId = this.data.targetPriceId;
             value.productId = this.data.productId;
+            
+
             this.service
                 .addTargetPriceProductItem(value)
                 .then(res => {

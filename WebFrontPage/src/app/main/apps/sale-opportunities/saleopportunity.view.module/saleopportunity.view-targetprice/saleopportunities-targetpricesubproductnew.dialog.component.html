@@ -4,14 +4,11 @@
 </pre>-->
 
 <ng-container *ngIf="product$ | async; let product; else loading">
-    <div mat-dialog-content class="example-card" [formGroup]="frmMain">
+    <div mat-dialog-content class="example-card">
         <mat-card>
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image"></div>
-                <!--<mat-card-title>{{product.name}}</mat-card-title>
-                <mat-card-subtitle>{{product.productTypeId}}</mat-card-subtitle>-->
             </mat-card-header>
-            <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
             <mat-card-content>
                 <div fxLayout="row wrap" fxLayoutGap="20px" [formGroup]="frmMain">
                     <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always">
@@ -45,28 +42,17 @@
                             </mat-option>
                         </mat-select>
 
-                        <!-- <mat-label>Grade</mat-label>
-                        <input matInput placeholder="Grade"
-                               name="size"
-                               formControlName="size"
-                               required> -->
                     </mat-form-field>
                 </div>
             </mat-card-content>
-            <!--<mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>-->
+         
         </mat-card>
-
-
     </div>
     
 
     <div mat-dialog-actions>
         <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
         <button mat-button (click)="add()" [disabled]="frmMain.invalid">Add</button>
-        <!-- <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button> -->
     </div>
 </ng-container>
 

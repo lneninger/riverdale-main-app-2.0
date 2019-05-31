@@ -15,13 +15,14 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
         public SaleOpportunityTargetPriceProductInsertCommand(
             IDbContextScopeFactory dbContextScopeFactory
             , ISaleOpportunityTargetPriceProductDBRepository repository
-            , ISaleOpportunityTargetPriceProductDBRepository saleOpportunityTargetPriceProductRepository
+            , IProductDBRepository productRepository
             ) : base(dbContextScopeFactory, repository)
         {
-            this.SaleOpportunityTargetPriceProductRepository = saleOpportunityTargetPriceProductRepository;
+            this.ProductRepository = productRepository;
         }
 
-        public ISaleOpportunityTargetPriceProductDBRepository SaleOpportunityTargetPriceProductRepository { get; }
+        //public ISaleOpportunityTargetPriceProductDBRepository SaleOpportunityTargetPriceProductRepository { get; }
+        public IProductDBRepository ProductRepository { get; }
 
         public OperationResponse<SaleOpportunityTargetPriceProductInsertCommandOutputDTO> Execute(SaleOpportunityTargetPriceProductInsertCommandInputDTO input)
         {
@@ -30,20 +31,33 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
             {
                 var entity = new DomainModel.SaleOpportunity.SaleOpportunityTargetPriceProduct
                 {
-                    
                     SaleOpportunityTargetPriceId = input.TargetPriceId,
-                    ProductColorTypeId = input.ProductColorTypeId,
                 };
 
                 if (input.ProductId.HasValue)
                 {
                     entity.ProductId = input.ProductId.Value;
+                    var productResponse = this.ProductRepository.GetById(input.ProductId.Value);
+                    if (productResponse.IsSucceed && productResponse.Bag != null)
+                    {
+                        if (productResponse.Bag is CompositionProduct)
+                        {
+                            entity.ProductColorTypeId = ((CompositionProduct)productResponse.Bag).ProductColorTypeId;
+                        }
+                        else
+                        {
+                            entity.ProductColorTypeId = input.ProductColorTypeId;
+                        }
+                    }
                 }
                 else
                 {
+                    entity.ProductColorTypeId = input.ProductColorTypeId;
                     entity.Product = new CompositionProduct
                     {
                         Name = input.Name,
+                        ProductColorTypeId = input.ProductColorTypeId
+
                     };
                 }
                 
@@ -70,7 +84,7 @@ namespace ApplicationLogic.Business.Commands.SaleOpportunityTargetPriceProduct.I
                     result.AddResponse(getByIdResult);
                     if (result.IsSucceed)
                     {
-                        var allOpportunityTargetPriceProducts = this.SaleOpportunityTargetPriceProductRepository.GetAll().Bag;
+                        var allOpportunityTargetPriceProducts = this.Repository.GetAll().Bag;
 
                         result.Bag = new SaleOpportunityTargetPriceProductInsertCommandOutputDTO
                         {

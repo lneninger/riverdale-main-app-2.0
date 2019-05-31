@@ -15,9 +15,17 @@ namespace DomainDatabaseMapping.Mappings.File
 
         public void Configure(EntityTypeBuilder<CompositionProduct> builder)
         {
+            builder.Property(t => t.ProductColorTypeId).IsRequired(false);
+
             builder.HasMany(t => t.Items)
                 .WithOne(t => t.CompositionProduct)
                 .HasForeignKey(t => t.CompositionProductId)
+                ;
+
+
+            builder.HasOne(t => t.ProductColorType)
+                .WithMany()
+                .HasForeignKey(t => t.ProductColorTypeId)
                 ;
         }
     }
