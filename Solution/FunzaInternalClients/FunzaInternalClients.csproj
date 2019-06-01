@@ -6,11 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Refit" Version="4.6.107" />
-    <PackageReference Include="RestSharp" Version="106.6.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel", "Solution Funza\Solution\DomainModel\DomainModel.csproj", "{60D74565-5AD0-45C8-94B7-04ECAFF0D90F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainModel", "Solution Funza\Solution\DomainModel\DomainModel.csproj", "{60D74565-5AD0-45C8-94B7-04ECAFF0D90F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{993D31D5-38FF-43A4-B965-99E6FC7BAE6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Solution Funza\Solution\WebApi\WebApi.csproj", "{6A990F9C-3F92-4B9B-ACCD-802C34CC5FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "Solution Funza\Solution\WebApi\WebApi.csproj", "{6A990F9C-3F92-4B9B-ACCD-802C34CC5FB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Core", "Framework\Framework.Core\Framework.Core.csproj", "{4136428C-D138-49E9-8487-28F65A519DFD}"
 EndProject
@@ -25,7 +25,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.SignalR", "Framew
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Web", "Framework\Framework.Web\Framework.Web.csproj", "{9B2DA07E-3DA1-431E-A0B6-D8E56ADD7727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseRepositories", "Solution Funza\Solution\DatabaseRepositories\DatabaseRepositories.csproj", "{856169AA-B153-48E1-8A2D-3349A68BC8CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseRepositories", "Solution Funza\Solution\DatabaseRepositories\DatabaseRepositories.csproj", "{856169AA-B153-48E1-8A2D-3349A68BC8CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunzaDirectClients", "Solution Funza\Solution\FunzaDirectClients\FunzaDirectClients.csproj", "{E43C175D-768C-4280-A18F-3BC991F6AF70}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaInternalClients", "Solution\FunzaInternalClients\FunzaInternalClients.csproj", "{D31228B6-599D-4A0C-9209-C0BC175D6FB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDatabaseMapping", "Solution Funza\Solution\DomainDatabaseMapping\DomainDatabaseMapping.csproj", "{318E1E9C-0637-424A-9A1B-5A95823974D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.EF", "Framework\Framework.EF\Framework.EF.csproj", "{FA2310B9-275E-42BB-9157-B22D27ABB41C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +102,30 @@ Global
 		{856169AA-B153-48E1-8A2D-3349A68BC8CC}.QA|Any CPU.Build.0 = Debug|Any CPU
 		{856169AA-B153-48E1-8A2D-3349A68BC8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{856169AA-B153-48E1-8A2D-3349A68BC8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43C175D-768C-4280-A18F-3BC991F6AF70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318E1E9C-0637-424A-9A1B-5A95823974D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.QA|Any CPU.ActiveCfg = QA|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.QA|Any CPU.Build.0 = QA|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +141,10 @@ Global
 		{DB7154F5-3712-45AE-82D7-B6ED6F6DBB23} = {993D31D5-38FF-43A4-B965-99E6FC7BAE6F}
 		{9B2DA07E-3DA1-431E-A0B6-D8E56ADD7727} = {993D31D5-38FF-43A4-B965-99E6FC7BAE6F}
 		{856169AA-B153-48E1-8A2D-3349A68BC8CC} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
+		{E43C175D-768C-4280-A18F-3BC991F6AF70} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
+		{D31228B6-599D-4A0C-9209-C0BC175D6FB9} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
+		{318E1E9C-0637-424A-9A1B-5A95823974D9} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
+		{FA2310B9-275E-42BB-9157-B22D27ABB41C} = {993D31D5-38FF-43A4-B965-99E6FC7BAE6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2BCE576-0948-4727-9565-F4B76B08B1F1}
