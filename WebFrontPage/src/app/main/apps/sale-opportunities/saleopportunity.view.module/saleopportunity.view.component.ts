@@ -282,7 +282,7 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
 
         this.onTargetPriceProductSelected = this.saleOpportunityService.onTargetPriceProductSelected.subscribe(
             targetPriceProduct => {
-                 debugger;
+                 // debugger;
                 this._currentTargetPriceProduct = targetPriceProduct;
                 if (!!this._currentTargetPriceProduct) {
                     // debugger;
