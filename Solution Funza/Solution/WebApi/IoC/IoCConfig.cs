@@ -1,31 +1,18 @@
-﻿using ApplicationLogic.AppSettings;
-using ApplicationLogic.Business.Commands.Customer.GetAllCommand;
-using ApplicationLogic.Business.Commands.Customer.InsertCommand;
-using ApplicationLogic.Business.Commons;
-using ApplicationLogic.SignalR;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Features.AttributeFilters;
-using DatabaseRepositories.DB;
-using DomainDatabaseMapping;
-using EntityFrameworkCore.DbContextScope;
 using Framework.Autofac;
 using Framework.Commons;
-using Framework.Core.ReflectionHelpers;
-using Framework.EF.DbContextImpl;
-using Framework.Storage.FileStorage.interfaces;
-using Framework.Storage.FileStorage.StorageImplementations;
-using Framework.Storage.FileStorage.TemporaryStorage;
+using FunzaCommons;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RiverdaleMainApp2_0.AppSettings;
-using RiverdaleMainApp2_0.Auth;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 
-namespace RiverdaleMainApp2_0.IoC
+namespace WebApi.IoC
 {
+
     /// <summary>
     /// IoC Containner configuration
     /// </summary>
@@ -53,7 +40,7 @@ namespace RiverdaleMainApp2_0.IoC
 
                 // File Mechanism
                 builder
-                .RegisterInstance<FileStorageSettings>(configuration.GetSection("fileStorage").Get<FileStorageSettings>());
+                    .RegisterInstance<FileStorageSettings>(configuration.GetSection("fileStorage").Get<FileStorageSettings>());
 
                 builder.RegisterType<TemporaryStorage>().AsSelf();
 
@@ -96,19 +83,19 @@ namespace RiverdaleMainApp2_0.IoC
                 //            .Resolve<Microsoft.AspNet.SignalR.Infrastructure.IConnectionManager>()
                 //            .GetConnectionContext<SignalRConnection>());
 
-    //            builder.Register(ctx =>
-    //ctx.Resolve<IDependencyResolver>()
-    //   .Resolve<IConnectionManager>()
-    //   .GetHubContext())
-    //   .Named<IHubContext>("EventHub");
+                //            builder.Register(ctx =>
+                //ctx.Resolve<IDependencyResolver>()
+                //   .Resolve<IConnectionManager>()
+                //   .GetHubContext())
+                //   .Named<IHubContext>("EventHub");
 
                 var targetAssembly = Assembly.GetExecutingAssembly();
 
-               // var controllerTypes = targetAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase));
-               // builder.RegisterTypes(controllerTypes.ToArray())
-               //.AsSelf()
-               //.EnableInterfaceInterceptors()
-               //.InterceptedBy(typeof(ExceptionInterceptor));
+                // var controllerTypes = targetAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Controller", StringComparison.InvariantCultureIgnoreCase));
+                // builder.RegisterTypes(controllerTypes.ToArray())
+                //.AsSelf()
+                //.EnableInterfaceInterceptors()
+                //.InterceptedBy(typeof(ExceptionInterceptor));
 
                 var serviceAssembly = typeof(CustomerGetAllCommand).Assembly;
                 var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
@@ -118,7 +105,7 @@ namespace RiverdaleMainApp2_0.IoC
                 /*.TrackInstanceEvents()*/;
 
                 var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
-                var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) || type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)) );
+                var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) || type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)));
                 builder.RegisterTypes(dataGenericDataRetrieverTypes.ToArray())
                 .AsImplementedInterfaces()
                 /*.TrackInstanceEvents()*/;
@@ -157,9 +144,9 @@ namespace RiverdaleMainApp2_0.IoC
 
                 // Authentication
                 builder
-                .RegisterType<JwtFactory>()
-                .As<IJwtFactory>()
-                /*.TrackInstanceEvents()*/;
+                    .RegisterType<JwtFactory>()
+                    .As<IJwtFactory>()
+                    /*.TrackInstanceEvents()*/;
 
                 //var firebaseAssembly = typeof(BaseRepository).Assembly;
                 //var firebaseRepositoryTypes = firebaseAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));

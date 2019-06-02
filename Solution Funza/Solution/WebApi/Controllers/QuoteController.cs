@@ -15,8 +15,10 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteResult))]
-        public Task<IActionResult> Add(InternalBridgeCreateQuoteInput model) {
+        public async Task<IActionResult> Add(InternalBridgeCreateQuoteInput model) {
+            var result = await Task.FromResult("Hello");
 
+            return this.Ok(result);
         }
 
     }

@@ -9,13 +9,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Framework.Autofac\Framework.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.Commons.Standard\Framework.Commons.Standard.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.SignalR\Framework.SignalR.csproj" />
     <ProjectReference Include="..\..\..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
+    <ProjectReference Include="..\FunzaCommons\FunzaCommons.csproj" />
   </ItemGroup>
 
 </Project>
