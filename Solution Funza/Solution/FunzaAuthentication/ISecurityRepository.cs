@@ -1,4 +1,5 @@
-﻿using Framework.Storage.DataHolders.Messages;
+﻿using Framework.Core.Messages;
+using FunzaDirectClients.InternalClients.Quote;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace FunzaAuthentication
 {
     public interface ISecurityRepository
     {
-        Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword);
+        Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, IAuthenticationClient authenticationClient);
     }
 }

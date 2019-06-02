@@ -1,4 +1,4 @@
-﻿using Framework.Storage.DataHolders.Messages;
+﻿using Framework.Core.Messages;
 using FunzaDirectClients.InternalClients.Quote;
 using Refit;
 using System;

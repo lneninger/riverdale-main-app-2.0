@@ -79,6 +79,7 @@
     <ProjectReference Include="..\DatabaseRepositories\DatabaseRepositories.csproj" />
     <ProjectReference Include="..\Framework\Framework.Logging\Framework.Logging.csproj" />
     <ProjectReference Include="..\FunzaRepositories\FunzaRepositories.csproj" />
+    <ProjectReference Include="..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
   </ItemGroup>
 
   <ItemGroup>

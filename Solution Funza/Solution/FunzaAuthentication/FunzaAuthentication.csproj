@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Framework.Core.Standard\Framework.Core.Standard.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\FunzaDirectClients\FunzaDirectClients.csproj" />
   </ItemGroup>
