@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy2" Version="3.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
@@ -19,8 +20,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Framework.Autofac\Framework.Autofac.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.Commons.Standard\Framework.Commons.Standard.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.EF\Framework.EF.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.FileStorage.AspNetCore\Framework.FileStorage.AspNetCore.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.SignalR\Framework.SignalR.csproj" />
     <ProjectReference Include="..\..\..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
+    <ProjectReference Include="..\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />
     <ProjectReference Include="..\FunzaCommons\FunzaCommons.csproj" />
   </ItemGroup>
 
