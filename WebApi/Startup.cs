@@ -40,6 +40,7 @@ using Autofac.Extensions.DependencyInjection;
 using RiverdaleMainApp2_0.Controllers;
 using System.Reflection;
 using Swashbuckle.AspNetCore.Swagger;
+using FunzaInternalClients.Quote;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0

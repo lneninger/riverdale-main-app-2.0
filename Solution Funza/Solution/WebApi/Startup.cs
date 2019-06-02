@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FunzaCommons;
+using FunzaDirectClients.InternalClients.Quote;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Refit;
 
 namespace WebApi
 {
@@ -30,7 +32,10 @@ namespace WebApi
 
             services.AddOptions();
 
-            services.Configure<ConnectionStringsConfig>(Configuration.GetSection("ConnectionStrings"));
+            var funzaSettings = Configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
+
+            services.AddRefitClient<IAuthenticationClient>()
+        .ConfigureHttpClient(c => c.BaseAddress = new Uri(funzaSettings.AuthenticationSettingsCollection["full"].AuthenticationURL));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using RiverdaleMainApp2_0.Models;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;

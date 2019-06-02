@@ -8,4 +8,8 @@
     <PackageReference Include="Refit" Version="4.6.107" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Clients\Authentication\Models\" />
+  </ItemGroup>
+
 </Project>

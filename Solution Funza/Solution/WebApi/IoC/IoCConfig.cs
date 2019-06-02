@@ -9,14 +9,13 @@ using Framework.Core.ReflectionHelpers;
 using Framework.Storage.FileStorage.interfaces;
 using Framework.Storage.FileStorage.StorageImplementations;
 using Framework.Storage.FileStorage.TemporaryStorage;
+using FunzaAuthentication;
 using FunzaCommons;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using WebApi.Auth;
 using WebApi.SignalR;
 
@@ -47,6 +46,12 @@ namespace WebApi.IoC
                 builder
                 .RegisterInstance(configuration.GetSection("FunzaSettings").Get<FunzaSettings>())
                 .As<FunzaSettings>();
+
+                var serviceAssembly = typeof(ISecurityRepository).Assembly;
+                var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(serviceTypes.ToArray())
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
 
                 // File Mechanism
                 builder
