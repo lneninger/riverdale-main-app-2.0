@@ -10,7 +10,13 @@ namespace DomainDatabaseMapping
 {
     public class FunzaDBContext: DbContext
     {
-        public DbSet<Quote> Quotes { get; set; }
+        public FunzaDBContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public FunzaDBContext() : base()
+        {
+        }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -19,6 +25,9 @@ namespace DomainDatabaseMapping
             optionsBuilder.UseLazyLoadingProxies();
             optionsBuilder.UseLoggerFactory(CustomLoggerFactory.LoggerFactoryImpl);
         }
+
+
+        public DbSet<Quote> Quotes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

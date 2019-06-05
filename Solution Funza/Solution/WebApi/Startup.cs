@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using DomainDatabaseMapping;
 using Framework.Logging.Log4Net;
+using Framework.Storage.FileStorage.TemporaryStorage;
 using FunzaCommons;
 using FunzaDirectClients.InternalClients.Quote;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +19,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using Refit;
+using WebApi.ErrorHandling;
 using WebApi.IoC;
+using WebApi.SignalR;
 
 namespace WebApi
 {
@@ -110,13 +113,57 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            try
             {
-                app.UseDeveloperExceptionPage();
+                Logger.Info("Application startup - Initializing the Infra Application Configuration");
+
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseHsts();
+                }
+
+                app.ConfigureExceptionHandler();
+
+                SwaggerConfig.ConfigureApplicationSwaggerMiddleware(app);
+
+                //app.UseElmah();
+
+                // Shows UseCors with CorsPolicyBuilder.
+                //app.UseCors("Development");
+                app.UseCors(builder => builder
+                   .AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials()
+                );
+
+                app.UseSignalR(routes =>
+                {
+                    routes.MapHub<GlobalHub>("/globalhub", configureOptions =>
+                    {
+                    });
+                });
+
+                app.UseTempFileMiddleware();
+
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+
+                app.UseAuthentication();
+                app.UseMvc();
             }
-            else
+            catch (Exception ex)
             {
-                app.UseHsts();
+                Logger.Fatal("Application startup - Execption on Infra Application Configuration", ex);
+            }
+            finally
+            {
+                Logger.Info("Application startup - Ending the Infra Application Configuration");
+                Logger.FlushBuffers();
             }
 
             app.UseHttpsRedirection();

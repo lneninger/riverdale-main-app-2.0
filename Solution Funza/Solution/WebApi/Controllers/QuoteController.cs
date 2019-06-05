@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/funzacategory")]
     [ApiController]
     public class QuoteController : ControllerBase
     {
