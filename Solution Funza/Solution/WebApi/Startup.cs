@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
 using DomainDatabaseMapping;
 using Framework.Logging.Log4Net;
 using Framework.Storage.FileStorage.TemporaryStorage;
 using FunzaCommons;
-using FunzaDirectClients.InternalClients.Quote;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
-using Refit;
+using System;
 using WebApi.ErrorHandling;
 using WebApi.IoC;
 using WebApi.SignalR;
@@ -88,10 +80,8 @@ namespace WebApi
 
                 services.AddOptions();
 
-                var funzaSettings = Configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
 
-                services.AddRefitClient<IAuthenticationClient>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(funzaSettings.AuthenticationSettingsCollection["full"].AuthenticationURL));
+                RefitConfig.Configure(this.Configuration, services);
 
                 var autofacServiceProvider = IoCConfig.Init(Configuration, services);
 

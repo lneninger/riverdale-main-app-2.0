@@ -16,7 +16,6 @@ namespace DomainDatabaseMapping.Mappings
 
         public void Configure()
         {
-
             foreach (var entityType in this.ModelBuilder.Model.GetEntityTypes()
                         .Where(e => typeof(AbstractBaseEntity).IsAssignableFrom(e.ClrType)))
             {

@@ -10,10 +10,19 @@ namespace WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/funzacategory")]
+    [Route("api/v{version:apiVersion}/quotes")]
     [ApiController]
     public class QuoteController : ControllerBase
     {
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await Task.FromResult("Hello");
+
+            return this.Ok(result);
+        }
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteResult))]

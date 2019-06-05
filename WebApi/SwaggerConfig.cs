@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace RiverdaleMainApp2_0
+namespace WebApi
 {
     /// <summary>
     /// Swagger Documentation config

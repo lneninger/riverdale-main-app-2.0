@@ -6,22 +6,7 @@ namespace ApplicationLogic.AppSettings
 {
     public class FunzaSettings
     {
-
-        //public string AuthenticationURL { get; set; }
-
-        //public string AuthenticationUserName { get; set; }
-
-        //public string AuthenticationPassword { get; set; }
-
-
-        //public string AuthenticationFullURL { get; set; }
-
-        //public string AuthenticationFullUserName { get; set; }
-
-        //public string AuthenticationFullPassword { get; set; }
-
-
-        public Dictionary<string, FunzaAuthenticationSettings> AuthenticationSettingsCollection { get; } = new Dictionary<string, FunzaAuthenticationSettings>();
+        public string FunzaUrl { get; set; }
 
         public string GetProductsURL { get; set; }
 
@@ -32,6 +17,8 @@ namespace ApplicationLogic.AppSettings
         public string GetPackingsURL { get;  set; }
 
         public string GetQuotesURL { get; set; }
+
+        public Dictionary<string, FunzaAuthenticationSettings> AuthenticationSettingsCollection { get; } = new Dictionary<string, FunzaAuthenticationSettings>();
     }
 
     public class TokenSettings
@@ -58,6 +45,5 @@ namespace ApplicationLogic.AppSettings
         public string AuthenticationPassword { get; set; }
 
         public TokenSettings TokenSettings { get; set; }
-
     }
 }

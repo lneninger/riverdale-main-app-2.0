@@ -1,46 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ApplicationLogic.SignalR;
+using Autofac.Extensions.DependencyInjection;
 using DomainDatabaseMapping;
-using RiverdaleMainApp2_0.IoC;
+using DomainModel.Identity;
 using Framework.Autofac;
+using Framework.EF.DbContextImpl;
+using Framework.Logging.Log4Net;
 using Framework.Storage.FileStorage.TemporaryStorage;
+using Framework.Web.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
-using ApplicationLogic.SignalR;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Identity;
-using DomainModel.Identity;
-using RiverdaleMainApp2_0.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using RiverdaleMainApp2_0.Auth;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using ElmahCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Framework.Web.Security;
-using Framework.EF.DbContextImpl;
-using Framework.Logging.Log4Net;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
 using RiverdaleMainApp2_0.AppSettings;
+using RiverdaleMainApp2_0.Auth;
 using RiverdaleMainApp2_0.ErrorHandling;
-using Autofac.Extensions.DependencyInjection;
-using RiverdaleMainApp2_0.Controllers;
-using System.Reflection;
-using Swashbuckle.AspNetCore.Swagger;
-using FunzaInternalClients.Quote;
+using RiverdaleMainApp2_0.IoC;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using WebApi;
 //using Microsoft.AspNet.SignalR;
 
 namespace RiverdaleMainApp2_0
@@ -147,6 +137,8 @@ namespace RiverdaleMainApp2_0
                 SwaggerConfig.EnableServiceSwaggerMiddleware(services);
 
                 services.AddSingleton<IAuthorizationHandler, PolicyPermissionRequiredHandler>();
+
+                RefitConfig.Configure(this.Configuration, services);
 
                 var autofacServiceProvider = IoCConfig.Init(Configuration, services);
 

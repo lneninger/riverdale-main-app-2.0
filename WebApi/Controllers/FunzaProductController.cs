@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Framework.SignalR;
+using FunzaInternalClients.Quote;
+using System.Threading.Tasks;
+using System;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -31,7 +34,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public FunzaProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaProductPageQueryCommand pageQueryCommand): base()
+        public FunzaProductController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaProductPageQueryCommand pageQueryCommand) : base()
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
@@ -55,11 +58,22 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaProductPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public IActionResult PageQuery([FromBody]PageQuery<FunzaProductPageQueryCommandInputDTO> input)
+        public async Task<IActionResult> PageQuery([FromBody]PageQuery<FunzaProductPageQueryCommandInputDTO> input, [FromServices] IInternalQuoteClient quoteClient)
         {
-            var result = this.PageQueryCommand.Execute(input);
+            try
+            {
+                var temp = (await quoteClient.Quote(0)).Content;
 
-            return this.Ok(result);
+
+                var result = this.PageQueryCommand.Execute(input);
+
+                return this.Ok(result);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
     }

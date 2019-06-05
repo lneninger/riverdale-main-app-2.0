@@ -23,6 +23,7 @@ using RiverdaleMainApp2_0.Auth;
 using System;
 using System.Linq;
 using System.Reflection;
+using WebApi;
 
 namespace RiverdaleMainApp2_0.IoC
 {

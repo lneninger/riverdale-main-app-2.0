@@ -35,6 +35,8 @@ namespace RiverdaleMainApp2_0.Controllers
             this.SignalRHubContext = hubContext;
             this.QuoteGetItemsCommand = quoteGetItemsCommand;
             this.SyncCommand = syncCommand;
+
+
             
         }
 
