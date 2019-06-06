@@ -2,7 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;QA</Configurations>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+  </PropertyGroup>
+
+  <!--Tool to enable web.config transformations. Added manually. Dont use Nuget. After include lines below run 'dotnet restore' and 'dotnet build' at project folder-->
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ViewModels\" />
@@ -25,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Framework.Autofac\Framework.Autofac.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.Commons.Standard\Framework.Commons.Standard.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
@@ -36,5 +50,14 @@
     <ProjectReference Include="..\FunzaAuthentication\FunzaAuthentication.csproj" />
     <ProjectReference Include="..\FunzaCommons\FunzaCommons.csproj" />
   </ItemGroup>
+
+  <Target Name="ApplyXdtConfigTransform" BeforeTargets="_TransformWebConfig">
+    <PropertyGroup>
+      <_SourceWebConfig>$(MSBuildThisFileDirectory)Web.config</_SourceWebConfig>
+      <_XdtTransform>$(MSBuildThisFileDirectory)Web.$(Configuration).config</_XdtTransform>
+      <_TargetWebConfig>$(PublishDir)Web.config</_TargetWebConfig>
+    </PropertyGroup>
+    <Exec Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;" Condition="Exists('$(_XdtTransform)')" />
+  </Target>
 
 </Project>

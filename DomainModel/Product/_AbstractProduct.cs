@@ -26,6 +26,10 @@ namespace DomainModel.Product
             }
         }
 
+
+        public int? ProductCategoryId { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
+
         public DateTime? DeletedAt { get; set; }
 
         public bool? IsDeleted { get; set; }
@@ -34,9 +38,10 @@ namespace DomainModel.Product
 
         public virtual IEnumerable<ProductMedia> ProductMedias { get; set; }
 
+        public virtual IEnumerable<ProductQuote> ProductQuotes { get; set; }
 
-        public int? ProductCategoryId { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
+        
+
 
         
 
