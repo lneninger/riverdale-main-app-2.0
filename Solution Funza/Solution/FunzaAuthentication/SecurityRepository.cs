@@ -10,7 +10,7 @@ namespace FunzaAuthentication
     public class SecurityRepository : ISecurityRepository
     {
 
-        public async Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, IAuthenticationClient authenticationClient)
+        public async Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
             result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;
@@ -44,7 +44,7 @@ namespace FunzaAuthentication
             */
         }
 
-        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateURLEncoded(string authenticationURL, string authenticationUserName, string authenticationPassword, IAuthenticationClient authenticationClient)
+        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateURLEncoded(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
             result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;
@@ -73,7 +73,7 @@ namespace FunzaAuthentication
             */
         }
 
-        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateSimplePOST(string authenticationURL, IAuthenticationClient authenticationClient, string authenticationUserName, string authenticationPassword)
+        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateSimplePOST(string authenticationURL, ISecurityClient authenticationClient, string authenticationUserName, string authenticationPassword)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
             result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;

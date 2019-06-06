@@ -17,7 +17,7 @@ namespace WebApi
             var funzaSettings = configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
 
 
-            services.AddRefitClient<IInternalQuoteClient>()
+            services.AddRefitClient<IInternalSecurityClient>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaUrl), "quotes"));
         }
     }

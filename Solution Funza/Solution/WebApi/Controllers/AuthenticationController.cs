@@ -12,15 +12,15 @@ namespace WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/quotes")]
+    [Route("api/v{version:apiVersion}/security")]
     [ApiController]
-    public class QuoteController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         public IQuoteClient QuoteClient { get; }
 
-        public QuoteController(IQuoteClient quoteClient)
+        public AuthenticationController(ISecurityClient securityClient)
         {
-            this.QuoteClient = quoteClient;
+            this.SecurityClient = securityClient;
         }
 
         [HttpGet("{id}")]

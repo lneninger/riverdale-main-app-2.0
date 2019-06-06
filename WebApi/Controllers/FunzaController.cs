@@ -62,7 +62,7 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaAuthenticateCommandOutputDTO>))]
         [Route("sync")]
-        public IActionResult sync()
+        public IActionResult Sync()
         {
             var syncResult = this.SyncCommand.Execute();
 

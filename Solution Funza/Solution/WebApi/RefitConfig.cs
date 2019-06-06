@@ -1,5 +1,6 @@
 ﻿using FunzaCommons;
 using FunzaDirectClients.InternalClients.Quote;
+using FunzaDirectClients.InternalClients.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
@@ -16,9 +17,11 @@ namespace WebApi
 
             var funzaSettings = configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
 
+            services.AddRefitClient<ISecurityClient>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.AuthenticationRelativeURL));
 
-            services.AddRefitClient<IAuthenticationClient>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(funzaSettings.AuthenticationSettingsCollection["full"].AuthenticationURL));
+            services.AddRefitClient<IQuoteClient>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.QuotesRelativeURL));
         }
     }
 }

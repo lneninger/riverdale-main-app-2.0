@@ -27,19 +27,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Web", "Framework\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseRepositories", "Solution Funza\Solution\DatabaseRepositories\DatabaseRepositories.csproj", "{856169AA-B153-48E1-8A2D-3349A68BC8CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunzaDirectClients", "Solution Funza\Solution\FunzaDirectClients\FunzaDirectClients.csproj", "{E43C175D-768C-4280-A18F-3BC991F6AF70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaDirectClients", "Solution Funza\Solution\FunzaDirectClients\FunzaDirectClients.csproj", "{E43C175D-768C-4280-A18F-3BC991F6AF70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaInternalClients", "Solution\FunzaInternalClients\FunzaInternalClients.csproj", "{D31228B6-599D-4A0C-9209-C0BC175D6FB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDatabaseMapping", "Solution Funza\Solution\DomainDatabaseMapping\DomainDatabaseMapping.csproj", "{318E1E9C-0637-424A-9A1B-5A95823974D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDatabaseMapping", "Solution Funza\Solution\DomainDatabaseMapping\DomainDatabaseMapping.csproj", "{318E1E9C-0637-424A-9A1B-5A95823974D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.EF", "Framework\Framework.EF\Framework.EF.csproj", "{FA2310B9-275E-42BB-9157-B22D27ABB41C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunzaCommons", "Solution Funza\Solution\FunzaCommons\FunzaCommons.csproj", "{AB60E2A0-A29F-4FBD-83F0-ADDCA5890817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaCommons", "Solution Funza\Solution\FunzaCommons\FunzaCommons.csproj", "{AB60E2A0-A29F-4FBD-83F0-ADDCA5890817}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.FileStorage.AspNetCore", "Framework\Framework.FileStorage.AspNetCore\Framework.FileStorage.AspNetCore.csproj", "{AB874A41-1063-4EEC-8689-56E3AD975FA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunzaAuthentication", "Solution Funza\Solution\FunzaAuthentication\FunzaAuthentication.csproj", "{2EC10905-3057-4D45-8D6F-932A2D9B5763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaAuthentication", "Solution Funza\Solution\FunzaAuthentication\FunzaAuthentication.csproj", "{2EC10905-3057-4D45-8D6F-932A2D9B5763}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

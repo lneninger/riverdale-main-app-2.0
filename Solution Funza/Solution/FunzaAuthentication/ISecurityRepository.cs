@@ -9,6 +9,6 @@ namespace FunzaAuthentication
 {
     public interface ISecurityRepository
     {
-        Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, IAuthenticationClient authenticationClient);
+        Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient);
     }
 }
