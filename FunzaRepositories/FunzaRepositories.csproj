@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApplicationLogic\ApplicationLogic.csproj" />
+    <ProjectReference Include="..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
   </ItemGroup>
 
 </Project>

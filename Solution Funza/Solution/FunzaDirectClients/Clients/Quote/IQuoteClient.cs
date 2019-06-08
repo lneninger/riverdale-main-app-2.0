@@ -1,7 +1,6 @@
 ﻿using FunzaDirectClients.InternalClients.Quote.Models;
 using Refit;
 using System.Threading.Tasks;
-using WebApi.ViewModels.Quote;
 
 namespace FunzaDirectClients.InternalClients.Quote
 {

@@ -1,8 +1,6 @@
 ﻿using Framework.Core.Messages;
-using FunzaDirectClients.InternalClients.Quote;
-using System;
+using FunzaDirectClients.InternalClients.Security;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FunzaAuthentication

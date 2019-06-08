@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FunzaDirectClients.InternalClients.Quote;
+using FunzaDirectClients.InternalClients.Quote.Models;
 using FunzaInternalClients.Quote.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.ViewModels.Quote;
 
 namespace WebApi.Controllers
 {

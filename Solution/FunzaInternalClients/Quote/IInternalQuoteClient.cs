@@ -9,10 +9,13 @@ namespace FunzaInternalClients.Quote
 {
     public interface IInternalQuoteClient
     {
-        [Get("/{id}")]
-        Task<ApiResponse<string>> Quote(int id);
+        [Get("/")]
+        Task<ApiResponse<IEnumerable<InternalBridgeQuoteOutput>>> GetQuotes(int id);
 
-        [Post("/quotes")]
+        [Get("/{id}")]
+        Task<ApiResponse<InternalBridgeQuoteOutput>> GetQuote(int id);
+
+        [Post("/")]
         Task<ApiResponse<InternalBridgeCreateQuoteResult>> CreateQuote(InternalBridgeCreateQuoteInput model);
     }
 }

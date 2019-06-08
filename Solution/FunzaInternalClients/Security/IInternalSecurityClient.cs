@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunzaInternalClients.Quote
+namespace FunzaInternalClients.Security
 {
     public interface IInternalSecurityClient
     {

@@ -9,4 +9,8 @@
     <Folder Include="ViewModels\Authentication\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
+  </ItemGroup>
+
 </Project>

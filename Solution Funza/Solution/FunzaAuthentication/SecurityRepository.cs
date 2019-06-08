@@ -1,5 +1,7 @@
 ﻿using Framework.Core.Messages;
 using FunzaDirectClients.InternalClients.Quote;
+using FunzaDirectClients.InternalClients.Security;
+using FunzaDirectClients.InternalClients.Security.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,8 @@ namespace FunzaAuthentication
         public async Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
-            result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;
+            var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
+            result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;
 
             /*
@@ -47,7 +50,8 @@ namespace FunzaAuthentication
         public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateURLEncoded(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
-            result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;
+            var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
+            result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;
             /*
             var result = new OperationResponse<Dictionary<string, object>>();
@@ -76,7 +80,8 @@ namespace FunzaAuthentication
         public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateSimplePOST(string authenticationURL, ISecurityClient authenticationClient, string authenticationUserName, string authenticationPassword)
         {
             var result = new OperationResponse<Dictionary<string, object>>();
-            result.Bag = (await authenticationClient.Authenticate(authenticationUserName, authenticationPassword)).Content;
+            var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
+            result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;
 
             /*

@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Framework\Framework.FileStorage.AspNetCore\Framework.FileStorage.AspNetCore.csproj" />
     <ProjectReference Include="..\Framework\Framework.FluentValidation\Framework.FluentValidation.csproj" />
     <ProjectReference Include="..\Framework\Framework.SignalR\Framework.SignalR.csproj" />
+    <ProjectReference Include="..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
   </ItemGroup>
 
 </Project>

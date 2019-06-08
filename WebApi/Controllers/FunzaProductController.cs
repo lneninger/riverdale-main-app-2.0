@@ -12,6 +12,7 @@ using Framework.SignalR;
 using FunzaInternalClients.Quote;
 using System.Threading.Tasks;
 using System;
+using FunzaInternalClients.Quote.Models;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -62,7 +63,10 @@ namespace RiverdaleMainApp2_0.Controllers
         {
             try
             {
-                var temp = (await quoteClient.Quote(0)).Content;
+                var funzaResponse = (await quoteClient.GetQuotes(0)).Content;
+                var result = new InternalBridgeQuoteOutput
+                {
+                };
 
 
                 var result = this.PageQueryCommand.Execute(input);
