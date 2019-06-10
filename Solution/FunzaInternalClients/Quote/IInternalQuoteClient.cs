@@ -16,6 +16,6 @@ namespace FunzaInternalClients.Quote
         Task<ApiResponse<InternalBridgeQuoteOutput>> GetQuote(int id);
 
         [Post("/")]
-        Task<ApiResponse<InternalBridgeCreateQuoteResult>> CreateQuote(InternalBridgeCreateQuoteInput model);
+        Task<ApiResponse<InternalBridgeCreateQuoteOutput>> CreateQuote(InternalBridgeCreateQuoteInput model);
     }
 }

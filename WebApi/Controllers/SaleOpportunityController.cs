@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Authorization = Microsoft.AspNetCore.Authorization;
@@ -117,9 +118,16 @@ namespace RiverdaleMainApp2_0.Controllers
         [Route("pagequery")]
         public IActionResult PageQuery([FromBody]PageQuery<SaleOpportunityPageQueryCommandInputDTO> input)
         {
-            var result = this.PageQueryCommand.Execute(input);
+            try
+            {
+                var result = this.PageQueryCommand.Execute(input);
 
-            return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
+                return result.IsSucceed ? (IActionResult)this.Ok(result) : (IActionResult)this.BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         /// <summary>

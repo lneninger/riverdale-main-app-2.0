@@ -22,7 +22,6 @@ namespace Framework.Refit
                         if (newAccessToken != null)
                         {
                             await tokenRefreshed(newAccessToken);
-
                             context["access_token"] = newAccessToken;
                         }
                     }

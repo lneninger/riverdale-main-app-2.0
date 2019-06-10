@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.SignalR;
 using Framework.SignalR;
 using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand;
 using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
+using System.Threading.Tasks;
+using FunzaInternalClients.Quote;
+using FunzaInternalClients.Quote.Models;
+using ApplicationLogic.Business.Commands.Product.GetByIdCommand;
+using ApplicationLogic.Business.Commands.Funza.GetByIdCommand.Models;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
@@ -20,8 +25,8 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/funzaquote")]
-    public class FunzaQuoteController : BaseController
+    [Route("api/v{version:apiVersion}/productquote")]
+    public class ProductQuoteController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FunzaColorController"/> class.
@@ -33,10 +38,14 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="insertCommand">The insert command.</param>
         /// <param name="updateCommand">The update command.</param>
         /// <param name="deleteCommand">The delete command.</param>
-        public FunzaQuoteController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand pageQueryCommand): base()
+        public ProductQuoteController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand pageQueryCommand, IProductGetByIdCommand getByIdCommand, IInternalQuoteClient quoteClient) : base()
         {
             this.SignalRHubContext = hubContext;
             this.PageQueryCommand = pageQueryCommand;
+            this.GetByIdCommand = getByIdCommand;
+            
+            this.QuoteClient = quoteClient;
+
         }
 
 
@@ -49,6 +58,43 @@ namespace RiverdaleMainApp2_0.Controllers
         /// 
         /// </summary>
         public IFunzaQuoteGetItemsCommand PageQueryCommand { get; }
+
+        /// <summary>
+        /// Gets the get by identifier command.
+        /// </summary>
+        /// <value>
+        /// The get by identifier command.
+        /// </value>
+        public IProductGetByIdCommand GetByIdCommand { get; }
+
+        /// <summary>
+        /// Gets the quote client.
+        /// </summary>
+        /// <value>
+        /// The quote client.
+        /// </value>
+        public IInternalQuoteClient QuoteClient { get; }
+
+        /// <summary>
+        /// Posts the specified product identifier.
+        /// </summary>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
+        [HttpPost("upsert/{id}")]
+        public async Task<IActionResult> Post(int id)
+        {
+            var product = this.GetByIdCommand.Execute(id);
+
+            var payload = new InternalBridgeCreateQuoteInput
+            {
+                ProductId = id,
+                Title = $"Product {System.DateTime.UtcNow : yyyy-MM-ddhhmmss}"
+            };
+
+            var funzaResponse = (await this.QuoteClient.CreateQuote(payload)).Content;
+            
+            return this.Ok(funzaResponse);
+        }
 
         /// <summary>
         /// 

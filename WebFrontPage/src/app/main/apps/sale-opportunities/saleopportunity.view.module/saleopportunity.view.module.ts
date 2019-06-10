@@ -14,13 +14,17 @@ import {
     , MatSelectModule
     , MatSnackBarModule
     , MatCardModule
-    , MatListModule,
+    , MatListModule,
+
     MatProgressSpinnerModule
 } from '@angular/material';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
+
+
+import { ProductQuoteCoreModule } from '../../product-quote/productquote.core.module';
 
 import { SaleOpportunityViewService } from './saleopportunity.view.service';
 import { SaleOpportunityViewComponent } from './saleopportunity.view.component';
@@ -147,6 +151,7 @@ const routes: Routes = [
         , SaleOpportunityCoreModule
         , FunzaCoreModule
         , ProductCoreModule
+        , ProductQuoteCoreModule
     ],
     providers   : [
         SaleOpportunityViewService

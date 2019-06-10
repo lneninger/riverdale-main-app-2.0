@@ -11,9 +11,10 @@ namespace DomainModel.Product
         public string ExternalId { get; set; }
 
         public int ProductId { get; set; }
-        public AbstractProduct Product { get; set; }
+        public virtual AbstractProduct Product { get; set; }
 
         public DateTime? DeletedAt { get; set; }
+
         public bool? IsDeleted { get; set; }
     }
 }

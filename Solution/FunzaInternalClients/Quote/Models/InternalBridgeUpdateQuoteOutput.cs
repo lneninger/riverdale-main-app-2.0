@@ -4,8 +4,7 @@ using System.Text;
 
 namespace FunzaInternalClients.Quote.Models
 {
-    public class InternalBridgeCreateQuoteOutput
+    public class InternalBridgeUpdateQuoteOutput
     {
-        public string Title { get; set; }
     }
 }

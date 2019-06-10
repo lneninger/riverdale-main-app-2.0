@@ -233,6 +233,15 @@
                     </button>
                 </div> -->
 
+                <button [disabled]="!currentTargetPriceProduct"
+                mat-icon-button
+                (click)="createQuote()"
+                matTooltip="Quote product"
+                [attr.aria-label]="'Quote product'">
+            <mat-icon class="material-icons-outlined">attach_money</mat-icon>
+        </button>
+
+
                 <div *ngIf="currentTodo" fxHide.gt-lg>
                     <button mat-icon-button (click)="deselectCurrentTodo()">
                         <mat-icon class="secondary-text">arrow_back</mat-icon>

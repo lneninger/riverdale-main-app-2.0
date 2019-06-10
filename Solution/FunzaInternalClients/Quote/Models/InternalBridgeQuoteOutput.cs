@@ -6,5 +6,6 @@ namespace FunzaInternalClients.Quote.Models
 {
     public class InternalBridgeQuoteOutput
     {
+        public string Title { get; set; }
     }
 }

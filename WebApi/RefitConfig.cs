@@ -1,6 +1,7 @@
 ﻿using ApplicationLogic.AppSettings;
 using Framework.Refit;
 using FunzaInternalClients.Quote;
+using FunzaInternalClients.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;

@@ -60,6 +60,8 @@ import {
 import { SaleOpportunityTargetPriceNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpricenew.dialog.component';
 import { SampleBoxProductNewDialogComponent } from './saleopportunity.view-sampleboxes/saleopportuny.view-sampleboxnew.dialog.component';
 import { SaleOpportunityTargetPriceProductNewDialogComponent } from './saleopportunity.view-targetprice/saleopportunities-targetpriceproductnew.dialog.component';
+import { ProductQuoteService } from '../../product-quote/productquote.service';
+import { ProductQuote } from '../../product-quote/productquote.models';
 
 @Component({
     selector: 'saleopportunity-view',
@@ -215,7 +217,8 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
         private saleOpportunityService: SaleOpportunityService,
         public dialog: MatDialog,
         private matSnackBar: MatSnackBar,
-        private saleSeasonTypeResolveService: SaleSeasonCategoryTypeResolveService
+        private saleSeasonTypeResolveService: SaleSeasonCategoryTypeResolveService,
+        private productQuoteService: ProductQuoteService
     ) {
         this.saleOpportunityService.resetCache();
 
@@ -969,12 +972,19 @@ export class SaleOpportunityViewComponent implements OnInit, OnDestroy {
                 });
             });
     }
+
+    async createQuote(): Promise<OperationResponseValued<ProductQuote>>{
+        debugger;
+        return (await this.productQuoteService.executeQuote(this.currentTargetPriceProduct.id).toPromise());
+    }
 }
 
 declare type ActiveAreaType = 'settings' | 'products';
+
 declare type ActiveDetailLeftAreaType =
     | 'TargetPriceCompositions'
     | 'TargetPriceSubProduct';
+
 declare type ActiveDetailRightAreaType =
     | 'TargetPrices'
     | 'ItemDetails'

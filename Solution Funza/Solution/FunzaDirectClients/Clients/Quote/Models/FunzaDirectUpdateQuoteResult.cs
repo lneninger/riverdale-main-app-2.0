@@ -4,8 +4,7 @@ using System.Text;
 
 namespace FunzaDirectClients.InternalClients.Quote.Models
 {
-    public class FunzaDirectCreateQuoteInput
+    public class FunzaDirectUpdateQuoteResult
     {
-        public string Titulo { get; set; }
     }
 }

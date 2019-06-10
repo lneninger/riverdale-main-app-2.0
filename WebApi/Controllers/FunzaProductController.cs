@@ -59,16 +59,11 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaProductPageQueryCommandOutputDTO>))]
         [Route("pagequery")]
-        public async Task<IActionResult> PageQuery([FromBody]PageQuery<FunzaProductPageQueryCommandInputDTO> input, [FromServices] IInternalQuoteClient quoteClient)
+        public async Task<IActionResult> PageQuery([FromBody]PageQuery<FunzaProductPageQueryCommandInputDTO> input)
         {
             try
             {
-                var funzaResponse = (await quoteClient.GetQuotes(0)).Content;
-                var result = new InternalBridgeQuoteOutput
-                {
-                };
-
-
+               
                 var result = this.PageQueryCommand.Execute(input);
 
                 return this.Ok(result);

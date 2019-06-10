@@ -8,7 +8,7 @@ namespace FunzaDirectClients.InternalClients.Quote
     {
         
         [Get("/")]
-        Task GetQuotes();
+        Task<ApiResponse<FunzaDirectGetQuoteResult>> GetQuotes();
 
         [Get("/{id}")]
         Task<ApiResponse<FunzaDirectGetQuoteResult>> GetQuote(int id);
