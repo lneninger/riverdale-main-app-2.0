@@ -27,6 +27,8 @@ namespace Framework.Refit
                     }
                 });
 
+            client.
+
             return policy;
         }
 
