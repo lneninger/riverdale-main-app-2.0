@@ -1,5 +1,6 @@
 ﻿using Framework.Core.Messages;
 using FunzaDirectClients.InternalClients.Quote;
+using FunzaDirectClients.InternalClients.Quote.Models;
 using FunzaDirectClients.InternalClients.Security;
 using FunzaDirectClients.InternalClients.Security.Models;
 using Refit;
@@ -12,9 +13,9 @@ namespace FunzaAuthentication
     public class SecurityRepository : ISecurityRepository
     {
 
-        public async Task<OperationResponse<Dictionary<string, object>>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
+        public async Task<OperationResponse<FunzaDirectAuthenticateResulWrapper>> Authenticate(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
-            var result = new OperationResponse<Dictionary<string, object>>();
+            var result = new OperationResponse<FunzaDirectAuthenticateResulWrapper>();
             var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
             result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;
@@ -47,9 +48,9 @@ namespace FunzaAuthentication
             */
         }
 
-        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateURLEncoded(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
+        public async Task<OperationResponse<FunzaDirectAuthenticateResulWrapper>> AuthenticateURLEncoded(string authenticationURL, string authenticationUserName, string authenticationPassword, ISecurityClient authenticationClient)
         {
-            var result = new OperationResponse<Dictionary<string, object>>();
+            var result = new OperationResponse<FunzaDirectAuthenticateResulWrapper>();
             var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
             result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;
@@ -77,9 +78,9 @@ namespace FunzaAuthentication
             */
         }
 
-        public async Task<OperationResponse<Dictionary<string, object>>> AuthenticateSimplePOST(string authenticationURL, ISecurityClient authenticationClient, string authenticationUserName, string authenticationPassword)
+        public async Task<OperationResponse<FunzaDirectAuthenticateResulWrapper>> AuthenticateSimplePOST(string authenticationURL, ISecurityClient authenticationClient, string authenticationUserName, string authenticationPassword)
         {
-            var result = new OperationResponse<Dictionary<string, object>>();
+            var result = new OperationResponse<FunzaDirectAuthenticateResulWrapper>();
             var authenticationModel = new AuthenticationModel { UserNameOrEmailAddress = authenticationUserName, Password = authenticationPassword };
             result.Bag = (await authenticationClient.Authenticate(authenticationModel)).Content;
             return result;

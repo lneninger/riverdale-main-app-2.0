@@ -5,6 +5,7 @@ using DomainModel.Identity;
 using Framework.Autofac;
 using Framework.EF.DbContextImpl;
 using Framework.Logging.Log4Net;
+using Framework.Refit;
 using Framework.Storage.FileStorage.TemporaryStorage;
 using Framework.Web.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -318,6 +319,8 @@ namespace RiverdaleMainApp2_0
                     PolicyPermissionRequired.BuildPolicies(options, permissionNames);
 
                 });
+
+                services.AddHttpClient<CustomHttpClient>();
 
                 // add identity
                 var builder = services.AddIdentityCore<AppUser>

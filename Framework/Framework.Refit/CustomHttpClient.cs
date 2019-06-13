@@ -1,7 +1,9 @@
 ﻿using Polly;
+using Polly.Wrap;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -11,13 +13,29 @@ namespace Framework.Refit
 {
     public class CustomHttpClient: HttpClient
     {
-        public Policy Policy { get; protected set; }
+        public IList<IAsyncPolicy> Policies { get; set; }
+        public HttpClient OriginalHttpClient { get; internal set; }
+
+        //protected AsyncPolicyWrap PolicyWrap { get; set; }
+
+
+        public CustomHttpClient()
+        {
+
+        }
+
+        public CustomHttpClient(HttpMessageHandler handler) : base(handler)
+        {
+        }
 
         public new async Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.DeleteAsync(requestUri, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async(_context) => await base.DeleteAsync(requestUri, cancellationToken), context);
             }
             else
             {
@@ -25,11 +43,16 @@ namespace Framework.Refit
             }
         }
 
+       
+
         public new async Task<HttpResponseMessage> DeleteAsync(string requestUri, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.DeleteAsync(requestUri, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async() => await base.DeleteAsync(requestUri, cancellationToken));
             }
             else
             {
@@ -39,9 +62,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> DeleteAsync(string requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.DeleteAsync(requestUri));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async() => await base.DeleteAsync(requestUri));
             }
             else
             {
@@ -51,9 +77,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.DeleteAsync(requestUri));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async() => await base.DeleteAsync(requestUri));
             }
             else
             {
@@ -63,9 +92,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.GetAsync(requestUri, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async() => await base.GetAsync(requestUri, cancellationToken));
             }
             else
             {
@@ -75,9 +107,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(() => base.GetAsync(requestUri));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async() => await base.GetAsync(requestUri));
             }
             else
             {
@@ -87,9 +122,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute(() => base.GetAsync(requestUri, completionOption));
+                return await policy.ExecuteAsync(async() => await base.GetAsync(requestUri, completionOption));
             }
             else
             {
@@ -99,9 +137,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.GetAsync(requestUri, completionOption));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.GetAsync(requestUri, completionOption));
             }
             else
             {
@@ -111,9 +152,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(Uri requestUri, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.DeleteAsync(requestUri, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.DeleteAsync(requestUri, cancellationToken));
             }
             else
             {
@@ -123,9 +167,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(string requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.DeleteAsync(requestUri));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.DeleteAsync(requestUri));
             }
             else
             {
@@ -135,9 +182,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.GetAsync(requestUri, completionOption, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.GetAsync(requestUri, completionOption, cancellationToken));
             }
             else
             {
@@ -147,9 +197,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.DeleteAsync(requestUri, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.DeleteAsync(requestUri, cancellationToken));
             }
             else
             {
@@ -159,9 +212,12 @@ namespace Framework.Refit
 
         public new async Task<byte[]> GetByteArrayAsync(string requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<byte[]>>(async () => await base.GetByteArrayAsync(requestUri));
+                return await policy.ExecuteAsync<byte[]>(async () => await base.GetByteArrayAsync(requestUri));
             }
             else
             {
@@ -171,9 +227,12 @@ namespace Framework.Refit
 
         public new async Task<byte[]> GetByteArrayAsync(Uri requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<byte[]>>(async () => await base.GetByteArrayAsync(requestUri));
+                return await policy.ExecuteAsync<byte[]>(async () => await base.GetByteArrayAsync(requestUri));
             }
             else
             {
@@ -183,9 +242,12 @@ namespace Framework.Refit
 
         public new async Task<Stream> GetStreamAsync(string requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<Stream>>(async () => await base.GetStreamAsync(requestUri));
+                return await policy.ExecuteAsync<Stream>(async () => await base.GetStreamAsync(requestUri));
             }
             else
             {
@@ -195,9 +257,12 @@ namespace Framework.Refit
 
         public new async Task<Stream> GetStreamAsync(Uri requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<Stream>>(async () => await base.GetStreamAsync(requestUri));
+                return await policy.ExecuteAsync<Stream>(async () => await base.GetStreamAsync(requestUri));
             }
             else
             {
@@ -207,9 +272,12 @@ namespace Framework.Refit
 
         public new async Task<string> GetStringAsync(string requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<string>>(async () => await base.GetStringAsync(requestUri));
+                return await policy.ExecuteAsync<string>(async () => await base.GetStringAsync(requestUri));
             }
             else
             {
@@ -219,9 +287,12 @@ namespace Framework.Refit
 
         public new async Task<string> GetStringAsync(Uri requestUri)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<string>>(async () => await base.GetStringAsync(requestUri));
+                return await policy.ExecuteAsync<string>(async () => await base.GetStringAsync(requestUri));
             }
             else
             {
@@ -231,9 +302,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PatchAsync(Uri requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PatchAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PatchAsync(requestUri, content));
             }
             else
             {
@@ -243,9 +317,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PatchAsync(string requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PatchAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PatchAsync(requestUri, content));
             }
             else
             {
@@ -255,9 +332,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PatchAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PatchAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PatchAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -267,9 +347,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PatchAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PatchAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PatchAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -279,9 +362,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PostAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PostAsync(requestUri, content));
             }
             else
             {
@@ -291,9 +377,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PostAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PostAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -303,9 +392,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PostAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PostAsync(requestUri, content));
             }
             else
             {
@@ -315,9 +407,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PostAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PostAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -327,9 +422,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PutAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PutAsync(requestUri, content));
             }
             else
             {
@@ -339,9 +437,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PutAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PutAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -351,9 +452,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PutAsync(requestUri, content, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PutAsync(requestUri, content, cancellationToken));
             }
             else
             {
@@ -363,9 +467,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(requestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.PutAsync(requestUri, content));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.PutAsync(requestUri, content));
             }
             else
             {
@@ -375,9 +482,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(request.RequestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.SendAsync(request));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.SendAsync(request));
             }
             else
             {
@@ -387,9 +497,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(request.RequestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.SendAsync(request, completionOption));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.SendAsync(request, completionOption));
             }
             else
             {
@@ -399,9 +512,12 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(request.RequestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.SendAsync(request, completionOption, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.SendAsync(request, completionOption, cancellationToken));
             }
             else
             {
@@ -411,14 +527,37 @@ namespace Framework.Refit
 
         public new async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (this.Policy != null)
+            IAsyncPolicy policy = this.CombinePolicies();
+            var context = new Context(request.RequestUri.ToString(), new Dictionary<string, object>() { { "HttpClient", this } });
+
+            if (policy != null)
             {
-                return await this.Policy.Execute<Task<HttpResponseMessage>>(async () => await base.SendAsync(request, cancellationToken));
+                return await policy.ExecuteAsync<HttpResponseMessage>(async () => await base.SendAsync(request, cancellationToken));
             }
             else
             {
                 return await base.SendAsync(request, cancellationToken);
             }
+        }
+
+
+        private IAsyncPolicy CombinePolicies()
+        {
+            IAsyncPolicy result = null;
+
+            if (this.Policies != null && this.Policies.Count > 0)
+            {
+                if (this.Policies.Count > 1)
+                {
+                    result = Policy.WrapAsync(this.Policies.ToArray());
+                }
+                else
+                {
+                    result = this.Policies[0];
+                }
+            }
+
+            return result;
         }
     }
 }

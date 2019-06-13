@@ -26,8 +26,11 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
-    <PackageReference Include="Refit" Version="4.6.107" />
+    <PackageReference Include="Polly" Version="7.1.0" />
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+    <PackageReference Include="Refit" Version="4.7.9" />
     <PackageReference Include="Refit.HttpClientFactory" Version="4.6.107" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
@@ -44,6 +47,7 @@
     <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.EF\Framework.EF.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.FileStorage.AspNetCore\Framework.FileStorage.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.Refit\Framework.Refit.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.SignalR\Framework.SignalR.csproj" />
     <ProjectReference Include="..\..\..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
     <ProjectReference Include="..\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />

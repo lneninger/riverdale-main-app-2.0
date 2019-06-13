@@ -1,6 +1,7 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using DomainDatabaseMapping;
 using Framework.Logging.Log4Net;
+using Framework.Refit;
 using Framework.Storage.FileStorage.TemporaryStorage;
 using FunzaCommons;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Net.Http;
 using WebApi.ErrorHandling;
 using WebApi.IoC;
 using WebApi.SignalR;
@@ -21,15 +23,17 @@ namespace WebApi
     {
         static LoggerCustom Logger = Framework.Logging.Log4Net.LoggerFactory.Create(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             Configuration = configuration;
+            ServiceProvider = serviceProvider;
 
             this.ConnectionString = Configuration.GetConnectionString("RiverdaleModel");
             Logger.Info($"Main Database Connection - FunzaModel: {this.ConnectionString}");
         }
 
         public IConfiguration Configuration { get; }
+        public IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// Global Connection String
@@ -58,6 +62,7 @@ namespace WebApi
 
                 services.AddAutofac();
 
+
                 services.AddSignalR(config =>
                 {
                     config.EnableDetailedErrors = true;
@@ -81,7 +86,7 @@ namespace WebApi
                 services.AddOptions();
 
 
-                RefitConfig.Configure(this.Configuration, services);
+                RefitConfig.Configure(this.Configuration, services, ServiceProvider);
 
                 var autofacServiceProvider = IoCConfig.Init(Configuration, services);
 
