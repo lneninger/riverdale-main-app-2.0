@@ -91,7 +91,7 @@ namespace RiverdaleMainApp2_0.Controllers
                 Title = $"Product {System.DateTime.UtcNow : yyyy-MM-ddhhmmss}"
             };
 
-            var funzaResponse = (await this.QuoteClient.CreateQuote(payload)).Content;
+            var funzaResponse = (await this.QuoteClient.GetQuotes()).Content;
             
             return this.Ok(funzaResponse);
         }

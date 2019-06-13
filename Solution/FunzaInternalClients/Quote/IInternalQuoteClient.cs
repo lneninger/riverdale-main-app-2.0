@@ -10,7 +10,7 @@ namespace FunzaInternalClients.Quote
     public interface IInternalQuoteClient
     {
         [Get("/")]
-        Task<ApiResponse<IEnumerable<InternalBridgeQuoteOutput>>> GetQuotes(int id);
+        Task<ApiResponse<IEnumerable<InternalBridgeQuoteOutput>>> GetQuotes();
 
         [Get("/{id}")]
         Task<ApiResponse<InternalBridgeQuoteOutput>> GetQuote(int id);

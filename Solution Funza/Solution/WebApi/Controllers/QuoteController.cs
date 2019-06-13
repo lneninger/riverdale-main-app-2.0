@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Framework.Refit;
+using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.InternalClients.Quote;
 using FunzaDirectClients.InternalClients.Quote.Models;
 using FunzaInternalClients.Quote.Models;
@@ -37,16 +38,26 @@ namespace WebApi.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectAuthenticateResult>))]
+        [ProducesResponseType(200, Type = typeof(ListResult<FunzaDirectGetQuoteResult>))]
         public async Task<IActionResult> Get()
         {
-            var quoteClient = RefitExtensions.InstanciateClient<IQuoteClient>(RefitConfig.GetHttpClient());
+            await this.QuoteClient.SetFunzaToken(this.Request);
 
-            var funzaResponse = await quoteClient.GetQuotes();
+            ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetQuoteResult>>> funzaResponse = null;
+
+            try
+            {
+                funzaResponse = await this.QuoteClient.GetQuotes();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
             //var funzaResponse = await this.QuoteClient.GetQuotes();
             var result = await Task.FromResult("Hello");
 
-            return this.Ok(result);
+            return this.Ok(funzaResponse.Content.Result);
         }
 
         [HttpPost]
