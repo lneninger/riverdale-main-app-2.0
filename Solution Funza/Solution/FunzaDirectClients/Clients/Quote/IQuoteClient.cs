@@ -9,7 +9,7 @@ namespace FunzaDirectClients.InternalClients.Quote
     {
         
         [Get("/")]
-        Task<ApiResponse<FunzaDirectAuthenticateResult>> GetQuotes();
+        Task<ApiResponse<FunzaDirectGetQuoteResult>> GetQuotes();
 
         [Get("/{id}")]
         Task<ApiResponse<FunzaDirectAuthenticateResult>> GetQuote(int id);

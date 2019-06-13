@@ -21,5 +21,7 @@ namespace FunzaInternalClients.Quote.Models
         /// The title.
         /// </value>
         public string Title { get; set; }
+        public int SeasonId { get; set; }
+        public int ProductTypeId { get; set; }
     }
 }

@@ -7,5 +7,7 @@ namespace DomainDatabaseMapping
     internal class SCHEMAS
     {
         public const string FUNZA = "FUNZA";
+
+        public const string MASTERS = "MASTERS";
     }
 }

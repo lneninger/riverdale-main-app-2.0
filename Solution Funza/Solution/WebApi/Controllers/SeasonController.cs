@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Framework.Refit;
+using FunzaDirectClients.Clients.Season;
 using FunzaDirectClients.InternalClients.Quote;
 using FunzaDirectClients.InternalClients.Quote.Models;
 using FunzaInternalClients.Quote.Models;
@@ -14,15 +15,15 @@ namespace WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/quotes")]
+    [Route("api/v{version:apiVersion}/seasons")]
     [ApiController]
-    public class QuoteController : ControllerBase
+    public class SeasonController : ControllerBase
     {
-        public IQuoteClient QuoteClient { get; }
+        public ISeasonClient SeasonClient { get; }
 
-        public QuoteController(IQuoteClient quoteClient)
+        public SeasonController(ISeasonClient seasonClient)
         {
-            this.QuoteClient = quoteClient;
+            this.SeasonClient = seasonClient;
         }
 
         [HttpGet("{id}")]
@@ -40,10 +41,8 @@ namespace WebApi.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectAuthenticateResult>))]
         public async Task<IActionResult> Get()
         {
-            var quoteClient = RefitExtensions.InstanciateClient<IQuoteClient>(RefitConfig.GetHttpClient());
-
-            var funzaResponse = await quoteClient.GetQuotes();
-            //var funzaResponse = await this.QuoteClient.GetQuotes();
+            await this.SeasonClient.SetFunzaToken(this.Request);
+            var funzaResponse = await this.SeasonClient.GetSeasons();
             var result = await Task.FromResult("Hello");
 
             return this.Ok(result);
@@ -51,7 +50,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
-        public async Task<IActionResult> Add(InternalBridgeCreateQuoteInput model)
+        public async Task<IActionResult> MapSeason(InternalBridgeCreateQuoteInput model)
         {
             var payload = new FunzaDirectCreateQuoteInput {
                 Titulo = model.Title,
@@ -59,20 +58,9 @@ namespace WebApi.Controllers
                 TipoProductoId = model.ProductTypeId
             };
 
-            await this.QuoteClient.SetFunzaToken(this.Request);
+            await this.SeasonClient.SetFunzaToken(this.Request);
 
-            //var quoteClient = RestService.For<IQuoteClient>(RefitConfig.GetHttpClient());
-
-            //var funzaResponse = await quoteClient.CreateQuote(payload);
-            var funzaResponse = await this.QuoteClient.CreateQuote(payload);
-            var funzaResult = funzaResponse.Content;
-
-            var result = new InternalBridgeCreateQuoteOutput
-            {
-                Title = funzaResult.Titulo
-            };
-
-            return this.Ok(result);
+            return this.Ok();
         }
 
         [HttpPut]

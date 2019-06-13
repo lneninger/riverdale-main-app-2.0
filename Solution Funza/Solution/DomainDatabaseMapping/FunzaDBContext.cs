@@ -28,6 +28,7 @@ namespace DomainDatabaseMapping
 
 
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Season> FunzaSeason { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,6 +40,7 @@ namespace DomainDatabaseMapping
 
             // Config
             modelBuilder.ApplyConfiguration(new QuoteMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new SeasonMap(modelBuilder));
         }
         }
 }
