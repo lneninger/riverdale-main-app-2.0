@@ -9,16 +9,16 @@ namespace FunzaDirectClients.InternalClients.Quote.Models
     {
         public int Id { get; set; }
 
-        public string Codigo { get; set; }//": "3-1501",
+        public string Codigo { get; set; }
 
-        public string Nombre { get; set; }//": "Generic",
+        public string Nombre { get; set; }
 
-        public decimal Margen { get; set; }//": 0.08,
+        public decimal Margen { get; set; }
 
-        public bool Estado { get; set; }//": true,
+        public bool Estado { get; set; }
 
-        public int ClienteId { get; set; }//": 3,
+        public int? ClienteId { get; set; }
 
-        public string ClienteNombre { get; set; }//": "RIVERDALE FARMS, LLC.",
+        public string ClienteNombre { get; set; }
     }
 }
