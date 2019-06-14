@@ -10,8 +10,8 @@ namespace FunzaDirectClients.Clients.Season
 {
     public interface ISeasonClient: IRefitClient
     {
-        [Get("/")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetAllSeasonResult>>>> GetSeasons();
+        [Get("/GetAll")]
+        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetAllSeasonResult>>>> GetSeasons(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

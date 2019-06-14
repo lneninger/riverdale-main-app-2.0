@@ -11,6 +11,8 @@ namespace FunzaCommons
 
         public string AuthenticationRelativeURL { get; set; }
         public string QuotesRelativeURL { get; set; }
+        public string SeasonsRelativeURL { get; set; }
+        public string GoodPricesRelativeURL { get; set; }
 
         public Dictionary<string, FunzaAuthenticationSettings> AuthenticationSettingsCollection { get; } = new Dictionary<string, FunzaAuthenticationSettings>();
 
@@ -23,7 +25,6 @@ namespace FunzaCommons
         public string GetPackingsURL { get; set; }
 
         public string GetQuotesURL { get; set; }
-
     }
 
     

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DomainModel
 {
-    public class Season
+    public class Season : AbstractBaseEntity
     {
         [Display(Name = "Id")]
         public int Id { get; set; }

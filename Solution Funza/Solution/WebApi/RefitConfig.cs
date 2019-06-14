@@ -17,6 +17,7 @@ using Polly.Timeout;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using FunzaDirectClients.Clients;
+using FunzaDirectClients.Clients.Season;
 
 namespace WebApi
 {
@@ -75,6 +76,22 @@ namespace WebApi
                 .ConfigureHttpClient(c =>
                 {
                     c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.QuotesRelativeURL);
+                })
+                .AddPolicyHandler(timeoutPolicy)
+                .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<ISeasonClient>()
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.SeasonsRelativeURL);
+                })
+                .AddPolicyHandler(timeoutPolicy)
+                .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<IGoodPriceClient>()
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.GoodPricesRelativeURL);
                 })
                 .AddPolicyHandler(timeoutPolicy)
                 .AddPolicyHandler(tokenRefreshPolicy);
