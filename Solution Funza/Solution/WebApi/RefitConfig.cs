@@ -1,23 +1,20 @@
 ﻿using Framework.Refit;
 using FunzaCommons;
+using FunzaDirectClients.Clients;
+using FunzaDirectClients.Clients.GoodPrice;
+using FunzaDirectClients.Clients.PackagePrice;
+using FunzaDirectClients.Clients.Season;
 using FunzaDirectClients.InternalClients.Quote;
 using FunzaDirectClients.InternalClients.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Polly;
-using Polly.Wrap;
+using Polly.Extensions.Http;
 using Refit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Polly.Extensions.Http;
-using Polly.Timeout;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-using FunzaDirectClients.Clients;
-using FunzaDirectClients.Clients.Season;
 
 namespace WebApi
 {
@@ -92,6 +89,14 @@ namespace WebApi
                 .ConfigureHttpClient(c =>
                 {
                     c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.GoodPricesRelativeURL);
+                })
+                .AddPolicyHandler(timeoutPolicy)
+                .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<IPackagePriceClient>()
+                .ConfigureHttpClient(c =>
+                {
+                    c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.PackagePricesRelativeURL);
                 })
                 .AddPolicyHandler(timeoutPolicy)
                 .AddPolicyHandler(tokenRefreshPolicy);

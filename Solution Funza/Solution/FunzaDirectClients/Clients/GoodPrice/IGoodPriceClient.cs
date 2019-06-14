@@ -1,12 +1,12 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.GoodSeason.Models;
+using FunzaDirectClients.InternalClients.GoodPrice.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.Clients.Season
+namespace FunzaDirectClients.Clients.GoodPrice
 {
     public interface IGoodPriceClient : IRefitClient
     {

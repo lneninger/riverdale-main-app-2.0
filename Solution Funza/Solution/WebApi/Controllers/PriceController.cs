@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Framework.Refit;
-using FunzaDirectClients.Clients.GoodPrice;
+using FunzaDirectClients.Clients.PackagePrice;
+using FunzaDirectClients.Clients.Price;
 using FunzaDirectClients.Clients.Season;
-using FunzaDirectClients.InternalClients.GoodPrice.Models;
 using FunzaDirectClients.InternalClients.GoodSeason.Models;
 using FunzaDirectClients.InternalClients.Quote;
 using FunzaDirectClients.InternalClients.Quote.Models;
@@ -18,24 +18,24 @@ namespace WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [Route("api/v{version:apiVersion}/goodprices")]
+    [Route("api/v{version:apiVersion}/prices")]
     [ApiController]
-    public class GoodPriceController : ControllerBase
+    public class PriceController : ControllerBase
     {
-        public IGoodPriceClient GoodPriceClient { get; }
+        public IPriceClient PriceClient { get; }
 
-        public GoodPriceController(IGoodPriceClient goodPriceClient)
+        public PriceController(IPriceClient priceClient)
         {
-            this.GoodPriceClient = goodPriceClient;
+            this.PriceClient = priceClient;
         }
 
         
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetGoodPricesResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetPackagePricesResult>))]
         public async Task<IActionResult> Get()
         {
-            await this.GoodPriceClient.SetFunzaToken(this.Request);
-            var funzaResponse = await this.GoodPriceClient.GetGoodPrices();
+            await this.PriceClient.SetFunzaToken(this.Request);
+            var funzaResponse = await this.PriceClient.GetPrices();
             var funzaResult = funzaResponse.Content;
 
             return this.Ok(funzaResult.Result);

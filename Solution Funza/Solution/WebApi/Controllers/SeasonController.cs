@@ -6,6 +6,7 @@ using Framework.Refit;
 using FunzaDirectClients.Clients.Season;
 using FunzaDirectClients.InternalClients.Quote;
 using FunzaDirectClients.InternalClients.Quote.Models;
+using FunzaDirectClients.InternalClients.Season.Models;
 using FunzaInternalClients.Quote.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +27,10 @@ namespace WebApi.Controllers
             this.SeasonClient = seasonClient;
         }
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(string))]
-        public async Task<IActionResult> Get(int id)
-        {
-            var quoteClient = RefitExtensions.InstanciateClient<IQuoteClient>(RefitConfig.GetHttpClient());
-
-            var result = (await quoteClient.GetQuote(id)).Content;
-            //var result = (await this.QuoteClient.GetQuote(id)).Content;
-            return this.Ok(result);
-        }
+        
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectAuthenticateResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetSeasonsResult>))]
         public async Task<IActionResult> Get()
         {
             await this.SeasonClient.SetFunzaToken(this.Request);

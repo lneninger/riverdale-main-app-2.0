@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.GoodPrice.Models
+namespace FunzaDirectClients.InternalClients.GoodSeason.Models
 {
-    public class FunzaDirectGetGoodPricesResult
+    public class FunzaDirectGetPackagePricesResult
     {
         public int Id { get; set; }//": 0
 

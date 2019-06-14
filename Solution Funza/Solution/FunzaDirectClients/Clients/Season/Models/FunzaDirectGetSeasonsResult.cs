@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FunzaDirectClients.InternalClients.Season.Models
 {
-    public class FunzaDirectGetAllSeasonResult
+    public class FunzaDirectGetSeasonsResult
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
