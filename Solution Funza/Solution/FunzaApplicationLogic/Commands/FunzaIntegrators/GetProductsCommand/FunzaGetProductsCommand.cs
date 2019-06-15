@@ -5,7 +5,7 @@ using FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand.Models;
 using FunzaApplicationLogic.Repositories.DB;
 using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.Product;
-using FunzaDirectClients.InternalClients.Product.Models;
+using FunzaDirectClients.Clients.Product.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +29,7 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand
 
             if (result.IsSucceed)
             {
-                result.Bag = funzaResult.Result.ToPageResult<FunzaDirectGetProductsResult, FunzaGetProductsCommandOutput>(funzaItem => new FunzaGetProductsCommandOutput {
+                result.Bag = funzaResult.Result.ToPageResult<DirectGetProductsResult, FunzaGetProductsCommandOutput>(funzaItem => new FunzaGetProductsCommandOutput {
 
 
                 } );

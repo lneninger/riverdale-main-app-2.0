@@ -5,7 +5,7 @@ using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand.Models;
 using FunzaApplicationLogic.Repositories.DB;
 using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.ProductColor;
-using FunzaDirectClients.InternalClients.ProductColor.Models;
+using FunzaDirectClients.Clients.ProductColor.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

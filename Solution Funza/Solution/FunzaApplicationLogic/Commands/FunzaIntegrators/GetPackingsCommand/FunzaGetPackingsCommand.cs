@@ -2,9 +2,9 @@
 using Framework.Autofac;
 using Framework.Core.Messages;
 using System.Collections.Generic;
-using FunzaDirectClients.Clients.PackagePrice;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
-using FunzaDirectClients.InternalClients.GoodSeason.Models;
+using FunzaDirectClients.Clients.Packing;
+using FunzaDirectClients.Clients.Packing.Models;
 using System.Threading.Tasks;
 using FunzaDirectClients.Clients.Commons;
 
@@ -27,7 +27,7 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand
 
             if (result.IsSucceed)
             {
-                result.Bag = funzaResult.Result.ToPageResult<FunzaDirectGetPackingsResult, GetPackingsCommandOutput>(funzaItem => new GetPackingsCommandOutput
+                result.Bag = funzaResult.Result.ToPageResult<DirectGetPackingsResult, GetPackingsCommandOutput>(funzaItem => new GetPackingsCommandOutput
                 {
                 });
             }

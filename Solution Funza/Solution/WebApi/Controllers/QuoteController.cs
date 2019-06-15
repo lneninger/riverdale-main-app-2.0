@@ -90,7 +90,7 @@ namespace WebApi.Controllers
 
         [HttpPost("upsert")]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
-        public async Task<IActionResult> Upsert(InternalBridgeCreateQuoteInput model, [FromServices])
+        public async Task<IActionResult> Upsert(InternalBridgeCreateQuoteInput model)
         {
 
             await this.QuoteClient.SetFunzaToken(this.Request);
@@ -107,14 +107,6 @@ namespace WebApi.Controllers
             return this.Ok(result);
         }
 
-        [HttpPut]
-        [ProducesResponseType(200, Type = typeof(InternalBridgeUpdateQuoteOutput))]
-        public async Task<IActionResult> Update(InternalBridgeUpdateQuoteInput model)
-        {
-            var result = await Task.FromResult("Hello");
-
-            return this.Ok(result);
-        }
 
     }
 }

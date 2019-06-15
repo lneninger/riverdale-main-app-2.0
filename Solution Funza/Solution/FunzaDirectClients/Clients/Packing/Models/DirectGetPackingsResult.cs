@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.Packing.Models
+namespace FunzaDirectClients.Clients.Packing.Models
 {
-    public class FunzaDirectGetPackingsResult
+    public class DirectGetPackingsResult
     {
 
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.ProductColor.Models
+namespace FunzaDirectClients.Clients.ProductColor.Models
 {
-    public class FunzaDirectGetProductColorsResult
+    public class DirectGetProductColorsResult
     {
         public int Id { get; set; }
 

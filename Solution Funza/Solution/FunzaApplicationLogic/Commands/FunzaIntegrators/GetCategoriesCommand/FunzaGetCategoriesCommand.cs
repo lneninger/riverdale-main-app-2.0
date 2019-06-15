@@ -5,7 +5,7 @@ using FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand.Model
 using FunzaApplicationLogic.Repositories.DB;
 using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.ProductCategory;
-using FunzaDirectClients.InternalClients.ProductCategory.Models;
+using FunzaDirectClients.Clients.ProductCategory.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

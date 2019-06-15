@@ -1,5 +1,5 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.Packing.Models;
+using FunzaDirectClients.Clients.Packing.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.Packing
     public interface IPackingClient : IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetPackingsResult>>>> GetPackings(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetPackingsResult>>>> GetPackings(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

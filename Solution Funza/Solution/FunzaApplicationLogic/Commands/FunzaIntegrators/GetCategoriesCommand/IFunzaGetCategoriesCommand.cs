@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Framework.Commands;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using System.Threading.Tasks;
-using FunzaDirectClients.InternalClients.ProductCategory.Models;
+using FunzaDirectClients.Clients.ProductCategory.Models;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand
 {

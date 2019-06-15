@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.Season
     public interface ISeasonClient: IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetSeasonsResult>>>> GetSeasons(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetSeasonsResult>>>> GetSeasons(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

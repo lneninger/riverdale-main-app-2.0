@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.ProductCategory.Models
+namespace FunzaDirectClients.Clients.ProductCategory.Models
 {
-    public class FunzaDirectGetProductCategoriesResult
+    public class DirectGetProductCategoriesResult
     {
         public int IdCategoriaProductos { get; set; }
 

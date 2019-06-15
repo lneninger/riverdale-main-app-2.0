@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Security;
-using FunzaDirectClients.InternalClients.Security.Models;
-using FunzaInternalClients.Quote.Models;
-using Microsoft.AspNetCore.Http;
+﻿using FunzaDirectClients.Clients.Security;
+using FunzaDirectClients.Clients.Security.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {

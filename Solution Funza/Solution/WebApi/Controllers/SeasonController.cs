@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Framework.Refit;
-using FunzaDirectClients.Clients.Season;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Quote.Models;
-using FunzaDirectClients.InternalClients.Season.Models;
+﻿using FunzaDirectClients.Clients.Season;
+using FunzaDirectClients.Clients.Season.Models;
 using FunzaInternalClients.Quote.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Refit;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +23,7 @@ namespace WebApi.Controllers
         
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetSeasonsResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DirectGetSeasonsResult>))]
         public async Task<IActionResult> Get()
         {
             await this.SeasonClient.SetFunzaToken(this.Request);
@@ -42,7 +35,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
-        public async Task<IActionResult> MapSeason(InternalBridgeCreateQuoteInput model)
+        public async Task<IActionResult> MapSeason(InternalBridgeCreateQuoteInput model, [FromServices] ISeasonMapCommand seasonMapCommand)
         {
             var payload = new DirectCreateQuoteInput {
                 Titulo = model.Title,
@@ -55,14 +48,6 @@ namespace WebApi.Controllers
             return this.Ok();
         }
 
-        [HttpPut]
-        [ProducesResponseType(200, Type = typeof(InternalBridgeUpdateQuoteOutput))]
-        public async Task<IActionResult> Update(InternalBridgeUpdateQuoteInput model)
-        {
-            var result = await Task.FromResult("Hello");
-
-            return this.Ok(result);
-        }
 
     }
 }

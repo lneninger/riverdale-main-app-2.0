@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.CompositionType.Models
+namespace FunzaDirectClients.Clients.CompositionType.Models
 {
-    public class FunzaDirectGetCompositionTypesResult
+    public class DirectGetCompositionTypesResult
     {
         public int Id { get; set; }
 

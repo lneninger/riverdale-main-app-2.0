@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace FunzaDirectClients.Clients.Security.Models
 {
     public class FunzaDirectAuthenticateResulWrapper{
-        public FunzaDirectAuthenticateResult Result { get; set; }
+        public DirectAuthenticateResult Result { get; set; }
 
         public string TargetUrl { get; set; }
 
@@ -15,7 +15,7 @@ namespace FunzaDirectClients.Clients.Security.Models
         public bool unAuthorizedRequest { get; set; }
     }
 
-    public class FunzaDirectAuthenticateResult
+    public class DirectAuthenticateResult
     {
         public string accessToken { get; set; }
 

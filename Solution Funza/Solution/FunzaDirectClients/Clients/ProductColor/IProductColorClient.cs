@@ -1,5 +1,5 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.ProductColor.Models;
+using FunzaDirectClients.Clients.ProductColor.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.ProductColor
     public interface IProductColorClient : IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetProductColorsResult>>>> GetProductColors(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetProductColorsResult>>>> GetProductColors(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }
