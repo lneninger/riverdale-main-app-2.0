@@ -5,7 +5,7 @@ using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand
 {
-    public interface IProductGetByIdCommand: ICommandFunc<int, OperationResponse<ProductGetByIdCommandOutputDTO>>
+    public interface IProductGetByIdCommand: ICommandFunc<int, OperationResponse<ProductGetByIdCommandOutput>>
     {
     }
 }

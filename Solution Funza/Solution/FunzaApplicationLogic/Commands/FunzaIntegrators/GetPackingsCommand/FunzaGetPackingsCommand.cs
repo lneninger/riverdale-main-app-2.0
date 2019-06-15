@@ -1,34 +1,36 @@
-﻿using ApplicationLogic.AppSettings;
-using FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand.Models;
-using ApplicationLogic.Business.Commons.FunzaManager;
-using ApplicationLogic.Repositories.Funza;
+﻿using FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand.Models;
 using Framework.Autofac;
 using Framework.Core.Messages;
 using System.Collections.Generic;
+using FunzaDirectClients.Clients.PackagePrice;
+using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using FunzaDirectClients.InternalClients.GoodSeason.Models;
+using System.Threading.Tasks;
+using FunzaDirectClients.Clients.Commons;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand
 {
     public class FunzaGetPackingsCommand : BaseIoCDisposable, IFunzaGetPackingsCommand
     {
-        public FunzaGetPackingsCommand(IMastersRepository repository, IFunzaManager funzaManager)
+        public FunzaGetPackingsCommand(/*IMastersRepository repository, */IPackingClient packingClient)
         {
-            this.Repository = repository;
-            this.FunzaManager = funzaManager;
+            this.PackingClient = packingClient;
         }
 
-        public IMastersRepository Repository { get; }
-        public IFunzaManager FunzaManager { get; }
+        public IPackingClient PackingClient { get; }
 
-        public OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>> Execute()
+        public async Task<OperationResponse<PageResult<GetPackingsCommandOutput>>> ExecuteAsync(PageQuery<GetPackingsCommandInput> model)
         {
-            var result = new OperationResponse<IEnumerable<FunzaGetPackingsCommandOutputDTO>>();
-            var authenticationSettings = this.FunzaManager.GetAuthenticationSetting("basic");
-                var getPackingsResult = this.Repository.GetPackings(this.FunzaManager.FunzaSettings.GetPackingsURL, authenticationSettings.TokenSettings.AccessToken);
-                result.AddResponse(getPackingsResult);
-                if (result.IsSucceed)
+            var result = new OperationResponse<PageResult<GetPackingsCommandOutput>>();
+            var funzaResponse = await this.PackingClient.GetPackings();
+            var funzaResult = funzaResponse.Content;
+
+            if (result.IsSucceed)
+            {
+                result.Bag = funzaResult.Result.ToPageResult<FunzaDirectGetPackingsResult, GetPackingsCommandOutput>(funzaItem => new GetPackingsCommandOutput
                 {
-                result.Bag = getPackingsResult.Bag;
-                }
+                });
+            }
 
             return result;
         }

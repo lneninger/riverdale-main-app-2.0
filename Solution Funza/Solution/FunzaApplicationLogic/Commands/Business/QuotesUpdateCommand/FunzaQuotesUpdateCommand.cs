@@ -5,10 +5,12 @@ using EntityFrameworkCore.DbContextScope;
 using Framework.Core.Messages;
 using System;
 using System.Collections.Generic;
+using DomainModel;
+using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.QuotesUpdateCommand
 {
-    public class FunzaQuotesUpdateCommand : AbstractDBCommand<DomainModel.Funza.QuoteReference, IQuoteDBRepository>, IFunzaQuotesUpdateCommand
+    public class FunzaQuotesUpdateCommand : AbstractDBCommand<Quote, IQuoteDBRepository>, IFunzaQuotesUpdateCommand
     {
         public FunzaQuotesUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IQuoteDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -20,9 +22,9 @@ namespace FunzaApplicationLogic.Commands.Funza.QuotesUpdateCommand
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
 
-                OperationResponse<DomainModel.Funza.QuoteReference> getByFunzaIdResult;
+                OperationResponse<Quote> getByFunzaIdResult;
                 OperationResponse prepareToSaveResult;
-                DomainModel.Funza.QuoteReference entity = null;
+                Quote entity = null;
 
                 try
                 {
@@ -65,9 +67,9 @@ namespace FunzaApplicationLogic.Commands.Funza.QuotesUpdateCommand
             return result;
         }
 
-        private QuoteReference MapDTO(FunzaQuotesUpdateCommandInputDTO dtoItem, DomainModel.Funza.QuoteReference entity = null)
+        private Quote MapDTO(FunzaQuotesUpdateCommandInputDTO dtoItem, Quote entity = null)
         {
-            var result = entity ?? new QuoteReference();
+            var result = entity ?? new Quote();
 
             result.FunzaId = dtoItem.FunzaId;
             result.AdjustRequestUserId = dtoItem.AdjustRequestUserId;

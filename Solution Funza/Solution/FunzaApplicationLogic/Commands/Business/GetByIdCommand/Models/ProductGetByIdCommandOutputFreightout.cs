@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand.Models
 {
-    public class ProductGetByIdCommandOutputFreightoutDTO
+    public class ProductGetByIdCommandOutputFreightout
     {
         public int Id { get; set; }
 

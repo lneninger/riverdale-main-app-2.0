@@ -10,8 +10,8 @@ namespace DomainModel
         public int FunzaId { get; set; }
 
         public int SpecieId { get; set; }
-        public int VarieryId { get; set; }
-        public int GradeId { get; set; }
+        public int VariatyId { get; set; }
+        public int SizeId { get; set; }
         public int ColorId { get; set; }
         public string Code { get; set; }
         public bool Active { get; set; }

@@ -15,9 +15,9 @@ namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand
         {
         }
 
-        public OperationResponse<ProductGetByIdCommandOutputDTO> Execute(int id)
+        public OperationResponse<ProductGetByIdCommandOutput> Execute(int id)
         {
-            var result = new OperationResponse<ProductGetByIdCommandOutputDTO>();
+            var result = new OperationResponse<ProductGetByIdCommandOutput>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
                 var getByIdResult = this.Repository.GetById(id);

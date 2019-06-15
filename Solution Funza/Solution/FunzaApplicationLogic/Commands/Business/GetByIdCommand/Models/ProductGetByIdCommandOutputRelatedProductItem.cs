@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand.Models
 {
-    public class ProductGetByIdCommandOutputRelatedProductItemDTO
+    public class ProductGetByIdCommandOutputRelatedProductItem
     {
         public int Id { get; set; }
 

@@ -15,7 +15,7 @@ namespace DomainDatabaseMapping.Mappings
         public void Configure(EntityTypeBuilder<Color> builder)
         {
 
-            builder.ToTable("Color", SCHEMAS.FUNZA);
+            builder.ToTable("Color", SCHEMAS.MASTERS);
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)

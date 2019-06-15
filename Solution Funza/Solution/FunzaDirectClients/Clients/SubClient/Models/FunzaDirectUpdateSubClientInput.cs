@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaDirectClients.InternalClients.SubClient.Models
 {
-    public class FunzaDirectUpdateQuoteResult
+    public class FunzaDirectUpdateSubClientInput
     {
     }
 }

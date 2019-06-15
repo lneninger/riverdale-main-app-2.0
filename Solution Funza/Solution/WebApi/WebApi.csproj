@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\..\Framework\Framework.SignalR\Framework.SignalR.csproj" />
     <ProjectReference Include="..\..\..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
     <ProjectReference Include="..\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />
+    <ProjectReference Include="..\FunzaApplicationLogic\FunzaApplicationLogic.csproj" />
     <ProjectReference Include="..\FunzaAuthentication\FunzaAuthentication.csproj" />
     <ProjectReference Include="..\FunzaCommons\FunzaCommons.csproj" />
   </ItemGroup>

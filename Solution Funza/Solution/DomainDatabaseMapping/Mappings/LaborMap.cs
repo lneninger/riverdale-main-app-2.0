@@ -25,10 +25,10 @@ namespace DomainDatabaseMapping.Mappings
                .IsRequired(true);
 
             builder.Property(t => t.Cost)
-               .IsRequired(false);
+               .IsRequired(true);
 
             builder.Property(t => t.BouquetTypeId)
-               .IsRequired(false);
+               .IsRequired(true);
 
             builder.Property(t => t.Active)
                .HasDefaultValue(true);

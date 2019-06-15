@@ -6,10 +6,12 @@ using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Core.Messages;
+using Framework.Commands;
+using DomainModel;
 
 namespace FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand
 {
-    public class FunzaQuotePageQueryCommand : AbstractDBCommand<DomainModel.Funza.QuoteReference, IQuoteDBRepository>, IFunzaQuotePageQueryCommand
+    public class FunzaQuotePageQueryCommand : AbstractDBCommand<Quote, IQuoteDBRepository>, IFunzaQuotePageQueryCommand
     {
         public FunzaQuotePageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, IQuoteDBRepository repository) : base(dbContextScopeFactory, repository)
         {

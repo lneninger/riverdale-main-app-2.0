@@ -19,7 +19,7 @@ namespace DomainDatabaseMapping.Mappings
         public void Configure(EntityTypeBuilder<Category> builder)
         {
 
-            builder.ToTable("Category", SCHEMAS.FUNZA);
+            builder.ToTable("Category", SCHEMAS.MASTERS);
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)

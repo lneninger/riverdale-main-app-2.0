@@ -79,7 +79,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             result.Code = dtoItem.Code;
             result.ColorId = dtoItem.ColorId;
             result.Description = dtoItem.Description;
-            result.GradeId = dtoItem.GradeId;
+            result.SizeId = dtoItem.GradeId;
             result.Comments = dtoItem.Comments;
             result.ProductTypeId = dtoItem.ProductTypeId;
             result.ProductTypeName = dtoItem.ProductTypeName;
@@ -91,7 +91,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             result.SendQuotator = dtoItem.SendQuotator;
             result.SpecieId = dtoItem.SpecieId;
             result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
-            result.VarieryId = dtoItem.VarieryId;
+            result.VariatyId = dtoItem.VarieryId;
 
             return result;
         }

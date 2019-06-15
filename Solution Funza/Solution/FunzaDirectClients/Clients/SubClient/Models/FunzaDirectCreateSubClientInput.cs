@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaDirectClients.InternalClients.SubClient.Models
 {
-    public class FunzaDirectCreateQuoteInput
+    public class FunzaDirectCreateSubClientInput
     {
         /// <summary>
         /// Gets or sets the titulo.

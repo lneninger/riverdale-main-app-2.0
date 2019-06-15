@@ -5,12 +5,12 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand.Models;
 using Framework.Core.Messages;
-using DomainModel._Commons.Enums;
-using DomainModel.Funza;
+using DomainModel;
+using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
 {
-    public class FunzaColorsUpdateCommand : AbstractDBCommand<DomainModel.Funza.Color, IColorDBRepository>, IFunzaColorsUpdateCommand
+    public class FunzaColorsUpdateCommand : AbstractDBCommand<Color, IColorDBRepository>, IFunzaColorsUpdateCommand
     {
         public FunzaColorsUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IColorDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -21,9 +21,9 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
             var result = new OperationResponse<FunzaColorsUpdateCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                OperationResponse<DomainModel.Funza.Color> getByFunzaIdResult;
+                OperationResponse<Color> getByFunzaIdResult;
                 OperationResponse prepareToSaveResult;
-                DomainModel.Funza.Color entity = null;
+                Color entity = null;
 
                 try
                 {
@@ -66,7 +66,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
             return result;
         }
 
-        private Color MapDTO(FunzaColorsUpdateCommandInputDTO dtoItem, DomainModel.Funza.Color entity = null)
+        private Color MapDTO(FunzaColorsUpdateCommandInputDTO dtoItem, Color entity = null)
         {
             var result = entity ?? new Color();
 

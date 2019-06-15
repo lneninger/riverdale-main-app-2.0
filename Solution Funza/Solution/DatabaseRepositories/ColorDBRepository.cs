@@ -13,7 +13,6 @@ using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using Framework.Core.Messages;
-using DomainModel;
 using FunzaApplicationLogic.Commands.ColorPageQueryCommand.Models;
 
 namespace DatabaseRepositories.DB

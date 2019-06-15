@@ -1,7 +1,6 @@
 ﻿using ApplicationLogic.Repositories.DB;
 using DomainDatabaseMapping;
 using DomainModel;
-using DomainModel;
 using EntityFrameworkCore.DbContextScope;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance;
