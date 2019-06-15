@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand.Models
 {
-    public class FunzaQuotePageQueryCommandInputDTO: BaseFilter
+    public class QuotePageQueryCommandInput: BaseFilter
     {
     }
 }

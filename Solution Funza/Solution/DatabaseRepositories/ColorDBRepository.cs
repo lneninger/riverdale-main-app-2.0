@@ -1,21 +1,20 @@
 ﻿using DomainDatabaseMapping;
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
-using FizzWare.NBuilder;
 using ApplicationLogic.Repositories.DB;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationLogic.Business.Commands.Funza.ColorPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
 using Framework.Core.Messages;
-using DomainModel.Funza;
+using DomainModel;
+using FunzaApplicationLogic.Commands.ColorPageQueryCommand.Models;
 
 namespace DatabaseRepositories.DB
 {
@@ -25,14 +24,14 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ColorReference>> GetAll()
+        public OperationResponse<IEnumerable<Color>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<DomainModel.Funza.ColorReference>>();
+            var result = new OperationResponse<IEnumerable<DomainModel.Color>>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<DomainModel.Funza.ColorReference>().AsEnumerable();
+                    result.Bag = dbLocator.Set<DomainModel.Color>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -45,14 +44,14 @@ namespace DatabaseRepositories.DB
 
 
 
-        public OperationResponse<ColorReference> GetById(int id)
+        public OperationResponse<Color> GetById(int id)
         {
-            var result = new OperationResponse<ColorReference>();
+            var result = new OperationResponse<Color>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ColorReference>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Color>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -63,14 +62,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ColorReference> GetByFunzaId(string id)
+        public OperationResponse<Color> GetByFunzaId(string id)
         {
-            var result = new OperationResponse<ColorReference>();
+            var result = new OperationResponse<Color>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ColorReference>().Where(o => o.FunzaId == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Color>().Where(o => o.FunzaId == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -82,13 +81,13 @@ namespace DatabaseRepositories.DB
         }
 
 
-        public OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaColorPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<ColorPageQueryCommandOutput>> PageQuery(PageQuery<ColorPageQueryCommandInput> input)
         {
-            var result = new OperationResponse<PageResult<FunzaColorPageQueryCommandOutputDTO>>();
+            var result = new OperationResponse<PageResult<ColorPageQueryCommandOutput>>();
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<ColorReference>();
+                var predicate = PredicateBuilderExtension.True<Color>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -98,24 +97,24 @@ namespace DatabaseRepositories.DB
                     //}
                 }
 
-                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = this.AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
 
 
-                    var query = dbLocator.Set<ColorReference>().AsQueryable();
+                    var query = dbLocator.Set<Color>().AsQueryable();
 
 
-                    var advancedSorting = new List<SortItem<ColorReference>>();
-                    Expression<Func<ColorReference, object>> expression = null;
+                    var advancedSorting = new List<SortItem<Color>>();
+                    Expression<Func<Color, object>> expression = null;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
-                    //    advancedSorting.Add(new SortItem<ColorReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //    advancedSorting.Add(new SortItem<Color> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
                     //}
 
-                    var sorting = new SortingDTO<ColorReference>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<Color>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<ColorReference, FunzaColorPageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaColorPageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<Color, ColorPageQueryCommandOutput>(predicate, input, sorting, o => new ColorPageQueryCommandOutput
                     {
                         Id = o.Id,
                         Name = o.Name,
@@ -131,12 +130,12 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse Add(ColorReference entity)
+        public OperationResponse Add(Color entity)
         {
             var result = new OperationResponse();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 dbLocator.Add(entity);
             }
             catch (Exception ex)

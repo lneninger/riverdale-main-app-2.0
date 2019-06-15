@@ -1,18 +1,19 @@
-﻿using ApplicationLogic.Business.Commands.Funza.QuotePageQueryCommand.Models;
-using DomainModel.Funza;
+﻿using DomainModel;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand.Models;
+using FunzaApplicationLogic.Repositories.DB;
 
 namespace ApplicationLogic.Repositories.DB
 {
     public interface IQuoteDBRepository: IDBRepository
     {
-        OperationResponse<DomainModel.Funza.QuoteReference> GetById(int id);
+        OperationResponse<Quote> GetById(int id);
 
-        OperationResponse Add(QuoteReference entity);
+        OperationResponse Add(Quote entity);
 
-        OperationResponse<QuoteReference> GetByFunzaId(int id);
+        OperationResponse<Quote> GetByFunzaId(int id);
 
-        OperationResponse<PageResult<FunzaQuotePageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaQuotePageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<QuotePageQueryCommandOutput>> PageQuery(PageQuery<QuotePageQueryCommandInput> input);
     }
 }

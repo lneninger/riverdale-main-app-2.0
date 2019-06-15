@@ -1,10 +1,7 @@
-﻿using DomainModel.Funza;
+﻿using DomainModel;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DomainDatabaseMapping.Mappings
 {

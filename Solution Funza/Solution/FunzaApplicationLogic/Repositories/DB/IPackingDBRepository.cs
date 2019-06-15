@@ -1,4 +1,5 @@
-﻿using DomainModel.Funza;
+﻿using DomainModel;
+using DomainModel.Funza;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using FunzaApplicationLogic.Commands.Funza.PackingPageQueryCommand.Models;
@@ -8,7 +9,7 @@ namespace ApplicationLogic.Repositories.DB
 {
     public interface IPackingDBRepository : IDBRepository
     {
-        OperationResponse<DomainModel.Funza.Packing> GetById(int id);
+        OperationResponse<Packing> GetById(int id);
 
         OperationResponse Add(Packing entity);
 

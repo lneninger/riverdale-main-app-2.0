@@ -1,22 +1,19 @@
 ﻿using DomainDatabaseMapping;
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
-using FizzWare.NBuilder;
 using ApplicationLogic.Repositories.DB;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationLogic.Business.Commands.Funza.ProductPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
 using Framework.Core.Messages;
-using DomainModel.Funza;
+using FunzaApplicationLogic.Commands.Funza.ProductPageQueryCommand.Models;
 
 namespace DatabaseRepositories.DB
 {
@@ -26,14 +23,14 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ProductReference>> GetAll()
+        public OperationResponse<IEnumerable<Product>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<DomainModel.Funza.ProductReference>>();
+            var result = new OperationResponse<IEnumerable<DomainModel.Product>>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<DomainModel.Funza.ProductReference>().AsEnumerable();
+                    result.Bag = dbLocator.Set<DomainModel.Product>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -46,14 +43,14 @@ namespace DatabaseRepositories.DB
 
         
 
-        public OperationResponse<ProductReference> GetById(int id)
+        public OperationResponse<Product> GetById(int id)
         {
-            var result = new OperationResponse<ProductReference>();
+            var result = new OperationResponse<Product>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductReference>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Product>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -64,14 +61,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<ProductReference> GetByFunzaId(int id)
+        public OperationResponse<Product> GetByFunzaId(int id)
         {
-            var result = new OperationResponse<ProductReference>();
+            var result = new OperationResponse<Product>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<ProductReference>().Where(o => o.FunzaId == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Product>().Where(o => o.FunzaId == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -83,13 +80,13 @@ namespace DatabaseRepositories.DB
         }
 
 
-        public OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaProductPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<ProductPageQueryCommandOutput>> PageQuery(PageQuery<ProductPageQueryCommandInput> input)
         {
-            var result = new OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>>();
+            var result = new OperationResponse<PageResult<ProductPageQueryCommandOutput>>();
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<ProductReference>();
+                var predicate = PredicateBuilderExtension.True<Product>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -99,24 +96,24 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = this.AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
 
 
-                    var query = dbLocator.Set<ProductReference>().AsQueryable();
+                    var query = dbLocator.Set<Product>().AsQueryable();
 
 
-                    var advancedSorting = new List<SortItem<ProductReference>>();
-                    Expression<Func<ProductReference, object>> expression = null;
+                    var advancedSorting = new List<SortItem<Product>>();
+                    Expression<Func<Product, object>> expression = null;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
-                    //    advancedSorting.Add(new SortItem<ProductReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //    advancedSorting.Add(new SortItem<Product> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
                     //}
 
-                    var sorting = new SortingDTO<ProductReference>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<Product>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<ProductReference, FunzaProductPageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaProductPageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<Product, ProductPageQueryCommandOutput>(predicate, input, sorting, o => new ProductPageQueryCommandOutput
                     {
                         Id = o.Id,
                         Name = o.ReferenceDescription,
@@ -132,12 +129,12 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse Add(ProductReference entity)
+        public OperationResponse Add(Product entity)
         {
             var result = new OperationResponse();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 dbLocator.Add(entity);
             }
             catch (Exception ex)

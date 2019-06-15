@@ -5,14 +5,13 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand.Models;
 using Framework.Core.Messages;
-using DomainModel.Product;
-using DomainModel._Commons.Enums;
 using DomainModel.Funza;
 using Framework.Commands;
+using DomainModel;
 
 namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
 {
-    public class FunzaProductsUpdateCommand : AbstractDBCommand<DomainModel.Funza.Product, IProductDBRepository>, IFunzaProductsUpdateCommand
+    public class FunzaProductsUpdateCommand : AbstractDBCommand<DomainModel.Product, IProductDBRepository>, IFunzaProductsUpdateCommand
     {
         public FunzaProductsUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -24,9 +23,9 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
 
-                OperationResponse<DomainModel.Funza.Product> getByFunzaIdResult;
+                OperationResponse<DomainModel.Product> getByFunzaIdResult;
                 OperationResponse prepareToSaveResult;
-                DomainModel.Funza.Product entity = null;
+                DomainModel.Product entity = null;
 
                 try
                 {
@@ -69,7 +68,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             return result;
         }
 
-        private Product MapDTO(ProductsUpdateCommandInput dtoItem, DomainModel.Funza.Product entity = null)
+        private Product MapDTO(ProductsUpdateCommandInput dtoItem, Product entity = null)
         {
             var result = entity ?? new Product();
 

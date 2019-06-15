@@ -6,10 +6,11 @@ using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.ProductPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.Core.Messages;
+using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.ProductPageQueryCommand
 {
-    public class FunzaProductPageQueryCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, IProductDBRepository>, IFunzaProductPageQueryCommand
+    public class FunzaProductPageQueryCommand : AbstractDBCommand<DomainModel.Product, IProductDBRepository>, IFunzaProductPageQueryCommand
     {
         public FunzaProductPageQueryCommand(IDbContextScopeFactory dbContextScopeFactory, IProductDBRepository repository) : base(dbContextScopeFactory, repository)
         {

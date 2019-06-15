@@ -15,7 +15,7 @@ namespace FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand
         {
         }
 
-        public OperationResponse<PageResult<FunzaQuotePageQueryCommandOutputDTO>> Execute(PageQuery<FunzaQuotePageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<QuotePageQueryCommandOutput>> Execute(PageQuery<QuotePageQueryCommandInput> input)
         {
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {

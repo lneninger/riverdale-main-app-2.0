@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand
 {
-    public interface IFunzaQuotePageQueryCommand: ICommandFunc<PageQuery<FunzaQuotePageQueryCommandInputDTO>, OperationResponse<PageResult<FunzaQuotePageQueryCommandOutputDTO>>>
+    public interface IFunzaQuotePageQueryCommand: ICommandFunc<PageQuery<QuotePageQueryCommandInput>, OperationResponse<PageResult<QuotePageQueryCommandOutput>>>
     {
     }
 }

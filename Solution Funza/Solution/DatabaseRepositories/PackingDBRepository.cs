@@ -1,22 +1,19 @@
 ﻿using DomainDatabaseMapping;
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
-using FizzWare.NBuilder;
 using ApplicationLogic.Repositories.DB;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationLogic.Business.Commands.Funza.PackingPageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
 using Framework.Core.Messages;
-using DomainModel.Funza;
+using FunzaApplicationLogic.Commands.Funza.PackingPageQueryCommand.Models;
 
 namespace DatabaseRepositories.DB
 {
@@ -26,14 +23,14 @@ namespace DatabaseRepositories.DB
         {
         }
 
-        public OperationResponse<IEnumerable<ColorReference>> GetAll()
+        public OperationResponse<IEnumerable<Color>> GetAll()
         {
-            var result = new OperationResponse<IEnumerable<DomainModel.Funza.ColorReference>>();
+            var result = new OperationResponse<IEnumerable<DomainModel.Color>>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<DomainModel.Funza.ColorReference>().AsEnumerable();
+                    result.Bag = dbLocator.Set<DomainModel.Color>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -46,14 +43,14 @@ namespace DatabaseRepositories.DB
 
         
 
-        public OperationResponse<PackingReference> GetById(int id)
+        public OperationResponse<Packing> GetById(int id)
         {
-            var result = new OperationResponse<PackingReference>();
+            var result = new OperationResponse<Packing>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<PackingReference>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Packing>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -64,14 +61,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<PackingReference> GetByFunzaId(int id)
+        public OperationResponse<Packing> GetByFunzaId(int id)
         {
-            var result = new OperationResponse<PackingReference>();
+            var result = new OperationResponse<Packing>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<PackingReference>().Where(o => o.FunzaId == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Packing>().Where(o => o.FunzaId == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -82,13 +79,13 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<PageResult<FunzaPackingPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaPackingPageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<PackingPageQueryCommandOutput>> PageQuery(PageQuery<PackingPageQueryCommandInput> input)
         {
-            var result = new OperationResponse<PageResult<FunzaPackingPageQueryCommandOutputDTO>>();
+            var result = new OperationResponse<PageResult<PackingPageQueryCommandOutput>>();
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<PackingReference>();
+                var predicate = PredicateBuilderExtension.True<Packing>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -98,24 +95,24 @@ namespace DatabaseRepositories.DB
                     //}
                 }
 
-                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = this.AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
 
 
-                    var query = dbLocator.Set<PackingReference>().AsQueryable();
+                    var query = dbLocator.Set<Packing>().AsQueryable();
 
 
-                    var advancedSorting = new List<SortItem<PackingReference>>();
-                    Expression<Func<PackingReference, object>> expression = null;
+                    var advancedSorting = new List<SortItem<Packing>>();
+                    Expression<Func<Packing, object>> expression = null;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
-                    //    advancedSorting.Add(new SortItem<PackingReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //    advancedSorting.Add(new SortItem<Packing> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
                     //}
 
-                    var sorting = new SortingDTO<PackingReference>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<Packing>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<PackingReference, FunzaPackingPageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaPackingPageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<Packing, PackingPageQueryCommandOutput>(predicate, input, sorting, o => new PackingPageQueryCommandOutput
                     {
                         Id = o.Id,
                         Name = o.Name,
@@ -132,12 +129,12 @@ namespace DatabaseRepositories.DB
         }
 
 
-        public OperationResponse Add(PackingReference entity)
+        public OperationResponse Add(Packing entity)
         {
             var result = new OperationResponse();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 dbLocator.Add(entity);
             }
             catch (Exception ex)

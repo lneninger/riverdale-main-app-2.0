@@ -1,10 +1,7 @@
-﻿using DomainModel.Funza;
+﻿using DomainModel;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DomainDatabaseMapping.Mappings
 {
@@ -18,7 +15,7 @@ namespace DomainDatabaseMapping.Mappings
         public void Configure(EntityTypeBuilder<Packing> builder)
         {
 
-            builder.ToTable("PackingReference", SCHEMAS.FUNZA);
+            builder.ToTable("Packing", SCHEMAS.FUNZA);
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)

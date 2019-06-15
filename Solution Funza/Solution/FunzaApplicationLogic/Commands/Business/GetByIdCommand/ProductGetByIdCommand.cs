@@ -4,13 +4,11 @@ using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.GetByIdCommand.Models;
 using Framework.Core.Messages;
 using System.Linq;
-using ApplicationLogic.Business.Commons.DTOs;
-using DomainModel.Product;
-using DomainModel._Commons.Enums;
+using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand
 {
-    public class ProductGetByIdCommand : AbstractDBCommand<DomainModel.Product.AbstractProduct, IProductDBRepository>, IProductGetByIdCommand
+    public class ProductGetByIdCommand : AbstractDBCommand<DomainModel.Product, IProductDBRepository>, IProductGetByIdCommand
     {
 
         public ProductGetByIdCommand(IDbContextScopeFactory dbContextScopeFactory, IProductDBRepository repository) : base(dbContextScopeFactory, repository)
@@ -22,51 +20,8 @@ namespace FunzaApplicationLogic.Commands.Funza.GetByIdCommand
             var result = new OperationResponse<ProductGetByIdCommandOutputDTO>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                var getByIdResult = this.Repository.GetByIdWithMedias(id);
+                var getByIdResult = this.Repository.GetById(id);
                 result.AddResponse(getByIdResult);
-                if (result.IsSucceed)
-                {
-                    
-                    result.Bag = new ProductGetByIdCommandOutputDTO
-                    {
-                        Id = getByIdResult.Bag.Id,
-                        Name = getByIdResult.Bag.Name,
-                        ProductTypeId = getByIdResult.Bag.ProductTypeId,
-                        Medias = getByIdResult.Bag.ProductMedias.Select(m => new FileItemRefOutputDTO
-                        {
-                            Id = m.Id,
-                            FileId = m.FileRepositoryId,
-                            FullUrl = m.FileRepository.FullFilePath
-                        }).ToList(),
-                        ProductCategoryId = getByIdResult.Bag.ProductCategoryId
-                        //ProductAllowedColorTypes = getByIdResult.Bag.ProductAllowedColorTypes.Select(m => new ProductGetByIdCommandOutputAllowedColorTypeItemDTO
-                        //{
-                        //    Id = m.Id,
-                        //    ProductColorTypeId = m.ProductColorTypeId,
-                        //}).ToList()
-                    };
-
-                    if (result.Bag.ProductTypeEnum == ProductTypeEnum.COMP)
-                    {
-                        result.Bag.RelatedProducts = ((CompositionProduct)getByIdResult.Bag).Items.Select(o => new ProductGetByIdCommandOutputRelatedProductItemDTO
-                        {
-                            Id = o.Id,
-                            ProductId = o.CompositionProductId,
-                            RelatedProductId = o.CompositionItemId,
-                            Stems = o.CompositionItemAmount,
-                            RelatedProductName = o.CompositionItem.Name,
-                            RelatedProductTypeName = o.CompositionItem.ProductType.Name,
-                            RelatedProductTypeDescription = o.CompositionItem.ProductType.Description,
-                            RelatedProductPictureId = o.CompositionItem.ProductMedias.Select(media => media.FileRepositoryId).FirstOrDefault()
-
-                        }).ToList();
-                    }
-                    else if (result.Bag.ProductTypeEnum == ProductTypeEnum.FLW)
-                    {
-                        result.Bag.ProductCategoryId = ((FlowerProduct)getByIdResult.Bag).ProductCategoryId;
-
-                    }
-                }
             }
 
             return result;

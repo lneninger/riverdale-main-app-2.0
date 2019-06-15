@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />
     <ProjectReference Include="..\FunzaApplicationLogic\FunzaApplicationLogic.csproj" />
   </ItemGroup>
 

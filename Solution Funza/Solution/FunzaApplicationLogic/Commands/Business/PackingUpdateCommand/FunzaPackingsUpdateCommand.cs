@@ -5,13 +5,12 @@ using EntityFrameworkCore.DbContextScope;
 using ApplicationLogic.Repositories.DB;
 using FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand.Models;
 using Framework.Core.Messages;
-using DomainModel.Product;
-using DomainModel._Commons.Enums;
-using DomainModel.Funza;
+using DomainModel;
+using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
 {
-    public class FunzaPackingsUpdateCommand : AbstractDBCommand<DomainModel.Funza.Product, IPackingDBRepository>, IFunzaPackingsUpdateCommand
+    public class FunzaPackingsUpdateCommand : AbstractDBCommand<DomainModel.Product, IPackingDBRepository>, IFunzaPackingsUpdateCommand
     {
         public FunzaPackingsUpdateCommand(IDbContextScopeFactory dbContextScopeFactory, IPackingDBRepository repository) : base(dbContextScopeFactory, repository)
         {
@@ -23,9 +22,9 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
 
-                OperationResponse<DomainModel.Funza.Packing> getByFunzaIdResult;
+                OperationResponse<DomainModel.Packing> getByFunzaIdResult;
                 OperationResponse prepareToSaveResult;
-                DomainModel.Funza.Packing entity = null;
+                DomainModel.Packing entity = null;
 
                 try
                 {
@@ -68,7 +67,7 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
             return result;
         }
 
-        private Packing MapDTO(PackingsUpdateCommandInput dtoItem, DomainModel.Funza.Packing entity = null)
+        private Packing MapDTO(PackingsUpdateCommandInput dtoItem, DomainModel.Packing entity = null)
         {
             var result = entity ?? new Packing();
 

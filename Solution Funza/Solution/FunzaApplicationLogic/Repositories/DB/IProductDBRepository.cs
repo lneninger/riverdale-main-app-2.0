@@ -1,18 +1,20 @@
-﻿using ApplicationLogic.Business.Commands.Funza.ProductPageQueryCommand.Models;
+﻿using DomainModel;
 using DomainModel.Funza;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using FunzaApplicationLogic.Commands.Funza.ProductPageQueryCommand.Models;
+using FunzaApplicationLogic.Repositories.DB;
 
 namespace ApplicationLogic.Repositories.DB
 {
     public interface IProductDBRepository: IDBRepository
     {
-        OperationResponse<DomainModel.Funza.ProductReference> GetById(int id);
+        OperationResponse<Product> GetById(int id);
 
-        OperationResponse Add(ProductReference entity);
+        OperationResponse Add(Product entity);
 
-        OperationResponse<ProductReference> GetByFunzaId(int id);
+        OperationResponse<Product> GetByFunzaId(int id);
 
-        OperationResponse<PageResult<FunzaProductPageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaProductPageQueryCommandInputDTO> input);
+        OperationResponse<PageResult<ProductPageQueryCommandOutput>> PageQuery(PageQuery<ProductPageQueryCommandInput> input);
     }
 }

@@ -1,5 +1,4 @@
-﻿using ApplicationLogic.Business.Commons.DTOs;
-using System;
+﻿using System;
 
 namespace FunzaApplicationLogic.Commands.Funza.CategoryPageQueryCommand.Models
 {

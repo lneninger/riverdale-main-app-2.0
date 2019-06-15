@@ -1,22 +1,18 @@
 ﻿using DomainDatabaseMapping;
 using DomainModel;
 using EntityFrameworkCore.DbContextScope;
-using FizzWare.NBuilder;
 using ApplicationLogic.Repositories.DB;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ApplicationLogic.Business.Commands.Funza.QuotePageQueryCommand.Models;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using LMB.PredicateBuilderExtension;
 using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.DbContextImpl.Persistance.Models.Sorting;
 using System.Linq.Expressions;
-using DomainModel._Commons.Enums;
 using Framework.Core.Messages;
-using DomainModel.Funza;
+using FunzaApplicationLogic.Commands.Funza.QuotePageQueryCommand.Models;
 
 namespace DatabaseRepositories.DB
 {
@@ -31,9 +27,9 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<IEnumerable<DomainModel.Quote>>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<DomainModel.Funza.QuoteReference>().AsEnumerable();
+                    result.Bag = dbLocator.Set<DomainModel.Quote>().AsEnumerable();
                 }
             }
             catch (Exception ex)
@@ -46,14 +42,14 @@ namespace DatabaseRepositories.DB
 
         
 
-        public OperationResponse<QuoteReference> GetById(int id)
+        public OperationResponse<Quote> GetById(int id)
         {
-            var result = new OperationResponse<QuoteReference>();
+            var result = new OperationResponse<Quote>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<QuoteReference>().Where(o => o.Id == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Quote>().Where(o => o.Id == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -64,14 +60,14 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<QuoteReference> GetByFunzaId(int id)
+        public OperationResponse<Quote> GetByFunzaId(int id)
         {
-            var result = new OperationResponse<QuoteReference>();
+            var result = new OperationResponse<Quote>();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
-                    result.Bag = dbLocator.Set<QuoteReference>().Where(o => o.FunzaId == id).FirstOrDefault();
+                    result.Bag = dbLocator.Set<Quote>().Where(o => o.FunzaId == id).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -83,13 +79,13 @@ namespace DatabaseRepositories.DB
         }
 
 
-        public OperationResponse<PageResult<FunzaQuotePageQueryCommandOutputDTO>> PageQuery(PageQuery<FunzaQuotePageQueryCommandInputDTO> input)
+        public OperationResponse<PageResult<QuotePageQueryCommandOutput>> PageQuery(PageQuery<QuotePageQueryCommandInput> input)
         {
-            var result = new OperationResponse<PageResult<FunzaQuotePageQueryCommandOutputDTO>>();
+            var result = new OperationResponse<PageResult<QuotePageQueryCommandOutput>>();
             try
             {
                 // predicate construction
-                var predicate = PredicateBuilderExtension.True<QuoteReference>();
+                var predicate = PredicateBuilderExtension.True<Quote>();
                 if (input.CustomFilter != null)
                 {
                     var filter = input.CustomFilter;
@@ -99,24 +95,24 @@ namespace DatabaseRepositories.DB
                     }
                 }
 
-                var dbLocator = this.AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = this.AmbientDbContextLocator.Get<FunzaDBContext>();
                 {
 
 
-                    var query = dbLocator.Set<QuoteReference>().AsQueryable();
+                    var query = dbLocator.Set<Quote>().AsQueryable();
 
 
-                    var advancedSorting = new List<SortItem<QuoteReference>>();
-                    Expression<Func<QuoteReference, object>> expression = null;
+                    var advancedSorting = new List<SortItem<Quote>>();
+                    Expression<Func<Quote, object>> expression = null;
                     //if (input.Sort.ContainsKey("erpId"))
                     //{
                     //    expression = o => o.CustomerThirdPartyAppSettings.Where(third => third.ThirdPartyAppTypeId == ThirdPartyAppTypeEnum.BusinessERP).SingleOrDefault().ThirdPartyCustomerId;
-                    //    advancedSorting.Add(new SortItem<QuoteReference> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
+                    //    advancedSorting.Add(new SortItem<Quote> { PropertyName = "erpId", SortExpression = expression, SortOrder = "desc" });
                     //}
 
-                    var sorting = new SortingDTO<QuoteReference>(input.Sort, advancedSorting);
+                    var sorting = new SortingDTO<Quote>(input.Sort, advancedSorting);
 
-                    result.Bag = query.ProcessPagingSort<QuoteReference, FunzaQuotePageQueryCommandOutputDTO>(predicate, input, sorting, o => new FunzaQuotePageQueryCommandOutputDTO
+                    result.Bag = query.ProcessPagingSort<Quote, QuotePageQueryCommandOutput>(predicate, input, sorting, o => new QuotePageQueryCommandOutput
                     {
                         Id = o.Id,
                         Title = o.Title,
@@ -132,12 +128,12 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse Add(QuoteReference entity)
+        public OperationResponse Add(Quote entity)
         {
             var result = new OperationResponse();
             try
             {
-                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
                 dbLocator.Add(entity);
             }
             catch (Exception ex)
