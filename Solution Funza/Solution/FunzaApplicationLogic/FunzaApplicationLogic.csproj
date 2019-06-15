@@ -5,7 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Compile Remove="Repositories\DB\IMastersRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.0.101" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Framework.Autofac\Framework.Autofac.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.Commands\Framework.Commands.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.EF\Framework.EF.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Framework.Logging\Framework.Logging.csproj" />
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+    <ProjectReference Include="..\FunzaDirectClients\FunzaDirectClients.csproj" />
   </ItemGroup>
 
 </Project>

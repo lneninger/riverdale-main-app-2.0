@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.Refit", "Framewor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunzaApplicationLogic", "Solution Funza\Solution\FunzaApplicationLogic\FunzaApplicationLogic.csproj", "{893DF3D8-7148-49AC-A2F4-1385DF2C5BA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework.Commands", "Framework\Framework.Commands\Framework.Commands.csproj", "{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,12 @@ Global
 		{893DF3D8-7148-49AC-A2F4-1385DF2C5BA9}.QA|Any CPU.Build.0 = Debug|Any CPU
 		{893DF3D8-7148-49AC-A2F4-1385DF2C5BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{893DF3D8-7148-49AC-A2F4-1385DF2C5BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +198,7 @@ Global
 		{2EC10905-3057-4D45-8D6F-932A2D9B5763} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
 		{493955A5-C1BB-4F67-843F-83DF1C8CA86A} = {993D31D5-38FF-43A4-B965-99E6FC7BAE6F}
 		{893DF3D8-7148-49AC-A2F4-1385DF2C5BA9} = {0B9B8F06-1B4B-4A3D-B30B-C890656BDE2B}
+		{4D0F4B5D-73D0-4EA5-8176-B730A8F7117C} = {993D31D5-38FF-43A4-B965-99E6FC7BAE6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2BCE576-0948-4727-9565-F4B76B08B1F1}

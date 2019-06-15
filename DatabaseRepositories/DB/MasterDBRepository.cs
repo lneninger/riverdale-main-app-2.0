@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using DomainModel.SaleOpportunity;
 using DomainModel.Company.Customer;
 using DomainModel.Company.Grower;
+using Framework.Core.Models;
 
 namespace DatabaseRepositories.DB
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ApplicationLogic.Business.Commons.DTOs;
 using Framework.Core.Messages;
+using Framework.Core.Models;
 
 namespace ApplicationLogic.Repositories.DB
 {
