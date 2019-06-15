@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaDirectClients.Clients.Price.Models
 {
-    public class FunzaDirectGetPricesSeasonResult
+    public class DirectGetPricesSeasonResult
     {
         public int id { get; set; }
 

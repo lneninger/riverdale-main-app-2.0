@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FunzaDirectClients.Clients.Price.Models
 {
-    public class FunzaDirectGetPricesResult
+    public class DirectGetPricesResult
     {
         public int Id { get; set; }
 
@@ -18,6 +18,6 @@ namespace FunzaDirectClients.Clients.Price.Models
 
         public string Codigo { get; set; }
 
-        public FunzaDirectGetPricesSeasonResult Temporada { get; set; }
+        public DirectGetPricesSeasonResult Temporada { get; set; }
     }
 }
