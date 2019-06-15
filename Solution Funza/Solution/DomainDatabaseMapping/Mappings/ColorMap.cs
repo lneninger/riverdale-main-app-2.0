@@ -1,24 +1,21 @@
-﻿using DomainModel.Funza;
+﻿using DomainModel;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DomainDatabaseMapping.Mappings.Funza
+namespace DomainDatabaseMapping.Mappings
 {
-    public class ColorReferenceMap : BaseAbstractMap, IEntityTypeConfiguration<ColorReference>
+    public class ColorMap : BaseAbstractMap, IEntityTypeConfiguration<Color>
     {
 
-        public ColorReferenceMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        public ColorMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 
-        public void Configure(EntityTypeBuilder<ColorReference> builder)
+        public void Configure(EntityTypeBuilder<Color> builder)
         {
 
-            builder.ToTable("ColorReference", SCHEMAS.FUNZA);
+            builder.ToTable("Color", SCHEMAS.FUNZA);
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Id)

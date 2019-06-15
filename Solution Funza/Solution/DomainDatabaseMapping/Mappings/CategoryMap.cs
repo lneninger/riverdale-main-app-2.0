@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DomainDatabaseMapping.Mappings.Funza
+namespace DomainDatabaseMapping.Mappings
 {
     public class CategoryMap : BaseAbstractMap, IEntityTypeConfiguration<Category>
     {

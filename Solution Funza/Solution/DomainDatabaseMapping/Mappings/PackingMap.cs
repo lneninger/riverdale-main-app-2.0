@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DomainDatabaseMapping.Mappings
 {
-    public class PackingReferenceMap : BaseAbstractMap, IEntityTypeConfiguration<Packing>
+    public class PackingMap : BaseAbstractMap, IEntityTypeConfiguration<Packing>
     {
 
-        public PackingReferenceMap(ModelBuilder modelBuilder) : base(modelBuilder)
+        public PackingMap(ModelBuilder modelBuilder) : base(modelBuilder)
         {
         }
 

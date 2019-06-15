@@ -30,6 +30,11 @@ namespace DomainDatabaseMapping
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Season> FunzaSeasons { get; set; }
         public DbSet<GoodPrice> GoodPrices { get; set; }
+        public DbSet<Product> ProductMap { get; set; }
+        public DbSet<Category> CategoryMap { get; set; }
+        public DbSet<Color> ColorMap { get; set; }
+        public DbSet<Labor> LaborMap { get; set; }
+        public DbSet<Packing> PackingMap { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,6 +48,11 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new QuoteMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new SeasonMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new GoodPriceMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ProductMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new CategoryMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new ColorMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new LaborMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new PackingMap(modelBuilder));
         }
         }
 }
