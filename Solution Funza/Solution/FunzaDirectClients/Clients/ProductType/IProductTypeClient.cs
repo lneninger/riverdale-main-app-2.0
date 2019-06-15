@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.ProductType
     public interface IProductTypeClient : IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetPackagePricesResult>>>> GetProductTypes(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetPackagePricesResult>>>> GetProductTypes(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

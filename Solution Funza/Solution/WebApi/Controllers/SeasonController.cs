@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
         public async Task<IActionResult> MapSeason(InternalBridgeCreateQuoteInput model)
         {
-            var payload = new FunzaDirectCreateQuoteInput {
+            var payload = new DirectCreateQuoteInput {
                 Titulo = model.Title,
                 TemporadaId = model.SeasonId,
                 TipoProductoId = model.ProductTypeId

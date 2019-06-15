@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.PackagePrice
     public interface IPackagePriceClient : IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetPackagePricesResult>>>> GetPackagePrices(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetPackagePricesResult>>>> GetPackagePrices(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

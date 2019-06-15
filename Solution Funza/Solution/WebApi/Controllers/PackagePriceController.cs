@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Framework.Refit;
-using FunzaDirectClients.Clients.PackagePrice;
-using FunzaDirectClients.Clients.Season;
-using FunzaDirectClients.InternalClients.GoodSeason.Models;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Quote.Models;
-using FunzaInternalClients.Quote.Models;
-using Microsoft.AspNetCore.Http;
+﻿using FunzaDirectClients.Clients.PackagePrice;
+using FunzaDirectClients.Clients.PackagePrice.Models;
 using Microsoft.AspNetCore.Mvc;
-using Refit;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -30,7 +21,7 @@ namespace WebApi.Controllers
 
         
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetPackagePricesResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DirectGetPackagePricesResult>))]
         public async Task<IActionResult> Get()
         {
             await this.PackagePriceClient.SetFunzaToken(this.Request);

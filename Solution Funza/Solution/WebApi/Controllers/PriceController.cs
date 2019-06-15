@@ -31,7 +31,7 @@ namespace WebApi.Controllers
 
         
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetPackagePricesResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DirectGetPackagePricesResult>))]
         public async Task<IActionResult> Get()
         {
             await this.PriceClient.SetFunzaToken(this.Request);

@@ -1,5 +1,5 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.GoodPrice.Models;
+using FunzaDirectClients.Clients.GoodPrice.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace FunzaDirectClients.Clients.GoodPrice
     public interface IGoodPriceClient : IRefitClient
     {
         [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<FunzaDirectGetGoodPricesResult>>>> GetGoodPrices(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetGoodPricesResult>>>> GetGoodPrices(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

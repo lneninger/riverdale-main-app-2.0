@@ -31,7 +31,7 @@ namespace WebApi.Controllers
 
         
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<FunzaDirectGetGoodPricesResult>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DirectGetGoodPricesResult>))]
         public async Task<IActionResult> Get()
         {
             await this.GoodPriceClient.SetFunzaToken(this.Request);
