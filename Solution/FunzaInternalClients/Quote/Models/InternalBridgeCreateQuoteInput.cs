@@ -7,6 +7,14 @@ namespace FunzaInternalClients.Quote.Models
     public class InternalBridgeCreateQuoteInput
     {
         /// <summary>
+        /// Gets or sets the internal identifier.
+        /// </summary>
+        /// <value>
+        /// The internal identifier.
+        /// </value>
+        public int InternalId { get; set; }
+
+        /// <summary>
         /// Gets or sets the product identifier.
         /// </summary>
         /// <value>

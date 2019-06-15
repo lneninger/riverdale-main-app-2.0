@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\..\Framework\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.EF\Framework.EF.csproj" />
     <ProjectReference Include="..\..\..\Framework\Framework.Logging\Framework.Logging.csproj" />
+    <ProjectReference Include="..\..\..\Solution\FunzaInternalClients\FunzaInternalClients.csproj" />
     <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
     <ProjectReference Include="..\FunzaDirectClients\FunzaDirectClients.csproj" />
   </ItemGroup>

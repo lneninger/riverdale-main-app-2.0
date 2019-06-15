@@ -1,6 +1,6 @@
 ﻿using Framework.Core.Messages;
-using FunzaDirectClients.InternalClients.Quote.Models;
-using FunzaDirectClients.InternalClients.Security;
+using FunzaDirectClients.Clients.Security;
+using FunzaDirectClients.Clients.Security.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

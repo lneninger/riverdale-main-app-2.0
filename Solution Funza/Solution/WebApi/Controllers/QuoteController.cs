@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Framework.Refit;
+﻿using Framework.Refit;
+using FunzaApplicationLogic.Commands.Funza.QuoteUpsertCommand;
+using FunzaApplicationLogic.Commands.Funza.QuoteUpsertCommand.Models;
 using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Quote.Models;
+using FunzaDirectClients.Clients.Quote;
+using FunzaDirectClients.Clients.Quote.Models;
 using FunzaInternalClients.Quote.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Refit;
+using System;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -20,10 +19,12 @@ namespace WebApi.Controllers
     public class QuoteController : ControllerBase
     {
         public IQuoteClient QuoteClient { get; }
+        public IQuoteUpsertCommand QuoteUpsertCommand { get; }
 
-        public QuoteController(IQuoteClient quoteClient)
+        public QuoteController(IQuoteClient quoteClient, IQuoteUpsertCommand upsertCommand)
         {
             this.QuoteClient = quoteClient;
+            this.QuoteUpsertCommand = upsertCommand;
         }
 
         [HttpGet("{id}")]
@@ -76,6 +77,26 @@ namespace WebApi.Controllers
 
             //var funzaResponse = await quoteClient.CreateQuote(payload);
             var funzaResponse = await this.QuoteClient.CreateQuote(payload);
+            var funzaResult = funzaResponse.Content;
+
+            var result = new InternalBridgeCreateQuoteOutput
+            {
+                Title = funzaResult.Titulo
+            };
+
+            return this.Ok(result);
+        }
+
+
+        [HttpPost("upsert")]
+        [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
+        public async Task<IActionResult> Upsert(InternalBridgeCreateQuoteInput model, [FromServices])
+        {
+
+            await this.QuoteClient.SetFunzaToken(this.Request);
+            var payload = QuoteUpsertCommandInput.Map(model);
+
+            var funzaResponse = await this.QuoteUpsert.CreateQuote(payload);
             var funzaResult = funzaResponse.Content;
 
             var result = new InternalBridgeCreateQuoteOutput

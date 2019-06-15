@@ -14,5 +14,8 @@ namespace FunzaDirectClients.Clients.Quote
         [Post("/Create")]
         Task<ApiResponse<FunzaDirectCreateQuoteResult>> CreateQuote([Body] FunzaDirectCreateQuoteInput model);
 
+
+        [Get("/Get/{id}")]
+        Task<ApiResponse<FunzaDirectGetQuoteResult>> GetQuote(int id);
     }
 }

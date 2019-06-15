@@ -2,6 +2,7 @@
 using ApplicationLogic.Repositories.DB;
 using EntityFrameworkCore.DbContextScope;
 using Framework.Core.Messages;
+using Framework.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

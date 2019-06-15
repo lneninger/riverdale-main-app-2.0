@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.GoodPrice.Models
+namespace FunzaDirectClients.Clients.GoodPrice.Models
 {
     public class FunzaDirectGetGoodPricesResult
     {

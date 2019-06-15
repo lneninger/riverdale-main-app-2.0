@@ -1,8 +1,8 @@
 ﻿using Framework.Core.Messages;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Quote.Models;
-using FunzaDirectClients.InternalClients.Security;
-using FunzaDirectClients.InternalClients.Security.Models;
+using FunzaDirectClients.Clients.Quote;
+using FunzaDirectClients.Clients.Quote.Models;
+using FunzaDirectClients.Clients.Security;
+using FunzaDirectClients.Clients.Security.Models;
 using Refit;
 using System;
 using System.Collections.Generic;

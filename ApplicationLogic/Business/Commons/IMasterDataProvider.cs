@@ -1,5 +1,6 @@
 ﻿using ApplicationLogic.Business.Commons.DTOs;
 using Framework.Core.Messages;
+using Framework.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

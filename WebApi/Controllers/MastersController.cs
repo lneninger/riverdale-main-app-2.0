@@ -6,6 +6,7 @@ using ApplicationLogic.Business.Commons;
 using ApplicationLogic.Business.Commons.DTOs;
 using RiverdaleMainApp2_0.Auth;
 using Framework.Core.Messages;
+using Framework.Core.Models;
 
 namespace RiverdaleMainApp2_0.Controllers
 {
