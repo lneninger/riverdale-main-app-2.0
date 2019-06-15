@@ -1,6 +1,6 @@
 ﻿using FunzaDirectClients.Clients;
 using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.SubClient.Models;
+using FunzaDirectClients.Clients.SubClient.Models;
 using Refit;
 using System.Threading.Tasks;
 

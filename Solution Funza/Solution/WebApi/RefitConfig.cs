@@ -3,9 +3,10 @@ using FunzaCommons;
 using FunzaDirectClients.Clients;
 using FunzaDirectClients.Clients.GoodPrice;
 using FunzaDirectClients.Clients.PackagePrice;
+using FunzaDirectClients.Clients.Packing;
+using FunzaDirectClients.Clients.Quote;
 using FunzaDirectClients.Clients.Season;
-using FunzaDirectClients.InternalClients.Quote;
-using FunzaDirectClients.InternalClients.Security;
+using FunzaDirectClients.Clients.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,7 +39,7 @@ namespace WebApi
                  var logginService = serviceProvider.GetService<ILogger<Startup>>();
                  logginService.LogWarning("Making retry {retry}.", retryCount);
 
-                 var funzaResponse = await Refit.RestService.For<ISecurityClient>("https://ffapswprodcotizadorapi.azurewebsites.net/api/TokenAuth/Authenticate").Authenticate(new FunzaDirectClients.InternalClients.Security.Models.AuthenticationModel { UserNameOrEmailAddress = "miguel@riverdalefarms.com", Password = "LuisRincon18!" });
+                 var funzaResponse = await Refit.RestService.For<ISecurityClient>("https://ffapswprodcotizadorapi.azurewebsites.net/api/TokenAuth/Authenticate").Authenticate(new FunzaDirectClients.Clients.Security.Models.AuthenticationModel { UserNameOrEmailAddress = "miguel@riverdalefarms.com", Password = "LuisRincon18!" });
                  var funzaResult = funzaResponse.Content;
                  context["access_token"] = "";// funzaResult.accessToken;
 
@@ -100,6 +101,15 @@ namespace WebApi
                 })
                 .AddPolicyHandler(timeoutPolicy)
                 .AddPolicyHandler(tokenRefreshPolicy);
+
+
+            services.AddRefitClient<IPackingClient>()
+               .ConfigureHttpClient(c =>
+               {
+                   c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.PackagePricesRelativeURL);
+               })
+               .AddPolicyHandler(timeoutPolicy)
+               .AddPolicyHandler(tokenRefreshPolicy);
         }
 
         public static async Task<T> SetFunzaToken<T>(this T proxy, Microsoft.AspNetCore.Http.HttpRequest request) where T: IRefitClient
@@ -110,7 +120,7 @@ namespace WebApi
                 var logginService = ServiceProvider.GetService<ILogger<Startup>>();
                 //logginService.LogWarning("Making retry {retry}.", retryCount);
 
-                var funzaResponse = await Refit.RestService.For<ISecurityClient>("https://ffapswprodcotizadorapi.azurewebsites.net/api/TokenAuth/Authenticate").Authenticate(new FunzaDirectClients.InternalClients.Security.Models.AuthenticationModel { UserNameOrEmailAddress = "miguel@riverdalefarms.com", Password = "LuisRincon18!" });
+                var funzaResponse = await Refit.RestService.For<ISecurityClient>("https://ffapswprodcotizadorapi.azurewebsites.net/api/TokenAuth/Authenticate").Authenticate(new FunzaDirectClients.Clients.Security.Models.AuthenticationModel { UserNameOrEmailAddress = "miguel@riverdalefarms.com", Password = "LuisRincon18!" });
                 var funzaResult = funzaResponse.Content;
                 proxy.Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {funzaResult.Result.accessToken}");
             }

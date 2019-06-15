@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FunzaDirectClients.InternalClients.Quote.Models
+namespace FunzaDirectClients.Clients.Quote.Models
 {
     public class FunzaDirectCreateQuoteResult
     {

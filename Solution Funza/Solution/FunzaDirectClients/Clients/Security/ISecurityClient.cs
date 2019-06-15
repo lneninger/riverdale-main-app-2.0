@@ -1,13 +1,11 @@
-﻿using FunzaDirectClients.Clients;
-using FunzaDirectClients.InternalClients.Quote.Models;
-using FunzaDirectClients.InternalClients.Security.Models;
+﻿using FunzaDirectClients.Clients.Security.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.Security
+namespace FunzaDirectClients.Clients.Security
 {
     public interface ISecurityClient: IRefitClient
     {

@@ -1,12 +1,12 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.GoodSeason.Models;
+using FunzaDirectClients.InternalClients.Packing.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.Clients.PackagePrice
+namespace FunzaDirectClients.Clients.Packing
 {
     public interface IPackingClient : IRefitClient
     {

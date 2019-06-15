@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FunzaDirectClients.InternalClients.Quote.Models
+namespace FunzaDirectClients.Clients.Security.Models
 {
     public class FunzaDirectAuthenticateResulWrapper{
         public FunzaDirectAuthenticateResult Result { get; set; }

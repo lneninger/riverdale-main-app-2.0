@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FunzaDirectClients.InternalClients.SubClient.Models
+namespace FunzaDirectClients.Clients.SubClient.Models
 {
     public class FunzaDirectCreateSubClientInput
     {

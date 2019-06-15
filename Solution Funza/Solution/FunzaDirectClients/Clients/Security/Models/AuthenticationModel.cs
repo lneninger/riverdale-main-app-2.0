@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FunzaDirectClients.InternalClients.Security.Models
+namespace FunzaDirectClients.Clients.Security.Models
 {
     public class AuthenticationModel
     {

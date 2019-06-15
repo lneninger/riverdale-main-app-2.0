@@ -1,5 +1,5 @@
 ﻿using FunzaDirectClients.Clients.Commons;
-using FunzaDirectClients.InternalClients.Season.Models;
+using FunzaDirectClients.Clients.Season.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
