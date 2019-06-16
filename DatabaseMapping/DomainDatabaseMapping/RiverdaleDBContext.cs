@@ -72,6 +72,7 @@ namespace DomainDatabaseMapping
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductCategoryAllowedSize> ProductCategoryGrades { get; set; }
         public DbSet<ProductQuote> ProductQuotes { get; set; }
+        public DbSet<BasicProductAlias> BasicProductAliases { get; set; }
 
 
         //Opportunity
@@ -164,6 +165,7 @@ namespace DomainDatabaseMapping
             modelBuilder.ApplyConfiguration(new FlowerProductCategoryMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductCategorySizeMap(modelBuilder));
             modelBuilder.ApplyConfiguration(new ProductQuoteMap(modelBuilder));
+            modelBuilder.ApplyConfiguration(new BasicProductAliasMap(modelBuilder));
         }
 
 

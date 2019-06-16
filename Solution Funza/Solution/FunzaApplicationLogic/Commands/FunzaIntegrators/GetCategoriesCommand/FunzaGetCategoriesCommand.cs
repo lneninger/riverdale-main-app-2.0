@@ -27,7 +27,7 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand
             var funzaResult = funzaResponse.Content;
             if (result.IsSucceed)
             {
-                result.Bag = funzaResult.Result.ToPageResult<FunzaDirectGetProductCategoriesResult, FunzaGetCategoriesCommandOutput > (funzaItem => new FunzaGetCategoriesCommandOutput
+                result.Bag = funzaResult.Result.ToPageResult<DirectGetProductCategoriesResult, FunzaGetCategoriesCommandOutput > (funzaItem => new FunzaGetCategoriesCommandOutput
                 {
                 });
             }

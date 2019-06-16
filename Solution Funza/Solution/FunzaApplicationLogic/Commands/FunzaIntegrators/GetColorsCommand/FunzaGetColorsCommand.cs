@@ -28,7 +28,7 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand
 
             if (result.IsSucceed)
             {
-                result.Bag = funzaResult.Result.ToPageResult<FunzaDirectGetProductColorsResult, FunzaGetColorsCommandOutput>(funzaItem => new FunzaGetColorsCommandOutput
+                result.Bag = funzaResult.Result.ToPageResult<DirectGetProductColorsResult, FunzaGetColorsCommandOutput>(funzaItem => new FunzaGetColorsCommandOutput
                 {
                 });
             }

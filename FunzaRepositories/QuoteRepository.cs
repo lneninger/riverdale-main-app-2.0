@@ -32,7 +32,7 @@ namespace FunzaRepositories
                 SkipCount = input.PageIndex * input.PageSize,
                 MaxResultCount = input.PageSize == default(int) ? 10 : input.PageSize,
             };
-            if (!string.IsNullOrWhiteSpace(input.CustomFilter.Term)) {
+            if (!string.IsNullOrWhiteSpace(input.CustomFilter?.Term)) {
                 internalInput.Nombre = input.CustomFilter.Term.Trim();
             }
 

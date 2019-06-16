@@ -31,7 +31,7 @@ namespace FunzaApplicationLogic.Commands.Funza.QuoteUpsertCommand
                
                 using (var dbContextScope = this.DbContextScopeFactory.Create())
                 {
-                    var quote = this.Repository.GetByInternalId(input.InternalId);
+                    var quote = this.Repository.GetByFunzaId(input.FunzaId);
 
                     if (quote != null)
                     {

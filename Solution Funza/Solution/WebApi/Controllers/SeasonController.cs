@@ -1,4 +1,6 @@
-﻿using FunzaDirectClients.Clients.Season;
+﻿using FunzaApplicationLogic.Commands.Funza.Season.SeasonCommand;
+using FunzaApplicationLogic.Commands.Funza.Season.SeasonMapCommand.Models;
+using FunzaDirectClients.Clients.Season;
 using FunzaDirectClients.Clients.Season.Models;
 using FunzaInternalClients.Quote.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +16,12 @@ namespace WebApi.Controllers
     public class SeasonController : ControllerBase
     {
         public ISeasonClient SeasonClient { get; }
+        public ISeasonMapCommand SeasonMapCommand { get; }
 
-        public SeasonController(ISeasonClient seasonClient)
+        public SeasonController(ISeasonClient seasonClient, ISeasonMapCommand seasonMapCommand)
         {
             this.SeasonClient = seasonClient;
+            this.SeasonMapCommand = seasonMapCommand;
         }
 
         
@@ -35,17 +39,14 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
-        public async Task<IActionResult> MapSeason(InternalBridgeCreateQuoteInput model, [FromServices] ISeasonMapCommand seasonMapCommand)
+        public IActionResult MapSeason(InternalBridgeCreateQuoteInput model, [FromServices] ISeasonMapCommand seasonMapCommand)
         {
-            var payload = new DirectCreateQuoteInput {
-                Titulo = model.Title,
-                TemporadaId = model.SeasonId,
-                TipoProductoId = model.ProductTypeId
+            var input = new SeasonMapCommandInput {
             };
 
-            await this.SeasonClient.SetFunzaToken(this.Request);
+            var result = this.SeasonMapCommand.Execute(input);
 
-            return this.Ok();
+            return this.Ok(result);
         }
 
 

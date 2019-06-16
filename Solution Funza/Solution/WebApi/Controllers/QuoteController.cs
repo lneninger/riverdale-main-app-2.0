@@ -90,19 +90,12 @@ namespace WebApi.Controllers
 
         [HttpPost("upsert")]
         [ProducesResponseType(200, Type = typeof(InternalBridgeCreateQuoteOutput))]
-        public async Task<IActionResult> Upsert(InternalBridgeCreateQuoteInput model)
+        public IActionResult Upsert(InternalBridgeCreateQuoteInput model, [FromServices] IQuoteUpsertCommand quoteUpsertCommand)
         {
 
-            await this.QuoteClient.SetFunzaToken(this.Request);
             var payload = QuoteUpsertCommandInput.Map(model);
 
-            var funzaResponse = await this.QuoteUpsert.CreateQuote(payload);
-            var funzaResult = funzaResponse.Content;
-
-            var result = new InternalBridgeCreateQuoteOutput
-            {
-                Title = funzaResult.Titulo
-            };
+            var result = quoteUpsertCommand.Execute(payload);
 
             return this.Ok(result);
         }

@@ -1,4 +1,5 @@
 ﻿using FunzaDirectClients.Clients.Price;
+using FunzaDirectClients.Clients.Price.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
