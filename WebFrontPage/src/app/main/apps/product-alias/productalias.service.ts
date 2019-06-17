@@ -73,7 +73,7 @@ export class ProductAliasService implements Resolve<any>, IPageQueryService {
 
     getById(id?: number): Observable<OperationResponseValued<ProductAlias>> {
         const internalId = id || this.routeParams.id;
-        return this.http.get<OperationResponseValued<ProductAlias>>(`${environment.appApi.apiBaseUrl}productalias/${internalId}`);
+        return this.http.get<OperationResponseValued<ProductAlias>>(`${environment.appApi.apiBaseUrl}basicproductalias/${internalId}`);
     }
 
     /**
@@ -84,7 +84,7 @@ export class ProductAliasService implements Resolve<any>, IPageQueryService {
      */
     save(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.put(`${environment.appApi.apiBaseUrl}productalias`, entity).subscribe(
+            this.http.put(`${environment.appApi.apiBaseUrl}basicproductalias`, entity).subscribe(
                 (res: any) => {
                     resolve(res);
                 },
@@ -103,7 +103,7 @@ export class ProductAliasService implements Resolve<any>, IPageQueryService {
      */
     add(entity): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.appApi.apiBaseUrl}productalias`, entity).subscribe(
+            this.http.post(`${environment.appApi.apiBaseUrl}basicproductalias`, entity).subscribe(
                 (res: any) => {
                     resolve(res);
                 },
@@ -117,7 +117,7 @@ export class ProductAliasService implements Resolve<any>, IPageQueryService {
 
     delete(id: number): any {
         return new Promise((resolve, reject) => {
-            this.http.delete(`${environment.appApi.apiBaseUrl}productalias/{id}`).subscribe((res: any) => {
+            this.http.delete(`${environment.appApi.apiBaseUrl}basicproductalias/{id}`).subscribe((res: any) => {
                 resolve(res);
             },
                 error => {

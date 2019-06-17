@@ -106,6 +106,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/sale-opportunities/saleopportunity.view.module/saleopportunity.view.theme";
 @import "src/app/main/apps/productcategories/productcategories.theme";
 @import "src/app/main/apps/funza/funzas.theme";
+@import "src/app/main/apps/product-alias/productalias.theme";
 
 
 @import "src/app/main/pages/authentication/login/login.theme";
@@ -167,6 +168,7 @@ $typography: mat-typography-config(
     @include saleopportunity-view-theme($theme);
     @include productcategories-theme($theme);
     @include funza-theme($theme);
+    @include productalias-theme($theme);
     // Pages
     @include login-theme($theme);
     @include login-2-theme($theme);

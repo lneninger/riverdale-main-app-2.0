@@ -31,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 export class ProductAliasComponent implements OnInit {
-    dataSource: ProductsDataSource | null;
+    dataSource: ProductAliasDataSource | null;
     displayedColumns = ['name', 'product', 'color', 'size', 'createdAt'];
 
     @ViewChild(MatPaginator)
@@ -48,7 +48,7 @@ export class ProductAliasComponent implements OnInit {
 
 
     /* ******************************Custom Notification***********************************************/
-    products: any[];
+    productAlias: any[];
 
     constructor(
         private route: ActivatedRoute
@@ -69,7 +69,7 @@ export class ProductAliasComponent implements OnInit {
      */
     ngOnInit(): void {
         // debugger;
-        this.dataSource = new ProductsDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
+        this.dataSource = new ProductAliasDataSource(this.service, this.filter/*, this._service*/, this.paginator, this.sort);
 
         this.initializeQueryListeners();
     }
@@ -91,7 +91,7 @@ export class ProductAliasComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result: ProductAliasNewDialogResult) => {
             if (result && result.goTo === 'Edit') {
-                this.service.router.navigate([`apps/productalias/${result.data.id}`]);
+                this.service.router.navigate([`apps/basicproductalias/${result.data.id}`]);
             }
             else {
                 this.service.router.navigate([`../`], { relativeTo: this.route });
@@ -101,11 +101,11 @@ export class ProductAliasComponent implements OnInit {
     }
 }
 
-export class ProductsDataSource extends DataSourceAbstract<ProductAliasGrid>
+export class ProductAliasDataSource extends DataSourceAbstract<ProductAliasGrid>
 {
     /**
      * 
-     * @param service Product service
+     * @param service ProductAlias service
      * @param filterElement Filter element
      * @param matPaginator Material paginator
      * @param matSort Material sort
@@ -119,7 +119,7 @@ export class ProductsDataSource extends DataSourceAbstract<ProductAliasGrid>
         super(service, filterElement, matPaginator, matSort);
     }
 
-    remoteEnpoint = `${environment.appApi.apiBaseUrl}productalias/pagequery`;
+    remoteEnpoint = `${environment.appApi.apiBaseUrl}basicproductalias/pagequery`;
 
     public getFilter(rawFilterObject: {}): {} {
         const result: {} = {};
@@ -151,8 +151,9 @@ export class ProductAliasNewDialogComponent {
         this.listProductCategory$ = this.productCategoryResolveService.onList;
         this.frmMain = frmBuilder.group({
             'name': ['', [Validators.required]],
-            'productTypeId': ['', [Validators.required]],
-            'productCategoryId': ['', [Validators.required]],
+            'productId': ['', [Validators.required]],
+            'colorTypeId': ['', [Validators.required]],
+            'productCategorySizeId': ['', [Validators.required]],
         });
     }
 
@@ -160,7 +161,7 @@ export class ProductAliasNewDialogComponent {
         return new Promise((resolve, reject) => {
             this.service.add(this.frmMain.value)
                 .then(res => {
-                    this.matSnackBar.open('Product created', 'OK', {
+                    this.matSnackBar.open('Product Alias created', 'OK', {
                         verticalPosition: 'top',
                         duration: 2000
                     });

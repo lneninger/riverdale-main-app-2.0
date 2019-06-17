@@ -91,7 +91,7 @@ const routes = [
     },
     {
         path: 'productalias',
-        loadChildren: './productalias/productalias.module#ProductAliasModule'
+        loadChildren: './product-alias/productalias.module#ProductAliasModule'
     },
     {
         path: 'saleopportunities',

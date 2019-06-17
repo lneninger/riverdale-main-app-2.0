@@ -5,8 +5,19 @@ import { constants } from 'perf_hooks';
 
 export class ProductAliasGrid {
     id: number;
-    flowerProductCategoryName: string;
     name: string;
+
+    productId: number;
+    productName: string;
+
+    productCategorySizeId: number;
+    productCategorySize: string;
+
+    colorTypeId: number;
+    colorType: string;
+
+    createdAt: Date;
+
 }
 
 export class ProductAlias {
