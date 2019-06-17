@@ -12,6 +12,7 @@ export const locale = {
             'COLORS': 'Product Colors',
             'PRODUCTCATEGORIES': 'Product Categories',
             'PRODUCTS': 'Products',
+            'PRODUCTALIAS': 'Product Alias',
             'ROLES': 'Roles',
             'DASHBOARDS': 'Dashboards',
             'QUOTES': 'Quotes', 

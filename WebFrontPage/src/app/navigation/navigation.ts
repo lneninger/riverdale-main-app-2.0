@@ -126,6 +126,15 @@ export const navigation: FuseNavigation[] = [
                 permissions: ['Product_*'],
             },
             {
+                id: 'productaliass',
+                title: 'Product Alias',
+                translate: 'NAV.PRODUCTALIAS',
+                type: 'item',
+                icon: 'filter_vintage',
+                url: '/apps/productalias',
+                permissions: ['ProductAlias_*'],
+            },
+            {
                 id: 'Settings',
                 title: 'Settings',
                 translate: 'NAV.SETTINGS',

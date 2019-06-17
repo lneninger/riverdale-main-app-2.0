@@ -90,6 +90,10 @@ const routes = [
         loadChildren: './productcategories/productcategories.module#ProductCategoriesModule'
     },
     {
+        path: 'productalias',
+        loadChildren: './productalias/productalias.module#ProductAliasModule'
+    },
+    {
         path: 'saleopportunities',
         loadChildren: './sale-opportunities/saleopportunities.module#SaleOpportunitiesModule'
     }

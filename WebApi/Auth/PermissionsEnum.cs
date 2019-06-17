@@ -72,6 +72,22 @@ namespace RiverdaleMainApp2_0.Auth
         /// </summary>
         public const string Product_Manage = nameof(Enum.Product_Manage);
 
+        // Product Alias
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductAlias_Read = nameof(Enum.ProductAlias_Read);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductAlias_Modify = nameof(Enum.ProductAlias_Modify);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string ProductAlias_Manage = nameof(Enum.ProductAlias_Manage);
+
         // Product Color
         /// <summary>
         /// 
@@ -292,6 +308,24 @@ namespace RiverdaleMainApp2_0.Auth
             /// 
             /// </summary>
             Product_Manage,
+
+
+            // Product Alias
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductAlias_Read,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductAlias_Modify,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            ProductAlias_Manage,
 
             // Product Color
 
