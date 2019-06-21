@@ -25,7 +25,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SaleOpportunityService } from '../../saleopportunity.core.module';
-import { ProductTypeResolveService, EnumItem, ProductCategoryResolveService } from '../../../@resolveServices/resolve.module';
 import { OperationResponseValued } from '../../../@hipalanetCommons/messages/messages.model';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'ngx-custom-validators';
@@ -34,6 +33,9 @@ import {
     , ProductColorTypeResolveService
     , CustomerResolveService, ProductResolveService
     , GrowerTypeResolveService 
+    , ProductTypeResolveService
+    , EnumItem
+    , ProductCategoryResolveService
 } from '../../../@resolveServices/resolve.module';
 import { ProductService, Product, CompositionItem } from '../../../products/product.core.module';
 

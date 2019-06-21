@@ -62,6 +62,7 @@ export class CustomerService implements Resolve<any>, IPageQueryService {
      */
     getCustomer(id?: number): Promise<any> {
         const internalId = id || this.routeParams.id;
+        debugger;
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.appApi.apiBaseUrl}customer/${internalId}`).subscribe(response => {
                 this.currentEntity = response;

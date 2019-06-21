@@ -22,6 +22,9 @@ namespace ApplicationLogic.Business.Commands.BasicProductAlias.InsertCommand
                 var entity = new DomainModel.Product.BasicProductAlias
                 {
                     Name = input.Name,
+                    ColorTypeId = input.ColorTypeId,
+                    ProductId = input.ProductId,
+                    ProductCategorySizeId = input.ProductCategorySizeId
                 };
 
                 try

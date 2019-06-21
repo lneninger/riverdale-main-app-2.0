@@ -1,12 +1,12 @@
-<h1 mat-dialog-title>New Product</h1>
+<h1 mat-dialog-title>New Product Alias</h1>
 <div mat-dialog-content [formGroup]="frmMain">
     <section fxLayoutGap="20px">
-        <mat-form-field fxFlex="calc(30%-20px)">
+        <mat-form-field fxFlex="calc(20%-20px)">
             <input matInput cdkFocusInitial formControlName="name" placeholder="Name">
         </mat-form-field>
 
-        <mat-form-field fxFlex="calc(30%-20px)" floatLabel="never">
-            <mat-select placeholder="Product Type" name="productTypeId" formControlName="productTypeId">
+        <!-- <mat-form-field fxFlex="calc(30%-20px)" floatLabel="never">
+            <mat-select placeholder="Product" name="productId" formControlName="productId">
                 <mat-option *ngFor="let item of listProductType$ | async" [value]="item.key">
                     {{item.value}}
                 </mat-option>
@@ -19,11 +19,42 @@
                     {{item.value}}
                 </mat-option>
             </mat-select>
+        </mat-form-field> -->
+
+        <!-- <mat-form-field fxFlex="calc(50%-20px)" appearance="outline" floatLabel="always"> -->
+                <mat-form-field fxFlex="calc(20%-20px)">
+            <mat-label>Product</mat-label>
+            <mat-select placeholder="Product" name="productId" formControlName="productId">
+                <mat-option *ngFor="let item of listProduct$ | async" [value]="item.key">
+                    {{item.value}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
+
+        <!-- <mat-form-field fxFlex="calc(30%-20px)" appearance="outline" floatLabel="always"> -->
+                <mat-form-field fxFlex="calc(30%-20px)">
+                <mat-label>Color</mat-label>
+                <mat-select placeholder="Color" name="colorTypeId" formControlName="colorTypeId">
+                    <mat-option *ngFor="let item of allowedProductColors$ | async" [value]="item.key">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- <mat-form-field fxFlex="calc(30%-20px)" appearance="outline" floatLabel="always" class="w-100-p"> -->
+                    <mat-form-field fxFlex="calc(30%-20px)" class="w-100-p">
+                    <mat-label>Grade</mat-label>
+                    <mat-select name="productCategorySizeId" formControlName="productCategorySizeId" fxFlex="0 0 100%">
+                        <mat-option *ngFor="let item of allowedRelatedProductSizes$ | async" [value]="item.key">
+                            {{item.value}}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>
     </section>
 </div>
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>Cancel</button>
-    <button mat-button (click)="create()" >Create</button>
-    <button mat-button (click)="createEdit()">Create And Edit</button>
+    <button mat-button (click)="create()" [disabled]="frmMain.invalid">Create</button>
+    <button mat-button (click)="createEdit()" [disabled]="frmMain.invalid">Create And Edit</button>
 </div>

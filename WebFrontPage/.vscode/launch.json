@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "chrome",
-            "request": "launch",
+            "request": "attach",
             "name": "Riverdale 2.0",
             "url": "http://localhost:5002",
             "webRoot": "${workspaceFolder}"

@@ -29,7 +29,7 @@ namespace RiverdaleMainApp2_0.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/grower")]
+    [Route("api/v{version:apiVersion}/basicproductalias")]
     public class BasicProductAliasController : BaseController
     {
         /// <summary>
