@@ -1,4 +1,5 @@
-﻿using FunzaDirectClients.Clients;
+﻿using Framework.Refit;
+using FunzaDirectClients.Clients;
 using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.SubClient.Models;
 using Refit;

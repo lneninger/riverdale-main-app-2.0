@@ -7,10 +7,13 @@ using ApplicationLogic.Business.Commands.FunzaIntegrator.GetProductsCommand;
 using ApplicationLogic.SignalR;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using Framework.SignalR;
+using FunzaInternalClients.Sync;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using RiverdaleMainApp2_0.Auth;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Authorization = Microsoft.AspNetCore.Authorization;
 
 namespace RiverdaleMainApp2_0.Controllers
@@ -30,14 +33,15 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <param name="hubContext"></param>
         /// <param name="quoteGetItemsCommand"></param>
         /// <param name="syncCommand"></param>
-        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand quoteGetItemsCommand, IFunzaSyncCommand syncCommand) :base()
+        public FunzaController(IHubContext<GlobalHub, IGlobalHub> hubContext, IFunzaQuoteGetItemsCommand quoteGetItemsCommand, IFunzaSyncCommand syncCommand, IInternalSyncClient funzaSync) :base()
         {
             this.SignalRHubContext = hubContext;
             this.QuoteGetItemsCommand = quoteGetItemsCommand;
             this.SyncCommand = syncCommand;
+            this.FunzaSync = funzaSync;
 
 
-            
+
         }
 
         /// <summary>
@@ -51,6 +55,14 @@ namespace RiverdaleMainApp2_0.Controllers
         public IFunzaSyncCommand SyncCommand { get; }
 
         /// <summary>
+        /// Gets the funza synchronize.
+        /// </summary>
+        /// <value>
+        /// The funza synchronize.
+        /// </value>
+        public IInternalSyncClient FunzaSync { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         public IHubContext<GlobalHub, IGlobalHub> SignalRHubContext { get; }
@@ -62,11 +74,19 @@ namespace RiverdaleMainApp2_0.Controllers
         /// <returns></returns>
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaAuthenticateCommandOutputDTO>))]
         [Route("sync")]
-        public IActionResult Sync()
+        public async Task<IActionResult> Sync()
         {
-            var syncResult = this.SyncCommand.Execute();
+            try
+            {
+                var syncResult = await this.FunzaSync.Sync();
+                //var syncResult = this.SyncCommand.Execute();
 
-            return this.Ok(syncResult);
+                return this.Ok(syncResult);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPost, ProducesResponseType(200, Type = typeof(PageResult<FunzaQuoteGetItemsCommandOutputDTO>))]

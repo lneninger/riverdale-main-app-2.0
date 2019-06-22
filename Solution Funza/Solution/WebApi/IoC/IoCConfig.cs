@@ -1,14 +1,18 @@
-﻿using Autofac;
+﻿using ApplicationLogic.Repositories.DB;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.AttributeFilters;
+using DatabaseRepositories.DB;
 using DomainDatabaseMapping;
 using EntityFrameworkCore.DbContextScope;
 using Framework.Autofac;
 using Framework.Commons;
 using Framework.Core.ReflectionHelpers;
+using Framework.Refit;
 using Framework.Storage.FileStorage.interfaces;
 using Framework.Storage.FileStorage.StorageImplementations;
 using Framework.Storage.FileStorage.TemporaryStorage;
+using FunzaApplicationLogic.Commands.SyncCommand;
 using FunzaAuthentication;
 using FunzaCommons;
 using Microsoft.Extensions.Configuration;
@@ -47,9 +51,9 @@ namespace WebApi.IoC
                 .RegisterInstance(configuration.GetSection("FunzaSettings").Get<FunzaSettings>())
                 .As<FunzaSettings>();
 
-                var serviceAssembly = typeof(ISecurityRepository).Assembly;
-                var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
-                builder.RegisterTypes(serviceTypes.ToArray())
+                var authenticationAssembly = typeof(ISecurityRepository).Assembly;
+                var authenticationTypes = authenticationAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(authenticationTypes.ToArray())
                 .AsImplementedInterfaces()
                 .InstancePerDependency();
 
@@ -80,6 +84,15 @@ namespace WebApi.IoC
                 builder.RegisterType<FunzaDBContext>().AsSelf()
                 .TrackInstanceEvents();
 
+                builder.RegisterType<RefitClientConfigurator>()
+                 .AsImplementedInterfaces()
+                 .InstancePerDependency();
+
+                builder.RegisterGeneric(typeof(BaseRefitProxy<>))
+                .AsSelf()
+                 //.AsImplementedInterfaces()
+                 .InstancePerDependency();
+
                 //builder.RegisterType<CurrentUserService>().As<ICurrentUserService>()
                 //.InstancePerLifetimeScope();
 
@@ -107,11 +120,11 @@ namespace WebApi.IoC
                 //.EnableInterfaceInterceptors()
                 //.InterceptedBy(typeof(ExceptionInterceptor));
 
-                //var serviceAssembly = typeof(CustomerGetAllCommand).Assembly;
-                //var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
-                //builder.RegisterTypes(serviceTypes.ToArray())
-                //.AsImplementedInterfaces()
-                //.InstancePerDependency();
+                var serviceAssembly = typeof(FunzaSyncCommand).Assembly;
+                var serviceTypes = serviceAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Command", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(serviceTypes.ToArray())
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
 
                 //var dataProviderAssembly = typeof(MasterDataProvider).Assembly;
                 //var dataGenericDataRetrieverTypes = dataProviderAssembly.GetTypes().Where(type => type.IsClass && (type.Name.EndsWith("DataProvider", StringComparison.InvariantCultureIgnoreCase) || type.Name.EndsWith("Manager", StringComparison.InvariantCultureIgnoreCase)));
@@ -123,10 +136,10 @@ namespace WebApi.IoC
                 //builder.RegisterTypes(validatorTypes.ToArray())
                 //.AsImplementedInterfaces();
 
-                //var repositoryAssembly = typeof(CustomerDBRepository).Assembly;
-                //var repositoryTypes = repositoryAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
-                //builder.RegisterTypes(repositoryTypes.ToArray())
-                //.AsImplementedInterfaces();
+                var repositoryAssembly = typeof(FunzaProductDBRepository).Assembly;
+                var repositoryTypes = repositoryAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));
+                builder.RegisterTypes(repositoryTypes.ToArray())
+                .AsImplementedInterfaces();
 
                 //var funzaRepositoriesAssembly = typeof(FunzaRepositories.SecurityRepository).Assembly;
                 //var funzaRepositoryTypes = funzaRepositoriesAssembly.GetTypes().Where(type => type.IsClass && type.Name.EndsWith("Repository", StringComparison.InvariantCultureIgnoreCase));

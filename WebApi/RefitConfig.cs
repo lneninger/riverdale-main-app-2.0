@@ -2,6 +2,7 @@
 using Framework.Refit;
 using FunzaInternalClients.Quote;
 using FunzaInternalClients.Security;
+using FunzaInternalClients.Sync;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -49,6 +50,12 @@ namespace WebApi
                     //};
 
                     //(c as CustomHttpClient).Policies = Policy.WrapAsync(policies);
+                });
+
+            services.AddRefitClient<IInternalSyncClient>()
+                .AddTypedClient<CustomHttpClient>(c => new CustomHttpClient())
+                .ConfigureHttpClient(c => {
+                    c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaUrl), "sync");
                 });
         }
 

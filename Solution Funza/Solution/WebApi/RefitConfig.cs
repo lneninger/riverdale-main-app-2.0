@@ -4,6 +4,9 @@ using FunzaDirectClients.Clients;
 using FunzaDirectClients.Clients.GoodPrice;
 using FunzaDirectClients.Clients.PackagePrice;
 using FunzaDirectClients.Clients.Packing;
+using FunzaDirectClients.Clients.Product;
+using FunzaDirectClients.Clients.ProductCategory;
+using FunzaDirectClients.Clients.ProductColor;
 using FunzaDirectClients.Clients.Quote;
 using FunzaDirectClients.Clients.Season;
 using FunzaDirectClients.Clients.Security;
@@ -19,6 +22,15 @@ using System.Threading.Tasks;
 
 namespace WebApi
 {
+    public class RefitClientConfigurator: IRefitClientConfigurator
+    {
+
+        public async Task<T> SetFunzaToken<T>(T proxy, Microsoft.AspNetCore.Http.HttpRequest request = null) where T : IRefitClient
+        {
+            return await RefitConfig.SetFunzaToken(proxy, request);
+        }
+    }
+
     public static class RefitConfig
     {
         public static IServiceProvider ServiceProvider { get; private set; }
@@ -29,12 +41,11 @@ namespace WebApi
 
             var funzaSettings = configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
 
-           
-
             var tokenRefreshPolicy = Polly.Policy
              .HandleResult<HttpResponseMessage>(ex => ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
              .OrTransientHttpError()
-             .RetryAsync(3, async (result, retryCount, context) => {
+             .RetryAsync(3, async (result, retryCount, context) =>
+             {
                  //throw new Exception();
                  var logginService = serviceProvider.GetService<ILogger<Startup>>();
                  logginService.LogWarning("Making retry {retry}.", retryCount);
@@ -48,7 +59,8 @@ namespace WebApi
 
             var generalPolicy = Polly.Policy
              .HandleResult<HttpResponseMessage>(ex => !ex.IsSuccessStatusCode)
-             .WaitAndRetryAsync(3, (retryCount, context) => {
+             .WaitAndRetryAsync(3, (retryCount, context) =>
+             {
                  //throw new Exception();
                  return TimeSpan.FromMilliseconds(100);
                  //var b = 0;
@@ -64,7 +76,8 @@ namespace WebApi
             var timeoutPolicy = Policy.TimeoutAsync<HttpResponseMessage>(10);
 
             services.AddRefitClient<ISecurityClient>()
-                .ConfigureHttpClient(c => {
+                .ConfigureHttpClient(c =>
+                {
                     c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.AuthenticationRelativeURL);
                 })
                 .AddPolicyHandler(timeoutPolicy)
@@ -110,9 +123,33 @@ namespace WebApi
                })
                .AddPolicyHandler(timeoutPolicy)
                .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<IProductClient>()
+               .ConfigureHttpClient(c =>
+               {
+                   c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.ProductsRelativeURL);
+               })
+               .AddPolicyHandler(timeoutPolicy)
+               .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<IProductColorClient>()
+               .ConfigureHttpClient(c =>
+               {
+                   c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.ProductColorRelativeURL);
+               })
+               .AddPolicyHandler(timeoutPolicy)
+               .AddPolicyHandler(tokenRefreshPolicy);
+
+            services.AddRefitClient<IProductCategoryClient>()
+              .ConfigureHttpClient(c =>
+              {
+                  c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.ProductCategoryRelativeURL);
+              })
+              .AddPolicyHandler(timeoutPolicy)
+              .AddPolicyHandler(tokenRefreshPolicy);
         }
 
-        public static async Task<T> SetFunzaToken<T>(this T proxy, Microsoft.AspNetCore.Http.HttpRequest request) where T: IRefitClient
+        public static async Task<T> SetFunzaToken<T>(this T proxy, Microsoft.AspNetCore.Http.HttpRequest request = null) where T : IRefitClient
         {
             try
             {
@@ -133,9 +170,10 @@ namespace WebApi
 
         }
 
+        
 
-
-        public static HttpClient GetHttpClient() {
+        public static HttpClient GetHttpClient()
+        {
             return new HttpClient(new AuthenticatedParameterizedHttpClientHandler(GetToken));
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FunzaApplicationLogic.Commands.SyncCommand;
 using FunzaInternalClients.Quote.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,20 @@ namespace WebApi.Controllers
     public class SyncController : ControllerBase
     {
 
-        [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(FunzaResponse<QuoteModel>))]
-        public async Task<IActionResult> Get(int id)
+        public SyncController(IFunzaSyncCommand syncCommand)
         {
-            var result = await Task.FromResult("Hello");
+            this.FunzaSyncCommand = syncCommand;
+        }
 
-            return this.Ok(result);
+        public IFunzaSyncCommand FunzaSyncCommand { get; }
+
+
+        [HttpPut()]
+        [ProducesResponseType(200, Type = typeof(FunzaResponse<QuoteModel>))]
+        public async Task<IActionResult> Put()
+        {
+            await this.FunzaSyncCommand.ExecuteAsync();
+            return this.Ok();
         }
 
         [HttpPost]

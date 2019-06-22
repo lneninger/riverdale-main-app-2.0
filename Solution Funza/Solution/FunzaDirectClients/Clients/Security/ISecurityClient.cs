@@ -1,4 +1,5 @@
-﻿using FunzaDirectClients.Clients.Security.Models;
+﻿using Framework.Refit;
+using FunzaDirectClients.Clients.Security.Models;
 using Refit;
 using System;
 using System.Collections.Generic;

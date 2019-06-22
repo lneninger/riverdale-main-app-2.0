@@ -11,10 +11,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationLogic.dll">
-      <publishTime>06/17/2019 05:41:17</publishTime>
+      <publishTime>06/21/2019 07:30:12</publishTime>
     </File>
     <File Include="ApplicationLogic.pdb">
-      <publishTime>06/17/2019 05:41:17</publishTime>
+      <publishTime>06/21/2019 07:30:12</publishTime>
     </File>
     <File Include="appsettings.Development.json">
       <publishTime>05/15/2019 12:25:18</publishTime>
@@ -56,10 +56,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2019 12:25:18</publishTime>
     </File>
     <File Include="DatabaseRepositories.dll">
-      <publishTime>06/17/2019 05:41:18</publishTime>
+      <publishTime>06/21/2019 07:30:13</publishTime>
     </File>
     <File Include="DatabaseRepositories.pdb">
-      <publishTime>06/17/2019 05:41:18</publishTime>
+      <publishTime>06/21/2019 07:30:13</publishTime>
     </File>
     <File Include="DomainDatabaseMapping.dll">
       <publishTime>06/17/2019 05:41:16</publishTime>
@@ -164,10 +164,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2019 05:41:14</publishTime>
     </File>
     <File Include="FunzaRepositories.dll">
-      <publishTime>06/17/2019 05:41:18</publishTime>
+      <publishTime>06/21/2019 07:30:12</publishTime>
     </File>
     <File Include="FunzaRepositories.pdb">
-      <publishTime>06/17/2019 05:41:18</publishTime>
+      <publishTime>06/21/2019 07:30:12</publishTime>
     </File>
     <File Include="Ghostscript.NET.dll">
       <publishTime>12/13/2016 15:31:26</publishTime>
@@ -401,22 +401,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2019 12:25:18</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>06/17/2019 06:38:32</publishTime>
+      <publishTime>06/21/2019 07:55:09</publishTime>
     </File>
     <File Include="web.QA.config">
       <publishTime>05/15/2019 12:25:18</publishTime>
     </File>
     <File Include="WebApi.deps.json">
-      <publishTime>06/17/2019 06:38:31</publishTime>
+      <publishTime>06/21/2019 07:55:08</publishTime>
     </File>
     <File Include="WebApi.dll">
-      <publishTime>06/17/2019 06:03:16</publishTime>
+      <publishTime>06/21/2019 07:30:13</publishTime>
     </File>
     <File Include="WebApi.pdb">
-      <publishTime>06/17/2019 06:03:16</publishTime>
+      <publishTime>06/21/2019 07:30:13</publishTime>
     </File>
     <File Include="WebApi.runtimeconfig.json">
-      <publishTime>06/17/2019 06:38:31</publishTime>
+      <publishTime>06/21/2019 07:55:09</publishTime>
     </File>
     <File Include="wwwroot/css/site.css">
       <publishTime>05/15/2019 12:25:18</publishTime>

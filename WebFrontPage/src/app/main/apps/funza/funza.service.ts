@@ -37,7 +37,7 @@ export class FunzaService implements IPageQueryService {
     sync(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${environment.appApi.apiBaseUrl}funza/sync`, null).subscribe(response => {
-                debugger;
+                // debugger;
                 resolve(response);
             });
         });

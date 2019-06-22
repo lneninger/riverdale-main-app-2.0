@@ -81,55 +81,55 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
                 })
             );
 
-            taskDictionary.Add(
-                "Colors"
-                , Task.Run<object>(async () =>
-                {
-                    var combination = new List<FunzaGetColorsCommandOutput>();
-                    var filter = new PageQuery<FunzaGetColorsCommandInput>();
-                    var source = await this.GetColorsCommand.ExecuteAsync(filter);
-                    combination.AddRange(source.Bag.Items);
-                    while (source.IsSucceed && source.Bag?.Items.Count > 0)
-                    {
-                        filter.PageIndex++;
-                        source = await this.GetColorsCommand.ExecuteAsync(filter);
-                        if (source.IsSucceed && source.Bag != null)
-                        {
-                            combination.AddRange(source.Bag.Items);
-                        }
-                    }
+            //taskDictionary.Add(
+            //    "Colors"
+            //    , Task.Run<object>(async () =>
+            //    {
+            //        var combination = new List<FunzaGetColorsCommandOutput>();
+            //        var filter = new PageQuery<FunzaGetColorsCommandInput>();
+            //        var source = await this.GetColorsCommand.ExecuteAsync(filter);
+            //        combination.AddRange(source.Bag.Items);
+            //        while (source.IsSucceed && source.Bag?.Items.Count > 0)
+            //        {
+            //            filter.PageIndex++;
+            //            source = await this.GetColorsCommand.ExecuteAsync(filter);
+            //            if (source.IsSucceed && source.Bag != null)
+            //            {
+            //                combination.AddRange(source.Bag.Items);
+            //            }
+            //        }
 
-                    var mapping = this.Map(combination);
+            //        var mapping = this.Map(combination);
 
-                    return this.ColorsUpdateCommand.Execute(mapping);
+            //        return this.ColorsUpdateCommand.Execute(mapping);
 
-                })
-            );
+            //    })
+            //);
             
-            taskDictionary.Add(
-                "Categories"
-                , Task.Run<object>(async () =>
-                {
-                    var combination = new List<FunzaGetCategoriesCommandOutput>();
-                    var filter = new PageQuery<FunzaGetCategoriesCommandInput>();
-                    var source = await this.GetCategoriesCommand.ExecuteAsync(filter);
-                    combination.AddRange(source.Bag.Items);
-                    while (source.IsSucceed && source.Bag?.Items.Count > 0)
-                    {
-                        filter.PageIndex++;
-                        source = await this.GetCategoriesCommand.ExecuteAsync(filter);
-                        if (source.IsSucceed && source.Bag != null)
-                        {
-                            combination.AddRange(source.Bag.Items);
-                        }
-                    }
+            //taskDictionary.Add(
+            //    "Categories"
+            //    , Task.Run<object>(async () =>
+            //    {
+            //        var combination = new List<FunzaGetCategoriesCommandOutput>();
+            //        var filter = new PageQuery<FunzaGetCategoriesCommandInput>();
+            //        var source = await this.GetCategoriesCommand.ExecuteAsync(filter);
+            //        combination.AddRange(source.Bag.Items);
+            //        while (source.IsSucceed && source.Bag?.Items.Count > 0)
+            //        {
+            //            filter.PageIndex++;
+            //            source = await this.GetCategoriesCommand.ExecuteAsync(filter);
+            //            if (source.IsSucceed && source.Bag != null)
+            //            {
+            //                combination.AddRange(source.Bag.Items);
+            //            }
+            //        }
 
-                    var mapping = this.Map(combination);
+            //        var mapping = this.Map(combination);
 
-                    return this.CategoriesUpdateCommand.Execute(mapping);
+            //        return this.CategoriesUpdateCommand.Execute(mapping);
 
-                })
-            );
+            //    })
+            //);
             
             /*
             taskDictionary.Add(
@@ -174,7 +174,7 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
                 })
             );*/
 
-            Task.WaitAll(taskDictionary.Values.ToArray());
+            await Task.WhenAll(taskDictionary.Values.ToArray());
             
             result.AddResponse(taskDictionary["Products"].Result as OperationResponse);
             result.AddResponse(taskDictionary["Colors"].Result as OperationResponse);
