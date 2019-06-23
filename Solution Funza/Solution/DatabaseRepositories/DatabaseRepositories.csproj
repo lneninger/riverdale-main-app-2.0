@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DomainDatabaseMapping\DomainDatabaseMapping.csproj" />
     <ProjectReference Include="..\FunzaApplicationLogic\FunzaApplicationLogic.csproj" />
   </ItemGroup>

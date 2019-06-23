@@ -7,7 +7,7 @@ using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand
 {
-    public interface IFunzaGetProductsCommand : ICommandFuncAsync<PageQuery<FunzaGetProductsCommandInput>, OperationResponse<PageResult<FunzaGetProductsCommandOutput>>>
+    public interface IFunzaGetProductsCommand : ICommandFuncAsync<PageQuery<FunzaGetProductsCommandInput>, OperationResponse<IEnumerable<FunzaGetProductsCommandOutput>>>
     {
     }
 }

@@ -5,44 +5,44 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand.Mod
 {
     public class FunzaGetProductsCommandOutput
     {
-        public int IdProducto { get; set; }
+        public int ProductId { get; set; }
 
-        public int IdEspecie { get; set; }
+        public int SpecieId { get; set; }
 
-        public int IdVariedad { get; set; }
+        public int VarietyId { get; set; }
 
-        public int IdGrado { get; set; }
+        public int GradeId { get; set; }
 
-        public int IdColor { get; set; }
+        public int ColorId { get; set; }
 
-        public string Codigo { get; set; }
+        public string Code { get; set; }
 
-        public bool Activo { get; set; }
+        public bool Active { get; set; }
 
-        public string Descripcion { get; set; }
+        public string Description { get; set; }
 
-        public string Observaciones { get; set; }
+        public string Comments { get; set; }
 
-        public int IdCategoria { get; set; }
+        public int CategoryId { get; set; }
 
-        public int IdTipoProducto { get; set; }
+        public int ProductTypeId { get; set; }
 
-        public int IdReferencia { get; set; }
+        public int ReferenceId { get; set; }
 
-        public int IdTipoReferencia { get; set; }
+        public int ReferenceTypeId { get; set; }
 
-        public string TipoReferencia { get; set; }
+        public string ReferenceTypeName { get; set; }
 
-        public string CodReferencia { get; set; }
+        public string ReferenceCode { get; set; }
 
-        public string DescripcionRef { get; set; }
+        public string ReferenceDescription { get; set; }
 
-        public string TipoProducto { get; set; }
+        public string ProductTypeName { get; set; }
 
-        public string Categoria { get; set; }
+        public string Category { get; set; }
 
-        public bool EnviarACotizador { get; set; }
+        public bool SendToQuotator { get; set; }
 
-        public DateTime Updateddate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

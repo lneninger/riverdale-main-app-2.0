@@ -225,7 +225,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<List<EnumItemDTO<string>>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<GrowerType>().Select(masterItem => new EnumItemDTO<string>
                     {
@@ -282,7 +282,7 @@ namespace DatabaseRepositories.DB
             var result = new OperationResponse<List<EnumItemDTO<int>>>();
             try
             {
-                using (var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>())
+                var dbLocator = AmbientDbContextLocator.Get<RiverdaleDBContext>();
                 {
                     result.Bag = dbLocator.Set<ProductCategory>().Select(masterItem => new EnumItemDTO<int> { Key = masterItem.Id, Value = masterItem.Name, Extras = new Dictionary<string, object> { {"Identifier", masterItem.Identifier },  { "Sizes", masterItem.Sizes.Select(size => new EnumItemDTO<int> { Key = size.Id, Value = size.Size}) }, { "AllowedColorTypes", masterItem.AllowedColorTypes.Select(color => color.ProductColorTypeId).ToList() } } }).ToList();
                 }

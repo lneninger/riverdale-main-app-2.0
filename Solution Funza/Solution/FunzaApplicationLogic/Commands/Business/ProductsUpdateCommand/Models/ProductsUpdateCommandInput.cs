@@ -7,7 +7,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand.Models
     {
         public int Id { get; set; }
         public int SpecieId { get; set; }
-        public int VarieryId { get; set; }
+        public int VarietyId { get; set; }
         public int GradeId { get; set; }
         public int ColorId { get; set; }
         public string Code { get; set; }

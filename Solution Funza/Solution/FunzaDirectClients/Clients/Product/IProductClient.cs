@@ -9,7 +9,7 @@ namespace FunzaDirectClients.Clients.Product
     public interface IProductClient : IRefitClient
     {
         [Get("/")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetProductsResult>>>> GetProducts(int SkipCount = 0, int MaxResultCount = 10);
+        Task<ApiResponse<ApiResultWrapper<DirectGetProductsResult[]>>> GetProducts(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

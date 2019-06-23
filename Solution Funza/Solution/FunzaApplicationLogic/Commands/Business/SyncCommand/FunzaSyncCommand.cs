@@ -63,16 +63,16 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
                     var combination = new List<FunzaGetProductsCommandOutput>();
                     var filter = new PageQuery<FunzaGetProductsCommandInput>();
                     var source = await this.GetProductsCommand.ExecuteAsync(filter);
-                    combination.AddRange(source.Bag.Items);
-                    while (source.IsSucceed && source.Bag?.Items.Count > 0 )
-                    {
-                        filter.PageIndex++;
-                        source = await this.GetProductsCommand.ExecuteAsync(filter);
-                        if (source.IsSucceed && source.Bag != null)
-                        {
-                            combination.AddRange(source.Bag.Items);
-                        }
-                    }
+                    combination.AddRange(source.Bag);
+                    //while (source.IsSucceed && source.Bag?.Count() > 0 )
+                    //{
+                    //    filter.PageIndex++;
+                    //    source = await this.GetProductsCommand.ExecuteAsync(filter);
+                    //    if (source.IsSucceed && source.Bag != null)
+                    //    {
+                    //        combination.AddRange(source.Bag);
+                    //    }
+                    //}
 
                     var mapping = this.Map(combination);
 
@@ -189,26 +189,25 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
         {
             var result = source.Select(item => new ProductsUpdateCommandInput
             {
-                Active = item.Activo,
-                CategoryId = item.IdCategoria,
-                CategoryName = item.Categoria,
-                Code = item.Codigo,
-                ColorId = item.IdColor,
-                Description = item.Descripcion,
-                GradeId = item.IdGrado,
-                Id = item.IdProducto,
-                Comments = item.Observaciones,
-                ProductTypeId = item.IdTipoProducto,
-                ProductTypeName = item.TipoProducto,
-                ReferenceCode = item.CodReferencia,
-                ReferenceDescription = item.DescripcionRef,
-                ReferenceId = item.IdReferencia,
-                ReferenceTypeId = item.IdTipoReferencia,
-                ReferenceTypeName = item.TipoReferencia,
-                SendQuotator = item.EnviarACotizador,
-                SpecieId = item.IdEspecie,
-                VarieryId = item.IdVariedad,
-                FunzaUpdatedDate = item.Updateddate,
+                Id = item.ProductId,
+                Active = item.Active,
+                CategoryId = item.CategoryId,
+                Code = item.Code,
+                ColorId = item.ColorId,
+                Description = item.Description,
+                GradeId = item.GradeId,
+                Comments = item.Comments,
+                ProductTypeId = item.ProductTypeId,
+                ProductTypeName = item.ProductTypeName,
+                ReferenceCode = item.ReferenceCode,
+                ReferenceDescription = item.ReferenceDescription,
+                ReferenceId = item.ReferenceId,
+                ReferenceTypeId = item.ReferenceTypeId,
+                ReferenceTypeName = item.ReferenceTypeName,
+                SendQuotator = item.SendToQuotator,
+                SpecieId = item.SpecieId,
+                VarietyId = item.VarietyId,
+                FunzaUpdatedDate = item.UpdatedDate,
             });
 
             return result;

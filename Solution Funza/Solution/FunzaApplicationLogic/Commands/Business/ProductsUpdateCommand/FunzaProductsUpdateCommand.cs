@@ -91,7 +91,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             result.SendQuotator = dtoItem.SendQuotator;
             result.SpecieId = dtoItem.SpecieId;
             result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
-            result.VariatyId = dtoItem.VarieryId;
+            result.VariatyId = dtoItem.VarietyId;
 
             return result;
         }
