@@ -27,6 +27,7 @@ namespace WebApi
 
         public async Task<T> SetFunzaToken<T>(T proxy, Microsoft.AspNetCore.Http.HttpRequest request = null) where T : IRefitClient
         {
+
             return await RefitConfig.SetFunzaToken(proxy, request);
         }
     }
@@ -34,10 +35,12 @@ namespace WebApi
     public static class RefitConfig
     {
         public static IServiceProvider ServiceProvider { get; private set; }
+        public static IConfiguration Configuration { get; private set; }
 
         public static void Configure(IConfiguration configuration, IServiceCollection services, IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
+            Configuration = configuration;
 
             var funzaSettings = configuration.GetSection("FunzaSettings").Get<FunzaSettings>();
 

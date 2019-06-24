@@ -11,9 +11,9 @@ namespace DomainDatabaseMapping
         {
         }
 
-        public FunzaDBContext() : base()
-        {
-        }
+        //public FunzaDBContext() : base()
+        //{
+        //}
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

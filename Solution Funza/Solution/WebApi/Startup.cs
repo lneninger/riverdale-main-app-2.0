@@ -28,7 +28,7 @@ namespace WebApi
             Configuration = configuration;
             ServiceProvider = serviceProvider;
 
-            this.ConnectionString = Configuration.GetConnectionString("RiverdaleModel");
+            this.ConnectionString = Configuration.GetConnectionString("FunzaModel");
             Logger.Info($"Main Database Connection - FunzaModel: {this.ConnectionString}");
         }
 

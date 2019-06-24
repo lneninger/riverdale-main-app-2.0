@@ -72,7 +72,12 @@ namespace WebApi.IoC
                 builder.RegisterType<AppConfig>().AsSelf().WithParameter(new TypedParameter(typeof(IConfiguration), configuration))
                 .SingleInstance();
 
-                builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>()
+                builder.RegisterType<DbContextScopeFactory>()
+                .As<IDbContextScopeFactory>()
+                .AsImplementedInterfaces()
+                ;
+
+                builder.RegisterType<DbContextFactory>()
                 .AsImplementedInterfaces()
                 ;
 
@@ -81,8 +86,8 @@ namespace WebApi.IoC
                 ;
 
 
-                builder.RegisterType<FunzaDBContext>().AsSelf()
-                .TrackInstanceEvents();
+                //builder.RegisterType<FunzaDBContext>().AsSelf()
+                //.TrackInstanceEvents();
 
                 builder.RegisterType<RefitClientConfigurator>()
                  .AsImplementedInterfaces()
