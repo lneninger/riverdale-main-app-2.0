@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20190623010421_Change Product Table.cs" />
+    <Compile Remove="Migrations\20190625133912_Improve Funza Mapping.cs" />
   </ItemGroup>
 
   <ItemGroup>

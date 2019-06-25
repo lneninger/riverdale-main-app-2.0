@@ -9,7 +9,7 @@ namespace DomainModel
     {
         public int Id { get; set; }
         public int FunzaId { get; set; }
-        public Guid IntegrationId { get; set; }
+        public Guid? IntegrationId { get; set; }
 
         public int SpecieId { get; set; }
         public int VariatyId { get; set; }

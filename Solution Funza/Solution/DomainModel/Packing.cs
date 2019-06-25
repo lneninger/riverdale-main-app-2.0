@@ -11,7 +11,7 @@ namespace DomainModel
 
         public int FunzaId { get; set; }
 
-        public Guid IntegrationId { get; set; }
+        public Guid? IntegrationId { get; set; }
 
         public string Name { get; set; }
 
