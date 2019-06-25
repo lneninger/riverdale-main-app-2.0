@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DomainModel.Product;
+using Framework.EF.DbContextImpl.Persistance;
 
 namespace DomainModel.SaleOpportunity
 {

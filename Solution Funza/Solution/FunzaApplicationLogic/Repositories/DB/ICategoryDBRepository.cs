@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using System;
+using DomainModel;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using FunzaApplicationLogic.Commands.Funza.CategoryPageQueryCommand.Models;
@@ -16,5 +17,6 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse<PageResult<CategoryPageQueryCommandOutput>> PageQuery(PageQuery<CategoryPageQueryCommandInput> input);
 
+        OperationResponse DeleteNotInIntegration(Guid integrationId);
     }
 }

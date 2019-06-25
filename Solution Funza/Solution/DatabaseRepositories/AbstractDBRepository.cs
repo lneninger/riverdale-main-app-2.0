@@ -7,6 +7,7 @@ using DomainModel;
 using Microsoft.EntityFrameworkCore;
 using Framework.Logging.Log4Net;
 using FunzaApplicationLogic.Repositories.DB;
+using Framework.EF.DbContextImpl.Persistance;
 
 namespace DatabaseRepositories
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;

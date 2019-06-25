@@ -7,7 +7,7 @@ using Framework.Commands;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand
 {
-    public interface IFunzaGetColorsCommand : ICommandFuncAsync<PageQuery<FunzaGetColorsCommandInput>, OperationResponse<PageResult<FunzaGetColorsCommandOutput>>>
+    public interface IFunzaGetColorsCommand : ICommandFuncAsync<PageQuery<FunzaGetColorsCommandInput>, OperationResponse<IEnumerable<FunzaGetColorsCommandOutput>>>
     {
     }
 }

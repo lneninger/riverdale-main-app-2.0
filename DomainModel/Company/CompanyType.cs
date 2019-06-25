@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System.Collections.Generic;
 
 namespace DomainModel.Company
 {

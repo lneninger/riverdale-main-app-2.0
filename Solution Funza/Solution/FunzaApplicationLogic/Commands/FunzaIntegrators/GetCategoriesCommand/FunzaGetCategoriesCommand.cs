@@ -7,6 +7,7 @@ using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.ProductCategory;
 using FunzaDirectClients.Clients.ProductCategory.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand
@@ -20,14 +21,14 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand
 
         public IProductCategoryClient ProductCategoryClient { get; }
 
-        public async Task<OperationResponse<PageResult<FunzaGetCategoriesCommandOutput>>> ExecuteAsync(PageQuery<FunzaGetCategoriesCommandInput> model)
+        public async Task<OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutput>>> ExecuteAsync(PageQuery<FunzaGetCategoriesCommandInput> model)
         {
-            var result = new OperationResponse<PageResult<FunzaGetCategoriesCommandOutput>>();
+            var result = new OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutput>>();
             var funzaResponse = await this.ProductCategoryClient.GetProductCategories();
             var funzaResult = funzaResponse.Content;
             if (result.IsSucceed)
             {
-                result.Bag = funzaResult.Result.ToPageResult<DirectGetProductCategoriesResult, FunzaGetCategoriesCommandOutput > (funzaItem => new FunzaGetCategoriesCommandOutput
+                result.Bag = funzaResult.Result.Items.Select(funzaItem => new FunzaGetCategoriesCommandOutput
                 {
                 });
             }

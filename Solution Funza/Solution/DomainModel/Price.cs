@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DomainModel
 {
-    public class Price
+    public class Price: AbstractBaseEntity
     {
         [Display(Name = "id")]
         public int Id { get; set; }

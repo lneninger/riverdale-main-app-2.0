@@ -1,4 +1,5 @@
 ﻿using Framework.Autofac;
+using Framework.Commands;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand.Models;
@@ -45,6 +46,11 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand
 
                 //if (resource != null) resource.Dispose();
             }
+        }
+
+        Task<OperationResponse<IEnumerable<FunzaGetColorsCommandOutput>>> ICommandFuncAsync<PageQuery<FunzaGetColorsCommandInput>, OperationResponse<IEnumerable<FunzaGetColorsCommandOutput>>>.ExecuteAsync(PageQuery<FunzaGetColorsCommandInput> input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

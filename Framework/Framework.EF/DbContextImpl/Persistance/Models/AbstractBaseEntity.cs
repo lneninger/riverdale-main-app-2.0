@@ -1,9 +1,10 @@
-﻿using Framework.EF.DbContextImpl.Persistance;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace DomainModel
+namespace Framework.EF.DbContextImpl.Persistance
 {
-    public abstract class AbstractBaseEntity: ITrackChangesEntity
+    public abstract class AbstractBaseEntity : ITrackChangesEntity
     {
         public DateTime? CreatedAt { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using DomainModel.File;
+using Framework.EF.DbContextImpl.Persistance;
 using System;
 
 namespace DomainModel.Product

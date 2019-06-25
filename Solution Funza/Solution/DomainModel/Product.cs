@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DomainModel
 {
-    public class Product : AbstractBaseEntity
+    public class Product : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
         public int FunzaId { get; set; }
+        public Guid IntegrationId { get; set; }
 
         public int SpecieId { get; set; }
         public int VariatyId { get; set; }
@@ -34,5 +36,8 @@ namespace DomainModel
         public bool SendQuotator { get; set; }
 
         public DateTime FunzaUpdatedDate { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

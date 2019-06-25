@@ -7,6 +7,7 @@ using FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand.Models;
 using Framework.Core.Messages;
 using DomainModel;
 using Framework.Commands;
+using FunzaApplicationLogic.Commands.Business.SyncCommand.Models;
 
 namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
 {
@@ -16,7 +17,7 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
         {
         }
 
-        public OperationResponse<PackingsUpdateCommandOutput> Execute(IEnumerable<PackingsUpdateCommandInput> input)
+        public OperationResponse<PackingsUpdateCommandOutput> Execute(SyncCommandEntityWrapperInput<PackingsUpdateCommandInput> input)
         {
             var result = new OperationResponse<PackingsUpdateCommandOutput>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
@@ -29,7 +30,7 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
                 try
                 {
 
-                    foreach (var dtoItem in input)
+                    foreach (var dtoItem in input.SyncItems)
                     {
                         getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
                         bool addEntity = false;
@@ -51,7 +52,6 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
                             result.AddResponse(prepareToSaveResult);
                         }
                     }
-
 
                     if (result.IsSucceed)
                     {

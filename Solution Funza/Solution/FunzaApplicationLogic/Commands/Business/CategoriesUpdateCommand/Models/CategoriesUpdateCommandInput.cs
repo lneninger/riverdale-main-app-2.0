@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand.Models
 {
-    public class FunzaCategoriesUpdateCommandInputDTO
+    public class CategoriesUpdateCommandInput
     {
         public int Id { get; set; }
+
+        public Guid IntegrationId { get; set; }
 
         public string Name { get; set; }
 

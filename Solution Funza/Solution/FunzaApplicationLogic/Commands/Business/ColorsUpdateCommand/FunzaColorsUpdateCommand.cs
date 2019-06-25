@@ -7,6 +7,7 @@ using FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand.Models;
 using Framework.Core.Messages;
 using DomainModel;
 using Framework.Commands;
+using FunzaApplicationLogic.Commands.Business.SyncCommand.Models;
 
 namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
 {
@@ -16,19 +17,19 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
         {
         }
 
-        public OperationResponse<FunzaColorsUpdateCommandOutputDTO> Execute(IEnumerable<FunzaColorsUpdateCommandInputDTO> input)
+        public OperationResponse<ColorsUpdateCommandOutput> Execute(SyncCommandEntityWrapperInput<ColorsUpdateCommandInput> input)
         {
-            var result = new OperationResponse<FunzaColorsUpdateCommandOutputDTO>();
+            var result = new OperationResponse<ColorsUpdateCommandOutput>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
             {
-                OperationResponse<Color> getByFunzaIdResult;
+
+                OperationResponse<DomainModel.Color> getByFunzaIdResult;
                 OperationResponse prepareToSaveResult;
-                Color entity = null;
+                DomainModel.Color entity = null;
 
                 try
                 {
-
-                    foreach (var dtoItem in input)
+                    foreach (var dtoItem in input.SyncItems)
                     {
                         getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
                         bool addEntity = false;
@@ -42,7 +43,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
                         }
 
                         entity = getByFunzaIdResult.Bag;
-                        entity = this.MapDTO(dtoItem, entity);
+                        entity = this.MapDTO(dtoItem, input.IntegrationId, entity);
 
                         if (addEntity)
                         {
@@ -51,11 +52,14 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
                         }
                     }
 
-
                     if (result.IsSucceed)
                     {
                         dbContextScope.SaveChanges();
                     }
+
+                    result.AddResponse(this.Repository.DeleteNotInIntegration(input.IntegrationId));
+
+
                 }
                 catch (Exception ex)
                 {
@@ -66,11 +70,12 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
             return result;
         }
 
-        private Color MapDTO(FunzaColorsUpdateCommandInputDTO dtoItem, Color entity = null)
+        private Color MapDTO(ColorsUpdateCommandInput dtoItem, Guid integrationId, Color entity = null)
         {
             var result = entity ?? new Color();
 
             result.FunzaId = dtoItem.Id;
+            result.IntegrationId = dtoItem.IntegrationId;
 
             result.Hexagecimal = dtoItem.Hexagecimal;
             result.Image = dtoItem.Image;

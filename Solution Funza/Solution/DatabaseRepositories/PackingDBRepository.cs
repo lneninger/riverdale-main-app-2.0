@@ -146,5 +146,27 @@ namespace DatabaseRepositories.DB
             
         }
 
+        public OperationResponse DeleteNotInIntegration(Guid integrationId)
+        {
+            var result = new OperationResponse();
+            try
+            {
+                var dbLocator = AmbientDbContextLocator.Get<FunzaDBContext>();
+                var notInIntegrationItems = dbLocator.Set<Packing>().Where(item => item.IntegrationId != integrationId && item.IsDeleted != true);
+                foreach (var item in notInIntegrationItems)
+                {
+                    item.DeletedAt = DateTime.UtcNow;
+                }
+
+                dbLocator.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result.AddException($"Error deleting Funza Packing", ex);
+            }
+
+            return result;
+        }
+
     }
 }

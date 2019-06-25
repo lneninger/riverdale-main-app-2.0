@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using Framework.EF.DbContextImpl.Persistance;
 using Framework.EF.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

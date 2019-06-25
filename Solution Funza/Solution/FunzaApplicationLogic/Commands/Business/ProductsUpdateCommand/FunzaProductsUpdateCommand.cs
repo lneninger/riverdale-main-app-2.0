@@ -8,6 +8,7 @@ using Framework.Core.Messages;
 using DomainModel.Funza;
 using Framework.Commands;
 using DomainModel;
+using FunzaApplicationLogic.Commands.Business.SyncCommand.Models;
 
 namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
 {
@@ -17,7 +18,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
         {
         }
 
-        public OperationResponse<ProductsUpdateCommandOutput> Execute(IEnumerable<ProductsUpdateCommandInput> input)
+        public OperationResponse<ProductsUpdateCommandOutput> Execute(SyncCommandEntityWrapperInput<ProductsUpdateCommandInput> input)
         {
             var result = new OperationResponse<ProductsUpdateCommandOutput>();
             using (var dbContextScope = this.DbContextScopeFactory.Create())
@@ -29,8 +30,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
 
                 try
                 {
-
-                    foreach (var dtoItem in input)
+                    foreach (var dtoItem in input.SyncItems)
                     {
                         getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
                         bool addEntity = false;
@@ -44,7 +44,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
                         }
 
                         entity = getByFunzaIdResult.Bag;
-                        entity = this.MapDTO(dtoItem, entity);
+                        entity = this.MapDTO(dtoItem, input.IntegrationId, entity);
 
                         if (addEntity)
                         {
@@ -53,11 +53,14 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
                         }
                     }
 
-
                     if (result.IsSucceed)
                     {
                         dbContextScope.SaveChanges();
                     }
+
+                    result.AddResponse(this.Repository.DeleteNotInIntegration(input.IntegrationId));
+
+
                 }
                 catch (Exception ex)
                 {
@@ -68,11 +71,13 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand
             return result;
         }
 
-        private Product MapDTO(ProductsUpdateCommandInput dtoItem, Product entity = null)
+        private Product MapDTO(ProductsUpdateCommandInput dtoItem, Guid integrationId, Product entity = null)
         {
             var result = entity ?? new Product();
 
             result.FunzaId = dtoItem.Id;
+            result.IntegrationId = dtoItem.IntegrationId;
+
             result.Active = dtoItem.Active;
             result.CategoryId = dtoItem.CategoryId;
             result.CategoryName = dtoItem.CategoryName;

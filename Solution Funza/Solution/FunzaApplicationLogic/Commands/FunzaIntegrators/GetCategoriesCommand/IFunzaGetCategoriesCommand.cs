@@ -9,7 +9,7 @@ using FunzaDirectClients.Clients.ProductCategory.Models;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand
 {
-    public interface IFunzaGetCategoriesCommand : ICommandFuncAsync<PageQuery<FunzaGetCategoriesCommandInput>, OperationResponse<PageResult<FunzaGetCategoriesCommandOutput>>>
+    public interface IFunzaGetCategoriesCommand : ICommandFuncAsync<PageQuery<FunzaGetCategoriesCommandInput>, OperationResponse<IEnumerable<FunzaGetCategoriesCommandOutput>>>
     {
     }
 }

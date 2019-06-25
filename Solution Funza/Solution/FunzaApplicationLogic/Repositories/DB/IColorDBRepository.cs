@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using System;
+using DomainModel;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
 using FunzaApplicationLogic.Commands.ColorPageQueryCommand.Models;
@@ -15,6 +16,7 @@ namespace ApplicationLogic.Repositories.DB
         OperationResponse<Color> GetByFunzaId(string id);
 
         OperationResponse<PageResult<ColorPageQueryCommandOutput>> PageQuery(PageQuery<ColorPageQueryCommandInput> input);
-        
+
+        OperationResponse DeleteNotInIntegration(Guid integrationId);
     }
 }

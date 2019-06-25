@@ -1,4 +1,6 @@
-﻿namespace DomainModel.File
+﻿using Framework.EF.DbContextImpl.Persistance;
+
+namespace DomainModel.File
 {
     public class FileSystemType: AbstractBaseEntity
     {

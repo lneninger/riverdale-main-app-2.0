@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System;
 
 namespace DomainModel.Product
 {

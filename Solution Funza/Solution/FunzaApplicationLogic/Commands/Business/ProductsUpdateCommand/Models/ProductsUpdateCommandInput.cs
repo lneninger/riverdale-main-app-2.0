@@ -6,6 +6,8 @@ namespace FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand.Models
     public class ProductsUpdateCommandInput
     {
         public int Id { get; set; }
+        public Guid IntegrationId { get; set; }
+
         public int SpecieId { get; set; }
         public int VarietyId { get; set; }
         public int GradeId { get; set; }

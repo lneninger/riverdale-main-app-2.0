@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Framework.EF.DbContextImpl.Persistance;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DomainModel
 {
-    public class Color : AbstractBaseEntity
+    public class Color : AbstractBaseEntity, ILogicalDeleteEntity
     {
         public int Id { get; set; }
         public string FunzaId { get; set; }
-       
+        public Guid IntegrationId { get; set; }
+
         public string Name { get; set; }
         public string NameEnglish { get; set; }
         public string State { get; set; }
@@ -20,5 +22,8 @@ namespace DomainModel
         public string FunzaCreatedDate { get; set; }
         public string FunzaUpdatedBy { get; set; }
         public string FunzaUpdatedDate { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DomainModel;
 using Microsoft.EntityFrameworkCore;
 using Framework.Logging.Log4Net;
+using Framework.EF.DbContextImpl.Persistance;
 
 namespace DatabaseRepositories
 {

@@ -1,11 +1,13 @@
 ﻿using Framework.Autofac;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using FunzaApplicationLogic.Commands.Business.SyncCommand.Models;
 using FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand.Models;
 using FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand.Models;
 using FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand.Models;
 using FunzaApplicationLogic.Commands.Funza.ProductsUpdateCommand.Models;
 using FunzaApplicationLogic.Commands.Funza.QuotesUpdateCommand.Models;
+using FunzaApplicationLogic.Commands.Funza.Size.SizesUpdateCommand;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand.Models;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand;
@@ -47,6 +49,7 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
         public IFunzaColorsUpdateCommand ColorsUpdateCommand { get; }
         public IFunzaGetCategoriesCommand GetCategoriesCommand { get; }
         public IFunzaCategoriesUpdateCommand CategoriesUpdateCommand { get; }
+        public ISizesUpdateCommand SizesUpdateCommand { get; }
         public IFunzaGetPackingsCommand GetPackingsCommand { get; }
         //public IFunzaQuoteGetItemsCommand GetQuotesCommand { get; }
         public IFunzaQuotesUpdateCommand QuotesUpdateCommand { get; }
@@ -55,7 +58,9 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
         {
             var taskDictionary = new Dictionary<string, Task<Object>>();
             var result = new OperationResponse();
-            
+
+            var integrationId = Guid.NewGuid();
+
             taskDictionary.Add(
                 "Products"
                 , Task.Run<object>(async() =>
@@ -64,20 +69,53 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
                     var filter = new PageQuery<FunzaGetProductsCommandInput>();
                     var source = await this.GetProductsCommand.ExecuteAsync(filter);
                     combination.AddRange(source.Bag);
-                    //while (source.IsSucceed && source.Bag?.Count() > 0 )
-                    //{
-                    //    filter.PageIndex++;
-                    //    source = await this.GetProductsCommand.ExecuteAsync(filter);
-                    //    if (source.IsSucceed && source.Bag != null)
-                    //    {
-                    //        combination.AddRange(source.Bag);
-                    //    }
-                    //}
 
-                    var mapping = this.Map(combination);
+                    var mapping = this.Map(combination, integrationId: integrationId);
+                    var wrapper = new SyncCommandEntityWrapperInput<ProductsUpdateCommandInput>
+                    {
+                        IntegrationId = integrationId,
+                        SyncItems = mapping
+                    };
+                    return this.ProductsUpdateCommand.Execute(wrapper);
+                })
+            );
 
-                    return this.ProductsUpdateCommand.Execute(mapping);
 
+            taskDictionary.Add(
+                "Colors"
+                , Task.Run<object>(async () =>
+                {
+                    var combination = new List<FunzaGetColorsCommandOutput>();
+                    var filter = new PageQuery<FunzaGetColorsCommandInput>();
+                    var source = await this.GetColorsCommand.ExecuteAsync(filter);
+                    combination.AddRange(source.Bag);
+
+                    var mapping = this.Map(combination, integrationId: integrationId);
+                    var wrapper = new SyncCommandEntityWrapperInput<ColorsUpdateCommandInput>
+                    {
+                        IntegrationId = integrationId,
+                        SyncItems = mapping
+                    };
+                    return this.ColorsUpdateCommand.Execute(wrapper);
+                })
+            );
+
+            taskDictionary.Add(
+                "Categories"
+                , Task.Run<object>(async () =>
+                {
+                    var combination = new List<FunzaGetCategoriesCommandOutput>();
+                    var filter = new PageQuery<FunzaGetCategoriesCommandInput>();
+                    var source = await this.GetCategoriesCommand.ExecuteAsync(filter);
+                    combination.AddRange(source.Bag);
+
+                    var mapping = this.Map(combination, integrationId: integrationId);
+                    var wrapper = new SyncCommandEntityWrapperInput<CategoriesUpdateCommandInput>
+                    {
+                        IntegrationId = integrationId,
+                        SyncItems = mapping
+                    };
+                    return this.CategoriesUpdateCommand.Execute(wrapper);
                 })
             );
 
@@ -105,7 +143,7 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
 
             //    })
             //);
-            
+
             //taskDictionary.Add(
             //    "Categories"
             //    , Task.Run<object>(async () =>
@@ -130,7 +168,7 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
 
             //    })
             //);
-            
+
             /*
             taskDictionary.Add(
                 "Packings"
@@ -185,11 +223,12 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
             return result;
         }
 
-        private IEnumerable<ProductsUpdateCommandInput> Map(IEnumerable<FunzaGetProductsCommandOutput> source)
+        private IEnumerable<ProductsUpdateCommandInput> Map(IEnumerable<FunzaGetProductsCommandOutput> source, Guid integrationId)
         {
             var result = source.Select(item => new ProductsUpdateCommandInput
             {
                 Id = item.ProductId,
+                IntegrationId = integrationId,
                 Active = item.Active,
                 CategoryId = item.CategoryId,
                 Code = item.Code,
@@ -213,13 +252,14 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
             return result;
         }
 
-        private IEnumerable<FunzaColorsUpdateCommandInputDTO> Map(IEnumerable<FunzaGetColorsCommandOutput> source)
+        private IEnumerable<ColorsUpdateCommandInput> Map(IEnumerable<FunzaGetColorsCommandOutput> source, Guid integrationId)
         {
-            var result = source.Select(item => new FunzaColorsUpdateCommandInputDTO
+            var result = source.Select(item => new ColorsUpdateCommandInput
             {
+                Id = item.IdColor,
+                IntegrationId = integrationId,
                 CreatedBy = item.CreatedBy,
                 Hexagecimal = item.Hex,
-                Id = item.IdColor,
                 CreatedDate = item.CreatedDate,
                 Image = item.Img,
                 Name = item.Nombre,
@@ -233,13 +273,14 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
             return result;
         }
 
-        private IEnumerable<FunzaCategoriesUpdateCommandInputDTO> Map(IEnumerable<FunzaGetCategoriesCommandOutput> source)
+        private IEnumerable<CategoriesUpdateCommandInput> Map(IEnumerable<FunzaGetCategoriesCommandOutput> source, Guid integrationId)
         {
-            var result = source.Select(item => new FunzaCategoriesUpdateCommandInputDTO
+            var result = source.Select(item => new CategoriesUpdateCommandInput
             {
+                Id = item.IdCategoriaProductos,
+                IntegrationId = integrationId,
                 CreatedBy = item.CreatedBy,
                 CreatedDate = item.CreatedDate,
-                Id = item.IdCategoriaProductos,
                 Name = item.Nombre,
                 ToOrder = item.AlPedido,
                 ToStem = item.AlRamo,
