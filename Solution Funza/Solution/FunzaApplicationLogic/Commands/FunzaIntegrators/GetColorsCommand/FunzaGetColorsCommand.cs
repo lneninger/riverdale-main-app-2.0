@@ -2,39 +2,45 @@
 using Framework.Commands;
 using Framework.Core.Messages;
 using Framework.EF.DbContextImpl.Persistance.Paging.Models;
+using Framework.Refit;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand.Models;
 using FunzaApplicationLogic.Repositories.DB;
 using FunzaDirectClients.Clients.Commons;
 using FunzaDirectClients.Clients.ProductColor;
 using FunzaDirectClients.Clients.ProductColor.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand
 {
     public class FunzaGetColorsCommand : BaseIoCDisposable, IFunzaGetColorsCommand
     {
-        public FunzaGetColorsCommand(IProductColorClient colorClient)
+        public FunzaGetColorsCommand(BaseRefitProxy<IProductColorClient> colorClient)
         {
-            this.ProductColorClient = colorClient;
+            this.ProductColorClient = colorClient.Create();
         }
 
         public IProductColorClient ProductColorClient { get; }
 
-        public async Task<OperationResponse<PageResult<FunzaGetColorsCommandOutput>>> ExecuteAsync(PageQuery<FunzaGetColorsCommandInput> model)
+        public async Task<OperationResponse<IEnumerable<DirectGetProductColorsResult>>> ExecuteAsync(PageQuery<FunzaGetColorsCommandInput> model)
         {
-            var result = new OperationResponse<PageResult<FunzaGetColorsCommandOutput>>();
-            var funzaResponse = await this.ProductColorClient.GetProductColors();
-            var funzaResult = funzaResponse.Content;
-
-            if (result.IsSucceed)
+            try
             {
-                result.Bag = funzaResult.Result.ToPageResult<DirectGetProductColorsResult, FunzaGetColorsCommandOutput>(funzaItem => new FunzaGetColorsCommandOutput
-                {
-                });
-            }
+                var result = new OperationResponse<IEnumerable<DirectGetProductColorsResult>>();
 
-            return result;
+                var funzaResponse = await this.ProductColorClient.GetProductColors();
+                var funzaResult = funzaResponse.Content;
+
+                result.Bag = funzaResult.Result.AsEnumerable();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -48,9 +54,5 @@ namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand
             }
         }
 
-        Task<OperationResponse<IEnumerable<FunzaGetColorsCommandOutput>>> ICommandFuncAsync<PageQuery<FunzaGetColorsCommandInput>, OperationResponse<IEnumerable<FunzaGetColorsCommandOutput>>>.ExecuteAsync(PageQuery<FunzaGetColorsCommandInput> input)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

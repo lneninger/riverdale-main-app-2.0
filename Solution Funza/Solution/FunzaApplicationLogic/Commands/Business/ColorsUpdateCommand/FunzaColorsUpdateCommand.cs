@@ -31,7 +31,7 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
                 {
                     foreach (var dtoItem in input.SyncItems)
                     {
-                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
+                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.FunzaId);
                         bool addEntity = false;
                         if (!getByFunzaIdResult.IsSucceed)
                         {
@@ -74,20 +74,20 @@ namespace FunzaApplicationLogic.Commands.Funza.ColorsUpdateCommand
         {
             var result = entity ?? new Color();
 
-            result.FunzaId = dtoItem.Id;
+            result.FunzaId = dtoItem.FunzaId;
             result.IntegrationId = dtoItem.IntegrationId;
 
-            result.Hexagecimal = dtoItem.Hexagecimal;
+            result.Hexagecimal = dtoItem.ValueRGB;
             result.Image = dtoItem.Image;
             result.Name = dtoItem.Name;
             result.NameEnglish = dtoItem.NameEnglish;
-            result.State = dtoItem.State;
+            result.Status = dtoItem.Status;
             result.Version = dtoItem.Version;
 
             result.FunzaCreatedBy = dtoItem.CreatedBy;
-            result.FunzaCreatedDate = dtoItem.CreatedDate;
+            result.FunzaCreatedDate = dtoItem.FunzaCreatedDate;
             result.FunzaUpdatedBy = dtoItem.UpdatedBy;
-            result.FunzaUpdatedDate = dtoItem.UpdatedDate;
+            result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
             return result;
         }
     }

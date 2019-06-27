@@ -4,14 +4,16 @@ using DomainDatabaseMigrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainDatabaseMigrations.Migrations
 {
     [DbContext(typeof(MigrationDBContext))]
-    partial class MigrationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190627093759_Fix Color Integration Table")]
+    partial class FixColorIntegrationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,7 +101,8 @@ namespace DomainDatabaseMigrations.Migrations
 
                     b.Property<DateTime>("FunzaCreatedDate");
 
-                    b.Property<int>("FunzaId");
+                    b.Property<string>("FunzaId")
+                        .IsRequired();
 
                     b.Property<string>("FunzaUpdatedBy");
 

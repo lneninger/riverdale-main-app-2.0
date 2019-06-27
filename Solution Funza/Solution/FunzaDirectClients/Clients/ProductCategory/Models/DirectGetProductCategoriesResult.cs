@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,20 +8,28 @@ namespace FunzaDirectClients.Clients.ProductCategory.Models
 {
     public class DirectGetProductCategoriesResult
     {
-        public int IdCategoriaProductos { get; set; }
+        [JsonProperty(PropertyName = "IdCategoriaProductos")]
+        public int FunzaId { get; set; }
 
-        public string Nombre { get; set; }
+        [JsonProperty(PropertyName = "Nombre")]
+        public string Name { get; set; }
 
-        public bool AlPedido { get; set; }
+        [JsonProperty(PropertyName = "AlPedido")]
+        public bool ToOrder { get; set; }
 
-        public bool AlRamo { get; set; }
+        [JsonProperty(PropertyName = "AlRamo")]
+        public bool ToStem { get; set; }
 
-        public string CreatedBy { get; set; }
+        [JsonProperty(PropertyName = "CreatedBy")]
+        public string FunzaCreatedBy { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        [JsonProperty(PropertyName = "CreatedDate")]
+        public DateTime FunzaCreatedDate { get; set; }
 
-        public string UpdatedBy { get; set; }
+        [JsonProperty(PropertyName = "UpdatedBy")]
+        public string FunzaUpdatedBy { get; set; }
 
-        public DateTime? UpdatedDate { get; set; }
+        [JsonProperty(PropertyName = "UpdatedDate")]
+        public DateTime? FunzaUpdatedDate { get; set; }
     }
 }

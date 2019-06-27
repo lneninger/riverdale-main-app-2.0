@@ -122,7 +122,7 @@ namespace WebApi
             services.AddRefitClient<IPackingClient>()
                .ConfigureHttpClient(c =>
                {
-                   c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.PackagePricesRelativeURL);
+                   c.BaseAddress = new Uri(new Uri(funzaSettings.FunzaBaseURL), funzaSettings.PackingRelativeURL);
                })
                .AddPolicyHandler(timeoutPolicy)
                .AddPolicyHandler(tokenRefreshPolicy);

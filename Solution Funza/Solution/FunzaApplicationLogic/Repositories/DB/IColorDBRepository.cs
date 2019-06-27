@@ -13,7 +13,7 @@ namespace ApplicationLogic.Repositories.DB
 
         OperationResponse Add(Color entity);
 
-        OperationResponse<Color> GetByFunzaId(string id);
+        OperationResponse<Color> GetByFunzaId(int id);
 
         OperationResponse<PageResult<ColorPageQueryCommandOutput>> PageQuery(PageQuery<ColorPageQueryCommandInput> input);
 

@@ -8,8 +8,8 @@ namespace FunzaDirectClients.Clients.ProductCategory
 {
     public interface IProductCategoryClient : IRefitClient
     {
-        [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetProductCategoriesResult>>>> GetProductCategories(int SkipCount = 0, int MaxResultCount = 10);
+        [Get("/")]
+        Task<ApiResponse<ApiResultWrapper<DirectGetProductCategoriesResult[]>>> GetProductCategories(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

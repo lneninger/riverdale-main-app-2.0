@@ -7,32 +7,37 @@ using FunzaDirectClients.Clients.Packing;
 using FunzaDirectClients.Clients.Packing.Models;
 using System.Threading.Tasks;
 using FunzaDirectClients.Clients.Commons;
+using Framework.Refit;
+using System.Linq;
+using System;
 
 namespace FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand
 {
     public class FunzaGetPackingsCommand : BaseIoCDisposable, IFunzaGetPackingsCommand
     {
-        public FunzaGetPackingsCommand(/*IMastersRepository repository, */IPackingClient packingClient)
+        public FunzaGetPackingsCommand(BaseRefitProxy<IPackingClient> packingClient)
         {
-            this.PackingClient = packingClient;
+            this.PackingClient = packingClient.Create();
         }
 
         public IPackingClient PackingClient { get; }
 
-        public async Task<OperationResponse<PageResult<GetPackingsCommandOutput>>> ExecuteAsync(PageQuery<GetPackingsCommandInput> model)
+        public async Task<OperationResponse<IEnumerable<DirectGetPackingsResult>>> ExecuteAsync(PageQuery<GetPackingsCommandInput> model)
         {
-            var result = new OperationResponse<PageResult<GetPackingsCommandOutput>>();
-            var funzaResponse = await this.PackingClient.GetPackings();
-            var funzaResult = funzaResponse.Content;
-
-            if (result.IsSucceed)
+            try
             {
-                result.Bag = funzaResult.Result.ToPageResult<DirectGetPackingsResult, GetPackingsCommandOutput>(funzaItem => new GetPackingsCommandOutput
-                {
-                });
-            }
+                var result = new OperationResponse<IEnumerable<DirectGetPackingsResult>>();
+                var funzaResponse = await this.PackingClient.GetPackings();
+                var funzaResult = funzaResponse.Content;
 
-            return result;
+                result.Bag = funzaResult.Result.AsEnumerable();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         protected override void Dispose(bool disposing)

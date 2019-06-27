@@ -7,6 +7,8 @@ namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand.Models
     {
         public int Id { get; set; }
 
+        public int FunzaId { get; set; }
+
         public Guid IntegrationId { get; set; }
 
         public string Name { get; set; }
@@ -15,12 +17,12 @@ namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand.Models
 
         public bool ToStem { get; set; }
 
-        public string CreatedBy { get; set; }
+        public string FunzaCreatedBy { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime FunzaCreatedDate { get; set; }
 
-        public string UpdatedBy { get; set; }
+        public string FunzaUpdatedBy { get; set; }
 
-        public DateTime? UpdatedDate { get; set; }
+        public DateTime? FunzaUpdatedDate { get; set; }
     }
 }

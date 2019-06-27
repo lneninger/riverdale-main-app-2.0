@@ -61,7 +61,7 @@ namespace DatabaseRepositories.DB
             return result;
         }
 
-        public OperationResponse<Color> GetByFunzaId(string id)
+        public OperationResponse<Color> GetByFunzaId(int id)
         {
             var result = new OperationResponse<Color>();
             try

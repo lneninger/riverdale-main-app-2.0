@@ -30,7 +30,7 @@ namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand
                 {
                     foreach (var dtoItem in input.SyncItems)
                     {
-                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
+                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.FunzaId);
                         bool addEntity = false;
                         if (!getByFunzaIdResult.IsSucceed)
                         {
@@ -56,14 +56,18 @@ namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand
                         dbContextScope.SaveChanges();
                     }
 
-                    result.AddResponse(this.Repository.DeleteNotInIntegration(input.IntegrationId));
 
 
                 }
                 catch (Exception ex)
                 {
-                    result.AddError("Error Sync Funza Products", ex);
+                    result.AddError("Error Sync Funza Product Categories", ex);
                 }
+            }
+
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                result.AddResponse(this.Repository.DeleteNotInIntegration(input.IntegrationId));
             }
 
             return result;
@@ -76,13 +80,13 @@ namespace FunzaApplicationLogic.Commands.Funza.CategoriesUpdateCommand
             result.FunzaId = dtoItem.Id;
             result.IntegrationId = dtoItem.IntegrationId;
 
-            result.FunzaCreatedBy = dtoItem.CreatedBy;
-            result.FunzaCreatedDate = dtoItem.CreatedDate;
+            result.FunzaCreatedBy = dtoItem.FunzaCreatedBy;
+            result.FunzaCreatedDate = dtoItem.FunzaCreatedDate;
             result.Name = dtoItem.Name;
             result.ToOrder = dtoItem.ToOrder;
             result.ToStem = dtoItem.ToStem;
-            result.FunzaUpdatedBy = dtoItem.UpdatedBy;
-            result.FunzaUpdatedDate = dtoItem.UpdatedDate;
+            result.FunzaUpdatedBy = dtoItem.FunzaUpdatedBy;
+            result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
 
             return result;
         }

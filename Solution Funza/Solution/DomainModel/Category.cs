@@ -24,6 +24,7 @@ namespace DomainModel
         public string FunzaUpdatedBy { get; set; }
 
         public DateTime? FunzaUpdatedDate { get; set; }
+
         public DateTime? DeletedAt { get; set; }
         public bool? IsDeleted { get; set; }
     }

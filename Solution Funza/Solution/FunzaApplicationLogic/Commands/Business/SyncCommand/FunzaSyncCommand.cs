@@ -13,8 +13,12 @@ using FunzaApplicationLogic.Commands.FunzaIntegrators.GetCategoriesCommand.Model
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetColorsCommand.Models;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand;
+using FunzaApplicationLogic.Commands.FunzaIntegrators.GetPackingsCommand.Models;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand;
 using FunzaApplicationLogic.Commands.FunzaIntegrators.GetProductsCommand.Models;
+using FunzaDirectClients.Clients.Packing.Models;
+using FunzaDirectClients.Clients.ProductCategory.Models;
+using FunzaDirectClients.Clients.ProductColor.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,61 +65,79 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
 
             var integrationId = Guid.NewGuid();
 
+            //taskDictionary.Add(
+            //    "Products"
+            //    , Task.Run<object>(async () =>
+            //    {
+            //        var combination = new List<FunzaGetProductsCommandOutput>();
+            //        var filter = new PageQuery<FunzaGetProductsCommandInput>();
+            //        var source = await this.GetProductsCommand.ExecuteAsync(filter);
+            //        combination.AddRange(source.Bag);
+
+            //        var mapping = this.Map(combination, integrationId: integrationId);
+            //        var wrapper = new SyncCommandEntityWrapperInput<ProductsUpdateCommandInput>
+            //        {
+            //            IntegrationId = integrationId,
+            //            SyncItems = mapping
+            //        };
+            //        return this.ProductsUpdateCommand.Execute(wrapper);
+            //    })
+            //);
+
+            //taskDictionary.Add(
+            //    "Colors"
+            //    , Task.Run<object>(async () =>
+            //    {
+            //        var combination = new List<DirectGetProductColorsResult>();
+            //        var filter = new PageQuery<FunzaGetColorsCommandInput>();
+            //        var source = await this.GetColorsCommand.ExecuteAsync(filter);
+            //        combination.AddRange(source.Bag);
+
+            //        var mapping = this.Map(combination, integrationId: integrationId);
+            //        var wrapper = new SyncCommandEntityWrapperInput<ColorsUpdateCommandInput>
+            //        {
+            //            IntegrationId = integrationId,
+            //            SyncItems = mapping
+            //        };
+            //        return this.ColorsUpdateCommand.Execute(wrapper);
+            //    })
+            //);
+
+            //taskDictionary.Add(
+            //    "Categories"
+            //    , Task.Run<object>(async () =>
+            //    {
+            //        var combination = new List<DirectGetProductCategoriesResult>();
+            //        var filter = new PageQuery<FunzaGetCategoriesCommandInput>();
+            //        var source = await this.GetCategoriesCommand.ExecuteAsync(filter);
+            //        combination.AddRange(source.Bag);
+
+            //        var mapping = this.Map(combination, integrationId: integrationId);
+            //        var wrapper = new SyncCommandEntityWrapperInput<CategoriesUpdateCommandInput>
+            //        {
+            //            IntegrationId = integrationId,
+            //            SyncItems = mapping
+            //        };
+            //        return this.CategoriesUpdateCommand.Execute(wrapper);
+            //    })
+            //);
+
             taskDictionary.Add(
-                "Products"
-                , Task.Run<object>(async() =>
-                {
-                    var combination = new List<FunzaGetProductsCommandOutput>();
-                    var filter = new PageQuery<FunzaGetProductsCommandInput>();
-                    var source = await this.GetProductsCommand.ExecuteAsync(filter);
-                    combination.AddRange(source.Bag);
-
-                    var mapping = this.Map(combination, integrationId: integrationId);
-                    var wrapper = new SyncCommandEntityWrapperInput<ProductsUpdateCommandInput>
-                    {
-                        IntegrationId = integrationId,
-                        SyncItems = mapping
-                    };
-                    return this.ProductsUpdateCommand.Execute(wrapper);
-                })
-            );
-
-
-            taskDictionary.Add(
-                "Colors"
+                "Packings"
                 , Task.Run<object>(async () =>
                 {
-                    var combination = new List<FunzaGetColorsCommandOutput>();
-                    var filter = new PageQuery<FunzaGetColorsCommandInput>();
-                    var source = await this.GetColorsCommand.ExecuteAsync(filter);
+                    var combination = new List<DirectGetPackingsResult>();
+                    var filter = new PageQuery<GetPackingsCommandInput>();
+                    var source = await this.GetPackingsCommand.ExecuteAsync(filter);
                     combination.AddRange(source.Bag);
 
                     var mapping = this.Map(combination, integrationId: integrationId);
-                    var wrapper = new SyncCommandEntityWrapperInput<ColorsUpdateCommandInput>
+                    var wrapper = new SyncCommandEntityWrapperInput<PackingsUpdateCommandInput>
                     {
                         IntegrationId = integrationId,
                         SyncItems = mapping
                     };
-                    return this.ColorsUpdateCommand.Execute(wrapper);
-                })
-            );
-
-            taskDictionary.Add(
-                "Categories"
-                , Task.Run<object>(async () =>
-                {
-                    var combination = new List<FunzaGetCategoriesCommandOutput>();
-                    var filter = new PageQuery<FunzaGetCategoriesCommandInput>();
-                    var source = await this.GetCategoriesCommand.ExecuteAsync(filter);
-                    combination.AddRange(source.Bag);
-
-                    var mapping = this.Map(combination, integrationId: integrationId);
-                    var wrapper = new SyncCommandEntityWrapperInput<CategoriesUpdateCommandInput>
-                    {
-                        IntegrationId = integrationId,
-                        SyncItems = mapping
-                    };
-                    return this.CategoriesUpdateCommand.Execute(wrapper);
+                    return this.PackingsUpdateCommand.Execute(wrapper);
                 })
             );
 
@@ -252,73 +274,74 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
             return result;
         }
 
-        private IEnumerable<ColorsUpdateCommandInput> Map(IEnumerable<FunzaGetColorsCommandOutput> source, Guid integrationId)
+        private IEnumerable<ColorsUpdateCommandInput> Map(IEnumerable<DirectGetProductColorsResult> source, Guid integrationId)
         {
             var result = source.Select(item => new ColorsUpdateCommandInput
             {
-                Id = item.IdColor,
+                FunzaId = item.FunzaId,
                 IntegrationId = integrationId,
-                CreatedBy = item.CreatedBy,
-                Hexagecimal = item.Hex,
-                CreatedDate = item.CreatedDate,
-                Image = item.Img,
-                Name = item.Nombre,
-                NameEnglish = item.NombreIngles,
-                State = item.Estado,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
+                CreatedBy = item.FunzaCreatedBy,
+                ValueRGB = item.ValueRGB,
+                FunzaCreatedDate = item.FunzaCreatedDate,
+                Name = item.Name,
+                NameEnglish = item.Name,
+                Status = item.Status,
+                UpdatedBy = item.FunzaUpdatedBy,
+                FunzaUpdatedDate = item.FunzaUpdatedDate,
                 Version = item.Version,
             });
 
             return result;
         }
 
-        private IEnumerable<CategoriesUpdateCommandInput> Map(IEnumerable<FunzaGetCategoriesCommandOutput> source, Guid integrationId)
+        private IEnumerable<CategoriesUpdateCommandInput> Map(IEnumerable<DirectGetProductCategoriesResult> source, Guid integrationId)
         {
             var result = source.Select(item => new CategoriesUpdateCommandInput
             {
-                Id = item.IdCategoriaProductos,
+                FunzaId = item.FunzaId,
                 IntegrationId = integrationId,
-                CreatedBy = item.CreatedBy,
-                CreatedDate = item.CreatedDate,
-                Name = item.Nombre,
-                ToOrder = item.AlPedido,
-                ToStem = item.AlRamo,
-                UpdatedBy = item.UpdatedBy,
-                UpdatedDate = item.UpdatedDate,
+                
+                Name = item.Name,
+                ToOrder = item.ToOrder,
+                ToStem = item.ToStem,
+                FunzaCreatedBy = item.FunzaCreatedBy,
+                FunzaCreatedDate = item.FunzaCreatedDate,
+                FunzaUpdatedBy = item.FunzaUpdatedBy,
+                FunzaUpdatedDate = item.FunzaUpdatedDate,
             });
 
             return result;
         }
 
-        //private IEnumerable<FunzaPackingsUpdateCommandInputDTO> Map(IEnumerable<FunzaGetPackingsCommandOutput> source)
-        //{
-        //    var result = source.Select(item => new FunzaPackingsUpdateCommandInputDTO {
-        //        CargoMasterCode = item.CodigoCargoMaster,
-        //        CreatedBy = item.CodigoCargoMaster,
-        //        CreatedDate = item.CreatedDate,
-        //        Description = item.Descripcion,
-        //        EquivalentFullQuotator = item.EquivalenteFullCotizador,
-        //        EquivalentsFull = item.EquivalentesFull,
-        //        Id = item.Id,
-        //        Height = item.Alto,
-        //        Image = item.Imagen,
-        //        Length = item.Largo,
-        //        Name = item.Nombre,
-        //        NameEnglish = item.NombreIngles,
-        //        SentToQuotator = item.EviarACotizador,
-        //        State = item.Estado,
-        //        UpdatedBy = item.UpdatedBy,
-        //        UpdatedDate = item.UpdatedDate,
-        //        Volume = item.Volumen,
-        //        VolumeDescripcion = item.DescripcionVolumen,
-        //        VolumeEquivalentFull = item.VolumneEquivalenteFull,
-        //        Weight = item.Peso,
-        //        Width = item.Ancho,
-        //    });
+        private IEnumerable<PackingsUpdateCommandInput> Map(IEnumerable<DirectGetPackingsResult> source, Guid integrationId)
+        {
+            var result = source.Select(item => new PackingsUpdateCommandInput
+            {
+                Id = item.Id,
+                FunzaId = item.FunzaId,
+                IntegrationId = integrationId,
+                CargoMasterCode = item.CargoMasterCode,
+                FunzaCreatedBy = item.FunzaCreatedBy,
+                FunzaCreatedDate = item.FunzaCreatedDate,
+                Description = item.Description,
+                EquivalentsFull = item.EquivalentsFull,
+                Height = item.Height,
+                Image = item.Image,
+                Length = item.Length,
+                Name = item.Name,
+                NameEnglish = item.NameEnglish,
+                Status = item.Status,
+                FunzaUpdatedBy = item.FunzaUpdatedBy,
+                FunzaUpdatedDate = item.FunzaUpdatedDate,
+                Volume = item.Volume,
+                VolumeDescription = item.VolumeDescription,
+                VolumeEquivalentFull = item.VolumeEquivalentFull,
+                Weight = item.Weight,
+                Width = item.Width,
+            });
 
-        //    return result;
-        //}
+            return result;
+        }
 
         //private IEnumerable<FunzaQuotesUpdateCommandInputDTO> Map(IEnumerable<FunzaQuoteGetItemsCommandOutputDTO> source)
         //{
@@ -331,7 +354,7 @@ namespace FunzaApplicationLogic.Commands.SyncCommand
         //        Status = item.Status,
         //        AdjustRequestUserId = item.AdjustRequestUserId,
 
-                
+
 
 
 

@@ -11,8 +11,8 @@ namespace FunzaDirectClients.Clients.ProductColor
 {
     public interface IProductColorClient : IRefitClient
     {
-        [Get("/GetAll")]
-        Task<ApiResponse<ApiResultWrapper<ListResult<DirectGetProductColorsResult>>>> GetProductColors(int SkipCount = 0, int MaxResultCount = 10);
+        [Get("/")]
+        Task<ApiResponse<ApiResultWrapper<DirectGetProductColorsResult[]>>> GetProductColors(int SkipCount = 0, int MaxResultCount = 10);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,22 +8,36 @@ namespace FunzaDirectClients.Clients.ProductColor.Models
 {
     public class DirectGetProductColorsResult
     {
-        public int Id { get; set; }
+        [JsonProperty(PropertyName = "IdColor")]
+        public int FunzaId { get; set; }
 
-        public string Codigo { get; set; }
+        [JsonProperty(PropertyName = "CreatedBy")]
+        public string FunzaCreatedBy { get; set; }
 
-        public string Categoria { get; set; }
+        [JsonProperty(PropertyName = "CreatedDate")]
+        public DateTime FunzaCreatedDate { get; set; }
 
-        public int IdCategoria { get; set; }
+        [JsonProperty(PropertyName = "UpdatedBy")]
+        public string FunzaUpdatedBy { get; set; }
 
-        public string Descripcion { get; set; }
+        [JsonProperty(PropertyName = "UpdatedDate")]
+        public DateTime FunzaUpdatedDate { get; set; }
 
-        public string UnidadMedida { get; set; }
+        
 
-        public bool Activo { get; set; }
+        [JsonProperty(PropertyName = "Nombre")]
+        public string Name { get; set; }
 
-        public int InsumoId { get; set; }
+        [JsonProperty(PropertyName = "NombreIngles")]
+        public string NameEnglish { get; set; }
 
-        public int Valor { get; set; }
+        [JsonProperty(PropertyName = "Estado")]
+        public bool Status { get; set; }
+
+        [JsonProperty(PropertyName = "ValorRGB")]
+        public string ValueRGB { get; set; }
+
+        [JsonProperty(PropertyName = "Version")]
+        public string Version { get; set; }
     }
 }

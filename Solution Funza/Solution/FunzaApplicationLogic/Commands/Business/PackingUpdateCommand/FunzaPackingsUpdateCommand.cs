@@ -32,7 +32,7 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
 
                     foreach (var dtoItem in input.SyncItems)
                     {
-                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.Id);
+                        getByFunzaIdResult = this.Repository.GetByFunzaId(dtoItem.FunzaId);
                         bool addEntity = false;
                         if (!getByFunzaIdResult.IsSucceed)
                         {
@@ -64,6 +64,11 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
                 }
             }
 
+            using (var dbContextScope = this.DbContextScopeFactory.Create())
+            {
+                result.AddResponse(this.Repository.DeleteNotInIntegration(input.IntegrationId));
+            }
+
             return result;
         }
 
@@ -72,10 +77,10 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
             var result = entity ?? new Packing();
 
             result.FunzaId = dtoItem.Id;
-            result.FunzaCreatedBy = dtoItem.CreatedBy;
-            result.FunzaCreatedDate = dtoItem.CreatedDate;
-            result.FunzaUpdatedBy = dtoItem.UpdatedBy;
-            result.FunzaUpdatedDate = dtoItem.UpdatedDate;
+            result.FunzaCreatedBy = dtoItem.FunzaCreatedBy;
+            result.FunzaCreatedDate = dtoItem.FunzaCreatedDate;
+            result.FunzaUpdatedBy = dtoItem.FunzaUpdatedBy;
+            result.FunzaUpdatedDate = dtoItem.FunzaUpdatedDate;
             result.Name = dtoItem.Name;
             result.NameEnglish = dtoItem.NameEnglish;
             result.Description = dtoItem.Description;
@@ -85,10 +90,10 @@ namespace FunzaApplicationLogic.Commands.Funza.PackingsUpdateCommand
             result.Height = dtoItem.Height;
             result.Volume = dtoItem.Volume;
             result.Weight = dtoItem.Weight;
-            result.State = dtoItem.State;
+            result.State = dtoItem.Status;
             result.Image = dtoItem.Image;
             result.CargoMasterCode = dtoItem.CargoMasterCode;
-            result.VolumeDescripcion = dtoItem.VolumeDescripcion;
+            result.VolumeDescripcion = dtoItem.VolumeDescription;
             result.VolumeEquivalentFull = dtoItem.VolumeEquivalentFull;
             result.SentToQuotator = dtoItem.SentToQuotator;
             result.EquivalentFullQuotator = dtoItem.EquivalentFullQuotator;
