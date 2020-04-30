@@ -75,7 +75,7 @@
         "hipalanet-notificationsjs": "1.0.5-alpha",
         "hipalanet-ngx-utils": "1.0.0",
         "ngx-gallery": "5.9.0",
-        "jquery": "3.3.1"
+        "jquery": "3.5.0"
     },
     "devDependencies": {
         "@angular/cli": "7.3.6",
